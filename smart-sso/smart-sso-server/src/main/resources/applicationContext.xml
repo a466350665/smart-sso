@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	       http://www.springframework.org/schema/beans/spring-beans.xsd
+	       http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd
+		   http://www.springframework.org/schema/aop
+	       http://www.springframework.org/schema/aop/spring-aop.xsd
+		   http://www.springframework.org/schema/tx 
+	       http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:annotation-config />
+    
+    <context:component-scan base-package="com.smart.sso.server"/>
+    
+    <aop:aspectj-autoproxy/>
+    
+    <bean id="config" class="com.smart.sso.server.common.Config">
+		<property name="loginViewName" value="/WEB-INF/view/login.jsp" />
+		<!-- 令牌有效期，单位为分钟，默认30分钟  -->
+		<property name="tokenTimeout" value="15" />
+	</bean>
+	
+	<bean class="com.smart.ssm.config.ConfigUtils">
+    	<property name="fileEncoding" value="UTF-8" />
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:service.properties</value>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>

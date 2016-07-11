@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smart.sso.server.dao.UserRoleDao">
+	<select id="findByUserRoleId" parameterType="map" resultType="UserRole">   
+		SELECT * 
+     	FROM SYS_RE_USER_ROLE a
+     	WHERE 1 = 1
+     	<if test="userId != null">
+			AND a.userId = #{userId} 
+		</if>
+		<if test="roleId != null">
+			AND a.roleId = #{roleId} 
+		</if>
+	</select>
+
+	<insert id="save" parameterType="UserRole" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SYS_RE_USER_ROLE(
+			appId,
+			userId,
+			roleId
+		) 
+		VALUES (
+			#{appId},
+			#{userId},
+			#{roleId}
+		)
+	</insert>
+
+	<delete id="deleteByRoleIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_USER_ROLE
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND roleId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteByUserIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_USER_ROLE
+		WHERE 1 = 1
+		<if test="appId != null">
+			AND appId = #{appId}
+		</if>
+		<if test="idList != null">
+			AND userId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_USER_ROLE
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteForChangeApp" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_USER_ROLE
+		WHERE 1 = 1
+		<if test="userId != null">
+			AND userId = #{userId} 
+		</if>
+		<if test="idList != null">
+			AND appId not in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+</mapper>

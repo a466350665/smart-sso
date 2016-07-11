@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 缓存管理器 使用Ehcache实现 -->  
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">  
+	    <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>  
+	</bean>
+	
+	<!--realm配置，realm是shiro的桥梁，它主要是用来判断subject是否可以登录及权限等 -->
+	<bean id="ssoRealm" class="com.smart.sso.client.SsoRealm">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	
+	<!--securityManager是shiro的核心，初始化时协调各个模块运行 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!--单个realm使用realm,如果有多个realm，使用realms属性代替 -->
+		<property name="realm" ref="ssoRealm" />
+	</bean>
+	
+	<bean id="ssoFilter" class="com.smart.sso.client.SsoFilter">
+		<property name="failureUrl" value="/common/common/error"/>
+	</bean>
+	
+	<!--验证权限Filter -->
+	<bean id="permissionFilter" class="com.smart.sso.client.PermissionFilter" />
+	
+	<!--登出Filter -->
+	<bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+		<!--登出跳转页到首页，因为没认证会跳转到登录 -->
+	    <property name="redirectUrl" value="${sso.logout.url}" />
+	</bean>
+	
+	<!--单点退出Filter -->
+	<bean id="ssoLogoutFilter" class="com.smart.sso.client.SsoLogoutFilter" />
+	
+	<!--shiro过滤器配置，bean的id值须与web中的filter-name的值相同 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<!-- 没有权限或者失败后跳转的页面 -->
+		<property name="loginUrl" value="${sso.login.url}" />
+		<property name="successUrl" value="/admin/admin" />
+		<property name="unauthorizedUrl" value="/common/common/noPermission" />
+		<property name="filters">
+		    <map>
+		        <entry key="sso" value-ref="ssoFilter" />
+		        <entry key="perm" value-ref="permissionFilter" />
+		    	<entry key="logout" value-ref="logoutFilter" />
+		    	<entry key="ssoLogout" value-ref="ssoLogoutFilter" />
+		    </map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/sso=sso
+				/logout=logout
+				/admin/**=authc,perm,ssoLogout
+				/**=anon
+			</value>
+		</property>
+	</bean>
+	
+	<!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<weixin>
+		<!--微信请求servlet名称-->
+		<item key="URL" value="AC3Cs4s_s5E099GAA_3Yyt00"></item>
+		<!--微信请求密钥-->
+		<item key="Token" value="4be4c6278a53436b9af570506211d542"></item>
+	</weixin>
+</config>
