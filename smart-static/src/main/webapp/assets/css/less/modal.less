@@ -1,0 +1,423 @@
+@modal-footer-border: #E4E9EE;
+@modal-footer-bg: #EFF3F8;
+
+
+//modals
+.modal-content {
+ .border-radius(0);
+ .box-shadow(none);
+}
+.modal-footer {
+ padding-top: 12px;
+ padding-bottom: 14px;
+
+ border-top-color: @modal-footer-border;
+ .box-shadow(none);
+ background-color: @modal-footer-bg;
+}
+.modal-header .close {
+ font-size: @font-size-moda-close;
+}
+
+
+
+
+
+
+.modal.aside-dark .modal-content {
+  background-color: rgba(0,0,0,0.85);
+  filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr='#D8000000', endColorstr='#D8000000',GradientType=0 )";
+}
+.modal.aside {
+  z-index: @zindex-dropdown - 1;//to be below user dropdowns
+  position: absolute;
+}
+
+.navbar-fixed-top ~ .modal.aside-vc {
+  z-index: @zindex-breadcrumbs-fixed + 1;//to be at least above fixed breadcrumbs?
+}
+
+.modal.aside-fixed.aside-hz,
+.navbar-fixed-top ~ .modal.aside-hz,
+.navbar-fixed-bottom ~ .modal.aside-hz {
+  position: fixed;
+  z-index: @zindex-modal - 1;
+}
+.modal.aside-fixed.aside-vc {
+  position: fixed;
+  //z-index: 99;//?
+}
+
+
+
+.modal.aside.in {
+ z-index: @zindex-modal;
+ position: fixed;
+}
+
+
+.aside.aside-contained {
+ position: fixed;
+}
+
+
+//.aside-right & .aside-left
+.modal.aside-vc {
+  margin: auto;
+  width: 0;
+
+  left: auto;
+  right: auto;
+  top: 0;
+  bottom: 0;
+
+  display: block !important;
+  overflow: visible;
+}
+.modal.in.aside-vc {
+  width: 100%;
+}
+
+.modal.aside-vc .modal-dialog {
+  margin: inherit;
+  overflow: inherit;
+
+  width: 250px;
+  max-width: 66%;
+  height: inherit;
+  
+  position: inherit;
+  right: inherit;
+  top: inherit;
+  bottom: inherit;
+  left: inherit;
+  
+  opacity: 1;
+  
+  transition: transform 0.3s ease-out 0s;
+  -webkit-transition: -webkit-transform 0.3s ease-out 0s;
+}
+
+
+@media only screen and (max-width: @screen-mini-max) {//319px
+ .modal.aside-vc .modal-dialog {
+   max-width: none;
+   width: 200px;
+ }
+ .aside-contained.aside-vc .modal-dialog {
+	width: 180px;
+ }
+}
+@media only screen and (max-width: @screen-mini) {//240px
+ .modal.aside-vc .modal-dialog {
+   max-width: none;
+   width: 160px;
+ }
+ .aside-contained.aside-vc .modal-dialog {
+   width: 140px;
+ }
+}
+
+
+
+.modal.aside-vc .modal-content {
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+.modal.in.aside-vc .modal-dialog {
+  transform: none;
+  -webkit-transform: none;
+  height: auto;
+}
+
+.modal.aside-vc .aside-trigger {
+  position: absolute;
+  top: 155px;
+  right: auto;
+  left: auto;
+  bottom: auto;
+  margin-top: -1px;
+  
+  width: 37px;
+  
+  outline: none;
+}
+.modal.aside-vc .aside-trigger.ace-settings-btn {
+  width: 42px;
+}
+
+.modal.in.aside-vc .aside-trigger {
+  z-index: -1;
+}
+.aside.modal.in .modal-backdrop.in + .modal-dialog .aside-trigger {
+  z-index: auto;
+}
+
+@media only screen and (max-height: @screen-mini) {//240px
+ .modal.aside-vc .aside-trigger {
+   top: 130px;
+ }
+}
+
+
+
+.modal.aside-vc.navbar-offset .modal-dialog {
+  top: @navbar-min-height;
+  
+  .aside-trigger {
+	top: (155px - @navbar-min-height);
+  }
+}
+@media (max-width: @screen-topbar-down) {
+  .navbar:not(.navbar-collapse) ~ .modal.aside-vc.navbar-offset .modal-dialog {
+	top: (@navbar-min-height * 2);
+  }
+  //.navbar ~ .modal.aside-vc.navbar-offset .modal-dialog {
+	//top: (@navbar-min-height);
+  //}
+}
+
+
+
+.modal.aside-right {
+ right: 0;
+}
+.modal.aside-right .modal-content {
+  border-width: 0 0 0 1px;
+  box-shadow: -2px 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+.modal.aside-right .aside-trigger {
+  right: 100%;
+}
+.modal.aside-right .modal-dialog {
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+}
+
+
+
+.modal.aside-left {
+ left: 0;
+}
+.modal.aside-left .modal-content {
+  border-width: 0 1px 0 0;
+  box-shadow: 2px -1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+.modal.aside-left .aside-trigger {
+  left: 100%;
+}
+.modal.aside-right .aside-trigger.btn.ace-settings-btn {
+  border-radius: 6px 0 0 6px;
+}
+.modal.aside-left .aside-trigger.btn.ace-settings-btn {
+  border-radius: 0 6px 6px 0;
+}
+.modal.aside-left .modal-dialog {
+  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modal.aside-hz {
+  margin: auto;
+  height: 0;
+
+  left: 0;
+  right: 0;
+  top: auto;
+  bottom: auto;
+
+  display: block !important;
+  overflow: visible;
+}
+.modal.in.aside-hz {
+  height: 100%;
+}
+
+
+.modal.aside-hz  .modal-dialog {
+  margin: inherit;
+  height: auto;
+  overflow: inherit;
+  max-height: 50%;
+  width: inherit;
+  
+  position: inherit;
+  right: inherit;
+  top: inherit;
+  bottom: inherit;
+  left: inherit;
+  
+  opacity: 1;
+
+  transition: transform 0.3s ease-out 0s;
+  -webkit-transition: -webkit-transform 0.3s ease-out 0s;
+}
+@media only screen and (max-height: @screen-tiny) {//320px
+ .modal.aside-hz  .modal-dialog {
+   max-height: 66%;
+ }
+}
+
+
+
+.modal.aside-hz .modal-content {
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.modal.in.aside-hz .modal-dialog {
+  transform: none;
+  -webkit-transform: none;
+  height: auto;
+}
+
+
+
+.modal.aside-hz .aside-trigger {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  margin-top: -1px;
+  z-index: auto;
+  
+  outline: none;
+  
+  margin-left: -15px;
+  left: 50%;
+}
+.modal.aside-hz .aside-trigger.ace-settings-btn {
+  margin-left: -20px;
+}
+
+
+.modal.in.aside-hz .aside-trigger {
+  z-index: -1;
+}
+
+
+
+.modal.aside-top {
+ top: 0;
+}
+
+.modal.aside-top  .modal-dialog {
+  transform: translateY(-100%);
+  -webkit-transform: translateY(-100%);
+}
+
+.modal.aside-top .modal-content {
+  //border-width: 0 0 1px 0;
+  border-width: 0;
+  box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+
+.modal.aside-bottom {
+  bottom: 0;
+}
+
+.modal.aside-bottom  .modal-dialog {
+  transform: translateY(100%);
+  -webkit-transform: translateY(100%);
+}
+
+.modal.aside-bottom .modal-content {
+  //border-width: 1px 0 0 0;
+  border-width: 0;
+  box-shadow: -1px 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+.modal.aside-bottom .aside-trigger {
+  bottom: 100%;
+  margin-top: auto;
+  margin-bottom: -1px;
+}
+
+
+
+.modal.aside-top .aside-trigger.ace-settings-btn {
+  border-radius: 0 0 6px 6px !important;
+}
+.modal.aside-bottom .aside-trigger.ace-settings-btn {
+  border-radius: 6px 6px 0 0 !important;
+}
+
+
+
+.aside.aside-hidden .modal-content {
+  display: none;
+}
+
+
+.enable_container_aside_modal() when(@enable-container = true) {
+ //maybe disable transition when it is not good enough!
+ @media only screen and (min-width: @screen-sm-min) {
+  //to disable transition animation
+  .container.main-container ~ .modal.aside-vc .modal-dialog {
+    transition: none;
+    -webkit-transition: none;
+  }
+  .container.main-container ~ .modal.aside-vc:not(.in) .modal-content {
+    display: none;
+  }
+ }
+}
+.enable_container_aside_modal();
+////
+
+
+
+
+
+.aside-vc.in.no-backdrop {
+  width: auto;//otherwise modal will be as big as window, and will have the same effect as backdrop
+}
+.aside-hz.in.no-backdrop {
+  height: auto;
+}
+
+.modal.aside .modal-backdrop {
+ position: fixed;
+ bottom: 0;
+ height: auto !important;//to override inline value set by BS
+}
+
+
+
+.modal.aside-hz .aside-trigger.align-left {
+ left: 15px;
+ margin-left: auto;
+ text-align: center;
+}
+.modal.aside-hz .aside-trigger.align-right {
+ text-align: center;
+ left: auto;
+ margin-left: auto;
+ right: 15px;
+}
+
+
+
+
+.modal.transition-off .modal-dialog {
+  transition: none;
+  -webkit-transition: none;
+}
