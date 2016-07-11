@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.smart</groupId>
+		<artifactId>smart-ssm</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>smart-ssm-mybatis</artifactId>
+	<name>${project.artifactId}</name>
+	
+	<dependencies>
+		<!-- ssm包支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-ssm-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+		<!-- mybatis核心包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		
+		<!-- mybatis/spring包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.smart</groupId>
+		<artifactId>smart-sso</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>smart-sso-client</artifactId>
+	<name>${project.artifactId}</name>
+	
+	<dependencies>
+		<!-- J2EE支持-->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- ssm项目支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-ssm-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+		<!-- shiro权限 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+		</dependency>
+
+		<!-- Json处理 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		
+		<!-- sso-rpc支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-sso-rpc</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+		<!-- 远程RPC调用hessian支持 -->
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+		</dependency>
+	</dependencies>
+</project>
