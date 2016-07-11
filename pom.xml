@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.smart</groupId>
+	<artifactId>smart</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	
+	<modules>
+		<!-- Java工具类  -->
+		<module>smart-util</module>
+		<!-- Springmvc + Spring + Mybatis基础 -->
+		<module>smart-ssm</module>
+		<!-- 单点登录及鉴权服务 -->
+		<module>smart-sso</module>
+		<!-- 分布式定时任务 -->
+		<module>smart-job</module>
+		<!-- 微信公众号开发  -->
+		<module>smart-weixin</module>
+		<!-- 前端公用脚本和样式  -->
+		<module>smart-static</module>
+		<!-- Smart结构代码生成工具 -->
+		<module>smart-tool</module>
+	</modules>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		
+		<servlet.version>3.1.0</servlet.version>
+		<junit.version>4.12</junit.version>
+		
+		<spring.version>4.2.1.RELEASE</spring.version>
+		<jta.version>1.1</jta.version>
+		<quartz.version>2.2.1</quartz.version>
+		<ehcache.version>2.10.1</ehcache.version>
+		<mybatis.version>3.3.0</mybatis.version>
+		<mybatis-spring.version>1.2.3</mybatis-spring.version>
+		<freemarker.version>2.3.23</freemarker.version>
+		<druid.version>1.0.15</druid.version>
+		<mysql.version>5.1.36</mysql.version>
+		<shiro.version>1.2.4</shiro.version>
+		<fastjson.version>1.2.7</fastjson.version>
+		<xstream.version>1.4.8</xstream.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<slf4j.version>1.7.21</slf4j.version>
+		<logback.version>1.1.7</logback.version>
+		<jcl.version>1.7.21</jcl.version>
+		<mail.version>1.4.7</mail.version>
+		<hessian.version>4.0.38</hessian.version>
+		<poi.version>3.12</poi.version>
+		<jxl.version>2.6</jxl.version>
+		<commons-io.version>2.4</commons-io.version>
+		<jstl.version>1.2</jstl.version>
+		<jsp-api.version>2.2</jsp-api.version>
+		<jaxen.version>1.1.6</jaxen.version>
+		<activemq.version>5.13.3</activemq.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- J2EE支持-->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<!-- 单元测试 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<!-- xstream处理 -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
+			</dependency>
+			
+			<!-- Excel -->
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml-schemas</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jexcelapi</groupId>
+				<artifactId>jxl</artifactId>
+				<version>${jxl.version}</version>
+			</dependency>
+			
+			<!-- Freemarker模板引擎 -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+			
+			<!-- Spring对Freemarker包装工具 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			
+			<!-- Spring -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring-jdbc</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
+	        
+	        <!-- AOP支持 -->
+	        <dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjrt</artifactId>
+			    <version>1.8.9</version>
+			</dependency>
+	        <dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjweaver</artifactId>
+			    <version>1.8.9</version>
+			</dependency>
+			
+	        <!-- ehcache缓存 -->
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>${ehcache.version}</version>
+			</dependency>
+			
+			<!-- mybatis核心包 -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			
+			<!-- mybatis/spring包 -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>${mybatis-spring.version}</version>
+			</dependency>
+			
+			<!-- IO操作 -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			
+			<!-- mysql驱动程序 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+			
+			<!-- 阿里巴巴数据连接池 -->
+	        <dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			
+			<!-- 日志 -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>ch.qos.logback</groupId>
+			    <artifactId>logback-core</artifactId>
+			    <version>${logback.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>ch.qos.logback</groupId>
+			    <artifactId>logback-classic</artifactId>
+			    <version>${logback.version}</version>
+			</dependency>
+			
+			<!-- 日志桥接，Spring中commons-logging替换为logback -->
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>jcl-over-slf4j</artifactId>
+			    <version>${jcl.version}</version>
+			</dependency>
+			
+			<!-- java发送邮件 -->
+			<dependency>
+			    <groupId>javax.mail</groupId>
+			    <artifactId>mail</artifactId>
+			    <version>${mail.version}</version>
+			</dependency>
+			
+			<!-- shiro权限 -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-web</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			
+			<!-- Json处理 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+	
+			<!-- Jstl支持-->
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jsp-api.version}</version>
+			</dependency>
+			
+			<!-- document读取config.xml内容 -->
+			<dependency>
+				<groupId>jaxen</groupId>
+				<artifactId>jaxen</artifactId>
+				<version>${jaxen.version}</version>
+			</dependency>
+			
+			<!-- 远程RPC调用hessian支持 -->
+			<dependency>
+				<groupId>com.caucho</groupId>
+				<artifactId>hessian</artifactId>
+				<version>${hessian.version}</version>
+			</dependency>
+			
+			<!-- quartz定时任务 -->
+			<dependency>
+				<groupId>javax.transaction</groupId>
+				<artifactId>jta</artifactId>
+				<version>${jta.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz-jobs</artifactId>
+				<version>${quartz.version}</version>
+			</dependency>
+			
+			<!-- activeMQ -->
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-client</artifactId>
+				<version>${activemq.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
