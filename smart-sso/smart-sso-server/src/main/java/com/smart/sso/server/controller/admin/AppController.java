@@ -1,0 +1,107 @@
+package com.smart.sso.server.controller.admin;
+
+import java.util.Date;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.smart.ssm.controller.BaseController;
+import com.smart.ssm.model.JSONResult;
+import com.smart.ssm.model.Pagination;
+import com.smart.ssm.model.ResultCode;
+import com.smart.ssm.validator.Validator;
+import com.smart.ssm.validator.annotation.ValidateParam;
+import com.smart.sso.server.model.App;
+import com.smart.sso.server.service.AppService;
+import com.smart.util.StringUtils;
+
+/**
+ * 应用管理
+ * 
+ * @author Joe
+ */
+@Controller
+@RequestMapping("/admin/app")
+public class AppController extends BaseController {
+
+	@Resource
+	private AppService appService;
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String execute() {
+		return "/admin/app";
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
+		App app;
+		if (id == null) {
+			app = new App();
+		}
+		else {
+			app = appService.get(id);
+		}
+		model.addAttribute("app", app);
+		return "/admin/appEdit";
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public @ResponseBody JSONResult list(@ValidateParam(name = "名称 ") String name,
+			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
+			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
+		return new JSONResult(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
+	}
+
+	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
+	public @ResponseBody JSONResult validateCode(@ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "编码 ", validators = { Validator.NOT_BLANK }) String code) {
+		JSONResult result = new JSONResult();
+		if (StringUtils.isNotBlank(code)) {
+			App db = appService.findByCode(code);
+			if (null != db && !db.getId().equals(id)) {
+				result.setStatus(ResultCode.ERROR);
+				result.setMessage("应用编码已存在");
+			}
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/enable", method = RequestMethod.POST)
+	public @ResponseBody JSONResult enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
+			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+		appService.enable(isEnable, getAjaxIds(ids));
+		return new JSONResult();
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public @ResponseBody JSONResult save(@ValidateParam(name = "ID") Integer id,
+			@ValidateParam(name = "名称 ", validators = { Validator.NOT_BLANK }) String name,
+			@ValidateParam(name = "编码 ", validators = { Validator.NOT_BLANK }) String code,
+			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable,
+			@ValidateParam(name = "排序 ", validators = { Validator.NOT_BLANK, Validator.INT }) Integer sort) {
+		App app;
+		if (id == null) {
+			app = new App();
+			app.setCreateTime(new Date());
+		}
+		else {
+			app = appService.get(id);
+		}
+		app.setName(name);
+		app.setSort(sort);
+		app.setIsEnable(isEnable);
+		app.setCode(code);
+		appService.saveOrUpdate(app);
+		return new JSONResult();
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+		return new JSONResult(appService.deleteById(getAjaxIds(ids)));
+	}
+}
