@@ -20,7 +20,7 @@ public interface RoleService extends Service<RoleDao, Role, Integer> {
 	 * @param idList 角色ID集合
 	 * @return
 	 */
-	public void enable(Integer appId, Boolean isEnable, List<Integer> idList);
+	public void enable(Boolean isEnable, List<Integer> idList);
 	
 	/**
 	 * 根据角色名称和应用ID查询分页列表

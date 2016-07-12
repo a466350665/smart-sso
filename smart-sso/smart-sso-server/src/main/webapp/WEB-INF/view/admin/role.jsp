@@ -170,22 +170,16 @@
 						window.location.href = "${_path}/admin/admin#/admin/role/edit?id=" + d.id;
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/role/enable', 
-						handler : function(d, i){
-							$table.ajax({
-								url : "${_path}/admin/role/enable",
-								data : {appId : d.appId, isEnable : false}
-							});
+						handler : function(){
+							$table.ajaxEnable({url : "${_path}/admin/role/enable"}, false);
 						},
 						show : function(d){
 							return d.isEnable;
 						}
 					},
 					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/role/enable', 
-						handler : function(d, i){
-							$table.ajax({
-								url : "${_path}/admin/role/enable",
-								data : {appId : d.appId, isEnable : true}
-							});
+						handler : function(){
+							$table.ajaxEnable({url : "${_path}/admin/role/enable"}, true);
 						},
 						show : function(d){
 							return !d.isEnable;

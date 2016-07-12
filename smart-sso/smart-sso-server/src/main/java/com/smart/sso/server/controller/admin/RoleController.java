@@ -70,10 +70,9 @@ public class RoleController extends BaseController {
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public @ResponseBody JSONResult enable(
-			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
-		roleService.enable(appId, isEnable, getAjaxIds(ids));
+		roleService.enable(isEnable, getAjaxIds(ids));
 		return new JSONResult();
 	}
 

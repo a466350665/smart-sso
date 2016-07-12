@@ -117,15 +117,17 @@ public class SsoRealm extends AuthorizingRealm {
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		session.setAttribute(Permissionable.SESSION_USER_MENU, menuList);
 
-		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
-		Set<String> noPermissionSet = null;
+		Set<String> allPermissionSet = null;
 		if (applicationPermissionChanged) {
-			noPermissionSet = PermissionListener.initApplicationPermissions(request.getServletContext());
+			allPermissionSet = PermissionListener.initApplicationPermissions(request.getServletContext());
+			applicationPermissionChanged = false;
 		}
 		else {
-			noPermissionSet = new HashSet<String>((Set<String>) session.getServletContext().getAttribute(
-					Permissionable.APPLICATION_PERMISSION));
+			allPermissionSet = (Set<String>) session.getServletContext().getAttribute(
+					Permissionable.APPLICATION_PERMISSION);
 		}
+		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
+		Set<String> noPermissionSet = new HashSet<String>(allPermissionSet);
 		noPermissionSet.removeAll(operateSet);
 		session.setAttribute(Permissionable.SESSION_USER_NO_PERMISSION,
 				StringUtils.join(noPermissionSet.toArray(), ","));

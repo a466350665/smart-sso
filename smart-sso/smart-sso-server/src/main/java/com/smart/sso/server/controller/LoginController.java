@@ -58,6 +58,9 @@ public class LoginController {
 		else {
 			LoginUser loginUser = TokenManager.validate(token);
 			if (loginUser != null) {
+				// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
+				permissionSubject.attach(appCode);
+				
 				if (StringUtils.isBlank(backUrl)) {
 					return Loginable.LOGIN_SUCCESS_PATH;
 				}
@@ -89,6 +92,10 @@ public class LoginController {
 		}
 		else {
 			String token = authSuccess(response, new LoginUser(result.getData().getId(), result.getData().getAccount(), result.getData()), appCode);
+			
+			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
+			permissionSubject.attach(appCode);
+			
 			// 4 跳转到原请求
 			if (StringUtils.isBlank(backUrl)) {
 				return Loginable.LOGIN_SUCCESS_PATH;
@@ -122,8 +129,6 @@ public class LoginController {
 
 	// 授权成功后的操作
 	private String authSuccess(HttpServletResponse response, LoginUser loginUser, String appCode) {
-		// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-		permissionSubject.attach(appCode);
 		return createToken(response, loginUser);
 	}
 	
