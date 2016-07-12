@@ -142,7 +142,7 @@ public class SsoRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 清除所有用户授权信息缓存
+	 * 权限变动，清除所有用户授权信息缓存，重新加载
 	 */
 	public void clearAllCachedAuthorizationInfo() {
 		Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();

@@ -95,7 +95,8 @@
 		FROM   SYS_PERMISSION p
 		<if test="userId != null">
 			   INNER JOIN SYS_RE_ROLE_PERMISSION rp ON p.id = rp.permissionId
-			   INNER JOIN SYS_RE_USER_ROLE ur ON ur.roleId = rp.roleId
+			   INNER JOIN SYS_ROLE r ON r.id = rp.roleId AND r.isEnable = 1
+			   INNER JOIN SYS_RE_USER_ROLE ur ON ur.roleId = r.id
 		</if>
 		WHERE  1 = 1
 		       AND p.isEnable = 1

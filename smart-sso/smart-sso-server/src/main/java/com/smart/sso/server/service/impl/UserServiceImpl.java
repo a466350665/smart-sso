@@ -15,6 +15,7 @@ import com.smart.ssm.enums.TrueFalseEnum;
 import com.smart.ssm.exception.ServiceException;
 import com.smart.ssm.model.Pagination;
 import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.common.Result;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
@@ -70,12 +71,18 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		return result;
 	}
 
+	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
 		int rows = dao.enable(isEnable, idList);
 		if (rows != idList.size())
 			throw new ServiceException("启用/禁用有误");
 	}
 	
+	@Permissible
+	public int saveOrUpdate(User t) {
+		return super.saveOrUpdate(t);
+	}
+
 	public void resetPassword(String password, List<Integer> idList) {
 		int rows = dao.resetPassword(password, idList);
 		if (rows != idList.size())
@@ -91,6 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		return dao.findByAccount(account);
 	}
 	
+	@Permissible
 	@Transactional
 	public int deleteById(List<Integer> idList) {
 		userAppService.deleteByUserIds(idList);

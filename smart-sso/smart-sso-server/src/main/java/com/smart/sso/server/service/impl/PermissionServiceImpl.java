@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.ssm.exception.ServiceException;
 import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
 import com.smart.sso.server.service.PermissionService;
@@ -30,18 +31,23 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		this.dao = dao;
 	}
 
-	@Override
+	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
 		int rows = dao.enable(isEnable, idList);
 		if (rows != idList.size())
 			throw new ServiceException("启用/禁用有误");
 	}
+	
+	@Permissible
+	public int saveOrUpdate(Permission t) {
+		return super.saveOrUpdate(t);
+	}
 
-	@Override
 	public List<Permission> findByName(String name, Integer appId, Boolean isEnable) {
 		return dao.findByName(name, appId, isEnable);
 	}
 
+	@Permissible
 	@Transactional
 	public int deletePermission(Integer id, Integer appId) {
 		List<Integer> idList = new ArrayList<Integer>();
@@ -69,12 +75,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		}
 	}
 	
-	@Override
 	public int deleteByAppIds(List<Integer> idList) {
 		return dao.deleteByAppIds(idList);
 	}
 
-	@Override
 	public List<Map<String, Object>> findListById(String appCode, Integer userId) {
 		return dao.findListById(appCode, userId);
 	}

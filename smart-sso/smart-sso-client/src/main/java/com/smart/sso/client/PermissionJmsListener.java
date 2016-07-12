@@ -33,7 +33,7 @@ public class PermissionJmsListener implements MessageListener {
 			SsoRealm realm = SpringUtils.getBean(SsoRealm.class);
 			realm.clearAllCachedAuthorizationInfo();
 			realm.refreshApplicationPermissions();
-			LOGGER.info("appCode为：{}的应用权限更新成功！", appCode);
+			LOGGER.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}
 }

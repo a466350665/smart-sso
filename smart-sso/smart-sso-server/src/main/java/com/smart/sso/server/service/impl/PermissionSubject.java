@@ -15,6 +15,10 @@ import com.smart.sso.server.service.PermissionJmsService;
 /**
  * 权限主题
  * 
+ * 注：
+ * 1.保存所有注册到smart-sso-server的应用
+ * 2.当权限变动时，负责调用JMS消息通知应用更新权限
+ * 
  * @author Joe
  */
 @Component
@@ -23,7 +27,7 @@ public class PermissionSubject {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionSubject.class);
 	
 	/**
-	 * 保存注册的应用编码,支持并发读写
+	 * 保存所有注册到smart-sso-server的应用编码,支持并发读写
 	 */
 	protected Set<String> sets = new CopyOnWriteArraySet<String>();
 	
@@ -41,7 +45,7 @@ public class PermissionSubject {
 	}
 
 	/**
-	 * 权限更新
+	 * 通知appCode应用更新权限
 	 * 
 	 * @param appCode
 	 *            应用编码
@@ -56,6 +60,22 @@ public class PermissionSubject {
 				catch (Exception e) {
 					LOGGER.error("消息服务通知appCode为：{}的应用更新权限异常", appCode, e);
 				}
+			}
+		}
+	}
+	
+	/**
+	 * 通知所有注册应用更新权限
+	 */
+	public void update() {
+		for (String appCode : sets) {
+			try {
+				permissionJmsService.send(ConfigUtils.getProperty("mq.permission.queue.prefix").concat(appCode),
+						appCode);
+				LOGGER.info("消息服务通知appCode为：{}的应用更新权限", appCode);
+			}
+			catch (Exception e) {
+				LOGGER.error("消息服务通知appCode为：{}的应用更新权限异常", appCode, e);
 			}
 		}
 	}

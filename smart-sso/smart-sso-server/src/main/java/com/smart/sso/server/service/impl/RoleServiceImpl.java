@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.smart.ssm.exception.ServiceException;
 import com.smart.ssm.model.Pagination;
 import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.RoleDao;
 import com.smart.sso.server.model.Role;
 import com.smart.sso.server.service.RolePermissionService;
@@ -31,10 +32,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role, Integer> impleme
 		this.dao = dao;
 	}
 	
+	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
 		int rows = dao.enable(isEnable, idList);
 		if (rows != idList.size())
 			throw new ServiceException("启用/禁用有误");
+	}
+	
+	@Permissible
+	public int saveOrUpdate(Role t) {
+		return super.saveOrUpdate(t);
 	}
 
 	public Pagination<Role> findPaginationByName(String name, Integer appId, Pagination<Role> p) {
@@ -48,6 +55,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role, Integer> impleme
 		return dao.findPaginationByName(null, isEnable, appId, null);
 	}
 	
+	@Permissible
 	@Transactional
 	public int deleteById(List<Integer> idList) {
 		userRoleService.deleteByRoleIds(idList);

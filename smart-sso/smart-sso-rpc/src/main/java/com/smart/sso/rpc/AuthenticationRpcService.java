@@ -20,7 +20,7 @@ public interface AuthenticationRpcService {
 	public boolean validate(String token);
 
 	/**
-	 * 根据登录的Token和应用编码获取授权信息(用户、权限)
+	 * 根据登录的Token和应用编码获取授权用户信息
 	 * 
 	 * @param token
 	 *            授权码
@@ -33,6 +33,8 @@ public interface AuthenticationRpcService {
 	/**
 	 * 获取当前应用所有权限(含菜单)
 	 * 
+	 * @param token
+	 *            授权码 (如果token不为空，获取当前用户的所有权限)
 	 * @param appCode
 	 *            应用编码
 	 * @return

@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 
 import com.smart.sso.server.service.PermissionJmsService;
 
+/**
+ * 异步发送权限修改JMS消息
+ * 
+ * @author Joe
+ */
 @Component
 public class PermissionJmsServiceImpl implements PermissionJmsService {
 

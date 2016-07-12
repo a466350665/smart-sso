@@ -65,7 +65,7 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	private List<Menu> findPermissions(String appCode, Integer userId) {
 		List<Map<String, Object>> list = permissionService.findListById(appCode, userId);
 		if (CollectionUtils.isEmpty(list))
-			return null;
+			return new ArrayList<Menu>(0);
 		return listMapToJavaBean(list, Menu.class);
 	}
 	

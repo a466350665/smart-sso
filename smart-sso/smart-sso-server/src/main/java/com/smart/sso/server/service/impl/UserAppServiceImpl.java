@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.UserAppDao;
 import com.smart.sso.server.model.UserApp;
 import com.smart.sso.server.service.UserAppService;
@@ -26,6 +27,7 @@ public class UserAppServiceImpl extends ServiceImpl<UserAppDao, UserApp, Integer
 		this.dao = dao;
 	}
 	
+	@Permissible
 	@Transactional
 	public int allocate(Integer userId, List<Integer> idList, List<UserApp> list) {
 		userRoleService.deleteForChangeApp(userId, idList);
@@ -33,17 +35,14 @@ public class UserAppServiceImpl extends ServiceImpl<UserAppDao, UserApp, Integer
 		return super.save(list);
 	}
 	
-	@Override
 	public UserApp findByUserAppId(Integer userId, Integer roleId) {
 		return dao.findByUserAppId(userId, roleId);
 	}
 	
-	@Override
 	public int deleteByUserIds(List<Integer> idList) {
 		return dao.deleteByUserIds(idList);
 	}
 	
-	@Override
 	public int deleteByAppIds(List<Integer> idList) {
 		return dao.deleteByAppIds(idList);
 	}
