@@ -41,6 +41,7 @@ public class SsoRealm extends AuthorizingRealm {
 	 * 应用权限是否改动，PermissionJmsListener监听修改
 	 */
 	private volatile boolean applicationPermissionChanged = false;
+	private final Object applicationPermissionChangedMonitor = new Object();
 
 	public SsoRealm() {
 		setAuthenticationTokenClass(SsoToken.class);
@@ -119,8 +120,12 @@ public class SsoRealm extends AuthorizingRealm {
 
 		Set<String> allPermissionSet = null;
 		if (applicationPermissionChanged) {
-			allPermissionSet = PermissionListener.initApplicationPermissions(request.getServletContext());
-			applicationPermissionChanged = false;
+			synchronized (this.applicationPermissionChangedMonitor) {
+				if (allPermissionSet == null) {
+					allPermissionSet = PermissionListener.initApplicationPermissions(request.getServletContext());
+				}
+				applicationPermissionChanged = false;
+			}
 		}
 		else {
 			allPermissionSet = (Set<String>) session.getServletContext().getAttribute(
