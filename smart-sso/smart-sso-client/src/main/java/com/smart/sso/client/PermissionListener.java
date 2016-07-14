@@ -44,7 +44,7 @@ public class PermissionListener implements ServletContextListener{
 	 * @param servletContext
 	 */
 	public static void initApplicationPermissions(ServletContext servletContext) {
-		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean("authenticationRpcService");
+		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
 		List<Menu> dbList = null;
 		try {
 			dbList = authenticationRpcService.findPermissionList(null, ConfigUtils.getProperty("app.code"));
