@@ -53,7 +53,7 @@ public class UserRoleController extends BaseController {
 	public @ResponseBody JSONResult changeApp(
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId) {
-		return new JSONResult(getRoleList(userId, appId));
+		return new JSONResult().setData(getRoleList(userId, appId));
 	}
 
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class UserRoleController extends BaseController {
 			bean.setRoleId(roleId);
 			list.add(bean);
 		}
-		return new JSONResult(userRoleService.allocate(userId, appId, list), "授权成功");
+		return new JSONResult("授权成功").setData(userRoleService.allocate(userId, appId, list));
 	}
 
 	private List<Role> getRoleList(Integer userId, Integer appId) {

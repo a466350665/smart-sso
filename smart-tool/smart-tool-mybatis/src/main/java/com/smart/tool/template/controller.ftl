@@ -55,7 +55,7 @@ public class ${model}Controller extends BaseController {
 	public @ResponseBody JSONResult list(
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult(${_model}Service.findByAllPagination(new Pagination<${model}>(pageNo, pageSize)));
+		return new JSONResult().setData(${_model}Service.findByAllPagination(new Pagination<${model}>(pageNo, pageSize)));
 	}
 
 	/**
@@ -111,6 +111,6 @@ public class ${model}Controller extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult(${_model}Service.deleteById(getAjaxIds(ids)));
+		return new JSONResult().setData(${_model}Service.deleteById(getAjaxIds(ids)));
 	}
 }

@@ -56,7 +56,7 @@ public class UserAppController extends BaseController {
 			bean.setUserId(userId);
 			list.add(bean);
 		}
-		return new JSONResult(userAppService.allocate(userId, idList, list), "授权成功");
+		return new JSONResult("授权成功").setData(userAppService.allocate(userId, idList, list));
 	}
 	
 	private List<App> getAppList(Integer userId) {

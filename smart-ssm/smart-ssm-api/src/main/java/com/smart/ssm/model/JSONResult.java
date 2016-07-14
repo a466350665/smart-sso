@@ -27,22 +27,11 @@ public class JSONResult {
 	public JSONResult() {
 	}
 
-	public JSONResult(Object data) {
-		this.data = data;
-	}
-
-	public JSONResult(Object data, String message) {
-		this.data = data;
+	public JSONResult(String message) {
 		this.message = message;
 	}
-	
+
 	public JSONResult(String status, String message) {
-		this.status = status;
-		this.message = message;
-	}
-
-	public JSONResult(Object data, String status, String message) {
-		this.data = data;
 		this.status = status;
 		this.message = message;
 	}
@@ -51,8 +40,9 @@ public class JSONResult {
 		return data;
 	}
 
-	public void setData(Object data) {
+	public JSONResult setData(Object data) {
 		this.data = data;
+		return this;
 	}
 
 	public String getStatus() {

@@ -58,7 +58,7 @@ public class AppController extends BaseController {
 	public @ResponseBody JSONResult list(@ValidateParam(name = "名称 ") String name,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
+		return new JSONResult().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
@@ -106,7 +106,7 @@ public class AppController extends BaseController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult(appService.deleteById(getAjaxIds(ids)));
+		return new JSONResult().setData(appService.deleteById(getAjaxIds(ids)));
 	}
 	
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)

@@ -71,7 +71,7 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
+		return new JSONResult().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
@@ -131,7 +131,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult(userService.deleteById(getAjaxIds(ids)));
+		return new JSONResult().setData(userService.deleteById(getAjaxIds(ids)));
 	}
 
 	private List<App> getAppList() {
