@@ -43,7 +43,7 @@ public class PermissionListener implements ServletContextListener{
 	 * 应用初始化，获取应用所有的菜单及权限
 	 * @param servletContext
 	 */
-	public static Set<String> initApplicationPermissions(ServletContext servletContext) {
+	public static void initApplicationPermissions(ServletContext servletContext) {
 		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean("authenticationRpcService");
 		List<Menu> dbList = null;
 		try {
@@ -65,7 +65,6 @@ public class PermissionListener implements ServletContextListener{
 		}
 		servletContext.setAttribute(Permissionable.APPLICATION_MENU, menuList);
 		servletContext.setAttribute(Permissionable.APPLICATION_PERMISSION, operateSet);
-		return operateSet;
 	}
 
 	public void sessionDestroyed(HttpSessionEvent arg0) {

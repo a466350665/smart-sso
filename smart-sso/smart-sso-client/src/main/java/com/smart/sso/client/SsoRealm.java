@@ -36,12 +36,12 @@ import com.smart.util.StringUtils;
  * @author Joe
  */
 public class SsoRealm extends AuthorizingRealm {
-
+	
 	/**
 	 * 应用权限是否改动，PermissionJmsListener监听修改
 	 */
-	private volatile boolean applicationPermissionChanged = false;
-	private final Object applicationPermissionChangedMonitor = new Object();
+	private volatile boolean allPermissionSetChanged = false;
+	private final Object allPermissionSetChangedMonitor = new Object();
 
 	public SsoRealm() {
 		setAuthenticationTokenClass(SsoToken.class);
@@ -98,7 +98,6 @@ public class SsoRealm extends AuthorizingRealm {
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<String> invokePermissionInSession(String token) {
-
 		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
 		List<Menu> dbList = authenticationRpcService.findPermissionList(token, ConfigUtils.getProperty("app.code"));
 
@@ -118,19 +117,14 @@ public class SsoRealm extends AuthorizingRealm {
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		session.setAttribute(Permissionable.SESSION_USER_MENU, menuList);
 
-		Set<String> allPermissionSet = null;
-		if (applicationPermissionChanged) {
-			synchronized (this.applicationPermissionChangedMonitor) {
-				if (allPermissionSet == null) {
-					allPermissionSet = PermissionListener.initApplicationPermissions(request.getServletContext());
-				}
-				applicationPermissionChanged = false;
+		if (allPermissionSetChanged) {// 应用权限如果被修改，重新加载一遍
+			synchronized (this.allPermissionSetChangedMonitor) {
+				PermissionListener.initApplicationPermissions(request.getServletContext());
+				allPermissionSetChanged = false;
 			}
 		}
-		else {
-			allPermissionSet = (Set<String>) session.getServletContext().getAttribute(
-					Permissionable.APPLICATION_PERMISSION);
-		}
+		Set<String> allPermissionSet = (Set<String>) request.getServletContext().getAttribute(Permissionable.APPLICATION_PERMISSION);
+		
 		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
 		Set<String> noPermissionSet = new HashSet<String>(allPermissionSet);
 		noPermissionSet.removeAll(operateSet);
@@ -140,10 +134,10 @@ public class SsoRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 应用权限变动
+	 * 清空应用权限
 	 */
-	public void refreshApplicationPermissions() {
-		this.applicationPermissionChanged = true;
+	public void clearApplicationPermissions() {
+		this.allPermissionSetChanged = true;
 	}
 
 	/**
