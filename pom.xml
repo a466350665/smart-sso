@@ -322,4 +322,26 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/a466350665/smart/issues</url>
+	</issueManagement>
+	
+	<scm>
+		<url>https://github.com/a466350665/smart</url>
+		<connection>https://github.com/a466350665/smart.git</connection>
+	</scm>
+	
+	<developers>
+		<developer>
+			<name>ZhouLe(Joe)</name>
+			<id>Joe</id>
+			<email>a466350665@qq.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
 </project>
