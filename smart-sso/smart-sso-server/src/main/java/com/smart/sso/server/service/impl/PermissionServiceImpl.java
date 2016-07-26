@@ -66,8 +66,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 	// 递归方法，删除子权限
 	protected void loopSubList(Integer id, List<Integer> idList, List<Permission> list) {
-		for (int i = 0; i < list.size(); i++) {
-			Permission p = list.get(i);
+		for (Permission p : list) {
 			if (id.equals(p.getParentId())) {
 				idList.add(p.getId());
 				loopSubList(p.getId(), idList, list);
