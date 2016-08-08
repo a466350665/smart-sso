@@ -1,11 +1,11 @@
 package com.smart.sso.server.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.smart.ssm.dao.Dao;
+import com.smart.sso.rpc.Menu;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -23,5 +23,5 @@ public interface PermissionDao extends Dao<Permission, Integer> {
 	
 	public int deleteByAppIds(@Param("idList") List<Integer> idList);
 	
-	public List<Map<String, Object>> findListById(@Param("appCode") String appCode, @Param("userId") Integer userId);
+	public List<Menu> findListById(@Param("appCode") String appCode, @Param("userId") Integer userId);
 }

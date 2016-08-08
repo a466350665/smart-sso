@@ -84,7 +84,7 @@
 		</if>
 	</delete>
 	
-	<select id="findListById" parameterType="map" resultType="map">   
+	<select id="findListById" parameterType="map" resultType="com.smart.sso.rpc.Menu">   
      	SELECT DISTINCT
      		   p.id        AS id,
 		       p.parentId  AS parentId,

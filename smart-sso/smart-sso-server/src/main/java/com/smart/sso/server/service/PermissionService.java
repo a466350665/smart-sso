@@ -1,9 +1,9 @@
 package com.smart.sso.server.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.smart.ssm.service.Service;
+import com.smart.sso.rpc.Menu;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
 
@@ -51,5 +51,5 @@ public interface PermissionService extends Service<PermissionDao, Permission, In
 	 * @param userId 管理员ID
 	 * @return
 	 */
-	public List<Map<String, Object>> findListById(String appCode, Integer userId);
+	public List<Menu> findListById(String appCode, Integer userId);
 }

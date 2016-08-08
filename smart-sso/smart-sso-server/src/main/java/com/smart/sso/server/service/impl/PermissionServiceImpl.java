@@ -2,7 +2,6 @@ package com.smart.sso.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.ssm.exception.ServiceException;
 import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.sso.rpc.Menu;
 import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
@@ -78,7 +78,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		return dao.deleteByAppIds(idList);
 	}
 
-	public List<Map<String, Object>> findListById(String appCode, Integer userId) {
+	public List<Menu> findListById(String appCode, Integer userId) {
 		return dao.findListById(appCode, userId);
 	}
 }
