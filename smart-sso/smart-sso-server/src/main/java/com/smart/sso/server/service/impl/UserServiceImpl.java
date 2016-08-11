@@ -54,20 +54,24 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 			result.setStatus(Result.ERROR);
 			result.setMessage("已被管理员禁用");
 		}
-		Set<String> set = appService.findAppCodeByUserId(TrueFalseEnum.TRUE.getValue(), user.getId());
-		if (CollectionUtils.isEmpty(set)) {
-			result.setStatus(Result.ERROR);
-			result.setMessage("不存在可操作应用");
+		else {
+			Set<String> set = appService.findAppCodeByUserId(TrueFalseEnum.TRUE.getValue(), user.getId());
+			if (CollectionUtils.isEmpty(set)) {
+				result.setStatus(Result.ERROR);
+				result.setMessage("不存在可操作应用");
+			}
+			else if (!set.contains(appCode)) {
+				result.setStatus(Result.ERROR);
+				result.setMessage("没有应用操作权限");
+			}
+			else {
+				user.setLastLoginIp(ip);
+				user.setLoginCount(user.getLoginCount() + 1);
+				user.setLastLoginTime(new Date());
+				dao.update(user);
+				result.setData(user);
+			}
 		}
-		else if (!set.contains(appCode)) {
-			result.setStatus(Result.ERROR);
-			result.setMessage("没有应用操作权限");
-		}
-		user.setLastLoginIp(ip);
-		user.setLoginCount(user.getLoginCount()+1);
-		user.setLastLoginTime(new Date());
-		dao.update(user);
-		result.setData(user);
 		return result;
 	}
 
