@@ -20,8 +20,8 @@
     
 	<modules>
 		<module>smart-mvc-core</module>
-		<module>smart-mvc-mybatis</module>
 		<module>smart-mvc-hibernate</module>
+		<module>smart-mvc-mybatis</module>
 		<module>smart-mvc-mybatis-demo</module>
 	</modules>
 </project>
