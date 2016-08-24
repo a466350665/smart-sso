@@ -39,6 +39,27 @@ public class StringUtils {
 		}
 		return true;
 	}
+	
+
+	/**
+	 * Description:验证字符串数组是否为空
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-7-21下午5:34:41 
+	 * @param css
+	 * @return
+	 */
+	public static boolean isBlank(final CharSequence ... css) {
+		if (css == null)
+			return true;
+		
+		for (CharSequence cs : css) {
+			if(isNotBlank(cs)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * 验证可能为""或者null的字符串
