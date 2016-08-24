@@ -11,7 +11,7 @@
 	<modules>
 		<!-- Java工具类  -->
 		<module>smart-util</module>
-		<!-- mvc -->
+		<!-- Springmvc + Spring + Mybatis or Heibernate -->
 		<module>smart-mvc</module>
 		<!-- 单点登录及鉴权服务 -->
 		<module>smart-sso</module>
