@@ -1,7 +1,7 @@
 package com.smart.weixin.util;
 
-import com.smart.ssm.util.ConfigManager;
-import com.smart.ssm.util.EhCacheConfig;
+import com.smart.mvc.util.ConfigManager;
+import com.smart.mvc.util.EhCacheConfig;
 
 /**
  * 应用配置工具类

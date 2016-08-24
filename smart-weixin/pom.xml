@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-ssm-api</artifactId>
+			<artifactId>smart-mvc-mybatis</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		
