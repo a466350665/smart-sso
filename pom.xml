@@ -11,8 +11,8 @@
 	<modules>
 		<!-- Java工具类  -->
 		<module>smart-util</module>
-		<!-- Springmvc + Spring + Mybatis基础 -->
-		<module>smart-ssm</module>
+		<!-- mvc -->
+		<module>smart-mvc</module>
 		<!-- 单点登录及鉴权服务 -->
 		<module>smart-sso</module>
 		<!-- 分布式定时任务 -->
@@ -23,6 +23,8 @@
 		<module>smart-static</module>
 		<!-- Smart结构代码生成工具 -->
 		<module>smart-tool</module>
+		<module>smart-ssh</module>
+		<module>smart-mvc</module>
 	</modules>
 	
 	<properties>
