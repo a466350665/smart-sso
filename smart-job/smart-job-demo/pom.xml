@@ -13,10 +13,10 @@
 	<name>${project.artifactId}</name>
 	
 	<dependencies>
-		<!-- ssm包支持 -->
+		<!-- mvc-core包支持 -->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-ssm-api</artifactId>
+			<artifactId>smart-mvc-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		
