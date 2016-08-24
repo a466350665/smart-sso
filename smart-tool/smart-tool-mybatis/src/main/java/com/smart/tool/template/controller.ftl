@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>model.${model};
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>service.${model}Service;
-import com.smart.ssm.controller.BaseController;
-import com.smart.ssm.model.JSONResult;
-import com.smart.ssm.model.Pagination;
-import com.smart.ssm.validator.Validator;
-import com.smart.ssm.validator.annotation.ValidateParam;
+import com.smart.mvc.controller.BaseController;
+import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Pagination;
+import com.smart.mvc.validator.Validator;
+import com.smart.mvc.validator.annotation.ValidateParam;
 
 /**
  * ${tableComment}Controller

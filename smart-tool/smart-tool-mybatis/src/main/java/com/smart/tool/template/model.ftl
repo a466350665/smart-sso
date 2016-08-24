@@ -9,9 +9,9 @@ import java.beans.Transient;
 </#if>
 
 <#if containEnable>
-import com.smart.ssm.enums.TrueFalseEnum;
+import com.smart.mvc.enums.TrueFalseEnum;
 </#if>
-import com.smart.ssm.model.${extendsProject};
+import com.smart.mvc.model.${extendsProject};
 
 <#if tableComment??>
 /**
