@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>smart-mvc</artifactId>
+		<groupId>com.smart</groupId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>smart-mvc-mybatis-demo</artifactId>
+	<packaging>war</packaging>
+	<name>${project.artifactId}</name>
+
+	<dependencies>
+		<!-- J2EE支持 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- 单元测试 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- mybatis版基础项目支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc-mybatis</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- sso单点登录客户端 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-sso-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- Jstl支持 -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/env/dev</directory>
+					</resource>
+				</resources>
+			</build>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/env/pro</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+</project>
