@@ -23,7 +23,7 @@
 		<!-- mybatis版基础项目支持-->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-ssm-mybatis</artifactId>
+			<artifactId>smart-mvc-mybatis</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 

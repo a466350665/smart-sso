@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.smart.ssm.dao.Dao;
-import com.smart.ssm.model.Pagination;
+import com.smart.mvc.dao.mybatis.Dao;
+import com.smart.mvc.model.Pagination;
 import com.smart.sso.server.model.Role;
 
 /**

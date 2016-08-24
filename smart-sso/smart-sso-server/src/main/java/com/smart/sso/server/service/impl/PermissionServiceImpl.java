@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smart.ssm.exception.ServiceException;
-import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.mvc.exception.ServiceException;
+import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.rpc.Menu;
 import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.PermissionDao;

@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.smart.ssm.enums.TrueFalseEnum;
-import com.smart.ssm.exception.ServiceException;
-import com.smart.ssm.model.Pagination;
-import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.mvc.enums.TrueFalseEnum;
+import com.smart.mvc.exception.ServiceException;
+import com.smart.mvc.model.Pagination;
+import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.common.Result;
 import com.smart.sso.server.dao.UserDao;

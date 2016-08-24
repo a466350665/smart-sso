@@ -63,7 +63,7 @@
     </bean>
     
     <!--分页插件-->
-    <bean id="paginationInterceptor" class="com.smart.ssm.mybatis.interceptor.PaginationInterceptor"></bean>
+    <bean id="paginationInterceptor" class="com.smart.mvc.interceptor.mybatis.PaginationInterceptor"></bean>
     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
 	    <!--dataSource属性指定要用到的连接池--> 

@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.ssm.util.SpringUtils;
+import com.smart.mvc.util.SpringUtils;
 
 /**
  * 存储VT_USER信息，并提供操作方法

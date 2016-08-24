@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.smart.ssm.controller.BaseController;
-import com.smart.ssm.model.JSONResult;
-import com.smart.ssm.model.Pagination;
-import com.smart.ssm.validator.Validator;
-import com.smart.ssm.validator.annotation.ValidateParam;
+import com.smart.mvc.controller.BaseController;
+import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Pagination;
+import com.smart.mvc.validator.Validator;
+import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.model.Role;
 import com.smart.sso.server.model.RolePermission;

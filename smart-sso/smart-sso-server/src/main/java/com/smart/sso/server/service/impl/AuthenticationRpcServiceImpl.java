@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.smart.ssm.provider.PasswordProvider;
+import com.smart.mvc.provider.PasswordProvider;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.Menu;
 import com.smart.sso.rpc.RpcUser;

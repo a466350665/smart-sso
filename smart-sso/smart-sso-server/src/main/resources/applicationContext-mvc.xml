@@ -16,7 +16,7 @@
 	<!-- 自定义Json解析器 -->
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean class="com.smart.ssm.resovler.MethodArgumentResovler"/> 
+			<bean class="com.smart.mvc.resovler.MethodArgumentResovler"/> 
 		</mvc:argument-resolvers>
         <mvc:message-converters>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" />
@@ -24,7 +24,7 @@
     </mvc:annotation-driven>
     
     <!-- 自定义异常处理 -->
-    <bean id="exceptionResolver" class="com.smart.ssm.exception.ExceptionResolver">
+    <bean id="exceptionResolver" class="com.smart.mvc.exception.ExceptionResolver">
     	<property name="view" value="error"/>
     </bean>
     

@@ -3,8 +3,8 @@ package com.smart.sso.server.service;
 import java.util.List;
 import java.util.Set;
 
-import com.smart.ssm.model.Pagination;
-import com.smart.ssm.service.Service;
+import com.smart.mvc.model.Pagination;
+import com.smart.mvc.service.mybatis.Service;
 import com.smart.sso.server.dao.AppDao;
 import com.smart.sso.server.model.App;
 

@@ -2,11 +2,13 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
-import com.smart.ssm.model.Pagination;
-import com.smart.ssm.service.Service;
+import org.apache.shiro.authc.AuthenticationException;
+
+import com.smart.mvc.model.Pagination;
+import com.smart.mvc.service.mybatis.Service;
+import com.smart.sso.server.common.Result;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.common.Result;
 
 /**
  * 管理员服务接口
