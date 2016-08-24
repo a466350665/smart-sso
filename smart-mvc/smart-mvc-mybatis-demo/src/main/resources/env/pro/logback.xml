@@ -1,6 +1,6 @@
 <configuration>
 	<property name="log.env" value="pro" />
-	<property name="log.name" value="smart-ssm-mybatis-demo" />
+	<property name="log.name" value="smart-mvc-mybatis-demo" />
 	<property name="log.level" value="error" />
 	<property name="log.url" value="${catalina.home}/logs" />
 	
