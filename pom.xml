@@ -38,6 +38,7 @@
 		<ehcache.version>2.10.1</ehcache.version>
 		<mybatis.version>3.3.0</mybatis.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
+		<hibernate.version>4.2.7.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<druid.version>1.0.15</druid.version>
 		<mysql.version>5.1.36</mysql.version>
@@ -189,6 +190,20 @@
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
 			</dependency>
+			
+			<!-- hibernate核心包 -->
+			<dependency>
+			    <groupId>org.hibernate</groupId>
+			    <artifactId>hibernate-core</artifactId>
+			    <version>${hibernate.version}</version>
+			</dependency>
+			
+			<!-- hibernate/spring包 -->
+			<dependency>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring-orm</artifactId>
+	            <version>${spring.version}</version>
+	        </dependency>
 			
 			<!-- IO操作 -->
 			<dependency>
