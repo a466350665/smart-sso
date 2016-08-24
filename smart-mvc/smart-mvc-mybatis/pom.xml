@@ -10,7 +10,7 @@
 	<name>${project.artifactId}</name>
 
 	<dependencies>
-		<!-- ssm包支持 -->
+		<!-- mvc-core包支持 -->
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-mvc-core</artifactId>

@@ -1,4 +1,4 @@
-package com.smart.ssm.mybatis.interceptor;
+package com.smart.mvc.interceptor.mybatis;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.ssm.model.Pagination;
+import com.smart.mvc.model.Pagination;
 
 /**
  * Mybatis - 分页拦截器

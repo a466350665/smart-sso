@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.ssm.util.CookieUtils;
-import com.smart.ssm.validator.annotation.ValidateParam;
+import com.smart.mvc.util.CookieUtils;
+import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.util.StringUtils;
 

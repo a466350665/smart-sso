@@ -7,7 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 
-import com.smart.ssm.util.SpringUtils;
+import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 
 /**

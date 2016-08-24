@@ -3,7 +3,7 @@ package com.smart.sso.server.model;
 import java.beans.Transient;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.smart.ssm.model.PersistentObject;
+import com.smart.mvc.model.PersistentObject;
 
 /**
  * 权限

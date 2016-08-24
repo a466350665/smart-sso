@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>model.${model};
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>dao.${model}Dao;
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>service.${model}Service;
-import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 
 @Component("${_model}Service")
 public class ${model}ServiceImpl extends ServiceImpl<${model}Dao, ${model}, Integer> implements ${model}Service {

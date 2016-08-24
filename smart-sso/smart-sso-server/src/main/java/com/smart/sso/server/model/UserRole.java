@@ -1,6 +1,6 @@
 package com.smart.sso.server.model;
 
-import com.smart.ssm.model.PersistentObject;
+import com.smart.mvc.model.PersistentObject;
 
 /**
  * 管理员角色映射

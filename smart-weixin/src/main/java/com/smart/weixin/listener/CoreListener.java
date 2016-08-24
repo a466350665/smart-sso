@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.smart.ssm.util.SpringUtils;
+import com.smart.mvc.util.SpringUtils;
 import com.smart.weixin.message.response.BaseMessage;
 import com.smart.weixin.util.MessageUtils;
 

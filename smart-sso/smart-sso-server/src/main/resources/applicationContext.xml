@@ -25,7 +25,7 @@
 		<property name="tokenTimeout" value="15" />
 	</bean>
 	
-	<bean class="com.smart.ssm.config.ConfigUtils">
+	<bean class="com.smart.mvc.config.ConfigUtils">
     	<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>

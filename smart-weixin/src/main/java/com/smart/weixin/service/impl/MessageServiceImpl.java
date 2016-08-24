@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-import com.smart.ssm.dao.Dao;
-import com.smart.ssm.model.PersistentObject;
-import com.smart.ssm.service.Service;
-import com.smart.ssm.service.impl.ServiceImpl;
+import com.smart.mvc.dao.mybatis.Dao;
+import com.smart.mvc.model.PersistentObject;
+import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.weixin.message.response.BaseMessage;
 
 /**

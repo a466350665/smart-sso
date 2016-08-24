@@ -14,7 +14,7 @@
 		<param-value>classpath:applicationContext*.xml</param-value>
 	</context-param>
 	<listener>
-		<listener-class>com.smart.ssm.listener.InitListener</listener-class>
+		<listener-class>com.smart.mvc.listener.InitListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>com.smart.sso.client.PermissionListener</listener-class>
@@ -71,7 +71,7 @@
 	</filter-mapping>
 	<filter>
 		<filter-name>captchaFilter</filter-name>
-		<filter-class>com.smart.ssm.captcha.CaptchaFilter</filter-class>
+		<filter-class>com.smart.mvc.captcha.CaptchaFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>captchaFilter</filter-name>
