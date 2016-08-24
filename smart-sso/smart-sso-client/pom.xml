@@ -19,10 +19,10 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- ssm项目支持 -->
+		<!-- mvc-core项目支持 -->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-ssm-api</artifactId>
+			<artifactId>smart-mvc-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		

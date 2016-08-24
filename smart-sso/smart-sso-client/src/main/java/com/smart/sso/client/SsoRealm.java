@@ -22,8 +22,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.web.subject.WebSubject;
 
-import com.smart.ssm.config.ConfigUtils;
-import com.smart.ssm.util.SpringUtils;
+import com.smart.mvc.config.ConfigUtils;
+import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.Menu;
 import com.smart.sso.rpc.Permissionable;

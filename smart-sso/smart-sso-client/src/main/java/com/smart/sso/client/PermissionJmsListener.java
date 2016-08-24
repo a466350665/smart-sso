@@ -8,8 +8,8 @@ import javax.jms.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.ssm.config.ConfigUtils;
-import com.smart.ssm.util.SpringUtils;
+import com.smart.mvc.config.ConfigUtils;
+import com.smart.mvc.util.SpringUtils;
 
 /**
  * 权限变更消息监听
