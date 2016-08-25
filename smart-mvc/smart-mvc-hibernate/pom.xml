@@ -20,18 +20,16 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 	
-		<!-- hibernate驱动包 -->
+		<!-- hibernate核心包 -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
-		    <version>4.2.7.Final</version>
 		</dependency>
 
 		<!-- hibernate/spring包 -->
 		<dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 	</dependencies>
 </project>
