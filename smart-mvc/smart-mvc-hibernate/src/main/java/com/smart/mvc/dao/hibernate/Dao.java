@@ -4,7 +4,7 @@ import java.util.List;
 import com.smart.mvc.model.Pagination;
 
 /**
- * Dao接口
+ * Hibernate Dao接口
  */
 public interface Dao<T, ID> {
 
