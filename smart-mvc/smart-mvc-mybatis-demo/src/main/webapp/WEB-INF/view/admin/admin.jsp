@@ -643,7 +643,7 @@
 	            });
 			
 				$.getJSON("${_path}/admin/admin/menu",function(d) {
-   					$('.nav-list').append(tree(d.data));
+   					$('.nav-list').append(tree(d.attach));
 				});
 				
 				var defaultPage = null;

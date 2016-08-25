@@ -103,7 +103,7 @@
             		dataType:"json",
             		success:function(d){
             			if(d){
-            				var data = d.data;
+            				var data = d.attach;
             				$("#_roleDiv").html('');
             				var html= '';
             				for(var i=0; i<data.length; i++){
@@ -141,7 +141,7 @@
 					$.post("${_path}/admin/userRole/allocateSave", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == '0000'){
+							if(d.status == 0){
 								window.location.href = "${_path}/admin/admin#/admin/user";
 							}
 							else {

@@ -183,7 +183,7 @@
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();
-							if(d.status == '0000'){
+							if(d.status == 0){
 								$.gritter.add({text: d.message});
 							}
 							else {

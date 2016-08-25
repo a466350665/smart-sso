@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.base.model.User;
 import com.smart.base.service.UserService;
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.JSONResult;
 import com.smart.mvc.model.Pagination;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 
@@ -46,11 +46,11 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody JSONResult list(
+	public @ResponseBody Result list(
 			@ValidateParam(name = "登录名 ") String account,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
+		return Result.createSuccessResult(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody JSONResult save(
+	public @ResponseBody Result save(
 			@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account) {
 		User user;
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 		}
 		user.setAccount(account);
 		userService.saveOrUpdate(user);
-		return new JSONResult();
+		return Result.createSuccessResult();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult().setData(userService.deleteById(getAjaxIds(ids)));
+	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+		return Result.createSuccessResult(userService.deleteById(getAjaxIds(ids)));
 	}
 }
