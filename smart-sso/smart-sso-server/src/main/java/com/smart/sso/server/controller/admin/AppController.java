@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
+import com.smart.mvc.model.JSONResult;
 import com.smart.mvc.model.Pagination;
-import com.smart.mvc.model.Result;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
@@ -54,34 +55,35 @@ public class AppController extends BaseController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(@ValidateParam(name = "名称 ") String name,
+	public @ResponseBody JSONResult list(@ValidateParam(name = "名称 ") String name,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return Result.createSuccessResult(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
+		return new JSONResult().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
-	public @ResponseBody Result validateCode(@ValidateParam(name = "id") Integer id,
+	public @ResponseBody JSONResult validateCode(@ValidateParam(name = "id") Integer id,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code) {
-		Result result=Result.createSuccessResult();
+		JSONResult result = new JSONResult();
 		if (StringUtils.isNotBlank(code)) {
 			App db = appService.findByCode(code);
 			if (null != db && !db.getId().equals(id)) {
-				result=Result.createErrorResult("应用编码已存在");
+				result.setStatus(ResultCode.ERROR);
+				result.setMessage("应用编码已存在");
 			}
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody Result enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
+	public @ResponseBody JSONResult enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		appService.enable(isEnable, getAjaxIds(ids));
-		return Result.createSuccessResult();
+		return new JSONResult();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody JSONResult save(@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "名称 ", validators = { Validator.NOT_BLANK }) String name,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable,
@@ -99,21 +101,21 @@ public class AppController extends BaseController {
 		app.setIsEnable(isEnable);
 		app.setCode(code);
 		appService.saveOrUpdate(app);
-		return Result.createSuccessResult();
+		return new JSONResult();
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return Result.createSuccessResult(appService.deleteById(getAjaxIds(ids)));
+	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+		return new JSONResult().setData(appService.deleteById(getAjaxIds(ids)));
 	}
 	
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)
-	public @ResponseBody Result syncPermissions(
+	public @ResponseBody JSONResult syncPermissions(
 			@ValidateParam(name = "应用编码集合", validators = { Validator.NOT_BLANK }) String codes) {
 		String[] codeArray = StringUtils.split(codes, ",");
 		for(String code : codeArray){
 			permissionSubject.update(code);
 		}
-		return Result.createSuccessResult().setMessage("权限同步成功");
+		return new JSONResult(ResultCode.SUCCESS, "权限同步成功");
 	}
 }

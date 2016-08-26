@@ -137,7 +137,7 @@
 							success : function(d) {
 								if(d){
 									treeObj.checkAllNodes(false);
-									var data = d.attach;
+									var data = d.data;
 									for(var i=0; i<data.length; i++){
 										var node = treeObj.getNodeByParam("id", data[i].permissionId, null);
 										if(node){
@@ -202,7 +202,7 @@
 					    	success : function(d) {
 								if(d){
 									treeObj.checkAllNodes(false);
-									var data = d.attach;
+									var data = d.data;
 									for(var i=0; i<data.length; i++){
 										var node = treeObj.getNodeByParam("id", data[i].permissionId, null);
 										if(node){

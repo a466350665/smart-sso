@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.enums.TrueFalseEnum;
-import com.smart.mvc.model.Result;
+import com.smart.mvc.model.JSONResult;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
@@ -50,14 +50,14 @@ public class UserRoleController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/change", method = RequestMethod.GET)
-	public @ResponseBody Result changeApp(
+	public @ResponseBody JSONResult changeApp(
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId) {
-		return Result.createSuccessResult(getRoleList(userId, appId));
+		return new JSONResult().setData(getRoleList(userId, appId));
 	}
 
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
-	public @ResponseBody Result allocateSave(
+	public @ResponseBody JSONResult allocateSave(
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId,
 			@ValidateParam(name = "角色IDS ") String roleIds) {
@@ -71,7 +71,7 @@ public class UserRoleController extends BaseController {
 			bean.setRoleId(roleId);
 			list.add(bean);
 		}
-		return Result.createSuccessResult(userRoleService.allocate(userId, appId, list), "授权成功");
+		return new JSONResult("授权成功").setData(userRoleService.allocate(userId, appId, list));
 	}
 
 	private List<Role> getRoleList(Integer userId, Integer appId) {

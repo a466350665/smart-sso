@@ -323,7 +323,7 @@
 							if(result) {
 								$.post("${_path}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
-										if(d.status == 0){
+										if(d.status == '0000'){
 											$.gritter.add({
 												text: d.message,
 												sticky: false,
