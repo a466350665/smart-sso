@@ -148,7 +148,7 @@
 					$.post("${_path}/admin/role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == '0000'){
+							if(d.status == 0){
 								window.location.href = "${_path}/admin/admin#/admin/role";
 							}
 							else {
