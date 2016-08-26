@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
@@ -61,23 +61,23 @@ public class RoleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody JSONResult list(@ValidateParam(name = "角色名") String name,
+	public @ResponseBody Result list(@ValidateParam(name = "角色名") String name,
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return JSONResult.create().setData(roleService.findPaginationByName(name, appId, new Pagination<Role>(pageNo, pageSize)));
+		return Result.create().setData(roleService.findPaginationByName(name, appId, new Pagination<Role>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody JSONResult enable(
+	public @ResponseBody Result enable(
 			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		roleService.enable(isEnable, getAjaxIds(ids));
-		return JSONResult.create();
+		return Result.create();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody JSONResult save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "角色名", validators = { Validator.NOT_BLANK }) String name,
 			@ValidateParam(name = "排序", validators = { Validator.NOT_BLANK }) Integer sort,
@@ -96,17 +96,17 @@ public class RoleController extends BaseController {
 		role.setDescription(description);
 		role.setIsEnable(isEnable);
 		roleService.saveOrUpdate(role);
-		return JSONResult.create();
+		return Result.create();
 	}
 	
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
-	public @ResponseBody JSONResult allocate(
+	public @ResponseBody Result allocate(
 			@ValidateParam(name = "角色ID", validators = { Validator.NOT_BLANK }) Integer roleId) {
-		return JSONResult.create().setData(rolePermissionService.findByRoleId(roleId));
+		return Result.create().setData(rolePermissionService.findByRoleId(roleId));
 	}
 	
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
-	public @ResponseBody JSONResult allocateSave(
+	public @ResponseBody Result allocateSave(
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "角色ID", validators = { Validator.NOT_BLANK }) Integer roleId,
 			@ValidateParam(name = "权限IDS ", validators = { Validator.NOT_BLANK }) String permissionIds) {
@@ -116,12 +116,12 @@ public class RoleController extends BaseController {
 		for (Iterator<Integer> i$ = idList.iterator(); i$.hasNext(); list.add(new RolePermission(appId, roleId, permissionId))){
 			permissionId = i$.next();
 		}
-		return JSONResult.create("授权成功").setData(rolePermissionService.allocate(roleId, list));
+		return Result.create("授权成功").setData(rolePermissionService.allocate(roleId, list));
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return JSONResult.create().setData(roleService.deleteById(getAjaxIds(ids)));
+	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+		return Result.create().setData(roleService.deleteById(getAjaxIds(ids)));
 	}
 
 	private List<App> getAppList() {

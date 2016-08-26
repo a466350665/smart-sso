@@ -6,7 +6,7 @@ package com.smart.mvc.model;
  * 
  * @author Joe
  */
-public class JSONResult {
+public class Result {
 
 	/**
 	 * 结果体
@@ -23,10 +23,10 @@ public class JSONResult {
 	 */
 	protected String message;
 
-	protected JSONResult() {
+	protected Result() {
 	}
 
-	private JSONResult(String status, String message) {
+	private Result(String status, String message) {
 		this.status = status;
 		this.message = message;
 	}
@@ -35,7 +35,7 @@ public class JSONResult {
 		return data;
 	}
 
-	public JSONResult setData(Object data) {
+	public Result setData(Object data) {
 		this.data = data;
 		return this;
 	}
@@ -56,15 +56,15 @@ public class JSONResult {
 		this.message = message;
 	}
 	
-	public static JSONResult create() {
+	public static Result create() {
 		return create(ResultCode.SUCCESS, null);
 	}
 
-	public static JSONResult create(String message) {
+	public static Result create(String message) {
 		return create(ResultCode.SUCCESS, message);
 	}
 
-	public static JSONResult create(String status, String message) {
-		return new JSONResult(status, message);
+	public static Result create(String status, String message) {
+		return new Result(status, message);
 	}
 }

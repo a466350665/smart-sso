@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
@@ -55,7 +55,7 @@ public class PermissionController extends BaseController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody JSONResult save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "应用ID", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "父ID") Integer parentId,
 			@ValidateParam(name = "图标") String icon,
@@ -79,14 +79,14 @@ public class PermissionController extends BaseController {
 		permission.setSort(sort);
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);
-		return JSONResult.create("保存成功").setData(permissionService.saveOrUpdate(permission));
+		return Result.create("保存成功").setData(permissionService.saveOrUpdate(permission));
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody JSONResult delete(
+	public @ResponseBody Result delete(
 			@ValidateParam(name = "id", validators = { Validator.NOT_BLANK }) Integer id,
 			@ValidateParam(name = "应用ID", validators = { Validator.NOT_BLANK }) Integer appId) {
-		return JSONResult.create("删除成功").setData(permissionService.deletePermission(id, appId));
+		return Result.create("删除成功").setData(permissionService.deletePermission(id, appId));
 	}
 
 	private List<App> getAppList() {

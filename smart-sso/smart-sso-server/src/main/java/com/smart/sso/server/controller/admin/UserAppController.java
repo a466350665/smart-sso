@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
@@ -43,7 +43,7 @@ public class UserAppController extends BaseController {
 	}
 
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
-	public @ResponseBody JSONResult allocateSave(
+	public @ResponseBody Result allocateSave(
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId,
 			@ValidateParam(name = "应用IDS") String appIds,
 			HttpServletRequest request) {
@@ -56,7 +56,7 @@ public class UserAppController extends BaseController {
 			bean.setUserId(userId);
 			list.add(bean);
 		}
-		return JSONResult.create("授权成功").setData(userAppService.allocate(userId, idList, list));
+		return Result.create("授权成功").setData(userAppService.allocate(userId, idList, list));
 	}
 	
 	private List<App> getAppList(Integer userId) {

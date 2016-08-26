@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
@@ -83,7 +83,7 @@ public class LoginController {
 			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account,
 			@ValidateParam(name = "密码", validators = { Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		JSONResult result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
+		Result result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));
 		if (ResultCode.ERROR.equals(result.getStatus())) {
 			request.setAttribute(Loginable.VALIDATE_MESSAGE_NAME, result.getMessage());

@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.exception.ServiceException;
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
@@ -40,8 +40,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		this.dao = dao;
 	}
 	
-	public JSONResult login(String ip, String appCode, String account, String password) {
-		JSONResult result = JSONResult.create();
+	public Result login(String ip, String appCode, String account, String password) {
+		Result result = Result.create();
 		User user = findByAccount(account);
 		if (user == null) {
 			result.setStatus(ResultCode.ERROR);
