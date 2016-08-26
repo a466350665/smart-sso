@@ -56,6 +56,10 @@ public class Result {
 		this.message = message;
 	}
 	
+	public boolean isSuccess() {
+		return ResultCode.SUCCESS.equals(status);
+	}
+	
 	public static Result create() {
 		return create(ResultCode.SUCCESS, null);
 	}

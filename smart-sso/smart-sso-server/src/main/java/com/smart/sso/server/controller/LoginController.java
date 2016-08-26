@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.smart.mvc.model.Result;
-import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.validator.Validator;
@@ -85,7 +84,7 @@ public class LoginController {
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		Result result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));
-		if (ResultCode.ERROR.equals(result.getStatus())) {
+		if (!result.isSuccess()) {
 			request.setAttribute(Loginable.VALIDATE_MESSAGE_NAME, result.getMessage());
 			request.setAttribute("backUrl", backUrl);
 			request.setAttribute("appCode", appCode);
