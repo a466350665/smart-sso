@@ -14,8 +14,8 @@
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-    </properties>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+	</properties>
 
 	<modules>
 		<module>smart-job-api</module>
