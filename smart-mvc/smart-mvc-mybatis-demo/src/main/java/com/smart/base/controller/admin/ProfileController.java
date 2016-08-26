@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.base.service.UserService;
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
+import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.rpc.AuthenticationRpcService;
@@ -38,15 +39,15 @@ public class ProfileController extends BaseController {
 	}
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
-	public @ResponseBody Result save(
+	public @ResponseBody JSONResult save(
 			@ValidateParam(name = "新密码", validators = { Validator.NOT_BLANK }) String newPassword,
 			@ValidateParam(name = "确认密码", validators = { Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
 		if (newPassword.equals(confirmPassword)
 				&& authenticationRpcService.updatePassword(
 						request.getSession().getAttribute(Permissionable.SESSION_TOKEN).toString(), newPassword))
-			return Result.createSuccessResult().setMessage("修改成功");
+			return new JSONResult(ResultCode.SUCCESS, "修改成功");
 		else
-			return Result.createErrorResult("修改失败");
+			return new JSONResult(ResultCode.ERROR, "修改失败");
 	}
 }

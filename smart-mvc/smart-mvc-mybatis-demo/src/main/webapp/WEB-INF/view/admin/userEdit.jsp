@@ -90,7 +90,7 @@
 					$.post("${_path}/admin/user/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == 0){
+							if(d.status == '0000'){
 								window.location.href = "${_path}/admin/admin#/admin/user";
 							}
 							else {
