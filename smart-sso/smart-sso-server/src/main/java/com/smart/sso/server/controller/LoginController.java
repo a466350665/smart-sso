@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.validator.Validator;
@@ -21,7 +23,6 @@ import com.smart.sso.server.common.Config;
 import com.smart.sso.server.common.KeyGenerator;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.Loginable;
-import com.smart.sso.server.common.Result;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
@@ -82,16 +83,17 @@ public class LoginController {
 			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account,
 			@ValidateParam(name = "密码", validators = { Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		Result<User> result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
+		JSONResult result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));
-		if (Result.ERROR.equals(result.getStatus())) {
+		if (ResultCode.ERROR.equals(result.getStatus())) {
 			request.setAttribute(Loginable.VALIDATE_MESSAGE_NAME, result.getMessage());
 			request.setAttribute("backUrl", backUrl);
 			request.setAttribute("appCode", appCode);
 			return Loginable.LOGIN_PATH;
 		}
 		else {
-			String token = authSuccess(response, new LoginUser(result.getData().getId(), result.getData().getAccount(), result.getData()), appCode);
+			User user = (User) result.getData();
+			String token = authSuccess(response, new LoginUser(user.getId(), user.getAccount(), user), appCode);
 			
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
 			permissionSubject.attach(appCode);

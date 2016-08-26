@@ -58,13 +58,13 @@ public class AppController extends BaseController {
 	public @ResponseBody JSONResult list(@ValidateParam(name = "名称 ") String name,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
+		return JSONResult.create().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
 	public @ResponseBody JSONResult validateCode(@ValidateParam(name = "id") Integer id,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code) {
-		JSONResult result = new JSONResult();
+		JSONResult result = JSONResult.create();
 		if (StringUtils.isNotBlank(code)) {
 			App db = appService.findByCode(code);
 			if (null != db && !db.getId().equals(id)) {
@@ -79,7 +79,7 @@ public class AppController extends BaseController {
 	public @ResponseBody JSONResult enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		appService.enable(isEnable, getAjaxIds(ids));
-		return new JSONResult();
+		return JSONResult.create();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -101,12 +101,12 @@ public class AppController extends BaseController {
 		app.setIsEnable(isEnable);
 		app.setCode(code);
 		appService.saveOrUpdate(app);
-		return new JSONResult();
+		return JSONResult.create();
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult().setData(appService.deleteById(getAjaxIds(ids)));
+		return JSONResult.create().setData(appService.deleteById(getAjaxIds(ids)));
 	}
 	
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)
@@ -116,6 +116,6 @@ public class AppController extends BaseController {
 		for(String code : codeArray){
 			permissionSubject.update(code);
 		}
-		return new JSONResult(ResultCode.SUCCESS, "权限同步成功");
+		return JSONResult.create(ResultCode.SUCCESS, "权限同步成功");
 	}
 }

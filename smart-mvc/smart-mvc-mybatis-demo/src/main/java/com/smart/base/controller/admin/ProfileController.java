@@ -46,8 +46,8 @@ public class ProfileController extends BaseController {
 		if (newPassword.equals(confirmPassword)
 				&& authenticationRpcService.updatePassword(
 						request.getSession().getAttribute(Permissionable.SESSION_TOKEN).toString(), newPassword))
-			return new JSONResult(ResultCode.SUCCESS, "修改成功");
+			return JSONResult.create(ResultCode.SUCCESS, "修改成功");
 		else
-			return new JSONResult(ResultCode.ERROR, "修改失败");
+			return JSONResult.create(ResultCode.ERROR, "修改失败");
 	}
 }

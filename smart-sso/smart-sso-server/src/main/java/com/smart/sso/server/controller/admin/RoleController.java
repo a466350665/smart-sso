@@ -65,7 +65,7 @@ public class RoleController extends BaseController {
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult().setData(roleService.findPaginationByName(name, appId, new Pagination<Role>(pageNo, pageSize)));
+		return JSONResult.create().setData(roleService.findPaginationByName(name, appId, new Pagination<Role>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
@@ -73,7 +73,7 @@ public class RoleController extends BaseController {
 			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		roleService.enable(isEnable, getAjaxIds(ids));
-		return new JSONResult();
+		return JSONResult.create();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -96,13 +96,13 @@ public class RoleController extends BaseController {
 		role.setDescription(description);
 		role.setIsEnable(isEnable);
 		roleService.saveOrUpdate(role);
-		return new JSONResult();
+		return JSONResult.create();
 	}
 	
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
 	public @ResponseBody JSONResult allocate(
 			@ValidateParam(name = "角色ID", validators = { Validator.NOT_BLANK }) Integer roleId) {
-		return new JSONResult().setData(rolePermissionService.findByRoleId(roleId));
+		return JSONResult.create().setData(rolePermissionService.findByRoleId(roleId));
 	}
 	
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
@@ -116,12 +116,12 @@ public class RoleController extends BaseController {
 		for (Iterator<Integer> i$ = idList.iterator(); i$.hasNext(); list.add(new RolePermission(appId, roleId, permissionId))){
 			permissionId = i$.next();
 		}
-		return new JSONResult("授权成功").setData(rolePermissionService.allocate(roleId, list));
+		return JSONResult.create("授权成功").setData(rolePermissionService.allocate(roleId, list));
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult().setData(roleService.deleteById(getAjaxIds(ids)));
+		return JSONResult.create().setData(roleService.deleteById(getAjaxIds(ids)));
 	}
 
 	private List<App> getAppList() {

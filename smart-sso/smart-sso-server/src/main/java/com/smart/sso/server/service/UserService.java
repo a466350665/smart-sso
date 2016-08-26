@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.shiro.authc.AuthenticationException;
 
+import com.smart.mvc.model.JSONResult;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.common.Result;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
 
@@ -30,7 +30,7 @@ public interface UserService extends Service<UserDao, User, Integer> {
 	 * @throws AuthenticationException
 	 *             认证异常
 	 */
-	public Result<User> login(String ip, String appCode, String account, String password);
+	public JSONResult login(String ip, String appCode, String account, String password);
 	
 	/**
 	 * 启用禁用操作

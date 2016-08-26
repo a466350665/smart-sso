@@ -13,10 +13,11 @@ import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.exception.ServiceException;
+import com.smart.mvc.model.JSONResult;
 import com.smart.mvc.model.Pagination;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.common.Permissible;
-import com.smart.sso.server.common.Result;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.AppService;
@@ -39,29 +40,29 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		this.dao = dao;
 	}
 	
-	public Result<User> login(String ip, String appCode, String account, String password) {
-		Result<User> result = new Result<User>();
+	public JSONResult login(String ip, String appCode, String account, String password) {
+		JSONResult result = JSONResult.create();
 		User user = findByAccount(account);
 		if (user == null) {
-			result.setStatus(Result.ERROR);
+			result.setStatus(ResultCode.ERROR);
 			result.setMessage("登录名不存在");
 		}
 		else if (!user.getPassword().equals(password)) {
-			result.setStatus(Result.ERROR);
+			result.setStatus(ResultCode.ERROR);
 			result.setMessage("密码不正确");
 		}
 		else if (TrueFalseEnum.FALSE.getValue().equals(user.getIsEnable())) {
-			result.setStatus(Result.ERROR);
+			result.setStatus(ResultCode.ERROR);
 			result.setMessage("已被管理员禁用");
 		}
 		else {
 			Set<String> set = appService.findAppCodeByUserId(TrueFalseEnum.TRUE.getValue(), user.getId());
 			if (CollectionUtils.isEmpty(set)) {
-				result.setStatus(Result.ERROR);
+				result.setStatus(ResultCode.ERROR);
 				result.setMessage("不存在可操作应用");
 			}
 			else if (!set.contains(appCode)) {
-				result.setStatus(Result.ERROR);
+				result.setStatus(ResultCode.ERROR);
 				result.setMessage("没有应用操作权限");
 			}
 			else {

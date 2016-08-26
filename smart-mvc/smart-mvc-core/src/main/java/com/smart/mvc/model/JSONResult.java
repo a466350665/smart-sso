@@ -4,7 +4,6 @@ package com.smart.mvc.model;
 /**
  * 返回结果
  * 
- * @param <T> 结果类型
  * @author Joe
  */
 public class JSONResult {
@@ -12,26 +11,22 @@ public class JSONResult {
 	/**
 	 * 结果体
 	 */
-	private Object data;
+	protected Object data;
 
 	/**
 	 * 状态码
 	 */
-	private String status = ResultCode.SUCCESS;
+	protected String status;
 
 	/**
 	 * 信息
 	 */
-	private String message;
+	protected String message;
 
-	public JSONResult() {
+	protected JSONResult() {
 	}
 
-	public JSONResult(String message) {
-		this.message = message;
-	}
-
-	public JSONResult(String status, String message) {
+	private JSONResult(String status, String message) {
 		this.status = status;
 		this.message = message;
 	}
@@ -59,5 +54,17 @@ public class JSONResult {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public static JSONResult create() {
+		return create(ResultCode.SUCCESS, null);
+	}
+
+	public static JSONResult create(String message) {
+		return create(ResultCode.SUCCESS, message);
+	}
+
+	public static JSONResult create(String status, String message) {
+		return new JSONResult(status, message);
 	}
 }

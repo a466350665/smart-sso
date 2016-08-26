@@ -50,7 +50,7 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "登录名 ") String account,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return new JSONResult().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
+		return JSONResult.create().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 		}
 		user.setAccount(account);
 		userService.saveOrUpdate(user);
-		return new JSONResult();
+		return JSONResult.create();
 	}
 
 	/**
@@ -101,6 +101,6 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return new JSONResult().setData(userService.deleteById(getAjaxIds(ids)));
+		return JSONResult.create().setData(userService.deleteById(getAjaxIds(ids)));
 	}
 }
