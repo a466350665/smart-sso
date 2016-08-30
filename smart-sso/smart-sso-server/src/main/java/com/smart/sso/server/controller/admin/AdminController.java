@@ -28,6 +28,7 @@ public class AdminController {
 	public @ResponseBody Result menu(HttpServletRequest request) {
 		Object list = request.getSession().getAttribute(Permissionable.SESSION_USER_MENU);
 		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
-		return Result.create().setData(list == null ? request.getServletContext().getAttribute(Permissionable.APPLICATION_MENU) : list);
+		return Result.createSuccessResult().setData(
+				list == null ? request.getServletContext().getAttribute(Permissionable.APPLICATION_MENU) : list);
 	}
 }

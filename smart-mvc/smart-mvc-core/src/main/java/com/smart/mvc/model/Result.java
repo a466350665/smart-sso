@@ -1,6 +1,5 @@
 package com.smart.mvc.model;
 
-
 /**
  * 返回结果
  * 
@@ -23,12 +22,79 @@ public class Result {
 	 */
 	protected String message;
 
-	protected Result() {
+	private Result() {
+		super();
 	}
 
-	private Result(String status, String message) {
+	private Result(String status) {
 		this.status = status;
-		this.message = message;
+	}
+
+	public static Result create(String status) {
+		return new Result(status);
+	}
+
+	/**
+	 * Description:创建一个成功的结果体
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-8-24下午10:05:30
+	 * @return
+	 */
+	public static Result createSuccessResult() {
+		return create(ResultCode.SUCCESS);
+	}
+
+	/**
+	 * Description:创建一个成功的结果体
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-8-24下午10:06:43
+	 * @param data
+	 *            将要返回的数据
+	 * @param message
+	 *            消息信息
+	 * @return
+	 */
+	public static Result createSuccessResult(Object data, String message) {
+		return createSuccessResult().setData(message).setMessage(message);
+	}
+
+	/**
+	 * Description:创建一个默认的错误结果体
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-8-24下午10:07:09
+	 * @return
+	 */
+	public static Result createErrorResult() {
+		return create(ResultCode.ERROR);
+	}
+
+	/**
+	 * Description:创建一个错误的结果体
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-8-24下午10:07:46
+	 * @param data
+	 *            将要返回的数据
+	 * @param message
+	 *            消息信息
+	 * @return
+	 */
+	public static Result createErrorResult(Object data, String message) {
+		return createErrorResult().setData(message).setMessage(message);
+	}
+
+	/**
+	 * Description:判断该结果体是否是处理成功状态
+	 * 
+	 * @author 唐海洋
+	 * @Version 1.0 2016-8-24下午10:08:24
+	 * @return
+	 */
+	public boolean isSuccess() {
+		return ResultCode.SUCCESS.equals(this.status);
 	}
 
 	public Object getData() {
@@ -44,31 +110,17 @@ public class Result {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public Result setStatus(String status) {
 		this.status = status;
+		return this;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public Result setMessage(String message) {
 		this.message = message;
-	}
-	
-	public boolean isSuccess() {
-		return ResultCode.SUCCESS.equals(status);
-	}
-	
-	public static Result create() {
-		return create(ResultCode.SUCCESS, null);
-	}
-
-	public static Result create(String message) {
-		return create(ResultCode.SUCCESS, message);
-	}
-
-	public static Result create(String status, String message) {
-		return new Result(status, message);
+		return this;
 	}
 }

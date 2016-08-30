@@ -41,29 +41,24 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	}
 	
 	public Result login(String ip, String appCode, String account, String password) {
-		Result result = Result.create();
+		Result result = Result.createSuccessResult();
 		User user = findByAccount(account);
 		if (user == null) {
-			result.setStatus(ResultCode.ERROR);
-			result.setMessage("登录名不存在");
+			result.setStatus(ResultCode.ERROR).setMessage("登录名不存在");
 		}
 		else if (!user.getPassword().equals(password)) {
-			result.setStatus(ResultCode.ERROR);
-			result.setMessage("密码不正确");
+			result.setStatus(ResultCode.ERROR).setMessage("密码不正确");
 		}
 		else if (TrueFalseEnum.FALSE.getValue().equals(user.getIsEnable())) {
-			result.setStatus(ResultCode.ERROR);
-			result.setMessage("已被管理员禁用");
+			result.setStatus(ResultCode.ERROR).setMessage("已被管理员禁用");
 		}
 		else {
 			Set<String> set = appService.findAppCodeByUserId(TrueFalseEnum.TRUE.getValue(), user.getId());
 			if (CollectionUtils.isEmpty(set)) {
-				result.setStatus(ResultCode.ERROR);
-				result.setMessage("不存在可操作应用");
+				result.setStatus(ResultCode.ERROR).setMessage("不存在可操作应用");
 			}
 			else if (!set.contains(appCode)) {
-				result.setStatus(ResultCode.ERROR);
-				result.setMessage("没有应用操作权限");
+				result.setStatus(ResultCode.ERROR).setMessage("没有应用操作权限");
 			}
 			else {
 				user.setLastLoginIp(ip);

@@ -71,7 +71,7 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return Result.create().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
+		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
@@ -79,12 +79,11 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "id", validators = { Validator.NOT_BLANK }) Integer id,
 			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account,
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId) {
-		Result result = Result.create();
+		Result result = Result.createSuccessResult();
 		if (StringUtils.isNotBlank(account)) {
 			User user = userService.findByAccount(account);
 			if (null != user && !user.getId().equals(id)) {
-				result.setStatus(ResultCode.ERROR);
-				result.setMessage("登录名已存在");
+				result.setStatus(ResultCode.ERROR).setMessage("登录名已存在");
 			}
 		}
 		return result;
@@ -94,7 +93,7 @@ public class UserController extends BaseController {
 	public @ResponseBody Result enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		userService.enable(isEnable, getAjaxIds(ids));
-		return Result.create();
+		return Result.createSuccessResult();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -119,19 +118,19 @@ public class UserController extends BaseController {
 		}
 		user.setIsEnable(isEnable);
 		userService.saveOrUpdate(user);
-		return Result.create();
+		return Result.createSuccessResult();
 	}
 
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public @ResponseBody Result resetPassword(
 			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
 		userService.resetPassword(PasswordProvider.encrypt(ConfigUtils.getProperty("system.init.password")), getAjaxIds(ids));
-		return Result.create();
+		return Result.createSuccessResult();
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return Result.create().setData(userService.deleteById(getAjaxIds(ids)));
+		return Result.createSuccessResult().setData(userService.deleteById(getAjaxIds(ids)));
 	}
 
 	private List<App> getAppList() {

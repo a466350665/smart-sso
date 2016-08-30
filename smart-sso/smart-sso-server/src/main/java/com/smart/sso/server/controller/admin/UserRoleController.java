@@ -53,7 +53,7 @@ public class UserRoleController extends BaseController {
 	public @ResponseBody Result changeApp(
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId) {
-		return Result.create().setData(getRoleList(userId, appId));
+		return Result.createSuccessResult().setData(getRoleList(userId, appId));
 	}
 
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)

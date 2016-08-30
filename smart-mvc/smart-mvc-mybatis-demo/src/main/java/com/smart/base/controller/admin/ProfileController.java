@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.base.service.UserService;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
-import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.rpc.AuthenticationRpcService;
@@ -46,8 +45,8 @@ public class ProfileController extends BaseController {
 		if (newPassword.equals(confirmPassword)
 				&& authenticationRpcService.updatePassword(
 						request.getSession().getAttribute(Permissionable.SESSION_TOKEN).toString(), newPassword))
-			return Result.create(ResultCode.SUCCESS, "修改成功");
+			return Result.createSuccessResult().setMessage("修改成功");
 		else
-			return Result.create(ResultCode.ERROR, "修改失败");
+			return Result.createErrorResult().setMessage("修改失败");
 	}
 }
