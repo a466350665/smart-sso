@@ -79,14 +79,14 @@ public class PermissionController extends BaseController {
 		permission.setSort(sort);
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);
-		return Result.create("保存成功").setData(permissionService.saveOrUpdate(permission));
+		return Result.createSuccessResult(permissionService.saveOrUpdate(permission), "保存成功");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(
 			@ValidateParam(name = "id", validators = { Validator.NOT_BLANK }) Integer id,
 			@ValidateParam(name = "应用ID", validators = { Validator.NOT_BLANK }) Integer appId) {
-		return Result.create("删除成功").setData(permissionService.deletePermission(id, appId));
+		return Result.createSuccessResult(permissionService.deletePermission(id, appId), "删除成功");
 	}
 
 	private List<App> getAppList() {

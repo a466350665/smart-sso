@@ -116,7 +116,7 @@ public class RoleController extends BaseController {
 		for (Iterator<Integer> i$ = idList.iterator(); i$.hasNext(); list.add(new RolePermission(appId, roleId, permissionId))) {
 			permissionId = i$.next();
 		}
-		return Result.createSuccessResult().setData(rolePermissionService.allocate(roleId, list)).setMessage("授权成功");
+		return Result.createSuccessResult(rolePermissionService.allocate(roleId, list), "授权成功");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
