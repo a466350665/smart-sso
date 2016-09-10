@@ -160,14 +160,14 @@
 	        
 			<!-- AOP支持 -->
 			<dependency>
-			    <groupId>org.aspectj</groupId>
-			    <artifactId>aspectjrt</artifactId>
-			    <version>1.8.9</version>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.8.9</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.aspectj</groupId>
-			    <artifactId>aspectjweaver</artifactId>
-			    <version>1.8.9</version>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.8.9</version>
 			</dependency>
 			
 			<!-- ehcache缓存 -->
@@ -220,7 +220,7 @@
 			</dependency>
 			
 			<!-- 阿里巴巴数据连接池 -->
-	        <dependency>
+			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>${druid.version}</version>
