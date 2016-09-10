@@ -233,28 +233,28 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>ch.qos.logback</groupId>
-			    <artifactId>logback-core</artifactId>
-			    <version>${logback.version}</version>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>ch.qos.logback</groupId>
-			    <artifactId>logback-classic</artifactId>
-			    <version>${logback.version}</version>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
 			</dependency>
 			
 			<!-- 日志桥接，Spring中commons-logging替换为logback -->
 			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>jcl-over-slf4j</artifactId>
-			    <version>${jcl.version}</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${jcl.version}</version>
 			</dependency>
 			
 			<!-- java发送邮件 -->
 			<dependency>
-			    <groupId>javax.mail</groupId>
-			    <artifactId>mail</artifactId>
-			    <version>${mail.version}</version>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${mail.version}</version>
 			</dependency>
 			
 			<!-- shiro权限 -->
