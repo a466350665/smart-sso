@@ -7,9 +7,9 @@ import javax.jms.TextMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.smart.mvc.config.ConfigUtils;
-import com.smart.mvc.util.SpringUtils;
 
 /**
  * 权限变更消息监听
@@ -17,7 +17,11 @@ import com.smart.mvc.util.SpringUtils;
  * @author Joe
  */
 public class PermissionJmsListener implements MessageListener {
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionJmsListener.class);
+	
+	@Autowired
+	private SsoRealm ssoRealm;
 
 	@Override
 	public void onMessage(Message message) {
@@ -30,9 +34,8 @@ public class PermissionJmsListener implements MessageListener {
 		}
 
 		if (ConfigUtils.getProperty("app.code").equals(appCode)) {
-			SsoRealm realm = SpringUtils.getBean(SsoRealm.class);
-			realm.clearApplicationPermissions();
-			realm.clearAllCachedAuthorizationInfo();
+			ssoRealm.clearApplicationPermissions();
+			ssoRealm.clearAllCachedAuthorizationInfo();
 			LOGGER.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}

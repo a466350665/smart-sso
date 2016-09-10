@@ -134,10 +134,6 @@ public class UserController extends BaseController {
 	}
 
 	private List<App> getAppList() {
-		List<App> appList = null;
-		if (appList == null) {
-			appList = appService.findByAll(null);
-		}
-		return appList;
+		return appService.findByAll(null);
 	}
 }

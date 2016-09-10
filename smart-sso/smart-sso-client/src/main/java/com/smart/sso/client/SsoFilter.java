@@ -32,21 +32,7 @@ public class SsoFilter extends AuthenticatingFilter {
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		
-		Subject subject = getSubject(request, response);
-		if (subject != null && subject.isAuthenticated()) {
-			// 如果用户已经认证通过，直接跳转
-			issueSuccessRedirect(request, response);
-			return false;
-		}
-		else {
-			return executeLogin(request, response);
-		}
-	}
-
-	@Override
-	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		return false;
+		return executeLogin(request, response);
 	}
 
 	@Override

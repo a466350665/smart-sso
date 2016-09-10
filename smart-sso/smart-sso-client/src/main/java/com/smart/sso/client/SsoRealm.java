@@ -21,9 +21,9 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.web.subject.WebSubject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.smart.mvc.config.ConfigUtils;
-import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.Menu;
 import com.smart.sso.rpc.Permissionable;
@@ -42,6 +42,9 @@ public class SsoRealm extends AuthorizingRealm {
 	 */
 	private volatile boolean allPermissionSetChanged = false;
 	private final Object allPermissionSetChangedMonitor = new Object();
+	
+	@Autowired
+	private AuthenticationRpcService authenticationRpcService;
 
 	public SsoRealm() {
 		setAuthenticationTokenClass(SsoToken.class);
@@ -53,7 +56,6 @@ public class SsoRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		SsoToken ssoToken = (SsoToken) token;
-		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
 		RpcUser rpcUser = authenticationRpcService.findAuthInfo(ssoToken.getCredentials().toString(),
 				ConfigUtils.getProperty("app.code"));
 		if (rpcUser != null) {
@@ -98,7 +100,6 @@ public class SsoRealm extends AuthorizingRealm {
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<String> invokePermissionInSession(String token) {
-		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
 		List<Menu> dbList = authenticationRpcService.findPermissionList(token, ConfigUtils.getProperty("app.code"));
 
 		List<Menu> menuList = new ArrayList<Menu>();

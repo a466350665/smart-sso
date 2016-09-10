@@ -6,8 +6,8 @@ import javax.servlet.ServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 
 /**
@@ -16,10 +16,12 @@ import com.smart.sso.rpc.AuthenticationRpcService;
  * @author Joe
  */
 public class SsoLogoutFilter extends LogoutFilter {
+	
+	@Autowired
+	private AuthenticationRpcService authenticationRpcService;
 
 	@Override
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
 		Subject subject = SecurityUtils.getSubject();
 		if (subject != null && !authenticationRpcService.validate(subject.getPrincipal().toString())) {
 			String redirectUrl = getRedirectUrl(request, response, subject);
