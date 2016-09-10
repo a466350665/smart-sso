@@ -138,39 +138,39 @@
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-jdbc</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-context-support</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-jms</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
+				<version>${spring.version}</version>
+			</dependency>
 	        
-	        <!-- AOP支持 -->
-	        <dependency>
+			<!-- AOP支持 -->
+			<dependency>
 			    <groupId>org.aspectj</groupId>
 			    <artifactId>aspectjrt</artifactId>
 			    <version>1.8.9</version>
 			</dependency>
-	        <dependency>
+			<dependency>
 			    <groupId>org.aspectj</groupId>
 			    <artifactId>aspectjweaver</artifactId>
 			    <version>1.8.9</version>
 			</dependency>
 			
-	        <!-- ehcache缓存 -->
+			<!-- ehcache缓存 -->
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache</artifactId>
@@ -200,10 +200,10 @@
 			
 			<!-- hibernate/spring包 -->
 			<dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-orm</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 			
 			<!-- IO操作 -->
 			<dependency>
