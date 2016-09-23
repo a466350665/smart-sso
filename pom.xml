@@ -33,6 +33,7 @@
 		<junit.version>4.12</junit.version>
 		
 		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring-redis.version>1.2.2.RELEASE</spring-redis.version>
 		<aspectj.version>1.8.9</aspectj.version>
 		<jta.version>1.1</jta.version>
 		<quartz.version>2.2.1</quartz.version>
@@ -43,7 +44,6 @@
 		<freemarker.version>2.3.23</freemarker.version>
 		<druid.version>1.0.15</druid.version>
 		<mysql.version>5.1.36</mysql.version>
-		<shiro.version>1.2.4</shiro.version>
 		<fastjson.version>1.2.7</fastjson.version>
 		<xstream.version>1.4.8</xstream.version>
 		<dom4j.version>1.6.1</dom4j.version>
@@ -158,7 +158,12 @@
 				<artifactId>spring-jms</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-	        
+	        <dependency>
+			    <groupId>org.springframework.session</groupId>
+			    <artifactId>spring-session-data-redis</artifactId>
+			    <version>${spring-redis.version}</version>
+			</dependency>
+			
 			<!-- AOP支持 -->
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -256,28 +261,6 @@
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
 				<version>${mail.version}</version>
-			</dependency>
-			
-			<!-- shiro权限 -->
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-core</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-web</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-spring</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-ehcache</artifactId>
-				<version>${shiro.version}</version>
 			</dependency>
 			
 			<!-- Json处理 -->
