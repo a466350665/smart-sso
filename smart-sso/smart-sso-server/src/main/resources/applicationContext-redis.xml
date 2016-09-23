@@ -17,11 +17,19 @@
 		<property name="poolConfig" ref="jedisPoolConfig" />
 	</bean>
 	
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<property name="maxInactiveIntervalInSeconds" value="${sso.timeout}" />
+	</bean>
+	
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+	</bean>
+	
+	<bean id="redisCache" class="com.smart.mvc.cache.RedisCache">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
+	
 	<bean id="tokenManager" class="com.smart.sso.server.common.TokenManager">
 		<property name="tokenTimeout" value="${sso.timeout}" />
-	</bean>
-		   
-	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-		<property name="maxInactiveIntervalInSeconds" value="${sso.timeout}"></property>
 	</bean>
 </beans>
