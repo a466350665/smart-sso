@@ -14,8 +14,8 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
+import com.smart.sso.client.ApplicationUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
-import com.smart.sso.rpc.Permissionable;
 
 /**
  * 管理员管理
@@ -33,7 +33,7 @@ public class ProfileController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model, HttpServletRequest request) {
-		model.addAttribute("user", request.getSession().getAttribute(Permissionable.SESSION_PROFILE));
+		model.addAttribute("user", ApplicationUtils.getSessionUser(request).getProfile());
 		return "/admin/profile";
 	}
 
@@ -43,8 +43,8 @@ public class ProfileController extends BaseController {
 			@ValidateParam(name = "确认密码", validators = { Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
 		if (newPassword.equals(confirmPassword)
-				&& authenticationRpcService.updatePassword(
-						request.getSession().getAttribute(Permissionable.SESSION_TOKEN).toString(), newPassword))
+				&& authenticationRpcService.updatePassword(ApplicationUtils.getSessionUser(request).getToken(),
+						newPassword))
 			return Result.createSuccessResult().setMessage("修改成功");
 		else
 			return Result.createErrorResult().setMessage("修改失败");
