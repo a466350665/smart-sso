@@ -17,8 +17,7 @@ import org.springframework.util.StringUtils;
 import com.smart.mvc.config.ConfigUtils;
 import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
-import com.smart.sso.rpc.Menu;
-import com.smart.sso.rpc.Permissionable;
+import com.smart.sso.rpc.RpcPermission;
 
 /**
  * 权限初始化
@@ -28,7 +27,7 @@ import com.smart.sso.rpc.Permissionable;
 public class PermissionListener implements ServletContextListener{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionListener.class);
-
+	
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 	}
@@ -45,17 +44,17 @@ public class PermissionListener implements ServletContextListener{
 	 */
 	public static void initApplicationPermissions(ServletContext servletContext) {
 		AuthenticationRpcService authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class);
-		List<Menu> dbList = null;
+		List<RpcPermission> dbList = null;
 		try {
 			dbList = authenticationRpcService.findPermissionList(null, ConfigUtils.getProperty("app.code"));
 		}
 		catch (Exception e) {
-			dbList = new ArrayList<Menu>(0);
+			dbList = new ArrayList<RpcPermission>(0);
 			LOGGER.error("无法连接到单点登录鉴权系统,请检查service.properties中sso.local.url配置", e);
 		}
-		List<Menu> menuList = new ArrayList<Menu>();
+		List<RpcPermission> menuList = new ArrayList<RpcPermission>();
 		Set<String> operateSet = new HashSet<String>();
-		for (Menu menu : dbList) {
+		for (RpcPermission menu : dbList) {
 			if (menu.getIsMenu()) {
 				menuList.add(menu);
 			}
@@ -63,8 +62,8 @@ public class PermissionListener implements ServletContextListener{
 				operateSet.add(menu.getUrl());
 			}
 		}
-		servletContext.setAttribute(Permissionable.APPLICATION_MENU, menuList);
-		servletContext.setAttribute(Permissionable.APPLICATION_PERMISSION, operateSet);
+		ApplicationUtils.setApplicationMenu(servletContext, menuList);
+		ApplicationUtils.setApplicationPermission(servletContext, operateSet);
 	}
 
 	public void sessionDestroyed(HttpSessionEvent arg0) {
