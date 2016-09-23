@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class RpcUser implements Serializable {
 
 	private static final long serialVersionUID = 4507869346123296527L;
-
+	
 	// 登录成功用户名
 	private String userName;
 	// 登录对象

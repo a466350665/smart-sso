@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class Menu implements Serializable {
+public class RpcPermission implements Serializable {
 
 	private static final long serialVersionUID = 6413358335961655343L;
 

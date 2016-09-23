@@ -28,7 +28,7 @@ public interface AuthenticationRpcService {
 	 *            应用编码
 	 * @return
 	 */
-	public RpcUser findAuthInfo(String token, String appCode);
+	public RpcUser findAuthInfo(String token);
 	
 	/**
 	 * 获取当前应用所有权限(含菜单)
@@ -39,7 +39,7 @@ public interface AuthenticationRpcService {
 	 *            应用编码
 	 * @return
 	 */
-	public List<Menu> findPermissionList(String token, String appCode);
+	public List<RpcPermission> findPermissionList(String token, String appCode);
 	
 	/**
 	 * 更新当前登录用户密码
