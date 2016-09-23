@@ -49,6 +49,12 @@
 			<artifactId>fastjson</artifactId>
 		</dependency>
 		
+		<!-- ehcache缓存 -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+		
 		<!-- 日志 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
