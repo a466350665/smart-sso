@@ -10,10 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.mvc.util.SpringUtils;
-
 /**
- * 存储VT_USER信息，并提供操作方法
+ * 存储tokenUser信息，并提供操作方法
  * 
  * @author Joe
  */
@@ -21,21 +19,25 @@ public class TokenManager {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(TokenManager.class);
 
-	private static final Timer timer = new Timer(true);
-	private static final Config config = SpringUtils.getBean(Config.class);
+	private final Timer timer = new Timer(true);
 
-	static {
+	// 令牌有效期，单位为秒，默认30分钟
+	private int tokenTimeout = 1800;
+	// 令牌存储结构
+	private final Map<String, DummyUser> tokenMap = new ConcurrentHashMap<String, TokenManager.DummyUser>();
+
+	// 避免静态类被实例化
+	public TokenManager() {
 		timer.schedule(new TimerTask() {
-
 			@Override
 			public void run() {
-				for (Entry<String, DummyUser> entry : DATA_MAP.entrySet()) {
+				for (Entry<String, DummyUser> entry : tokenMap.entrySet()) {
 					String token = entry.getKey();
 					DummyUser dummyUser = entry.getValue();
 					// 当前时间大于过期时间
 					if (new Date().compareTo(dummyUser.expired) > 0) {
 						// 已过期，清除对应token
-						DATA_MAP.remove(token);
+						tokenMap.remove(token);
 						LOGGER.debug("token : " + token + "已失效");
 					}
 				}
@@ -43,29 +45,16 @@ public class TokenManager {
 		}, 60 * 1000, 60 * 1000);
 	}
 
-	// 避免静态类被实例化
-	private TokenManager() {
-	}
-
-	// 复合结构体，含loginUser与过期时间expried两个成员
-	private static class DummyUser {
-		private LoginUser loginUser;
-		private Date expired; // 过期时间
-	}
-
-	// 令牌存储结构
-	private static final Map<String, DummyUser> DATA_MAP = new ConcurrentHashMap<String, TokenManager.DummyUser>();
-
 	/**
 	 * 验证令牌有效性,有效则延长session生命周期
 	 * 
 	 * @param token
 	 * @return
 	 */
-	public static LoginUser validate(String token) {
-		DummyUser dummyUser = DATA_MAP.get(token);
+	public LoginUser validate(String token) {
+		DummyUser dummyUser = tokenMap.get(token);
 		if (dummyUser != null) {
-			dummyUser.expired = new Date(new Date().getTime() + config.getTokenTimeout() * 60 * 1000);
+			dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
 		}
 		return dummyUser == null ? null : dummyUser.loginUser;
 	}
@@ -76,16 +65,26 @@ public class TokenManager {
 	 * @param token
 	 * @param loginUser
 	 */
-	public static void addToken(String token, LoginUser loginUser) {
+	public void addToken(String token, LoginUser loginUser) {
 		DummyUser dummyUser = new DummyUser();
 		dummyUser.loginUser = loginUser;
-		dummyUser.expired = new Date(new Date().getTime() + config.getTokenTimeout() * 60 * 1000);
-		DATA_MAP.put(token, dummyUser);
+		dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
+		tokenMap.put(token, dummyUser);
 	}
 
-	public static void remove(String token) {
+	public void remove(String token) {
 		if (token != null) {
-			DATA_MAP.remove(token);
+			tokenMap.remove(token);
 		}
+	}
+
+	// 复合结构体，含loginUser与过期时间expried两个成员
+	private class DummyUser {
+		private LoginUser loginUser;
+		private Date expired; // 过期时间
+	}
+
+	public void setTokenTimeout(int tokenTimeout) {
+		this.tokenTimeout = tokenTimeout;
 	}
 }

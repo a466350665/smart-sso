@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.mvc.exception.ServiceException;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
-import com.smart.sso.rpc.Menu;
+import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
@@ -78,7 +78,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		return dao.deleteByAppIds(idList);
 	}
 
-	public List<Menu> findListById(String appCode, Integer userId) {
+	public List<RpcPermission> findListById(String appCode, Integer userId) {
 		return dao.findListById(appCode, userId);
 	}
 }

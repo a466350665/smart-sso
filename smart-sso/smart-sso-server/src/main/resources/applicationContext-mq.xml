@@ -24,7 +24,7 @@
 
 	<!-- Spring Caching连接工厂 -->
 	<!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
-	<bean id="connectionFactory"
+	<bean id="jmsConnectionFactory"
 		class="org.springframework.jms.connection.CachingConnectionFactory">
 		<!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
 		<property name="targetConnectionFactory" ref="amqConnectionFactory"></property>
@@ -34,7 +34,7 @@
 
 	<!-- Spring JmsTemplate 的消息生产者 -->
 	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<constructor-arg ref="connectionFactory" />
+		<constructor-arg ref="jmsConnectionFactory" />
 		<property name="pubSubDomain" value="false" />
 	</bean>
 	<!--Spring JmsTemplate 的消息生产者 -->
@@ -42,7 +42,7 @@
 	<!-- 消息消费者 start-->
 	<bean id="permissionJmsListener" class="com.smart.sso.client.PermissionJmsListener" />
 	
-    <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+    <jms:listener-container destination-type="queue" container-type="default" connection-factory="jmsConnectionFactory" acknowledge="auto">
         <jms:listener destination="${mq.permission.queue.prefix}${app.code}" ref="permissionJmsListener"/>
     </jms:listener-container>
     <!-- 消息消费者 end -->

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.smart.mvc.dao.mybatis.Dao;
-import com.smart.sso.rpc.Menu;
+import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -23,5 +23,5 @@ public interface PermissionDao extends Dao<Permission, Integer> {
 	
 	public int deleteByAppIds(@Param("idList") List<Integer> idList);
 	
-	public List<Menu> findListById(@Param("appCode") String appCode, @Param("userId") Integer userId);
+	public List<RpcPermission> findListById(@Param("appCode") String appCode, @Param("userId") Integer userId);
 }

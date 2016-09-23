@@ -3,7 +3,7 @@ package com.smart.sso.server.service;
 import java.util.List;
 
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.rpc.Menu;
+import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
 
@@ -51,5 +51,5 @@ public interface PermissionService extends Service<PermissionDao, Permission, In
 	 * @param userId 管理员ID
 	 * @return
 	 */
-	public List<Menu> findListById(String appCode, Integer userId);
+	public List<RpcPermission> findListById(String appCode, Integer userId);
 }

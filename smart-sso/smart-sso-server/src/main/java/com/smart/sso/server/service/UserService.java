@@ -2,8 +2,6 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
-import org.apache.shiro.authc.AuthenticationException;
-
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;

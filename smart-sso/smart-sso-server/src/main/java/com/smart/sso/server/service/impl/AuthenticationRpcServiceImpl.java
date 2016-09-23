@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.sso.rpc.AuthenticationRpcService;
-import com.smart.sso.rpc.Menu;
+import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.rpc.RpcUser;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.TokenManager;
@@ -25,15 +25,17 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	private PermissionService permissionService;
 	@Resource
 	private UserService userService;
+	@Resource
+	private TokenManager tokenManager;
 
 	@Override
 	public boolean validate(String token) {
-		return TokenManager.validate(token) != null;
+		return tokenManager.validate(token) != null;
 	}
 	
 	@Override
-	public RpcUser findAuthInfo(String token, String appCode) {
-		LoginUser user = TokenManager.validate(token);
+	public RpcUser findAuthInfo(String token) {
+		LoginUser user = tokenManager.validate(token);
 		if (user != null) {
 			return new RpcUser(user.getUserName(), user.getProfile());
 		}
@@ -41,24 +43,24 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	}
 	
 	@Override
-	public List<Menu> findPermissionList(String token, String appCode) {
+	public List<RpcPermission> findPermissionList(String token, String appCode) {
 		if (StringUtils.isBlank(token)) {
 			return permissionService.findListById(appCode, null);
 		}
 		else {
-			LoginUser user = TokenManager.validate(token);
+			LoginUser user = tokenManager.validate(token);
 			if (user != null) {
 				return permissionService.findListById(appCode, user.getUserId());
 			}
 			else {
-				return new ArrayList<Menu>(0);
+				return new ArrayList<RpcPermission>(0);
 			}
 		}
 	}
 	
 	@Override
 	public boolean updatePassword(String token, String newPassword) {
-		LoginUser loginUser = TokenManager.validate(token);
+		LoginUser loginUser = tokenManager.validate(token);
 		if (loginUser != null) {
 			User user = userService.get(loginUser.getUserId());
 			user.setPassword(PasswordProvider.encrypt(newPassword));

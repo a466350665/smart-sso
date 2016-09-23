@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.model.Result;
-import com.smart.sso.rpc.Permissionable;
+import com.smart.sso.client.ApplicationUtils;
+import com.smart.sso.client.SessionPermission;
 
 /**
  * 首页管理
@@ -26,9 +27,9 @@ public class AdminController {
 
 	@RequestMapping(value = "menu", method = RequestMethod.GET)
 	public @ResponseBody Result menu(HttpServletRequest request) {
-		Object list = request.getSession().getAttribute(Permissionable.SESSION_USER_MENU);
+		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
 		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
 		return Result.createSuccessResult().setData(
-				list == null ? request.getServletContext().getAttribute(Permissionable.APPLICATION_MENU) : list);
+				sessionPermission == null ? ApplicationUtils.getApplicationPermission(request) : sessionPermission.getMenuList());
 	}
 }

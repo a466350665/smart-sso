@@ -19,18 +19,15 @@
     
     <aop:aspectj-autoproxy/>
     
-    <bean id="config" class="com.smart.sso.server.common.Config">
-		<property name="loginViewName" value="/WEB-INF/view/login.jsp" />
-		<!-- 令牌有效期，单位为分钟，默认30分钟  -->
-		<property name="tokenTimeout" value="15" />
-	</bean>
-	
 	<bean class="com.smart.mvc.config.ConfigUtils">
     	<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
+				<!--数据库参数配置-->
 				<value>classpath:jdbc.properties</value>
+				<!--远程服务参数配置-->
 				<value>classpath:service.properties</value>
+				<!--当前应用参数配置-->
 				<value>classpath:config.properties</value>
 			</list>
 		</property>

@@ -13,6 +13,22 @@
 	<!-- Controller扫描包 -->
 	<context:component-scan base-package="com.smart.sso.server.controller" />
 	
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- SSO拦截 -->
+		<mvc:interceptor>
+	        <mvc:mapping path="/admin/**"/>
+	        <bean class="com.smart.sso.client.SsoInterceptor" />
+	    </mvc:interceptor>
+	    <!-- 权限拦截 -->
+		<mvc:interceptor>
+	        <mvc:mapping path="/admin/**"/>
+	        <bean class="com.smart.sso.client.PermissionInterceptor">
+				<property name="unauthorizedUrl" value="/common/common/noPermission" />
+	        </bean>
+	    </mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 自定义Json解析器 -->
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>

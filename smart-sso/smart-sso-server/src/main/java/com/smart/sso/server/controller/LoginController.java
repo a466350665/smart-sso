@@ -13,20 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.smart.mvc.model.Result;
+import com.smart.mvc.provider.IdProvider;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.rpc.Permissionable;
-import com.smart.sso.server.common.Config;
-import com.smart.sso.server.common.KeyGenerator;
+import com.smart.sso.client.ApplicationUtils;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.Loginable;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.service.impl.PermissionSubject;
-import com.smart.sso.server.util.ApplicationUtils;
 import com.smart.util.StringUtils;
 
 /**
@@ -39,7 +37,7 @@ import com.smart.util.StringUtils;
 public class LoginController {
 
 	@Resource
-	private Config config;
+	private TokenManager tokenManager;
 	@Resource
 	private UserService userService;
 	@Resource
@@ -56,11 +54,11 @@ public class LoginController {
 			return Loginable.LOGIN_PATH;
 		}
 		else {
-			LoginUser loginUser = TokenManager.validate(token);
+			LoginUser loginUser = tokenManager.validate(token);
 			if (loginUser != null) {
 				// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
 				permissionSubject.attach(appCode);
-				
+
 				if (StringUtils.isBlank(backUrl)) {
 					return Loginable.LOGIN_SUCCESS_PATH;
 				}
@@ -92,11 +90,11 @@ public class LoginController {
 		}
 		else {
 			User user = (User) result.getData();
-			String token = authSuccess(response, new LoginUser(user.getId(), user.getAccount(), user), appCode);
-			
+			String token = createToken(response, new LoginUser(user.getId(), user.getAccount(), user));
+
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
 			permissionSubject.attach(appCode);
-			
+
 			// 4 跳转到原请求
 			if (StringUtils.isBlank(backUrl)) {
 				return Loginable.LOGIN_SUCCESS_PATH;
@@ -124,22 +122,16 @@ public class LoginController {
 		else {
 			sbf.append("?");
 		}
-		sbf.append(Permissionable.SSO_TOKEN_NAME).append("=").append(token);
+		sbf.append(ApplicationUtils.SSO_TOKEN_NAME).append("=").append(token);
 		return sbf.toString();
 	}
 
-	// 授权成功后的操作
-	private String authSuccess(HttpServletResponse response, LoginUser loginUser, String appCode) {
-		return createToken(response, loginUser);
-	}
-	
-	
 	private String createToken(HttpServletResponse response, LoginUser loginUser) {
 		// 生成token
-		String token = KeyGenerator.generate();
+		String token = IdProvider.createUUIDId();
 
 		// 缓存中添加token对应User
-		TokenManager.addToken(token, loginUser);
+		tokenManager.addToken(token, loginUser);
 
 		// Cookie添加token
 		Cookie cookie = new Cookie("token", token);
