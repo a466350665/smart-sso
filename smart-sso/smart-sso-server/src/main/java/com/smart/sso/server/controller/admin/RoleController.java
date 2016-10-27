@@ -116,12 +116,14 @@ public class RoleController extends BaseController {
 		for (Iterator<Integer> i$ = idList.iterator(); i$.hasNext(); list.add(new RolePermission(appId, roleId, permissionId))) {
 			permissionId = i$.next();
 		}
-		return Result.createSuccessResult(rolePermissionService.allocate(roleId, list), "授权成功");
+		rolePermissionService.allocate(roleId, list);
+		return Result.createSuccessResult().setMessage("授权成功");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return Result.createSuccessResult().setData(roleService.deleteById(getAjaxIds(ids)));
+		roleService.deleteById(getAjaxIds(ids));
+		return Result.createSuccessResult();
 	}
 
 	private List<App> getAppList() {

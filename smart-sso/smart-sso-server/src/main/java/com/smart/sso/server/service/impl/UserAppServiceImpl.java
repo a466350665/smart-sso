@@ -29,21 +29,21 @@ public class UserAppServiceImpl extends ServiceImpl<UserAppDao, UserApp, Integer
 	
 	@Permissible
 	@Transactional
-	public int allocate(Integer userId, List<Integer> idList, List<UserApp> list) {
+	public void allocate(Integer userId, List<Integer> idList, List<UserApp> list) {
 		userRoleService.deleteForChangeApp(userId, idList);
 		dao.deleteByUserIds(Arrays.asList(userId));
-		return super.save(list);
+		super.save(list);
 	}
 	
 	public UserApp findByUserAppId(Integer userId, Integer roleId) {
 		return dao.findByUserAppId(userId, roleId);
 	}
 	
-	public int deleteByUserIds(List<Integer> idList) {
-		return dao.deleteByUserIds(idList);
+	public void deleteByUserIds(List<Integer> idList) {
+		dao.deleteByUserIds(idList);
 	}
 	
-	public int deleteByAppIds(List<Integer> idList) {
-		return dao.deleteByAppIds(idList);
+	public void deleteByAppIds(List<Integer> idList) {
+		dao.deleteByAppIds(idList);
 	}
 }

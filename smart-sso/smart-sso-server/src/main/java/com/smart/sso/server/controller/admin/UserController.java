@@ -130,7 +130,8 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return Result.createSuccessResult().setData(userService.deleteById(getAjaxIds(ids)));
+		userService.deleteById(getAjaxIds(ids));
+		return Result.createSuccessResult();
 	}
 
 	private List<App> getAppList() {

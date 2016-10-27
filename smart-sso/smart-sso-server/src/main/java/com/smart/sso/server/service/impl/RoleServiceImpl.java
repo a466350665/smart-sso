@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smart.mvc.exception.ServiceException;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.common.Permissible;
@@ -34,14 +33,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role, Integer> impleme
 	
 	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
-		int rows = dao.enable(isEnable, idList);
-		if (rows != idList.size())
-			throw new ServiceException("启用/禁用有误");
+		verifyRows(dao.enable(isEnable, idList), idList.size(), "角色数据库更新失败");
 	}
 	
 	@Permissible
-	public int saveOrUpdate(Role t) {
-		return super.saveOrUpdate(t);
+	public void saveOrUpdate(Role t) {
+		super.saveOrUpdate(t);
 	}
 
 	public Pagination<Role> findPaginationByName(String name, Integer appId, Pagination<Role> p) {
@@ -57,16 +54,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role, Integer> impleme
 	
 	@Permissible
 	@Transactional
-	public int deleteById(List<Integer> idList) {
+	public void deleteById(List<Integer> idList) {
 		userRoleService.deleteByRoleIds(idList);
 		rolePermissionService.deleteByRoleIds(idList);
-		int rows = dao.deleteById(idList);
-		if (rows != idList.size())
-			throw new ServiceException("权限删除有误");
-		return rows;
+		verifyRows(dao.deleteById(idList), idList.size(), "角色数据库删除失败");
 	}
 	
-	public int deleteByAppIds(List<Integer> idList) {
-		return dao.deleteByAppIds(idList);
+	public void deleteByAppIds(List<Integer> idList) {
+		dao.deleteByAppIds(idList);
 	}
 }

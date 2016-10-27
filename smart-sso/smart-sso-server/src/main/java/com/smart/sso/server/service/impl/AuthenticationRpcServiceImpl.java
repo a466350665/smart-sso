@@ -64,11 +64,8 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 		if (loginUser != null) {
 			User user = userService.get(loginUser.getUserId());
 			user.setPassword(PasswordProvider.encrypt(newPassword));
-			int rows = userService.update(user);
-			if (rows == 1)
-				return true;
-			else
-				return false;
+			userService.update(user);
+			return true;
 		}
 		else {
 			return false;

@@ -21,7 +21,7 @@ public interface AppService extends Service<AppDao, App, Integer> {
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public int enable(Boolean isEnable, List<Integer> idList);
+	public void enable(Boolean isEnable, List<Integer> idList);
 	
 	/**
 	 * 根据名称查询

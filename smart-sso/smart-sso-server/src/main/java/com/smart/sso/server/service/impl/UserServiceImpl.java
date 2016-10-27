@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.enums.TrueFalseEnum;
-import com.smart.mvc.exception.ServiceException;
-import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.common.Permissible;
@@ -73,20 +72,16 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 
 	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
-		int rows = dao.enable(isEnable, idList);
-		if (rows != idList.size())
-			throw new ServiceException("启用/禁用有误");
+		verifyRows(dao.enable(isEnable, idList), idList.size(), "管理员数据库更新失败");
 	}
 	
 	@Permissible
-	public int saveOrUpdate(User t) {
-		return super.saveOrUpdate(t);
+	public void saveOrUpdate(User t) {
+		super.saveOrUpdate(t);
 	}
 
 	public void resetPassword(String password, List<Integer> idList) {
-		int rows = dao.resetPassword(password, idList);
-		if (rows != idList.size())
-			throw new ServiceException("密码重置有误");
+		verifyRows(dao.resetPassword(password, idList), idList.size(), "管理员密码数据库重置失败");
 	}
 
 	public Pagination<User> findPaginationByAccount(String account, Integer appId, Pagination<User> p) {
@@ -100,12 +95,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	
 	@Permissible
 	@Transactional
-	public int deleteById(List<Integer> idList) {
+	public void deleteById(List<Integer> idList) {
 		userAppService.deleteByUserIds(idList);
 		userRoleService.deleteByUserIds(idList, null);
-		int rows = dao.deleteById(idList);
-		if (rows != idList.size())
-			throw new ServiceException("管理员删除有误");
-		return rows;
+		verifyRows(dao.deleteById(idList), idList.size(), "管理员数据库删除失败");
 	}
 }

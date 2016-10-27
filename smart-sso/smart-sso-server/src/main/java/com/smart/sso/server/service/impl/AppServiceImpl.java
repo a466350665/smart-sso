@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smart.mvc.exception.ServiceException;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.common.Permissible;
@@ -45,13 +44,13 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 	}
 	
 	@Permissible
-	public int enable(Boolean isEnable, List<Integer> idList) {
-		return dao.enable(isEnable, idList);
+	public void enable(Boolean isEnable, List<Integer> idList) {
+		verifyRows(dao.enable(isEnable, idList), idList.size(), "应用数据库更新失败");
 	}
 	
 	@Permissible
-	public int saveOrUpdate(App t) {
-		return super.saveOrUpdate(t);
+	public void saveOrUpdate(App t) {
+		super.saveOrUpdate(t);
 	}
 
 	public List<App> findByAll(String name) {
@@ -73,16 +72,13 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 	
 	@Permissible
 	@Transactional
-	public int deleteById(List<Integer> idList) {
+	public void deleteById(List<Integer> idList) {
 		rolePermissionService.deleteByAppIds(idList);
 		userRoleService.deleteByAppIds(idList);
 		userAppService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
 		roleService.deleteByAppIds(idList);
-		int rows = dao.deleteById(idList);
-		if (rows != idList.size())
-			throw new ServiceException("应用删除有误");
-		return rows;
+		verifyRows(dao.deleteById(idList), idList.size(), "应用数据库删除失败");
 	}
 
 	public Set<String> findAppCodeByUserId(Boolean isEnable, Integer userId) {

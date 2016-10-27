@@ -71,7 +71,8 @@ public class UserRoleController extends BaseController {
 			bean.setRoleId(roleId);
 			list.add(bean);
 		}
-		return Result.createSuccessResult(userRoleService.allocate(userId, appId, list), "授权成功");
+		userRoleService.allocate(userId, appId, list);
+		return Result.createSuccessResult().setMessage("授权成功");
 	}
 
 	private List<Role> getRoleList(Integer userId, Integer appId) {

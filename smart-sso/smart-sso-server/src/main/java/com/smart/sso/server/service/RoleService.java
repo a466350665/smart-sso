@@ -45,5 +45,5 @@ public interface RoleService extends Service<RoleDao, Role, Integer> {
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public int deleteByAppIds(List<Integer> idList);
+	public void deleteByAppIds(List<Integer> idList);
 }

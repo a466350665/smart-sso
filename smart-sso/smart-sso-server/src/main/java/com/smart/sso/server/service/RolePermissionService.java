@@ -26,26 +26,26 @@ public interface RolePermissionService extends Service<RolePermissionDao, RolePe
 	 * @param list 角色权限映射集合
 	 * @return
 	 */
-	public int allocate(Integer roleId, List<RolePermission> list);
+	public void allocate(Integer roleId, List<RolePermission> list);
 	
 	/**
 	 * 根据权限ID集合删除映射
 	 * @param idList 权限ID集合
 	 * @return
 	 */
-	public int deleteByPermissionIds(List<Integer> idList);
+	public void deleteByPermissionIds(List<Integer> idList);
 	
 	/**
 	 * 根据角色ID集合删除映射
 	 * @param idList 角色ID集合
 	 * @return
 	 */
-	public int deleteByRoleIds(List<Integer> idList);
+	public void deleteByRoleIds(List<Integer> idList);
 	
 	/**
 	 * 根据应用ID集合删除映射
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public int deleteByAppIds(List<Integer> idList);
+	public void deleteByAppIds(List<Integer> idList);
 }

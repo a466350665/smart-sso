@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.smart.mvc.dao.mybatis.Dao;
+import com.smart.mvc.exception.DaoException;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.PersistentObject;
 import com.smart.mvc.service.mybatis.Service;
@@ -35,8 +36,8 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 *            t
 	 * 
 	 */
-	public int save(T t) {
-		return ((Dao) dao).save(t);
+	public void save(T t) {
+		((Dao) dao).save(t);
 	}
 
 	/**
@@ -45,11 +46,10 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param List
 	 *            <T> ts
 	 */
-	public int save(Collection<T> ts) {
+	public void save(Collection<T> ts) {
 		for (T t : ts) {
 			save(t);
 		}
-		return ts.size();
 	}
 
 	/**
@@ -58,8 +58,8 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param T
 	 *            t
 	 */
-	public int update(T t) {
-		return ((Dao) dao).update(t);
+	public void update(T t) {
+		verifyRows(((Dao) dao).update(t), 1, "数据库更新失败");
 	}
 
 	/**
@@ -68,11 +68,10 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param List
 	 *            <T> ts
 	 */
-	public int update(Collection<T> ts) {
+	public void update(Collection<T> ts) {
 		for (T t : ts) {
 			update(t);
 		}
-		return ts.size();
 	}
 	
 	/**
@@ -81,12 +80,12 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param T
 	 *            t
 	 */
-	public int saveOrUpdate(T t) {
+	public void saveOrUpdate(T t) {
 		if (t.getId() == null) {
-			return this.save(t);
+			this.save(t);
 		}
 		else {
-			return this.update(t);
+			this.update(t);
 		}
 	}
 
@@ -96,8 +95,8 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param T
 	 *            t
 	 */
-	public int delete(T t) {
-		return ((Dao) dao).deleteById(t.getId());
+	public void delete(T t) {
+		verifyRows(((Dao) dao).deleteById(t.getId()), 1, "数据库删除失败");
 	}
 
 	/**
@@ -106,11 +105,10 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param List
 	 *            <T> ts
 	 */
-	public int delete(Collection<T> ts) {
+	public void delete(Collection<T> ts) {
 		for (T t : ts) {
 			delete(t);
 		}
-		return ts.size();
 	}
 
 	/**
@@ -146,8 +144,8 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 *            pk
 	 * @return T
 	 */
-	public int deleteById(ID id) {
-		return dao.deleteById(id);
+	public void deleteById(ID id) {
+		verifyRows(dao.deleteById(id), 1, "数据库删除失败");
 	}
 
 	/**
@@ -157,8 +155,8 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 *            <PK> pks
 	 * @return List<T>
 	 */
-	public int deleteById(List<ID> idList) {
-		return dao.deleteById(idList);
+	public void deleteById(List<ID> idList) {
+		verifyRows(dao.deleteById(idList), idList.size(), "数据库删除失败");
 	}
 	
 	/**
@@ -170,5 +168,17 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	public Pagination<T> findByAllPagination(Pagination<T> p){
 		dao.findByAll(p);
 		return p;
+	}
+	
+	/**
+	 * 为高并发环境出现的更新和删除操作，验证更新数据库记录条数
+	 * 
+	 * @param updateRows
+	 * @param rows
+	 * @param message
+	 */
+	protected void verifyRows(int updateRows, int rows, String message) {
+		if (updateRows != rows)
+			throw new DaoException(message);
 	}
 }

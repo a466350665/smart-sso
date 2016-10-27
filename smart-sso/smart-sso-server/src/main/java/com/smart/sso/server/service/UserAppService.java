@@ -28,19 +28,19 @@ public interface UserAppService extends Service<UserAppDao, UserApp, Integer> {
 	 * @param list 管理员角色映射集合
 	 * @return
 	 */
-	public int allocate(Integer userId, List<Integer> idList, List<UserApp> list);
+	public void allocate(Integer userId, List<Integer> idList, List<UserApp> list);
 	
 	/**
 	 * 根据管理员ID集合删除映射
 	 * @param idList 管理员ID集合
 	 * @return
 	 */
-	public int deleteByUserIds(List<Integer> idList);
+	public void deleteByUserIds(List<Integer> idList);
 	
 	/**
 	 * 根据应用ID集合删除映射
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public int deleteByAppIds(List<Integer> idList);
+	public void deleteByAppIds(List<Integer> idList);
 }

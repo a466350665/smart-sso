@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smart.mvc.exception.ServiceException;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.server.common.Permissible;
@@ -33,14 +32,12 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
-		int rows = dao.enable(isEnable, idList);
-		if (rows != idList.size())
-			throw new ServiceException("启用/禁用有误");
+		verifyRows(dao.enable(isEnable, idList), idList.size(), "权限数据库更新失败");
 	}
 	
 	@Permissible
-	public int saveOrUpdate(Permission t) {
-		return super.saveOrUpdate(t);
+	public void saveOrUpdate(Permission t) {
+		super.saveOrUpdate(t);
 	}
 
 	public List<Permission> findByName(String name, Integer appId, Boolean isEnable) {
@@ -49,7 +46,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 	@Permissible
 	@Transactional
-	public int deletePermission(Integer id, Integer appId) {
+	public void deletePermission(Integer id, Integer appId) {
 		List<Integer> idList = new ArrayList<Integer>();
 		
 		List<Permission> list = permissionService.findByName(null, appId, null);
@@ -58,10 +55,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		
 		rolePermissionService.deleteByPermissionIds(idList);
 		
-		int rows = dao.deleteById(idList);
-		if (rows != idList.size())
-			throw new ServiceException("权限删除有误");
-		return rows;
+		verifyRows(dao.deleteById(idList), idList.size(), "权限数据库删除失败");
 	}
 
 	// 递归方法，删除子权限
@@ -74,8 +68,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		}
 	}
 	
-	public int deleteByAppIds(List<Integer> idList) {
-		return dao.deleteByAppIds(idList);
+	public void deleteByAppIds(List<Integer> idList) {
+		dao.deleteByAppIds(idList);
 	}
 
 	public List<RpcPermission> findListById(String appCode, Integer userId) {

@@ -36,14 +36,14 @@ public interface PermissionService extends Service<PermissionDao, Permission, In
 	 * @param appId 应用ID
 	 * @return
 	 */
-	public int deletePermission(Integer id, Integer appId);
+	public void deletePermission(Integer id, Integer appId);
 	
 	/**
 	 * 删除应用下所有权限
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public int deleteByAppIds(List<Integer> idList);
+	public void deleteByAppIds(List<Integer> idList);
 	
 	/**
 	 * 根据应用编码和管理员ID查权限

@@ -23,28 +23,28 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole, Inte
 	
 	@Permissible
 	@Transactional
-	public int allocate(Integer userId, Integer appId, List<UserRole> list) {
+	public void allocate(Integer userId, Integer appId, List<UserRole> list) {
 		dao.deleteByUserIds(Arrays.asList(userId), appId);
-		return super.save(list);
+		super.save(list);
 	}
 	
 	public UserRole findByUserRoleId(Integer userId, Integer roleId) {
 		return dao.findByUserRoleId(userId, roleId);
 	}
 	
-	public int deleteByRoleIds(List<Integer> idList) {
-		return dao.deleteByRoleIds(idList);
+	public void deleteByRoleIds(List<Integer> idList) {
+		dao.deleteByRoleIds(idList);
 	}
 	
-	public int deleteByUserIds(List<Integer> idList, Integer appId) {
-		return dao.deleteByUserIds(idList, appId);
+	public void deleteByUserIds(List<Integer> idList, Integer appId) {
+		dao.deleteByUserIds(idList, appId);
 	}
 	
-	public int deleteByAppIds(List<Integer> idList) {
-		return dao.deleteByAppIds(idList);
+	public void deleteByAppIds(List<Integer> idList) {
+		dao.deleteByAppIds(idList);
 	}
 
-	public int deleteForChangeApp(Integer userId, List<Integer> idList) {
-		return dao.deleteForChangeApp(userId, idList);
+	public void deleteForChangeApp(Integer userId, List<Integer> idList) {
+		dao.deleteForChangeApp(userId, idList);
 	}
 }

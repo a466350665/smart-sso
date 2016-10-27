@@ -105,7 +105,8 @@ public class AppController extends BaseController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return Result.createSuccessResult().setData(appService.deleteById(getAjaxIds(ids)));
+		appService.deleteById(getAjaxIds(ids));
+		return Result.createSuccessResult();
 	}
 	
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)

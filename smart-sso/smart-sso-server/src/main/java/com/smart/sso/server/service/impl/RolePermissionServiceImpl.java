@@ -23,24 +23,24 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 
 	@Permissible
 	@Transactional
-	public int allocate(Integer roleId, List<RolePermission> list) {
+	public void allocate(Integer roleId, List<RolePermission> list) {
 		dao.deleteByRoleIds(Arrays.asList(roleId));
-		return super.save(list);
+		super.save(list);
 	}
 
 	public List<RolePermission> findByRoleId(Integer roleId) {
 		return dao.findByRoleId(roleId);
 	}
 
-	public int deleteByPermissionIds(List<Integer> idList) {
-		return dao.deleteByPermissionIds(idList);
+	public void deleteByPermissionIds(List<Integer> idList) {
+		dao.deleteByPermissionIds(idList);
 	}
 	
-	public int deleteByRoleIds(List<Integer> idList) {
-		return dao.deleteByRoleIds(idList);
+	public void deleteByRoleIds(List<Integer> idList) {
+		dao.deleteByRoleIds(idList);
 	}
 	
-	public int deleteByAppIds(List<Integer> idList) {
-		return dao.deleteByAppIds(idList);
+	public void deleteByAppIds(List<Integer> idList) {
+		dao.deleteByAppIds(idList);
 	}
 }
