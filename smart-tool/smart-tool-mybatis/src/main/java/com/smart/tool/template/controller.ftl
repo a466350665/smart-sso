@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>model.${model};
 import com.${company!''}.${project!''}.<#if module??>${module}.</#if>service.${model}Service;
 import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.JSONResult;
+import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
@@ -55,7 +55,7 @@ public class ${model}Controller extends BaseController {
 	public @ResponseBody JSONResult list(
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
-		return JSONResult.create().setData(${_model}Service.findByAllPagination(new Pagination<${model}>(pageNo, pageSize)));
+		return Result.createSuccessResult().setData(${_model}Service.findByAllPagination(new Pagination<${model}>(pageNo, pageSize)));
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class ${model}Controller extends BaseController {
 		${_model}.set${field.upperFieldName}(${field.fieldName});
 		</#list>
 		${_model}Service.saveOrUpdate(${_model});
-		return JSONResult.create();
+		return Result.createSuccessResult();
 	}
 
 	/**
@@ -111,6 +111,7 @@ public class ${model}Controller extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody JSONResult delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
-		return JSONResult.create().setData(${_model}Service.deleteById(getAjaxIds(ids)));
+		${_model}Service.deleteById(getAjaxIds(ids));
+		return Result.createSuccessResult();
 	}
 }
