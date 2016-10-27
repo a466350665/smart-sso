@@ -1,19 +1,23 @@
-/** ¸²¸ÇBody×ÖÌå´óĞ¡  */
+/** è¦†ç›–Bodyå­—ä½“å¤§å°  */
 body {
   font-size: 15px;
 }
 
-/** ×óµ¼º½²Ëµ¥×ÖÌå´óĞ¡ */
+/** å·¦å¯¼èˆªèœå•å­—ä½“å¤§å° */
 .nav-list > li > a {
   font-size: 15px;
 }
 
-/** ÄÚÈİµ¼º½²Ëµ¥×ÖÌå´óĞ¡ */
+/** å†…å®¹å¯¼èˆªèœå•å­—ä½“å¤§å° */
 .breadcrumb {
   font-size: 15px;
 }
 
-/** ¶àÑ¡¿ò£¬±íµ¥ÑéÖ¤  */
+/** å¤šé€‰æ¡†ï¼Œè¡¨å•éªŒè¯  */
+.form-star {
+  color : #d68273;
+  padding-right: 2px;
+}
 .form-group.has-error button {
   border-color: #f2a696;
   color: #d68273;

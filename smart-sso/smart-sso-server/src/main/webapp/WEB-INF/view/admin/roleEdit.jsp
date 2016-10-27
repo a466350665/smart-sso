@@ -28,7 +28,7 @@
 			<input type="hidden" name="id" value="${role.id}">
 			
 			<div class="form-group">
-				<label for="_appId" class="col-sm-3 control-label no-padding-right">应用</label>
+				<label for="_appId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>应用</label>
 
 				<div class="col-sm-3">
 					<select id="_appId" name="appId" class="form-control help-validate"
@@ -41,7 +41,7 @@
 			</div> 
 			
 			<div class="form-group">
-				<label for="_name" class="col-sm-3 control-label no-padding-right">名称</label>
+				<label for="_name" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>名称</label>
 
 				<div class="col-sm-6">
 					<div class="clearfix help-validate">
@@ -53,7 +53,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="_sort" class="col-sm-3 control-label no-padding-right">排序</label>
+				<label for="_sort" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>排序</label>
 
 				<div class="col-sm-6">
 					<div class="clearfix help-validate">
@@ -78,7 +78,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="control-label col-xs-12 col-sm-3 no-padding-right">是否启用</label>
+				<label class="control-label col-xs-12 col-sm-3 no-padding-right"><span class="form-star">*</span>是否启用</label>
 
 				<div class="col-xs-12 col-sm-9">
 					<div class="clearfix help-validate">

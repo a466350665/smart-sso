@@ -74,7 +74,7 @@
 						<input type="hidden" id="_parentId" name="parentId">
 			
 						<div class="form-group">
-							<label for="_appId" class="col-sm-3 control-label no-padding-right">应用</label>
+							<label for="_appId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>应用</label>
 			
 							<div class="col-sm-3">
 								<select id="_appId" class="form-control help-validate"
@@ -88,7 +88,7 @@
 						</div> 
 						
 						<div class="form-group">
-							<label for="_name" class="col-sm-3 control-label no-padding-right">名称</label>
+							<label for="_name" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>名称</label>
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
@@ -113,7 +113,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="_sort" class="col-sm-3 control-label no-padding-right">排序</label>
+							<label for="_sort" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>排序</label>
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
@@ -125,7 +125,7 @@
 						</div>
 					
 						<div class="form-group">
-							<label for="_url" class="col-sm-3 control-label no-padding-right">URL</label>
+							<label for="_url" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>URL</label>
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
@@ -137,7 +137,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="_isMenu" class="col-sm-3 control-label no-padding-right">是否菜单</label>
+							<label for="_isMenu" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否菜单</label>
 			
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix help-validate">
@@ -155,7 +155,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="_isEnable" class="col-sm-3 control-label no-padding-right">是否启用</label>
+							<label for="_isEnable" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否启用</label>
 			
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix help-validate">
