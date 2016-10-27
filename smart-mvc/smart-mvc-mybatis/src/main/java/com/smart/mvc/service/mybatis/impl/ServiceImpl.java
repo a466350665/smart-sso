@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.smart.mvc.dao.mybatis.Dao;
 import com.smart.mvc.exception.DaoException;
 import com.smart.mvc.model.Pagination;
@@ -22,6 +25,9 @@ import com.smart.mvc.service.mybatis.Service;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, ID extends Serializable> implements
 		Service<DAO, T, ID> {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceImpl.class);
+	
 	/**
 	 * 数据访问对象，提供子类使用
 	 */
@@ -178,7 +184,10 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param message
 	 */
 	protected void verifyRows(int updateRows, int rows, String message) {
-		if (updateRows != rows)
-			throw new DaoException(message);
+		if (updateRows != rows) {
+			DaoException e = new DaoException(message);
+			LOGGER.error("need update is {}, but real update rows is {}.", rows, updateRows, e);
+			throw e;
+		}
 	}
 }
