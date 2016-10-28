@@ -69,13 +69,11 @@ public class TokenManager {
 		DummyUser dummyUser = new DummyUser();
 		dummyUser.loginUser = loginUser;
 		dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
-		tokenMap.put(token, dummyUser);
+		tokenMap.putIfAbsent(token, dummyUser);
 	}
 
 	public void remove(String token) {
-		if (token != null) {
-			tokenMap.remove(token);
-		}
+		tokenMap.remove(token);
 	}
 
 	// 复合结构体，含loginUser与过期时间expried两个成员

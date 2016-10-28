@@ -27,7 +27,7 @@ public class LogoutController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(@ValidateParam(name = "返回链接") String backUrl, HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, "token");
-		if (token != null) {
+		if (StringUtils.isNotBlank(token)) {
 			tokenManager.remove(token);
 		}
 		request.getSession().invalidate();
