@@ -20,3 +20,5 @@ Maven+SpringMVC+Spring+Mybatis/Hibernate+Redis(选配)+Sso+Hessian+Druid+Fastjso
   fastjson 是一个性能很好的 Java 语言实现的 JSON 解析器和生成器。
 ### 6.开源消息总线 (ActiveMQ);
   对Spring的支持,通过MQ监听权限修改消息通知。
+### 7.Nosql(Redis) ;
+  Redis是一个高性能的key-value数据库，最流行的共享Session处理方案。
