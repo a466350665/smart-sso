@@ -7,7 +7,7 @@ Firefox 5+, Google Chrome 14+,Internet Explorer 8,Internet Explorer 9,Opera 11,S
 ### 前端：
 Html5 + Css3.0 + Bootstrap(ACE模板) + Jquery;
 ### 后端：
-Maven+SpringMVC+Spring+Mybatis+Redis(选配)+Sso+Hessian+Druid+Fastjson+Mysql+ActiveMQ(选配);
+Maven+SpringMVC+Spring+Mybatis/Hibernate+Redis(选配)+Sso+Hessian+Druid+Fastjson+Mysql+ActiveMQ(选配);
 ### 1.单点登录（Sso）;
   简单实用的基于Cookie实现的单点登录。
 ### 2.轻量级RPC通信(Hessian);
