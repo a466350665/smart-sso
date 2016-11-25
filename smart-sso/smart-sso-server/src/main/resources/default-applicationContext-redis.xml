@@ -28,8 +28,4 @@
 	<bean id="redisCache" class="com.smart.mvc.cache.RedisCache">
 		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
-	
-	<bean id="tokenManager" class="com.smart.sso.server.common.TokenManager">
-		<property name="tokenTimeout" value="${sso.timeout}" />
-	</bean>
 </beans>

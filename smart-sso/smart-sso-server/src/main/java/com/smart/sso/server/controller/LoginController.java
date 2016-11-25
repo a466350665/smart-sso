@@ -16,6 +16,7 @@ import com.smart.mvc.model.Result;
 import com.smart.mvc.provider.IdProvider;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
+import com.smart.mvc.util.SpringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.ApplicationUtils;
@@ -40,8 +41,6 @@ public class LoginController {
 	private TokenManager tokenManager;
 	@Resource
 	private UserService userService;
-	@Resource
-	private PermissionSubject permissionSubject;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
@@ -57,7 +56,9 @@ public class LoginController {
 			LoginUser loginUser = tokenManager.validate(token);
 			if (loginUser != null) {
 				// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-				permissionSubject.attach(appCode);
+				PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
+				if (permissionSubject != null)
+					permissionSubject.attach(appCode);
 
 				if (StringUtils.isBlank(backUrl)) {
 					return Loginable.LOGIN_SUCCESS_PATH;
@@ -93,7 +94,9 @@ public class LoginController {
 			String token = createToken(response, new LoginUser(user.getId(), user.getAccount(), user));
 
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-			permissionSubject.attach(appCode);
+			PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
+			if (permissionSubject != null)
+				permissionSubject.attach(appCode);
 
 			// 4 跳转到原请求
 			if (StringUtils.isBlank(backUrl)) {

@@ -19,6 +19,10 @@
     
     <aop:aspectj-autoproxy/>
     
+    <bean id="tokenManager" class="com.smart.sso.server.common.TokenManager">
+		<property name="tokenTimeout" value="${sso.timeout}" />
+	</bean>
+    
 	<bean class="com.smart.mvc.config.ConfigUtils">
     	<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">

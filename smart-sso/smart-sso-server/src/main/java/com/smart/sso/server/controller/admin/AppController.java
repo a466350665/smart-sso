@@ -14,6 +14,7 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
+import com.smart.mvc.util.SpringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
@@ -32,9 +33,6 @@ public class AppController extends BaseController {
 
 	@Resource
 	private AppService appService;
-	
-	@Resource
-	private PermissionSubject permissionSubject;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute() {
@@ -112,9 +110,12 @@ public class AppController extends BaseController {
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)
 	public @ResponseBody Result syncPermissions(
 			@ValidateParam(name = "应用编码集合", validators = { Validator.NOT_BLANK }) String codes) {
-		String[] codeArray = StringUtils.split(codes, ",");
-		for(String code : codeArray){
-			permissionSubject.update(code);
+		PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
+		if (permissionSubject != null) {
+			String[] codeArray = StringUtils.split(codes, ",");
+			for (String code : codeArray) {
+				permissionSubject.update(code);
+			}
 		}
 		return Result.createSuccessResult().setMessage("权限同步成功");
 	}
