@@ -17,8 +17,6 @@
 		<module>smart-sso</module>
 		<!-- 分布式定时任务 -->
 		<module>smart-job</module>
-		<!-- 微信公众号开发  -->
-		<module>smart-weixin</module>
 		<!-- 前端公用脚本和样式  -->
 		<module>smart-static</module>
 		<!-- Smart结构代码生成工具 -->
