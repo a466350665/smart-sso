@@ -7,7 +7,7 @@
 	       http://www.springframework.org/schema/context
 		   http://www.springframework.org/schema/context/spring-context.xsd">
 		   
-    <context:component-scan base-package="com.smart.base.service"/>
+    <context:component-scan base-package="com.smart.mvc.mybatis.demo.service"/>
     
     <bean class="com.smart.mvc.config.ConfigUtils">
     	<property name="fileEncoding" value="UTF-8" />

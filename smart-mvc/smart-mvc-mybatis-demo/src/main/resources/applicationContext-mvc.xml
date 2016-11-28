@@ -11,7 +11,7 @@
 		   http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Controller扫描包 -->
-	<context:component-scan base-package="com.smart.base.controller" />
+	<context:component-scan base-package="com.smart.mvc.mybatis.demo.controller" />
 	
 	<!-- 拦截器 -->
 	<mvc:interceptors>

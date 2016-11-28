@@ -13,7 +13,7 @@
 		   
 	<!-- 扫描Mapper -->
  	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    	<property name="basePackage" value="com.smart.base.dao" />
+    	<property name="basePackage" value="com.smart.mvc.mybatis.demo.dao" />
     </bean>
 		   
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -69,9 +69,9 @@
 	    <!--dataSource属性指定要用到的连接池--> 
 	    <property name="dataSource" ref="dataSource"/> 
 	    <!-- 配置model的alias,别名(即类名)-->
-	    <property name="typeAliasesPackage" value="com.smart.base.model" />
+	    <property name="typeAliasesPackage" value="com.smart.mvc.mybatis.demo.model" />
 	    <!-- 所有配置的aliasemapper文件 -->
-	    <property name="mapperLocations" value="classpath*:com/smart/base/model/*.xml" />
+	    <property name="mapperLocations" value="classpath*:com/smart/mvc/mybatis/demo/model/*.xml" />
 	    <!--分页插件-->
 	    <property name="plugins">
 	    	<ref bean="paginationInterceptor"/>
