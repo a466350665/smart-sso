@@ -12,13 +12,11 @@
     简单实用的基于Cookie实现的单点登录
 ### 2.轻量级RPC通信(Hessian);
     相比WebService，Hessian更简单、快捷，二进制传输数据
-### 3.安全权限框架(Shiro) ;
-    Shiro 是一个用 Java 语言实现的框架，通过一个简单易用的 API 提供身份验证和授权，更安全，更可靠
-### 4.阿里巴巴数据库连接池(Druid);
+### 3.阿里巴巴数据库连接池(Druid);
     数据库连接池阿里巴巴的 druid。Druid在监控、可扩展性、稳定性和性能方面都有明显的优势
-### 5.阿里巴巴Json处理工具包(Fastjson);
+### 4.阿里巴巴Json处理工具包(Fastjson);
     fastjson 是一个性能很好的 Java 语言实现的 JSON 解析器和生成器
-### 6.开源消息总线 (ActiveMQ);
+### 5.开源消息总线 (ActiveMQ);
     对Spring的支持,通过MQ监听权限修改消息通知
-### 7.Nosql(Redis) ;
+### 6.Nosql(Redis) ;
     Redis是一个高性能的key-value数据库，最流行的共享Session处理方案
