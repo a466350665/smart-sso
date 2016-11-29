@@ -1,7 +1,6 @@
 package com.smart.sso.server.common;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +23,7 @@ public class TokenManager {
 	// 令牌有效期，单位为秒，默认30分钟
 	private int tokenTimeout = 1800;
 	// 令牌存储结构
-	private final Map<String, DummyUser> tokenMap = new ConcurrentHashMap<String, TokenManager.DummyUser>();
+	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, TokenManager.DummyUser>();
 
 	// 避免静态类被实例化
 	public TokenManager() {
