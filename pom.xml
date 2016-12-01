@@ -156,7 +156,7 @@
 				<artifactId>spring-jms</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-	        <dependency>
+			<dependency>
 			    <groupId>org.springframework.session</groupId>
 			    <artifactId>spring-session-data-redis</artifactId>
 			    <version>${spring-redis.version}</version>
@@ -319,6 +319,32 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<!-- jar包私服 -->
+	<repositories>
+		<repository>
+			<id>smart</id>
+			<name>smart</name>
+			<url>http://www.gechuanyi.com:99/repository/maven2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>smart</id>
+			<name>smart</name>
+			<url>http://www.gechuanyi.com:99/repository/maven2/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 	
 	<issueManagement>
 		<system>github</system>
