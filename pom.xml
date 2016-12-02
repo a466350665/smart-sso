@@ -320,7 +320,7 @@
 		</dependencies>
 	</dependencyManagement>
 	
-	<!-- jar包私服 -->
+	<!-- Jar镜像 -->
 	<repositories>
 		<repository>
 			<id>smart</id>

@@ -114,7 +114,7 @@ public interface Service<DAO, T extends PersistentObject, ID extends Serializabl
 	 *            <PK> pks
 	 * @return List<T>
 	 */
-	public void deleteById(List<ID> idList);
+	public void deleteById(Collection<ID> idList);
 
 	/**
 	 * 查所有分页

@@ -161,7 +161,7 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 *            <PK> pks
 	 * @return List<T>
 	 */
-	public void deleteById(List<ID> idList) {
+	public void deleteById(Collection<ID> idList) {
 		verifyRows(dao.deleteById(idList), idList.size(), "数据库删除失败");
 	}
 	
