@@ -40,9 +40,7 @@
     </mvc:annotation-driven>
     
     <!-- 自定义异常处理 -->
-    <bean id="exceptionResolver" class="com.smart.mvc.exception.ExceptionResolver">
-    	<property name="view" value="error"/>
-    </bean>
+    <bean id="exceptionResolver" class="com.smart.mvc.exception.ExceptionResolver" />
     
     <!-- 默认跳转管理员首页，因为没有权限会跳转至登录页 -->
     <mvc:view-controller path="/" view-name="redirect:admin/admin"/>

@@ -1,18 +1,9 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<title>管理员-${_systemName}</title>
 
-<!-- 文本框 -->
-<link rel="stylesheet" href="${_staticPath}/assets/css/jquery-ui.custom.css" />
-<!-- 多选框 -->
-<link rel="stylesheet" href="${_staticPath}/assets/css/bootstrap-multiselect.css" />
-<!-- 颜色选择  -->
-<link rel="stylesheet" href="${_staticPath}/assets/css/colorpicker.css" />
-<!-- 时间  -->
-<link rel="stylesheet" href="${_staticPath}/assets/css/bootstrap-timepicker.css" />
-<!-- 日期、日期+时间、日期范围  -->
-<link rel="stylesheet" href="${_staticPath}/assets/css/daterangepicker.css" />
-
+<jsp:include page="../common/common.jsp">
+	<jsp:param name="title" value="管理员"/>
+</jsp:include>
 
 <div class="page-header">
 	<h1>
@@ -83,16 +74,6 @@
   <script src="${_staticPath}/assets/js/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript">
-	var scripts = [null,
-		// UI
-		"${_staticPath}/assets/js/jquery-ui.custom.js?v=" + Math.random(),
-		// Form提交Json转换
-		"${_staticPath}/script/jquery.form.min.js?v=" + Math.random(),
-		// 验证
-		"${_staticPath}/script/jquery.validate-2.0.min.js?v=" + Math.random(),
-		// 验证定制
-		"${_staticPath}/script/jquery.validate-2.0.custom.min.js?v=" + Math.random(),
-		null];
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			$("#_appId").change(function () { 
@@ -141,11 +122,11 @@
 					$.post("${_path}/admin/userRole/allocateSave", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == '0000'){
+							if(d.code == '0000'){
 								window.location.href = "${_path}/admin/admin#/admin/user";
 							}
 							else {
-								location.reload();
+								$.gritter.add({text: d.message});
 							}
 						}
 			        },'json');

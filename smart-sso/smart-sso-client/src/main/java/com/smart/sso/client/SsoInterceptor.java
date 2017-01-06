@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.smart.mvc.config.ConfigUtils;
+import com.smart.mvc.exception.ServiceException;
+import com.smart.mvc.model.ResultCode;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcUser;
 import com.smart.util.StringUtils;
@@ -26,9 +28,14 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 		if (StringUtils.isNotBlank(token) && isLogined(token)) {
 			return true;
 		}
-		request.getSession().invalidate();
-		response.sendRedirect(ConfigUtils.getProperty("sso.login.url"));
-		return false;
+		else if (isAjaxRequest(request)) {
+			throw new ServiceException(ResultCode.SSO_TOKEN_ERROR, "未登录或已超时");
+		}
+		else {
+			request.getSession().invalidate();
+			response.sendRedirect(ConfigUtils.getProperty("sso.login.url"));
+			return false;
+		}
 	}
 
 	/**
@@ -75,5 +82,16 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 	 */
 	private boolean isLogined(String token) {
 		return authenticationRpcService.validate(token);
+	}
+	
+	/**
+	 * 是否Ajax请求
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		String requestedWith = request.getHeader("X-Requested-With");
+		return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
 	}
 }

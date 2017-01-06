@@ -70,15 +70,39 @@ public class TokenManager {
 		dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
 		tokenMap.putIfAbsent(token, dummyUser);
 	}
-
+	
 	public void remove(String token) {
 		tokenMap.remove(token);
+	}
+	
+	public boolean existsLoginUser(LoginUser loginUser){
+		DummyUser dummyUser = new DummyUser();
+		dummyUser.loginUser = loginUser;
+		return tokenMap.contains(dummyUser);
 	}
 
 	// 复合结构体，含loginUser与过期时间expried两个成员
 	private class DummyUser {
 		private LoginUser loginUser;
 		private Date expired; // 过期时间
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DummyUser other = (DummyUser) obj;
+			if (loginUser == null) {
+				if (other.loginUser != null)
+					return false;
+			}
+			else if (!loginUser.equals(other.loginUser))
+				return false;
+			return true;
+		}
 	}
 
 	public void setTokenTimeout(int tokenTimeout) {

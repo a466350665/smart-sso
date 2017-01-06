@@ -1,11 +1,11 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<link rel="stylesheet" href="${_staticPath}/assets/css/jquery.gritter.css" />
+<jsp:include page="../common/common.jsp">
+	<jsp:param name="title" value="角色"/>
+</jsp:include>
 <link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.css?v=1" />
 <link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.custom.css" />
-
-<title>角色-${_systemName}</title>
 
 <div class="page-header">
 	<h1>
@@ -92,18 +92,11 @@
 	</div>
 </div>
 
-<!-- page specific plugin scripts -->
 <script type="text/javascript">
-	var scripts = [null, 
-		"${_staticPath}/assets/js/bootbox.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/bootbox.custom.js?v=" + Math.random(),
-		"${_staticPath}/script/jquery.table.min.js?v=" + Math.random(),
-		"${_staticPath}/script/jquery.form.min.js?v=" + Math.random(),
-		"${_staticPath}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/jquery.gritter.custom.js?v=" + Math.random(),
-		"${_staticPath}/script/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
-		"${_staticPath}/script/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random(),
-		null];
+	scripts.push(
+			"${_staticPath}/script/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
+			"${_staticPath}/script/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random());
+	
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			// 列表

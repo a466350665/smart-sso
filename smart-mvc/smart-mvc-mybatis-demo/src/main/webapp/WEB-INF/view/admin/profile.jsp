@@ -183,12 +183,7 @@
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();
-							if(d.status == '0000'){
-								$.gritter.add({text: d.message});
-							}
-							else {
-								$.gritter.add({text: d.message});
-							}
+							$.gritter.add({text: d.message});
 						}
 			        },'json');
 				}

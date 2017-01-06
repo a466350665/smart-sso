@@ -154,11 +154,11 @@
 					_&.post("${path}/admin/${_model!''}!save.shtml", _&.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == 'success'){
+							if(d.code == '0000'){
 								window.location.href = "${path}/admin/admin.shtml#page/${_model!''}.shtml";
 							}
 							else {
-								location.reload();
+								$.gritter.add({text: d.message});
 							}
 						}
 			        },'json');

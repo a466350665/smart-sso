@@ -5,6 +5,31 @@
 (function($ , undefined) {
 	var ajax_loaded_scripts = {}
 
+	function convertJson(result){
+		var html = '';
+		if($.type(result) == 'object'){
+			if(result.code == '1001'){// 未登录或已过期
+				location.reload();
+				return;
+			}
+			else{// 异常显示
+				html += '<div class="row">';
+				html += '	<div class="col-xs-12">';
+				html += JSON.stringify(result);
+				html += '	</div>';
+				html += '</div>';
+				html += '<script type="text/javascript">';
+				html += '	var scripts = [null, null];';
+				html += '	$(".page-content-area").ace_ajax("loadScripts", scripts, function() {});';
+				html += '</script>';
+			}
+		}
+		else{
+			html = result;
+		}
+		return html;
+	}
+	
 	function AceAjax(contentArea, settings) {
 		var $contentArea = $(contentArea);
 		var self = this;
@@ -24,11 +49,14 @@
 			hash = hash.replace(/^(\#\!)?\#/, '');
 			this.force_reload = (cache === false)
 			
-			//TODO
-			//if(typeof this.settings.content_url === 'function') url = this.settings.content_url(hash);
+			// 新 TODO 注释修改过
 			var path = $("#_ajaxContent").attr("data-path");
 			url = (path ? path : "") + hash;
 			if(typeof url === 'string') this.getUrl(url, hash, false);
+			// TODO
+			
+			// 旧
+			//if(typeof this.settings.content_url === 'function') url = this.settings.content_url(hash);
 		}
 		
 		this.loadAddr = function(url, hash, cache) {
@@ -57,6 +85,13 @@
 				self.stopLoading(true);
 			})
 			.done(function(result) {
+				// TODO 后台异常处理JSON返回
+				result = convertJson(result);
+				if(!result){
+					return;
+				}
+				// TODO
+				
 				$contentArea.trigger('ajaxloaddone', {url: url, hash: hash});
 				
 				var link_element = null, link_text = '';;

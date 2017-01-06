@@ -91,7 +91,12 @@ public class LoginController {
 		}
 		else {
 			User user = (User) result.getData();
-			String token = createToken(response, new LoginUser(user.getId(), user.getAccount(), user));
+			LoginUser loginUser = new LoginUser(user.getId(), user.getAccount(), user);
+			if (tokenManager.existsLoginUser(loginUser)) {// 当前用户已登录
+				return "redirect:" + backUrl;
+			}
+			
+			String token = createToken(response, loginUser);
 
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
 			PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);

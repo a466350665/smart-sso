@@ -66,7 +66,7 @@ public class AppController extends BaseController {
 		if (StringUtils.isNotBlank(code)) {
 			App db = appService.findByCode(code);
 			if (null != db && !db.getId().equals(id)) {
-				result.setStatus(ResultCode.ERROR).setMessage("应用编码已存在");
+				result.setCode(ResultCode.ERROR).setMessage("应用编码已存在");
 			}
 		}
 		return result;

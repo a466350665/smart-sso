@@ -83,7 +83,7 @@ public class UserController extends BaseController {
 		if (StringUtils.isNotBlank(account)) {
 			User user = userService.findByAccount(account);
 			if (null != user && !user.getId().equals(id)) {
-				result.setStatus(ResultCode.ERROR).setMessage("登录名已存在");
+				result.setCode(ResultCode.ERROR).setMessage("登录名已存在");
 			}
 		}
 		return result;

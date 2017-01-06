@@ -1,10 +1,11 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<title>权限-${_systemName}</title>
-<link rel="stylesheet" href="${_staticPath}/assets/css/jquery.gritter.css" />
+
+<jsp:include page="../common/common.jsp">
+	<jsp:param name="title" value="权限"/>
+</jsp:include>
 <link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.css?v=1" />
 <link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.custom.css" />
-<!-- ajax layout which only needs content area -->
 <style type="text/css">
 	.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
 	.ztree li ul.level0 {padding:0; background:none;}
@@ -190,23 +191,10 @@
 	</div>
 </div><!-- /.row -->
 
-<!-- page specific plugin scripts -->
 <script type="text/javascript">
-	var scripts = [null,
-		"${_staticPath}/script/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
-		"${_staticPath}/script/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random(),
-		// Form提交Json转换
-		"${_staticPath}/script/jquery.form.min.js?v=" + Math.random(),
-		// 验证
-		"${_staticPath}/script/jquery.validate-2.0.min.js?v=" + Math.random(),
-		// 验证定制
-		"${_staticPath}/script/jquery.validate-2.0.custom.min.js?v=" + Math.random(),
-		//确认框
-		"${_staticPath}/assets/js/bootbox.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/bootbox.custom.js?v=" + Math.random(),
-		"${_staticPath}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/jquery.gritter.custom.js?v=" + Math.random(),
-		null];
+	scripts.push(
+			"${_staticPath}/script/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
+			"${_staticPath}/script/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random());
 		
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
@@ -323,7 +311,7 @@
 							if(result) {
 								$.post("${_path}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
-										if(d.status == '0000'){
+										if(d.code == '0000'){
 											$.gritter.add({
 												text: d.message,
 												sticky: false,

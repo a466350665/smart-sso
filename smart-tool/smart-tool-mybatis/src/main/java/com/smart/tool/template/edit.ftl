@@ -158,7 +158,7 @@
 								window.location.href = "${path}/admin/admin.shtml#page/${_model!''}.shtml";
 							}
 							else {
-								location.reload();
+								$.gritter.add({text: d.message});
 							}
 						}
 			        },'json');
