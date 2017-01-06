@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.smart.mvc.exception.RedisException;
+import com.smart.mvc.exception.CacheException;
 
 public class RedisCache<K, V> {
 
@@ -25,7 +25,7 @@ public class RedisCache<K, V> {
 			}
 		}
 		catch (Throwable t) {
-			throw new RedisException(t);
+			throw new CacheException(t);
 		}
 
 	}
@@ -37,7 +37,7 @@ public class RedisCache<K, V> {
 			return value;
 		}
 		catch (Throwable t) {
-			throw new RedisException(t);
+			throw new CacheException(t);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class RedisCache<K, V> {
 			return value;
 		}
 		catch (Throwable t) {
-			throw new RedisException(t);
+			throw new CacheException(t);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class RedisCache<K, V> {
 			redisTemplate.delete(key);
 		}
 		catch (Throwable t) {
-			throw new RedisException(t);
+			throw new CacheException(t);
 		}
 	}
 
