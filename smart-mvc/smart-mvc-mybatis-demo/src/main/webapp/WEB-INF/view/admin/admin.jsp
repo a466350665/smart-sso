@@ -638,7 +638,7 @@
 		<script type="text/javascript">
 			jQuery(function ($) {
 				$("#_btnExit").click(function(){
-		        	window.location.href="${_path}/logout";
+					window.location.href="${_path}/logout";
 	            });
 			
 				$.getJSON("${_path}/admin/admin/menu",function(d) {
@@ -653,13 +653,21 @@
 					for ( var i = 0; i < list.length; i++) {
 						data = list[i];
 						if (data.parentId == null || data.parentId == "") {
-						
+							
 							html += '<li class="';
 							
 							if(defaultPage == null && data.url){
-								defaultPage = data.url;
-								html += 'active';
-								window.location.href = "${_path}/admin/admin#" + defaultPage;
+								if(window.location.href.indexOf("#") < 0){
+									// 登录成功后首次加载，跳转到第一个页面
+									defaultPage = data.url;
+									window.location.href = "${_path}/admin/admin#" + defaultPage;
+									
+								}
+								else if(data.url == window.location.href.split("#")[1]){
+									// 如果跳转页，和当前菜单对应
+									defaultPage = data.url;
+									html += 'active';
+								}
 							}
 						
 							html += '">';
@@ -696,8 +704,11 @@
 							data = childrens[i];
 							
 							if(defaultPage == null && data.url){
-								defaultPage = data.url;
-								window.location.href = "${_path}/admin/admin#" + defaultPage;
+								if(window.location.href.indexOf("#") < 0){
+									// 登录成功后首次加载，跳转到第一个页面
+									defaultPage = data.url;
+									window.location.href = "${_path}/admin/admin#" + defaultPage;
+								}
 							}
 							
 							html += '<li class="">';

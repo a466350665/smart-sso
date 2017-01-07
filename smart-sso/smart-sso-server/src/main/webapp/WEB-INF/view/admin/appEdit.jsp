@@ -107,7 +107,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == '0000'){
-								window.location.href = "${_path}/admin/admin#/admin/app";
+								$.aceRedirect("${_path}/admin/app");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -119,7 +119,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				window.location.href = "${_path}/admin/admin#/admin/app";
+				$.aceRedirect("${_path}/admin/app");
 			});
 			
 			// 回车绑定

@@ -105,7 +105,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/role/edit', handler : function(){
-						window.location.href = "${_path}/admin/admin#/admin/role/edit";
+						$.aceRedirect("${_path}/admin/role/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/role/enable', handler : function(){
 						$table.ajaxEnable({url : "${_path}/admin/role/enable"}, false);
@@ -160,7 +160,7 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/role/edit', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/role/edit?id=" + d.id;
+						$.aceRedirect("${_path}/admin/role/edit?id=" + d.id);
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/role/enable', 
 						handler : function(){

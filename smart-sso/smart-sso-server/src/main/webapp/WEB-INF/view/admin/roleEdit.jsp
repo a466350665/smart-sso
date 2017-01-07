@@ -127,7 +127,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == '0000'){
-								window.location.href = "${_path}/admin/admin#/admin/role";
+								$.aceRedirect("${_path}/admin/role");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -139,7 +139,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				window.location.href = "${_path}/admin/admin#/admin/role";
+				$.aceRedirect("${_path}/admin/role");
 			});
 			
 			// 回车绑定

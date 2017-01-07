@@ -436,3 +436,17 @@
 
 })(window.jQuery);
 
+//TODO 扩充Ace结构跳转支持
+(function($) {
+	$.aceRedirect = function(url) {
+		var path = $("#_ajaxContent").attr("data-path");
+		if(path){
+			url = path + "/admin/admin#" + url.replace(path, "");
+		}
+		else{
+			url = "/admin/admin#" + url;
+		}
+		window.location.href = url;
+	};
+})(jQuery);
+//TODO

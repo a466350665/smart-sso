@@ -75,7 +75,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == '0000'){
-								window.location.href = "${_path}/admin/admin#/admin/user";
+								$.aceRedirect("${_path}/admin/user");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -87,7 +87,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				window.location.href = "${_path}/admin/admin#/admin/user";
+				$.aceRedirect("${_path}/admin/user");
 			});
 		});
 	});

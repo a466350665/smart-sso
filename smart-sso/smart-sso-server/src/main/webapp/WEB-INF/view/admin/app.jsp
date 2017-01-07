@@ -56,7 +56,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/app/edit', handler : function(){
-						window.location.href = "${_path}/admin/admin#/admin/app/edit";
+						$.aceRedirect("${_path}/admin/app/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/app/enable', handler : function(){
 						$table.ajaxEnable({url : "${_path}/admin/app/enable"}, false);
@@ -98,7 +98,7 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/app/edit', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/app/edit?id=" + d.id;
+						$.aceRedirect("${_path}/admin/app/edit?id=" + d.id);
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/app/enable', 
 						handler : function(){

@@ -52,7 +52,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/user/edit', handler : function(){
-						window.location.href = "${_path}/admin/admin#/admin/user/edit";
+						$.aceRedirect("${_path}/admin/user/edit");
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/user/delete', handler : function(){
 						$table.ajaxDelete({url : "${_path}/admin/user/delete"});
@@ -64,7 +64,7 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/user/edit', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/user/edit?id=" + d.id;
+						$.aceRedirect("${_path}/admin/user/edit?id=" + d.id);
 					}},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/user/delete', handler : function(d, i){
 						$table.ajaxDelete({url : "${_path}/admin/user/delete"});

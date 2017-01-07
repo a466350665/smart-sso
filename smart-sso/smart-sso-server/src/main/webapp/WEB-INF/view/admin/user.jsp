@@ -62,7 +62,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/user/edit', handler : function(){
-						window.location.href = "${_path}/admin/admin#/admin/user/edit";
+						$.aceRedirect("${_path}/admin/user/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/user/enable', handler : function(){
 						$table.ajaxEnable({url : "${_path}/admin/user/enable"}, false);
@@ -89,13 +89,13 @@
 						if(!$table.validateSelected(true)){
 							return;						
 						}
-						window.location.href = "${_path}/admin/admin#/admin/userApp/allocate?userId=" + $table.getSelectedItemKeys("id");
+						$.aceRedirect("${_path}/admin/userApp/allocate?userId=" + $table.getSelectedItemKeys("id"));
 					}},
 					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userApp/allocate', handler : function(){
 						if(!$table.validateSelected(true)){
 							return;						
 						}
-						window.location.href = "${_path}/admin/admin#/admin/userRole/allocate?userId=" + $table.getSelectedItemKeys("id");
+						$.aceRedirect("${_path}/admin/userRole/allocate?userId=" + $table.getSelectedItemKeys("id"));
 					}}
 				],
 				columns : [
@@ -116,7 +116,7 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/user/edit', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/user/edit?id=" + d.id;
+						$.aceRedirect("${_path}/admin/user/edit?id=" + d.id);
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/user/enable', 
 						handler : function(){
@@ -150,10 +150,10 @@
 						});
 					}},
 					{text : '分配应用', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userApp/allocate', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/userApp/allocate?userId=" + d.id;
+						$.aceRedirect("${_path}/admin/userApp/allocate?userId=" + d.id);
 					}},
 					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userRole/allocate', handler : function(d, i){
-						window.location.href = "${_path}/admin/admin#/admin/userRole/allocate?userId=" + d.id;
+						$.aceRedirect("${_path}/admin/userRole/allocate?userId=" + d.id);
 					}}
 				],
 				after : function(){
