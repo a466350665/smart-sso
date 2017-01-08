@@ -15,5 +15,7 @@ import com.smart.mvc.mybatis.demo.model.User;
  */
 public interface UserDao extends Dao<User, Integer> {
 	
-	public List<User> findByAccount(@Param("account") String account, Pagination<User> p);
+	public List<User> findPaginationByAccount(@Param("account") String account, Pagination<User> p);
+	
+	public User findByAccount(@Param("account") String account);
 }

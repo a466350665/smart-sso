@@ -24,20 +24,27 @@ public class TokenManager {
 	private int tokenTimeout = 1800;
 	// 令牌存储结构
 	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, TokenManager.DummyUser>();
+	// 令牌存储结构并发监听对象
+	private final Object tokenMapMonitor = new Object();
 
 	// 避免静态类被实例化
 	public TokenManager() {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
+				Date now = new Date();
 				for (Entry<String, DummyUser> entry : tokenMap.entrySet()) {
 					String token = entry.getKey();
 					DummyUser dummyUser = entry.getValue();
 					// 当前时间大于过期时间
-					if (new Date().compareTo(dummyUser.expired) > 0) {
-						// 已过期，清除对应token
-						tokenMap.remove(token);
-						LOGGER.debug("token : " + token + "已失效");
+					if (now.compareTo(dummyUser.expired) > 0) {
+						synchronized (tokenMapMonitor) {
+							// 已过期，清除对应token
+							if (now.compareTo(dummyUser.expired) > 0) {
+								tokenMap.remove(token);
+								LOGGER.debug("token : " + token + "已失效");
+							}
+						}
 					}
 				}
 			}
@@ -53,7 +60,7 @@ public class TokenManager {
 	public LoginUser validate(String token) {
 		DummyUser dummyUser = tokenMap.get(token);
 		if (dummyUser != null) {
-			dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
+			extendeExpiredTime(dummyUser);
 		}
 		return dummyUser == null ? null : dummyUser.loginUser;
 	}
@@ -67,7 +74,7 @@ public class TokenManager {
 	public void addToken(String token, LoginUser loginUser) {
 		DummyUser dummyUser = new DummyUser();
 		dummyUser.loginUser = loginUser;
-		dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
+		extendeExpiredTime(dummyUser);
 		tokenMap.putIfAbsent(token, dummyUser);
 	}
 	
@@ -75,10 +82,27 @@ public class TokenManager {
 		tokenMap.remove(token);
 	}
 	
-	public boolean existsLoginUser(LoginUser loginUser){
-		DummyUser dummyUser = new DummyUser();
-		dummyUser.loginUser = loginUser;
-		return tokenMap.contains(dummyUser);
+	public String existsLoginUser(LoginUser loginUser){
+		synchronized (tokenMapMonitor) {
+    		for (Entry<String, DummyUser> entry : tokenMap.entrySet()) {
+    			String token = entry.getKey();
+    			DummyUser dummyUser = entry.getValue();
+    			// 当前时间大于过期时间
+    			if (dummyUser.loginUser.equals(loginUser)) {
+    				extendeExpiredTime(dummyUser);
+    				return token;
+    			}
+    		}
+		}
+		return null;
+	}
+	
+	/**
+	 * 扩展过期时间
+	 * @param dummyUser
+	 */
+	private void extendeExpiredTime(DummyUser dummyUser){
+		dummyUser.expired = new Date(new Date().getTime() + tokenTimeout * 1000);
 	}
 
 	// 复合结构体，含loginUser与过期时间expried两个成员

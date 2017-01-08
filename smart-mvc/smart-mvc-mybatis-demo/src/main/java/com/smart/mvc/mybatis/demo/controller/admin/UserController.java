@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.Result;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.mybatis.demo.model.User;
 import com.smart.mvc.mybatis.demo.service.UserService;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
+import com.smart.util.StringUtils;
 
 /**
  * 管理员管理
@@ -51,6 +53,20 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
+	}
+	
+	@RequestMapping(value = "/validateAccount", method = RequestMethod.POST)
+	public @ResponseBody Result validateAccount(
+			@ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account) {
+		Result result = Result.createSuccessResult();
+		if (StringUtils.isNotBlank(account)) {
+			User user = userService.findByAccount(account);
+			if (null != user && !user.getId().equals(id)) {
+				result.setCode(ResultCode.ERROR).setMessage("登录名已存在");
+			}
+		}
+		return result;
 	}
 
 	/**

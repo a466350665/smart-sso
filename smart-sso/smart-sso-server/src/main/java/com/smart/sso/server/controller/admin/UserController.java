@@ -74,11 +74,10 @@ public class UserController extends BaseController {
 		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
 	}
 
-	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
+	@RequestMapping(value = "/validateAccount", method = RequestMethod.POST)
 	public @ResponseBody Result validateAccount(
-			@ValidateParam(name = "id", validators = { Validator.NOT_BLANK }) Integer id,
-			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account,
-			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId) {
+			@ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account) {
 		Result result = Result.createSuccessResult();
 		if (StringUtils.isNotBlank(account)) {
 			User user = userService.findByAccount(account);

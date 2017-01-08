@@ -19,7 +19,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	
 	@Override
 	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p) {
-		dao.findByAccount(account, p);
+		dao.findPaginationByAccount(account, p);
 		return p;
+	}
+	
+	public User findByAccount(String account) {
+		return dao.findByAccount(account);
 	}
 }

@@ -24,6 +24,7 @@
 					<div class="input-medium help-validate">
 						<div class="input-group">
 							<input id="_account" name="account" type="text" value="${user.account}" class="form-data"
+								ajax="{url : '${_path}/admin/user/validateAccount', dataId : '_editForm'}"
 								required="true" minlength = '4' maxlength = '64'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-user"></i>

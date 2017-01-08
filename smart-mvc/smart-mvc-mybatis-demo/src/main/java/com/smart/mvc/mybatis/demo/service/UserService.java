@@ -20,4 +20,12 @@ public interface UserService extends Service<UserDao, User, Integer> {
 	 * @return
 	 */
 	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p);
+	
+	/**
+	 * 根据登录名和应用ID查询
+	 * @param account 登录名
+	 * @param appId 应用ID
+	 * @return
+	 */
+	public User findByAccount(String account);
 }

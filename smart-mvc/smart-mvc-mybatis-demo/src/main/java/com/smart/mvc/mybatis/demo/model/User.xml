@@ -22,12 +22,21 @@
 		WHERE a.`id` = #{id}
 	</update>
 	
-	<select id="findByAccount" parameterType="map" resultType="User">   
+	<select id="findPaginationByAccount" parameterType="map" resultType="User">   
 		SELECT a.* 
      	FROM SYS_USER a
      	WHERE 1 = 1
      	<if test="account != null and account != '' ">
 			AND a.account like CONCAT('%',#{account},'%')
+		</if>
+	</select>
+	
+	<select id="findByAccount" parameterType="map" resultType="User">   
+		SELECT a.* 
+     	FROM SYS_USER a
+     	WHERE 1 = 1
+     	<if test="account != null and account != '' ">
+			AND a.account = #{account} 
 		</if>
 	</select>
 	

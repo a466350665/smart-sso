@@ -154,7 +154,7 @@
 					_&.post("${path}/admin/${_model!''}!save.shtml", _&.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.status == '0000'){
+							if(d.code == '0000'){
 								window.location.href = "${path}/admin/admin.shtml#page/${_model!''}.shtml";
 							}
 							else {
