@@ -3,6 +3,7 @@ package com.smart.mvc.mybatis.demo.controller.admin;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,12 @@ import com.smart.sso.client.SessionPermission;
 public class AdminController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
+	public String execute(HttpServletRequest request, Model model) {
+		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
+		// 设置当前登录用户没有的权限
+		model.addAttribute("sessionUserNoPermissions", sessionPermission == null ? null : sessionPermission.getNoPermissions());
+		// 默认首页
+		// model.addAttribute("defaultPage", null);
 		return "/admin/admin";
 	}
 
