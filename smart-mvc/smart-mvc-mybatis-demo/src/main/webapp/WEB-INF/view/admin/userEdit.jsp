@@ -18,7 +18,7 @@
 			<input type="hidden" name="id" value="${user.id}">
 			
 			<div class="form-group">
-				<label for="_account" class="col-sm-3 control-label no-padding-right">登录名</label>
+				<label for="_account" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>登录名</label>
 
 				<div class="col-sm-9">
 					<div class="input-medium help-validate">

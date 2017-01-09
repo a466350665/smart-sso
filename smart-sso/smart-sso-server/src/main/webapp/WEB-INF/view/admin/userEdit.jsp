@@ -37,7 +37,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="_password" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>密码</label>
+				<label for="_password" class="col-sm-3 control-label no-padding-right">${empty user.id ? '<span class="form-star">*</span>' : ''}密码</label>
 				
 				<div class="col-sm-9">
 					<div class="input-medium help-validate">

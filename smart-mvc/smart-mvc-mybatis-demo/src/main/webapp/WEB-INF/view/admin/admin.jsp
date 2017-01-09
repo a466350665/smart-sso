@@ -618,13 +618,13 @@
 		<script src="${_staticPath}/assets/js/ace/elements.wizard.js"></script>
 		<script src="${_staticPath}/assets/js/ace/elements.aside.js"></script>
 		<!-- 修改默认首页 -->
-		<script id="_ace" src="${_staticPath}/script/assets/ace.js" data-path="${defaultPage}"></script>
+		<script id="_ace" src="${_staticPath}/script/assets/ace.js?v" data-path="${defaultPage}"></script>
 		<!-- 切换菜单处理 -->
-		<script id="_ajaxContent" src="${_staticPath}/script/assets/ace.ajax-content.js" data-path="${_path}"></script>
+		<script id="_ajaxContent" src="${_staticPath}/script/assets/ace.ajax-content.js?v" data-path="${_path}"></script>
 		<!-- 权限处理 -->
-		<script id="_permission" src="${_staticPath}/script/jquery.permission.min.js" data="${_sessionUserNoPermission}"></script>
+		<script id="_permission" src="${_staticPath}/script/jquery.permission.min.js?v" data="${_sessionUserNoPermission}"></script>
 		<!-- 金额格式化处理 -->
-		<script src="${_staticPath}/script/jquery.decimalFormat.js"></script>
+		<script src="${_staticPath}/script/jquery.decimalFormat.js?v"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.touch-drag.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar-scroll-1.js"></script>
