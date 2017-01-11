@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
@@ -20,5 +19,15 @@
     
 	<modules>
 		<module>smart-dubbo-demo-api</module>
-	</modules>
+    	<module>smart-dubbo-demo-service</module>
+  	</modules>
+  	
+  	<dependencies>
+		<!-- mybatis版基础项目支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc-mybatis</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
 </project>

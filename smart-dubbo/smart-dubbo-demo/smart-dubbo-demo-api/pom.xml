@@ -11,19 +11,4 @@
 	<artifactId>smart-dubbo-demo-api</artifactId>
 	<name>${project.artifactId}</name>
 	
-	<dependencies>
-		<!-- quartz定时任务 -->
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-		</dependency>
-	</dependencies>
 </project>

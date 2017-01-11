@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smart.dubbo.demo.dao.UserDao">
+	<select id="get" parameterType="java.lang.Integer" resultType="User">
+     	SELECT * 
+     	FROM SYS_USER a
+     	WHERE id = #{id}
+    </select>
+    
+	<insert id="save" parameterType="User" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SYS_USER(
+			account
+		) 
+		VALUES (
+			#{account}
+		)
+	</insert>
+	
+    <update id="update" parameterType="User" statementType="PREPARED">
+		UPDATE SYS_USER a SET
+			a.`account` = #{account}
+		WHERE a.`id` = #{id}
+	</update>
+	
+	<select id="findPaginationByAccount" parameterType="map" resultType="User">   
+		SELECT a.* 
+     	FROM SYS_USER a
+     	WHERE 1 = 1
+     	<if test="account != null and account != '' ">
+			AND a.account like CONCAT('%',#{account},'%')
+		</if>
+	</select>
+	
+	<select id="findByAccount" parameterType="map" resultType="User">   
+		SELECT a.* 
+     	FROM SYS_USER a
+     	WHERE 1 = 1
+     	<if test="account != null and account != '' ">
+			AND a.account = #{account} 
+		</if>
+	</select>
+	
+	<delete id="deleteById" parameterType="list" statementType="PREPARED">
+		DELETE FROM SYS_USER
+		WHERE 1 = 1
+		<if test="list != null">
+			AND `id` in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+</mapper>
