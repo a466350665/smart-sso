@@ -13,27 +13,19 @@
 	       http://www.springframework.org/schema/aop/spring-aop.xsd
 		   http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <context:annotation-config />
+	       
+	<!-- 引入基础配置 -->
+    <import resource="classpath:config/spring-config.xml"/>
     
-    <context:component-scan base-package="com.smart.sso.server"/>
+    <!-- 选配项
+    	redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+    	activeMQ : 用于权限有修改时，异步通知应用更新权限
+    <import resource="applicationContext-redis.xml"/>
+    <import resource="applicationContext-mq.xml"/>
+     -->
     
-    <aop:aspectj-autoproxy/>
-    
-    <bean id="tokenManager" class="com.smart.sso.server.common.TokenManager">
-		<property name="tokenTimeout" value="${sso.timeout}" />
-	</bean>
-    
-	<bean class="com.smart.mvc.config.ConfigUtils">
-    	<property name="fileEncoding" value="UTF-8" />
-		<property name="locations">
-			<list>
-				<!--数据库参数配置-->
-				<value>classpath:jdbc.properties</value>
-				<!--远程服务参数配置-->
-				<value>classpath:service.properties</value>
-				<!--当前应用参数配置-->
-				<value>classpath:config.properties</value>
-			</list>
-		</property>
-	</bean>
+    <!-- 引入Mybatis及数据库相关 -->
+    <import resource="applicationContext-mybatis.xml"/>
+    <!-- 引入服务相关 -->
+    <import resource="applicationContext-service.xml"/>
 </beans>

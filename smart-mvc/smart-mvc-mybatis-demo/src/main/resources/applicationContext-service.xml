@@ -13,19 +13,12 @@
 	       http://www.springframework.org/schema/aop/spring-aop.xsd
 		   http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd">
-	       
-	<!-- 引入基础配置 -->
-    <import resource="classpath:config/spring-config.xml"/>
-    
-    <!-- 选配项
-    	redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
-    	activeMQ : 用于权限有修改时，异步通知应用更新权限
-    <import resource="applicationContext-redis.xml"/>
-    <import resource="applicationContext-mq.xml"/>
-     -->
-    
-    <!-- 引入Mybatis及数据库相关 -->
-    <import resource="applicationContext-mybatis.xml"/>
-    <!-- 引入服务相关 -->
-    <import resource="applicationContext-service.xml"/>
+	
+	<context:component-scan base-package="com.smart.mvc.mybatis.demo.service"/>
+	
+	<!-- 注入Hession请求权限系统RPC服务 -->
+	<bean id="authenticationRpcService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl" value="${sso.server.url}/rpc/authenticationRpcService" />
+	    <property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />
+    </bean>
 </beans>

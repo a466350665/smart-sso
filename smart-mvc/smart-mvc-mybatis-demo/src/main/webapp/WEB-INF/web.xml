@@ -12,7 +12,7 @@
 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext*.xml</param-value>
+		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>com.smart.mvc.listener.InitListener</listener-class>

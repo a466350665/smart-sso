@@ -3,7 +3,6 @@ package com.smart.sso.server.service;
 import java.util.List;
 
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.RolePermissionDao;
 import com.smart.sso.server.model.RolePermission;
 
 /**
@@ -11,7 +10,7 @@ import com.smart.sso.server.model.RolePermission;
  * 
  * @author Joe
  */
-public interface RolePermissionService extends Service<RolePermissionDao, RolePermission, Integer> {
+public interface RolePermissionService extends Service<RolePermission, Integer> {
 	
 	/**
 	 * 根据角色ID查询映射

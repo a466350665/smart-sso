@@ -13,6 +13,8 @@
 		<module>smart-util</module>
 		<!-- Springmvc + Spring + Mybatis or Hibernate -->
 		<module>smart-mvc</module>
+		<!-- Dubbo服务  -->
+		<module>smart-dubbo</module>
 		<!-- 单点登录及鉴权服务 -->
 		<module>smart-sso</module>
 		<!-- 分布式定时任务 -->
@@ -57,6 +59,9 @@
 		<jsp-api.version>2.2</jsp-api.version>
 		<jaxen.version>1.1.6</jaxen.version>
 		<activemq.version>5.13.3</activemq.version>
+		<dubbo.version>2.5.3</dubbo.version>
+		<zookeeper.version>0.1</zookeeper.version>
+		<netty.version>4.0.23.Final</netty.version>
 	</properties>
 
 	<dependencyManagement>
@@ -317,6 +322,43 @@
 				<artifactId>activemq-client</artifactId>
 				<version>${activemq.version}</version>
 			</dependency>
+			
+			<!-- dubbo -->
+	        <dependency>
+	            <groupId>com.alibaba</groupId>
+	            <artifactId>dubbo</artifactId>
+	            <version>${dubbo.version}</version>
+	            <exclusions>
+	                <exclusion>
+	                    <artifactId>spring</artifactId>
+	                    <groupId>org.springframework</groupId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
+	        
+	        <!-- zookeeper -->
+	        <dependency>
+	            <groupId>com.github.sgroschupf</groupId>
+	            <artifactId>zkclient</artifactId>
+	            <version>${zookeeper.version}</version>
+	        </dependency>
+	
+	        <!-- Netty -->
+	        <dependency>
+	            <groupId>io.netty</groupId>
+	            <artifactId>netty-transport</artifactId>
+	            <version>${netty.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>io.netty</groupId>
+	            <artifactId>netty-handler</artifactId>
+	            <version>${netty.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>io.netty</groupId>
+	            <artifactId>netty-codec-http</artifactId>
+	            <version>${netty.version}</version>
+	        </dependency>
 		</dependencies>
 	</dependencyManagement>
 	

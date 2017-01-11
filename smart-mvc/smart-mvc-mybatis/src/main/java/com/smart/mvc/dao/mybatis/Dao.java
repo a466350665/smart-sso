@@ -1,5 +1,6 @@
 package com.smart.mvc.dao.mybatis;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.smart.mvc.model.Pagination;
  * 
  * @author Joe
  */
-public interface Dao<T, ID> {
+public interface Dao<T, ID extends Serializable> {
 
 	/**
 	 * 如果实体未持久化过则新建实体，否则更新实体

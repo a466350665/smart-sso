@@ -15,14 +15,7 @@ import com.smart.mvc.model.PersistentObject;
  * @param <ID>
  * @author Joe
  */
-public interface Service<DAO, T extends PersistentObject, ID extends Serializable> {
-	/**
-	 * 设置数据访问对象
-	 * 
-	 * @param DAO
-	 *            dao
-	 */
-	public void setDao(DAO dao);
+public interface Service<T extends PersistentObject, ID extends Serializable> {
 
 	/**
 	 * 新建实体

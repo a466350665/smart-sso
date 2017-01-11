@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.smart.mvc.service.mybatis.Service;
 import com.smart.sso.rpc.RpcPermission;
-import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -12,7 +11,7 @@ import com.smart.sso.server.model.Permission;
  * 
  * @author Joe
  */
-public interface PermissionService extends Service<PermissionDao, Permission, Integer> {
+public interface PermissionService extends Service<Permission, Integer> {
 
 	/**
 	 * 启用禁用操作

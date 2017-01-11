@@ -12,6 +12,7 @@
 	
 	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
 	
+	<!-- 通过Hession接收远程RPC请求 -->
 	<bean name="/authenticationRpcService" class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="authenticationRpcService" />
 		<property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />

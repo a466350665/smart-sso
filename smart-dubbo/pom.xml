@@ -9,7 +9,7 @@
 		<version>0.0.1</version>
 	</parent>
 	
-	<artifactId>smart-mvc</artifactId>
+	<artifactId>smart-dubbo</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
@@ -19,10 +19,7 @@
 	</properties>
     
 	<modules>
-		<module>smart-mvc-config</module>
-		<module>smart-mvc-core</module>
-		<module>smart-mvc-hibernate</module>
-		<module>smart-mvc-mybatis</module>
-		<module>smart-mvc-mybatis-demo</module>
+		<module>smart-dubbo-core</module>
+		<module>smart-dubbo-demo</module>
 	</modules>
 </project>

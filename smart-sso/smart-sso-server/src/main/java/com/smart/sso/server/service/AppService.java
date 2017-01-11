@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.AppDao;
 import com.smart.sso.server.model.App;
 
 /**
@@ -13,7 +12,7 @@ import com.smart.sso.server.model.App;
  * 
  * @author Joe
  */
-public interface AppService extends Service<AppDao, App, Integer> {
+public interface AppService extends Service<App, Integer> {
 	
 	/**
 	 * 启用禁用操作

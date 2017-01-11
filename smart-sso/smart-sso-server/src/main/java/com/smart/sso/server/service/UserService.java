@@ -5,7 +5,6 @@ import java.util.List;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
 
 /**
@@ -13,7 +12,7 @@ import com.smart.sso.server.model.User;
  * 
  * @author Joe
  */
-public interface UserService extends Service<UserDao, User, Integer> {
+public interface UserService extends Service<User, Integer> {
 	
 	/**
 	 * 登录

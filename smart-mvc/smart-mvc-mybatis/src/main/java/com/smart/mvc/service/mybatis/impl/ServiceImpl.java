@@ -22,9 +22,8 @@ import com.smart.mvc.service.mybatis.Service;
  * @param <ID>
  * @author Joe
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, ID extends Serializable> implements
-		Service<DAO, T, ID> {
+public abstract class ServiceImpl<DAO extends Dao<T, ID>, T extends PersistentObject, ID extends Serializable> implements
+		Service<T, ID> {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceImpl.class);
 	
@@ -32,7 +31,7 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * 数据访问对象，提供子类使用
 	 */
 	protected DAO dao;
-
+	
 	public abstract void setDao(DAO dao);
 
 	/**
@@ -43,7 +42,7 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * 
 	 */
 	public void save(T t) {
-		((Dao) dao).save(t);
+		dao.save(t);
 	}
 
 	/**
@@ -65,7 +64,7 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 *            t
 	 */
 	public void update(T t) {
-		verifyRows(((Dao) dao).update(t), 1, "数据库更新失败");
+		verifyRows(dao.update(t), 1, "数据库更新失败");
 	}
 
 	/**
@@ -101,8 +100,9 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @param T
 	 *            t
 	 */
+	@SuppressWarnings("unchecked")
 	public void delete(T t) {
-		verifyRows(((Dao) dao).deleteById(t.getId()), 1, "数据库删除失败");
+		verifyRows(dao.deleteById((ID) t.getId()), 1, "数据库删除失败");
 	}
 
 	/**
@@ -125,7 +125,7 @@ public abstract class ServiceImpl<DAO extends Dao, T extends PersistentObject, I
 	 * @return T
 	 */
 	public T get(ID pk) {
-		return (T) ((Dao) dao).get(pk);
+		return dao.get(pk);
 	}
 
 	/**

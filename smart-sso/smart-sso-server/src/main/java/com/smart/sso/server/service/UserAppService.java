@@ -3,7 +3,6 @@ package com.smart.sso.server.service;
 import java.util.List;
 
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.UserAppDao;
 import com.smart.sso.server.model.UserApp;
 
 /**
@@ -11,7 +10,7 @@ import com.smart.sso.server.model.UserApp;
  * 
  * @author Joe
  */
-public interface UserAppService extends Service<UserAppDao, UserApp, Integer> {
+public interface UserAppService extends Service<UserApp, Integer> {
 	
 	/**
 	 * 根据管理员ID和角色ID查询映射

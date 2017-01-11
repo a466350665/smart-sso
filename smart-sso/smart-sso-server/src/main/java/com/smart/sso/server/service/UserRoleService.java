@@ -3,7 +3,6 @@ package com.smart.sso.server.service;
 import java.util.List;
 
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.UserRoleDao;
 import com.smart.sso.server.model.UserRole;
 
 /**
@@ -11,7 +10,7 @@ import com.smart.sso.server.model.UserRole;
  * 
  * @author Joe
  */
-public interface UserRoleService extends Service<UserRoleDao, UserRole, Integer> {
+public interface UserRoleService extends Service<UserRole, Integer> {
 	
 	/**
 	 * 根据管理员ID和角色ID查询映射

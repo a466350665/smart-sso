@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.server.dao.RoleDao;
 import com.smart.sso.server.model.Role;
 
 /**
@@ -12,7 +11,7 @@ import com.smart.sso.server.model.Role;
  * 
  * @author Joe
  */
-public interface RoleService extends Service<RoleDao, Role, Integer> {
+public interface RoleService extends Service<Role, Integer> {
 	
 	/**
 	 * 启用禁用操作
