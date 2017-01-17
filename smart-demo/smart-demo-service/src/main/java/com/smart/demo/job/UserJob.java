@@ -22,9 +22,9 @@ public class UserJob {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	/**
-	 * 每隔5秒执行一次
+	 * 每隔5分钟执行一次
 	 */
-	@Scheduled(cron = "*/5 * * * * ?")
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void addUserScore() throws KeeperException, InterruptedException {
 		DistributedLock lock = new ZookeeperLock(ConfigUtils.getProperty("zookeeper.address"), this.getClass()
 				.getName());

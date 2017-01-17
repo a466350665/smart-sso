@@ -6,7 +6,7 @@
 		<groupId>com.smart</groupId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>smart-demo-service</artifactId>
+	<artifactId>smart-demo-server</artifactId>
 	<packaging>war</packaging>
 	<name>${project.artifactId}</name>
 

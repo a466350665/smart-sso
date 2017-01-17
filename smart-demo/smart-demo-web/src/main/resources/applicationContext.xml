@@ -25,6 +25,8 @@
 				<value>classpath:dubbo.properties</value>
 				<!--远程服务参数配置-->
 				<value>classpath:service.properties</value>
+				<!--单点登录参数配置-->
+				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置-->
 				<value>classpath:config.properties</value>
 			</list>

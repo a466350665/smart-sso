@@ -7,7 +7,7 @@
 	   http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="smart-dubbo-demo-service"/>
+	<dubbo:application name="smart-demo-server"/>
 
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry protocol="zookeeper" address="${zookeeper.address}" />

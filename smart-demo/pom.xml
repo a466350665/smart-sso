@@ -19,7 +19,7 @@
     
 	<modules>
 		<module>smart-demo-api</module>
-    	<module>smart-demo-service</module>
+    	<module>smart-demo-server</module>
     	<module>smart-demo-web</module>
 	</modules>
   	
