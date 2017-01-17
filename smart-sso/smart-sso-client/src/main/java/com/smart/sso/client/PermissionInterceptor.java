@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.smart.mvc.config.ConfigUtils;
+import com.smart.mvc.exception.ServiceException;
+import com.smart.mvc.model.ResultCode;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcPermission;
 import com.smart.util.StringUtils;
 
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
-
-	private String unauthorizedUrl;
 
 	@Autowired
 	private AuthenticationRpcService authenticationRpcService;
@@ -36,8 +36,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		if (isPermitted(request, path)) {
 			return true;
 		}
-		response.sendRedirect(unauthorizedUrl);
-		return false;
+		throw new ServiceException(ResultCode.SSO_PERMISSION_ERROR, "未登录或已超时");
 	}
 
 	private boolean isPermitted(HttpServletRequest request, String path) {
@@ -62,7 +61,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
 		SessionUser user = (SessionUser) request.getSession().getAttribute("_sessionUser");
 		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(user.getToken(),
-				ConfigUtils.getProperty("app.code"));
+				ConfigUtils.getProperty("sso.app.code"));
 
 		List<RpcPermission> menuList = new ArrayList<RpcPermission>();
 		Set<String> operateSet = new HashSet<String>();
@@ -88,9 +87,5 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		sessionPermission.setPermissionSet(operateSet);
 		ApplicationUtils.setSessionPermission(request, sessionPermission);
 		return sessionPermission;
-	}
-
-	public void setUnauthorizedUrl(String unauthorizedUrl) {
-		this.unauthorizedUrl = unauthorizedUrl;
 	}
 }

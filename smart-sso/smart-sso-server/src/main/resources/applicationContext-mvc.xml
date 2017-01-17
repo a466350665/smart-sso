@@ -13,6 +13,20 @@
 	<!-- Controller扫描包 -->
 	<context:component-scan base-package="com.smart.sso.server.controller" />
 	
-	<!-- 引入SpringMVC基础及单点登录相关 -->
-	<import resource="classpath:config/spring-mvc-sso.xml"/>
+	<!-- 单点登录拦截器 -->
+	<mvc:interceptors>
+		<!-- SSO拦截 -->
+		<mvc:interceptor>
+	        <mvc:mapping path="/admin/**"/>
+	        <bean class="com.smart.sso.client.SsoInterceptor" />
+	    </mvc:interceptor>
+	    <!-- 权限拦截 -->
+		<mvc:interceptor>
+	        <mvc:mapping path="/admin/**"/>
+	        <bean class="com.smart.sso.client.PermissionInterceptor" />
+	    </mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 引入SpringMVC基础相关 -->
+	<import resource="classpath:config/spring-mvc.xml" />
 </beans>

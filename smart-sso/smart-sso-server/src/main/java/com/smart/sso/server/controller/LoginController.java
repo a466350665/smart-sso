@@ -21,7 +21,6 @@ import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.ApplicationUtils;
 import com.smart.sso.server.common.LoginUser;
-import com.smart.sso.server.common.Loginable;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
@@ -36,6 +35,9 @@ import com.smart.util.StringUtils;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+	
+	//登录页
+	private static final String LOGIN_PATH = "/login";
 
 	@Resource
 	private TokenManager tokenManager;
@@ -43,14 +45,15 @@ public class LoginController {
 	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String login(@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
+	public String login(
+			@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
 			@ValidateParam(name = "应用编码", validators = { Validator.NOT_BLANK }) String appCode,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, "token");
 		if (token == null) {
 			request.setAttribute("backUrl", backUrl);
 			request.setAttribute("appCode", appCode);
-			return Loginable.LOGIN_PATH;
+			return LOGIN_PATH;
 		}
 		else {
 			LoginUser loginUser = tokenManager.validate(token);
@@ -60,23 +63,19 @@ public class LoginController {
 				if (permissionSubject != null)
 					permissionSubject.attach(appCode);
 
-				if (StringUtils.isBlank(backUrl)) {
-					return Loginable.LOGIN_SUCCESS_PATH;
-				}
-				else {
-					return "redirect:" + authBackUrl(backUrl, token);
-				}
+				return "redirect:" + authBackUrl(backUrl, token);
 			}
 			else {
 				request.setAttribute("backUrl", backUrl);
 				request.setAttribute("appCode", appCode);
-				return Loginable.LOGIN_PATH;
+				return LOGIN_PATH;
 			}
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String login(@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
+	public String login(
+			@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
 			@ValidateParam(name = "应用编码", validators = { Validator.NOT_BLANK }) String appCode,
 			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account,
 			@ValidateParam(name = "密码", validators = { Validator.NOT_BLANK }) String password,
@@ -84,10 +83,10 @@ public class LoginController {
 		Result result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));
 		if (!result.isSuccess()) {
-			request.setAttribute(Loginable.VALIDATE_MESSAGE_NAME, result.getMessage());
+			request.setAttribute("errorMessage", result.getMessage());
 			request.setAttribute("backUrl", backUrl);
 			request.setAttribute("appCode", appCode);
-			return Loginable.LOGIN_PATH;
+			return LOGIN_PATH;
 		}
 		else {
 			User user = (User) result.getData();
@@ -103,22 +102,9 @@ public class LoginController {
 			if (permissionSubject != null)
 				permissionSubject.attach(appCode);
 
-			// 4 跳转到原请求
-			if (StringUtils.isBlank(backUrl)) {
-				return Loginable.LOGIN_SUCCESS_PATH;
-			}
-			else {
-				backUrl = URLDecoder.decode(backUrl, "utf-8");
-				try {
-					if (backUrl != null) {
-						return "redirect:" + authBackUrl(backUrl, token);
-					}
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			return backUrl;
+			// 跳转到原请求
+			backUrl = URLDecoder.decode(backUrl, "utf-8");
+			return "redirect:" + authBackUrl(backUrl, token);
 		}
 	}
 

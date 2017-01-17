@@ -25,7 +25,7 @@
 	    <!-- 配置model的alias,别名(即类名)-->
 	    <property name="typeAliasesPackage" value="com.smart.sso.server.model" />
 	    <!-- 所有配置的aliasemapper文件 -->
-	    <property name="mapperLocations" value="classpath*:com/smart/sso/server/model/*.xml" />
+	    <property name="mapperLocations" value="classpath*:com/smart/sso/server/mapper/*.xml" />
 	    <!--分页插件-->
 	    <property name="plugins">
 	    	<ref bean="paginationInterceptor"/>

@@ -14,4 +14,5 @@ public final class ResultCode {
 
 	// SSO 用户授权出错
 	public final static String SSO_TOKEN_ERROR = "1001"; // TOKEN未授权或已过期
+	public final static String SSO_PERMISSION_ERROR = "1002"; // 没有访问权限
 }

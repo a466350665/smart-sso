@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smart.sso.server.dao.RolePermissionDao">
+	<insert id="save" parameterType="RolePermission" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SYS_RE_ROLE_PERMISSION(
+			appId,
+			roleId,
+			permissionId
+		) 
+		VALUES (
+			#{appId},
+			#{roleId},
+			#{permissionId}
+		)
+	</insert>
+
+	<select id="findByRoleId" parameterType="map" resultType="RolePermission">   
+		SELECT a.* 
+     	FROM SYS_RE_ROLE_PERMISSION a
+     	INNER JOIN SYS_PERMISSION p ON p.id = a.permissionId AND p.isEnable = 1
+     	WHERE 1 = 1
+     	<if test="roleId != null and roleId != '' ">
+			AND a.roleId = #{roleId} 
+		</if>
+	</select>
+	
+	<delete id="deleteByPermissionIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_ROLE_PERMISSION
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND permissionId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteByRoleIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_ROLE_PERMISSION
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND roleId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_ROLE_PERMISSION
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+</mapper>

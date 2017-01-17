@@ -29,7 +29,7 @@ public class PermissionJmsListener implements MessageListener {
 			LOGGER.error("Jms illegal message!");
 		}
 
-		if (ConfigUtils.getProperty("app.code").equals(appCode)) {
+		if (ConfigUtils.getProperty("sso.app.code").equals(appCode)) {
 			LOGGER.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}

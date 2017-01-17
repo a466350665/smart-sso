@@ -13,12 +13,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
-	<listener>
-		<listener-class>com.smart.mvc.listener.InitListener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>com.smart.sso.client.PermissionListener</listener-class>
-	</listener>
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -55,18 +49,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>rpc</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:applicationContext-rpc.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<servlet-name>configInitServlet</servlet-name>
+		<servlet-class>com.smart.mvc.servlet.ConfigInitServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+		<async-supported>true</async-supported>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>rpc</servlet-name>
-		<url-pattern>/rpc/*</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>permissionInitServlet</servlet-name>
+		<servlet-class>com.smart.sso.client.PermissionInitServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
 	<filter>
 		<filter-name>captchaFilter</filter-name>
 		<filter-class>com.smart.mvc.captcha.CaptchaFilter</filter-class>

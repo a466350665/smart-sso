@@ -38,11 +38,5 @@
 			<artifactId>smart-sso-rpc</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
-		<!-- 远程RPC调用hessian支持 -->
-		<dependency>
-			<groupId>com.caucho</groupId>
-			<artifactId>hessian</artifactId>
-		</dependency>
 	</dependencies>
 </project>

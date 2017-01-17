@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.smart.sso.server.dao.RoleDao">
+	<select id="get" parameterType="java.lang.Integer" resultType="Role">
+     	SELECT * 
+     	FROM SYS_ROLE a
+     	WHERE id = #{id}
+    </select>
+    
+	<insert id="save" parameterType="Role" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO SYS_ROLE(
+			appId,
+			name,
+			sort,
+			description,
+			isEnable
+		) 
+		VALUES (
+			#{appId},
+			#{name},
+			#{sort},
+			#{description},
+			#{isEnable}
+		)
+	</insert>
+	
+    <update id="update" parameterType="Role" statementType="PREPARED">
+		UPDATE SYS_ROLE a SET
+			a.`appId` = #{appId},
+			a.`name` = #{name},
+			a.`sort` = #{sort},
+			a.`description` = #{description},
+			a.isEnable = #{isEnable}
+		WHERE a.`id` = #{id}
+	</update>
+	
+	<update id="enable" parameterType="map" statementType="PREPARED">
+		UPDATE SYS_ROLE a SET
+			a.isEnable = #{isEnable}
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND a.`id` in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</update>
+	
+	<select id="findPaginationByName" parameterType="map" resultType="Role">   
+		SELECT * 
+     	FROM SYS_ROLE a
+     	WHERE 1 = 1
+     	<if test="name != null and name != '' ">
+			AND a.name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="isEnable != null">
+			AND a.isEnable = #{isEnable} 
+		</if>
+		<if test="appId != null and appId != '' ">
+			AND a.appId = #{appId} 
+		</if>
+     	ORDER BY a.sort DESC 
+	</select>
+	
+	<delete id="deleteById" parameterType="list" statementType="PREPARED">
+		DELETE FROM SYS_ROLE
+		WHERE 1 = 1
+		<if test="list != null">
+			AND `id` in <foreach collection="list" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+	
+	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_ROLE
+		WHERE 1 = 1
+		<if test="idList != null">
+			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+	</delete>
+</mapper>

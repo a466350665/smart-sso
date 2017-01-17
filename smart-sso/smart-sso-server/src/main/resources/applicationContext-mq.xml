@@ -25,7 +25,7 @@
 	<bean id="permissionJmsListener" class="com.smart.sso.client.PermissionJmsListener" />
 	
     <jms:listener-container destination-type="queue" container-type="default" connection-factory="jmsConnectionFactory" acknowledge="auto">
-        <jms:listener destination="${mq.permission.queue.prefix}${app.code}" ref="permissionJmsListener"/>
+        <jms:listener destination="${mq.permission.queue.prefix}${sso.app.code}" ref="permissionJmsListener"/>
     </jms:listener-container>
     <!-- 消息消费者 end -->
 </beans>  

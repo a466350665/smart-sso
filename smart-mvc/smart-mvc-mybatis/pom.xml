@@ -10,13 +10,6 @@
 	<name>${project.artifactId}</name>
 
 	<dependencies>
-		<!-- mvc-config公用配置支持 -->
-		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-mvc-config</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		
 		<!-- mvc-core包支持 -->
 		<dependency>
 			<groupId>com.smart</groupId>
