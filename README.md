@@ -7,7 +7,7 @@
 ### 前端：
     Html5 + Css3.0 + Bootstrap(ACE模板) + Jquery
 ### 后端：
-    Maven+SpringMVC+Spring+Mybatis/Hibernate+Redis(选配)+Sso+Hessian+Druid+Fastjson+Mysql+ActiveMQ(选配)
+    Maven+SpringMVC+Spring+Mybatis/Hibernate+Zookeeper+Dubbo+Sso+Redis(选配)+Druid+Fastjson+Mysql+ActiveMQ(选配)
 ### 1.单点登录（Sso）;
     简单实用的基于Cookie实现的单点登录
 ### 2.分布式服务治理（Dubbo）;
