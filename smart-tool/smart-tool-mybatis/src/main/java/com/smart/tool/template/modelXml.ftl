@@ -7,7 +7,7 @@
      	WHERE id = &{id}
     </select>
     
-	<insert id="save" parameterType="${model}" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="${model}" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO ${tableName}(
 			<#list fieldList as field>
 			`${field.fieldName}`

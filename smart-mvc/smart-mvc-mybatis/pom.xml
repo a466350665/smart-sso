@@ -23,7 +23,7 @@
 			<artifactId>mybatis</artifactId>
 		</dependency>
 
-		<!-- mybatis/spring包 -->
+		<!-- mybatis-spring包 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>

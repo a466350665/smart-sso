@@ -76,8 +76,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	}
 	
 	@Permissible
-	public void saveOrUpdate(User t) {
-		super.saveOrUpdate(t);
+	public void save(User t) {
+		super.save(t);
 	}
 
 	public void resetPassword(String password, List<Integer> idList) {

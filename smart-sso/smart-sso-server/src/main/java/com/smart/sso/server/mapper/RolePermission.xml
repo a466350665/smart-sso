@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.smart.sso.server.dao.RolePermissionDao">
-	<insert id="save" parameterType="RolePermission" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="RolePermission" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO SYS_RE_ROLE_PERMISSION(
 			appId,
 			roleId,

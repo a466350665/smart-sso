@@ -42,7 +42,12 @@ public abstract class ServiceImpl<DAO extends Dao<T, ID>, T extends PersistentOb
 	 * 
 	 */
 	public void save(T t) {
-		dao.save(t);
+		if (t.getId() == null) {
+			dao.insert(t);
+		}
+		else {
+			dao.update(t);
+		}
 	}
 
 	/**
@@ -76,21 +81,6 @@ public abstract class ServiceImpl<DAO extends Dao<T, ID>, T extends PersistentOb
 	public void update(Collection<T> ts) {
 		for (T t : ts) {
 			update(t);
-		}
-	}
-	
-	/**
-	 * 如果实体未持久化过则新建实体，否则更新实体
-	 * 
-	 * @param T
-	 *            t
-	 */
-	public void saveOrUpdate(T t) {
-		if (t.getId() == null) {
-			this.save(t);
-		}
-		else {
-			this.update(t);
 		}
 	}
 

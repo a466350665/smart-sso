@@ -116,7 +116,7 @@ public class UserController extends BaseController {
 			user.setPassword(PasswordProvider.encrypt(password));
 		}
 		user.setIsEnable(isEnable);
-		userService.saveOrUpdate(user);
+		userService.save(user);
 		return Result.createSuccessResult();
 	}
 

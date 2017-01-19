@@ -106,7 +106,7 @@ public class UserController extends BaseController {
 			user = userService.get(id);
 		}
 		user.setAccount(account);
-		userService.saveOrUpdate(user);
+		userService.save(user);
 		return Result.createSuccessResult();
 	}
 

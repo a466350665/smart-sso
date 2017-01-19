@@ -49,8 +49,8 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 	}
 	
 	@Permissible
-	public void saveOrUpdate(App t) {
-		super.saveOrUpdate(t);
+	public void save(App t) {
+		super.save(t);
 	}
 
 	public List<App> findByAll(String name) {

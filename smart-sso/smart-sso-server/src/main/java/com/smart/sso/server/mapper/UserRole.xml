@@ -13,7 +13,7 @@
 		</if>
 	</select>
 
-	<insert id="save" parameterType="UserRole" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="UserRole" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO SYS_RE_USER_ROLE(
 			appId,
 			userId,

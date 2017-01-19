@@ -36,8 +36,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	}
 	
 	@Permissible
-	public void saveOrUpdate(Permission t) {
-		super.saveOrUpdate(t);
+	public void save(Permission t) {
+		super.save(t);
 	}
 
 	public List<Permission> findByName(String name, Integer appId, Boolean isEnable) {

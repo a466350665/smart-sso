@@ -95,7 +95,7 @@ public class RoleController extends BaseController {
 		role.setSort(sort);
 		role.setDescription(description);
 		role.setIsEnable(isEnable);
-		roleService.saveOrUpdate(role);
+		roleService.save(role);
 		return Result.createSuccessResult();
 	}
 	

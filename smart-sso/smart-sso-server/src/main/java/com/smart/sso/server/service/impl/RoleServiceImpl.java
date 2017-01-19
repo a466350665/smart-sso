@@ -37,8 +37,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role, Integer> impleme
 	}
 	
 	@Permissible
-	public void saveOrUpdate(Role t) {
-		super.saveOrUpdate(t);
+	public void save(Role t) {
+		super.save(t);
 	}
 
 	public Pagination<Role> findPaginationByName(String name, Integer appId, Pagination<Role> p) {

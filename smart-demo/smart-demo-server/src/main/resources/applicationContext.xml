@@ -33,7 +33,7 @@
     <!-- 引入服务相关 -->
     <import resource="applicationContext-service.xml"/>
     <!-- 引入定时任务相关 -->
-    <import resource="applicationContext-quartz.xml"/>
+    <import resource="applicationContext-job.xml"/>
     <!-- 引入Dubbo服务相关 -->
     <import resource="dubbo-provider.xml"/>
 </beans>

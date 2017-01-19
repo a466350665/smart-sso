@@ -19,7 +19,7 @@ public interface Dao<T, ID extends Serializable> {
 	 * @param T
 	 *            t
 	 */
-	public int save(T t);
+	public int insert(T t);
 
 	/**
 	 * 更新实体

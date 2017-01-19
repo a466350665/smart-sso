@@ -97,7 +97,7 @@ public class AppController extends BaseController {
 		app.setSort(sort);
 		app.setIsEnable(isEnable);
 		app.setCode(code);
-		appService.saveOrUpdate(app);
+		appService.save(app);
 		return Result.createSuccessResult();
 	}
 

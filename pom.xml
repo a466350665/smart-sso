@@ -13,13 +13,13 @@
 		<module>smart-util</module>
 		<!-- Springmvc + Spring + Mybatis or Hibernate -->
 		<module>smart-mvc</module>
-		<!-- Smart简单案例 -->
+		<!-- Smart简单Dubbo服务化案例 -->
 		<module>smart-demo</module>
-		<!-- 单点登录权限服务 -->
+		<!-- 单点登录权限系统 -->
 		<module>smart-sso</module>
 		<!-- 前端公用脚本和样式  -->
 		<module>smart-static</module>
-		<!-- Smart结构代码生成工具 -->
+		<!-- Smart代码生成工具 -->
 		<module>smart-tool</module>
 	</modules>
 	
@@ -35,7 +35,6 @@
 		<aspectj.version>1.8.9</aspectj.version>
 		<jta.version>1.1</jta.version>
 		<quartz.version>2.2.1</quartz.version>
-		<ehcache.version>2.10.1</ehcache.version>
 		<mybatis.version>3.3.0</mybatis.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
 		<hibernate.version>4.2.7.Final</hibernate.version>
@@ -120,13 +119,6 @@
 				<version>${freemarker.version}</version>
 			</dependency>
 			
-			<!-- Spring对Freemarker包装工具 -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			
 			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -176,13 +168,6 @@
 				<version>${aspectj.version}</version>
 			</dependency>
 			
-			<!-- ehcache缓存 -->
-			<dependency>
-				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache</artifactId>
-				<version>${ehcache.version}</version>
-			</dependency>
-			
 			<!-- mybatis核心包 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -190,7 +175,7 @@
 				<version>${mybatis.version}</version>
 			</dependency>
 			
-			<!-- mybatis/spring包 -->
+			<!-- mybatis-spring包 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
@@ -204,7 +189,7 @@
 			    <version>${hibernate.version}</version>
 			</dependency>
 			
-			<!-- hibernate/spring包 -->
+			<!-- hibernate-spring包 -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
@@ -291,18 +276,8 @@
 			
 			<!-- quartz定时任务 -->
 			<dependency>
-				<groupId>javax.transaction</groupId>
-				<artifactId>jta</artifactId>
-				<version>${jta.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>${quartz.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.quartz-scheduler</groupId>
-				<artifactId>quartz-jobs</artifactId>
 				<version>${quartz.version}</version>
 			</dependency>
 			

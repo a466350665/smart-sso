@@ -7,7 +7,7 @@
      	WHERE id = #{id}
     </select>
     
-	<insert id="save" parameterType="Role" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="Role" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO SYS_ROLE(
 			appId,
 			name,

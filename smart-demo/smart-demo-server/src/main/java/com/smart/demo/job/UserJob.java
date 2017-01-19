@@ -1,10 +1,9 @@
 package com.smart.demo.job;
 
+
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.smart.mvc.config.ConfigUtils;
 import com.smart.mvc.locks.DistributedLock;
@@ -16,16 +15,11 @@ import com.smart.mvc.locks.ZookeeperLock;
  * 
  * @author Joe
  */
-@Component
 public class UserJob {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-	/**
-	 * 每隔5分钟执行一次
-	 */
-	@Scheduled(cron = "0 0/5 * * * ?")
-	public void addUserScore() throws KeeperException, InterruptedException {
+	public void execute() throws KeeperException, InterruptedException {
 		DistributedLock lock = new ZookeeperLock(ConfigUtils.getProperty("zookeeper.address"), this.getClass()
 				.getName());
 		if (lock.tryLock()) {

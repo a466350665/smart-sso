@@ -48,14 +48,6 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 	 *            <T> ts
 	 */
 	public void update(Collection<T> ts);
-	
-	/**
-	 * 保存或更新实体
-	 * 
-	 * @param List
-	 *            <T> ts
-	 */
-	public void saveOrUpdate(T t);
 
 	/**
 	 * 删除实体

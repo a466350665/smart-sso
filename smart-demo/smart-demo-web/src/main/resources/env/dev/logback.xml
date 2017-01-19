@@ -1,6 +1,6 @@
 <configuration>
 	<property name="log.env" value="dev" />
-	<property name="log.name" value="smart-dubbo-demo-web" />
+	<property name="log.name" value="smart-demo-web" />
 	<property name="log.level" value="debug" />
 	<property name="log.url" value="${catalina.home}/logs" />
 	

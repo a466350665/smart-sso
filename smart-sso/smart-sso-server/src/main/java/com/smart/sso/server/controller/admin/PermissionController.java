@@ -79,7 +79,7 @@ public class PermissionController extends BaseController {
 		permission.setSort(sort);
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);
-		permissionService.saveOrUpdate(permission);
+		permissionService.save(permission);
 		return Result.createSuccessResult().setMessage("保存成功");
 	}
 

@@ -100,7 +100,7 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 		for (int i = 0; i < validators.length; i++) {
 			Validator validator = Validator.getValidator(validators[i]);
 			if (validator != null) {
-				if (value != null) {
+				if (value != null && value.toString().trim() != "") {
 					validator.validate(cName, value.toString());
 				}
 				else {
