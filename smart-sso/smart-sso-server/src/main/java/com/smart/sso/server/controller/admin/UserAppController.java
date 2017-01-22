@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,8 +44,7 @@ public class UserAppController extends BaseController {
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
 	public @ResponseBody Result allocateSave(
 			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId,
-			@ValidateParam(name = "应用IDS") String appIds,
-			HttpServletRequest request) {
+			@ValidateParam(name = "应用IDS") String appIds) {
 		List<Integer> idList = getAjaxIds(appIds);
 		List<UserApp> list = new ArrayList<UserApp>();
 		UserApp bean = null;

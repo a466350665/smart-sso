@@ -53,14 +53,16 @@ public class AppController extends BaseController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(@ValidateParam(name = "名称 ") String name,
+	public @ResponseBody Result list(
+			@ValidateParam(name = "名称 ") String name,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
 	}
 
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
-	public @ResponseBody Result validateCode(@ValidateParam(name = "id") Integer id,
+	public @ResponseBody Result validateCode(
+			@ValidateParam(name = "id") Integer id,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code) {
 		Result result = Result.createSuccessResult();
 		if (StringUtils.isNotBlank(code)) {
@@ -73,14 +75,16 @@ public class AppController extends BaseController {
 	}
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody Result enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
+	public @ResponseBody Result enable(
+			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		appService.enable(isEnable, getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody Result save(
+			@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "名称 ", validators = { Validator.NOT_BLANK }) String name,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable,
@@ -102,7 +106,8 @@ public class AppController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+	public @ResponseBody Result delete(
+			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
 		appService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}

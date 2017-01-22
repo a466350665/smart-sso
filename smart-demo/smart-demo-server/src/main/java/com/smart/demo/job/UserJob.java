@@ -26,7 +26,7 @@ public class UserJob {
 			LOGGER.debug(ConfigUtils.getProperty("dubbo.port") + "执行任务");
 
 			/**
-			 * 注：当tryLock执行过快，会导致当前内容已执行，当前的Lock会被释放掉，会出现多JVM执行多次的情况 设置1秒的缓冲时间
+			 * 注：当if(lock.tryLock())内代码执行过快，当前的Lock就会被unlock释放掉，会出现多JVM执行多次的情况，设置1秒的缓冲时间
 			 */
 			Thread.sleep(1000);
 		}

@@ -67,7 +67,8 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(@ValidateParam(name = "登录名 ") String account,
+	public @ResponseBody Result list(
+			@ValidateParam(name = "登录名 ") String account,
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
@@ -89,7 +90,8 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody Result enable(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
+	public @ResponseBody Result enable(
+			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
 			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
 		userService.enable(isEnable, getAjaxIds(ids));
 		return Result.createSuccessResult();
@@ -128,7 +130,8 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+	public @ResponseBody Result delete(
+			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
 		userService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}

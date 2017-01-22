@@ -61,7 +61,8 @@ public class RoleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(@ValidateParam(name = "角色名") String name,
+	public @ResponseBody Result list(
+			@ValidateParam(name = "角色名") String name,
 			@ValidateParam(name = "应用ID ") Integer appId,
 			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
 			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
@@ -77,7 +78,8 @@ public class RoleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody Result save(
+			@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "角色名", validators = { Validator.NOT_BLANK }) String name,
 			@ValidateParam(name = "排序", validators = { Validator.NOT_BLANK }) Integer sort,
@@ -121,7 +123,8 @@ public class RoleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+	public @ResponseBody Result delete(
+			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
 		roleService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}

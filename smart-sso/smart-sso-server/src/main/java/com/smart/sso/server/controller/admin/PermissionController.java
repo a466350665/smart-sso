@@ -55,7 +55,8 @@ public class PermissionController extends BaseController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
+	public @ResponseBody Result save(
+			@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "应用ID", validators = { Validator.NOT_BLANK }) Integer appId,
 			@ValidateParam(name = "父ID") Integer parentId,
 			@ValidateParam(name = "图标") String icon,

@@ -36,7 +36,7 @@ import com.smart.util.StringUtils;
 @RequestMapping("/login")
 public class LoginController {
 	
-	//登录页
+	// 登录页
 	private static final String LOGIN_PATH = "/login";
 
 	@Resource
