@@ -98,6 +98,10 @@ public class UserController extends BaseController {
 	public @ResponseBody Result save(
 			@ValidateParam(name = "ID") Integer id,
 			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account) {
+		Result result = null;
+		if (!(result = validateAccount(id, account)).isSuccess()) {
+			return result;
+		}
 		User user;
 		if (id == null) {
 			user = new User();
