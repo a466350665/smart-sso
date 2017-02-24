@@ -94,12 +94,13 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 
 	/**
 	 * 通过主键删除实体
+	 * 注：这里别把List改为Collection，会导致覆盖方法的List<ID>调用不到
 	 * 
 	 * @param List
 	 *            <PK> pks
 	 * @return List<T>
 	 */
-	public void deleteById(Collection<ID> idList);
+	public void deleteById(List<ID> idList);
 
 	/**
 	 * 查所有分页
