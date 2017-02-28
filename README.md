@@ -4,9 +4,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/shuzheng/zheng.svg?style=social&label=Fork)](https://github.com/a466350665/smart)
 
 ## 简述：
-    Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，帮助实现快速开发。
-    内置Java基础工具类、Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器，
-    和一套易用高兼容的boostrap前端Html模板。
+    Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，实现快速开发。内置Java基础工具类、Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器、易用高兼容的boostrap前端Html模板。
     
 ## 技术选型
 
