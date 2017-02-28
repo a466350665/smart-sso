@@ -6,8 +6,30 @@
 ## 简述：
     Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，实现快速开发。内置Java基础工具类、Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器、易用高兼容的boostrap前端Html模板。
     
-## 技术选型
+### 组织结构
 
+``` lua
+smart
+├── smart-mvc -- 公共模块（SpringMVC + Spring + Mybatis/Hibernate）
+|    ├── smart-mvc-core -- 公共模块核心
+|    ├── smart-mvc-hibernate -- 公共模块hibernate特有
+|    ├── smart-mvc-mybatis -- 公共模块mybatis特有
+├── smart-sso -- 单点登录权限系统
+|    ├── smart-sso-client -- 单点登录客户端依赖包，提供单点认证、授权管理
+|    ├── smart-sso-rpc -- 单点登录远程调用API
+|    ├── smart-sso-server -- 单点登录服务端
+├── smart-static -- 公用静态js、css文件
+├── smart-tool -- 代码生成工具
+|    ├── smart-tool-hibernate -- 代码生成工具（hibernate）版本
+|    ├── smart-tool-mybatis -- 代码生成工具（mybatis）版本
+├── smart-util -- 基础工具类
+├── smart-demo -- 简单的Dubbo服务化demo案例
+|    ├── smart-demo-api -- demo远程调用API
+|    ├── smart-demo-server -- demo服务化provider
+|    ├── smart-demo-web -- demo服务化consumer
+```
+    
+## 技术选型
 ### 浏览器兼容：
     Firefox 5+, Google Chrome 14+,Internet Explorer 8,Internet Explorer 9,Opera 11,Safari 5及各种手机浏览器
 ### 前端：
