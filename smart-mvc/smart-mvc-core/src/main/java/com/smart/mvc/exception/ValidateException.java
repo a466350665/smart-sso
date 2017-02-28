@@ -22,7 +22,7 @@ public class ValidateException extends ApplicationException {
 		this.code = ResultCode.VALIDATE_ERROR;
 	}
 	
-	public ValidateException(String code, String message) {
+	public ValidateException(int code, String message) {
 		super(message);
 		this.code = code;
 	}
@@ -32,7 +32,7 @@ public class ValidateException extends ApplicationException {
 		this.code = ResultCode.VALIDATE_ERROR;
 	}
 	
-	public ValidateException(String code, String message, Throwable cause) {
+	public ValidateException(int code, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 	}

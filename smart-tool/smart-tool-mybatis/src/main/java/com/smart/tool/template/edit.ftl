@@ -128,7 +128,7 @@
 					_&.post("${path}/admin/${_model!''}/save", _&.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.code == '0000'){
+							if(d.code == 1){
 								$.aceRedirect("${path}/admin/${_model!''}");
 							}
 							else {

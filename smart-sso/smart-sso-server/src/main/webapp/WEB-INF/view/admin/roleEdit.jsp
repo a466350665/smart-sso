@@ -126,7 +126,7 @@
 					$.post("${_path}/admin/role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
-							if(d.code == '0000'){
+							if(d.code == 1){
 								$.aceRedirect("${_path}/admin/role");
 							}
 							else {

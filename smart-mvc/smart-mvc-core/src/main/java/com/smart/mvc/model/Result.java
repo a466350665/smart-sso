@@ -15,7 +15,7 @@ public class Result {
 	/**
 	 * 状态码
 	 */
-	protected String code;
+	protected Integer code;
 
 	/**
 	 * 信息
@@ -26,11 +26,11 @@ public class Result {
 		super();
 	}
 
-	private Result(String code) {
+	private Result(Integer code) {
 		this.code = code;
 	}
 
-	public static Result create(String code) {
+	public static Result create(Integer code) {
 		return new Result(code);
 	}
 
@@ -94,7 +94,7 @@ public class Result {
 	 * @return
 	 */
 	public boolean isSuccess() {
-		return ResultCode.SUCCESS.equals(this.code);
+		return code != null && code.equals(ResultCode.SUCCESS);
 	}
 
 	public Object getData() {
@@ -106,11 +106,11 @@ public class Result {
 		return this;
 	}
 
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public Result setCode(String code) {
+	public Result setCode(Integer code) {
 		this.code = code;
 		return this;
 	}

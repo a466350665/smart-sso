@@ -13,7 +13,7 @@ public class ApplicationException extends RuntimeException{
 	
 	public static final String MESSAGE = "系统服务出错！";
 
-	protected String code = ResultCode.APPLICATION_ERROR;
+	protected int code = ResultCode.APPLICATION_ERROR;
 
 	public ApplicationException() {
 		super(MESSAGE);
@@ -23,7 +23,7 @@ public class ApplicationException extends RuntimeException{
 		super(message);
 	}
 	
-	public ApplicationException(String code, String message) {
+	public ApplicationException(int code, String message) {
 		super(message);
 		this.code = code;
 	}
@@ -32,7 +32,7 @@ public class ApplicationException extends RuntimeException{
 		super(message, cause);
 	}
 	
-	public ApplicationException(String code, String message, Throwable cause) {
+	public ApplicationException(int code, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 	}
@@ -41,11 +41,11 @@ public class ApplicationException extends RuntimeException{
 		super(cause);
 	}
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 }

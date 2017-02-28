@@ -22,7 +22,7 @@ public class ServiceException extends ApplicationException{
 		this.code = ResultCode.SERVICE_ERROR;
 	}
 	
-	public ServiceException(String code, String message) {
+	public ServiceException(int code, String message) {
 		super(message);
 		this.code = code;
 	}
@@ -32,7 +32,7 @@ public class ServiceException extends ApplicationException{
 		this.code = ResultCode.SERVICE_ERROR;
 	}
 	
-	public ServiceException(String code, String message, Throwable cause) {
+	public ServiceException(int code, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 	}

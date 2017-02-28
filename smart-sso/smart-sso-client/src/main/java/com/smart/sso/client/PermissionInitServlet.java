@@ -49,7 +49,7 @@ public class PermissionInitServlet extends HttpServlet {
 		}
 		catch (Exception e) {
 			dbList = new ArrayList<RpcPermission>(0);
-			LOGGER.error("无法连接到单点登录鉴权系统,请检查service.properties中sso.local.url配置", e);
+			LOGGER.error("无法连接到单点登录鉴权系统,请检查配置sso.local.url", e);
 		}
 		List<RpcPermission> menuList = new ArrayList<RpcPermission>();
 		Set<String> operateSet = new HashSet<String>();

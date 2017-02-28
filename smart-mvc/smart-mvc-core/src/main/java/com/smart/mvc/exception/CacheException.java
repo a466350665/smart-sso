@@ -22,7 +22,7 @@ public class CacheException extends ApplicationException{
 		this.code = ResultCode.CACHE_ERROR;
 	}
 	
-	public CacheException(String code, String message) {
+	public CacheException(int code, String message) {
 		super(message);
 		this.code = code;
 	}
@@ -32,7 +32,7 @@ public class CacheException extends ApplicationException{
 		this.code = ResultCode.CACHE_ERROR;
 	}
 	
-	public CacheException(String code, String message, Throwable cause) {
+	public CacheException(int code, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 	}

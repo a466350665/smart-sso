@@ -22,7 +22,7 @@ public class DaoException extends ApplicationException {
 		this.code = ResultCode.DAO_ERROR;
 	}
 	
-	public DaoException(String code, String message) {
+	public DaoException(int code, String message) {
 		super(message);
 		this.code = code;
 	}
@@ -32,7 +32,7 @@ public class DaoException extends ApplicationException {
 		this.code = ResultCode.DAO_ERROR;
 	}
 	
-	public DaoException(String code, String message, Throwable cause) {
+	public DaoException(int code, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 	}
