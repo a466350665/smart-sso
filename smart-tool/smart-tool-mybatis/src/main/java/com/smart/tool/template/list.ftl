@@ -1,11 +1,7 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%  
-    response.setHeader("Pragma", "No-cache");
-    response.setHeader("Cache-Control", "no-cache");
-    response.setDateHeader("Expires", 0);   
-%>
-<jsp:include page="../assets/common/head.jsp">
+
+<jsp:include page="../common/common.jsp">
 	<jsp:param name="title" value="${tableComment!''}"/>
 </jsp:include>
 
@@ -46,36 +42,27 @@
 	</div>
 </div>
 
-<!-- page specific plugin scripts -->
 <script type="text/javascript">
-	var scripts = [null, 
-		"${path!''}/assets/js/bootbox.js?v=" + Math.random(),
-		"${path!''}/assets/js/bootbox.custom.js?v=" + Math.random(),
-		"${path!''}/assets/js/dataTables/jquery.table.min.js?v=" + Math.random(),
-		"${path!''}/assets/js/jquery.form.min.js?v=" + Math.random(),
-		"${path!''}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${path!''}/assets/js/jquery.gritter.custom.js?v=" + Math.random(),
-		null];
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			// 列表
     		var $table = $("#_table").table({
-    			url : "${path!''}/admin/${_model!''}!list.shtml",
+    			url : "${path!''}/admin/${_model!''}/list",
     			formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '${_model!''}!edit.shtml', handler : function(){
-						window.location.href = "${path!''}/admin/admin.shtml#page/${_model!''}!edit.shtml";
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/${_model!''}/edit', handler : function(){
+						$.aceRedirect("${path!''}/admin/${_model!''}/edit");
 					}},
 					<#if containEnable>
-					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '${_model!''}!enable.shtml', handler : function(){
-						$table.ajaxEnable({url : "${path!''}/admin/${_model!''}!enable.shtml"}, false);
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/${_model!''}/enable', handler : function(){
+						$table.ajaxEnable({url : "${path!''}/admin/${_model!''}/enable"}, false);
 					}},
-					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '${_model!''}!enable.shtml', handler : function(){
-						$table.ajaxEnable({url : "${path!''}/admin/${_model!''}!enable.shtml"}, true);
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/${_model!''}/enable', handler : function(){
+						$table.ajaxEnable({url : "${path!''}/admin/${_model!''}/enable"}, true);
 					}},
 					</#if>
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '${_model!''}!delete.shtml', handler : function(){
-						$table.ajaxDelete({url : "${path!''}/admin/${_model!''}!delete.shtml"});
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/${_model!''}/delete', handler : function(){
+						$table.ajaxDelete({url : "${path!''}/admin/${_model!''}/delete"});
 					}}
 				],
 				columns : [
@@ -99,29 +86,29 @@
 			    </#list>
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '${_model!''}!edit.shtml', handler : function(d, i){
-						window.location.href = "${path!''}/admin/admin.shtml#page/${_model!''}!edit.shtml?${_model!''}.id=" + d.id;
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/${_model!''}/edit', handler : function(d, i){
+						$.aceRedirect("${path!''}/admin/${_model!''}/edit?id=" + d.id);
 					}},
 					<#if containEnable>
-					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '${_model!''}!enable.shtml', 
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/${_model!''}/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${path!''}/admin/${_model!''}!enable.shtml"}, false);
+							$table.ajaxEnable({url : "${path!''}/admin/${_model!''}/enable"}, false);
 						},
 						show : function(d){
 						    return d.${enableName!''};
 						}
 					},
-					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '${_model!''}!enable.shtml', 
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/${_model!''}/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${path!''}/admin/${_model!''}!enable.shtml"}, true);
+							$table.ajaxEnable({url : "${path!''}/admin/${_model!''}/enable"}, true);
 						},
 						show : function(d){
 						    return !d.${enableName!''};
 						}
 					},
 					</#if>
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '${_model!''}!delete.shtml', handler : function(d, i){
-						$table.ajaxDelete({url : "${path!''}/admin/${_model!''}!delete.shtml"});
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/${_model!''}/delete', handler : function(d, i){
+						$table.ajaxDelete({url : "${path!''}/admin/${_model!''}/delete"});
 					}}
 				],
 				after : function(){

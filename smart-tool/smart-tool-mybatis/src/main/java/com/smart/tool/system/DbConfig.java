@@ -14,7 +14,6 @@ public class DbConfig {
 	public static String GENERATE_TYPE_SQL = "sql";
 	public static String GENERATE_TYPE_DB = "db";
 
-	private String generateType;
 	private String outPath;
 	private String companyName;
 	private String projectName;
@@ -28,10 +27,9 @@ public class DbConfig {
 	public DbConfig() {
 		Properties props = new Properties();
 		try {
-			InputStream in = new FileInputStream(new File("config2.properties"));
+			InputStream in = new FileInputStream(new File("config.properties"));
 			props.load(in);
 
-			generateType = props.getProperty("default.generateType");
 			outPath = props.getProperty("default.outPath");
 			companyName = props.getProperty("default.companyName");
 			projectName = props.getProperty("default.projectName");
@@ -45,14 +43,6 @@ public class DbConfig {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String getGenerateType() {
-		return generateType;
-	}
-
-	public void setGenerateType(String generateType) {
-		this.generateType = generateType;
 	}
 
 	public String getOutPath() {

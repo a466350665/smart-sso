@@ -18,7 +18,8 @@ public class Controller {
 
 	private Map<String, Object> dataMap;
 
-	public Controller(String company, String project, String module, String model, List<DummyField> fieldList, boolean containEnable, boolean containDate, String tableComment) {
+	public Controller(String company, String project, String module, String model, List<DummyField> fieldList,
+			boolean containEnable, boolean containDate, String tableComment, String admin) {
 		dataMap = new HashMap<String, Object>();
 		/** 公司 **/
 		dataMap.put("company", company);
@@ -39,9 +40,12 @@ public class Controller {
 		dataMap.put("fieldList", fieldList);
 		/** 表描述 **/
 		dataMap.put("tableComment", tableComment);
+		/** 后台管理页 **/
+		if (StringUtils.isNotBlank(admin))
+			dataMap.put("admin", admin);
 	}
-	
-	public String getHtml(){
+
+	public String getHtml() {
 		return FreemarkerUtils.getText("controller.ftl", dataMap);
 	}
 }
