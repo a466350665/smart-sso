@@ -33,7 +33,10 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 		}
 		else {
 			request.getSession().invalidate();
-			response.sendRedirect(ConfigUtils.getProperty("sso.login.url"));
+			String ssoLoginUrl = new StringBuilder().append(ConfigUtils.getProperty("sso.server.url"))
+					.append("/login?backUrl=").append(ConfigUtils.getProperty("sso.local.url"))
+					.append("/admin/admin&appCode=").append(ConfigUtils.getProperty("sso.app.code")).toString();
+			response.sendRedirect(ssoLoginUrl);
 			return false;
 		}
 	}

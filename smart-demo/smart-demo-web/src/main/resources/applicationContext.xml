@@ -21,8 +21,6 @@
     	<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
-				<!--Dubbo参数配置-->
-				<value>classpath:dubbo.properties</value>
 				<!--远程服务参数配置-->
 				<value>classpath:service.properties</value>
 				<!--单点登录参数配置-->

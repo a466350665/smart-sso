@@ -8,5 +8,6 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>smart-sso-rpc</artifactId>
+	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 </project>

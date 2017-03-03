@@ -17,7 +17,7 @@
     </bean>
 	
 	<!-- 引入Mybatis基础配置 -->	   
-	<import resource="classpath:config/spring-mybatis.xml"/>
+	<import resource="classpath:spring-mybatis.xml"/>
     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
 	    <!--dataSource属性指定要用到的连接池--> 

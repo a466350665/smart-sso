@@ -8,7 +8,7 @@
 		   http://www.springframework.org/schema/context/spring-context.xsd">
 		   
     <!-- 引入Redis基础配置 -->
-	<import resource="classpath:config/spring-redis.xml"/>
+	<import resource="classpath:spring-redis.xml"/>
 	
 	<!-- Redis覆盖HttpSession，配置Session超时时间 -->
 	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">

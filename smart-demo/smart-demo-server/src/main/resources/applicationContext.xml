@@ -20,6 +20,8 @@
     	<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
+				<!--远程服务参数配置-->
+				<value>classpath:service.properties</value>
 				<!--数据库参数配置-->
 				<value>classpath:jdbc.properties</value>
 				<!--Dubbo参数配置-->

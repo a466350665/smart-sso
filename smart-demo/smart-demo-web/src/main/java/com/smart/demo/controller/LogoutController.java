@@ -20,6 +20,9 @@ public class LogoutController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
-		return "redirect:" + ConfigUtils.getProperty("sso.logout.url");
+		String ssoLogoutUrl = new StringBuilder().append(ConfigUtils.getProperty("sso.server.url"))
+				.append("/logout?backUrl=").append(ConfigUtils.getProperty("sso.local.url"))
+				.append("/admin/admin").toString();
+		return "redirect:" + ssoLogoutUrl;
 	}
 }

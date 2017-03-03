@@ -7,6 +7,7 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>smart-mvc-mybatis</artifactId>
+	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 
 	<dependencies>

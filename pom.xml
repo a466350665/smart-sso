@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
 	<groupId>com.smart</groupId>
 	<artifactId>smart</artifactId>
 	<version>0.0.1</version>
@@ -23,9 +22,31 @@
 		<module>smart-tool</module>
 	</modules>
 	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+				<log.level>debug</log.level>
+				<log.url>${catalina.home}/logs</log.url>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<env>pro</env>
+				<log.level>info</log.level>
+				<log.url>${catalina.home}/logs</log.url>
+			</properties>
+		</profile>
+	</profiles>
+	
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
 		
 		<servlet.version>3.1.0</servlet.version>
 		<junit.version>4.12</junit.version>
@@ -326,6 +347,49 @@
 	        </dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warName>/${project.artifactId}</warName>
+                </configuration>
+            </plugin>
+		</plugins>
+		<resources>
+			<!-- Intellij idea兼容 -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			
+			<resource>
+				<directory>src/main/resources</directory>
+				<!-- 过滤替换配置文件变量 -->
+				<filtering>true</filtering>
+			</resource>
+			
+			<!-- 环境配置文件 -->
+			<resource>
+				<directory>deploy/${env}</directory>
+			</resource>
+		</resources>
+	</build>
 	
 	<!-- Jar镜像 -->
 	<repositories>

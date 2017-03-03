@@ -28,5 +28,5 @@
 	</mvc:interceptors>
 	
 	<!-- 引入SpringMVC基础相关 -->
-	<import resource="classpath:config/spring-mvc.xml" />
+	<import resource="classpath:spring-mvc.xml" />
 </beans>

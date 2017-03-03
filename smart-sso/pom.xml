@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>com.smart</groupId>
 		<artifactId>smart</artifactId>
@@ -12,9 +11,13 @@
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
+	<!-- 日志邮箱参数应用级：不同的应用可能异常通知邮箱不同 -->
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<log.mail.host>smtp.163.com</log.mail.host>
+		<log.mail.port>25</log.mail.port>
+		<log.mail.username>consukj@163.com</log.mail.username>
+		<log.mail.password>gskj10086!</log.mail.password>
+		<log.mail.to>a466350665@qq.com</log.mail.to>
 	</properties>
 
 	<modules>

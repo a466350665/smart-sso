@@ -12,7 +12,7 @@
            http://www.springframework.org/schema/jms/spring-jms.xsd">
 
 	<!-- 引入MQ基础配置 -->
-	<import resource="classpath:config/spring-mq.xml"/>
+	<import resource="classpath:spring-mq.xml"/>
 
 	<!-- Spring JmsTemplate 的消息生产者 -->
 	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
