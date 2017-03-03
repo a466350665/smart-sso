@@ -21,8 +21,8 @@
     
 	<modules>
 		<module>smart-demo-api</module>
-    	<module>smart-demo-server</module>
-    	<module>smart-demo-web</module>
+		<module>smart-demo-server</module>
+		<module>smart-demo-web</module>
 	</modules>
   	
   	<dependencies>
