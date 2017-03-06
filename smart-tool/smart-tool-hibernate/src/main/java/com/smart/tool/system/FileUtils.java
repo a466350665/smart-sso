@@ -13,7 +13,7 @@ public class FileUtils {
 	public static File loopCreateFile(String basePath, String nestFile) throws IOException {
 		File floder = new File(basePath);
 		if (!floder.exists()) {
-			floder.mkdir();
+			floder.mkdirs();
 		}
 		String path[] = nestFile.split("/");
 
