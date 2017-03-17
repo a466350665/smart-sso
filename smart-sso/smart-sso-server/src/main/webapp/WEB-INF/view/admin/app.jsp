@@ -72,7 +72,7 @@
 					}},
 					{text : '同步权限', clazz : 'btn-info', icon : 'fa fa-refresh blue', permission : '/admin/app/sync/permissions', handler : function(){
 						$table.ajax({
-							url : "${pageContext.request.contextPath}/admin/app/sync/permissions",
+							url : "${_path}/admin/app/sync/permissions",
 							data : {codes : $table.getSelectedItemKeys("code")},
 							success : function(d) {
 								if(d){
@@ -124,7 +124,7 @@
 					}},
 					{text : '同步权限', clazz : 'blue', icon : 'fa fa-refresh', permission : '/admin/app/sync/permissions', handler : function(d, i){
 						$table.ajax({
-							url : "${pageContext.request.contextPath}/admin/app/sync/permissions",
+							url : "${_path}/admin/app/sync/permissions",
 							data : {codes : d.code},
 							success : function(d) {
 								if(d){

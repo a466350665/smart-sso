@@ -17,7 +17,7 @@
 	
 	var uploadImage = function uploadImage(fileInfo){
 		var url;
-		var action = "${pageContext.request.contextPath}/admin/fileUpload!saveImage.shtml";                    // 接收上传文件的后台地址 
+		var action = "${_path}/admin/fileUpload!saveImage.shtml";                    // 接收上传文件的后台地址 
 
         var form = new FormData();
         form.append("file", fileInfo); // 文件对象

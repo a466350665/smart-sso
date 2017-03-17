@@ -123,7 +123,7 @@
 						$("#_roleId").val($table.getSelectedItemKeys("id"));
 						$("#_appId1").val($table.getSelectedItemKeys("appId"));
 						$table.ajax({
-							url : "${pageContext.request.contextPath}/admin/role/allocate",
+							url : "${_path}/admin/role/allocate",
 							type : "get",
 							selectOne : true,
 							data : {"roleId":$table.getSelectedItemKeys("id")},
@@ -188,7 +188,7 @@
 						$("#_roleId").val(d.id);
 						$("#_appId1").val(d.appId);
 						$.ajax({
-					    	url : "${pageContext.request.contextPath}/admin/role/allocate", 
+					    	url : "${_path}/admin/role/allocate", 
 					    	type : "get",
 					    	data : {"roleId":d.id},
 					    	dataType : 'json',
@@ -277,7 +277,7 @@
 					permissionIds = permissionIds.substring(0,permissionIds.length-1);
 				}
 				$("#_permissionId").val(permissionIds);
-				$.post("${pageContext.request.contextPath}/admin/role/allocateSave", $.formJson('_allocateForm'),function(d) {
+				$.post("${_path}/admin/role/allocateSave", $.formJson('_allocateForm'),function(d) {
 					if(d){
 						btn.button('reset');
 						$("#_allocateForm")[0].reset();
