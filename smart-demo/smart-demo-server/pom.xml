@@ -9,6 +9,10 @@
 	<artifactId>smart-demo-server</artifactId>
 	<packaging>war</packaging>
 	<name>${project.artifactId}</name>
+	
+	<properties>
+		<server.port>8081</server.port>
+	</properties>
 
 	<dependencies>
 		<!-- demo-api支持 -->
@@ -18,18 +22,4 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<port>8081</port>
-					<path>/${project.artifactId}</path>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

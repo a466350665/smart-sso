@@ -47,6 +47,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<server.port>80</server.port>
 		
 		<servlet.version>3.1.0</servlet.version>
 		<junit.version>4.12</junit.version>
@@ -366,6 +367,15 @@
 				<version>2.4</version>
 				<configuration>
 					<warName>/${project.artifactId}</warName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>${server.port}</port>
+					<path>/${project.artifactId}</path>
 				</configuration>
 			</plugin>
 		</plugins>
