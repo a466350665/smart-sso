@@ -33,9 +33,11 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 		}
 		else {
 			request.getSession().invalidate();
+			
 			String ssoLoginUrl = new StringBuilder().append(ConfigUtils.getProperty("sso.server.url"))
-					.append("/login?backUrl=").append(ConfigUtils.getProperty("sso.local.url"))
-					.append("/admin/admin&appCode=").append(ConfigUtils.getProperty("sso.app.code")).toString();
+					.append("/login?backUrl=").append(getLocalUrl(request)).append("/admin/admin&appCode=")
+					.append(ConfigUtils.getProperty("sso.app.code")).toString();
+			
 			response.sendRedirect(ssoLoginUrl);
 			return false;
 		}
@@ -96,5 +98,11 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String requestedWith = request.getHeader("X-Requested-With");
 		return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
+	}
+	
+	public static String getLocalUrl(HttpServletRequest request) {
+		return new StringBuilder().append(request.getScheme()).append("://").append(request.getServerName())
+				.append(":").append(request.getServerPort() == 80 ? "" : request.getServerPort())
+				.append(request.getContextPath()).toString();
 	}
 }
