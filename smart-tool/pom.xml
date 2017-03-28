@@ -13,6 +13,5 @@
 
 	<modules>
 		<module>smart-tool-mybatis</module>
-		<module>smart-tool-hibernate</module>
 	</modules>
 </project>
