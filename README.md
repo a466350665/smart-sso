@@ -20,7 +20,6 @@ smart
 |    ├── smart-sso-server -- 单点登录服务端
 ├── smart-static -- 公用静态js、css文件
 ├── smart-tool -- 代码生成工具
-|    ├── smart-tool-hibernate -- 代码生成工具（hibernate）版本
 |    ├── smart-tool-mybatis -- 代码生成工具（mybatis）版本
 ├── smart-util -- 基础工具类
 ├── smart-demo -- 简单的Dubbo服务化demo案例
