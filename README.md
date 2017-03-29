@@ -3,7 +3,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/a466350665/smart/pulls)
 [![GitHub forks](https://img.shields.io/github/forks/shuzheng/zheng.svg?style=social&label=Fork)](https://github.com/a466350665/smart)
 
-交流QQ群：454343484(群内含各种工具和文档下载)
+QQ交流群：454343484(群内含各种工具和文档下载)
 
 ## 简述：
     Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，实现快速开发。内置Java基础工具类、Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器、易用高兼容的boostrap前端Html模板。
@@ -31,24 +31,43 @@ smart
 ```
     
 ## 技术选型
-### 浏览器兼容：
-    Firefox 5+, Google Chrome 14+,Internet Explorer 8,Internet Explorer 9,Opera 11,Safari 5及各种手机浏览器
-### 前端：
-    Html5 + Css3.0 + Bootstrap(ACE模板) + Jquery
+
 ### 后端：
-    Maven+SpringMVC+Spring+Mybatis/Hibernate+Zookeeper+Dubbo+Sso+Redis(选配)+Druid+Fastjson+Mysql+ActiveMQ(选配)
-### 1.单点登录（Sso）;
-    简单实用的基于Cookie实现的单点登录
-### 2.分布式服务治理（Dubbo）;
-    一个分布式服务框架,致力于提供高性能和透明化的RPC远程服务调用方案,是阿里巴巴SOA服务化治理方案的核心框架
-### 3.数据库连接池(Druid);
-    数据库连接池阿里巴巴的 druid。Druid在监控、可扩展性、稳定性和性能方面都有明显的优势
-### 4.Json处理工具包(Fastjson);
-    fastjson 是一个性能很好的 Java 语言实现的 JSON 解析器和生成器
-### 5.开源消息总线 (ActiveMQ);
-    对Spring的支持,通过MQ监听权限修改消息通知
-### 6.Nosql(Redis) ;
-    Redis是一个高性能的key-value数据库，最流行的共享Session处理方案
+- JDK：1.8(支持1.7+)
+- 应用容器：Tomcat 8.0.9(支持Tomcat7+)
+- 数据库：Mysql
+- MVC框架：SpringMVC 4.2.1.RELEASE
+- 核心框架：Spring 4.2.1.RELEASE
+- ORM框架：MyBatis 3.3.0/Hibernate 4.2.7.Final
+- 分布式协调服务：Zookeeper 0.1
+- 分布式服务框架：Dubbo 2.5.3
+- 分布式缓存：Redis 2.8.12
+- 分布式消息服务：ActiveMQ 5.13.3
+- NIO框架：Netty 4.0.23.Final
+- 项目构建：Maven 3.3.3
+- JSON工具：Fastjson 1.2.29
+- 定时任务：Quartz 2.2.1
+- 数据库连接池：Druid 1.0.15
+- 日志管理：SLF4J 1.7.21、Logback 1.1.7
+- 模板引擎：Freemarker 2.3.23
+
+- 单点登录：极简基于Cookie实现
+- 代码生成工具：基于GUI实现
+
+### 前端：
+- 基础代码库：Jquery 2.1.1
+- 前端模板：Ace 1.3.3(Bootstrap) https://github.com/bopoda/ace
+
+### 浏览器兼容：
+- Internet Explorer 11
+- Internet Explorer 10
+- Internet Explorer 9
+- Internet Explorer 8
+- Google Chrome 14+
+- Firefox 5+
+- Safari 5
+- Opera 11
+- 手机浏览器兼容
     
 ## 效果展示：
 
