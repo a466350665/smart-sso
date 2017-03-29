@@ -50,7 +50,6 @@ smart
 - 数据库连接池：Druid 1.0.15
 - 日志管理：SLF4J 1.7.21、Logback 1.1.7
 - 模板引擎：Freemarker 2.3.23
-
 - 单点登录：极简基于Cookie实现
 - 代码生成工具：基于GUI实现
 
