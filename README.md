@@ -34,7 +34,6 @@ smart
 
 ### 后端
 - JDK：1.8（支持1.7+）
-- 应用容器：Tomcat 8.0.9（支持Tomcat7+）
 - 数据库：Mysql
 - 项目构建工具：Maven 3.3.3
 - MVC框架：SpringMVC 4.2.1.RELEASE
