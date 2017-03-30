@@ -10,7 +10,7 @@
 	<modules>
 		<!-- Java工具类  -->
 		<module>smart-util</module>
-		<!-- Springmvc + Spring + Mybatis or Hibernate -->
+		<!-- SpringMVC + Spring + Mybatis or Hibernate -->
 		<module>smart-mvc</module>
 		<!-- Smart简单Dubbo服务化案例 -->
 		<module>smart-demo</module>
@@ -100,7 +100,7 @@
 				<scope>test</scope>
 			</dependency>
 			
-			<!-- xstream处理 -->
+			<!-- Xstream处理 -->
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
@@ -190,28 +190,28 @@
 				<version>${aspectj.version}</version>
 			</dependency>
 			
-			<!-- mybatis核心包 -->
+			<!-- Mybatis核心包 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
 				<version>${mybatis.version}</version>
 			</dependency>
 			
-			<!-- mybatis-spring包 -->
+			<!-- Mybatis-Spring包 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
 			</dependency>
 			
-			<!-- hibernate核心包 -->
+			<!-- Hibernate核心包 -->
 			<dependency>
 			    <groupId>org.hibernate</groupId>
 			    <artifactId>hibernate-core</artifactId>
 			    <version>${hibernate.version}</version>
 			</dependency>
 			
-			<!-- hibernate-spring包 -->
+			<!-- Hibernate-Spring包 -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
@@ -225,7 +225,7 @@
 				<version>${commons-io.version}</version>
 			</dependency>
 			
-			<!-- mysql驱动程序 -->
+			<!-- Mysql驱动程序 -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -263,7 +263,7 @@
 				<version>${jcl.version}</version>
 			</dependency>
 			
-			<!-- java发送邮件 -->
+			<!-- Java发送邮件 -->
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
@@ -296,21 +296,21 @@
 				<version>${jaxen.version}</version>
 			</dependency>
 			
-			<!-- quartz定时任务 -->
+			<!-- Quartz定时任务 -->
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
 				<version>${quartz.version}</version>
 			</dependency>
 			
-			<!-- activeMQ -->
+			<!-- ActiveMQ -->
 			<dependency>
 				<groupId>org.apache.activemq</groupId>
 				<artifactId>activemq-client</artifactId>
 				<version>${activemq.version}</version>
 			</dependency>
 			
-			<!-- dubbo -->
+			<!-- Dubbo -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
@@ -323,7 +323,7 @@
 				</exclusions>
 			</dependency>
 	        
-			<!-- zookeeper -->
+			<!-- Zookeeper -->
 			<dependency>
 				<groupId>com.github.sgroschupf</groupId>
 				<artifactId>zkclient</artifactId>
@@ -376,6 +376,20 @@
 				<configuration>
 					<port>${server.port}</port>
 					<path>/${project.artifactId}</path>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.2.v20170220</version>
+				<configuration>
+					<scanIntervalSeconds>3</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webApp>
+					<httpConnector>
+						<port>${server.port}</port>
+					</httpConnector>
 				</configuration>
 			</plugin>
 		</plugins>

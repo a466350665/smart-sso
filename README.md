@@ -5,10 +5,10 @@
 
 QQ交流群：454343484(群内含各种工具和文档下载)
 
-## 简述：
+## 简述
     Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，实现快速开发。内置Java基础工具类、Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器、易用高兼容的boostrap前端Html模板。
     
-### 组织结构
+## 组织结构
 
 ``` lua
 smart
@@ -24,18 +24,19 @@ smart
 ├── smart-tool -- 代码生成工具
 |    ├── smart-tool-mybatis -- 代码生成工具（mybatis）版本
 ├── smart-util -- 基础工具类
-├── smart-demo -- 简单的Dubbo服务化demo案例
+├── smart-demo -- 简单的单点登录Dubbo服务化案例
 |    ├── smart-demo-api -- demo远程调用API
 |    ├── smart-demo-server -- demo服务化provider
-|    ├── smart-demo-web -- demo服务化consumer
+|    ├── smart-demo-web -- demo服务化consumer(单点登录权限拦截器)
 ```
     
 ## 技术选型
 
-### 后端：
-- JDK：1.8(支持1.7+)
-- 应用容器：Tomcat 8.0.9(支持Tomcat7+)
+### 后端
+- JDK：1.8（支持1.7+）
+- 应用容器：Tomcat 8.0.9（支持Tomcat7+）
 - 数据库：Mysql
+- 项目构建工具：Maven 3.3.3
 - MVC框架：SpringMVC 4.2.1.RELEASE
 - 核心框架：Spring 4.2.1.RELEASE
 - ORM框架：MyBatis 3.3.0/Hibernate 4.2.7.Final
@@ -44,7 +45,6 @@ smart
 - 分布式缓存：Redis 2.8.12
 - 分布式消息服务：ActiveMQ 5.13.3
 - NIO框架：Netty 4.0.23.Final
-- 项目构建：Maven 3.3.3
 - JSON工具：Fastjson 1.2.29
 - 定时任务：Quartz 2.2.1
 - 数据库连接池：Druid 1.0.15
@@ -53,11 +53,11 @@ smart
 - 单点登录：极简基于Cookie实现
 - 代码生成工具：基于GUI实现
 
-### 前端：
+### 前端
 - 基础代码库：Jquery 2.1.1
 - 前端模板：Ace 1.3.3(Bootstrap) https://github.com/bopoda/ace
 
-### 浏览器兼容：
+### 浏览器兼容
 - Internet Explorer 11
 - Internet Explorer 10
 - Internet Explorer 9
@@ -68,10 +68,10 @@ smart
 - Opera 11
 - 手机浏览器兼容
     
-## 效果展示：
-
-### 数据库模型
+## 数据库模型
 ![数据库模型](http://img.blog.csdn.net/20170228162027225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+## 效果展示
 
 ### 代码生成器
 ![代码生成器](http://img.blog.csdn.net/20170228171253734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)

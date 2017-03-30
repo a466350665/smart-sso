@@ -10,7 +10,11 @@
 	<artifactId>smart-static</artifactId>
 	<packaging>war</packaging>
 	<name>${project.artifactId}</name>
-	
+		
+	<properties>
+		<server.port>8083</server.port>
+	</properties>
+
 	<dependencies>
 		<!-- mvc-core包支持 -->
 		<dependency>
