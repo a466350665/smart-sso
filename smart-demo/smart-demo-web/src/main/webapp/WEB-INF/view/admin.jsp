@@ -11,6 +11,7 @@
 		<meta charset="utf-8" />
 		<title>${_systemName}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/script/assets/favicon.ico">
 		
 		<!--[if !IE]> -->
 		<link rel="stylesheet" href="${_staticPath}/assets/css/pace.css" />
