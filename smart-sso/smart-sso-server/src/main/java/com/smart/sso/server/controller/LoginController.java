@@ -94,8 +94,9 @@ public class LoginController {
 			
 			String token = tokenManager.existsLoginUser(loginUser);
 			if (StringUtils.isBlank(token)) {// 当前用户已登录
-				token = createToken(response, loginUser);
+				token = createToken(loginUser);
 			}
+			addTokenInCookie(token, response);
 
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
 			PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
@@ -120,18 +121,20 @@ public class LoginController {
 		return sbf.toString();
 	}
 
-	private String createToken(HttpServletResponse response, LoginUser loginUser) {
+	private String createToken(LoginUser loginUser) {
 		// 生成token
 		String token = IdProvider.createUUIDId();
 
 		// 缓存中添加token对应User
 		tokenManager.addToken(token, loginUser);
-
+		return token;
+	}
+	
+	private void addTokenInCookie(String token, HttpServletResponse response) {
 		// Cookie添加token
 		Cookie cookie = new Cookie("token", token);
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
-		return token;
 	}
 }
