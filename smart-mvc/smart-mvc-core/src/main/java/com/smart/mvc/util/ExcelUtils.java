@@ -1,4 +1,4 @@
-package com.smart.util;
+package com.smart.mvc.util;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.StringUtils;
 
 /**
  * Excel工具类
@@ -231,7 +232,7 @@ public class ExcelUtils {
 				}
 				if (type == int.class) {
 					if (value instanceof String) {
-						if (!StringUtils.isBlank((String) value)) {
+						if (!StringUtils.isEmpty((String) value)) {
 							value = Integer.valueOf((String) value);
 						} else {
 							value = 0;
@@ -241,7 +242,7 @@ public class ExcelUtils {
 					}
 				} else if (type == double.class) {
 					if (value instanceof String) {
-						if (!StringUtils.isBlank((String) value)) {
+						if (!StringUtils.isEmpty((String) value)) {
 							value = Double.valueOf((String) value);
 						} else {
 							value = 0;
@@ -519,8 +520,7 @@ public class ExcelUtils {
 	 */
 	private static CellStyle createCellStyle(Workbook workbook) {
 		CellStyle dateCellStyle = workbook.createCellStyle();
-		short df = workbook.createDataFormat().getFormat(
-				DateUtils.DEFAULT_DATE_FORMAT);
+		short df = workbook.createDataFormat().getFormat("yyyy-MM-dd");
 		dateCellStyle.setDataFormat(df);
 		return dateCellStyle;
 	}

@@ -12,9 +12,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.smart.mvc.config.ConfigUtils;
 import com.smart.mvc.exception.ServiceException;
 import com.smart.mvc.model.ResultCode;
+import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcUser;
-import com.smart.util.StringUtils;
 
 public class SsoInterceptor extends HandlerInterceptorAdapter {
 

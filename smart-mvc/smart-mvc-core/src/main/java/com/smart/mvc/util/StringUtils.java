@@ -1,4 +1,4 @@
-package com.smart.util;
+package com.smart.mvc.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

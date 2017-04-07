@@ -16,7 +16,6 @@ import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.util.StringUtils;
 
 /**
  * 管理员管理
@@ -60,11 +59,9 @@ public class UserController extends BaseController {
 			@ValidateParam(name = "id") Integer id,
 			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account) {
 		Result result = Result.createSuccessResult();
-		if (StringUtils.isNotBlank(account)) {
-			User user = userService.findByAccount(account);
-			if (null != user && !user.getId().equals(id)) {
-				result.setCode(ResultCode.ERROR).setMessage("登录名已存在");
-			}
+		User user = userService.findByAccount(account);
+		if (null != user && !user.getId().equals(id)) {
+			result.setCode(ResultCode.ERROR).setMessage("登录名已存在");
 		}
 		return result;
 	}

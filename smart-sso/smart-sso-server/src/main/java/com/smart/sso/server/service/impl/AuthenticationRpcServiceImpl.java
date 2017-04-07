@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.smart.mvc.provider.PasswordProvider;
+import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.rpc.RpcUser;
@@ -16,7 +17,6 @@ import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.UserService;
-import com.smart.util.StringUtils;
 
 @Service("authenticationRpcService")
 public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {

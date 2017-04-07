@@ -6,8 +6,8 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.RpcPermission;
-import com.smart.util.StringUtils;
 
 @SuppressWarnings("unchecked")
 public class ApplicationUtils {

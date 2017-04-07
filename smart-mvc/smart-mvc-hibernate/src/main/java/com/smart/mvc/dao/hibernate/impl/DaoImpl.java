@@ -14,9 +14,9 @@ import org.hibernate.SessionFactory;
 
 import com.smart.mvc.dao.hibernate.Dao;
 import com.smart.mvc.model.Pagination;
+import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.util.hibernate.DaoUtils;
 import com.smart.mvc.util.hibernate.ProPertyUtils;
-import com.smart.util.StringUtils;
 
 /**
  * Dao基类，实现了数据的CRUD

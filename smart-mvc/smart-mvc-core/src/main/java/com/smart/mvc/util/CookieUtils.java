@@ -4,8 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smart.util.StringUtils;
-
 /**
  * cookie操作工具
  * 
@@ -45,8 +43,7 @@ public class CookieUtils {
 	 * @param response
 	 * @param string
 	 */
-	public static void removeCookie(HttpServletResponse response, String name,
-			String path, String domain) {
+	public static void removeCookie(HttpServletResponse response, String name, String path, String domain) {
 
 		Cookie cookie = new Cookie(name, null);
 

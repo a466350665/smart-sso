@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.smart.mvc.exception.ServiceException;
-import com.smart.util.StringUtils;
+import com.smart.mvc.util.StringUtils;
 
 /**
  * 密码加密实现提供者

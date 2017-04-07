@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.smart.mvc.util.CookieUtils;
+import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.common.TokenManager;
-import com.smart.util.StringUtils;
 
 /**
  * 远程登出

@@ -15,7 +15,7 @@ import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.util.StringUtils;
+import com.smart.mvc.util.StringUtils;
 
 /**
  * 基于Zookeeper设计的分布式锁

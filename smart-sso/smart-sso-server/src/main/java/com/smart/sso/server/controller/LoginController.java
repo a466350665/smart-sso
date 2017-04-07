@@ -17,6 +17,7 @@ import com.smart.mvc.provider.IdProvider;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.util.SpringUtils;
+import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.ApplicationUtils;
@@ -25,7 +26,6 @@ import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.service.impl.PermissionSubject;
-import com.smart.util.StringUtils;
 
 /**
  * 登录

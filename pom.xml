@@ -8,8 +8,6 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<!-- Java工具类  -->
-		<module>smart-util</module>
 		<!-- SpringMVC + Spring + Mybatis or Hibernate -->
 		<module>smart-mvc</module>
 		<!-- Smart简单Dubbo服务化案例 -->

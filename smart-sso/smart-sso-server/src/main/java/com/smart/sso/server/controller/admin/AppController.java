@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +21,6 @@ import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.impl.PermissionSubject;
-import com.smart.util.StringUtils;
 
 /**
  * 应用管理
@@ -65,11 +65,9 @@ public class AppController extends BaseController {
 			@ValidateParam(name = "id") Integer id,
 			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code) {
 		Result result = Result.createSuccessResult();
-		if (StringUtils.isNotBlank(code)) {
-			App db = appService.findByCode(code);
-			if (null != db && !db.getId().equals(id)) {
-				result.setCode(ResultCode.ERROR).setMessage("应用编码已存在");
-			}
+		App db = appService.findByCode(code);
+		if (null != db && !db.getId().equals(id)) {
+			result.setCode(ResultCode.ERROR).setMessage("应用编码已存在");
 		}
 		return result;
 	}
