@@ -22,126 +22,101 @@
 			'font' : {
 				values:['Arial', 'Courier', 'Comic Sans MS', 'Helvetica', 'Open Sans', 'Tahoma', 'Verdana'],
 				icon:'fa fa-font',
-				title:'字体',
-				title_en:'Font'
+				title:'Font'
 			},
 			'fontSize' : {
 				values:{5:'Huge', 3:'Normal', 1:'Small'},
 				icon:'fa fa-text-height',
-				title:'字体大小',
-				title_en:'Font Size'
+				title:'Font Size'
 			},
 			'bold' : {
 				icon : 'fa fa-bold',
-				title : '加粗 (Ctrl/Cmd+B)',
-				title_en : 'Bold (Ctrl/Cmd+B)'
+				title : 'Bold (Ctrl/Cmd+B)'
 			},
 			'italic' : {
 				icon : 'fa fa-italic',
-				title : '斜体 (Ctrl/Cmd+I)',
-				title_en : 'Italic (Ctrl/Cmd+I)'
+				title : 'Italic (Ctrl/Cmd+I)'
 			},
 			'strikethrough' : {
 				icon : 'fa fa-strikethrough',
-				title : '删除线',
-				title_en : 'Strikethrough'
+				title : 'Strikethrough'
 			},
 			'underline' : {
 				icon : 'fa fa-underline',
-				title : '下划线',
-				title_en : 'Underline'
+				title : 'Underline'
 			},
 			'insertunorderedlist' : {
 				icon : 'fa fa-list-ul',
-				title : '子弹列表',
-				title_en : 'Bullet list'
+				title : 'Bullet list'
 			},
 			'insertorderedlist' : {
 				icon : 'fa fa-list-ol',
-				title : '数字列表',
-				title_en : 'Number list'
+				title : 'Number list'
 			},
 			'outdent' : {
 				icon : 'fa fa-outdent',
-				title : '减少缩进量 (Shift+Tab)',
-				title_en : 'Reduce indent (Shift+Tab)'
+				title : 'Reduce indent (Shift+Tab)'
 			},
 			'indent' : {
 				icon : 'fa fa-indent',
-				title : '缩进 (Tab)',
-				title_en : 'Indent (Tab)'
+				title : 'Indent (Tab)'
 			},
 			'justifyleft' : {
 				icon : 'fa fa-align-left',
-				title : '左对齐 (Ctrl/Cmd+L)',
-				title_en : 'Align Left (Ctrl/Cmd+L)'
+				title : 'Align Left (Ctrl/Cmd+L)'
 			},
 			'justifycenter' : {
 				icon : 'fa fa-align-center',
-				title : '居中 (Ctrl/Cmd+E)',
-				title_en : 'Center (Ctrl/Cmd+E)'
+				title : 'Center (Ctrl/Cmd+E)'
 			},
 			'justifyright' : {
 				icon : 'fa fa-align-right',
-				title : '右对齐 (Ctrl/Cmd+R)',
-				title_en : 'Align Right (Ctrl/Cmd+R)'
+				title : 'Align Right (Ctrl/Cmd+R)'
 			},
 			'justifyfull' : {
 				icon : 'fa fa-align-justify',
-				title : '两段对齐 (Ctrl/Cmd+J)',
-				title_en : 'Justify (Ctrl/Cmd+J)'
+				title : 'Justify (Ctrl/Cmd+J)'
 			},
 			'createLink' : {
 				icon : 'fa fa-link',
-				title : '超链接',
-				title_en : 'Hyperlink',
+				title : 'Hyperlink',
 				button_text : 'Add',
 				placeholder : 'URL',
 				button_class : 'btn-primary'
 			},
 			'unlink' : {
 				icon : 'fa fa-chain-broken',
-				title : '删除超链接',
-				title_en : 'Remove Hyperlink'
+				title : 'Remove Hyperlink'
 			},
 			'insertImage' : {
 				icon : 'fa fa-picture-o',
-				title : '插入图片',
-				title_en : 'Insert picture',
-				button_text : '<i class="'+ ace.vars['icon'] + 'fa fa-file"></i> 选择图片 ',
-				button_text_en : '<i class="'+ ace.vars['icon'] + 'fa fa-file"></i> Choose Image &hellip;',
+				title : 'Insert picture',
+				button_text : '<i class="'+ ace.vars['icon'] + 'fa fa-file"></i> Choose Image &hellip;',
 				placeholder : 'Image URL',
-				button_insert : '插入',
-				button_insert_en : 'Insert',
+				button_insert : 'Insert',
 				button_class : 'btn-success',
 				button_insert_class : 'btn-primary',
 				choose_file: true //show the choose file button?
 			},
 			'foreColor' : {
 				values : color_values,
-				title : '字体颜色',
-				title_en : 'Change Color'
+				title : 'Change Color'
 			},
 			'backColor' : {
 				values : color_values,
-				title : '背景颜色',
-				title_en : 'Change Background Color'
-				
+				title : 'Change Background Color'
 			},
 			'undo' : {
 				icon : 'fa fa-undo',
-				title : '撤销 (Ctrl/Cmd+Z)',
-				title_en : 'Undo (Ctrl/Cmd+Z)'
+				title : 'Undo (Ctrl/Cmd+Z)'
 			},
 			'redo' : {
 				icon : 'fa fa-repeat',
-				title : '重做 (Ctrl/Cmd+Y)',
-				title_en : 'Redo (Ctrl/Cmd+Y)'
+				title : 'Redo (Ctrl/Cmd+Y)'
 			},
 			'viewSource' : {
 				icon : 'fa fa-code',
-				title : '查看源代码',
-				title_en : 'View Source'
+				title : 'View Source'
 			}
 		}
 		

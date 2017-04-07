@@ -1,0 +1,64 @@
+
+<title>Email Templates - Ace Admin</title>
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+	<h1>
+		Email Templates
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i>
+			along with an email converter tool
+		</small>
+	</h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="alert alert-block alert-info">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="ace-icon fa fa-times"></i>
+			</button>
+			The following sample email templates are converted using the provided email tool which
+   	converts normal Bootstrap HTML to email friendly table layout with inline CSS!
+		</div>
+
+		<div class="space-12"></div>
+
+		<div class="row">
+			<div class="col-xs-3">
+				<a href="../../build/demo/email-confirmation.html" class="thumbnail" target="_blank">
+					<img class="img-responsive" src="../../assets/images/email1.png" alt="Email Template" />
+				</a>
+			</div>
+
+			<div class="col-xs-3">
+				<a href="../../build/demo/email-navbar.html" class="thumbnail" target="_blank">
+					<img class="img-responsive" src="../../assets/images/email2.png" alt="Email Template" />
+				</a>
+			</div>
+
+			<div class="col-xs-3">
+				<a href="../../build/demo/email-newsletter.html" class="thumbnail" target="_blank">
+					<img class="img-responsive" src="../../assets/images/email3.png" alt="Email Template" />
+				</a>
+			</div>
+
+			<div class="col-xs-3">
+				<a href="../../build/demo/email-contrast.html" class="thumbnail" target="_blank">
+					<img class="img-responsive" src="../../assets/images/email4.png" alt="Email Template" />
+				</a>
+			</div>
+		</div>
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null, null]
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	  //inline scripts related to this page
+	});
+</script>

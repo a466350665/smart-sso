@@ -101,7 +101,7 @@ jQuery(function($) {
 		var demo_ajax_options = {
 			 'close_active': true,
 			 
-			 'default_url': $("#_ace").attr("data-path"),//default hash
+			 'default_url': 'page/index',//default hash
 			 'content_url': function(hash) {
 				//***NOTE***
 				//this is for Ace demo only, you should change it to return a valid URL

@@ -22,12 +22,13 @@
 		this.loadUrl = function(hash, cache) {
 			var url = false;
 			hash = hash.replace(/^(\#\!)?\#/, '');
+			
 			this.force_reload = (cache === false)
 			
 			//TODO
-			//if(typeof this.settings.content_url === 'function') url = this.settings.content_url(hash);
-			var path = $("#_ajaxContent").attr("data-path");
-			url = (path ? path : "") + hash;
+			if(typeof this.settings.content_url === 'function') url = this.settings.content_url(hash);
+			//var path = $("#_ajaxContent").attr("data-path");
+			//url = (path ? path : "") + "/" + hash.split('/')[1] + ".jsp";
 			if(typeof url === 'string') this.getUrl(url, hash, false);
 		}
 		

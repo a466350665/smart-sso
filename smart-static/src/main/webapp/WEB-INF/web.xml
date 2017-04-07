@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<welcome-file-list>
-		<welcome-file>/</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
 	<filter>
 		<filter-name>CrossOriginFilter</filter-name>

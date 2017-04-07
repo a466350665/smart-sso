@@ -13,7 +13,7 @@
 		
 		<meta name="description" content="User login page" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/script/assets/favicon.ico">
+		<link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/custom/assets/favicon.ico">
 		
 		<script type="text/javascript">
 			var url = window.location.href;
@@ -176,10 +176,10 @@
 			if('ontouchstart' in document.documentElement) document.write("<script src='${_staticPath}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
 		</script>
 		
-		<script type="text/javascript" src="${_staticPath}/script/jquery.cookie.js"></script>
-		<script type="text/javascript" src="${_staticPath}/script/jquery.form.min.js"></script>
-		<script type="text/javascript" src="${_staticPath}/script/jquery.validate-2.0.min.js"></script>
-		<script type="text/javascript" src="${_staticPath}/script/jquery.validate-2.0.custom.min.js"></script>
+		<script type="text/javascript" src="${_staticPath}/custom/jquery.cookie.js"></script>
+		<script type="text/javascript" src="${_staticPath}/custom/jquery.form.min.js"></script>
+		<script type="text/javascript" src="${_staticPath}/custom/jquery.validate-2.0.min.js"></script>
+		<script type="text/javascript" src="${_staticPath}/custom/jquery.validate-2.0.custom.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">

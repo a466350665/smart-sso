@@ -24,19 +24,19 @@
 <script type="text/javascript">
 	var scripts = [
 		// Form提交Json转换
-		"${_staticPath}/script/jquery.form.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.form.min.js?v=" + Math.random(),
 		// 列表
-		"${_staticPath}/script/jquery.table.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.table.min.js?v=" + Math.random(),
 		// 确认框
 		"${_staticPath}/assets/js/bootbox.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/bootbox.custom.js?v=" + Math.random(),
+		"${_staticPath}/custom/assets/bootbox.custom.js?v=" + Math.random(),
 		// 自动隐藏的提醒框
 		"${_staticPath}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/jquery.gritter.custom.js?v=" + Math.random(),
+		"${_staticPath}/custom/assets/jquery.gritter.custom.js?v=" + Math.random(),
 		// UI
 		"${_staticPath}/assets/js/jquery-ui.custom.js?v=" + Math.random(),
 		// 验证
-		"${_staticPath}/script/jquery.validate-2.0.min.js?v=" + Math.random(),
-		"${_staticPath}/script/jquery.validate-2.0.custom.min.js?v=" + Math.random()
+		"${_staticPath}/custom/jquery.validate-2.0.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.validate-2.0.custom.min.js?v=" + Math.random()
 	];
 </script>

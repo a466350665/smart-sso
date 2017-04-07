@@ -1,0 +1,250 @@
+
+<title>Grid - Ace Admin</title>
+
+<style>
+	/* styling the grid page's grid elements */
+.center {
+	text-align: center;
+}
+.center [class*="col-"] {
+	margin-top: 2px;
+	margin-bottom: 2px;
+
+	position: relative;
+	text-overflow: ellipsis;
+}
+.center [class*="col-"]  div{
+  position: relative;
+  z-index: 2;
+  
+  	padding-top: 4px;
+	padding-bottom: 4px;
+	
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  width: 100%;
+}
+.center [class*="col-"]  div span{
+  position: relative;
+  z-index: 2;
+}
+.center [class*="col-"] div:before {
+	display: block;
+	content: "";
+	
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	
+	border: 1px solid #DDD;
+}
+
+.center [class*="col-"] div:hover:before {
+	background-color: #FCE6A6;
+	border-color: #EFD27A;
+}
+</style>
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+	<h1>
+		Grid
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i>
+			bootstrap grid sizing
+		</small>
+	</h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="center">
+			<div class="row">
+				<div class="col-xs-12">
+					<div>
+						<span>.col-xs-12</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-1">
+					<div>
+						<span>.col-xs-1</span>
+					</div>
+				</div>
+
+				<div class="col-xs-11">
+					<div>
+						<span>.col-xs-11</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6 col-sm-2">
+					<div>
+						<span>.col-xs-6.col-sm-2</span>
+					</div>
+				</div>
+
+				<div class="col-xs-6 col-sm-10">
+					<div>
+						<span>.col-xs-6.col-sm-10</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 col-lg-6">
+					<div>
+						<span>.col-xs-12.col-lg-6</span>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-lg-6">
+					<div>
+						<span>.col-xs-12.col-lg-6</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4">
+					<div>
+						<span>.col-xs-4</span>
+					</div>
+				</div>
+
+				<div class="col-xs-8">
+					<div>
+						<span>.col-xs-8</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-5">
+					<div>
+						<span>.col-xs-5</span>
+					</div>
+				</div>
+
+				<div class="col-xs-7">
+					<div>
+						<span>.col-xs-7</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<div>
+						<span>.col-xs-6</span>
+					</div>
+				</div>
+
+				<div class="col-xs-6">
+					<div>
+						<span>.col-xs-6</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-7">
+					<div>
+						<span>.col-xs-7</span>
+					</div>
+				</div>
+
+				<div class="col-xs-5">
+					<div>
+						<span>.col-xs-5</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-8">
+					<div>
+						<span>.col-xs-8</span>
+					</div>
+				</div>
+
+				<div class="col-xs-4">
+					<div>
+						<span>.col-xs-4</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-9">
+					<div>
+						<span>.col-xs-9</span>
+					</div>
+				</div>
+
+				<div class="col-xs-3">
+					<div>
+						<span>.col-xs-3</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-10">
+					<div>
+						<span>.col-xs-10</span>
+					</div>
+				</div>
+
+				<div class="col-xs-2">
+					<div>
+						<span>.col-xs-2</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-11">
+					<div>
+						<span>.col-xs-11</span>
+					</div>
+				</div>
+
+				<div class="col-xs-1">
+					<div>
+						<span>.col-xs-1</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div>
+						<span>.col-xs-12</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null, null]
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	  //inline scripts related to this page
+	});
+</script>

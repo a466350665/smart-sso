@@ -164,13 +164,13 @@
 		// UI
 		"${_staticPath}/assets/js/jquery-ui.custom.js?v=" + Math.random(),
 		// Form提交Json转换
-		"${_staticPath}/script/jquery.form.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.form.min.js?v=" + Math.random(),
 		// 验证
-		"${_staticPath}/script/jquery.validate-2.0.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.validate-2.0.min.js?v=" + Math.random(),
 		// 验证定制
-		"${_staticPath}/script/jquery.validate-2.0.custom.min.js?v=" + Math.random(),
+		"${_staticPath}/custom/jquery.validate-2.0.custom.min.js?v=" + Math.random(),
 		"${_staticPath}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${_staticPath}/script/assets/jquery.gritter.custom.js?v=" + Math.random(),
+		"${_staticPath}/custom/assets/jquery.gritter.custom.js?v=" + Math.random(),
 		null];
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {

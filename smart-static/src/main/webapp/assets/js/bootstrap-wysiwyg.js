@@ -5,7 +5,7 @@
 	'use strict';
 	var readFileIntoDataUrl = function (fileInfo) {
 		var loader = $.Deferred(),
-		fReader = new FileReader();
+			fReader = new FileReader();
 		fReader.onload = function (e) {
 			loader.resolve(e.target.result);
 		};
@@ -14,61 +14,6 @@
 		fReader.readAsDataURL(fileInfo);
 		return loader.promise();
 	};
-	
-	var uploadImage = function uploadImage(fileInfo){
-		var url;
-		var action = "${_path}/admin/fileUpload!saveImage.shtml";                    // 接收上传文件的后台地址 
-
-        var form = new FormData();
-        form.append("file", fileInfo); // 文件对象
-        form.append("fileFileName", fileInfo.name);
-
-        // XMLHttpRequest 对象
-//        var xhr = new XMLHttpRequest();
-//        xhr.open("post", action, false);
-//        xhr.onload = function (data) {
-//        	if (xhr.readyState == 4) { 
-//	    		var json=eval('(' + xhr.response + ')');
-//	    		if(json.success){
-//	    			url = json.url;
-//	    		}else{
-//	    			alert("上传失败!");
-//	    		}
-//    		} else { 
-//    			alert("上传失败!");
-//    		} 
-//        };
-//        xhr.send(form);
-        
-        $.ajax({
-			type : "post",
-			url : action,  
-  			data : form,
-			async : false,
-			processData: false,  // 告诉jQuery不要去处理发送的数据
-			contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-			success : function(data){
-				var json = eval('(' + data + ')');
-				if(json.msg){
-					url = json.url;
-				}else{
-	    			alert("上传失败!");
-	    		}
-			},
-			error : function(data){
-				alert("上传失败!");
-			}
-		});
-        
-		return url;
-	};
-	
-	readFileIntoDataUrl = function(fileInfo){
-		var url = uploadImage(fileInfo);
-		fileList.push(url);
-		return url;
-	};
-	
 	$.fn.cleanHtml = function () {
 		var html = $(this).html();
 		return html && html.replace(/(<br>|\s|<div><br><\/div>|&nbsp;)*$/, '');

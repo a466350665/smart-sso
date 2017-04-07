@@ -11,7 +11,7 @@
 		<meta charset="utf-8" />
 		<title>${_systemName}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/script/assets/favicon.ico">
+		<link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/custom/assets/favicon.ico">
 		
 		<!--[if !IE]> -->
 		<link rel="stylesheet" href="${_staticPath}/assets/css/pace.css" />
@@ -29,7 +29,7 @@
 		<link rel="stylesheet" href="${_staticPath}/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 		
 		<!-- 自定义样式，表单多选框 -->
-		<link rel="stylesheet" href="${_staticPath}/script/assets/ace.custom.css" />
+		<link rel="stylesheet" href="${_staticPath}/custom/assets/ace.custom.css" />
 
 		<!--[if lte IE 9]>
 			<link rel="stylesheet" href="${_staticPath}/assets/css/ace-part2.css" class="ace-main-stylesheet" />
@@ -619,13 +619,13 @@
 		<script src="${_staticPath}/assets/js/ace/elements.wizard.js"></script>
 		<script src="${_staticPath}/assets/js/ace/elements.aside.js"></script>
 		<!-- 修改默认首页 -->
-		<script id="_ace" src="${_staticPath}/script/assets/ace.js?v" data-path="${defaultPage}"></script>
+		<script id="_ace" src="${_staticPath}/custom/assets/ace.js?v" data-path="${defaultPage}"></script>
 		<!-- 切换菜单处理 -->
-		<script id="_ajaxContent" src="${_staticPath}/script/assets/ace.ajax-content.js?v" data-path="${_path}"></script>
+		<script id="_ajaxContent" src="${_staticPath}/custom/assets/ace.ajax-content.js?v" data-path="${_path}"></script>
 		<!-- 权限处理 -->
-		<script id="_permission" src="${_staticPath}/script/jquery.permission.min.js?v" data="${sessionUserNoPermissions}"></script>
+		<script id="_permission" src="${_staticPath}/custom/jquery.permission.min.js?v" data="${sessionUserNoPermissions}"></script>
 		<!-- 金额格式化处理 -->
-		<script src="${_staticPath}/script/jquery.decimalFormat.js?v"></script>
+		<script src="${_staticPath}/custom/jquery.decimalFormat.js?v"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.touch-drag.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar-scroll-1.js"></script>

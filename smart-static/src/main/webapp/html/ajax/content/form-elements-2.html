@@ -1,0 +1,282 @@
+
+<title>More Elements - Ace Admin</title>
+
+<link rel="stylesheet" href="../../assets/css/bootstrap-duallistbox.css" />
+<link rel="stylesheet" href="../../assets/css/bootstrap-multiselect.css" />
+<link rel="stylesheet" href="../../assets/css/select2.css" />
+
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+	<h1>More Elements </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-top"> Star Rating </label>
+
+				<div class="col-sm-9">
+					<!-- #section:plugins/misc.raty -->
+					<div class="rating inline"></div>
+
+					<!-- /section:plugins/misc.raty -->
+					<div class="hr hr-16 hr-dotted"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">Typeahead.js</label>
+
+				<div class="col-sm-9">
+					<!-- #section:plugins/bootstrap.typeahead-js -->
+					<div class="pos-rel">
+						<input class="typeahead scrollable" type="text" placeholder="States of USA" />
+					</div>
+
+					<!-- /section:plugins/bootstrap.typeahead-js -->
+				</div>
+			</div>
+
+			<div class="space-6"></div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="food">Bootstrap Multiselect</label>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- #section:plugins/input.multiselect -->
+					<select id="food" class="multiselect" multiple="">
+						<option value="cheese">Cheese</option>
+						<option value="tomatoes">Tomatoes</option>
+						<option value="mozarella">Mozzarella</option>
+						<option value="mushrooms">Mushrooms</option>
+						<option value="pepperoni">Pepperoni</option>
+					</select>
+
+					<!-- /section:plugins/input.multiselect -->
+				</div>
+			</div>
+
+			<div class="hr hr-16 hr-dotted"></div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-top" for="duallist"> Dual listbox </label>
+
+				<div class="col-sm-8">
+					<!-- #section:plugins/input.duallist -->
+					<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist">
+						<option value="option1">Option 1</option>
+						<option value="option2">Option 2</option>
+						<option value="option3" selected="selected">Option 3</option>
+						<option value="option4">Option 4</option>
+						<option value="option5">Option 5</option>
+						<option value="option6" selected="selected">Option 6</option>
+						<option value="option7">Option 7</option>
+						<option value="option8">Option 8</option>
+						<option value="option9">Option 9</option>
+						<option value="option0">Option 10</option>
+					</select>
+
+					<!-- /section:plugins/input.duallist -->
+					<div class="hr hr-16 hr-dotted"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 no-padding-right"> Select2 </label>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- #section:plugins/input.select2 -->
+					<select multiple="" id="state" name="state" class="select2" data-placeholder="Click to Choose...">
+						<option value="">&nbsp;</option>
+						<option value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="AZ">Arizona</option>
+						<option value="AR">Arkansas</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+						<option value="CT">Connecticut</option>
+						<option value="DE">Delaware</option>
+						<option value="FL">Florida</option>
+						<option value="GA">Georgia</option>
+						<option value="HI">Hawaii</option>
+						<option value="ID">Idaho</option>
+						<option value="IL">Illinois</option>
+						<option value="IN">Indiana</option>
+						<option value="IA">Iowa</option>
+						<option value="KS">Kansas</option>
+						<option value="KY">Kentucky</option>
+						<option value="LA">Louisiana</option>
+						<option value="ME">Maine</option>
+						<option value="MD">Maryland</option>
+						<option value="MA">Massachusetts</option>
+						<option value="MI">Michigan</option>
+						<option value="MN">Minnesota</option>
+						<option value="MS">Mississippi</option>
+						<option value="MO">Missouri</option>
+						<option value="MT">Montana</option>
+						<option value="NE">Nebraska</option>
+						<option value="NV">Nevada</option>
+						<option value="NH">New Hampshire</option>
+						<option value="NJ">New Jersey</option>
+						<option value="NM">New Mexico</option>
+						<option value="NY">New York</option>
+						<option value="NC">North Carolina</option>
+						<option value="ND">North Dakota</option>
+						<option value="OH">Ohio</option>
+						<option value="OK">Oklahoma</option>
+						<option value="OR">Oregon</option>
+						<option value="PA">Pennsylvania</option>
+						<option value="RI">Rhode Island</option>
+						<option value="SC">South Carolina</option>
+						<option value="SD">South Dakota</option>
+						<option value="TN">Tennessee</option>
+						<option value="TX">Texas</option>
+						<option value="UT">Utah</option>
+						<option value="VT">Vermont</option>
+						<option value="VA">Virginia</option>
+						<option value="WA">Washington</option>
+						<option value="WV">West Virginia</option>
+						<option value="WI">Wisconsin</option>
+						<option value="WY">Wyoming</option>
+					</select>
+
+					<!-- /section:plugins/input.select2 -->
+					<span class="inline pull-right">
+						<span class="grey">style:</span>
+
+						<span class="btn-toolbar inline middle no-margin">
+							<span id="select2-multiple-style" data-toggle="buttons" class="btn-group no-margin">
+								<label class="btn btn-xs btn-yellow active">
+									1
+									<input type="radio" value="1" />
+								</label>
+
+								<label class="btn btn-xs btn-yellow">
+									2
+									<input type="radio" value="2" />
+								</label>
+							</span>
+						</span>
+					</span>
+				</div>
+			</div>
+		</form>
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null,"../../assets/js/jquery.bootstrap-duallistbox.js","../../assets/js/jquery.raty.js","../../assets/js/bootstrap-multiselect.js","../../assets/js/select2.js","../../assets/js/typeahead.jquery.js", null]
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	  //inline scripts related to this page
+		 jQuery(function($){
+	    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+		var container1 = demo1.bootstrapDualListbox('getContainer');
+		container1.find('.btn').addClass('btn-white btn-info btn-bold');
+	
+		/**var setRatingColors = function() {
+			$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
+			$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
+		}*/
+		$('.rating').raty({
+			'cancel' : true,
+			'half': true,
+			'starType' : 'i'
+			/**,
+			
+			'click': function() {
+				setRatingColors.call(this);
+			},
+			'mouseover': function() {
+				setRatingColors.call(this);
+			},
+			'mouseout': function() {
+				setRatingColors.call(this);
+			}*/
+		})//.find('i:not(.star-raty)').addClass('grey');
+		
+		
+		
+		//////////////////
+		//select2
+		$('.select2').css('width','200px').select2({allowClear:true})
+		$('#select2-multiple-style .btn').on('click', function(e){
+			var target = $(this).find('input[type=radio]');
+			var which = parseInt(target.val());
+			if(which == 2) $('.select2').addClass('tag-input-style');
+			 else $('.select2').removeClass('tag-input-style');
+		});
+		
+		//////////////////
+		$('.multiselect').multiselect({
+		 enableFiltering: true,
+		 buttonClass: 'btn btn-white btn-primary',
+		 templates: {
+			button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
+			ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+			filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+			filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+			li: '<li><a href="javascript:void(0);"><label></label></a></li>',
+			divider: '<li class="multiselect-item divider"></li>',
+			liGroup: '<li class="multiselect-item group"><label class="multiselect-group"></label></li>'
+		 }
+		});
+		
+		
+		///////////////////
+			
+		//typeahead.js
+		//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
+		var substringMatcher = function(strs) {
+			return function findMatches(q, cb) {
+				var matches, substringRegex;
+			 
+				// an array that will be populated with substring matches
+				matches = [];
+			 
+				// regex used to determine if a string contains the substring `q`
+				substrRegex = new RegExp(q, 'i');
+			 
+				// iterate through the pool of strings and for any string that
+				// contains the substring `q`, add it to the `matches` array
+				$.each(strs, function(i, str) {
+					if (substrRegex.test(str)) {
+						// the typeahead jQuery plugin expects suggestions to a
+						// JavaScript object, refer to typeahead docs for more info
+						matches.push({ value: str });
+					}
+				});
+	
+				cb(matches);
+			}
+		 }
+	
+		 $('input.typeahead').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		 }, {
+			name: 'states',
+			displayKey: 'value',
+			source: substringMatcher(ace.vars['US_STATES'])
+		 });
+			
+			
+		///////////////
+		
+		
+		//in ajax mode, remove remaining elements before leaving page
+		$(document).one('ajaxloadstart.page', function(e) {
+			$('[class*=select2]').remove();
+			$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
+			$('.rating').raty('destroy');
+			$('.multiselect').multiselect('destroy');
+		});
+	
+	});
+	});
+</script>

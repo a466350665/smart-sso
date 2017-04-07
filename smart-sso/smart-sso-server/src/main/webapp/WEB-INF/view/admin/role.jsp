@@ -4,8 +4,8 @@
 <jsp:include page="../common/common.jsp">
 	<jsp:param name="title" value="角色"/>
 </jsp:include>
-<link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.css?v=1" />
-<link rel="stylesheet" href="${_staticPath}/script/zTree/css/metroStyle/metroStyle.custom.css" />
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.custom.css" />
 
 <div class="page-header">
 	<h1>
@@ -94,8 +94,8 @@
 
 <script type="text/javascript">
 	scripts.push(
-			"${_staticPath}/script/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
-			"${_staticPath}/script/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random());
+			"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
+			"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random());
 	
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
