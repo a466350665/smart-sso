@@ -59,7 +59,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	 * @return
 	 */
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
-		SessionUser user = (SessionUser) request.getSession().getAttribute("_sessionUser");
+		SessionUser user = ApplicationUtils.getSessionUser(request);
 		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(user.getToken(),
 				ConfigUtils.getProperty("sso.app.code"));
 

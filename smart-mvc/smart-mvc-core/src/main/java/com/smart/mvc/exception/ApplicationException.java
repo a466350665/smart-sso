@@ -11,7 +11,7 @@ public class ApplicationException extends RuntimeException{
 
 	private static final long serialVersionUID = -2678203134198782909L;
 	
-	public static final String MESSAGE = "系统服务出错！";
+	public static final String MESSAGE = "应用异常";
 
 	protected int code = ResultCode.APPLICATION_ERROR;
 

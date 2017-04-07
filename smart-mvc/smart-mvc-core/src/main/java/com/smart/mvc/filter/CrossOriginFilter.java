@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 服务器静态资源允许跨域处理，Nginx在配置文件中指定
+ * 静态资源允许跨域处理，Nginx可在配置文件中指定
  * 
  * @author Joe
  */

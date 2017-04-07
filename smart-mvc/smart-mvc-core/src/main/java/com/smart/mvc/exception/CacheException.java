@@ -11,7 +11,7 @@ public class CacheException extends ApplicationException{
 
 	private static final long serialVersionUID = -2678203134198782909L;
 	
-	public static final String MESSAGE = "缓存出错！";
+	public static final String MESSAGE = "缓存异常";
 
 	public CacheException() {
 		super(MESSAGE);

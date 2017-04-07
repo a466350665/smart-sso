@@ -11,7 +11,7 @@ public class DaoException extends ApplicationException {
 
 	private static final long serialVersionUID = -7980532772047897013L;
 
-	public static final String MESSAGE = "数据访问出错！";
+	public static final String MESSAGE = "数据访问异常";
 
 	public DaoException() {
 		super(MESSAGE);

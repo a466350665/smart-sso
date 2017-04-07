@@ -1,7 +1,12 @@
 package com.smart.mvc.model;
 
-public final class ResultCode {
-	
+/**
+ * 基础返回码，具体业务返回码可继承ResultCode
+ * 
+ * @author Joe
+ */
+public class ResultCode {
+
 	public final static int SUCCESS = 1;// 成功
 
 	// 通用错误以9开头
