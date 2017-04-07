@@ -24,7 +24,6 @@ smart
 ├── smart-static -- 公用静态js、css文件
 ├── smart-tool -- 代码生成工具
 |    ├── smart-tool-mybatis -- 代码生成工具（mybatis）版本
-├── smart-util -- 基础工具类
 ├── smart-demo -- 简单的单点登录Dubbo服务化案例
 |    ├── smart-demo-api -- demo远程调用API
 |    ├── smart-demo-server -- demo服务化provider

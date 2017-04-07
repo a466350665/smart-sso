@@ -8,7 +8,7 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<!-- SpringMVC + Spring + Mybatis or Hibernate -->
+		<!-- SpringMVC + Spring + Mybatis/Hibernate核心 -->
 		<module>smart-mvc</module>
 		<!-- Smart简单Dubbo服务化案例 -->
 		<module>smart-demo</module>

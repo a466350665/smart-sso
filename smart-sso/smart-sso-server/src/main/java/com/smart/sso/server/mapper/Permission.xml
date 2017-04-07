@@ -86,12 +86,13 @@
 	
 	<select id="findListById" parameterType="map" resultType="com.smart.sso.rpc.RpcPermission">   
      	SELECT DISTINCT
-     		   p.id        AS id,
-		       p.parentId  AS parentId,
-		       p.name      AS name,
-		       p.url       AS url,
-		       p.icon      AS icon,
-		       p.isMenu    AS isMenu
+     		   p.id,
+		       p.parentId,
+		       p.name,
+		       p.url,
+		       p.icon,
+		       p.isMenu,
+		       p.sort
 		FROM   SYS_PERMISSION p
 		<if test="userId != null">
 			   INNER JOIN SYS_RE_ROLE_PERMISSION rp ON p.id = rp.permissionId
