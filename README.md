@@ -29,9 +29,6 @@ smart
 |    ├── smart-demo-server -- demo服务化provider
 |    ├── smart-demo-web -- demo服务化consumer(单点登录权限拦截器)
 ```
-    
-## 架构图
-![架构图](http://img.blog.csdn.net/20170410122809448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## 技术选型
 
@@ -69,6 +66,9 @@ smart
 - Safari 5
 - Opera 11
 - 手机浏览器兼容
+
+## 架构图
+![架构图](http://img.blog.csdn.net/20170410122809448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
     
 ## 数据库模型
 ![数据库模型](http://img.blog.csdn.net/20170228162027225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
