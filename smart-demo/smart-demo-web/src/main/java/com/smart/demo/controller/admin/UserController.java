@@ -31,11 +31,10 @@ public class UserController extends BaseController {
 
 	/**	
 	 * 管理员初始页
-	 * @param model
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
+	public String execute() {
 		return "/admin/user";
 	}
 	

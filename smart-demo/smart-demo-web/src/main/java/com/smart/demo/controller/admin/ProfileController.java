@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.demo.service.UserService;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.ApplicationUtils;
@@ -47,6 +48,6 @@ public class ProfileController extends BaseController {
 						newPassword))
 			return Result.createSuccessResult().setMessage("修改成功");
 		else
-			return Result.createErrorResult().setMessage("修改失败");
+			return Result.create(ResultCode.VALIDATE_ERROR).setMessage("修改失败");
 	}
 }

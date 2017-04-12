@@ -35,6 +35,6 @@ public class CaptchaHelper {
 	}
 
 	public static boolean validate(String sessionCaptcha, String captcha) {
-		return sessionCaptcha == null ? false : sessionCaptcha.toString().equalsIgnoreCase(captcha);
+		return sessionCaptcha == null ? false : sessionCaptcha.equalsIgnoreCase(captcha);
 	}
 }
