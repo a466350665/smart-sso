@@ -39,7 +39,7 @@ smart
 - MVC框架：SpringMVC 4.2.1.RELEASE
 - 核心框架：Spring 4.2.1.RELEASE
 - ORM框架：MyBatis 3.3.0/Hibernate 4.2.7.Final
-- 分布式协调服务：Zookeeper 0.1
+- 分布式协调服务：Zookeeper 3.4.7
 - 分布式RPC服务：Dubbo 2.5.3
 - 分布式缓存服务：Redis 2.8.12
 - 分布式消息服务：ActiveMQ 5.13.3
@@ -68,7 +68,7 @@ smart
 - 手机浏览器兼容
 
 ## 架构图
-![架构图](http://img.blog.csdn.net/20170410142247091?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![架构图](http://img.blog.csdn.net/20170413094648142?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
     
 ## 数据库模型
 ![数据库模型](http://img.blog.csdn.net/20170228162027225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
