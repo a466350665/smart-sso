@@ -1,5 +1,9 @@
 package com.smart.sso.server.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -28,10 +32,9 @@ import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.service.impl.PermissionSubject;
 
 /**
- * 登录
- * 
  * @author Joe
  */
+@Api(tags = "单点登录管理")
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -44,10 +47,11 @@ public class LoginController {
 	@Resource
 	private UserService userService;
 
+	@ApiOperation("登录页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
-			@ValidateParam(name = "应用编码", validators = { Validator.NOT_BLANK }) String appCode,
+			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
+			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String appCode,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, "token");
 		if (token == null) {
@@ -73,12 +77,13 @@ public class LoginController {
 		}
 	}
 
+	@ApiOperation("登录提交")
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@ValidateParam(name = "返回链接", validators = { Validator.NOT_BLANK }) String backUrl,
-			@ValidateParam(name = "应用编码", validators = { Validator.NOT_BLANK }) String appCode,
-			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account,
-			@ValidateParam(name = "密码", validators = { Validator.NOT_BLANK }) String password,
+			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
+			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String appCode,
+			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
+			@ApiParam(value = "密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		Result result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));

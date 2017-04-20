@@ -1,5 +1,9 @@
 package com.smart.sso.server.controller.admin;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -23,10 +27,9 @@ import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.impl.PermissionSubject;
 
 /**
- * 应用管理
- * 
  * @author Joe
  */
+@Api(tags = "应用管理")
 @Controller
 @RequestMapping("/admin/app")
 public class AppController extends BaseController {
@@ -34,13 +37,15 @@ public class AppController extends BaseController {
 	@Resource
 	private AppService appService;
 
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute() {
 		return "/admin/app";
 	}
 
+	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
+	public String edit(@ApiParam(value = "id") Integer id, Model model) {
 		App app;
 		if (id == null) {
 			app = new App();
@@ -52,18 +57,20 @@ public class AppController extends BaseController {
 		return "/admin/appEdit";
 	}
 
+	@ApiOperation("列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
-			@ValidateParam(name = "名称 ") String name,
-			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
-			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
+			@ApiParam(value = "名称 ") String name,
+			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
+			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(appService.findPaginationByName(name, new Pagination<App>(pageNo, pageSize)));
 	}
 
+	@ApiOperation("验证应用编码")
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
 	public @ResponseBody Result validateCode(
-			@ValidateParam(name = "id") Integer id,
-			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code) {
+			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String code) {
 		Result result = Result.createSuccessResult();
 		App db = appService.findByCode(code);
 		if (null != db && !db.getId().equals(id)) {
@@ -72,21 +79,23 @@ public class AppController extends BaseController {
 		return result;
 	}
 
+	@ApiOperation("启用/禁用")
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public @ResponseBody Result enable(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		appService.enable(isEnable, getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("新增/修改提交")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody Result save(
-			@ValidateParam(name = "ID") Integer id,
-			@ValidateParam(name = "名称 ", validators = { Validator.NOT_BLANK }) String name,
-			@ValidateParam(name = "应用编码 ", validators = { Validator.NOT_BLANK }) String code,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable,
-			@ValidateParam(name = "排序 ", validators = { Validator.NOT_BLANK, Validator.INT }) Integer sort) {
+			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "名称", required = true) @ValidateParam({ Validator.NOT_BLANK }) String name,
+			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String code,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable,
+			@ApiParam(value = "排序", required = true) @ValidateParam({ Validator.NOT_BLANK, Validator.INT }) Integer sort) {
 		App app;
 		if (id == null) {
 			app = new App();
@@ -103,16 +112,18 @@ public class AppController extends BaseController {
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("删除")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		appService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 	
+	@ApiOperation("同步权限")
 	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)
 	public @ResponseBody Result syncPermissions(
-			@ValidateParam(name = "应用编码集合", validators = { Validator.NOT_BLANK }) String codes) {
+			@ApiParam(value = "应用编码集合", required = true) @ValidateParam({ Validator.NOT_BLANK }) String codes) {
 		PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
 		if (permissionSubject != null) {
 			String[] codeArray = StringUtils.split(codes, ",");

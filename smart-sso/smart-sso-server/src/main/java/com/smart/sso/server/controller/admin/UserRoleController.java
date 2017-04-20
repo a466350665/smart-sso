@@ -1,5 +1,9 @@
 package com.smart.sso.server.controller.admin;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +29,9 @@ import com.smart.sso.server.service.RoleService;
 import com.smart.sso.server.service.UserRoleService;
 
 /**
- * 管理员角色分配管理
- * 
  * @author Joe
  */
+@Api(tags = "管理员角色关系管理")
 @Controller
 @RequestMapping("/admin/userRole")
 public class UserRoleController extends BaseController {
@@ -40,8 +43,10 @@ public class UserRoleController extends BaseController {
 	@Resource
 	private UserRoleService userRoleService;
 
+	@ApiOperation("初始页")
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
-	public String edit(@ValidateParam(name = "管理员Id", validators = { Validator.NOT_BLANK }) Integer userId, Model model) {
+	public String edit(
+			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
 		List<App> appList = appService.findByUserId(TrueFalseEnum.TRUE.getValue(), userId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("appList", appList);
@@ -49,18 +54,20 @@ public class UserRoleController extends BaseController {
 		return "/admin/userRole";
 	}
 	
+	@ApiOperation("管理员应用关系数据")
 	@RequestMapping(value = "/change", method = RequestMethod.GET)
 	public @ResponseBody Result changeApp(
-			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
-			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId) {
+			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
+			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId) {
 		return Result.createSuccessResult().setData(getRoleList(userId, appId));
 	}
 
+	@ApiOperation("管理员角色关联提交")
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
 	public @ResponseBody Result allocateSave(
-			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
-			@ValidateParam(name = "管理员ID", validators = { Validator.NOT_BLANK }) Integer userId,
-			@ValidateParam(name = "角色IDS ") String roleIds) {
+			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
+			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId,
+			@ApiParam(value = "角色ids") String roleIds) {
 		List<Integer> idList = getAjaxIds(roleIds);
 		List<UserRole> list = new ArrayList<UserRole>();
 		UserRole bean = null;

@@ -36,6 +36,7 @@ smart
 - JDK：1.8（支持1.7+）
 - 数据库：Mysql
 - 项目构建工具：Maven 3.3.3
+- API文档：Springfox-Swagger2 2.6.1
 - MVC框架：SpringMVC 4.2.1.RELEASE
 - 核心框架：Spring 4.2.1.RELEASE
 - ORM框架：MyBatis 3.3.0/Hibernate 4.2.7.Final
@@ -69,6 +70,9 @@ smart
 
 ## 架构图
 ![架构图](http://img.blog.csdn.net/20170413094648142?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+## API文档
+![API文档](http://img.blog.csdn.net/20170420095340652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
     
 ## 数据库模型
 ![数据库模型](http://img.blog.csdn.net/20170228162027225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)

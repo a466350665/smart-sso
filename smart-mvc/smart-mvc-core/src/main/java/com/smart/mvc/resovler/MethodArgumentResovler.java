@@ -165,7 +165,7 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 			super();
 			this.paramName = paramName;
 			this.name = param.name();
-			this.validators = param.validators();
+			this.validators = param.value();
 		}
 	}
 }

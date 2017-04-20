@@ -1,5 +1,10 @@
 package com.smart.sso.server.controller.admin;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +34,9 @@ import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
 
 /**
- * 管理员管理
- * 
  * @author Joe
  */
+@Api(tags = "管理员管理")
 @Controller
 @RequestMapping("/admin/user")
 public class UserController extends BaseController {
@@ -46,14 +50,16 @@ public class UserController extends BaseController {
 	@Resource
 	private UserRoleService userRoleService;
 
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
 		model.addAttribute("appList", getAppList());
 		return "/admin/user";
 	}
 
+	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
+	public String edit(@ApiParam(value = "id") Integer id, Model model) {
 		User user;
 		if (id == null) {
 			user = new User();
@@ -66,19 +72,21 @@ public class UserController extends BaseController {
 		return "/admin/userEdit";
 	}
 
+	@ApiOperation("列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
-			@ValidateParam(name = "登录名 ") String account,
-			@ValidateParam(name = "应用ID ") Integer appId,
-			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
-			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
+			@ApiParam(value = "登录名") String account,
+			@ApiParam(value = "应用id") Integer appId,
+			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
+			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
 	}
 
+	@ApiOperation("验证登录名")
 	@RequestMapping(value = "/validateAccount", method = RequestMethod.POST)
 	public @ResponseBody Result validateAccount(
-			@ValidateParam(name = "id") Integer id,
-			@ValidateParam(name = "登录名 ", validators = { Validator.NOT_BLANK }) String account) {
+			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account) {
 		Result result = Result.createSuccessResult();
 		User user = userService.findByAccount(account);
 		if (null != user && !user.getId().equals(id)) {
@@ -87,19 +95,23 @@ public class UserController extends BaseController {
 		return result;
 	}
 
+	@ApiOperation("启用/禁用")
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public @ResponseBody Result enable(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		userService.enable(isEnable, getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("新增/修改提交")
+	@ApiResponse(response = Result.class, code = 200, message = "success")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ValidateParam(name = "ID") Integer id,
-			@ValidateParam(name = "登录名", validators = { Validator.NOT_BLANK }) String account,
-			@ValidateParam(name = "密码 ") String password,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+	public @ResponseBody Result save(
+			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
+			@ApiParam(value = "密码 ") String password,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		User user;
 		if (id == null) {
 			if (StringUtils.isBlank(password)) {
@@ -120,16 +132,18 @@ public class UserController extends BaseController {
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("重置密码")
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public @ResponseBody Result resetPassword(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		userService.resetPassword(PasswordProvider.encrypt(ConfigUtils.getProperty("system.init.password")), getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("删除")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		userService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}

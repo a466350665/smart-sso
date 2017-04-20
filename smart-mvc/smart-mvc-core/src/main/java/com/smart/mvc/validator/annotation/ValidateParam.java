@@ -22,7 +22,7 @@ public @interface ValidateParam {
 	 * 验证器
 	 * @return
 	 */
-	Validator[] validators() default {};
+	Validator[] value() default {};
 	
 	/**
 	 * 参数的描述名称

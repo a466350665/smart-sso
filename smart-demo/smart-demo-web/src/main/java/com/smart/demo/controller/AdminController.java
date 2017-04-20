@@ -1,5 +1,8 @@
 package com.smart.demo.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -13,14 +16,14 @@ import com.smart.sso.client.ApplicationUtils;
 import com.smart.sso.client.SessionPermission;
 
 /**
- * 首页管理
- * 
  * @author Joe
  */
+@Api(tags = "首页管理")
 @Controller
 @RequestMapping("/admin/admin")
 public class AdminController {
 
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(HttpServletRequest request, Model model) {
 		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
@@ -31,6 +34,7 @@ public class AdminController {
 		return "/admin";
 	}
 
+	@ApiOperation("菜单")
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public @ResponseBody Result menu(HttpServletRequest request) {
 		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);

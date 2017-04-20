@@ -1,5 +1,9 @@
 package com.smart.sso.server.controller.admin;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,10 +29,9 @@ import com.smart.sso.server.service.RolePermissionService;
 import com.smart.sso.server.service.RoleService;
 
 /**
- * 角色管理
- * 
  * @author Joe
  */
+@Api(tags = "角色管理")
 @Controller
 @RequestMapping("/admin/role")
 public class RoleController extends BaseController {
@@ -40,14 +43,16 @@ public class RoleController extends BaseController {
 	@Resource
 	private RolePermissionService rolePermissionService;
 
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
 		model.addAttribute("appList", getAppList());
 		return "/admin/role";
 	}
 
+	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
+	public String edit(@ApiParam(value = "id") Integer id, Model model) {
 		Role role;
 		if (id == null) {
 			role = new Role();
@@ -60,31 +65,34 @@ public class RoleController extends BaseController {
 		return "/admin/roleEdit";
 	}
 
+	@ApiOperation("列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
-			@ValidateParam(name = "角色名") String name,
-			@ValidateParam(name = "应用ID ") Integer appId,
-			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
-			@ValidateParam(name = "显示条数 ", validators = { Validator.NOT_BLANK }) Integer pageSize) {
+			@ApiParam(value = "角色名")String name,
+			@ApiParam(value = "应用ID ") Integer appId,
+			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
+			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(roleService.findPaginationByName(name, appId, new Pagination<Role>(pageNo, pageSize)));
 	}
 
+	@ApiOperation("启用/禁用")
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public @ResponseBody Result enable(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK })String ids,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		roleService.enable(isEnable, getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
+	@ApiOperation("新增/修改提交")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody Result save(
-			@ValidateParam(name = "ID") Integer id,
-			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
-			@ValidateParam(name = "角色名", validators = { Validator.NOT_BLANK }) String name,
-			@ValidateParam(name = "排序", validators = { Validator.NOT_BLANK }) Integer sort,
-			@ValidateParam(name = "描述") String description,
-			@ValidateParam(name = "是否启用 ", validators = { Validator.NOT_BLANK }) Boolean isEnable) {
+			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
+			@ApiParam(value = "角色名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String name,
+			@ApiParam(value = "排序", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer sort,
+			@ApiParam(value = "描述") String description,
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		Role role;
 		if (id == null) {
 			role = new Role();
@@ -101,17 +109,19 @@ public class RoleController extends BaseController {
 		return Result.createSuccessResult();
 	}
 	
+	@ApiOperation("角色权限对应关系数据")
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
 	public @ResponseBody Result allocate(
-			@ValidateParam(name = "角色ID", validators = { Validator.NOT_BLANK }) Integer roleId) {
+			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId) {
 		return Result.createSuccessResult().setData(rolePermissionService.findByRoleId(roleId));
 	}
 	
+	@ApiOperation("角色授权提交")
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
 	public @ResponseBody Result allocateSave(
-			@ValidateParam(name = "应用ID ", validators = { Validator.NOT_BLANK }) Integer appId,
-			@ValidateParam(name = "角色ID", validators = { Validator.NOT_BLANK }) Integer roleId,
-			@ValidateParam(name = "权限IDS ", validators = { Validator.NOT_BLANK }) String permissionIds) {
+			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
+			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId,
+			@ApiParam(value = "权限ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String permissionIds) {
 		List<Integer> idList = getAjaxIds(permissionIds);
 		List<RolePermission> list = new ArrayList<RolePermission>();
 		Integer permissionId;
@@ -122,9 +132,10 @@ public class RoleController extends BaseController {
 		return Result.createSuccessResult().setMessage("授权成功");
 	}
 
+	@ApiOperation("删除")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(
-			@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		roleService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}

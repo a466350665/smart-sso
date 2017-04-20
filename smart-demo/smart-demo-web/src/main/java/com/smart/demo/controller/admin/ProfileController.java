@@ -1,5 +1,9 @@
 package com.smart.demo.controller.admin;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,10 +23,9 @@ import com.smart.sso.client.ApplicationUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 
 /**
- * 管理员管理
- * 
  * @author Joe
  */
+@Api(tags = "个人中心")
 @Controller
 @RequestMapping("/admin/profile")
 public class ProfileController extends BaseController {
@@ -32,16 +35,18 @@ public class ProfileController extends BaseController {
 	@Resource
 	private AuthenticationRpcService authenticationRpcService;
 
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model, HttpServletRequest request) {
 		model.addAttribute("user", ApplicationUtils.getSessionUser(request).getProfile());
 		return "/admin/profile";
 	}
 
+	@ApiOperation("修改密码提交")
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
 	public @ResponseBody Result save(
-			@ValidateParam(name = "新密码", validators = { Validator.NOT_BLANK }) String newPassword,
-			@ValidateParam(name = "确认密码", validators = { Validator.NOT_BLANK }) String confirmPassword,
+			@ApiParam(value = "新密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String newPassword,
+			@ApiParam(value = "确认密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
 		if (newPassword.equals(confirmPassword)
 				&& authenticationRpcService.updatePassword(ApplicationUtils.getSessionUser(request).getToken(),

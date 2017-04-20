@@ -1,5 +1,8 @@
 package com.smart.demo.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -10,14 +13,14 @@ import com.smart.mvc.config.ConfigUtils;
 import com.smart.sso.client.SsoInterceptor;
 
 /**
- * 远程登出
- * 
  * @author Joe
  */
+@Api(tags = "单点登出")
 @Controller
 @RequestMapping("/logout")
 public class LogoutController {
 	
+	@ApiOperation("登出")
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
