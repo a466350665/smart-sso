@@ -10,7 +10,7 @@ import com.smart.tool.generate.Controller;
 import com.smart.tool.generate.Dao;
 import com.smart.tool.generate.Edit;
 import com.smart.tool.generate.Model;
-import com.smart.tool.generate.ModelXml;
+import com.smart.tool.generate.Mapper;
 import com.smart.tool.generate.Service;
 import com.smart.tool.generate.ServiceImpl;
 
@@ -123,7 +123,7 @@ public class Generator extends BaseFrame {
 		FileUtils.createFile(
 				basePath,
 				modelXmlText.getText(),
-				new ModelXml(config.getCompanyName(), projectText.getText(), moduleText.getText(), analyzer
+				new Mapper(config.getCompanyName(), projectText.getText(), moduleText.getText(), analyzer
 						.getModelName(), fieldList, analyzer.getTableName(), extendsBox.getSelectedItem().toString(),
 						Long.valueOf(StringUtils.getRandom(17)).toString(), analyzer.isContainEnable(), containDate,
 						analyzer.getTableComment()).getHtml());

@@ -14,11 +14,11 @@ import com.smart.tool.system.StringUtils;
  * 
  * @author Joe
  */
-public class ModelXml {
+public class Mapper {
 
 	private Map<String, Object> dataMap;
 
-	public ModelXml(String company, String project, String module, String model, List<DummyField> fieldList,
+	public Mapper(String company, String project, String module, String model, List<DummyField> fieldList,
 			String tableName, String extendsProject, String versionId, boolean containEnable, boolean containDate,
 			String tableComment) {
 		dataMap = new HashMap<String, Object>();
@@ -50,6 +50,6 @@ public class ModelXml {
 	}
 
 	public String getHtml() {
-		return FreemarkerUtils.getText("modelXml.ftl", dataMap).replaceAll("&", "#");
+		return FreemarkerUtils.getText("mapper.ftl", dataMap).replaceAll("&", "#");
 	}
 }

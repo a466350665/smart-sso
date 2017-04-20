@@ -1,5 +1,9 @@
 package com.${company!''}.${project!''}.<#if module??>${module}.</#if>controller<#if admin??>.${admin}</#if>;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import javax.annotation.Resource;
 <#if containDate>
 import java.util.Date;
@@ -23,10 +27,9 @@ import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 
 /**
- * ${tableComment}Controller
- * 
  * @author Joe
  */
+@Api(tags = "${tableComment}")
 @Controller
 @RequestMapping("<#if admin??>/${admin}</#if>/${_model}")
 public class ${model}Controller extends BaseController {
@@ -34,38 +37,23 @@ public class ${model}Controller extends BaseController {
 	@Resource
 	private ${model}Service ${_model}Service;
 
-	/**
-	 * ${tableComment}列表
-	 * @param model
-	 * @return
-	 */
+	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
 		return "<#if admin??>/${admin}</#if>/${_model}";
 	}
 	
-	/**
-	 * ajax读取表格数据
-	 * @param account 登录名
-	 * @param pageNo 开始页码
-	 * @param pageSize 显示条数
-	 * @return
-	 */
+	@ApiOperation("列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
-			@ValidateParam(name = "开始页码", validators = { Validator.NOT_BLANK }) Integer pageNo,
-			@ValidateParam(name = "显示条数", validators = { Validator.NOT_BLANK }) Integer pageSize) {
+			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
+			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
 		return Result.createSuccessResult().setData(${_model}Service.findByAllPagination(new Pagination<${model}>(pageNo, pageSize)));
 	}
 
-	/**
-	 * 编辑按钮(含添加和修改两种操作)
-	 * @param id 添加时id为空
-	 * @param model
-	 * @return
-	 */
+	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
+	public String edit(@ApiParam(value = "id") Integer id, Model model) {
 		${model} ${_model};
 		if (id == null) {
 			${_model} = new ${model}();
@@ -77,17 +65,12 @@ public class ${model}Controller extends BaseController {
 		return "<#if admin??>/${admin}</#if>/${_model}Edit";
 	}
 
-	/**
-	 * 保存(含添加和更新两种操作)
-	 * @param id 添加时id为空
-	 * @param account 登录名
-	 * @return
-	 */
+	@ApiOperation("新增/修改提交")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody Result save(
-			@ValidateParam(name = "ID") Integer id,
+			@ApiParam(value = "id") Integer id,
 		<#list fieldList as field>
-			@ValidateParam(<#if field.description??>name = "${field.description}",</#if> validators = { <#if field.nullableStr == "false">Validator.NOT_BLANK</#if> }) <#if field.fieldType == "Date">@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date<#else>${field.fieldType}</#if> ${field.fieldName}<#if field_has_next>,</#if>
+			@ApiParam(<#if field.description??>value = "${field.description}"</#if><#if field.nullableStr == "false">, required = true</#if>)<#if field.nullableStr == "false"> @ValidateParam({ Validator.NOT_BLANK })</#if><#if field.fieldType == "Date"> @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date<#else> ${field.fieldType}</#if> ${field.fieldName}<#if field_has_next>,</#if>
 		</#list>
 			) {
 		${model} ${_model};
@@ -104,13 +87,10 @@ public class ${model}Controller extends BaseController {
 		return Result.createSuccessResult();
 	}
 
-	/**
-	 * 删除(根据id删除，含多条删除情况)
-	 * @param ids
-	 * @return
-	 */
+	@ApiOperation("删除")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(@ValidateParam(name = "ids", validators = { Validator.NOT_BLANK }) String ids) {
+	public @ResponseBody Result delete(
+			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		${_model}Service.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
