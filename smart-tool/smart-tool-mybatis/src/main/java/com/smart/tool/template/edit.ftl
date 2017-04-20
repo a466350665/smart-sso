@@ -175,8 +175,6 @@
             
             // 权限处理
 			_&.permission();
-			// 金额格式化
-			_&.decimalFormat();
 		});
 	});
 </script>

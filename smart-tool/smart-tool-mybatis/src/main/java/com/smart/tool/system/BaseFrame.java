@@ -247,8 +247,8 @@ public abstract class BaseFrame extends JFrame {
 		this.daoText.setBounds(new Rectangle(120, 200, 500, 20));
 
 		this.modelXmlLabel = new JLabel();
-		this.modelXmlLabel.setText("ModelXml");
-		this.modelXmlLabel.setToolTipText("ModelXml");
+		this.modelXmlLabel.setText("Mapper");
+		this.modelXmlLabel.setToolTipText("Mapper");
 		this.modelXmlLabel.setBounds(new Rectangle(35, 230, 100, 20));
 		this.modelXmlText = new JTextField();
 		this.modelXmlText.setBounds(new Rectangle(120, 230, 500, 20));

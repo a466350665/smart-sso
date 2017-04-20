@@ -134,7 +134,7 @@ public class PaginationInterceptor implements Interceptor {
 
 	public String buildPageSql(String sql, Pagination<?> pagination) {
 		StringBuilder pageSql = new StringBuilder(sql);
-		pageSql.append(" limit " + (pagination.getPageNo() - 1) * pagination.getPageSize() + "," + pagination.getPageSize());
+		pageSql.append(" LIMIT " + (pagination.getPageNo() - 1) * pagination.getPageSize() + "," + pagination.getPageSize());
 		return pageSql.toString();
 	}
 
@@ -150,7 +150,7 @@ public class PaginationInterceptor implements Interceptor {
 	private void setPageParameter(String sql, Connection connection, MappedStatement mappedStatement,
 			BoundSql boundSql, Pagination<?> pagination) {
 		// 记录总记录数
-		String countSql = "select count(0) from (" + sql + ") a";
+		String countSql = "SELECT COUNT(0) FROM (" + sql + ") a";
 		PreparedStatement countStmt = null;
 		ResultSet rs = null;
 		try {

@@ -18,7 +18,33 @@ import com.smart.mvc.model.PersistentObject;
 public interface Service<T extends PersistentObject, ID extends Serializable> {
 
 	/**
-	 * 新建实体
+	 * 查询所有分页
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public Pagination<T> findByAllPagination(Pagination<T> p);
+
+	/**
+	 * 通过主键查询实体
+	 * 
+	 * @param PK
+	 *            pk
+	 * @return T
+	 */
+	public T get(ID pk);
+
+	/**
+	 * 通过主键集合查询实体
+	 * 
+	 * @param List
+	 *            <PK> pks
+	 * @return List<T>
+	 */
+	public List<T> get(Collection<ID> pks);
+
+	/**
+	 * 插入/更新实体
 	 * 
 	 * @param T
 	 *            t
@@ -26,7 +52,7 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 	public void save(T t);
 
 	/**
-	 * 新建实体
+	 * 插入/更新实体集合
 	 * 
 	 * @param List
 	 *            <T> ts
@@ -42,7 +68,7 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 	public void update(T t);
 
 	/**
-	 * 更新实体
+	 * 更新实体集合
 	 * 
 	 * @param List
 	 *            <T> ts
@@ -58,30 +84,12 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 	public void delete(T t);
 
 	/**
-	 * 删除实体
+	 * 删除实体集合
 	 * 
 	 * @param List
 	 *            <T> ts
 	 */
 	public void delete(Collection<T> ts);
-
-	/**
-	 * 通过主键加载实体
-	 * 
-	 * @param PK
-	 *            pk
-	 * @return T
-	 */
-	public T get(ID pk);
-
-	/**
-	 * 通过主键加载实体
-	 * 
-	 * @param List
-	 *            <PK> pks
-	 * @return List<T>
-	 */
-	public List<T> get(Collection<ID> pks);
 
 	/**
 	 * 通过主键删除实体
@@ -93,20 +101,11 @@ public interface Service<T extends PersistentObject, ID extends Serializable> {
 	public void deleteById(ID id);
 
 	/**
-	 * 通过主键删除实体
-	 * 注：这里别把List改为Collection，会导致覆盖方法的List<ID>调用不到
+	 * 通过主键集合删除实体 注：这里别把List改为Collection，会导致覆盖方法的List<ID>调用不到
 	 * 
 	 * @param List
 	 *            <PK> pks
 	 * @return List<T>
 	 */
 	public void deleteById(List<ID> idList);
-
-	/**
-	 * 查所有分页
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public Pagination<T> findByAllPagination(Pagination<T> p);
 }

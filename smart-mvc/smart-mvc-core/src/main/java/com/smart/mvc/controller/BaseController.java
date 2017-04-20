@@ -25,7 +25,7 @@ public class BaseController {
 		return ids;
 	}
 
-	protected List<Integer> getAjaxIds(final String id) {
-		return StringUtils.isBlank(id) ? new ArrayList<Integer>(0) : Arrays.asList(getAjaxIds(id, ","));
+	protected List<Integer> getAjaxIds(final String ids) {
+		return StringUtils.isBlank(ids) ? new ArrayList<Integer>(0) : Arrays.asList(getAjaxIds(ids, ","));
 	}
 }

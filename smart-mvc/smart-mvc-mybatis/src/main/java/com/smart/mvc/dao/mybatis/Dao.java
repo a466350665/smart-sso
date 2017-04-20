@@ -14,7 +14,24 @@ import com.smart.mvc.model.Pagination;
 public interface Dao<T, ID extends Serializable> {
 
 	/**
-	 * 如果实体未持久化过则新建实体，否则更新实体
+	 * 查询所有分页
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public List<T> findByAll(Pagination<T> p);
+	
+	/**
+	 * 通过主键查询实体
+	 * 
+	 * @param PK
+	 *            pk
+	 * @return T
+	 */
+	public T get(ID pk);
+
+	/**
+	 * 插入实体
 	 * 
 	 * @param T
 	 *            t
@@ -28,14 +45,6 @@ public interface Dao<T, ID extends Serializable> {
 	 *            t
 	 */
 	public int update(T t);
-
-	/**
-	 * 删除实体
-	 * 
-	 * @param T
-	 *            t
-	 */
-	public int deleteById(ID id);
 	
 	/**
 	 * 删除实体
@@ -44,21 +53,4 @@ public interface Dao<T, ID extends Serializable> {
 	 *            t
 	 */
 	public int deleteById(Collection<ID> idList);
-
-	/**
-	 * 通过主键加载实体
-	 * 
-	 * @param PK
-	 *            pk
-	 * @return T
-	 */
-	public T get(ID pk);
-	
-	/**
-	 * 查所有分页
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public List<T> findByAll(Pagination<T> p);
 }

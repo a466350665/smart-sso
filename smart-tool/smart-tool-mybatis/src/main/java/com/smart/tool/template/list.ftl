@@ -114,8 +114,6 @@
 				after : function(){
 					// 权限处理
 					$.permission();
-					// 金额格式化
-					$.decimalFormat();
 				}
 			});
 			

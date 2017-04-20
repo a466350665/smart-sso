@@ -624,8 +624,6 @@
 		<script id="_ajaxContent" src="${_staticPath}/custom/assets/ace.ajax-content.js?v" data-path="${_path}"></script>
 		<!-- 权限处理 -->
 		<script id="_permission" src="${_staticPath}/custom/jquery.permission.min.js?v" data="${sessionUserNoPermissions}"></script>
-		<!-- 金额格式化处理 -->
-		<script src="${_staticPath}/custom/jquery.decimalFormat.js?v"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.touch-drag.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar.js"></script>
 		<script src="${_staticPath}/assets/js/ace/ace.sidebar-scroll-1.js"></script>
