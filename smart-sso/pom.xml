@@ -21,7 +21,6 @@
 	</properties>
 
 	<modules>
-		<module>smart-sso-rpc</module>
 		<module>smart-sso-client</module>
 		<module>smart-sso-server</module>
 	</modules>

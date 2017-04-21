@@ -31,12 +31,5 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-		
-		<!-- sso-rpc支持 -->
-		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-rpc</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 	</dependencies>
 </project>
