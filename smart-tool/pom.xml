@@ -8,10 +8,32 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>smart-tool</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
-
-	<modules>
-		<module>smart-tool-mybatis</module>
-	</modules>
+	
+	<dependencies>
+		<!-- IO操作 -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		
+		<!-- Mysql数据库连接 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<!-- 模板引擎 -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+		
+		<!-- Spring对Freemarker包装工具 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+	</dependencies>
 </project>
