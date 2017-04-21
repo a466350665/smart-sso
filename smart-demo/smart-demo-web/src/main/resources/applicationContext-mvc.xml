@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	       http://www.springframework.org/schema/beans/spring-beans.xsd
 	       http://www.springframework.org/schema/mvc
     	   http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	       http://www.springframework.org/schema/context
 		   http://www.springframework.org/schema/context/spring-context.xsd">
-	
+
 	<!-- Controller扫描包 -->
 	<context:component-scan base-package="com.smart.demo.controller" />
-	
+
 	<!-- 单点登录拦截器 -->
 	<mvc:interceptors>
 		<!-- SSO拦截 -->
 		<mvc:interceptor>
-	        <mvc:mapping path="/admin/**"/>
-	        <bean class="com.smart.sso.client.SsoInterceptor" />
-	    </mvc:interceptor>
-	    <!-- 权限拦截 -->
+			<mvc:mapping path="/admin/**" />
+			<bean class="com.smart.sso.client.SsoInterceptor" />
+		</mvc:interceptor>
+		<!-- 权限拦截 -->
 		<mvc:interceptor>
-	        <mvc:mapping path="/admin/**"/>
-	        <bean class="com.smart.sso.client.PermissionInterceptor" />
-	    </mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean class="com.smart.sso.client.PermissionInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
-	
+
 	<!-- 引入SpringMVC基础相关 -->
 	<import resource="classpath:spring-mvc.xml" />
 </beans>

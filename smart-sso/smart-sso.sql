@@ -85,10 +85,10 @@ INSERT INTO `sys_permission` VALUES ('27', '1', '3', '管理员保存', '/admin/
 INSERT INTO `sys_permission` VALUES ('28', '1', '4', '角色保存', '/admin/role/save', '1', '', '', '');
 INSERT INTO `sys_permission` VALUES ('29', '1', '5', '权限保存', '/admin/permission/save', '1', '', '', '');
 INSERT INTO `sys_permission` VALUES ('30', '1', '5', '权限删除', '/admin/permission/delete', '1', '', '', '');
-INSERT INTO `sys_permission` VALUES ('33', '81', null, '用户', '/admin/user', '1', '', '', 'fa-user');
-INSERT INTO `sys_permission` VALUES ('34', '81', '33', '用户列表', '/admin/user/list', '1', '', '', '');
-INSERT INTO `sys_permission` VALUES ('35', '81', '33', '用户新增/修改', '/admin/user/edit', '1', '', '', '');
-INSERT INTO `sys_permission` VALUES ('36', '81', '33', '用户删除', '/admin/user/delete', '1', '', '', '');
+INSERT INTO `sys_permission` VALUES ('33', '81', null, '测试', '/admin/demo', '1', '', '', 'fa-user');
+INSERT INTO `sys_permission` VALUES ('34', '81', '33', '测试列表', '/admin/demo/list', '1', '', '', '');
+INSERT INTO `sys_permission` VALUES ('35', '81', '33', '测试新增/修改', '/admin/demo/edit', '1', '', '', '');
+INSERT INTO `sys_permission` VALUES ('36', '81', '33', '测试删除', '/admin/demo/delete', '1', '', '', '');
 INSERT INTO `sys_permission` VALUES ('37', '81', null, '个人中心', '/admin/profile', '89', '', '', 'fa fa-desktop');
 INSERT INTO `sys_permission` VALUES ('38', '81', '37', '修改密码', '/admin/profile/savePassword', '1', '', '', '');
 INSERT INTO `sys_permission` VALUES ('39', '1', null, '导航栏', '/admin/admin/menu', '99', '', '', '');

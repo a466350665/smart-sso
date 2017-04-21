@@ -19,6 +19,6 @@
 	<dubbo:provider timeout="10000" threadpool="fixed" threads="100" accepts="1000" />
 
 	<!-- 提供的服务接口 -->
-	<dubbo:service retries="0" interface="com.smart.demo.service.UserService" ref="userService" />
+	<dubbo:service retries="0" interface="com.smart.demo.service.DemoService" ref="demoService" />
 
 </beans>  

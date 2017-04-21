@@ -25,7 +25,7 @@
 					<select id="_appId" name="appId" class="form-control help-validate"
 						required="true">
 						<c:forEach var="item" items="${appList}">
-							<option value="${item.id}">${item.name}</option>
+							<option value="${item.id}" ${(item.id eq role.appId)?'selected="selected"':''}>${item.name}</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -62,7 +62,7 @@
 					<div class="clearfix help-validate">
 						<div class="input-group">
 							<textarea id="_description" name="description" class="autosize-transition form-control"  placeholder="描述"
-								 rows="6" cols="60"></textarea>
+								 rows="6" cols="60">${role.description}</textarea>
 						</div>
 					</div>
 				</div>

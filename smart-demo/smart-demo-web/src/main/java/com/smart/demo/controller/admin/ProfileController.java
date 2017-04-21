@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.smart.demo.service.UserService;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
@@ -30,8 +29,6 @@ import com.smart.sso.rpc.AuthenticationRpcService;
 @RequestMapping("/admin/profile")
 public class ProfileController extends BaseController {
 
-	@Resource
-	private UserService userService;
 	@Resource
 	private AuthenticationRpcService authenticationRpcService;
 

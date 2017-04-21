@@ -15,7 +15,7 @@ import com.smart.mvc.locks.ZookeeperLock;
  * 
  * @author Joe
  */
-public class UserJob {
+public class DemoJob {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 

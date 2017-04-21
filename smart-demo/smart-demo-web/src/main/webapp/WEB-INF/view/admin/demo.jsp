@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <jsp:include page="../common/common.jsp">
-	<jsp:param name="title" value="用户"/>
+	<jsp:param name="title" value="测试"/>
 </jsp:include>
 
 <div class="page-header">
 	<h1>
-		用户列表
+		测试列表
 	</h1>
 </div>
 
@@ -24,8 +24,8 @@
 						<div class="widget-main">
 							<form id="_form" class="form-inline">
 								<label>
-									<label class="control-label" for="form-field-1"> 登录名： </label>
-									<input name="account" type="text" class="form-data input-medium search-data">
+									<label class="control-label" for="form-field-1"> 名称： </label>
+									<input name="name" type="text" class="form-data input-medium search-data">
 								</label>
 							</form>
 						</div>
@@ -48,26 +48,26 @@
 		jQuery(function($) {
 			// 列表
     		var $table = $("#_table").table({
-    			url : "${_path}/admin/user/list",
+    			url : "${_path}/admin/demo/list",
     			formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/user/edit', handler : function(){
-						$.aceRedirect("${_path}/admin/user/edit");
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/demo/edit', handler : function(){
+						$.aceRedirect("${_path}/admin/demo/edit");
 					}},
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/user/delete', handler : function(){
-						$table.ajaxDelete({url : "${_path}/admin/user/delete"});
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/demo/delete', handler : function(){
+						$table.ajaxDelete({url : "${_path}/admin/demo/delete"});
 					}}
 				],
 				columns : [
 			        {field:'id', hide : true},
-			        {field:'account', title:'登录名', align:'left'}
+			        {field:'name', title:'名称', align:'left'}
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/user/edit', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/user/edit?id=" + d.id);
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/demo/edit', handler : function(d, i){
+						$.aceRedirect("${_path}/admin/demo/edit?id=" + d.id);
 					}},
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/user/delete', handler : function(d, i){
-						$table.ajaxDelete({url : "${_path}/admin/user/delete"});
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/demo/delete', handler : function(d, i){
+						$table.ajaxDelete({url : "${_path}/admin/demo/delete"});
 					}}
 				],
 				after : function(){

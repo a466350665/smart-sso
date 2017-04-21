@@ -28,8 +28,8 @@ public class ZookeeperLock extends DistributedLock {
 	private String root = "/lock-";
 	private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-	private ZooKeeper zooKeeper;
-	private String myPath;
+	private ZooKeeper zookeeper;
+	private String lockPath;
 
 	public ZookeeperLock(String address, String lockName) {
 		if (StringUtils.isBlank(address)) {
@@ -38,13 +38,13 @@ public class ZookeeperLock extends DistributedLock {
 		if (StringUtils.isBlank(lockName)) {
 			throw new RuntimeException("lockName can not be empty!");
 		}
-		zooKeeper = connectServer(address);
-		if (zooKeeper != null) {
+		zookeeper = connectServer(address);
+		if (zookeeper != null) {
 			root += lockName;
 			try {
-				Stat stat = zooKeeper.exists(root, false);
+				Stat stat = zookeeper.exists(root, false);
 				if (stat == null) {
-					zooKeeper.create(root, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+					zookeeper.create(root, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 				}
 			}
 			catch (KeeperException e) {
@@ -65,7 +65,7 @@ public class ZookeeperLock extends DistributedLock {
 	 */
 	public void lock() {
 		try {
-			myPath = zooKeeper.create(root + "/lock_", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,
+			lockPath = zookeeper.create(root + "/lock_", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,
 					CreateMode.EPHEMERAL_SEQUENTIAL);
 			judgeLock();
 		}
@@ -84,11 +84,11 @@ public class ZookeeperLock extends DistributedLock {
 	 * @throws InterruptedException
 	 */
 	private void judgeLock() throws KeeperException, InterruptedException {
-		List<String> list = zooKeeper.getChildren(root, false);
+		List<String> list = zookeeper.getChildren(root, false);
 		String[] nodes = list.toArray(new String[list.size()]);
 		Arrays.sort(nodes);// 从小到大排序
 		if (nodes.length > 0) {
-			if (!myPath.equals(root + "/" + nodes[0])) {
+			if (!lockPath.equals(root + "/" + nodes[0])) {
 				waitForLock(nodes[0]);
 			}
 			else {
@@ -108,7 +108,7 @@ public class ZookeeperLock extends DistributedLock {
 	 * @throws KeeperException
 	 */
 	private void waitForLock(String nodePath) throws InterruptedException, KeeperException {
-		Stat stat = zooKeeper.exists(root + "/" + nodePath, false);
+		Stat stat = zookeeper.exists(root + "/" + nodePath, false);
 		if (stat == null) {
 			judgeLock();
 		}
@@ -121,11 +121,11 @@ public class ZookeeperLock extends DistributedLock {
 	 * 释放锁
 	 */
 	public void unlock() {
-		if (StringUtils.isBlank(myPath)) {
+		if (StringUtils.isBlank(lockPath)) {
 			logger.error("no need to unlock!");
 		}
 		try {
-			zooKeeper.delete(myPath, -1);
+			zookeeper.delete(lockPath, -1);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
@@ -142,12 +142,12 @@ public class ZookeeperLock extends DistributedLock {
 	 */
 	public boolean tryLock() {
 		try {
-			myPath = zooKeeper.create(root + "/lock_", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,
+			lockPath = zookeeper.create(root + "/lock_", new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,
 					CreateMode.EPHEMERAL_SEQUENTIAL);
-			List<String> list = zooKeeper.getChildren(root, false);
+			List<String> list = zookeeper.getChildren(root, false);
 			String[] nodes = list.toArray(new String[list.size()]);
 			Arrays.sort(nodes);// 从小到大排序
-			if (myPath.equals(root + "/" + nodes[0])) {
+			if (lockPath.equals(root + "/" + nodes[0])) {
 				return true;
 			}
 		}

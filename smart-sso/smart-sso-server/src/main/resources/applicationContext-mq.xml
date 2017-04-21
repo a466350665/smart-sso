@@ -12,7 +12,7 @@
            http://www.springframework.org/schema/jms/spring-jms.xsd">
 
 	<!-- 引入MQ基础配置 -->
-	<import resource="classpath:spring-mq.xml"/>
+	<import resource="classpath:spring-mq.xml" />
 
 	<!-- Spring JmsTemplate 的消息生产者 -->
 	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
@@ -20,12 +20,14 @@
 		<property name="pubSubDomain" value="false" />
 	</bean>
 	<!--Spring JmsTemplate 的消息生产者 -->
-	
-	<!-- 消息消费者 start-->
+
+	<!-- 消息消费者 start -->
 	<bean id="permissionJmsListener" class="com.smart.sso.client.PermissionJmsListener" />
-	
-    <jms:listener-container destination-type="queue" container-type="default" connection-factory="jmsConnectionFactory" acknowledge="auto">
-        <jms:listener destination="${mq.permission.queue.prefix}${sso.app.code}" ref="permissionJmsListener"/>
-    </jms:listener-container>
-    <!-- 消息消费者 end -->
+
+	<jms:listener-container destination-type="queue"
+		acknowledge="auto" container-type="default" connection-factory="jmsConnectionFactory">
+		<jms:listener destination="${mq.permission.queue.prefix}${sso.app.code}"
+			ref="permissionJmsListener" />
+	</jms:listener-container>
+	<!-- 消息消费者 end -->
 </beans>  

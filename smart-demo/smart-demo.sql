@@ -18,15 +18,9 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
+DROP TABLE IF EXISTS `sys_demo`;
+CREATE TABLE `sys_demo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account` varchar(50) NOT NULL COMMENT '登录名',
+  `name` varchar(50) NOT NULL COMMENT '名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户表';
-
--- ----------------------------
--- Records of sys_user
--- ----------------------------
-INSERT INTO `sys_user` VALUES ('5', 'adsfasdf');
-INSERT INTO `sys_user` VALUES ('6', 'vbcvbxcb');
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='测试表';

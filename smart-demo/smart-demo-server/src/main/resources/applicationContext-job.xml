@@ -5,12 +5,12 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
 	<!-- 工作的bean -->
-	<bean id="userJob" class="com.smart.demo.job.UserJob" />
+	<bean id="demoJob" class="com.smart.demo.job.DemoJob" />
 	
 	<!-- job的配置开始 -->
-	<bean id="userJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<bean id="demoJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject">
-			<ref bean="userJob" />
+			<ref bean="demoJob" />
 		</property>
 		<property name="targetMethod">
 			<value>execute</value>
@@ -19,9 +19,9 @@
 	<!-- job的配置结束 -->
 	
 	<!-- 调度的配置开始 -->
-	<bean id="userJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<bean id="demoJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
-			<ref bean="userJobDetail" />
+			<ref bean="demoJobDetail" />
 		</property>
 		<property name="cronExpression">
 			<!-- 每隔1分钟执行一次-->
@@ -35,7 +35,7 @@
 		lazy-init="false" autowire="no">
 		<property name="triggers">
 			<list>
-				<ref bean="userJobTrigger" />
+				<ref bean="demoJobTrigger" />
 			</list>
 		</property>
 	</bean>

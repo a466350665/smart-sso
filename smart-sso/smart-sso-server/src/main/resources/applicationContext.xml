@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	       http://www.springframework.org/schema/beans/spring-beans.xsd
 	       http://www.springframework.org/schema/context
 		   http://www.springframework.org/schema/context/spring-context.xsd
@@ -13,36 +13,32 @@
 	       http://www.springframework.org/schema/aop/spring-aop.xsd
 		   http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd">
-	       
+
 	<!-- 引入基础配置 -->
-    <context:annotation-config />
-    
-    <aop:aspectj-autoproxy/>
-    
+	<context:annotation-config />
+
+	<aop:aspectj-autoproxy />
+
 	<bean class="com.smart.mvc.config.ConfigUtils">
-    	<property name="fileEncoding" value="UTF-8" />
+		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
-				<!--数据库参数配置-->
+				<!--数据库参数配置 -->
 				<value>classpath:jdbc.properties</value>
-				<!--Dubbo参数配置-->
+				<!--Dubbo参数配置 -->
 				<value>classpath:dubbo.properties</value>
-				<!--服务参数配置-->
+				<!--服务参数配置 -->
 				<value>classpath:service.properties</value>
-				<!--单点登录参数配置-->
+				<!--单点登录参数配置 -->
 				<value>classpath:sso.properties</value>
-				<!--MQ参数配置
-				<value>classpath:mq.properties</value>
-				-->
-				<!--Redis参数配置
-				<value>classpath:redis.properties</value>
-				-->
-				<!--当前应用参数配置-->
+				<!--MQ参数配置 <value>classpath:mq.properties</value> -->
+				<!--Redis参数配置 <value>classpath:redis.properties</value> -->
+				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
 		</property>
 	</bean>
-    
+
     <!--activeMQ : 用于权限有修改时，异步通知应用更新权限
     <import resource="applicationContext-redis.xml"/>
     <import resource="applicationContext-mq.xml"/>
@@ -51,11 +47,11 @@
     <!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
     <import resource="applicationContext-redis.xml"/>
     -->
-    
-    <!-- 引入Mybatis及数据库相关 -->
-    <import resource="applicationContext-mybatis.xml"/>
-    <!-- 引入服务相关 -->
-    <import resource="applicationContext-service.xml"/>
-    <!-- 引入Dubbo服务相关 -->
-    <import resource="dubbo-provider.xml"/>
+
+	<!-- 引入Mybatis及数据库相关 -->
+	<import resource="applicationContext-mybatis.xml" />
+	<!-- 引入服务相关 -->
+	<import resource="applicationContext-service.xml" />
+	<!-- 引入Dubbo服务相关 -->
+	<import resource="dubbo-provider.xml" />
 </beans>
