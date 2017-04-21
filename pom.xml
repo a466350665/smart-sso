@@ -8,7 +8,7 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<!-- SpringMVC + Spring + Mybatis/Hibernate核心 -->
+		<!-- SpringMVC + Spring + Mybatis核心 -->
 		<module>smart-mvc</module>
 		<!-- Smart简单Dubbo服务化案例 -->
 		<module>smart-demo</module>
@@ -57,7 +57,6 @@
 		<quartz.version>2.2.1</quartz.version>
 		<mybatis.version>3.3.0</mybatis.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
-		<hibernate.version>4.2.7.Final</hibernate.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<druid.version>1.0.15</druid.version>
 		<mysql.version>5.1.36</mysql.version>
@@ -202,20 +201,6 @@
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
-			</dependency>
-			
-			<!-- Hibernate核心包 -->
-			<dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-core</artifactId>
-			    <version>${hibernate.version}</version>
-			</dependency>
-			
-			<!-- Hibernate-Spring包 -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${spring.version}</version>
 			</dependency>
 			
 			<!-- IO操作 -->

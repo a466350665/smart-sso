@@ -23,10 +23,10 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- mybatis版基础项目支持-->
+		<!-- 基础项目支持-->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-mvc-core</artifactId>
+			<artifactId>smart-mvc</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 

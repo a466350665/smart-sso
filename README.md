@@ -13,17 +13,12 @@ QQ交流群：454343484(提供开发工具和文档下载)
 
 ``` lua
 smart
-├── smart-mvc -- 公共模块（SpringMVC + Spring + Mybatis/Hibernate）
-|    ├── smart-mvc-core -- 公共模块核心
-|    ├── smart-mvc-hibernate -- 公共模块hibernate特有
-|    ├── smart-mvc-mybatis -- 公共模块mybatis特有
+├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
 ├── smart-sso -- 单点登录权限系统
 |    ├── smart-sso-client -- 单点登录客户端依赖包，提供单点认证、授权管理
-|    ├── smart-sso-rpc -- 单点登录远程调用API
 |    ├── smart-sso-server -- 单点登录服务端
 ├── smart-static -- 公用静态js、css文件
 ├── smart-tool -- 代码生成工具
-|    ├── smart-tool-mybatis -- 代码生成工具（mybatis）版本
 ├── smart-demo -- 简单的单点登录Dubbo服务化案例
 |    ├── smart-demo-api -- demo远程调用API
 |    ├── smart-demo-server -- demo服务化provider
@@ -39,7 +34,7 @@ smart
 - API文档：Springfox-Swagger2 2.6.1
 - MVC框架：SpringMVC 4.2.1.RELEASE
 - 核心框架：Spring 4.2.1.RELEASE
-- ORM框架：MyBatis 3.3.0/Hibernate 4.2.7.Final
+- ORM框架：MyBatis 3.3.0
 - 分布式协调服务：Zookeeper 3.4.7
 - 分布式RPC服务：Dubbo 2.5.3
 - 分布式缓存服务：Redis 2.8.12
