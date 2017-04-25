@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 存储tokenUser信息，并提供操作方法
+ * 令牌管理抽象
  * 
  * @author Joe
  */
@@ -12,9 +12,9 @@ public abstract class TokenManager {
 
 	// 令牌有效期，单位为秒，默认30分钟
 	protected int tokenTimeout = 1800;
-	
+
 	private final Timer timer = new Timer(true);
-	
+
 	// 每分钟执行一次
 	public TokenManager() {
 		timer.schedule(new TimerTask() {
@@ -28,7 +28,7 @@ public abstract class TokenManager {
 	public void setTokenTimeout(int tokenTimeout) {
 		this.tokenTimeout = tokenTimeout;
 	}
-	
+
 	/**
 	 * 验证失效token
 	 */

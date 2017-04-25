@@ -10,9 +10,9 @@ import com.smart.mvc.util.SpringUtils;
 import com.smart.sso.server.service.PermissionJmsService;
 
 /**
- * 权限主题
+ * 权限主题抽象
  * 
- * 注： 1.保存所有注册到smart-sso-server的应用 2.当权限变动时，负责调用JMS消息通知应用更新权限
+ * 注： 1.保存所有注册到smart-sso-server的应用编码 2.当权限变动时，负责调用JMS消息通知应用更新权限
  * 
  * @author Joe
  */

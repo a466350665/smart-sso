@@ -3,12 +3,6 @@ package com.smart.sso.client;
 import javax.servlet.http.HttpServletRequest;
 
 public class SessionUtils {
-	
-	/**
-	 * sso授权回调参数token名称
-	 */
-	public static final String SSO_TOKEN_NAME = "__vt_param__";
-	
 	/**
 	 * 登录用户
 	 */
