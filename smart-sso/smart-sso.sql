@@ -216,8 +216,8 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '1', '管理员', '999', '系统管理员', '');
-INSERT INTO `sys_role` VALUES ('4', '81', 'test角色', '1', '', '');
+INSERT INTO `sys_role` VALUES ('1', '1', '单点登录管理员角色', '999', '', '');
+INSERT INTO `sys_role` VALUES ('4', '81', 'demo管理员角色', '1', '', '');
 
 -- ----------------------------
 -- Table structure for `sys_user`
