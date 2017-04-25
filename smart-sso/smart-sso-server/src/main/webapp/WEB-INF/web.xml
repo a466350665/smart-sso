@@ -25,14 +25,14 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- 使用applicationContext-redis.xml配置时需要打开，由Spring借助Redis接管HttpSession，实现分布式共享Session
-	<filter>     
-	    <filter-name>springSessionRepositoryFilter</filter-name>     
-	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	<!-- 由Spring借助Redis接管HttpSession，实现分布式共享Session
+	<filter>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	<filter-mapping>     
-	    <filter-name>springSessionRepositoryFilter</filter-name>     
-	    <url-pattern>/*</url-pattern> 
+	<filter-mapping>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	 -->
 	<servlet>

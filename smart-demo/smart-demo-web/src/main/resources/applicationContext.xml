@@ -31,6 +31,12 @@
 		</property>
 	</bean>
 
+	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+	<import resource="classpath:spring-redis-sso.xml" />
+	 -->
+	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
+	<import resource="classpath:spring-mq-sso.xml" />
+	 -->
 	<!-- 引入服务相关 -->
 	<import resource="dubbo-consumer.xml" />
 </beans>

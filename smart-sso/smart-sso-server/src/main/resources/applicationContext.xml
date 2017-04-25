@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop" 
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	       http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -31,23 +29,25 @@
 				<value>classpath:service.properties</value>
 				<!--单点登录参数配置 -->
 				<value>classpath:sso.properties</value>
-				<!--MQ参数配置 <value>classpath:mq.properties</value> -->
-				<!--Redis参数配置 <value>classpath:redis.properties</value> -->
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
 		</property>
 	</bean>
 
-    <!--activeMQ : 用于权限有修改时，异步通知应用更新权限
-    <import resource="applicationContext-redis.xml"/>
-    <import resource="applicationContext-mq.xml"/>
-     -->
-     
-    <!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
-    <import resource="applicationContext-redis.xml"/>
-    -->
+	<!-- SSO令牌管理 -->
+	<bean id="tokenManager" class="com.smart.sso.server.common.LocalTokenManager">
+		<property name="tokenTimeout" value="${sso.timeout}" />
+	</bean>
+	<!-- 权限主题 -->
+	<bean id="permissionSubject" class="com.smart.sso.server.common.LocalPermissionSubject" />
 
+	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+	<import resource="classpath:spring-redis-sso.xml" />
+	 -->
+	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
+	<import resource="applicationContext-mq.xml" />
+	 -->
 	<!-- 引入Mybatis及数据库相关 -->
 	<import resource="applicationContext-mybatis.xml" />
 	<!-- 引入服务相关 -->

@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,12 +18,10 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
-import com.smart.mvc.util.SpringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
-import com.smart.sso.server.service.impl.PermissionSubject;
 
 /**
  * @author Joe
@@ -118,19 +115,5 @@ public class AppController extends BaseController {
 			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
 		appService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
-	}
-	
-	@ApiOperation("同步权限")
-	@RequestMapping(value = "/sync/permissions", method = RequestMethod.POST)
-	public @ResponseBody Result syncPermissions(
-			@ApiParam(value = "应用编码集合", required = true) @ValidateParam({ Validator.NOT_BLANK }) String codes) {
-		PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
-		if (permissionSubject != null) {
-			String[] codeArray = StringUtils.split(codes, ",");
-			for (String code : codeArray) {
-				permissionSubject.update(code);
-			}
-		}
-		return Result.createSuccessResult().setMessage("权限同步成功");
 	}
 }

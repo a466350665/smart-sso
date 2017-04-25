@@ -16,20 +16,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.provider.IdProvider;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
-import com.smart.mvc.util.SpringUtils;
 import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.ApplicationUtils;
+import com.smart.sso.client.SsoInterceptor;
 import com.smart.sso.server.common.LoginUser;
+import com.smart.sso.server.common.PermissionSubject;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.service.impl.PermissionSubject;
 
 /**
  * @author Joe
@@ -37,13 +37,15 @@ import com.smart.sso.server.service.impl.PermissionSubject;
 @Api(tags = "单点登录管理")
 @Controller
 @RequestMapping("/login")
-public class LoginController {
+public class LoginController extends BaseController{
 	
 	// 登录页
 	private static final String LOGIN_PATH = "/login";
 
 	@Resource
 	private TokenManager tokenManager;
+	@Resource
+	private PermissionSubject permissionSubject;
 	@Resource
 	private UserService userService;
 
@@ -63,9 +65,7 @@ public class LoginController {
 			LoginUser loginUser = tokenManager.validate(token);
 			if (loginUser != null) {
 				// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-				PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
-				if (permissionSubject != null)
-					permissionSubject.attach(appCode);
+				permissionSubject.attach(appCode);
 
 				return "redirect:" + authBackUrl(backUrl, token);
 			}
@@ -85,7 +85,7 @@ public class LoginController {
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		Result result = userService.login(ApplicationUtils.getIpAddr(request), appCode, account,
+		Result result = userService.login(getIpAddr(request), appCode, account,
 				PasswordProvider.encrypt(password));
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
@@ -96,17 +96,14 @@ public class LoginController {
 		else {
 			User user = (User) result.getData();
 			LoginUser loginUser = new LoginUser(user.getId(), user.getAccount(), user);
-			
-			String token = tokenManager.existsLoginUser(loginUser);
-			if (StringUtils.isBlank(token)) {// 当前用户已登录
+			String token = CookieUtils.getCookie(request, "token");
+			if (StringUtils.isBlank(token) || tokenManager.validate(token) == null) {// 没有登录的情况
 				token = createToken(loginUser);
+				addTokenInCookie(token, response);
 			}
-			addTokenInCookie(token, response);
 
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-			PermissionSubject permissionSubject = SpringUtils.getBean(PermissionSubject.class);
-			if (permissionSubject != null)
-				permissionSubject.attach(appCode);
+			permissionSubject.attach(appCode);
 
 			// 跳转到原请求
 			backUrl = URLDecoder.decode(backUrl, "utf-8");
@@ -122,7 +119,7 @@ public class LoginController {
 		else {
 			sbf.append("?");
 		}
-		sbf.append(ApplicationUtils.SSO_TOKEN_NAME).append("=").append(token);
+		sbf.append(SsoInterceptor.SSO_TOKEN_NAME).append("=").append(token);
 		return sbf.toString();
 	}
 

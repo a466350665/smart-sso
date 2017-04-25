@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.smart.sso.server.common.PermissionSubject;
 import com.smart.sso.server.service.AppService;
 
 /**

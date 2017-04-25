@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.model.Result;
-import com.smart.sso.client.ApplicationUtils;
+import com.smart.sso.client.PermissionInitServlet;
 import com.smart.sso.client.SessionPermission;
+import com.smart.sso.client.SessionUtils;
 
 /**
  * @author Joe
@@ -26,7 +27,7 @@ public class AdminController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(HttpServletRequest request, Model model) {
-		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		// 设置当前登录用户没有的权限
 		model.addAttribute("sessionUserNoPermissions", sessionPermission == null ? null : sessionPermission.getNoPermissions());
 		// 默认首页
@@ -37,9 +38,9 @@ public class AdminController {
 	@ApiOperation("菜单")
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public @ResponseBody Result menu(HttpServletRequest request) {
-		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
 		return Result.createSuccessResult().setData(
-				sessionPermission == null ? ApplicationUtils.getApplicationMenu(request) : sessionPermission.getMenuList());
+				sessionPermission == null ? PermissionInitServlet.getApplicationMenuList() : sessionPermission.getMenuList());
 	}
 }

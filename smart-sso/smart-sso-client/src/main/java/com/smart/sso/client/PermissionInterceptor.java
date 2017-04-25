@@ -29,8 +29,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws ServletException, IOException {
 		String path = request.getServletPath();
-		Set<String> applicationPermissionSet = ApplicationUtils.getApplicationPermission(request);
-		if (!applicationPermissionSet.contains(path)) {
+		if (!PermissionInitServlet.getApplicationPermissionSet().contains(path)) {
 			return true;
 		}
 		if (isPermitted(request, path)) {
@@ -45,7 +44,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	private Set<String> getLocalPermissionSet(HttpServletRequest request) {
-		SessionPermission sessionPermission = ApplicationUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		if (sessionPermission == null) {
 			sessionPermission = invokePermissionInSession(request);
 		}
@@ -59,7 +58,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	 * @return
 	 */
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
-		SessionUser user = ApplicationUtils.getSessionUser(request);
+		SessionUser user = SessionUtils.getSessionUser(request);
 		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(user.getToken(),
 				ConfigUtils.getProperty("sso.app.code"));
 
@@ -79,13 +78,18 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		sessionPermission.setMenuList(menuList);
 
 		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
-		Set<String> noPermissionSet = new HashSet<String>(ApplicationUtils.getApplicationPermission(request));
+		Set<String> noPermissionSet = new HashSet<String>(PermissionInitServlet.getApplicationPermissionSet());
 		noPermissionSet.removeAll(operateSet);
 		sessionPermission.setNoPermissions(StringUtils.join(noPermissionSet.toArray(), ","));
 
 		// 保存登录用户权限列表
 		sessionPermission.setPermissionSet(operateSet);
-		ApplicationUtils.setSessionPermission(request, sessionPermission);
+		SessionUtils.setSessionPermission(request, sessionPermission);
+		
+		// 添加权限监控集合，当前session已更新最新权限
+		if(PermissionMonitor.isChanged){
+			PermissionMonitor.tokenSet.add(user.getToken());
+		}
 		return sessionPermission;
 	}
 }

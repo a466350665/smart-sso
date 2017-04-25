@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	       http://www.springframework.org/schema/beans/spring-beans.xsd
 	       http://www.springframework.org/schema/context
@@ -19,5 +18,10 @@
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
+	</bean>
+
+	<!-- Redis缓存工具 -->
+	<bean id="redisCache" class="com.smart.mvc.cache.RedisCache">
+		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
 </beans>

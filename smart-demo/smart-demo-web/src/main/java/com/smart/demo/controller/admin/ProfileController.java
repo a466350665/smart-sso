@@ -18,7 +18,7 @@ import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.ApplicationUtils;
+import com.smart.sso.client.SessionUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 
 /**
@@ -35,7 +35,7 @@ public class ProfileController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model, HttpServletRequest request) {
-		model.addAttribute("user", ApplicationUtils.getSessionUser(request).getProfile());
+		model.addAttribute("user", SessionUtils.getSessionUser(request).getProfile());
 		return "/admin/profile";
 	}
 
@@ -46,7 +46,7 @@ public class ProfileController extends BaseController {
 			@ApiParam(value = "确认密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
 		if (newPassword.equals(confirmPassword)
-				&& authenticationRpcService.updatePassword(ApplicationUtils.getSessionUser(request).getToken(),
+				&& authenticationRpcService.updatePassword(SessionUtils.getSessionUser(request).getToken(),
 						newPassword))
 			return Result.createSuccessResult().setMessage("修改成功");
 		else

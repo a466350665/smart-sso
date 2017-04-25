@@ -17,6 +17,11 @@ import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcUser;
 
 public class SsoInterceptor extends HandlerInterceptorAdapter {
+	
+	/**
+	 * sso授权回调参数token名称
+	 */
+	public static final String SSO_TOKEN_NAME = "__vt_param__";
 
 	@Autowired
 	private AuthenticationRpcService authenticationRpcService;
@@ -50,13 +55,13 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 	 * @return
 	 */
 	private String getToken(HttpServletRequest request) {
-		SessionUser sessionUser = ApplicationUtils.getSessionUser(request);
+		SessionUser sessionUser = SessionUtils.getSessionUser(request);
 		String token;
 		if (sessionUser != null) {
 			token = sessionUser.getToken();
 		}
 		else {
-			token = request.getParameter(ApplicationUtils.SSO_TOKEN_NAME);
+			token = request.getParameter(SSO_TOKEN_NAME);
 			if (StringUtils.isNotBlank(token)) {
 				RpcUser rpcUser = authenticationRpcService.findAuthInfo(token);
 				if (rpcUser != null) {
@@ -76,7 +81,7 @@ public class SsoInterceptor extends HandlerInterceptorAdapter {
 	 * @param profile
 	 */
 	private void invokeAuthenticationInfoInSession(HttpServletRequest request, String token, String account, Object profile) {
-		ApplicationUtils.setSessionUser(request, new SessionUser(token, account, profile));
+		SessionUtils.setSessionUser(request, new SessionUser(token, account, profile));
 	}
 
 	/**

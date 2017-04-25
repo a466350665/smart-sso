@@ -15,9 +15,4 @@
 		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
 		<property name="maxInactiveIntervalInSeconds" value="${sso.timeout}" />
 	</bean>
-
-	<!-- Redis缓存工具 -->
-	<bean id="redisCache" class="com.smart.mvc.cache.RedisCache">
-		<property name="redisTemplate" ref="redisTemplate" />
-	</bean>
 </beans>
