@@ -77,7 +77,7 @@
 
 			$.ajax({
 				'url': url,
-				'cache': !this.force_reload
+				'cache': false
 			})
 			.error(function() {
 				$contentArea.trigger('ajaxloaderror', {url: url, hash: hash});
