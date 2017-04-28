@@ -15,13 +15,14 @@ QQ交流群：454343484(提供开发工具和文档下载)
 smart
 ├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
 ├── smart-sso -- 单点登录权限系统
-├───── smart-sso-client -- 单点登录客户端依赖包，提供单点认证、授权管理
-├───── smart-sso-server -- 单点登录服务端
+├───── smart-sso-client -- 客户端依赖包，提供单点认证、授权管理
+├───── smart-sso-server -- 客户端（极简版）
+├───── smart-sso-server -- 服务端
 ├── smart-static -- 公用静态js、css文件
-├── smart-demo -- 单点登录客户端
-├───── smart-demo-api -- demo远程调用API
-├───── smart-demo-server -- demo服务化provider
-├───── smart-demo-web -- demo服务化consumer(单点登录权限拦截器)
+├── smart-demo -- 客户端（进阶版）
+├───── smart-demo-api -- Dubbo远程调用API
+├───── smart-demo-server -- Dubbo服务化provider
+├───── smart-demo-web -- Dubbo服务化consumer
 ```
 
 ## 技术选型
