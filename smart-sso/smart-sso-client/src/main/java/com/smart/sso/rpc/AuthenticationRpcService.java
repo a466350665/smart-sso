@@ -4,7 +4,7 @@ import java.util.List;
 
 
 /**
- * 身份认证系统通信服务接口
+ * 身份认证应用通信服务接口
  * 
  * @author Joe
  */
@@ -40,15 +40,4 @@ public interface AuthenticationRpcService {
 	 * @return
 	 */
 	public List<RpcPermission> findPermissionList(String token, String appCode);
-	
-	/**
-	 * 更新当前登录用户密码
-	 * 
-	 * @param token
-	 *            授权码
-	 * @param newPassword
-	 *            新密码
-	 * @return
-	 */
-	public boolean updatePassword(String token, String newPassword);
 }

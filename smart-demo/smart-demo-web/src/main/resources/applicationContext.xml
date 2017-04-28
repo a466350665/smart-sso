@@ -14,7 +14,6 @@
 		   http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<!-- 引入基础配置 -->
 	<context:annotation-config />
 
 	<bean class="com.smart.mvc.config.ConfigUtils">
@@ -29,6 +28,12 @@
 				<value>classpath:config.properties</value>
 			</list>
 		</property>
+	</bean>
+	
+	<!-- 单点登录权限RPC服务 -->
+	<bean id="authenticationRpcService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="${sso.server.url}/rpc/authenticationRpcService" />
+		<property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />
 	</bean>
 
 	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享

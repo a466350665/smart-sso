@@ -12,7 +12,6 @@
 		   http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<!-- 引入基础配置 -->
 	<context:annotation-config />
 
 	<aop:aspectj-autoproxy />
@@ -52,6 +51,7 @@
 	<import resource="applicationContext-mybatis.xml" />
 	<!-- 引入服务相关 -->
 	<import resource="applicationContext-service.xml" />
-	<!-- 引入Dubbo服务相关 -->
+	<!-- 引入Dubbo服务相关
 	<import resource="dubbo-provider.xml" />
+	 -->
 </beans>

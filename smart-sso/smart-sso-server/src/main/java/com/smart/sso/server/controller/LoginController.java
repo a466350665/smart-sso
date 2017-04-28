@@ -24,7 +24,7 @@ import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.SsoInterceptor;
+import com.smart.sso.client.SsoFilter;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.PermissionSubject;
 import com.smart.sso.server.common.TokenManager;
@@ -99,7 +99,7 @@ public class LoginController extends BaseController{
 			String token = CookieUtils.getCookie(request, "token");
 			if (StringUtils.isBlank(token) || tokenManager.validate(token) == null) {// 没有登录的情况
 				token = createToken(loginUser);
-				addTokenInCookie(token, response);
+				addTokenInCookie(token, request, response);
 			}
 
 			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
@@ -119,7 +119,7 @@ public class LoginController extends BaseController{
 		else {
 			sbf.append("?");
 		}
-		sbf.append(SsoInterceptor.SSO_TOKEN_NAME).append("=").append(token);
+		sbf.append(SsoFilter.SSO_TOKEN_NAME).append("=").append(token);
 		return sbf.toString();
 	}
 
@@ -132,10 +132,13 @@ public class LoginController extends BaseController{
 		return token;
 	}
 	
-	private void addTokenInCookie(String token, HttpServletResponse response) {
+	private void addTokenInCookie(String token, HttpServletRequest request, HttpServletResponse response) {
 		// Cookie添加token
 		Cookie cookie = new Cookie("token", token);
 		cookie.setPath("/");
+		if ("https".equals(request.getScheme())) {
+			cookie.setSecure(true);
+		}
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
 	}

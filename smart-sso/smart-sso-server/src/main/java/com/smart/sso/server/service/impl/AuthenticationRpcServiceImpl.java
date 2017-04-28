@@ -7,14 +7,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.rpc.RpcUser;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.TokenManager;
-import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.UserService;
 
@@ -55,20 +53,6 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 			else {
 				return new ArrayList<RpcPermission>(0);
 			}
-		}
-	}
-	
-	@Override
-	public boolean updatePassword(String token, String newPassword) {
-		LoginUser loginUser = tokenManager.validate(token);
-		if (loginUser != null) {
-			User user = userService.get(loginUser.getUserId());
-			user.setPassword(PasswordProvider.encrypt(newPassword));
-			userService.update(user);
-			return true;
-		}
-		else {
-			return false;
 		}
 	}
 }

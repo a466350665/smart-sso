@@ -17,6 +17,7 @@
 	<!-- 用户服务接口 -->
 	<dubbo:reference interface="com.smart.demo.service.DemoService" id="demoService" />
 
-	<!-- 单点登录权限服务接口 -->
+	<!-- 单点登录权限服务接口
 	<dubbo:reference interface="com.smart.sso.rpc.AuthenticationRpcService" id="authenticationRpcService" />
+	 -->
 </beans>  

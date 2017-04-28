@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * 
  * @author Joe
  */
-public class PermissionMonitor {
+public class PermissionJmsMonitor {
 
 	/**
 	 * MQ通知权限变动，现有登录用户重新获取权限

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.model.Result;
-import com.smart.sso.client.PermissionInitServlet;
+import com.smart.sso.client.ApplicationPermissionUtils;
 import com.smart.sso.client.SessionPermission;
 import com.smart.sso.client.SessionUtils;
 
@@ -41,6 +41,6 @@ public class AdminController {
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
 		return Result.createSuccessResult().setData(
-				sessionPermission == null ? PermissionInitServlet.getApplicationMenuList() : sessionPermission.getMenuList());
+				sessionPermission == null ? ApplicationPermissionUtils.getApplicationMenuList() : sessionPermission.getMenuList());
 	}
 }

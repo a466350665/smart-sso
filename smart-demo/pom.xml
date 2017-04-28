@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>smart</artifactId>
 		<groupId>com.smart</groupId>
-		<version>0.0.1</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>smart-demo</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	
+
 	<!-- 日志邮箱参数应用级：不同的应用可能异常通知邮箱不同 -->
 	<properties>
 		<log.mail.host>smtp.163.com</log.mail.host>
@@ -18,19 +19,45 @@
 		<log.mail.password>gskj10086!</log.mail.password>
 		<log.mail.to>a466350665@qq.com</log.mail.to>
 	</properties>
-    
+
 	<modules>
 		<module>smart-demo-api</module>
 		<module>smart-demo-server</module>
 		<module>smart-demo-web</module>
 	</modules>
-  	
-  	<dependencies>
+
+	<dependencies>
 		<!-- 基础项目支持 -->
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-mvc</artifactId>
 			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- dubbo -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Netty -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-codec-http</artifactId>
 		</dependency>
 	</dependencies>
 </project>

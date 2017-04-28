@@ -2,14 +2,19 @@ package com.smart.sso.client;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 当前已登录用户Session
+ * 
+ * @author Joe
+ */
 public class SessionUtils {
 	/**
-	 * 登录用户
+	 * 用户信息
 	 */
 	public static final String SESSION_USER = "_sessionUser";
 
 	/**
-	 * 登录用户权限
+	 * 用户权限
 	 */
 	public static final String SESSION_USER_PERMISSION = "_sessionUserPermission";
 
@@ -23,7 +28,7 @@ public class SessionUtils {
 
 	public static SessionPermission getSessionPermission(HttpServletRequest request) {
 		SessionUser user = SessionUtils.getSessionUser(request);
-		if (PermissionMonitor.isChanged && !PermissionMonitor.tokenSet.contains(user.getToken()))
+		if (PermissionJmsMonitor.isChanged && !PermissionJmsMonitor.tokenSet.contains(user.getToken()))
 			return null;
 		else
 			return (SessionPermission) request.getSession().getAttribute(SESSION_USER_PERMISSION);

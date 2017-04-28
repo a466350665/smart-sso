@@ -15,14 +15,13 @@ QQ交流群：454343484(提供开发工具和文档下载)
 smart
 ├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
 ├── smart-sso -- 单点登录权限系统
-|    ├── smart-sso-client -- 单点登录客户端依赖包，提供单点认证、授权管理
-|    ├── smart-sso-server -- 单点登录服务端
+├───── smart-sso-client -- 单点登录客户端依赖包，提供单点认证、授权管理
+├───── smart-sso-server -- 单点登录服务端
 ├── smart-static -- 公用静态js、css文件
-├── smart-tool -- 代码生成工具
-├── smart-demo -- 简单的单点登录Dubbo服务化案例
-|    ├── smart-demo-api -- demo远程调用API
-|    ├── smart-demo-server -- demo服务化provider
-|    ├── smart-demo-web -- demo服务化consumer(单点登录权限拦截器)
+├── smart-demo -- 单点登录客户端
+├───── smart-demo-api -- demo远程调用API
+├───── smart-demo-server -- demo服务化provider
+├───── smart-demo-web -- demo服务化consumer(单点登录权限拦截器)
 ```
 
 ## 技术选型
@@ -46,7 +45,6 @@ smart
 - 日志管理：SLF4J 1.7.21、Logback 1.1.7
 - 模板引擎：Freemarker 2.3.23
 - 单点登录：极简基于Cookie实现
-- 代码生成工具：基于GUI实现
 
 ### 前端
 - 基础代码库：Jquery 2.1.1
@@ -74,9 +72,8 @@ smart
 
 ## 效果展示
 
-### 代码生成器
-![代码生成器](http://img.blog.csdn.net/20170228171253734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![](http://img.blog.csdn.net/20170420111527081?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+### 代码展示
+![这里写图片描述](http://img.blog.csdn.net/20170428155731073?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ### Dubbo监控页
 ![](http://img.blog.csdn.net/20170119151157271?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)

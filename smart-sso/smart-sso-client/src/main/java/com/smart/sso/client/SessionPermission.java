@@ -6,15 +6,20 @@ import java.util.Set;
 
 import com.smart.sso.rpc.RpcPermission;
 
+/**
+ * 已登录用户权限信息
+ * 
+ * @author Joe
+ */
 public class SessionPermission implements Serializable {
 	
 	private static final long serialVersionUID = 7744061178030182892L;
 	
-	// 登录用户菜单
+	// 用户菜单
 	private List<RpcPermission> menuList;
-	// 登录用户权限
+	// 用户权限
 	private Set<String> permissionSet;
-	// 登录用户没有的权限
+	// 用户没有的权限
 	private String noPermissions;
 
 	public List<RpcPermission> getMenuList() {

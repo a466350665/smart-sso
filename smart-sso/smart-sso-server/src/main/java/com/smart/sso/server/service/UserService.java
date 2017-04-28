@@ -61,4 +61,15 @@ public interface UserService extends Service<User, Integer> {
 	 * @return
 	 */
 	public User findByAccount(String account);
+	
+	/**
+	 * 更新密码
+	 * 
+	 * @param id
+	 *            用户ID
+	 * @param newPassword
+	 *            新密码
+	 * @return
+	 */
+	public void updatePassword(Integer id, String newPassword);
 }

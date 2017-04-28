@@ -1,4 +1,4 @@
-package com.smart.demo.controller.admin;
+package com.smart.sso.server.controller.admin;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
+import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.SessionUtils;
-import com.smart.sso.rpc.AuthenticationRpcService;
+import com.smart.sso.server.common.LoginUser;
+import com.smart.sso.server.common.TokenManager;
+import com.smart.sso.server.model.User;
+import com.smart.sso.server.service.UserService;
 
 /**
  * @author Joe
@@ -30,7 +34,9 @@ import com.smart.sso.rpc.AuthenticationRpcService;
 public class ProfileController extends BaseController {
 
 	@Resource
-	private AuthenticationRpcService authenticationRpcService;
+	private TokenManager tokenManager;
+	@Resource
+	private UserService userService;
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
@@ -45,11 +51,15 @@ public class ProfileController extends BaseController {
 			@ApiParam(value = "新密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String newPassword,
 			@ApiParam(value = "确认密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
-		if (newPassword.equals(confirmPassword)
-				&& authenticationRpcService.updatePassword(SessionUtils.getSessionUser(request).getToken(),
-						newPassword))
+		LoginUser loginUser = tokenManager.validate(SessionUtils.getSessionUser(request).getToken());
+		if (loginUser != null) {
+			User user = userService.get(loginUser.getUserId());
+			user.setPassword(PasswordProvider.encrypt(newPassword));
+			userService.update(user);
 			return Result.createSuccessResult().setMessage("修改成功");
-		else
+		}
+		else {
 			return Result.create(ResultCode.VALIDATE_ERROR).setMessage("修改失败");
+		}
 	}
 }

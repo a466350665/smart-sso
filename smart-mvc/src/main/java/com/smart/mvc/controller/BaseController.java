@@ -31,7 +31,13 @@ public class BaseController {
 		return StringUtils.isBlank(ids) ? new ArrayList<Integer>(0) : Arrays.asList(getAjaxIds(ids, ","));
 	}
 	
-	public String getIpAddr(HttpServletRequest request) {
+
+	/**
+	 * 获取IP地址
+	 * @param request
+	 * @return
+	 */
+	protected String getIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");
 		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
 			return ip;

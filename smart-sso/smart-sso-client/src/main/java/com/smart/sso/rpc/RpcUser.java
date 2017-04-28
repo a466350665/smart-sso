@@ -3,7 +3,7 @@ package com.smart.sso.rpc;
 import java.io.Serializable;
 
 /**
- * 通信传输对象
+ * RPC回传用户对象(含菜单)
  * 
  * @author Joe
  */

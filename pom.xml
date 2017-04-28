@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.smart</groupId>
 	<artifactId>smart</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
@@ -16,8 +16,6 @@
 		<module>smart-sso</module>
 		<!-- 前端公用脚本和样式  -->
 		<module>smart-static</module>
-		<!-- Smart代码生成工具 -->
-		<module>smart-tool</module>
 	</modules>
 	
 	<profiles>
@@ -74,6 +72,7 @@
 		<jsp-api.version>2.2</jsp-api.version>
 		<jaxen.version>1.1.6</jaxen.version>
 		<activemq.version>5.13.3</activemq.version>
+		<hessian.version>4.0.38</hessian.version>
 		<dubbo.version>2.5.3</dubbo.version>
 		<zookeeper.version>0.1</zookeeper.version>
 		<netty.version>4.0.23.Final</netty.version>
@@ -144,6 +143,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -293,6 +297,13 @@
 				<groupId>org.apache.activemq</groupId>
 				<artifactId>activemq-client</artifactId>
 				<version>${activemq.version}</version>
+			</dependency>
+			
+			<!-- 远程RPC调用hessian支持 -->
+			<dependency>
+				<groupId>com.caucho</groupId>
+				<artifactId>hessian</artifactId>
+				<version>${hessian.version}</version>
 			</dependency>
 			
 			<!-- Dubbo -->

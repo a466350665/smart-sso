@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>smart</artifactId>
 		<groupId>com.smart</groupId>
-		<version>0.0.1</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>smart-mvc</artifactId>
 	<packaging>jar</packaging>
@@ -33,6 +33,10 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -146,36 +150,16 @@
 			<artifactId>activemq-client</artifactId>
 		</dependency>
 		
-		<!-- dubbo -->
+		<!-- 远程RPC调用hessian支持 -->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
 		</dependency>
         
 		<!-- zookeeper -->
 		<dependency>
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>
-		</dependency>
-
-		<!-- Netty -->
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-handler</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-codec-http</artifactId>
 		</dependency>
 		
 		<!-- Springfox API文档 -->
