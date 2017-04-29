@@ -7,7 +7,7 @@
 QQ交流群：454343484(提供开发工具和文档下载)
 
 ## 简述
-    Smart定位于用当下最流行的技术，为您构建一个易理解、高可用、高扩展性的应用基层，实现快速开发。内置Dubbo服务治理、单点登录权限系统(按钮级，权限修改实时生效)、支持分布式的定时任务服务及代码生成器、易用高兼容的boostrap前端Html模板。
+    Smart定位用当下最流行的SSM（SpringMVC + Spring + Mybatis）技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、修改实时生效（MQ广播的形式）、支持分布式（Spring + Redis提供分布式Session）。
     
 ## 组织结构
 
@@ -92,3 +92,6 @@ smart
 ![](http://img.blog.csdn.net/20170106172905092?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 ![](http://img.blog.csdn.net/20170106172915803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 ![](http://img.blog.csdn.net/20170106172926694?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+### 作者寄语
+艺术的做好一件你认为擅长的事情
