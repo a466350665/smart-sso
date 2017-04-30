@@ -27,7 +27,7 @@ smart
 ## 对比Cas + Shiro
 
 #### 请求协议：
->Cas，默认https，如果使用http需要把cas server解压修改配置参数。
+>Cas，默认https，如果使用http需要把cas server解压修改配置参数。<br>
 >Smart，默认http，可选配为Https，减少配置，降低门槛。
 
 #### 配置层面：
