@@ -42,7 +42,7 @@ smart
 >Shiro，通过annotation或者配置文件配置的权限都需要重启服务。<br>
 >Smart，权限的修改MQ广播（可选配）通知，服务不需要重启。
 
-### 分布式部署层面：
+### 分布式部署：
 >Shiro，通常大家部署依赖Shiro注入的RedisSession。<br>
 >Smart，通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
 
