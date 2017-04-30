@@ -38,9 +38,9 @@ smart
 >Shiro，大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。<br>
 >Smart，将权限集中管理在权限系统，需要的时候配置Filter，几乎无耦合。
 
-### 权限变动：
+### 权限变动服务重启：
 >Shiro，通过annotation或者配置文件配置的权限都需要重启服务。<br>
->Smart，权限的修改MQ广播（可选配）通知，服务不需要重启。
+>Smart，权限的修改通过MQ广播（可选配），服务无需重启。
 
 ### 分布式部署：
 >Shiro，通常大家部署依赖Shiro注入的RedisSession。<br>
