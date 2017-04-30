@@ -31,23 +31,22 @@ smart
 >Smart，默认http，可选配为Https，减少配置，降低门槛。
 
 #### 配置层面：
->Cas，在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。
+>Cas，在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。<br>
 >Smart，将serverName定义在properties文件中，通过Spring的<context:property-placeholder />标签注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
 
 #### 耦合度：
->Shiro，大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。
+>Shiro，大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。<br>
 >Smart，将权限集中管理在权限系统，需要的时候配置Filter，几乎无耦合。
 
 #### 权限变动：
->Shiro，通过annotation或者配置文件配置的权限都需要重启服务。
+>Shiro，通过annotation或者配置文件配置的权限都需要重启服务。<br>
 >Smart，权限的修改MQ广播（可选配）通知，服务不需要重启。
 
 #### 分布式部署层面：
->  Shiro，通常大家部署依赖Shiro注入的RedisSession。
->  Smart，通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
+>Shiro，通常大家部署依赖Shiro注入的RedisSession。<br>
+>Smart，通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
 
->#### 注：
->Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
+##### 注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
 
 
 ## 技术选型
