@@ -24,30 +24,6 @@ smart
 ├───── smart-demo-server -- Dubbo服务化provider
 ├───── smart-demo-web -- Dubbo服务化consumer
 ```
-## 对比Cas + Shiro
-
-### 请求协议
-- Cas：默认https，如果使用http需要把cas server解压修改配置参数。<br>
-- Smart：默认http，可选配为Https，减少配置，降低门槛。
-
-### 配置层面
-- Cas：在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。<br>
-- Smart：将serverName定义在properties文件中，通过Spring的<context:property-placeholder />标签注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
-
-### 耦合度
-- Shiro：大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。<br>
-- Smart：将权限集中管理在权限系统，需要的时候配置Filter，几乎无耦合。
-
-### 权限变动服务重启
-- Shiro：通过annotation或者配置文件配置的权限都需要重启服务。<br>
-- Smart：权限的修改通过MQ广播（可选配），服务无需重启。
-
-### 分布式部署
-- Shiro：通常大家部署依赖Shiro注入的RedisSession。<br>
-- Smart：通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
-
-注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
-
 
 ## 技术选型
 
@@ -85,6 +61,30 @@ smart
 - Safari 5
 - Opera 11
 - 手机浏览器兼容
+
+## 对比Cas + Shiro
+
+### 请求协议
+- Cas：默认https，如果使用http需要把cas server解压修改配置参数。<br>
+- Smart：默认http，可选配为Https，减少配置，降低门槛。
+
+### 配置层面
+- Cas：在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。<br>
+- Smart：将serverName定义在properties文件中，通过Spring的<context:property-placeholder />标签注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
+
+### 耦合度
+- Shiro：大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。<br>
+- Smart：将权限集中管理在权限系统，需要的时候配置Filter，几乎无耦合。
+
+### 权限变动服务重启
+- Shiro：通过annotation或者配置文件配置的权限，修改都需要重启服务。<br>
+- Smart：权限的修改通过MQ广播（可选配），服务无需重启。
+
+### 分布式部署
+- Shiro：通常大家部署依赖Shiro注入的RedisSession。<br>
+- Smart：通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
+
+注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
 
 ## 架构图
 ![架构图](http://img.blog.csdn.net/20170413094648142?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
