@@ -8,8 +8,24 @@ QQ交流群：454343484(提供开发工具和文档下载)
 
 ## 简述
     Smart定位用当下最流行的SSM（SpringMVC + Spring + Mybatis）技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、修改实时生效（MQ广播实现）、支持分布式（Spring + Redis提供分布式Session）。
- 
+    
+## 组织结构
+
+``` lua
+smart
+├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
+├── smart-sso -- 单点登录权限系统
+├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
+├───── smart-sso-demo -- 客户端（极简版）
+├───── smart-sso-server -- 服务端
+├── smart-static -- 公用静态js、css文件
+├── smart-demo -- 客户端（进阶版）
+├───── smart-demo-api -- Dubbo远程调用API
+├───── smart-demo-server -- Dubbo服务化provider
+├───── smart-demo-web -- Dubbo服务化consumer
+```
 ## 对比Cas + Shiro
+
 #### 请求协议：
 >Cas，默认https，如果使用http需要把cas server解压修改配置参数。
 >Smart，默认http，可选配为Https，减少配置，降低门槛。
@@ -27,27 +43,12 @@ QQ交流群：454343484(提供开发工具和文档下载)
 >Smart，权限的修改MQ广播（可选配）通知，服务不需要重启。
 
 #### 分布式部署层面：
->Shiro，通常大家部署依赖Shiro注入的RedisSession。
->Smart，通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
+>  Shiro，通常大家部署依赖Shiro注入的RedisSession。
+>  Smart，通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
 
-#### 注：
+>#### 注：
 >Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
-    
-## 组织结构
 
-``` lua
-smart
-├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
-├── smart-sso -- 单点登录权限系统
-├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
-├───── smart-sso-demo -- 客户端（极简版）
-├───── smart-sso-server -- 服务端
-├── smart-static -- 公用静态js、css文件
-├── smart-demo -- 客户端（进阶版）
-├───── smart-demo-api -- Dubbo远程调用API
-├───── smart-demo-server -- Dubbo服务化provider
-├───── smart-demo-web -- Dubbo服务化consumer
-```
 
 ## 技术选型
 
