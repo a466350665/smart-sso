@@ -18,6 +18,9 @@
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
+				<!--服务参数配置
+				<value>classpath:service.properties</value>
+				 -->
 				<!--单点登录服务端参数配置 -->
 				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置 -->
@@ -31,4 +34,8 @@
 		<property name="serviceUrl" value="${sso.server.url}/rpc/authenticationRpcService" />
 		<property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />
 	</bean>
+	
+	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
+	<import resource="classpath:spring-mq-sso.xml" />
+	 -->
 </beans>

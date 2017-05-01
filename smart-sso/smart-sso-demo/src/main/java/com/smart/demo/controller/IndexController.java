@@ -25,6 +25,7 @@ public class IndexController {
 		
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		if (sessionPermission != null){
+			model.addAttribute("userMenus", sessionPermission.getMenuList());
 			model.addAttribute("userPermissions", sessionPermission.getPermissionSet());
 		}
 		return "/index";
