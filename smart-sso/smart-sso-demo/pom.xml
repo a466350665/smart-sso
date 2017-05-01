@@ -9,6 +9,10 @@
 	<artifactId>smart-sso-demo</artifactId>
 	<packaging>war</packaging>
 	<name>${project.artifactId}</name>
+	
+	<properties>
+		<server.port>8082</server.port>
+	</properties>
 
 	<dependencies>
 		<!-- sso单点登录客户端 -->
