@@ -18,8 +18,8 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for sys_user
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_demo`;
-CREATE TABLE `sys_demo` (
+DROP TABLE IF EXISTS `SYS_DEMO`;
+CREATE TABLE `SYS_DEMO` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '名称',
   PRIMARY KEY (`id`)
