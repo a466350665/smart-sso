@@ -1,4 +1,4 @@
-package com.smart.mvc.doc;
+package com.smart.sso.server.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -21,5 +21,11 @@
 			<artifactId>smart-demo-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		
+		<!-- mysql驱动包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
 	</dependencies>
 </project>

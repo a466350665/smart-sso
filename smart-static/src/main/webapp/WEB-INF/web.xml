@@ -8,7 +8,7 @@
 	</welcome-file-list>
 	<filter>
 		<filter-name>crossOriginFilter</filter-name>
-		<filter-class>com.smart.mvc.filter.CrossOriginFilter</filter-class>
+		<filter-class>com.smart.statics.CrossOriginFilter</filter-class>
 	</filter>
 
 	<filter-mapping>

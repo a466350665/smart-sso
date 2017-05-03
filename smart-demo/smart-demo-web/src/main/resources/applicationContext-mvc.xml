@@ -15,4 +15,12 @@
 
 	<!-- 引入SpringMVC基础相关 -->
 	<import resource="classpath:spring-mvc.xml" />
+	
+	<!-- 默认跳转管理员首页，因为没有权限会跳转至登录页 -->
+	<mvc:view-controller path="/" view-name="redirect:admin/admin" />
+
+	<!-- Swagger文档 -->
+	<bean id="swagger2Config" class="com.smart.demo.common.SwaggerConfig" />
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
 </beans>

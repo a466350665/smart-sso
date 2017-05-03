@@ -1,4 +1,4 @@
-package com.smart.mvc.filter;
+package com.smart.statics;
 
 import java.io.IOException;
 

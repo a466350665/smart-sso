@@ -55,10 +55,15 @@
 			<artifactId>spring-jms</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
 		    <groupId>org.springframework.session</groupId>
 		    <artifactId>spring-session-data-redis</artifactId>
 		</dependency>
-
+	
+		<!-- AOP支持 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -66,12 +71,6 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-		</dependency>
-
-		<!-- mysql驱动包 -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 		<!-- 阿里巴巴数据连接池 -->
@@ -164,24 +163,8 @@
 		
 		<!-- Springfox API文档 -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
 		</dependency>
 		
 		<!-- mybatis核心包 -->

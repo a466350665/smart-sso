@@ -8,6 +8,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcPermission;
 
@@ -47,7 +48,7 @@ public class ApplicationPermissionUtils {
 				if (menu.getIsMenu()) {
 					applicationMenuList.add(menu);
 				}
-				if (menu.getUrl() != null && !"".equals(menu.getUrl())) {
+				if (StringUtils.isNotBlank(menu.getUrl())) {
 					applicationPermissionSet.add(menu.getUrl());
 				}
 			}
