@@ -72,6 +72,18 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
+		
+		<!-- mybatis核心包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+
+		<!-- mybatis-spring包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
 
 		<!-- 阿里巴巴数据连接池 -->
 		<dependency>
@@ -97,7 +109,7 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 
-		<!-- java发送邮件 -->
+		<!-- Java发送邮件 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -130,12 +142,6 @@
 			<groupId>jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 		</dependency>
-
-		<!-- document读取config.xml内容 -->
-		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-		</dependency>
 		
 		<!-- quartz定时任务 -->
 		<dependency>
@@ -161,22 +167,10 @@
 			<artifactId>zkclient</artifactId>
 		</dependency>
 		
-		<!-- Springfox API文档 -->
+		<!-- Swagger API文档 -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-		</dependency>
-		
-		<!-- mybatis核心包 -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-		</dependency>
-
-		<!-- mybatis-spring包 -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -70,7 +70,6 @@
 		<commons-io.version>2.4</commons-io.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp-api.version>2.2</jsp-api.version>
-		<jaxen.version>1.1.6</jaxen.version>
 		<activemq.version>5.13.3</activemq.version>
 		<hessian.version>4.0.38</hessian.version>
 		<dubbo.version>2.5.3</dubbo.version>
@@ -282,13 +281,6 @@
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
 				<version>${jsp-api.version}</version>
-			</dependency>
-			
-			<!-- document读取config.xml内容 -->
-			<dependency>
-				<groupId>jaxen</groupId>
-				<artifactId>jaxen</artifactId>
-				<version>${jaxen.version}</version>
 			</dependency>
 			
 			<!-- Quartz定时任务 -->
