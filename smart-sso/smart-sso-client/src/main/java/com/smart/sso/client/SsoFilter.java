@@ -24,11 +24,61 @@ public class SsoFilter extends ClientFilter {
 	@Override
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		String token = getToken(request);
-		if (token != null && isLogined(token)) {
-			chain.doFilter(request, response);
+		String token = getLocalToken(request);
+		if (token == null) {
+			if (getParameterToken(request, response) != null) {
+				// 再跳转一次当前URL，以便去掉URL中token参数
+				response.sendRedirect(request.getRequestURL().toString());
+			}
+			else
+				redirectLogin(request, response);
 		}
-		else if (isAjaxRequest(request)) {
+		else if (isLogined(token))
+			chain.doFilter(request, response);
+		else
+			redirectLogin(request, response);
+	}
+
+	/**
+	 * 获取Session中token
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String getLocalToken(HttpServletRequest request) {
+		SessionUser sessionUser = SessionUtils.getSessionUser(request);
+		return sessionUser == null ? null : sessionUser.getToken();
+	}
+
+	/**
+	 * 获取服务端回传token参数且验证
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	private String getParameterToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String token = request.getParameter(SSO_TOKEN_NAME);
+		if (token != null) {
+			RpcUser rpcUser = authenticationRpcService.findAuthInfo(token);
+			if (rpcUser != null) {
+				invokeAuthenticationInfoInSession(request, token, rpcUser.getUserName(), rpcUser.getProfile());
+				return token;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 跳转登录
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if (isAjaxRequest(request)) {
 			throw new ServiceException(ResultCode.SSO_TOKEN_ERROR, "未登录或已超时");
 		}
 		else {
@@ -38,31 +88,6 @@ public class SsoFilter extends ClientFilter {
 
 			response.sendRedirect(ssoLoginUrl);
 		}
-
-	}
-
-	/**
-	 * 获取Token
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private String getToken(HttpServletRequest request) {
-		SessionUser sessionUser = SessionUtils.getSessionUser(request);
-		String token;
-		if (sessionUser != null) {
-			token = sessionUser.getToken();
-		}
-		else {
-			token = request.getParameter(SSO_TOKEN_NAME);
-			if (token != null) {
-				RpcUser rpcUser = authenticationRpcService.findAuthInfo(token);
-				if (rpcUser != null) {
-					invokeAuthenticationInfoInSession(request, token, rpcUser.getUserName(), rpcUser.getProfile());
-				}
-			}
-		}
-		return token;
 	}
 
 	/**
