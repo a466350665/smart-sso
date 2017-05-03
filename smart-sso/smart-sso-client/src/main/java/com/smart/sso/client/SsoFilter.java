@@ -26,7 +26,7 @@ public class SsoFilter extends ClientFilter {
 			throws IOException, ServletException {
 		String token = getLocalToken(request);
 		if (token == null) {
-			if (getParameterToken(request, response) != null) {
+			if (getParameterToken(request) != null) {
 				// 再跳转一次当前URL，以便去掉URL中token参数
 				response.sendRedirect(request.getRequestURL().toString());
 			}
@@ -54,11 +54,10 @@ public class SsoFilter extends ClientFilter {
 	 * 获取服务端回传token参数且验证
 	 * 
 	 * @param request
-	 * @param response
 	 * @return
 	 * @throws IOException
 	 */
-	private String getParameterToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String getParameterToken(HttpServletRequest request) throws IOException {
 		String token = request.getParameter(SSO_TOKEN_NAME);
 		if (token != null) {
 			RpcUser rpcUser = authenticationRpcService.findAuthInfo(token);
