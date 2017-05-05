@@ -32,7 +32,7 @@ smart
 - 核心框架：Spring 4.2.1.RELEASE
 - ORM框架：MyBatis 3.3.0
 - 分布式协调服务：Zookeeper 3.4.7
-- 分布式RPC服务：Hessian 4.0.38（可选Dubbo 2.5.3）
+- 分布式RPC服务：Dubbo 2.5.3（默认Hessian 4.0.38）
 - 分布式缓存服务：Redis 2.8.12
 - 分布式消息服务：ActiveMQ 5.13.3
 - NIO框架：Netty 4.0.23.Final
