@@ -34,7 +34,8 @@ public class CaptchaHelper {
 		}
 	}
 
-	public static boolean validate(String sessionCaptcha, String captcha) {
+	public static boolean validate(HttpServletRequest request, String captcha) {
+		String sessionCaptcha = request.getSession().getAttribute(CaptchaHelper.CACHE_CAPTCHA).toString();
 		return sessionCaptcha == null ? false : sessionCaptcha.equalsIgnoreCase(captcha);
 	}
 }
