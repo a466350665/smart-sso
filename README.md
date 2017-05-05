@@ -16,13 +16,9 @@ smart
 ├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
 ├── smart-sso -- 单点登录权限系统
 ├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
-├───── smart-sso-demo -- 客户端（极简版）
+├───── smart-sso-demo -- 客户端
 ├───── smart-sso-server -- 服务端
 ├── smart-static -- 公用静态js、css文件
-├── smart-demo -- 客户端（进阶版）
-├───── smart-demo-api -- Dubbo远程调用API
-├───── smart-demo-server -- Dubbo服务化provider
-├───── smart-demo-web -- Dubbo服务化consumer
 ```
 
 ## 技术选型
@@ -36,7 +32,7 @@ smart
 - 核心框架：Spring 4.2.1.RELEASE
 - ORM框架：MyBatis 3.3.0
 - 分布式协调服务：Zookeeper 3.4.7
-- 分布式RPC服务：Dubbo 2.5.3
+- 分布式RPC服务：Hessian 4.0.38（可选Dubbo 2.5.3）
 - 分布式缓存服务：Redis 2.8.12
 - 分布式消息服务：ActiveMQ 5.13.3
 - NIO框架：Netty 4.0.23.Final
@@ -87,7 +83,7 @@ smart
 注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
 
 ## 架构图
-![架构图](http://img.blog.csdn.net/20170413094648142?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![架构图](http://img.blog.csdn.net/20170505100811000?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## API文档
 ![API文档](http://img.blog.csdn.net/20170420095340652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
@@ -98,10 +94,10 @@ smart
 ## 效果展示
 
 ### 代码展示
-![这里写图片描述](http://img.blog.csdn.net/20170428155731073?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![](http://img.blog.csdn.net/20170505101226577?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ### Dubbo监控页
-![](http://img.blog.csdn.net/20170119151157271?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![](http://img.blog.csdn.net/20170505100908560?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ### 单点登录页
 ![](http://img.blog.csdn.net/20170106172009071?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)

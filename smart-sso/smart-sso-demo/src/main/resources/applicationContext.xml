@@ -18,7 +18,7 @@
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
-				<!--服务参数配置
+				<!--服务参数配置(Zookeeper、MQ、Redis相关)
 				<value>classpath:service.properties</value>
 				 -->
 				<!--单点登录服务端参数配置 -->
@@ -29,12 +29,19 @@
 		</property>
 	</bean>
 	
-	<!-- 单点登录权限RPC服务 -->
+	<!-- 以下为Hessian和Dubbo提供Token验证和授权RPC服务，二选一即可，默认Hessian -->
+	<!-- Hessian -->
 	<bean id="authenticationRpcService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 		<property name="serviceUrl" value="${sso.server.url}/rpc/authenticationRpcService" />
 		<property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />
 	</bean>
-	
+	<!-- Dubbo
+	<import resource="dubbo-consumer.xml" />
+	 -->
+
+	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+	<import resource="classpath:spring-redis-sso.xml" />
+	 -->
 	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
 	<import resource="classpath:spring-mq-sso.xml" />
 	 -->

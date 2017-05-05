@@ -12,7 +12,7 @@ import com.smart.mvc.model.ResultCode;
 import com.smart.sso.rpc.RpcUser;
 
 /**
- * 单点 登录Filter
+ * 单点登录及Token验证Filter
  * 
  * @author Joe
  */

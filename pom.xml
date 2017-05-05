@@ -10,8 +10,6 @@
 	<modules>
 		<!-- SpringMVC + Spring + Mybatis核心 -->
 		<module>smart-mvc</module>
-		<!-- Smart简单Dubbo服务化案例 -->
-		<module>smart-demo</module>
 		<!-- 单点登录权限系统 -->
 		<module>smart-sso</module>
 		<!-- 前端公用脚本和样式  -->

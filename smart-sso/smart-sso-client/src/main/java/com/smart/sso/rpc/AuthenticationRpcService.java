@@ -4,7 +4,7 @@ import java.util.List;
 
 
 /**
- * 身份认证应用通信服务接口
+ * 身份认证授权服务接口
  * 
  * @author Joe
  */
