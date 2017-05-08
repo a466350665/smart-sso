@@ -32,18 +32,27 @@ import com.smart.sso.rpc.AuthenticationRpcService;
 public abstract class ClientFilter implements Filter {
 
 	// 单点登录服务端URL
-	protected static String ssoServerUrl = ConfigUtils.getProperty("sso.server.url");
+	protected String ssoServerUrl;
 	// 当前应用关联权限系统的应用编码
-	protected static String ssoAppCode = ConfigUtils.getProperty("sso.app.code");
+	protected String ssoAppCode;
 	// 单点登录服务端提供的RPC服务，由Spring容器注入
-	protected static AuthenticationRpcService authenticationRpcService = SpringUtils
-			.getBean(AuthenticationRpcService.class);
+	protected AuthenticationRpcService authenticationRpcService;
 
 	// 排除拦截
 	protected List<String> excludeList = null;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		if (StringUtils.isBlank(ssoServerUrl = ConfigUtils.getProperty("sso.server.url"))) {
+			throw new IllegalArgumentException("ssoServerUrl不能为空");
+		}
+		if (StringUtils.isBlank(ssoAppCode = ConfigUtils.getProperty("sso.app.code"))) {
+			throw new IllegalArgumentException("ssoAppCode不能为空");
+		}
+		if ((authenticationRpcService = SpringUtils.getBean(AuthenticationRpcService.class)) == null) {
+			throw new IllegalArgumentException("authenticationRpcService注入失败");
+		}
+		
 		String excludes = filterConfig.getInitParameter("excludes");
 		if (StringUtils.isNotBlank(excludes)) {
 			excludeList = Arrays.asList(excludes.split(","));
