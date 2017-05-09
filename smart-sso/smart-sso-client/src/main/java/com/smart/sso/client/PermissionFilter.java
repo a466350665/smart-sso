@@ -51,10 +51,15 @@ public class PermissionFilter extends ClientFilter {
 
 	private Set<String> getLocalPermissionSet(HttpServletRequest request) {
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
-		if (sessionPermission == null) {
+		if (sessionPermission == null || sessionPermissionChanged(request)) {
 			sessionPermission = invokePermissionInSession(request);
 		}
 		return sessionPermission.getPermissionSet();
+	}
+
+	private boolean sessionPermissionChanged(HttpServletRequest request) {
+		SessionUser user = SessionUtils.getSessionUser(request);
+		return PermissionJmsMonitor.isChanged && !PermissionJmsMonitor.tokenSet.contains(user.getToken());
 	}
 
 	/**

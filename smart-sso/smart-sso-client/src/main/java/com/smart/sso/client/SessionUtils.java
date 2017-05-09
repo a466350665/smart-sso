@@ -27,11 +27,7 @@ public class SessionUtils {
 	}
 
 	public static SessionPermission getSessionPermission(HttpServletRequest request) {
-		SessionUser user = SessionUtils.getSessionUser(request);
-		if (PermissionJmsMonitor.isChanged && !PermissionJmsMonitor.tokenSet.contains(user.getToken()))
-			return null;
-		else
-			return (SessionPermission) request.getSession().getAttribute(SESSION_USER_PERMISSION);
+		return (SessionPermission) request.getSession().getAttribute(SESSION_USER_PERMISSION);
 	}
 
 	public static void setSessionPermission(HttpServletRequest request, SessionPermission sessionPermission) {

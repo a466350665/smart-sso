@@ -12,8 +12,6 @@
 		<module>smart-mvc</module>
 		<!-- 单点登录权限系统 -->
 		<module>smart-sso</module>
-		<!-- 前端公用脚本和样式  -->
-		<module>smart-static</module>
 	</modules>
 	
 	<profiles>
