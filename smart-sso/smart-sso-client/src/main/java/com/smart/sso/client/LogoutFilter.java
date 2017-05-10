@@ -20,6 +20,7 @@ public class LogoutFilter extends ClientFilter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		super.init(filterConfig);
 		ssoBackUrl = filterConfig.getInitParameter("ssoBackUrl");
 		if (ssoBackUrl == null)
 			ssoBackUrl = "";
