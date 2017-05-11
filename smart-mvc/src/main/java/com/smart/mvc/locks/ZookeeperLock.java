@@ -23,8 +23,8 @@ import com.smart.mvc.util.StringUtils;
  * @author Joe
  */
 public class ZookeeperLock extends DistributedLock {
-	private final Logger logger = LoggerFactory.getLogger(DistributedLock.class);
-	private final int ZK_SESSION_TIMEOUT = 5000;
+	private final Logger LOGGER = LoggerFactory.getLogger(ZookeeperLock.class);
+	private final int SESSION_TIMEOUT = 5000;
 	private String root = "/lock-";
 	private CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -122,7 +122,7 @@ public class ZookeeperLock extends DistributedLock {
 	 */
 	public void unlock() {
 		if (StringUtils.isBlank(lockPath)) {
-			logger.error("no need to unlock!");
+			LOGGER.error("no need to unlock!");
 		}
 		try {
 			zookeeper.delete(lockPath, -1);
@@ -170,7 +170,7 @@ public class ZookeeperLock extends DistributedLock {
 		final CountDownLatch latch = new CountDownLatch(1);
 		ZooKeeper zk = null;
 		try {
-			zk = new ZooKeeper(address, ZK_SESSION_TIMEOUT, new Watcher() {
+			zk = new ZooKeeper(address, SESSION_TIMEOUT, new Watcher() {
 				@Override
 				public void process(WatchedEvent event) {
 					if (event.getState() == Event.KeeperState.SyncConnected) {
@@ -181,10 +181,10 @@ public class ZookeeperLock extends DistributedLock {
 			latch.await();
 		}
 		catch (IOException e) {
-			logger.error("IOException", e);
+			LOGGER.error("IOException", e);
 		}
 		catch (InterruptedException ex) {
-			logger.error("InterruptedException", ex);
+			LOGGER.error("InterruptedException", ex);
 		}
 		return zk;
 	}

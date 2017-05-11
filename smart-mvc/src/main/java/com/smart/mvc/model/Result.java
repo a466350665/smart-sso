@@ -39,7 +39,7 @@ public class Result {
 	}
 
 	public static Result createSuccessResult(Object data, String message) {
-		return createSuccessResult().setData(message).setMessage(message);
+		return createSuccessResult().setData(data).setMessage(message);
 	}
 
 	public boolean isSuccess() {
