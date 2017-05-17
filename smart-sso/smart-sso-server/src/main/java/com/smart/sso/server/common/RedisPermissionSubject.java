@@ -23,7 +23,7 @@ public class RedisPermissionSubject extends PermissionSubject {
 	}
 
 	@Override
-	protected Set<String> getAppCodesets() {
+	protected Set<String> getAppCodeSet() {
 		return redisCache.getSet(PERMISSION_SUBJECT);
 	}
 

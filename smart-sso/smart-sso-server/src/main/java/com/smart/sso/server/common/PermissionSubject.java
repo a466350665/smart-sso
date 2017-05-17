@@ -28,14 +28,14 @@ public abstract class PermissionSubject {
 	 */
 	public abstract void attach(String appCode);
 
-	protected abstract Set<String> getAppCodesets();
+	protected abstract Set<String> getAppCodeSet();
 
 	/**
 	 * 通知所有注册应用更新权限
 	 */
 	public void update() {
 		PermissionJmsService permissionJmsService = SpringUtils.getBean(PermissionJmsService.class);
-		Set<String> sets = getAppCodesets();
+		Set<String> sets = getAppCodeSet();
 		for (String appCode : sets) {
 			try {
 				permissionJmsService.send(ConfigUtils.getProperty("mq.permission.queue.prefix").concat(appCode),
