@@ -1,0 +1,58 @@
+.enable_plugin_raty() when (@enable-plugin-raty = true) {
+
+.cancel-on-png, .cancel-off-png, .star-on-png, .star-off-png, .star-half-png {
+  font-size: 2em;
+}
+
+.cancel-on-png, .cancel-off-png, .star-on-png, .star-off-png, .star-half-png {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  speak: none;
+  text-transform: none;
+  
+  color: @ace-grey;
+}
+
+.cancel-on-png {
+  &:before {
+	content: "\f057";
+  }
+  color: @ace-red;
+}
+
+.cancel-off-png {
+  &:before {
+	content: "\f05c";
+  }
+  color: @ace-red2;
+}
+
+.star-on-png {
+  &:before {
+	content: "\f005";
+  }
+  color: @ace-orange2;
+}
+
+.star-off-png {
+  &:before {
+	content: "\f006";
+  }
+  color: @ace-grey;
+}
+
+.star-half-png {
+  &:before {
+	content: "\f123";
+  }
+  color: @ace-orange2;
+}
+
+
+}
+.enable_plugin_raty();

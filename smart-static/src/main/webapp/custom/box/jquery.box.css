@@ -1,0 +1,22 @@
+﻿@charset "utf-8";
+
+.box_mask{display: none; position: absolute;left: 0;top: 0;filter: alpha(opacity=50);opacity: 0.50;background-color: rgb(252, 250, 250);overflow: hidden;z-index: 99999;}
+
+.box_container{display: none;z-index: 100000;width:100%;position:fixed;left:0;top:200px;_position:absolute;_top:expression(eval(document.documentElement.scrollTop+200))}
+
+.box_container .box_dialog{border-radius:0;background:#fff;margin:0 auto;border: 1px solid #ccc;box-shadow: 0 0 2px 1px #ccc;}
+.box_container .box_dialog .box_dialog_content{padding:0}
+.box_container .box_dialog .box_dialog_content .box_content{padding:15px 15px}
+.box_container .box_dialog .box_dialog_content .box_content .box_message{color:#333;line-height:1.8;vertical-align:middle}
+.box_container .box_dialog .box_dialog_content .box_content .box_status{width:32px;margin:0 20px 0 25px;height:32px;display:inline-block;background:url(status_icon.png) 0 0 no-repeat}
+.box_container .box_dialog .box_dialog_content .box_content .box_status_warn{background-position:0 -64px}
+.box_container .box_dialog .box_dialog_content .box_content .box_status_ok{background-position:0 -32px}
+
+.box_container .box_dialog .box_title_bar{height:40px;background:#2ea7e0;color:#fff;border-bottom:1px solid #dedede}
+.box_container .box_dialog .box_title_bar .box_title{display: inline-block;vertical-align: top;margin-left: 10px;margin-top: 10px;font-size: 16px;font-family: "微软雅黑";}
+.box_container .box_dialog .box_title_bar .box_close{float:right;display:inline-block;width:18px;height:18px;margin-right:10px;color:#fff;margin-top:4px;font-size:24px;font-weight:bold;cursor:pointer}
+.box_container .box_dialog .box_title_bar .box_close:hover{color:#666;text-decoration:none}
+
+.box_container .box_dialog .box_dialog_Button{text-align:right;border-top:1px solid #f4f4f4;padding:11px 15px 14px 0;margin:0 18px}
+.box_container .box_dialog .box_dialog_Button a{padding:5px 15px;border:1px solid #ccc;border-radius:3px;background:#f4f4f4;color:#333;cursor:pointer;margin:0 6px 0 0;display:inline-block}
+.box_container .box_dialog .box_dialog_Button a:hover{color:#000!important;background:#fff;text-decoration:none}
