@@ -1,5 +1,8 @@
 package com.smart.sso.server.common;
 
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 import javax.annotation.Resource;
 
 import com.smart.mvc.cache.RedisCache;
@@ -14,7 +17,7 @@ public class RedisTokenManager extends TokenManager {
 	/**
 	 * 是否需要扩展token过期时间
 	 */
-	private volatile boolean isNeedExtendExpired = false;
+	private Set<String> tokenSet = new CopyOnWriteArraySet<String>();
 
 	@Resource
 	private RedisCache<LoginUser> redisCache;
@@ -27,8 +30,8 @@ public class RedisTokenManager extends TokenManager {
 	@Override
 	public LoginUser validate(String token) {
 		LoginUser loginUser = redisCache.get(token);
-		if (loginUser != null && isNeedExtendExpired) {
-			isNeedExtendExpired = false;
+		if (loginUser != null && !tokenSet.contains(token)) {
+			tokenSet.add(token);
 			addToken(token, loginUser);
 		}
 		return loginUser;
@@ -41,6 +44,6 @@ public class RedisTokenManager extends TokenManager {
 
 	@Override
 	public void verifyExpired() {
-		isNeedExtendExpired = true;
+		tokenSet.clear();
 	}
 }
