@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 
 import com.smart.mvc.exception.ServiceException;
-import com.smart.mvc.model.ResultCode;
 import com.smart.sso.rpc.RpcPermission;
 
 /**
@@ -40,7 +39,7 @@ public class PermissionFilter extends ClientFilter {
 		else if (!ApplicationPermissionUtils.getApplicationPermissionSet().contains(path))
 			chain.doFilter(request, response);
 		else {
-			throw new ServiceException(ResultCode.SSO_PERMISSION_ERROR, "没有访问权限");
+			throw new ServiceException(SsoResultCode.SSO_PERMISSION_ERROR, "没有访问权限");
 		}
 	}
 

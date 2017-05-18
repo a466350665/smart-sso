@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
-import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.SessionUtils;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.TokenManager;
-import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 
 /**
@@ -53,9 +51,7 @@ public class ProfileController extends BaseController {
 			HttpServletRequest request) {
 		LoginUser loginUser = tokenManager.validate(SessionUtils.getSessionUser(request).getToken());
 		if (loginUser != null) {
-			User user = userService.get(loginUser.getUserId());
-			user.setPassword(PasswordProvider.encrypt(newPassword));
-			userService.update(user);
+			userService.updatePassword(loginUser.getUserId(), newPassword);
 			return Result.createSuccessResult().setMessage("修改成功");
 		}
 		else {

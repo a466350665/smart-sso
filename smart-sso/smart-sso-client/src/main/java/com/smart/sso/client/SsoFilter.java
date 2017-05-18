@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.smart.mvc.exception.ServiceException;
-import com.smart.mvc.model.ResultCode;
 import com.smart.sso.rpc.RpcUser;
 
 /**
@@ -78,7 +77,7 @@ public class SsoFilter extends ClientFilter {
 	 */
 	private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (isAjaxRequest(request)) {
-			throw new ServiceException(ResultCode.SSO_TOKEN_ERROR, "未登录或已超时");
+			throw new ServiceException(SsoResultCode.SSO_TOKEN_ERROR, "未登录或已超时");
 		}
 		else {
 			request.getSession().invalidate();
