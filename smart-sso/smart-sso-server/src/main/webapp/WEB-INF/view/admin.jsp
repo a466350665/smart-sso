@@ -350,7 +350,7 @@
 								<img class="nav-user-photo" src="${_staticPath}/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									${_sessionAccount}
+									${userName}
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>

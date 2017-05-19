@@ -27,7 +27,6 @@ import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.SsoFilter;
 import com.smart.sso.server.common.LoginUser;
-import com.smart.sso.server.common.PermissionSubject;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
@@ -46,8 +45,6 @@ public class LoginController extends BaseController{
 	@Resource
 	private TokenManager tokenManager;
 	@Resource
-	private PermissionSubject permissionSubject;
-	@Resource
 	private UserService userService;
 
 	@ApiOperation("登录页")
@@ -63,9 +60,6 @@ public class LoginController extends BaseController{
 		else {
 			LoginUser loginUser = tokenManager.validate(token);
 			if (loginUser != null) {
-				// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-				permissionSubject.attach(appCode);
-
 				return "redirect:" + authBackUrl(backUrl, token);
 			}
 			else {
@@ -94,15 +88,12 @@ public class LoginController extends BaseController{
 		}
 		else {
 			User user = (User) result.getData();
-			LoginUser loginUser = new LoginUser(user.getId(), user.getAccount(), user);
+			LoginUser loginUser = new LoginUser(user.getId(), user.getAccount());
 			String token = CookieUtils.getCookie(request, "token");
 			if (StringUtils.isBlank(token) || tokenManager.validate(token) == null) {// 没有登录的情况
 				token = createToken(loginUser);
 				addTokenInCookie(token, request, response);
 			}
-
-			// 为应用添加权限主题观察者，以便应用权限修改通知到对应应用更新权限
-			permissionSubject.attach(appCode);
 
 			// 跳转到原请求
 			backUrl = URLDecoder.decode(backUrl, "utf-8");

@@ -14,14 +14,6 @@ import com.smart.sso.server.model.Permission;
 public interface PermissionService extends Service<Permission, Integer> {
 
 	/**
-	 * 启用禁用操作
-	 * @param isEnable 是否启用
-	 * @param idList 权限ID集合
-	 * @return
-	 */
-	public void enable(Boolean isEnable, List<Integer> idList);
-
-	/**
 	 * 根据名称和应用ID查询
 	 * @param name 权限名称
 	 * @param appId 应用ID

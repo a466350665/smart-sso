@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.rpc.RpcPermission;
-import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
+import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.service.PermissionJmsService;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.RolePermissionService;
 
@@ -24,37 +25,36 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	private RolePermissionService rolePermissionService;
 	@Resource
 	private PermissionService permissionService;
+	@Resource
+	private AppService appService;
+	@Resource
+	private PermissionJmsService permissionJmsService;
 
 	@Autowired
 	public void setDao(PermissionDao dao) {
 		this.dao = dao;
 	}
 
-	@Permissible
-	public void enable(Boolean isEnable, List<Integer> idList) {
-		verifyRows(dao.enable(isEnable, idList), idList.size(), "权限数据库更新失败");
-	}
-	
-	@Permissible
 	public void save(Permission t) {
 		super.save(t);
+		// JMS通知权限变更
+		permissionJmsService.send(appService.get(t.getAppId()).getCode());
 	}
 
 	public List<Permission> findByName(String name, Integer appId, Boolean isEnable) {
 		return dao.findByName(name, appId, isEnable);
 	}
 
-	@Permissible
 	@Transactional
 	public void deletePermission(Integer id, Integer appId) {
 		List<Integer> idList = new ArrayList<Integer>();
-		
+
 		List<Permission> list = permissionService.findByName(null, appId, null);
 		loopSubList(id, idList, list);
 		idList.add(id);
-		
+
 		rolePermissionService.deleteByPermissionIds(idList);
-		
+
 		verifyRows(dao.deleteById(idList), idList.size(), "权限数据库删除失败");
 	}
 
@@ -67,7 +67,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 			}
 		}
 	}
-	
+
 	public void deleteByAppIds(List<Integer> idList) {
 		dao.deleteByAppIds(idList);
 	}

@@ -1,7 +1,5 @@
 package com.smart.sso.server.model;
 
-import java.beans.Transient;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.smart.mvc.model.PersistentObject;
 
@@ -97,17 +95,14 @@ public class Permission extends PersistentObject {
 		this.isEnable = isEnable;
 	}
 	
-	@Transient
 	public String getUrlStr() {
 		return url;
 	}
 	
-	@Transient
 	public String getPermissionIcon() {
 		return icon;
 	}
 
-	@Transient
 	public Integer getpId() {
 		return this.parentId;
 	}

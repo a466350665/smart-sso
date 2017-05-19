@@ -35,7 +35,7 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	public RpcUser findAuthInfo(String token) {
 		LoginUser user = tokenManager.validate(token);
 		if (user != null) {
-			return new RpcUser(user.getUserName(), user.getProfile());
+			return new RpcUser(user.getAccount());
 		}
 		return null;
 	}

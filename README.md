@@ -24,7 +24,7 @@ smart
 ## 技术选型
 
 ### 后端
-- JDK：1.8（支持1.7+）
+- JDK：1.8（支持1.6+）
 - 数据库：Mysql
 - 项目构建工具：Maven 3.3.3
 - API文档：Springfox-Swagger2 2.6.1

@@ -14,15 +14,12 @@ public class LoginUser implements Serializable {
 	// 登录成功ID
 	private Integer userId;
 	// 登录成功用户名
-	private String userName;
-	// 登录对象
-	private Object profile;
+	private String account;
 
-	public LoginUser(Integer userId, String userName, Object profile) {
+	public LoginUser(Integer userId, String account) {
 		super();
 		this.userId = userId;
-		this.userName = userName;
-		this.profile = profile;
+		this.account = account;
 	}
 
 	public Integer getUserId() {
@@ -33,20 +30,12 @@ public class LoginUser implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getAccount() {
+		return account;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public Object getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Object profile) {
-		this.profile = profile;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	@Override

@@ -15,9 +15,9 @@
 	<import resource="classpath:spring-mq-sso.xml" />
 
 	<!-- Spring JmsTemplate 的消息生产者 -->
-	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<constructor-arg ref="jmsConnectionFactory" />
-		<property name="pubSubDomain" value="false" />
+		<property name="pubSubDomain" value="true" />
 	</bean>
 	<!--Spring JmsTemplate 的消息生产者 -->
 </beans>  

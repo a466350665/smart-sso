@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
-import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.UserAppDao;
 import com.smart.sso.server.model.UserApp;
 import com.smart.sso.server.service.UserAppService;
@@ -27,7 +26,6 @@ public class UserAppServiceImpl extends ServiceImpl<UserAppDao, UserApp, Integer
 		this.dao = dao;
 	}
 	
-	@Permissible
 	@Transactional
 	public void allocate(Integer userId, List<Integer> idList, List<UserApp> list) {
 		userRoleService.deleteForChangeApp(userId, idList);

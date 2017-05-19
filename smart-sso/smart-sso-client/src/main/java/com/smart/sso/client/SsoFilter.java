@@ -61,7 +61,7 @@ public class SsoFilter extends ClientFilter {
 		if (token != null) {
 			RpcUser rpcUser = authenticationRpcService.findAuthInfo(token);
 			if (rpcUser != null) {
-				invokeAuthenticationInfoInSession(request, token, rpcUser.getUserName(), rpcUser.getProfile());
+				invokeAuthenticationInfoInSession(request, token, rpcUser.getAccount());
 				return token;
 			}
 		}
@@ -95,9 +95,8 @@ public class SsoFilter extends ClientFilter {
 	 * @param account
 	 * @param profile
 	 */
-	private void invokeAuthenticationInfoInSession(HttpServletRequest request, String token, String account,
-			Object profile) {
-		SessionUtils.setSessionUser(request, new SessionUser(token, account, profile));
+	private void invokeAuthenticationInfoInSession(HttpServletRequest request, String token, String account) {
+		SessionUtils.setSessionUser(request, new SessionUser(token, account));
 	}
 
 	/**

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
-import com.smart.sso.server.common.Permissible;
 import com.smart.sso.server.dao.AppDao;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
@@ -43,12 +42,10 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 		this.dao = dao;
 	}
 	
-	@Permissible
 	public void enable(Boolean isEnable, List<Integer> idList) {
 		verifyRows(dao.enable(isEnable, idList), idList.size(), "应用数据库更新失败");
 	}
 	
-	@Permissible
 	public void save(App t) {
 		super.save(t);
 	}
@@ -70,7 +67,6 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 		return dao.findByUserId(isEnable, userId);
 	}
 	
-	@Permissible
 	@Transactional
 	public void deleteById(List<Integer> idList) {
 		rolePermissionService.deleteByAppIds(idList);
