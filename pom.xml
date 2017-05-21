@@ -66,6 +66,7 @@
 		<poi.version>3.12</poi.version>
 		<jxl.version>2.6</jxl.version>
 		<commons-io.version>2.4</commons-io.version>
+		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp-api.version>2.2</jsp-api.version>
 		<activemq.version>5.13.3</activemq.version>
@@ -215,6 +216,13 @@
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>${commons-io.version}</version>
+			</dependency>
+			
+			<!-- 文件上传所依赖的jar包 -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload.version}</version>
 			</dependency>
 			
 			<!-- Mysql驱动程序 -->

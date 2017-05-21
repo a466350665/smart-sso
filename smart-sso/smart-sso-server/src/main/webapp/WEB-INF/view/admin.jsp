@@ -640,7 +640,7 @@
 					window.location.href="${_path}/logout";
 	            });
 			
-				$.getJSON("${_path}/admin/admin/menu",function(d) {
+				$.getJSON("${_path}/admin/admin/menu?v=" + Math.random(), function(d) {
    					$('.nav-list').append(tree(d.data));
 				});
 				
