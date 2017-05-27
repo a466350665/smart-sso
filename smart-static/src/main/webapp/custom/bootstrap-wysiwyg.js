@@ -6,7 +6,7 @@
 	
 	// 自定义上传方法
 	var readFileIntoDataUrl = function(fileInfo, options){
-		var url = "https://www.baidu.com/img/bd_logo1.png";
+		var url = "";
 		var form = new FormData();
         form.append("files", fileInfo); // 文件对象
 		$.ajax({
@@ -17,8 +17,8 @@
 			async : false,
 			processData: false,  // 告诉jQuery不要去处理发送的数据
 			contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-			success : function(data){
-				alert(data.code);
+			success : function(d){
+				url = d.data;
 			},
 			error : function(data){
 				alert("上传失败!");
