@@ -61,9 +61,9 @@ public abstract class ClientFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		for (String iginoreUrI : excludeList) {
+		for (String ignore : excludeList) {
 			//判断请求地址是否为以忽略地址为后缀，相同者略过检查
-			if (httpRequest.getServletPath().endsWith(iginoreUrI)) {
+			if (httpRequest.getServletPath().endsWith(ignore)) {
 				chain.doFilter(request, response);
 
 				return ;
