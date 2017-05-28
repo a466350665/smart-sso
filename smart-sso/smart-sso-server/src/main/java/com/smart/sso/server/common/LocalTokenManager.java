@@ -1,11 +1,11 @@
 package com.smart.sso.server.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 单实例环境令牌管理
@@ -30,6 +30,7 @@ public class LocalTokenManager extends TokenManager {
 				// 已过期，清除对应token
 				if (now.compareTo(dummyUser.expired) > 0) {
 					tokenMap.remove(token);
+
 					LOGGER.debug("token : " + token + "已失效");
 				}
 			}
@@ -39,16 +40,21 @@ public class LocalTokenManager extends TokenManager {
 	public void addToken(String token, LoginUser loginUser) {
 		DummyUser dummyUser = new DummyUser();
 		dummyUser.loginUser = loginUser;
+
 		extendExpiredTime(dummyUser);
+
 		tokenMap.putIfAbsent(token, dummyUser);
 	}
 
 	public LoginUser validate(String token) {
 		DummyUser dummyUser = tokenMap.get(token);
-		if (dummyUser != null) {
-			extendExpiredTime(dummyUser);
+		if (dummyUser == null) {
+            return null;
 		}
-		return dummyUser == null ? null : dummyUser.loginUser;
+
+        extendExpiredTime(dummyUser);
+
+        return dummyUser.loginUser;
 	}
 
 	public void remove(String token) {
@@ -66,7 +72,7 @@ public class LocalTokenManager extends TokenManager {
 
 	// 复合结构体，含loginUser与过期时间expried两个成员
 	private class DummyUser {
-		private LoginUser loginUser;
-		private Date expired; // 过期时间
+		private LoginUser 	loginUser;
+		private Date 		expired; // 过期时间
 	}
 }
