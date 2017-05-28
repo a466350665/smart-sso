@@ -34,9 +34,8 @@ public class ApplicationPermissionUtils {
 	public static void initApplicationPermissions(AuthenticationRpcService authenticationRpcService, String ssoAppCode) {
 		List<RpcPermission> dbList = null;
 		try {
-			dbList = authenticationRpcService.findPermissionList(null, ssoAppCode);
-		}
-		catch (Exception e) {
+			dbList = authenticationRpcService.findPermissionList(ssoAppCode, null);
+		} catch (Exception e) {
 			dbList = new ArrayList<RpcPermission>(0);
 			LOGGER.error("无法连接到单点登录鉴权系统,请检查配置sso.server.url", e);
 		}

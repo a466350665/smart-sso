@@ -1,21 +1,19 @@
 package com.smart.sso.client;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.smart.mvc.exception.ServiceException;
+import com.smart.sso.rpc.RpcPermission;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.util.StringUtils;
-
-import com.smart.mvc.exception.ServiceException;
-import com.smart.sso.rpc.RpcPermission;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 权限控制Filter
@@ -27,6 +25,7 @@ public class PermissionFilter extends ClientFilter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		super.init(filterConfig);
+
 		ApplicationPermissionUtils.initApplicationPermissions(authenticationRpcService, ssoAppCode);
 	}
 
@@ -64,12 +63,12 @@ public class PermissionFilter extends ClientFilter {
 	/**
 	 * 保存权限信息
 	 * 
-	 * @param token
+	 * @param request
 	 * @return
 	 */
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
 		SessionUser user = SessionUtils.getSessionUser(request);
-		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(user.getToken(), ssoAppCode);
+		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(ssoAppCode, user.getToken());
 
 		List<RpcPermission> menuList = new ArrayList<RpcPermission>();
 		Set<String> operateSet = new HashSet<String>();
@@ -100,6 +99,8 @@ public class PermissionFilter extends ClientFilter {
 		if (PermissionJmsMonitor.isChanged) {
 			PermissionJmsMonitor.tokenSet.add(user.getToken());
 		}
+
+
 		return sessionPermission;
 	}
 }
