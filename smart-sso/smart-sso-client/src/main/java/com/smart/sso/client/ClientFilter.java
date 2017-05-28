@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public abstract class ClientFilter implements Filter {
 			excludes = "";
 		}
 
-		excludeList = Arrays.asList(excludes.split(","));
+		excludeList = StringUtils.isBlank(excludes) ? new ArrayList<>() : Arrays.asList(excludes.split(","));
 	}
 
 	@Override
