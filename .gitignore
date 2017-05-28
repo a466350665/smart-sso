@@ -8,5 +8,13 @@ target
 .idea
 *.iml
 
+### FOR JREbel Plugin
+rebel.xml
+rebel-remote.xml
+
+.rebel.xml.bak
+.rebel-remote.xml.bak
+
+
 catalina.home_IS_UNDEFINED
 *.war
