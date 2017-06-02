@@ -45,10 +45,11 @@ public class LocalTokenManager extends TokenManager {
 
 	public LoginUser validate(String token) {
 		DummyUser dummyUser = tokenMap.get(token);
-		if (dummyUser != null) {
-			extendExpiredTime(dummyUser);
+		if (dummyUser == null) {
+			return null;
 		}
-		return dummyUser == null ? null : dummyUser.loginUser;
+		extendExpiredTime(dummyUser);
+		return dummyUser.loginUser;
 	}
 
 	public void remove(String token) {

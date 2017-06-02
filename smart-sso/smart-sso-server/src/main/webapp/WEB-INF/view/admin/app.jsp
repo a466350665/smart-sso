@@ -69,17 +69,6 @@
 							confirm : "删除应用会影响关联的管理员、角色、权限，确认要删除?", 
 							url : "${_path}/admin/app/delete"
 						});
-					}},
-					{text : '同步权限', clazz : 'btn-info', icon : 'fa fa-refresh blue', permission : '/admin/app/sync/permissions', handler : function(){
-						$table.ajax({
-							url : "${_path}/admin/app/sync/permissions",
-							data : {codes : $table.getSelectedItemKeys("code")},
-							success : function(d) {
-								if(d){
-									$.gritter.add({text: d.message});
-								}
-					        }
-						});
 					}}
 				],
 				columns : [
@@ -120,17 +109,6 @@
 						$table.ajaxDelete({
 							confirm : "删除应用会影响关联的管理员、角色、权限，确认要删除?", 
 							url : "${_path}/admin/app/delete"
-						});
-					}},
-					{text : '同步权限', clazz : 'blue', icon : 'fa fa-refresh', permission : '/admin/app/sync/permissions', handler : function(d, i){
-						$table.ajax({
-							url : "${_path}/admin/app/sync/permissions",
-							data : {codes : d.code},
-							success : function(d) {
-								if(d){
-									$.gritter.add({text: d.message});
-								}
-					        }
 						});
 					}}
 				],
