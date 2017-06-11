@@ -34,3 +34,8 @@ body {
 .form-group.has-error button:focus + .ace-icon {
   color: #d68273;
 }
+
+/** ace_file_input不显示文件名  */
+.ace-file-input .ace-file-container .ace-file-name:after {
+  content: none;
+}
