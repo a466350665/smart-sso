@@ -6,13 +6,9 @@
     response.setDateHeader("Expires", 0);   
 %>
 
-<link rel="stylesheet" href="${_staticPath}/assets/css/jquery-ui.custom.css" />
-<link rel="stylesheet" href="${_staticPath}/assets/css/jquery.gritter.css" />
-<link rel="stylesheet" href="${_staticPath}/assets/css/select2.css" />
-<link rel="stylesheet" href="${_staticPath}/assets/css/datepicker.css" />
-<link rel="stylesheet" href="${_staticPath}/assets/css/bootstrap-editable.css" />
-
-<title>个人中心-${_systemName}</title>
+<jsp:include page="../common/common.jsp">
+	<jsp:param name="title" value="个人中心"/>
+</jsp:include>
 
 <!-- ajax layout which only needs content area -->
 <div class="page-header">
@@ -160,18 +156,6 @@
   <script src="${_staticPath}/assets/js/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript">
-	var scripts = [null,
-		// UI
-		"${_staticPath}/assets/js/jquery-ui.custom.js?v=" + Math.random(),
-		// Form提交Json转换
-		"${_staticPath}/custom/jquery.form.min.js?v=" + Math.random(),
-		// 验证
-		"${_staticPath}/custom/jquery.validate-2.0.min.js?v=" + Math.random(),
-		// 验证定制
-		"${_staticPath}/custom/jquery.validate-2.0.custom.min.js?v=" + Math.random(),
-		"${_staticPath}/assets/js/jquery.gritter.js?v=" + Math.random(),
-		"${_staticPath}/custom/assets/jquery.gritter.custom.js?v=" + Math.random(),
-		null];
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			// 提交

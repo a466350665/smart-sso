@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.smart</groupId>
 	<artifactId>smart</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
@@ -447,31 +447,14 @@
 		</resources>
 	</build>
 	
-	<!-- Jar镜像 -->
+	<!-- 阿里云镜像 -->
 	<repositories>
 		<repository>
-			<id>smart</id>
-			<name>smart</name>
-			<url>http://www.gechuanyi.com:99/repository/maven2/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
+			<id>nexus-aliyun</id>
+			<name>Nexus Aliyun</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>smart</id>
-			<name>smart</name>
-			<url>http://www.gechuanyi.com:99/repository/maven2/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 	
 	<issueManagement>
 		<system>github</system>

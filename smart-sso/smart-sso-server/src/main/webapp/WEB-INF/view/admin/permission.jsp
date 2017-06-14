@@ -193,8 +193,8 @@
 
 <script type="text/javascript">
 	scripts.push(
-			"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js?v=" + Math.random(),
-			"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js?v=" + Math.random());
+			"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+			"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
 		
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {

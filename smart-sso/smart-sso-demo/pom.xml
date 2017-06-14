@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.smart</groupId>
 		<artifactId>smart-sso</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>smart-sso-demo</artifactId>
 	<packaging>war</packaging>
