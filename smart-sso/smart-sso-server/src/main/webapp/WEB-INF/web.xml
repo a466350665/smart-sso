@@ -99,7 +99,7 @@
 	</servlet-mapping>
 	<!-- 应用初始化参数 -->
 	<servlet>
-		<servlet-name>configInitServlet</servlet-name>
+		<servlet-name>configServlet</servlet-name>
 		<servlet-class>com.smart.sso.server.common.ConfigServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 		<async-supported>true</async-supported>
