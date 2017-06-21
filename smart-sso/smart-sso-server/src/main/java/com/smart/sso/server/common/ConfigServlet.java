@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smart.mvc.servlet;
+package com.smart.sso.server.common;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
 import com.smart.mvc.config.ConfigUtils;
 
 /**
- * 初始化全局参数(备注：引用系统有特殊需求，可自行继承覆盖)
+ * 初始化全局参数
  * 
  * @author Joe
  */
-public class ConfigInitServlet extends HttpServlet {
+public class ConfigServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7462526216386306510L;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigInitServlet.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigServlet.class);
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
