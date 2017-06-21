@@ -16,11 +16,11 @@
 	</properties>
 
 	<dependencies>
-		<!-- J2EE支持 -->
+		<!-- smart-mvc包支持 -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>
