@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.smart.sso.server.common;
 
 import javax.servlet.ServletContext;
