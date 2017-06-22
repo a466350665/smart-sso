@@ -17,6 +17,7 @@
 	</modules>
 	
 	<profiles>
+		<!-- 开发环境 -->
 		<profile>
 			<id>dev</id>
 			<properties>
@@ -28,6 +29,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
+		<!-- 生产环境 -->
 		<profile>
 			<id>pro</id>
 			<properties>
