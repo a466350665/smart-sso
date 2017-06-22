@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : Local
 Source Server Version : 50620
 Source Host           : localhost:3306
-Source Database       : sso
+Source Database       : smart-sso
 
 Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2016-07-11 17:46:04
+Date: 2017-06-22 09:05:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,13 +27,14 @@ CREATE TABLE `SYS_APP` (
   `isEnable` bit(1) NOT NULL COMMENT '是否启用',
   `code` varchar(16) NOT NULL COMMENT '编码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COMMENT='应用表';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='应用表';
 
 -- ----------------------------
 -- Records of SYS_APP
 -- ----------------------------
-INSERT INTO `SYS_APP` VALUES ('1', '权限管理系统', '999', '2015-06-02 11:31:44', '', 'system_authority');
-INSERT INTO `SYS_APP` VALUES ('81', 'Demo管理系统', '9999', '2015-11-08 17:16:39', '', 'system_demo');
+INSERT INTO `SYS_APP` VALUES ('1', '单点登录权限管理系统', '20', '2015-06-02 11:31:44', '', 'smart-sso-server');
+INSERT INTO `SYS_APP` VALUES ('81', 'Demo管理系统', '15', '2015-11-08 17:16:39', '', 'smart-sso-demo');
+INSERT INTO `SYS_APP` VALUES ('82', '内容管理系统', '10', '2015-11-08 17:16:39', '', 'smart-cms');
 
 -- ----------------------------
 -- Table structure for `SYS_PERMISSION`
@@ -52,7 +53,7 @@ CREATE TABLE `SYS_PERMISSION` (
   PRIMARY KEY (`id`),
   KEY `FK_SYS_PERM_REFERENCE_SYS_APP` (`appId`),
   CONSTRAINT `FK_SYS_PERM_REFERENCE_SYS_APP` FOREIGN KEY (`appId`) REFERENCES `SYS_APP` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
 -- Records of SYS_PERMISSION
@@ -93,6 +94,13 @@ INSERT INTO `SYS_PERMISSION` VALUES ('39', '1', null, '导航栏', '/admin/admin
 INSERT INTO `SYS_PERMISSION` VALUES ('40', '81', null, '导航栏', '/admin/admin/menu', '99', '', '', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('41', '1', null, '个人中心', '/admin/profile', '89', '', '', 'fa fa-desktop');
 INSERT INTO `SYS_PERMISSION` VALUES ('42', '1', '41', '修改密码', '/admin/profile/savePassword', '1', '', '', '');
+INSERT INTO `SYS_PERMISSION` VALUES ('44', '82', null, '栏目管理', '/admin/channel', '100', '', '', 'fa fa-th-large');
+INSERT INTO `SYS_PERMISSION` VALUES ('47', '82', null, '底部菜单管理', '/admin/menu', '110', '', '', 'fa fa-list-alt');
+INSERT INTO `SYS_PERMISSION` VALUES ('48', '82', null, '文章管理', '/admin/article', '90', '', '', 'fa fa-file-text');
+INSERT INTO `SYS_PERMISSION` VALUES ('49', '82', null, '产品管理', '/admin/product', '70', '', '', 'fa fa-file-powerpoint-o');
+INSERT INTO `SYS_PERMISSION` VALUES ('50', '82', null, '产品规格', '/admin/spec', '75', '', '', 'fa fa-cubes');
+INSERT INTO `SYS_PERMISSION` VALUES ('55', '82', null, '首页幻灯片管理', '/admin/slide', '120', '', '', 'fa fa-sliders');
+INSERT INTO `SYS_PERMISSION` VALUES ('56', '82', null, '底部菜单配置', '/admin/channelMenu/edit', '105', '', '', 'fa fa-cog');
 
 -- ----------------------------
 -- Table structure for `SYS_RE_ROLE_PERMISSION`
@@ -110,7 +118,7 @@ CREATE TABLE `SYS_RE_ROLE_PERMISSION` (
   CONSTRAINT `FK_Reference_9` FOREIGN KEY (`appId`) REFERENCES `SYS_APP` (`id`),
   CONSTRAINT `FK_SYS_RE_R_REFERENCE_SYS_PERM` FOREIGN KEY (`permissionId`) REFERENCES `SYS_PERMISSION` (`id`),
   CONSTRAINT `FK_SYS_RE_R_REFERENCE_SYS_ROLE` FOREIGN KEY (`roleId`) REFERENCES `SYS_ROLE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of SYS_RE_ROLE_PERMISSION
@@ -151,6 +159,13 @@ INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('239', '1', '5', '1');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('240', '1', '25', '1');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('241', '1', '29', '1');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('242', '1', '30', '1');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('243', '5', '55', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('244', '5', '47', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('245', '5', '56', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('246', '5', '44', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('247', '5', '48', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('249', '5', '50', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('250', '5', '49', '82');
 
 -- ----------------------------
 -- Table structure for `SYS_RE_USER_APP`
@@ -165,13 +180,14 @@ CREATE TABLE `SYS_RE_USER_APP` (
   KEY `FK_Reference_11` (`userId`),
   CONSTRAINT `FK_Reference_10` FOREIGN KEY (`appId`) REFERENCES `SYS_APP` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Reference_11` FOREIGN KEY (`userId`) REFERENCES `SYS_USER` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='用户应用表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='用户应用表';
 
 -- ----------------------------
 -- Records of SYS_RE_USER_APP
 -- ----------------------------
-INSERT INTO `SYS_RE_USER_APP` VALUES ('7', '2', '81');
-INSERT INTO `SYS_RE_USER_APP` VALUES ('8', '2', '1');
+INSERT INTO `SYS_RE_USER_APP` VALUES ('9', '2', '81');
+INSERT INTO `SYS_RE_USER_APP` VALUES ('10', '2', '82');
+INSERT INTO `SYS_RE_USER_APP` VALUES ('11', '2', '1');
 
 -- ----------------------------
 -- Table structure for `SYS_RE_USER_ROLE`
@@ -189,13 +205,14 @@ CREATE TABLE `SYS_RE_USER_ROLE` (
   CONSTRAINT `FK_Reference_8` FOREIGN KEY (`appId`) REFERENCES `SYS_APP` (`id`),
   CONSTRAINT `FK_SYS_RE_U_REFERENCE_SYS_ROLE` FOREIGN KEY (`roleId`) REFERENCES `SYS_ROLE` (`id`),
   CONSTRAINT `FK_SYS_RE_U_REFERENCE_SYS_USER` FOREIGN KEY (`userId`) REFERENCES `SYS_USER` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of SYS_RE_USER_ROLE
 -- ----------------------------
 INSERT INTO `SYS_RE_USER_ROLE` VALUES ('7', '2', '4', '81');
 INSERT INTO `SYS_RE_USER_ROLE` VALUES ('8', '2', '1', '1');
+INSERT INTO `SYS_RE_USER_ROLE` VALUES ('9', '2', '5', '82');
 
 -- ----------------------------
 -- Table structure for `SYS_ROLE`
@@ -211,13 +228,14 @@ CREATE TABLE `SYS_ROLE` (
   PRIMARY KEY (`id`),
   KEY `FK_SYS_ROLE_REFERENCE_SYS_APP` (`appId`),
   CONSTRAINT `FK_SYS_ROLE_REFERENCE_SYS_APP` FOREIGN KEY (`appId`) REFERENCES `SYS_APP` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of SYS_ROLE
 -- ----------------------------
-INSERT INTO `SYS_ROLE` VALUES ('1', '1', '单点登录管理员角色', '999', '', '');
-INSERT INTO `SYS_ROLE` VALUES ('4', '81', 'demo管理员角色', '1', '', '');
+INSERT INTO `SYS_ROLE` VALUES ('1', '1', '单点登录权限系统管理员角色', '999', '', '');
+INSERT INTO `SYS_ROLE` VALUES ('4', '81', 'Demo系统管理员角色', '1', '', '');
+INSERT INTO `SYS_ROLE` VALUES ('5', '82', '内容系统管理员角色', '1', '', '');
 
 -- ----------------------------
 -- Table structure for `SYS_USER`
