@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import com.alibaba.fastjson.JSON;
 import com.smart.mvc.config.ConfigUtils;
@@ -40,6 +42,8 @@ public abstract class ClientFilter implements Filter {
 
 	// 排除拦截
 	protected List<String> excludeList = null;
+	
+	private PathMatcher pathMatcher = null;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -56,6 +60,7 @@ public abstract class ClientFilter implements Filter {
 		String excludes = filterConfig.getInitParameter("excludes");
 		if (StringUtils.isNotBlank(excludes)) {
 			excludeList = Arrays.asList(excludes.split(","));
+			pathMatcher = new AntPathMatcher();
 		}
 	}
 
@@ -63,7 +68,7 @@ public abstract class ClientFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		if (excludeList != null && excludeList.contains(httpRequest.getServletPath()))
+		if (matchExcludePath(httpRequest.getServletPath()))
 			chain.doFilter(request, response);
 		else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -79,6 +84,17 @@ public abstract class ClientFilter implements Filter {
 				writer.close();
 			}
 		}
+	}
+	
+	private boolean matchExcludePath(String path) {
+		if (excludeList != null) {
+			for (String ignore : excludeList) {
+				if (pathMatcher.match(ignore, path)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public abstract void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

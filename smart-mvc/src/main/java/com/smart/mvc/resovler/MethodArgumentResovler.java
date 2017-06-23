@@ -1,5 +1,7 @@
 package com.smart.mvc.resovler;
 
+import io.swagger.annotations.ApiParam;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +16,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.smart.mvc.interceptor.StopWatchHandlerInterceptor;
+import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 
@@ -137,8 +140,21 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 	 * @return
 	 */
 	protected ParamInfo createParamInfo(MethodParameter parameter) {
-		ValidateParam param = parameter.getParameterAnnotation(ValidateParam.class);
-		return (param != null ? new ParamInfo(parameter.getParameterName(), param) : new ParamInfo(parameter.getParameterName()));
+		ValidateParam validateParam = parameter.getParameterAnnotation(ValidateParam.class);
+		ParamInfo info = new ParamInfo(parameter.getParameterName());
+		if (validateParam != null) {
+			if (StringUtils.isBlank(validateParam.name())) {
+				ApiParam apiParam = parameter.getParameterAnnotation(ApiParam.class);
+				if (apiParam != null) {
+					info.setName(apiParam.value());
+				}
+			}
+			else {
+				info.setName(validateParam.name());
+			}
+			info.setValidators(validateParam.value());
+		}
+		return info;
 	};
 
 	/**
@@ -161,11 +177,20 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 			this.paramName = paramName;
 		}
 
-		public ParamInfo(String paramName, ValidateParam param) {
-			super();
-			this.paramName = paramName;
-			this.name = param.name();
-			this.validators = param.value();
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public Validator[] getValidators() {
+			return validators;
+		}
+
+		public void setValidators(Validator[] validators) {
+			this.validators = validators;
 		}
 	}
 }
