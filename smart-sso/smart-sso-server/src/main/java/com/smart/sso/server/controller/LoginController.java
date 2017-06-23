@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.smart.mvc.captcha.CaptchaHelper;
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
+import com.smart.mvc.model.ResultCode;
 import com.smart.mvc.provider.IdProvider;
 import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.CookieUtils;
@@ -82,7 +83,7 @@ public class LoginController extends BaseController{
 			return goLoginPath(backUrl, appCode, request);
 		}
 		Result result = userService.login(getIpAddr(request), appCode, account, PasswordProvider.encrypt(password));
-		if (!result.isSuccess()) {
+		if (!result.getCode().equals(ResultCode.SUCCESS)) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(backUrl, appCode, request);
 		}

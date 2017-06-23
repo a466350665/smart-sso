@@ -42,10 +42,6 @@ public class Result {
 		return createSuccessResult().setData(data).setMessage(message);
 	}
 
-	public boolean isSuccess() {
-		return code != null && code.equals(ResultCode.SUCCESS);
-	}
-
 	public Object getData() {
 		return data;
 	}
