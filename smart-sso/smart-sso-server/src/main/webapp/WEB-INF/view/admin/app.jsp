@@ -51,7 +51,7 @@
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			// 列表
-    		var $table = $("#_table").table({
+			var $table = $("#_table").table({
     			url : "${_path}/admin/app/list",
     			formId : "_form",
 				tools : [
@@ -119,21 +119,21 @@
 			});
 			
 			/**
-    		// 搜索
+			// 搜索
 			$("#_search").click(function () {
-           		$table.search();
-           	});
-           	
-           	// 回车绑定
-			$(".form-data").bind('keypress',function(event){
-                if(event.keyCode == "13"){
-                	event.preventDefault();
-                	$table.search();
-                }
-            });
-			*/
+				$table.search();
+			});
 			
-    		//搜索
+			// 回车绑定
+			$(".form-data").bind('keypress',function(event){
+			    if(event.keyCode == "13"){
+			    	event.preventDefault();
+			    	$table.search();
+			    }
+			});
+			 */
+			
+			// 搜索
 			$(".search-data").keyup(function () { 
 				$table.search();
 			});
