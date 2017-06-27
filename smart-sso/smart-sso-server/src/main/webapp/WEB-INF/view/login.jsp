@@ -184,9 +184,9 @@
 			    
 				//验证是否存在错误消息
 				var fail = '${errorMessage}';
-            	if(fail != null && fail != ''){
-            		alert(fail);
-            	}
+				if(fail != null && fail != ''){
+					alert(fail);
+				}
             	
 				//判断之前是否有设置cookie
 				if($.cookie('_account') != undefined){
@@ -222,27 +222,27 @@
 					e.preventDefault();
 			 	});
 			 	
-			 	$("#_loginButton").click(function(){
-		    		if($('#_loginForm').validate()){
-		    		
-		    			if($('#_rememberMe:checked').length>0){
-		    				$.cookie('_account', $("#_account").val());
-		    			}
-		    			else{
+				$("#_loginButton").click(function() {
+					if($('#_loginForm').validate()){
+
+						if($('#_rememberMe:checked').length > 0){
+							$.cookie('_account', $("#_account").val());
+						} 
+						else{
 							$.removeCookie('_account');
 						}
-						
-		    			$('#_loginForm').submit();
-	               	}
-            	});
-            	
-            	// 回车绑定
-				$(".form-data").bind('keypress',function(event){
-	                if(event.keyCode == "13"){
-	                	event.preventDefault();
-	                	$("#_loginButton").click();
-	                }
-	            });
+
+						$('#_loginForm').submit();
+					}
+				});
+
+				// 回车绑定
+				$(".form-data").bind('keypress', function(event) {
+					if(event.keyCode == "13"){
+						event.preventDefault();
+						$("#_loginButton").click();
+					}
+				});
 			});
 		</script>
 	</body>
