@@ -21,7 +21,7 @@ jQuery(function($) {
 			if(smart && smart.validate){
 				$(option).parent().validate();
 			}
-	    },
+		},
 		buttonClass: 'btn btn-white',
 		templates: {
 			button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
