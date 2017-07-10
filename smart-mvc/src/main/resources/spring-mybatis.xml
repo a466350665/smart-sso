@@ -9,7 +9,7 @@
 	       http://www.springframework.org/schema/tx 
 	       http://www.springframework.org/schema/tx/spring-tx.xsd
 	       http://www.springframework.org/schema/context
-		   http://www.springframework.org/schema/context/spring-context.xsd">
+	       http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
@@ -44,8 +44,7 @@
 		<property name="testOnReturn" value="${druid.testOnReturn}" />
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
 		<property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
 		<!--属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有： 监控统计用的filter:stat 日志用的filter:log4j 防御SQL注入的filter:wall -->
 		<property name="filters" value="${druid.filters}" />
 	</bean>
