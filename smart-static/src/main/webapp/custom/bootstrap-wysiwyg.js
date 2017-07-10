@@ -8,7 +8,7 @@
 	var readFileIntoDataUrl = function(fileInfo, options){
 		var url = "";
 		var form = new FormData();
-        form.append("files", fileInfo); // 文件对象
+		form.append("files", fileInfo); // 文件对象
 		$.ajax({
 			type : "post",
 			url : options.fileUploadUrl,  
