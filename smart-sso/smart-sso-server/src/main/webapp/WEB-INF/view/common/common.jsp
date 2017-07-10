@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="${_staticPath}/assets/css/uploadifive.css" />
 
 <!--[if lte IE 8]>
-  <script src="${_staticPath}/assets/js/excanvas.js"></script>
+	<script src="${_staticPath}/assets/js/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript">
 	var scripts = [
