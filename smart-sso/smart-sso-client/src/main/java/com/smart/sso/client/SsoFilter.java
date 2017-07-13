@@ -80,7 +80,7 @@ public class SsoFilter extends ClientFilter {
 			throw new ServiceException(SsoResultCode.SSO_TOKEN_ERROR, "未登录或已超时");
 		}
 		else {
-			request.getSession().invalidate();
+			SessionUtils.invalidate(request);
 			String ssoLoginUrl = new StringBuilder().append(ssoServerUrl).append("/login?backUrl=")
 					.append(request.getRequestURL()).append("&appCode=").append(ssoAppCode).toString();
 

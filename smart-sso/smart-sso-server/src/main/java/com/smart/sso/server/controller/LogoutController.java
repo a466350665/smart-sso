@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.util.StringUtils;
+import com.smart.sso.client.SessionUtils;
 import com.smart.sso.server.common.TokenManager;
 
 /**
@@ -33,7 +34,7 @@ public class LogoutController {
 		if (StringUtils.isNotBlank(token)) {
 			tokenManager.remove(token);
 		}
-		request.getSession().invalidate();
+		SessionUtils.invalidate(request);
 		return "redirect:" + (StringUtils.isBlank(backUrl) ? "/admin/admin" : backUrl);
 	}
 }

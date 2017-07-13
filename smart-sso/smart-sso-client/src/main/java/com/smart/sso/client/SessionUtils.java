@@ -2,6 +2,8 @@ package com.smart.sso.client;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.util.WebUtils;
+
 /**
  * 当前已登录用户Session
  * 
@@ -19,18 +21,23 @@ public class SessionUtils {
 	public static final String SESSION_USER_PERMISSION = "_sessionUserPermission";
 
 	public static SessionUser getSessionUser(HttpServletRequest request) {
-		return (SessionUser) request.getSession().getAttribute(SESSION_USER);
+		return (SessionUser) WebUtils.getSessionAttribute(request, SESSION_USER);
 	}
 
 	public static void setSessionUser(HttpServletRequest request, SessionUser sessionUser) {
-		request.getSession().setAttribute(SESSION_USER, sessionUser);
+		WebUtils.setSessionAttribute(request, SESSION_USER, sessionUser);
 	}
 
 	public static SessionPermission getSessionPermission(HttpServletRequest request) {
-		return (SessionPermission) request.getSession().getAttribute(SESSION_USER_PERMISSION);
+		return (SessionPermission) WebUtils.getSessionAttribute(request, SESSION_USER_PERMISSION);
 	}
 
 	public static void setSessionPermission(HttpServletRequest request, SessionPermission sessionPermission) {
-		request.getSession().setAttribute(SESSION_USER_PERMISSION, sessionPermission);
+		WebUtils.setSessionAttribute(request, SESSION_USER_PERMISSION, sessionPermission);
+	}
+	
+	public static void invalidate(HttpServletRequest request){
+		setSessionUser(request, null);
+		setSessionPermission(request, null);
 	}
 }

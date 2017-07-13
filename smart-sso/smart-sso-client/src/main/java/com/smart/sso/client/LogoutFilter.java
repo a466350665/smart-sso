@@ -29,7 +29,7 @@ public class LogoutFilter extends ClientFilter {
 	@Override
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		request.getSession().invalidate();
+		SessionUtils.invalidate(request);
 		String ssoLogoutUrl = new StringBuilder().append(ssoServerUrl).append("/logout?backUrl=")
 				.append(getLocalUrl(request)).append(ssoBackUrl).toString();
 		response.sendRedirect(ssoLogoutUrl);
