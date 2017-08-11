@@ -443,16 +443,13 @@
 			
 			<resource>
 				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>**/deploy/**</exclude>
-				</excludes>
 				<!-- 过滤替换配置文件变量 -->
 				<filtering>true</filtering>
 			</resource>
 			
 			<!-- 环境配置文件 -->
 			<resource>
-				<directory>src/main/resources/deploy/${env}</directory>
+				<directory>deploy/${env}</directory>
 			</resource>
 		</resources>
 	</build>
