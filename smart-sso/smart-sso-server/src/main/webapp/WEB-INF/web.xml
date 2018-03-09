@@ -47,27 +47,19 @@
 	<filter>
 		<filter-name>ssoFilter</filter-name>
 		<filter-class>com.smart.sso.client.SsoFilter</filter-class>
-		<init-param>
-			<param-name>excludes</param-name>
-			<param-value>/login,/logout,/rpc,/swagger-ui.html,/webjars/**,/swagger-resources/**,/v2/api-docs</param-value>
-		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>ssoFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
 	<!-- 权限控制(选配) -->
 	<filter>
 		<filter-name>permissionFilter</filter-name>
 		<filter-class>com.smart.sso.client.PermissionFilter</filter-class>
-		<init-param>
-			<param-name>excludes</param-name>
-			<param-value>/login,/logout,/rpc,/swagger-ui.html,/webjars/**,/swagger-resources/**,/v2/api-docs</param-value>
-		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>permissionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
 	<!-- SpringMVC核心 -->
 	<servlet>
