@@ -22,10 +22,12 @@
 			<list>
 				<!--数据库参数配置 -->
 				<value>classpath:jdbc.properties</value>
-				<!--Dubbo参数配置 -->
+				<!--Dubbo参数配置
 				<value>classpath:dubbo.properties</value>
-				<!--服务参数配置 -->
+				 -->
+				<!--服务参数配置(Zookeeper、MQ、Redis相关)
 				<value>classpath:service.properties</value>
+				 -->
 				<!--单点登录参数配置 -->
 				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置 -->
