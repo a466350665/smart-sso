@@ -23,34 +23,11 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
-		<!-- SpringMVC -->
+		<!-- 基础项目支持 -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		
-		<!-- 日志 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		
-		<!-- Json处理 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- J2EE支持 -->
