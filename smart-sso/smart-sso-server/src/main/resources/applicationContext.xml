@@ -35,6 +35,20 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
+		<property name="pattern" value="/admin/**" />
+		<property name="ssoServerUrl" value="${sso.server.url}" />
+		<property name="authenticationRpcService" ref="authenticationRpcService" />
+		<property name="filters">
+			<list>
+				<bean class="com.smart.sso.client.SsoFilter"/>
+				<bean class="com.smart.sso.client.PermissionFilter">
+					<property name="ssoAppCode" value="${sso.app.code}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<!-- SSO令牌管理 -->
 	<bean id="tokenManager" class="com.smart.sso.server.common.LocalTokenManager">

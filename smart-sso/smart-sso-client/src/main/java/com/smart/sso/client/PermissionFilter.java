@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.StringUtils;
 
-import com.smart.mvc.exception.ServiceException;
 import com.smart.sso.rpc.RpcPermission;
 
 /**
@@ -24,22 +22,27 @@ import com.smart.sso.rpc.RpcPermission;
  */
 public class PermissionFilter extends ClientFilter {
 
+	// 当前应用关联权限系统的应用编码
+	private String ssoAppCode;
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		super.init(filterConfig);
-		ApplicationPermissionUtils.initApplicationPermissions(authenticationRpcService, ssoAppCode);
+		if (StringUtils.isEmpty(ssoAppCode)) {
+			throw new IllegalArgumentException("ssoAppCode不能为空");
+		}
+		ApplicationPermission.initApplicationPermissions(authenticationRpcService, ssoAppCode);
 	}
 
 	@Override
-	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String path = request.getServletPath();
 		if (isPermitted(request, path))
-			chain.doFilter(request, response);
-		else if (!ApplicationPermissionUtils.getApplicationPermissionSet().contains(path))
-			chain.doFilter(request, response);
+			return true;
+		else if (!ApplicationPermission.getApplicationPermissionSet().contains(path))
+			return true;
 		else {
-			throw new ServiceException(SsoResultCode.SSO_PERMISSION_ERROR, "没有访问权限");
+			responseJson(response, SsoResultCode.SSO_PERMISSION_ERROR, "没有访问权限");
+			return false;
 		}
 	}
 
@@ -87,7 +90,7 @@ public class PermissionFilter extends ClientFilter {
 		sessionPermission.setMenuList(menuList);
 
 		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
-		Set<String> noPermissionSet = new HashSet<String>(ApplicationPermissionUtils.getApplicationPermissionSet());
+		Set<String> noPermissionSet = new HashSet<String>(ApplicationPermission.getApplicationPermissionSet());
 		noPermissionSet.removeAll(operateSet);
 
 		sessionPermission.setNoPermissions(StringUtils.arrayToDelimitedString(noPermissionSet.toArray(), ","));
@@ -101,5 +104,9 @@ public class PermissionFilter extends ClientFilter {
 			PermissionJmsMonitor.tokenSet.add(user.getToken());
 		}
 		return sessionPermission;
+	}
+
+	public void setSsoAppCode(String ssoAppCode) {
+		this.ssoAppCode = ssoAppCode;
 	}
 }

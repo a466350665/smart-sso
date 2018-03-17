@@ -52,11 +52,10 @@ public class LoginController extends BaseController{
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
 			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
-			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String appCode,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, "token");
 		if (token == null) {
-			return goLoginPath(backUrl, appCode, request);
+			return goLoginPath(backUrl, request);
 		}
 		else {
 			LoginUser loginUser = tokenManager.validate(token);
@@ -64,7 +63,7 @@ public class LoginController extends BaseController{
 				return "redirect:" + authBackUrl(backUrl, token);
 			}
 			else {
-				return goLoginPath(backUrl, appCode, request);
+				return goLoginPath(backUrl, request);
 			}
 		}
 	}
@@ -73,19 +72,18 @@ public class LoginController extends BaseController{
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
 			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
-			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String appCode,
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String password,
 			@ApiParam(value = "验证码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String captcha,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		if (!CaptchaHelper.validate(request, captcha)) {
 			request.setAttribute("errorMessage", "验证码不正确");
-			return goLoginPath(backUrl, appCode, request);
+			return goLoginPath(backUrl, request);
 		}
-		Result result = userService.login(getIpAddr(request), appCode, account, PasswordProvider.encrypt(password));
+		Result result = userService.login(getIpAddr(request), account, PasswordProvider.encrypt(password));
 		if (!result.getCode().equals(ResultCode.SUCCESS)) {
 			request.setAttribute("errorMessage", result.getMessage());
-			return goLoginPath(backUrl, appCode, request);
+			return goLoginPath(backUrl, request);
 		}
 		else {
 			User user = (User) result.getData();
@@ -102,9 +100,8 @@ public class LoginController extends BaseController{
 		}
 	}
 	
-	private String goLoginPath(String backUrl, String appCode, HttpServletRequest request) {
+	private String goLoginPath(String backUrl, HttpServletRequest request) {
 		request.setAttribute("backUrl", backUrl);
-		request.setAttribute("appCode", appCode);
 		return LOGIN_PATH;
 	}
 

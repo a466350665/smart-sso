@@ -80,7 +80,6 @@
 											<form id="_loginForm" action="${_path}/login" method="post"
 												validate="true" vmessage="false">
 												<input type="hidden" name="backUrl" value="${backUrl}" />
-												<input type="hidden" name="appCode" value="${appCode}" />
 												<fieldset>
 													<label class="block clearfix form-group">
 														<span class="block input-icon input-icon-right help-validate">

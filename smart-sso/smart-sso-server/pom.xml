@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.smart</groupId>
 		<artifactId>smart-sso</artifactId>
-		<version>1.1.2</version>
+		<version>1.2.2</version>
 	</parent>
 	<artifactId>smart-sso-server</artifactId>
 	<packaging>war</packaging>
@@ -21,6 +21,13 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		
+		<!-- 基础项目支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- sso单点登录客户端 -->

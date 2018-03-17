@@ -14,7 +14,7 @@
 
 	<context:annotation-config />
 
-	<bean class="com.smart.mvc.config.ConfigUtils">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
@@ -25,6 +25,27 @@
 				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
+		<property name="pattern" value="/**" />
+		<property name="ssoServerUrl" value="${sso.server.url}" />
+		<property name="authenticationRpcService" ref="authenticationRpcService" />
+		<property name="filters">
+			<list>
+				<!-- 单点退出(选配) -->
+				<bean class="com.smart.sso.client.LogoutFilter">
+					<property name="pattern" value="/logout" />
+					<property name="ssoBackUrl" value="/index" />
+				</bean>
+				<!-- 单点登录 -->
+				<bean class="com.smart.sso.client.SsoFilter"/>
+				<!-- 权限控制(选配) -->
+				<bean class="com.smart.sso.client.PermissionFilter">
+					<property name="ssoAppCode" value="${sso.app.code}" />
+				</bean>
 			</list>
 		</property>
 	</bean>

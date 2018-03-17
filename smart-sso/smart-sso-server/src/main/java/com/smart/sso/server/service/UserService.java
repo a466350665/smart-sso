@@ -17,8 +17,6 @@ public interface UserService extends Service<User, Integer> {
 	/**
 	 * 登录
 	 * 
-	 * @param appCode
-	 *            应用编码
 	 * @param account
 	 *            登录名
 	 * @param password
@@ -27,7 +25,7 @@ public interface UserService extends Service<User, Integer> {
 	 * @throws AuthenticationException
 	 *             认证异常
 	 */
-	public Result login(String ip, String appCode, String account, String password);
+	public Result login(String ip, String account, String password);
 	
 	/**
 	 * 启用禁用操作

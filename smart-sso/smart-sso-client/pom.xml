@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.smart</groupId>
 		<artifactId>smart-sso</artifactId>
-		<version>1.1.2</version>
+		<groupId>com.smart</groupId>
+		<version>1.2.2</version>
 	</parent>
 	<artifactId>smart-sso-client</artifactId>
 	<packaging>jar</packaging>
@@ -19,11 +19,36 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- 基础项目支持 -->
+		<!-- 日志 -->
 		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-mvc</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+		
+		<!-- activeMQ -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-client</artifactId>
+		</dependency>
+		
+		<!-- 远程RPC调用hessian支持 -->
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
 		</dependency>
 	</dependencies>
 </project>

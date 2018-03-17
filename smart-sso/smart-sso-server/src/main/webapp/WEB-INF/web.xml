@@ -43,23 +43,18 @@
 		<filter-name>captchaFilter</filter-name>
 		<url-pattern>/captcha</url-pattern>
 	</filter-mapping>
-	<!-- 单点登录 -->
+	<!-- Smart核心 -->
 	<filter>
-		<filter-name>ssoFilter</filter-name>
-		<filter-class>com.smart.sso.client.SsoFilter</filter-class>
+		<filter-name>smartFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>ssoFilter</filter-name>
-		<url-pattern>/admin/*</url-pattern>
-	</filter-mapping>
-	<!-- 权限控制(选配) -->
-	<filter>
-		<filter-name>permissionFilter</filter-name>
-		<filter-class>com.smart.sso.client.PermissionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>permissionFilter</filter-name>
-		<url-pattern>/admin/*</url-pattern>
+		<filter-name>smartFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- SpringMVC核心 -->
 	<servlet>

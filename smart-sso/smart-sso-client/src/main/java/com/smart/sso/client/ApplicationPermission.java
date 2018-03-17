@@ -7,19 +7,19 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
-import com.smart.mvc.util.StringUtils;
 import com.smart.sso.rpc.AuthenticationRpcService;
 import com.smart.sso.rpc.RpcPermission;
 
 /**
- * 当前应用权限初始化
+ * 当前应用所有权限
  * 
  * @author Joe
  */
-public class ApplicationPermissionUtils {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationPermissionUtils.class);
+public class ApplicationPermission {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationPermission.class);
 
 	// 应用所有权限URL
 	private static Set<String> applicationPermissionSet = null;
@@ -29,16 +29,18 @@ public class ApplicationPermissionUtils {
 	private static Object monitor = new Object();
 
 	/**
-	 * 1.应用初始化，获取应用所有的菜单及权限 2.权限有变动修改，JMS通知重新加载
+	 * 1.应用初始化，获取应用所有的菜单及权限 
+	 * 2.权限有变动修改，JMS通知重新加载
 	 */
-	public static void initApplicationPermissions(AuthenticationRpcService authenticationRpcService, String ssoAppCode) {
+	public static void initApplicationPermissions(AuthenticationRpcService authenticationRpcService,
+			String ssoAppCode) {
 		List<RpcPermission> dbList = null;
 		try {
 			dbList = authenticationRpcService.findPermissionList(null, ssoAppCode);
 		}
 		catch (Exception e) {
 			dbList = new ArrayList<RpcPermission>(0);
-			LOGGER.error("无法连接到单点登录鉴权系统,请检查配置sso.server.url", e);
+			logger.error("无法连接到单点登录鉴权系统,请检查配置sso.server.url", e);
 		}
 
 		synchronized (monitor) {
@@ -48,7 +50,7 @@ public class ApplicationPermissionUtils {
 				if (menu.getIsMenu()) {
 					applicationMenuList.add(menu);
 				}
-				if (StringUtils.isNotBlank(menu.getUrl())) {
+				if (!StringUtils.isEmpty(menu.getUrl())) {
 					applicationPermissionSet.add(menu.getUrl());
 				}
 			}

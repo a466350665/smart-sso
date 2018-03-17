@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * 权限监控
+ * 权限变动监控
  * 
  * @author Joe
  */

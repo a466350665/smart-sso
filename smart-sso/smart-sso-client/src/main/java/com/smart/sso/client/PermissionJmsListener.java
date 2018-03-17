@@ -43,7 +43,7 @@ public class PermissionJmsListener implements MessageListener {
 			// 2.清除已获取最新权限的token集合(Session级别)
 			PermissionJmsMonitor.tokenSet.clear();
 			// 3.更新应用权限（Application级别）
-			ApplicationPermissionUtils.initApplicationPermissions(authenticationRpcService, ssoAppCode);
+			ApplicationPermission.initApplicationPermissions(authenticationRpcService, ssoAppCode);
 			LOGGER.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}

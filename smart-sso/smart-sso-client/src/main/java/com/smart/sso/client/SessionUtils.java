@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 /**
- * 当前已登录用户Session
+ * 当前已登录用户Session工具
  * 
  * @author Joe
  */

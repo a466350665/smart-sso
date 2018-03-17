@@ -34,31 +34,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	 -->
-	<!-- 单点退出(选配) -->
+	<!-- Smart核心 -->
 	<filter>
-		<filter-name>logoutFilter</filter-name>
-		<filter-class>com.smart.sso.client.LogoutFilter</filter-class>
+		<filter-name>smartFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>logoutFilter</filter-name>
-		<url-pattern>/logout</url-pattern>
-	</filter-mapping>
-	<!-- 单点登录 -->
-	<filter>
-		<filter-name>ssoFilter</filter-name>
-		<filter-class>com.smart.sso.client.SsoFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ssoFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<!-- 权限控制(选配) -->
-	<filter>
-		<filter-name>permissionFilter</filter-name>
-		<filter-class>com.smart.sso.client.PermissionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>permissionFilter</filter-name>
+		<filter-name>smartFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- SpringMVC核心 -->

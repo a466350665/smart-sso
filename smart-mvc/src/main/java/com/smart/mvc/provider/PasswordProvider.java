@@ -25,7 +25,7 @@ public class PasswordProvider {
 	 */
 	public static String encrypt(String password) {
 		if (StringUtils.isBlank(password)) {
-			throw new ServiceException("参数不能为空");
+			throw new ServiceException("密码不能为空");
 		}
 		try {
 			return md5(new StringBuilder(password).append(SUFFIX).toString());
