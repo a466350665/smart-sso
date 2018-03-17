@@ -30,14 +30,13 @@
 	</bean>
 	
 	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
-		<property name="pattern" value="/**" />
 		<property name="ssoServerUrl" value="${sso.server.url}" />
 		<property name="authenticationRpcService" ref="authenticationRpcService" />
 		<property name="filters">
 			<list>
 				<!-- 单点退出(选配) -->
 				<bean class="com.smart.sso.client.LogoutFilter">
-					<property name="pattern" value="/logout" />
+					<property name="ssoLogoutUrl" value="/logout" />
 					<property name="ssoBackUrl" value="/index" />
 				</bean>
 				<!-- 单点登录 -->

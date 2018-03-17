@@ -17,21 +17,19 @@ public class SsoFilter extends ClientFilter {
 	// sso授权回调参数token名称
 	public static final String SSO_TOKEN_NAME = "__vt_param__";
 
-	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public boolean doFilter(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String token = getLocalToken(request);
 		if (token == null) {
 			if (getParameterToken(request) != null) {
 				// 再跳转一次当前URL，以便去掉URL中token参数
 				response.sendRedirect(request.getRequestURL().toString());
+				return false;
 			}
-			else
-				redirectLogin(request, response);
 		}
 		else if (isLogined(token)) {
 			return true;
 		}
-		else
-			redirectLogin(request, response);
+		redirectLogin(request, response);
 		return false;
 	}
 

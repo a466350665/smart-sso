@@ -34,7 +34,7 @@ public class PermissionFilter extends ClientFilter {
 	}
 
 	@Override
-	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public boolean doFilter(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String path = request.getServletPath();
 		if (isPermitted(request, path))
 			return true;

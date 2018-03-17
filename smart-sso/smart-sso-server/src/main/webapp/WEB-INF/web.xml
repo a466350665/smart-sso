@@ -54,7 +54,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>smartFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
 	<!-- SpringMVC核心 -->
 	<servlet>

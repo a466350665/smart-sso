@@ -37,7 +37,6 @@
 	</bean>
 	
 	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
-		<property name="pattern" value="/admin/**" />
 		<property name="ssoServerUrl" value="${sso.server.url}" />
 		<property name="authenticationRpcService" ref="authenticationRpcService" />
 		<property name="filters">

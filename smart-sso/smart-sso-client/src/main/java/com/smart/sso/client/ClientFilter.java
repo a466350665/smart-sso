@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
  */
 public abstract class ClientFilter extends ParamFilter implements Filter {
 
-	public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
+	public abstract boolean doFilter(HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
 
 	protected boolean isAjaxRequest(HttpServletRequest request) {
