@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 /**
@@ -21,10 +23,12 @@ import org.springframework.util.StringUtils;
 public class SmartContainer extends ParamFilter implements Filter {
 
 	private ClientFilter[] filters;
+	
+	private PathMatcher pathMatcher = new AntPathMatcher();
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		if (StringUtils.isEmpty(ssoServerUrl)) {
+		if (!isServer && StringUtils.isEmpty(ssoServerUrl)) {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
 		}
 		if (authenticationRpcService == null) {
@@ -34,6 +38,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 			throw new IllegalArgumentException("filters不能为空");
 		}
 		for (ClientFilter filter : filters) {
+			filter.setIsServer(isServer);
 			filter.setSsoServerUrl(ssoServerUrl);
 			filter.setAuthenticationRpcService(authenticationRpcService);
 
@@ -47,11 +52,16 @@ public class SmartContainer extends ParamFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		for (ClientFilter filter : filters) {
-			if (!filter.doFilter(httpRequest, httpResponse)) {
+			if (matchPath(filter.getPattern(), httpRequest.getServletPath())
+					&& !filter.doFilter(httpRequest, httpResponse)) {
 				return;
 			}
 		}
 		chain.doFilter(request, response);
+	}
+	
+	private boolean matchPath(String pattern, String path) {
+		return StringUtils.isEmpty(pattern) || pathMatcher.match(pattern, path);
 	}
 
 	@Override

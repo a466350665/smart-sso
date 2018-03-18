@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.UserAppDao;
@@ -30,7 +31,9 @@ public class UserAppServiceImpl extends ServiceImpl<UserAppDao, UserApp, Integer
 	public void allocate(Integer userId, List<Integer> idList, List<UserApp> list) {
 		userRoleService.deleteForChangeApp(userId, idList);
 		dao.deleteByUserIds(Arrays.asList(userId));
-		super.save(list);
+		if(!CollectionUtils.isEmpty(list)) {
+			super.save(list);
+		}
 	}
 	
 	public UserApp findByUserAppId(Integer userId, Integer roleId) {

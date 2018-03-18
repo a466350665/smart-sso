@@ -76,8 +76,8 @@ public class SsoFilter extends ClientFilter {
 		}
 		else {
 			SessionUtils.invalidate(request);
-			String ssoLoginUrl = new StringBuilder().append(ssoServerUrl).append("/login?backUrl=")
-					.append(request.getRequestURL()).toString();
+			String ssoLoginUrl = new StringBuilder().append(isServer ? request.getContextPath() : ssoServerUrl)
+					.append("/login?backUrl=").append(request.getRequestURL()).toString();
 
 			response.sendRedirect(ssoLoginUrl);
 		}

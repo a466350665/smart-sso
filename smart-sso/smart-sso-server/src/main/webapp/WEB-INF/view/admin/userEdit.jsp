@@ -54,6 +54,22 @@
 			</div>
 			
 			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">应用</label>
+				
+				<div class="col-xs-12 col-sm-9">
+					<div class="clearfix help-validate">
+						<c:forEach var="item" items="${appList}">
+							<label>
+								<input name="appId" value="${item.id}" type="checkbox" class="ace" ${item.isChecked ? 'checked="checked"' : ''}/>
+								<span class="lbl">&nbsp;&nbsp;${item.name}</span>
+							</label>
+						</c:forEach>
+						<input id="_appIds" type="hidden" name="appIds" value="">
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 no-padding-right"><span class="form-star">*</span>是否启用</label>
 
 				<div class="col-xs-12 col-sm-9">
@@ -106,6 +122,15 @@
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
+					var appIds = "";
+					$("input[name='appId']:checked").each(function(i, d){
+						if(i > 0){
+							appIds += ",";
+						}
+						appIds += $(this).val();
+					});
+					$("#_appIds").val(appIds);
+					
 					var btn = $(this);
 					btn.button('loading');
 					$.post("${_path}/admin/user/save", $.formJson('_editForm'),function(d) {

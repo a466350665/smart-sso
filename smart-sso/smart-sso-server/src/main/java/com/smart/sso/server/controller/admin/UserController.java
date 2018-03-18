@@ -1,10 +1,5 @@
 package com.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-
 import java.util.Date;
 import java.util.List;
 
@@ -28,10 +23,17 @@ import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.model.User;
+import com.smart.sso.server.model.UserApp;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.RoleService;
+import com.smart.sso.server.service.UserAppService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 
 /**
  * @author Joe
@@ -48,12 +50,14 @@ public class UserController extends BaseController {
 	@Resource
 	private RoleService roleService;
 	@Resource
+	private UserAppService userAppService;
+	@Resource
 	private UserRoleService userRoleService;
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
-		model.addAttribute("appList", getAppList());
+		model.addAttribute("appList", getAppList(null));
 		return "/admin/user";
 	}
 
@@ -68,7 +72,7 @@ public class UserController extends BaseController {
 			user = userService.get(id);
 		}
 		model.addAttribute("user", user);
-		model.addAttribute("appList", getAppList());
+		model.addAttribute("appList", getAppList(user.getId()));
 		return "/admin/userEdit";
 	}
 
@@ -111,7 +115,8 @@ public class UserController extends BaseController {
 			@ApiParam(value = "id") Integer id,
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码 ") String password,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable,
+			@ApiParam(value = "应用ids") String appIds) {
 		User user;
 		if (id == null) {
 			if (StringUtils.isBlank(password)) {
@@ -128,7 +133,7 @@ public class UserController extends BaseController {
 			user.setPassword(PasswordProvider.encrypt(password));
 		}
 		user.setIsEnable(isEnable);
-		userService.save(user);
+		userService.save(user, getAjaxIds(appIds));
 		return Result.createSuccessResult();
 	}
 
@@ -136,7 +141,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public @ResponseBody Result resetPassword(
 			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
-		userService.resetPassword(PasswordProvider.encrypt(ConfigUtils.getProperty("system.init.password")), getAjaxIds(ids));
+		userService.resetPassword(PasswordProvider.encrypt(ConfigUtils.getProperty("system.reset.password")), getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
 
@@ -147,8 +152,20 @@ public class UserController extends BaseController {
 		userService.deleteById(getAjaxIds(ids));
 		return Result.createSuccessResult();
 	}
-
-	private List<App> getAppList() {
-		return appService.findByAll(null);
+	
+	private List<App> getAppList(Integer userId) {
+		List<App> list = appService.findByAll(null);
+		if (userId != null) {
+			for (App app : list) {
+				UserApp userApp = userAppService.findByUserAppId(userId, app.getId());
+				if (null != userApp) {
+					app.setIsChecked(true);
+				}
+				else {
+					app.setIsChecked(false);
+				}
+			}
+		}
+		return list;
 	}
 }

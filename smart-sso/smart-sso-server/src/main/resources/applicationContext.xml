@@ -28,8 +28,6 @@
 				<!--服务参数配置(Zookeeper、MQ、Redis相关)
 				<value>classpath:service.properties</value>
 				 -->
-				<!--单点登录参数配置 -->
-				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
@@ -37,7 +35,7 @@
 	</bean>
 	
 	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
-		<property name="ssoServerUrl" value="${sso.server.url}" />
+		<property name="isServer" value="true" />
 		<property name="authenticationRpcService" ref="authenticationRpcService" />
 		<property name="filters">
 			<list>

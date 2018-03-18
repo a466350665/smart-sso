@@ -16,15 +16,13 @@ import org.springframework.util.StringUtils;
  */
 public class LogoutFilter extends ClientFilter {
 
-	// 单点退出URL
-	protected String ssoLogoutUrl;
 	// 单点退出成功后跳转页(配置当前应用上下文相对路径，不设置或为空表示项目根目录)
 	private String ssoBackUrl;
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		if (StringUtils.isEmpty(ssoLogoutUrl)) {
-			throw new IllegalArgumentException("ssoLogoutUrl不能为空");
+		if (StringUtils.isEmpty(pattern)) {
+			throw new IllegalArgumentException("pattern不能为空");
 		}
 		if (StringUtils.isEmpty(ssoBackUrl)) {
 			throw new IllegalArgumentException("ssoBackUrl不能为空");
@@ -33,14 +31,11 @@ public class LogoutFilter extends ClientFilter {
 
 	public boolean doFilter(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		if (request.getServletPath().equals(ssoLogoutUrl)) {
-			SessionUtils.invalidate(request);
-			String logoutUrl = new StringBuilder().append(ssoServerUrl).append("/logout?backUrl=")
-					.append(getLocalUrl(request)).append(ssoBackUrl).toString();
-			response.sendRedirect(logoutUrl);
-			return false;
-		}
-		return true;
+		SessionUtils.invalidate(request);
+		String logoutUrl = new StringBuilder().append(isServer ? request.getContextPath() : ssoServerUrl)
+				.append("/logout?backUrl=").append(getLocalUrl(request)).append(ssoBackUrl).toString();
+		response.sendRedirect(logoutUrl);
+		return false;
 	}
 
 	/**
@@ -57,9 +52,5 @@ public class LogoutFilter extends ClientFilter {
 
 	public void setSsoBackUrl(String ssoBackUrl) {
 		this.ssoBackUrl = ssoBackUrl;
-	}
-
-	public void setSsoLogoutUrl(String ssoLogoutUrl) {
-		this.ssoLogoutUrl = ssoLogoutUrl;
 	}
 }

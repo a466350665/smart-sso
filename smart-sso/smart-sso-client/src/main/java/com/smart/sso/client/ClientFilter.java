@@ -20,6 +20,9 @@ import org.springframework.http.HttpStatus;
  * @author Joe
  */
 public abstract class ClientFilter extends ParamFilter implements Filter {
+	
+	// 匹配路径（? 匹配1个字符，* 匹配0个或多个字符，** 中的0个或多个目录）
+	protected String pattern;
 
 	public abstract boolean doFilter(HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
@@ -39,6 +42,14 @@ public abstract class ClientFilter extends ParamFilter implements Filter {
 		writer.close();
 	}
 	
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+	
+	public String getPattern() {
+		return pattern;
+	}
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}

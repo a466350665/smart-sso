@@ -21,8 +21,6 @@
 				<!--服务参数配置(Zookeeper、MQ、Redis相关)
 				<value>classpath:service.properties</value>
 				 -->
-				<!--单点登录服务端参数配置 -->
-				<value>classpath:sso.properties</value>
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
@@ -36,7 +34,7 @@
 			<list>
 				<!-- 单点退出(选配) -->
 				<bean class="com.smart.sso.client.LogoutFilter">
-					<property name="ssoLogoutUrl" value="/logout" />
+					<property name="pattern" value="/logout" />
 					<property name="ssoBackUrl" value="/index" />
 				</bean>
 				<!-- 单点登录 -->

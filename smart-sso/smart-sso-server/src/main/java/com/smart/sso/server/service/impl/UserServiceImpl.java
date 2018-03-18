@@ -1,5 +1,6 @@
 package com.smart.sso.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
+import com.smart.sso.server.model.UserApp;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserAppService;
 import com.smart.sso.server.service.UserRoleService;
@@ -92,5 +94,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		User user = get(id);
 		user.setPassword(PasswordProvider.encrypt(newPassword));
 		update(user);
+	}
+
+	@Override
+	public void save(User user, List<Integer> appIdList) {
+		save(user);
+		List<UserApp> list = new ArrayList<UserApp>();
+		UserApp bean = null;
+		for (Integer appId : appIdList) {
+			bean = new UserApp();
+			bean.setAppId(appId);
+			bean.setUserId(user.getId());
+			list.add(bean);
+		}
+		userAppService.allocate(user.getId(), appIdList.size() == 0 ? null : appIdList, list);
 	}
 }

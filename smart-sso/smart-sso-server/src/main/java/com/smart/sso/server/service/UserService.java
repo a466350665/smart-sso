@@ -70,4 +70,6 @@ public interface UserService extends Service<User, Integer> {
 	 * @return
 	 */
 	public void updatePassword(Integer id, String newPassword);
+	
+	public void save(User user, List<Integer> appIdList);
 }

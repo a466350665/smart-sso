@@ -85,12 +85,6 @@
 							}
 						});
 					}},
-					{text : '分配应用', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userApp/allocate', handler : function(){
-						if(!$table.validateSelected(true)){
-							return;						
-						}
-						$.aceRedirect("${_path}/admin/userApp/allocate?userId=" + $table.getSelectedItemKeys("id"));
-					}},
 					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userApp/allocate', handler : function(){
 						if(!$table.validateSelected(true)){
 							return;						
@@ -148,9 +142,6 @@
 								$table.reload();
 							}
 						});
-					}},
-					{text : '分配应用', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userApp/allocate', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/userApp/allocate?userId=" + d.id);
 					}},
 					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userRole/allocate', handler : function(d, i){
 						$.aceRedirect("${_path}/admin/userRole/allocate?userId=" + d.id);

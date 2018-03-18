@@ -277,11 +277,13 @@
                 }
             });
 	        
-	        
 	        //在节点上固定显示用户自定义控件
 	        var IDMark_A = "_a";
 	        function addDiyDom(treeId, treeNode) {
 	       		var aObj = $("#" + treeNode.tId + IDMark_A);
+	       		if(treeNode.isMenu){
+	       			aObj.css("color","#438eb9");
+	       		}
 				var editStr = "&nbsp;<a id='add_" + treeNode.id + "' class='blue' href='javascript:void(0)' title='添加'>		<i class='ace-icon fa fa-plus bigger-110'></i>	</a>";
 	       		if(treeNode.id) {
 					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/admin/permission/save' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
