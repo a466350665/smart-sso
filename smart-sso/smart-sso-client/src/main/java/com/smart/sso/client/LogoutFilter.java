@@ -29,7 +29,7 @@ public class LogoutFilter extends ClientFilter {
 		}
 	}
 
-	public boolean doFilter(HttpServletRequest request, HttpServletResponse response)
+	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		SessionUtils.invalidate(request);
 		String logoutUrl = new StringBuilder().append(isServer ? request.getContextPath() : ssoServerUrl)

@@ -24,7 +24,7 @@ public abstract class ClientFilter extends ParamFilter implements Filter {
 	// 匹配路径（? 匹配1个字符，* 匹配0个或多个字符，** 中的0个或多个目录）
 	protected String pattern;
 
-	public abstract boolean doFilter(HttpServletRequest request, HttpServletResponse response)
+	public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
 
 	protected boolean isAjaxRequest(HttpServletRequest request) {

@@ -53,7 +53,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		for (ClientFilter filter : filters) {
 			if (matchPath(filter.getPattern(), httpRequest.getServletPath())
-					&& !filter.doFilter(httpRequest, httpResponse)) {
+					&& !filter.isAccessAllowed(httpRequest, httpResponse)) {
 				return;
 			}
 		}
