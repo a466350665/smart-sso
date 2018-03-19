@@ -47,14 +47,24 @@
 		</property>
 	</bean>
 
-	<!-- SSO令牌管理 -->
+	<!-- SSO令牌管理(本地) -->
 	<bean id="tokenManager" class="com.smart.sso.server.common.LocalTokenManager">
 		<property name="tokenTimeout" value="${sso.timeout}" />
 	</bean>
 
-	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+	<!--SSO令牌管理(分布式) : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
 	<import resource="classpath:spring-redis-sso.xml" />
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+	</bean>
+	<bean id="redisCache" class="com.smart.sso.server.common.RedisCache">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
+	<bean id="tokenManager" class="com.smart.sso.server.common.RedisTokenManager">
+		<property name="tokenTimeout" value="${sso.timeout}" />
+	</bean>
 	 -->
+
 	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
 	<import resource="applicationContext-mq.xml" />
 	 -->

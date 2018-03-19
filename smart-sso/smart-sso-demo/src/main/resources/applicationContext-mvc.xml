@@ -13,12 +13,8 @@
 	<!-- Controller扫描包 -->
 	<context:component-scan base-package="com.smart.demo.controller" />
 	
-	<!-- 自定义Json解析器 -->
-	<mvc:annotation-driven>
-		<mvc:message-converters>
-			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" />
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+	<!-- 默认的注解映射的支持 -->
+	<mvc:annotation-driven />
 
 	<mvc:view-controller path="/" view-name="redirect:index" />
 

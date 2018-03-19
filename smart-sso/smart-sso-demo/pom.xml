@@ -2,11 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.smart</groupId>
-		<artifactId>smart-sso</artifactId>
-		<version>1.2.2</version>
-	</parent>
+	<groupId>com.smart</groupId>
+	<version>1.2.2</version>
 	<artifactId>smart-sso-demo</artifactId>
 	<packaging>war</packaging>
 	<name>${project.artifactId}</name>
@@ -20,14 +17,14 @@
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-sso-client</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.2.2</version>
 		</dependency>
 		
-		<!-- 基础项目支持 -->
+		<!-- SpringMVC -->
 		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-mvc</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.2.1.RELEASE</version>
 		</dependency>
 
 		<!-- J2EE支持 -->
@@ -35,25 +32,38 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<!-- 单元测试 -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<version>3.1.0</version>
 		</dependency>
 
 		<!-- Jstl支持 -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<!-- 日志 -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 		
 		<!-- dubbo -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring</artifactId>
@@ -66,14 +76,55 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-transport</artifactId>
+			<version>4.0.23.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-handler</artifactId>
+			<version>4.0.23.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-codec-http</artifactId>
+			<version>4.0.23.Final</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>${server.port}</port>
+					<path>/${project.artifactId}</path>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.2.v20170220</version>
+				<configuration>
+					<scanIntervalSeconds>3</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webApp>
+					<httpConnector>
+						<port>${server.port}</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

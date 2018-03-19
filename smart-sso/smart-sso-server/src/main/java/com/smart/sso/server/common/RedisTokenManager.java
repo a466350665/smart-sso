@@ -5,8 +5,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.annotation.Resource;
 
-import com.smart.mvc.cache.RedisCache;
-
 /**
  * 分布式环境令牌管理
  * 

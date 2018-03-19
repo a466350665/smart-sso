@@ -11,11 +11,31 @@
 	       http://www.springframework.org/schema/jms
 	       http://www.springframework.org/schema/jms/spring-jms.xsd">
 
-	<!-- 引入MQ基础配置 -->
-	<import resource="classpath:spring-mq.xml" />
+	<!-- ActiveMQ 连接工厂 -->
+	<!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
+	<bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<!-- ActiveMQ服务器连接信息 -->
+		<property name="brokerURL" value="${mq.url}" />
+		<property name="userName" value="${mq.userName}" />
+		<property name="password" value="${mq.password}" />
+		<!-- ActiveMQ异步发送 -->
+		<property name="useAsyncSend" value="false" />
+	</bean>
+
+	<!-- Spring Caching连接工厂 -->
+	<!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
+	<bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+		<!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
+		<property name="targetConnectionFactory" ref="amqConnectionFactory"></property>
+		<!-- Session缓存数量 -->
+		<property name="sessionCacheSize" value="${mq.cache}" />
+	</bean>
 
 	<!-- 权限变更监听消费者 start -->
-	<bean id="permissionJmsListener" class="com.smart.sso.client.PermissionJmsListener" />
+	<bean id="permissionJmsListener" class="com.smart.sso.client.PermissionJmsListener">
+		<property name="ssoAppCode" value="${sso.app.code}" />
+		<property name="authenticationRpcService" ref="authenticationRpcService" />
+	</bean>
 
 	<jms:listener-container destination-type="topic" acknowledge="auto" container-type="default" connection-factory="jmsConnectionFactory">
 		<jms:listener destination="${mq.permission.queue.prefix}${sso.app.code}" ref="permissionJmsListener" />

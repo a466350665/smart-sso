@@ -21,11 +21,14 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(HttpServletRequest request, Model model) {
 		SessionUser sessionUser = SessionUtils.getSessionUser(request);
+		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
 		
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		if (sessionPermission != null){
+			// 登录用户当前应用的菜单
 			model.addAttribute("userMenus", sessionPermission.getMenuList());
+			// 登录用户当前应用的权限
 			model.addAttribute("userPermissions", sessionPermission.getPermissionSet());
 		}
 		return "/index";

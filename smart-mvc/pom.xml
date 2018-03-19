@@ -52,15 +52,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.session</groupId>
-		    <artifactId>spring-session-data-redis</artifactId>
 		</dependency>
 	
 		<!-- AOP支持 -->
@@ -149,18 +141,6 @@
 			<artifactId>quartz</artifactId>
 		</dependency>
 
-		<!-- activeMQ -->
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-client</artifactId>
-		</dependency>
-		
-		<!-- 远程RPC调用hessian支持 -->
-		<dependency>
-			<groupId>com.caucho</groupId>
-			<artifactId>hessian</artifactId>
-		</dependency>
-        
 		<!-- zookeeper -->
 		<dependency>
 			<groupId>com.github.sgroschupf</groupId>

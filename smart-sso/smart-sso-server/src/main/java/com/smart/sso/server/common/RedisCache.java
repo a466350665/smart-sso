@@ -1,4 +1,4 @@
-package com.smart.mvc.cache;
+package com.smart.sso.server.common;
 
 import java.util.List;
 import java.util.Set;
