@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.RolePermissionDao;
@@ -35,7 +36,9 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 	@Transactional
 	public void allocate(Integer roleId, List<RolePermission> list) {
 		dao.deleteByRoleIds(Arrays.asList(roleId));
-		super.save(list);
+		if(!CollectionUtils.isEmpty(list)) {
+			super.save(list);
+		}
 		// JMS通知权限变更
 		permissionJmsService.send(appService.get(roleService.get(roleId).getAppId()).getCode());
 	}

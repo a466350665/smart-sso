@@ -29,7 +29,7 @@
 									<label class="control-label" for="form-field-1"> 应用： </label>
 									<select id="_appId" name="appId">
 										<c:forEach var="item" items="${appList}">
-											<option value="${item.id}">${item.name}</option>
+											<option value="${item.id}" ${(item.id eq appId)?'selected="selected"':''}>${item.name}</option>
 										</c:forEach>
 									</select>
 								</label>
@@ -105,7 +105,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/role/edit', handler : function(){
-						$.aceRedirect("${_path}/admin/role/edit");
+						$.aceRedirect("${_path}/admin/role/edit?appId=" + $('#_appId').val());
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/role/enable', handler : function(){
 						$table.ajaxEnable({url : "${_path}/admin/role/enable"}, false);

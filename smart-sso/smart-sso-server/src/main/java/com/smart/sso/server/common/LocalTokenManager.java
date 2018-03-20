@@ -17,7 +17,7 @@ public class LocalTokenManager extends TokenManager {
 	private static Logger LOGGER = LoggerFactory.getLogger(LocalTokenManager.class);
 
 	// 令牌存储结构
-	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, LocalTokenManager.DummyUser>();
+	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, DummyUser>();
 
 	@Override
 	public void verifyExpired() {

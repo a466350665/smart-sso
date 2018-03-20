@@ -7,7 +7,7 @@
 
 <div class="page-header">
 	<h1>
-		${empty user.id ? '添加' : '修改'}角色
+		${empty role.id ? '添加' : '修改'}角色
 	</h1>
 </div>
 
@@ -22,10 +22,10 @@
 				<label for="_appId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>应用</label>
 
 				<div class="col-sm-3">
-					<select id="_appId" name="appId" class="form-control help-validate"
+					<select id="_appId" name="appId" class="form-control help-validate" ${empty role.id ? '' : 'disabled="disabled"'}
 						required="true">
 						<c:forEach var="item" items="${appList}">
-							<option value="${item.id}" ${(item.id eq role.appId)?'selected="selected"':''}>${item.name}</option>
+							<option value="${item.id}" ${item.id eq role.appId ? 'selected="selected"' : ''}>${item.name}</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -127,7 +127,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/role");
+								$.aceRedirect("${_path}/admin/role?appId=" + $('#_appId').val());
 							}
 							else {
 								$.gritter.add({text: d.message});

@@ -45,17 +45,22 @@ public class RoleController extends BaseController {
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
+	public String execute(@ApiParam(value = "应用ID ") Integer appId, Model model) {
+		model.addAttribute("appId", appId);
 		model.addAttribute("appList", getAppList());
 		return "/admin/role";
 	}
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ApiParam(value = "id") Integer id, Model model) {
+	public String edit(
+			@ApiParam(value = "id") Integer id, 
+			@ApiParam(value = "应用ID ") Integer appId,
+			Model model) {
 		Role role;
 		if (id == null) {
 			role = new Role();
+			role.setAppId(appId);
 		}
 		else {
 			role = roleService.get(id);
@@ -121,7 +126,7 @@ public class RoleController extends BaseController {
 	public @ResponseBody Result allocateSave(
 			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
 			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId,
-			@ApiParam(value = "权限ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String permissionIds) {
+			@ApiParam(value = "权限ids") String permissionIds) {
 		List<Integer> idList = getAjaxIds(permissionIds);
 		List<RolePermission> list = new ArrayList<RolePermission>();
 		Integer permissionId;
