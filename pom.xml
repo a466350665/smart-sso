@@ -427,7 +427,6 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.2.v20170220</version>
 				<configuration>
-					<scanIntervalSeconds>3</scanIntervalSeconds>
 					<webApp>
 						<contextPath>/${project.artifactId}</contextPath>
 					</webApp>
