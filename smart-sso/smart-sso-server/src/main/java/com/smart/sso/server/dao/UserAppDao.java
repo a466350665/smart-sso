@@ -8,7 +8,7 @@ import com.smart.mvc.dao.mybatis.Dao;
 import com.smart.sso.server.model.UserApp;
 
 /**
- * 管理员角色映射持久化接口
+ * 用户角色映射持久化接口
  * 
  * @author Joe
  */

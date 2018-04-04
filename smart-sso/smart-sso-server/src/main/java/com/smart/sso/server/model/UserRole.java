@@ -3,7 +3,7 @@ package com.smart.sso.server.model;
 import com.smart.mvc.model.PersistentObject;
 
 /**
- * 管理员角色映射
+ * 用户角色映射
  * 
  * @author Joe
  */
@@ -13,7 +13,7 @@ public class UserRole extends PersistentObject {
 
 	/** 应用ID */
 	private Integer appId;
-	/** 管理员ID */
+	/** 用户ID */
 	private Integer userId;
 	/** 角色ID */
 	private Integer roleId;

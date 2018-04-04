@@ -59,17 +59,17 @@ CREATE TABLE `SYS_PERMISSION` (
 -- Records of SYS_PERMISSION
 -- ----------------------------
 INSERT INTO `SYS_PERMISSION` VALUES ('2', '1', null, '应用', '/admin/app', '79', '1', '1', 'fa-plus-circle blue');
-INSERT INTO `SYS_PERMISSION` VALUES ('3', '1', null, '管理员', '/admin/user', '59', '1', '1', 'fa-user');
+INSERT INTO `SYS_PERMISSION` VALUES ('3', '1', null, '用户', '/admin/user', '59', '1', '1', 'fa-user');
 INSERT INTO `SYS_PERMISSION` VALUES ('4', '1', null, '角色', '/admin/role', '39', '1', '1', 'fa-users');
 INSERT INTO `SYS_PERMISSION` VALUES ('5', '1', null, '权限', '/admin/permission', '29', '1', '1', 'fa-key');
 INSERT INTO `SYS_PERMISSION` VALUES ('6', '1', '2', '应用新增', '/admin/app/edit', '4', '0', '1', 'fa-plus-circle blue');
 INSERT INTO `SYS_PERMISSION` VALUES ('7', '1', '2', '应用禁用', '/admin/app/enable', '3', '0', '1', 'fa-lock orange');
 INSERT INTO `SYS_PERMISSION` VALUES ('8', '1', '2', '应用启用', '/admin/app/enable', '2', '0', '1', 'fa-unlock green');
 INSERT INTO `SYS_PERMISSION` VALUES ('9', '1', '2', '应用删除', '/admin/app/delete', '1', '0', '1', 'fa-trash-o red');
-INSERT INTO `SYS_PERMISSION` VALUES ('10', '1', '3', '管理员新增', '/admin/user/edit', '6', '0', '1', 'fa-plus-circle blue');
-INSERT INTO `SYS_PERMISSION` VALUES ('11', '1', '3', '管理员禁用', '/admin/user/enable', '5', '0', '1', 'fa-lock orange');
-INSERT INTO `SYS_PERMISSION` VALUES ('12', '1', '3', '管理员启用', '/admin/user/enable', '4', '0', '1', 'fa-unlock green');
-INSERT INTO `SYS_PERMISSION` VALUES ('13', '1', '3', '管理员删除', '/admin/user/delete', '3', '0', '1', 'fa-trash-o red');
+INSERT INTO `SYS_PERMISSION` VALUES ('10', '1', '3', '用户新增', '/admin/user/edit', '6', '0', '1', 'fa-plus-circle blue');
+INSERT INTO `SYS_PERMISSION` VALUES ('11', '1', '3', '用户禁用', '/admin/user/enable', '5', '0', '1', 'fa-lock orange');
+INSERT INTO `SYS_PERMISSION` VALUES ('12', '1', '3', '用户启用', '/admin/user/enable', '4', '0', '1', 'fa-unlock green');
+INSERT INTO `SYS_PERMISSION` VALUES ('13', '1', '3', '用户删除', '/admin/user/delete', '3', '0', '1', 'fa-trash-o red');
 INSERT INTO `SYS_PERMISSION` VALUES ('14', '1', '3', '重置密码', '/admin/user/resetPassword', '2', '0', '1', 'fa-key grey');
 INSERT INTO `SYS_PERMISSION` VALUES ('15', '1', '3', '分配角色', '/admin/user/allocate', '1', '0', '1', 'fa-cog grey');
 INSERT INTO `SYS_PERMISSION` VALUES ('16', '1', '4', '角色新增', '/admin/role/edit', '5', '0', '1', 'fa-plus-circle blue');
@@ -78,11 +78,11 @@ INSERT INTO `SYS_PERMISSION` VALUES ('18', '1', '4', '角色启用', '/admin/rol
 INSERT INTO `SYS_PERMISSION` VALUES ('19', '1', '4', '角色删除', '/admin/role/delete', '2', '0', '1', 'fa-trash-o red');
 INSERT INTO `SYS_PERMISSION` VALUES ('20', '1', '4', '角色授权', '/admin/role/allocate', '1', '0', '1', 'fa-cog grey');
 INSERT INTO `SYS_PERMISSION` VALUES ('22', '1', '2', '应用列表', '/admin/app/list', '5', '0', '1', '');
-INSERT INTO `SYS_PERMISSION` VALUES ('23', '1', '3', '管理员列表', '/admin/user/list', '7', '0', '1', '');
+INSERT INTO `SYS_PERMISSION` VALUES ('23', '1', '3', '用户列表', '/admin/user/list', '7', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('24', '1', '4', '角色列表', '/admin/role/list', '6', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('25', '1', '5', '权限树列表', '/admin/permission/nodes', '1', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('26', '1', '2', '应用保存', '/admin/app/save', '1', '0', '1', '');
-INSERT INTO `SYS_PERMISSION` VALUES ('27', '1', '3', '管理员保存', '/admin/user/save', '1', '0', '1', '');
+INSERT INTO `SYS_PERMISSION` VALUES ('27', '1', '3', '用户保存', '/admin/user/save', '1', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('28', '1', '4', '角色保存', '/admin/role/save', '1', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('29', '1', '5', '权限保存', '/admin/permission/save', '1', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('30', '1', '5', '权限删除', '/admin/permission/delete', '1', '0', '1', '');
@@ -233,9 +233,9 @@ CREATE TABLE `SYS_ROLE` (
 -- ----------------------------
 -- Records of SYS_ROLE
 -- ----------------------------
-INSERT INTO `SYS_ROLE` VALUES ('1', '1', '单点登录权限系统管理员角色', '999', '', '1');
-INSERT INTO `SYS_ROLE` VALUES ('4', '81', 'Demo系统管理员角色', '1', '', '1');
-INSERT INTO `SYS_ROLE` VALUES ('5', '82', '内容系统管理员角色', '1', '', '1');
+INSERT INTO `SYS_ROLE` VALUES ('1', '1', '单点登录权限系统用户角色', '999', '', '1');
+INSERT INTO `SYS_ROLE` VALUES ('4', '81', 'Demo系统用户角色', '1', '', '1');
+INSERT INTO `SYS_ROLE` VALUES ('5', '82', '内容系统用户角色', '1', '', '1');
 
 -- ----------------------------
 -- Table structure for `SYS_USER`

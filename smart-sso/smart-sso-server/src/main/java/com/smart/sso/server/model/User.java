@@ -7,7 +7,7 @@ import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.model.PersistentObject;
 
 /**
- * 管理员
+ * 用户
  * 
  * @author Joe
  */

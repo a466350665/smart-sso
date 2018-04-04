@@ -6,24 +6,24 @@ import com.smart.mvc.service.mybatis.Service;
 import com.smart.sso.server.model.UserRole;
 
 /**
- * 管理员角色映射服务接口
+ * 用户角色映射服务接口
  * 
  * @author Joe
  */
 public interface UserRoleService extends Service<UserRole, Integer> {
 	
 	/**
-	 * 根据管理员ID和角色ID查询映射
-	 * @param userId 管理员ID
+	 * 根据用户ID和角色ID查询映射
+	 * @param userId 用户ID
 	 * @param roleId 角色ID
 	 * @return
 	 */
 	public UserRole findByUserRoleId(Integer userId, Integer roleId);
 	
 	/**
-	 * 根据管理员ID给管理员分配角色
-	 * @param userId 管理员ID
-	 * @param list 管理员角色映射集合
+	 * 根据用户ID给用户分配角色
+	 * @param userId 用户ID
+	 * @param list 用户角色映射集合
 	 * @return
 	 */
 	public void allocate(Integer userId, Integer appId, List<UserRole> list);
@@ -36,8 +36,8 @@ public interface UserRoleService extends Service<UserRole, Integer> {
 	public void deleteByRoleIds(List<Integer> idList);
 	
 	/**
-	 * 根据管理员ID集合删除映射
-	 * @param idList 管理员ID集合
+	 * 根据用户ID集合删除映射
+	 * @param idList 用户ID集合
 	 * @return
 	 */
 	public void deleteByUserIds(List<Integer> idList, Integer appId);

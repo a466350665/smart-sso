@@ -27,7 +27,7 @@ import com.smart.sso.server.service.UserAppService;
 /**
  * @author Joe
  */
-@Api(tags = "管理员应用关系管理")
+@Api(tags = "用户应用关系管理")
 @Controller
 @RequestMapping("/admin/userApp")
 public class UserAppController extends BaseController {
@@ -40,16 +40,16 @@ public class UserAppController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
 	public String edit(
-			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
+			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
 		model.addAttribute("userId", userId);
 		model.addAttribute("appList", getAppList(userId));
 		return "/admin/userApp";
 	}
 
-	@ApiOperation("管理员应用关联提交")
+	@ApiOperation("用户应用关联提交")
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
 	public @ResponseBody Result allocateSave(
-			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId,
+			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId,
 			@ApiParam(value = "应用ids") String appIds) {
 		List<Integer> idList = getAjaxIds(appIds);
 		List<UserApp> list = new ArrayList<UserApp>();

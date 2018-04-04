@@ -3,7 +3,7 @@ package com.smart.sso.server.model;
 import com.smart.mvc.model.PersistentObject;
 
 /**
- * 管理员应用映射
+ * 用户应用映射
  * 
  * @author Joe
  */
@@ -13,7 +13,7 @@ public class UserApp extends PersistentObject {
 
 	/** 应用ID */
 	private Integer appId;
-	/** 管理员ID */
+	/** 用户ID */
 	private Integer userId;
 	
 	public Integer getAppId() {

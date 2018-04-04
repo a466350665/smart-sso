@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiResponse;
 /**
  * @author Joe
  */
-@Api(tags = "管理员管理")
+@Api(tags = "用户管理")
 @Controller
 @RequestMapping("/admin/user")
 public class UserController extends BaseController {

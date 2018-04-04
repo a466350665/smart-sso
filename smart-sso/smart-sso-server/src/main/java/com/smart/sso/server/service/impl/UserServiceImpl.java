@@ -49,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 			result.setCode(ResultCode.ERROR).setMessage("密码不正确");
 		}
 		else if (TrueFalseEnum.FALSE.getValue().equals(user.getIsEnable())) {
-			result.setCode(ResultCode.ERROR).setMessage("已被管理员禁用");
+			result.setCode(ResultCode.ERROR).setMessage("已被用户禁用");
 		}
 		else {
 			user.setLastLoginIp(ip);
@@ -62,7 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	}
 
 	public void enable(Boolean isEnable, List<Integer> idList) {
-		verifyRows(dao.enable(isEnable, idList), idList.size(), "管理员数据库更新失败");
+		verifyRows(dao.enable(isEnable, idList), idList.size(), "用户数据库更新失败");
 	}
 	
 	public void save(User t) {
@@ -70,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	}
 
 	public void resetPassword(String password, List<Integer> idList) {
-		verifyRows(dao.resetPassword(password, idList), idList.size(), "管理员密码数据库重置失败");
+		verifyRows(dao.resetPassword(password, idList), idList.size(), "用户密码数据库重置失败");
 	}
 
 	public Pagination<User> findPaginationByAccount(String account, Integer appId, Pagination<User> p) {
@@ -86,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	public void deleteById(List<Integer> idList) {
 		userAppService.deleteByUserIds(idList);
 		userRoleService.deleteByUserIds(idList, null);
-		verifyRows(dao.deleteById(idList), idList.size(), "管理员数据库删除失败");
+		verifyRows(dao.deleteById(idList), idList.size(), "用户数据库删除失败");
 	}
 
 	@Override

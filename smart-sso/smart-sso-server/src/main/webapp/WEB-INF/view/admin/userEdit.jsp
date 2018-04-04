@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <jsp:include page="../common/common.jsp">
-	<jsp:param name="title" value="管理员"/>
+	<jsp:param name="title" value="用户"/>
 </jsp:include>
 
 <div class="page-header">
 	<h1>
-		${empty user.id ? '添加' : '修改'}管理员
+		${empty user.id ? '添加' : '修改'}用户
 	</h1>
 </div>
 

@@ -9,7 +9,7 @@ import com.smart.mvc.model.Pagination;
 import com.smart.sso.server.model.User;
 
 /**
- * 管理员持久化接口
+ * 用户持久化接口
  * 
  * @author Joe
  */

@@ -8,7 +8,7 @@ import com.smart.mvc.service.mybatis.Service;
 import com.smart.sso.server.model.User;
 
 /**
- * 管理员服务接口
+ * 用户服务接口
  * 
  * @author Joe
  */
@@ -21,7 +21,7 @@ public interface UserService extends Service<User, Integer> {
 	 *            登录名
 	 * @param password
 	 *            密码
-	 * @return 管理员ID和应用编码集合Map
+	 * @return 用户ID和应用编码集合Map
 	 * @throws AuthenticationException
 	 *             认证异常
 	 */
@@ -30,7 +30,7 @@ public interface UserService extends Service<User, Integer> {
 	/**
 	 * 启用禁用操作
 	 * @param isEnable 是否启用
-	 * @param idList 管理员ID集合
+	 * @param idList 用户ID集合
 	 * @return
 	 */
 	public void enable(Boolean isEnable, List<Integer> idList);

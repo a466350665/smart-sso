@@ -31,7 +31,7 @@ import com.smart.sso.server.service.UserRoleService;
 /**
  * @author Joe
  */
-@Api(tags = "管理员角色关系管理")
+@Api(tags = "用户角色关系管理")
 @Controller
 @RequestMapping("/admin/userRole")
 public class UserRoleController extends BaseController {
@@ -46,7 +46,7 @@ public class UserRoleController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
 	public String edit(
-			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
+			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
 		List<App> appList = appService.findByUserId(TrueFalseEnum.TRUE.getValue(), userId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("appList", appList);
@@ -54,19 +54,19 @@ public class UserRoleController extends BaseController {
 		return "/admin/userRole";
 	}
 	
-	@ApiOperation("管理员应用关系数据")
+	@ApiOperation("用户应用关系数据")
 	@RequestMapping(value = "/change", method = RequestMethod.GET)
 	public @ResponseBody Result changeApp(
 			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
-			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId) {
+			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId) {
 		return Result.createSuccessResult().setData(getRoleList(userId, appId));
 	}
 
-	@ApiOperation("管理员角色关联提交")
+	@ApiOperation("用户角色关联提交")
 	@RequestMapping(value = "/allocateSave", method = RequestMethod.POST)
 	public @ResponseBody Result allocateSave(
 			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
-			@ApiParam(value = "管理员id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId,
+			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId,
 			@ApiParam(value = "角色ids") String roleIds) {
 		List<Integer> idList = getAjaxIds(roleIds);
 		List<UserRole> list = new ArrayList<UserRole>();

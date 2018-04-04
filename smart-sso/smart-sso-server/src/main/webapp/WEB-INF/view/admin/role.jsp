@@ -115,7 +115,7 @@
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/role/delete', handler : function(){
 						$table.ajaxDelete({
-							confirm : "删除角色会影响关联的管理员及权限，确认要删除?",
+							confirm : "删除角色会影响关联的用户及权限，确认要删除?",
 							url : "${_path}/admin/role/delete"
 						});
 					}},

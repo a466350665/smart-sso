@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <jsp:include page="../common/common.jsp">
-	<jsp:param name="title" value="管理员"/>
+	<jsp:param name="title" value="用户"/>
 </jsp:include>
 
 <div class="page-header">
 	<h1>
-		管理员列表
+		用户列表
 	</h1>
 </div>
 
@@ -72,7 +72,7 @@
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/user/delete', handler : function(){
 						$table.ajaxDelete({
-							confirm : "删除管理员会影响关联的应用、角色、权限，确认要删除?",
+							confirm : "删除用户会影响关联的应用、角色、权限，确认要删除?",
 							url : "${_path}/admin/user/delete"
 						});
 					}},
@@ -130,7 +130,7 @@
 					},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/user/delete', handler : function(d, i){
 						$table.ajaxDelete({
-							confirm : "删除管理员会影响关联的应用、角色、权限，确认要删除?",
+							confirm : "删除用户会影响关联的应用、角色、权限，确认要删除?",
 							url : "${_path}/admin/user/delete"
 						});
 					}},

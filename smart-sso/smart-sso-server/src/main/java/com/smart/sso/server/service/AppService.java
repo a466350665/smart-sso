@@ -44,14 +44,14 @@ public interface AppService extends Service<App, Integer> {
 	public App findByCode(String code);
 	
 	/**
-	 * 根据管理员ID查询已分配应用
-	 * @param userId 管理员ID
+	 * 根据用户ID查询已分配应用
+	 * @param userId 用户ID
 	 * @return
 	 */
 	public List<App> findByUserId(Boolean isEnable, Integer userId);
 	
 	/**
-	 * 根据管理员ID查询已分配应用编码
+	 * 根据用户ID查询已分配应用编码
 	 * @param userId
 	 * @return
 	 */
