@@ -47,7 +47,7 @@ public class UserRoleController extends BaseController {
 	@RequestMapping(value = "/allocate", method = RequestMethod.GET)
 	public String edit(
 			@ApiParam(value = "用户id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer userId, Model model) {
-		List<App> appList = appService.findByUserId(TrueFalseEnum.TRUE.getValue(), userId);
+		List<App> appList = appService.findByAll(null);
 		model.addAttribute("userId", userId);
 		model.addAttribute("appList", appList);
 		model.addAttribute("roleList", getRoleList(userId, CollectionUtils.isEmpty(appList) ? null : appList.get(0).getId()));
