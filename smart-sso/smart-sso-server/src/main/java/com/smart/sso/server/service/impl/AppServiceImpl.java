@@ -1,7 +1,6 @@
 package com.smart.sso.server.service.impl;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -17,7 +16,6 @@ import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.RolePermissionService;
 import com.smart.sso.server.service.RoleService;
-import com.smart.sso.server.service.UserAppService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
 
@@ -32,8 +30,6 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 	private PermissionService permissionService;
 	@Resource
 	private UserRoleService userRoleService;
-	@Resource
-	private UserAppService userAppService;
 	@Resource
 	private RolePermissionService rolePermissionService;
 
@@ -50,12 +46,12 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 		super.save(t);
 	}
 
-	public List<App> findByAll(String name) {
-		return dao.findPaginationByName(name, null);
+	public List<App> findByAll(Boolean isEnable) {
+		return dao.findPaginationByName(null, isEnable, null);
 	}
 
 	public Pagination<App> findPaginationByName(String name, Pagination<App> p) {
-		dao.findPaginationByName(name, p);
+		dao.findPaginationByName(name, null, p);
 		return p;
 	}
 
@@ -63,21 +59,10 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App, Integer> implements
 		return dao.findByCode(code);
 	}
 	
-	public List<App> findByUserId(Boolean isEnable, Integer userId) {
-		return dao.findByUserId(isEnable, userId);
-	}
-	
 	@Transactional
 	public void deleteById(List<Integer> idList) {
 		rolePermissionService.deleteByAppIds(idList);
-		userRoleService.deleteByAppIds(idList);
-		userAppService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
-		roleService.deleteByAppIds(idList);
 		verifyRows(dao.deleteById(idList), idList.size(), "应用数据库删除失败");
-	}
-
-	public Set<String> findAppCodeByUserId(Boolean isEnable, Integer userId) {
-		return dao.findAppCodeByUserId(isEnable, userId);
 	}
 }

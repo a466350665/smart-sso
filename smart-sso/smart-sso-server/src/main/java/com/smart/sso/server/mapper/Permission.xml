@@ -52,13 +52,10 @@
 		</if>
 	</update>
 	
-	<select id="findByName" parameterType="map" resultType="Permission">   
+	<select id="findByAppId" parameterType="map" resultType="Permission">   
 		SELECT * 
      	FROM SYS_PERMISSION a
      	WHERE 1 = 1
-     	<if test="name != null and name != '' ">
-			AND a.name = #{name} 
-		</if>
 		<if test="appId != null">
 			AND a.appId = #{appId} 
 		</if>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.config.ConfigUtils;
 import com.smart.mvc.controller.BaseController;
+import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.exception.ValidateException;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.Result;
@@ -21,12 +22,10 @@ import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.model.App;
+import com.smart.sso.server.model.Role;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.model.UserApp;
-import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.model.UserRole;
 import com.smart.sso.server.service.RoleService;
-import com.smart.sso.server.service.UserAppService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
 
@@ -46,18 +45,13 @@ public class UserController extends BaseController {
 	@Resource
 	private UserService userService;
 	@Resource
-	private AppService appService;
-	@Resource
 	private RoleService roleService;
-	@Resource
-	private UserAppService userAppService;
 	@Resource
 	private UserRoleService userRoleService;
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
-		model.addAttribute("appList", getAppList(null));
 		return "/admin/user";
 	}
 
@@ -72,7 +66,7 @@ public class UserController extends BaseController {
 			user = userService.get(id);
 		}
 		model.addAttribute("user", user);
-		model.addAttribute("appList", getAppList(user.getId()));
+		model.addAttribute("roleList", getRoleList(id));
 		return "/admin/userEdit";
 	}
 
@@ -80,10 +74,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
 			@ApiParam(value = "登录名") String account,
-			@ApiParam(value = "应用id") Integer appId,
 			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
 			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
-		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, appId, new Pagination<User>(pageNo, pageSize)));
+		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	@ApiOperation("验证登录名")
@@ -116,7 +109,7 @@ public class UserController extends BaseController {
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码 ") String password,
 			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable,
-			@ApiParam(value = "应用ids") String appIds) {
+			@ApiParam(value = "角色ids") String roleIds) {
 		User user;
 		if (id == null) {
 			if (StringUtils.isBlank(password)) {
@@ -133,7 +126,7 @@ public class UserController extends BaseController {
 			user.setPassword(PasswordProvider.encrypt(password));
 		}
 		user.setIsEnable(isEnable);
-		userService.save(user, getAjaxIds(appIds));
+		userService.save(user, getAjaxIds(roleIds));
 		return Result.createSuccessResult();
 	}
 
@@ -153,16 +146,16 @@ public class UserController extends BaseController {
 		return Result.createSuccessResult();
 	}
 	
-	private List<App> getAppList(Integer userId) {
-		List<App> list = appService.findByAll(null);
+	private List<Role> getRoleList(Integer userId) {
+		List<Role> list = roleService.findByAll(TrueFalseEnum.TRUE.getValue());
 		if (userId != null) {
-			for (App app : list) {
-				UserApp userApp = userAppService.findByUserAppId(userId, app.getId());
-				if (null != userApp) {
-					app.setIsChecked(true);
+			for (Role role : list) {
+				UserRole userRole = userRoleService.findByUserRoleId(userId, role.getId());
+				if (null != userRole) {
+					role.setIsChecked(true);
 				}
 				else {
-					app.setIsChecked(false);
+					role.setIsChecked(false);
 				}
 			}
 		}

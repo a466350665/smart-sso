@@ -13,6 +13,7 @@ import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.rpc.RpcPermission;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.model.Permission;
+import com.smart.sso.server.model.RolePermission;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.PermissionJmsService;
 import com.smart.sso.server.service.PermissionService;
@@ -41,21 +42,36 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 		permissionJmsService.send(appService.get(t.getAppId()).getCode());
 	}
 
-	public List<Permission> findByName(String name, Integer appId, Boolean isEnable) {
-		return dao.findByName(name, appId, isEnable);
+	public List<Permission> findByAppId(Integer appId, Integer roleId, Boolean isEnable) {
+		List<Permission> permissionList = dao.findByAppId(appId, isEnable);
+		if (roleId != null) {
+			List<RolePermission> rolePermissionList = rolePermissionService.findByRoleId(roleId);
+			for (Permission permission : permissionList) {
+				for (RolePermission rp : rolePermissionList) {
+					if (permission.getId().equals(rp.getPermissionId())) {
+						permission.setChecked(true);
+						break;
+					}
+				}
+			}
+		}
+		return permissionList;
 	}
 
 	@Transactional
 	public void deletePermission(Integer id, Integer appId) {
 		List<Integer> idList = new ArrayList<Integer>();
 
-		List<Permission> list = permissionService.findByName(null, appId, null);
+		List<Permission> list = permissionService.findByAppId(appId, null, null);
 		loopSubList(id, idList, list);
 		idList.add(id);
 
 		rolePermissionService.deleteByPermissionIds(idList);
 
 		verifyRows(dao.deleteById(idList), idList.size(), "权限数据库删除失败");
+		
+		// JMS通知权限变更
+		permissionJmsService.send(appService.get(appId).getCode());
 	}
 
 	// 递归方法，删除子权限

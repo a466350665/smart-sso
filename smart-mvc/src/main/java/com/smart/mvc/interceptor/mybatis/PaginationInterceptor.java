@@ -36,7 +36,7 @@ import com.smart.mvc.model.Pagination;
 		@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
 public class PaginationInterceptor implements Interceptor {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PaginationInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private final ThreadLocal<Pagination<?>> localPagination = new ThreadLocal<Pagination<?>>();
 
@@ -166,20 +166,20 @@ public class PaginationInterceptor implements Interceptor {
 			pagination.setRowCount(rowCount);
 		}
 		catch (SQLException e) {
-			LOGGER.error("Ignore this exception", e);
+			logger.error("Ignore this exception", e);
 		}
 		finally {
 			try {
 				rs.close();
 			}
 			catch (SQLException e) {
-				LOGGER.error("Ignore this exception", e);
+				logger.error("Ignore this exception", e);
 			}
 			try {
 				countStmt.close();
 			}
 			catch (SQLException e) {
-				LOGGER.error("Ignore this exception", e);
+				logger.error("Ignore this exception", e);
 			}
 		}
 	}

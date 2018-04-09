@@ -1,6 +1,8 @@
 package com.smart.sso.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -34,13 +36,21 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 	}
 
 	@Transactional
-	public void allocate(Integer roleId, List<RolePermission> list) {
-		dao.deleteByRoleIds(Arrays.asList(roleId));
-		if(!CollectionUtils.isEmpty(list)) {
+	public void allocate(Integer appId, Integer roleId, List<Integer> permissionIdList) {
+		dao.deleteByAppIds(Arrays.asList(appId));
+
+		List<RolePermission> list = new ArrayList<RolePermission>();
+		Integer permissionId;
+		for (Iterator<Integer> i$ = permissionIdList.iterator(); i$.hasNext(); list
+				.add(new RolePermission(appId, roleId, permissionId))) {
+			permissionId = i$.next();
+		}
+		if (!CollectionUtils.isEmpty(list)) {
 			super.save(list);
 		}
+
 		// JMS通知权限变更
-		permissionJmsService.send(appService.get(roleService.get(roleId).getAppId()).getCode());
+		permissionJmsService.send(appService.get(appId).getCode());
 	}
 
 	public List<RolePermission> findByRoleId(Integer roleId) {

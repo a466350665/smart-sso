@@ -21,8 +21,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole, Inte
 	}
 	
 	@Transactional
-	public void allocate(Integer userId, Integer appId, List<UserRole> list) {
-		dao.deleteByUserIds(Arrays.asList(userId), appId);
+	public void allocate(Integer userId, List<UserRole> list) {
+		dao.deleteByUserIds(Arrays.asList(userId));
 		super.save(list);
 	}
 	
@@ -34,15 +34,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole, Inte
 		dao.deleteByRoleIds(idList);
 	}
 	
-	public void deleteByUserIds(List<Integer> idList, Integer appId) {
-		dao.deleteByUserIds(idList, appId);
-	}
-	
-	public void deleteByAppIds(List<Integer> idList) {
-		dao.deleteByAppIds(idList);
-	}
-
-	public void deleteForChangeApp(Integer userId, List<Integer> idList) {
-		dao.deleteForChangeApp(userId, idList);
+	public void deleteByUserIds(List<Integer> idList) {
+		dao.deleteByUserIds(idList);
 	}
 }

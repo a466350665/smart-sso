@@ -9,14 +9,12 @@
     
 	<insert id="insert" parameterType="Role" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO SYS_ROLE(
-			appId,
 			name,
 			sort,
 			description,
 			isEnable
 		) 
 		VALUES (
-			#{appId},
 			#{name},
 			#{sort},
 			#{description},
@@ -26,7 +24,6 @@
 	
     <update id="update" parameterType="Role" statementType="PREPARED">
 		UPDATE SYS_ROLE a SET
-			a.`appId` = #{appId},
 			a.`name` = #{name},
 			a.`sort` = #{sort},
 			a.`description` = #{description},
@@ -53,9 +50,6 @@
 		<if test="isEnable != null">
 			AND a.isEnable = #{isEnable} 
 		</if>
-		<if test="appId != null and appId != '' ">
-			AND a.appId = #{appId} 
-		</if>
      	ORDER BY a.sort DESC 
 	</select>
 	
@@ -72,13 +66,5 @@
 				WHERE `id` in <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
 			</otherwise>
 		</choose>
-	</delete>
-	
-	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_ROLE
-		WHERE 1 = 1
-		<if test="idList != null">
-			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
-		</if>
 	</delete>
 </mapper>

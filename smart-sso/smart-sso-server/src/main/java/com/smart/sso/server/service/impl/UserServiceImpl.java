@@ -18,17 +18,14 @@ import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.model.UserApp;
+import com.smart.sso.server.model.UserRole;
 import com.smart.sso.server.service.AppService;
-import com.smart.sso.server.service.UserAppService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> implements UserService {
 	
-	@Resource
-	private UserAppService userAppService;
 	@Resource
 	private UserRoleService userRoleService;
 	@Resource
@@ -73,8 +70,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		verifyRows(dao.resetPassword(password, idList), idList.size(), "用户密码数据库重置失败");
 	}
 
-	public Pagination<User> findPaginationByAccount(String account, Integer appId, Pagination<User> p) {
-		dao.findPaginationByAccount(account, appId, p);
+	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p) {
+		dao.findPaginationByAccount(account, p);
 		return p;
 	}
 	
@@ -84,8 +81,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	
 	@Transactional
 	public void deleteById(List<Integer> idList) {
-		userAppService.deleteByUserIds(idList);
-		userRoleService.deleteByUserIds(idList, null);
+		userRoleService.deleteByUserIds(idList);
 		verifyRows(dao.deleteById(idList), idList.size(), "用户数据库删除失败");
 	}
 
@@ -95,18 +91,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		user.setPassword(PasswordProvider.encrypt(newPassword));
 		update(user);
 	}
+	
 
 	@Override
-	public void save(User user, List<Integer> appIdList) {
+	public void save(User user, List<Integer> roleIdList) {
 		save(user);
-		List<UserApp> list = new ArrayList<UserApp>();
-		UserApp bean = null;
-		for (Integer appId : appIdList) {
-			bean = new UserApp();
-			bean.setAppId(appId);
+		List<UserRole> userRoleList = new ArrayList<UserRole>();
+		UserRole bean;
+		for (Integer roleId : roleIdList) {
+			bean = new UserRole();
 			bean.setUserId(user.getId());
-			list.add(bean);
+			bean.setRoleId(roleId);
+			userRoleList.add(bean);
 		}
-		userAppService.allocate(user.getId(), appIdList.size() == 0 ? null : appIdList, list);
+		userRoleService.allocate(user.getId(), userRoleList);
 	}
 }

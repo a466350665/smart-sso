@@ -22,7 +22,7 @@ import com.smart.sso.server.service.PermissionJmsService;
 @Component
 public class PermissionJmsServiceImpl implements PermissionJmsService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionJmsServiceImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void send(final String appCode) {
@@ -38,7 +38,7 @@ public class PermissionJmsServiceImpl implements PermissionJmsService {
 			jmsTemplate = SpringUtils.getBean(JmsTemplate.class);
 		}
 		catch (Exception e) {
-			LOGGER.warn("jmsTemplate注入失败");
+			logger.warn("jmsTemplate注入失败");
 		}
 		return jmsTemplate;
 	}
@@ -52,10 +52,10 @@ public class PermissionJmsServiceImpl implements PermissionJmsService {
 					return session.createTextMessage(appCode);
 				}
 			});
-			LOGGER.info("消息服务通知appCode为：{}的应用更新权限", appCode);
+			logger.info("消息服务通知appCode为：{}的应用更新权限", appCode);
 		}
 		catch (Exception e) {
-			LOGGER.error("消息服务通知appCode为：{}的应用更新权限异常", appCode, e);
+			logger.error("消息服务通知appCode为：{}的应用更新权限异常", appCode, e);
 		}
 	}
 }

@@ -49,6 +49,9 @@
      	<if test="name != null and name != '' ">
 			AND a.name like CONCAT('%',#{name},'%')
 		</if>
+		<if test="isEnable != null">
+			AND a.isEnable = #{isEnable} 
+		</if>
      	ORDER BY a.sort DESC, a.createTime DESC 
 	</select>
 	
@@ -73,32 +76,4 @@
 			</otherwise>
 		</choose>
 	</delete>
-	
-	<select id="findByUserId" parameterType="Map" resultType="App">   
-		SELECT * 
-     	FROM SYS_APP a
-     	WHERE 1 = 1
-     	AND a.isEnable = #{isEnable}
-     	<if test="userId != null and userId != '' ">
-			AND EXISTS (SELECT 1
-		                  FROM SYS_RE_USER_APP ua
-		                 WHERE ua.appId = a.id
-		                   AND ua.userId = #{userId})
-		</if>
-     	ORDER BY a.sort DESC, a.createTime DESC 
-	</select>
-	
-	<select id="findAppCodeByUserId" parameterType="Map" resultType="String">   
-     	SELECT a.code
-		FROM SYS_APP a
-		WHERE a.isEnable = #{isEnable}
-		<if test="userId != null and userId != '' ">
-			AND EXISTS (
-				SELECT 1
-				FROM SYS_RE_USER_APP ua
-				WHERE ua.appId = a.id
-					AND ua.userId = #{userId}
-				)
-		</if>
-	</select>
 </mapper>

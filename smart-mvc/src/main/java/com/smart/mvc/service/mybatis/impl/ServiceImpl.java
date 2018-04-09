@@ -26,7 +26,7 @@ import com.smart.mvc.service.mybatis.Service;
 public abstract class ServiceImpl<DAO extends Dao<T, ID>, T extends PersistentObject, ID extends Serializable>
 		implements Service<T, ID> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 由子类注入实体DAO
@@ -177,7 +177,7 @@ public abstract class ServiceImpl<DAO extends Dao<T, ID>, T extends PersistentOb
 	protected void verifyRows(int updateRows, int rows, String message) {
 		if (updateRows != rows) {
 			DaoException e = new DaoException(message);
-			LOGGER.error("need update is {}, but real update rows is {}.", rows, updateRows, e);
+			logger.error("need update is {}, but real update rows is {}.", rows, updateRows, e);
 			throw e;
 		}
 	}

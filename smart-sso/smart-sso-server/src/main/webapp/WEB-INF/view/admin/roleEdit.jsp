@@ -19,19 +19,6 @@
 			<input type="hidden" name="id" value="${role.id}">
 			
 			<div class="form-group">
-				<label for="_appId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>应用</label>
-
-				<div class="col-sm-3">
-					<select id="_appId" name="appId" class="form-control help-validate" ${empty role.id ? '' : 'disabled="disabled"'}
-						required="true">
-						<c:forEach var="item" items="${appList}">
-							<option value="${item.id}" ${item.id eq role.appId ? 'selected="selected"' : ''}>${item.name}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div> 
-			
-			<div class="form-group">
 				<label for="_name" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>名称</label>
 
 				<div class="col-sm-6">
@@ -127,7 +114,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/role?appId=" + $('#_appId').val());
+								$.aceRedirect("${_path}/admin/role");
 							}
 							else {
 								$.gritter.add({text: d.message});

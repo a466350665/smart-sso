@@ -106,4 +106,15 @@ public class Permission extends PersistentObject {
 	public Integer getpId() {
 		return this.parentId;
 	}
+	
+	/** 以下为显示辅助参数 */
+	private boolean checked = false;
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 }

@@ -12,8 +12,6 @@ public class Role extends PersistentObject {
 
 	private static final long serialVersionUID = 564115576254799088L;
 
-	/** 应用ID */
-	private Integer appId;
 	/** 名称 */
 	private String name;
 	/** 排序 */
@@ -22,14 +20,6 @@ public class Role extends PersistentObject {
 	private String description;
 	/** 是否启用 */
 	private Boolean isEnable = Boolean.valueOf(true);
-
-	public Integer getAppId() {
-		return this.appId;
-	}
-
-	public void setAppId(Integer appId) {
-		this.appId = appId;
-	}
 
 	public String getName() {
 		return this.name;

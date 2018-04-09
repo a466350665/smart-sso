@@ -15,7 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class StopWatchHandlerInterceptor extends HandlerInterceptorAdapter {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StopWatchHandlerInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("StopWatch-StartTime");
 
@@ -33,7 +33,7 @@ public class StopWatchHandlerInterceptor extends HandlerInterceptorAdapter {
 		long beginTime = startTimeThreadLocal.get();// 得到线程绑定的局部变量（开始时间）
 		long consumeTime = endTime - beginTime;// 3、消耗的时间
 		if (consumeTime > 500) {// 此处认为处理时间超过500毫秒的请求为慢请求
-			LOGGER.info(String.format("%s consume %d millis", request.getRequestURI(), consumeTime));
+			logger.info(String.format("%s consume %d millis", request.getRequestURI(), consumeTime));
 		}
 	}
 }

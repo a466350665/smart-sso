@@ -66,7 +66,7 @@
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/app/delete', handler : function(){
 						$table.ajaxDelete({
-							confirm : "删除应用会影响关联的用户、角色、权限，确认要删除?", 
+							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
 							url : "${_path}/admin/app/delete"
 						});
 					}}
@@ -107,7 +107,7 @@
 					},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/app/delete', handler : function(d, i){
 						$table.ajaxDelete({
-							confirm : "删除应用会影响关联的用户、角色、权限，确认要删除?", 
+							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
 							url : "${_path}/admin/app/delete"
 						});
 					}}
@@ -117,21 +117,6 @@
 					$.permission();
 				}
 			});
-			
-			/**
-			// 搜索
-			$("#_search").click(function () {
-				$table.search();
-			});
-			
-			// 回车绑定
-			$(".form-data").bind('keypress',function(event){
-			    if(event.keyCode == "13"){
-			    	event.preventDefault();
-			    	$table.search();
-			    }
-			});
-			 */
 			
 			// 搜索
 			$(".search-data").keyup(function () { 

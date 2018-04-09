@@ -23,7 +23,7 @@ import com.smart.mvc.util.StringUtils;
  * @author Joe
  */
 public class ZookeeperLock extends DistributedLock {
-	private final Logger LOGGER = LoggerFactory.getLogger(ZookeeperLock.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private final int SESSION_TIMEOUT = 5000;
 	private String root = "/lock-";
 	private CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -122,7 +122,7 @@ public class ZookeeperLock extends DistributedLock {
 	 */
 	public void unlock() {
 		if (StringUtils.isBlank(lockPath)) {
-			LOGGER.error("no need to unlock!");
+			logger.error("no need to unlock!");
 		}
 		try {
 			zookeeper.delete(lockPath, -1);
@@ -181,10 +181,10 @@ public class ZookeeperLock extends DistributedLock {
 			latch.await();
 		}
 		catch (IOException e) {
-			LOGGER.error("IOException", e);
+			logger.error("IOException", e);
 		}
 		catch (InterruptedException ex) {
-			LOGGER.error("InterruptedException", ex);
+			logger.error("InterruptedException", ex);
 		}
 		return zk;
 	}

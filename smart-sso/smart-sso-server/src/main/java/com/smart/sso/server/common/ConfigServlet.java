@@ -18,7 +18,7 @@ public class ConfigServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7462526216386306510L;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigServlet.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -32,7 +32,7 @@ public class ConfigServlet extends HttpServlet {
 			servletContext.setAttribute("_copyRight", ConfigUtils.getProperty("system.copy.right"));
 		}
 		catch (Exception e) {
-			LOGGER.error("系统初始化参数配置有误", e);
+			logger.error("系统初始化参数配置有误", e);
 		}
 	}
 }

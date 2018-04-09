@@ -50,7 +50,7 @@ public interface UserService extends Service<User, Integer> {
 	 * @param pageSize 分页记录数
 	 * @return
 	 */
-	public Pagination<User> findPaginationByAccount(String account, Integer appId, Pagination<User> p);
+	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p);
 	
 	/**
 	 * 根据登录名和应用ID查询
@@ -71,5 +71,6 @@ public interface UserService extends Service<User, Integer> {
 	 */
 	public void updatePassword(Integer id, String newPassword);
 	
-	public void save(User user, List<Integer> appIdList);
+	
+	public void save(User user, List<Integer> roleIdList);
 }

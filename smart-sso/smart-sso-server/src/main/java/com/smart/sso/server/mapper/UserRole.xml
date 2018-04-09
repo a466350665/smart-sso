@@ -15,12 +15,10 @@
 
 	<insert id="insert" parameterType="UserRole" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO SYS_RE_USER_ROLE(
-			appId,
 			userId,
 			roleId
 		) 
 		VALUES (
-			#{appId},
 			#{userId},
 			#{roleId}
 		)
@@ -37,30 +35,8 @@
 	<delete id="deleteByUserIds" parameterType="map" statementType="PREPARED">
 		DELETE FROM SYS_RE_USER_ROLE
 		WHERE 1 = 1
-		<if test="appId != null">
-			AND appId = #{appId}
-		</if>
 		<if test="idList != null">
 			AND userId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
-		</if>
-	</delete>
-	
-	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_RE_USER_ROLE
-		WHERE 1 = 1
-		<if test="idList != null">
-			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
-		</if>
-	</delete>
-	
-	<delete id="deleteForChangeApp" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_RE_USER_ROLE
-		WHERE 1 = 1
-		<if test="userId != null">
-			AND userId = #{userId} 
-		</if>
-		<if test="idList != null">
-			AND appId not in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
 		</if>
 	</delete>
 </mapper>

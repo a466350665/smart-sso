@@ -12,8 +12,8 @@
 			account,
 			password,
 			lastLoginIp,
-			loginCount,
 			lastLoginTime,
+			loginCount,
 			createTime,
 			isEnable
 		) 
@@ -21,8 +21,8 @@
 			#{account},
 			#{password},
 			#{lastLoginIp},
-			#{loginCount},
 			#{lastLoginTime},
+			#{loginCount},
 			#{createTime},
 			#{isEnable}
 		)
@@ -32,6 +32,9 @@
 		UPDATE SYS_USER a SET
 			a.`account` = #{account},
 			a.`password` = #{password},
+			a.`lastLoginIp` = #{lastLoginIp},
+			a.`lastLoginTime` = #{lastLoginTime},
+			a.`loginCount` = #{loginCount},
 			a.isEnable = #{isEnable}
 		WHERE a.`id` = #{id}
 	</update>
@@ -60,12 +63,6 @@
      	WHERE 1 = 1
      	<if test="account != null and account != '' ">
 			AND a.account like CONCAT('%',#{account},'%')
-		</if>
-		<if test="appId != null and appId != '' ">
-			AND EXISTS (SELECT 1
-		                  FROM SYS_RE_USER_APP ua
-		                 WHERE ua.userId = a.id
-		                   AND ua.appId = #{appId})
 		</if>
      	ORDER BY a.createTime DESC 
 	</select>

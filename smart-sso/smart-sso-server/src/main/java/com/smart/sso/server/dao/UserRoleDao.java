@@ -18,9 +18,5 @@ public interface UserRoleDao extends Dao<UserRole, Integer> {
 
 	public int deleteByRoleIds(@Param("idList") List<Integer> idList);
 
-	public int deleteByUserIds(@Param("idList") List<Integer> idList, @Param("appId") Integer appId);
-
-	public int deleteByAppIds(@Param("idList") List<Integer> idList);
-	
-	public int deleteForChangeApp(@Param("userId") Integer userId, @Param("idList") List<Integer> idList);
+	public int deleteByUserIds(@Param("idList") List<Integer> idList);
 }

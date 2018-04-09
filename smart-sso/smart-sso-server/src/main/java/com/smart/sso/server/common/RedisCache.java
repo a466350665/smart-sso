@@ -15,7 +15,7 @@ import com.smart.mvc.exception.CacheException;
 
 public class RedisCache<T> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RedisCache.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private RedisTemplate<String, T> redisTemplate;
 
@@ -23,7 +23,7 @@ public class RedisCache<T> {
 	public static final String KEY_LIST_PREFIX = "_list:";
 
 	public T get(String key) {
-		LOGGER.debug("get key [{}]", key);
+		logger.debug("get key [{}]", key);
 		try {
 			if (key == null) {
 				return null;
@@ -33,43 +33,43 @@ public class RedisCache<T> {
 			}
 		}
 		catch (Throwable t) {
-			LOGGER.error("get key [{}] exception!", key, t);
+			logger.error("get key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 
 	}
 
 	public T set(String key, T value) {
-		LOGGER.debug("set key [{}]", key);
+		logger.debug("set key [{}]", key);
 		try {
 			redisTemplate.opsForValue().set(key, value);
 			return value;
 		}
 		catch (Throwable t) {
-			LOGGER.error("set key [{}] exception!", key, t);
+			logger.error("set key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public T set(String key, T value, long timeout) {
-		LOGGER.debug("set key [{}]", key);
+		logger.debug("set key [{}]", key);
 		try {
 			redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.MINUTES);
 			return value;
 		}
 		catch (Throwable t) {
-			LOGGER.error("set key [{}] exception!", key, t);
+			logger.error("set key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public void delete(String key) {
-		LOGGER.debug("delete key [{}]", key);
+		logger.debug("delete key [{}]", key);
 		try {
 			redisTemplate.delete(key);
 		}
 		catch (Throwable t) {
-			LOGGER.error("delete key [{}] exception!", key, t);
+			logger.error("delete key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
@@ -77,7 +77,7 @@ public class RedisCache<T> {
 	@SuppressWarnings("unchecked")
 	public void setSet(String k, T value, long time) {
 		String key = KEY_SET_PREFIX + k;
-		LOGGER.debug("setSet key [{}]", key);
+		logger.debug("setSet key [{}]", key);
 		try {
 			SetOperations<String, T> valueOps = redisTemplate.opsForSet();
 			valueOps.add(key, value);
@@ -85,7 +85,7 @@ public class RedisCache<T> {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 		}
 		catch (Throwable t) {
-			LOGGER.error("setSet key [{}] exception!", key, t);
+			logger.error("setSet key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
@@ -97,7 +97,7 @@ public class RedisCache<T> {
 	@SuppressWarnings("unchecked")
 	public void setSet(String k, Set<T> v, long time) {
 		String key = KEY_SET_PREFIX + k;
-		LOGGER.debug("setSet key [{}]", key);
+		logger.debug("setSet key [{}]", key);
 		try {
 			SetOperations<String, T> setOps = redisTemplate.opsForSet();
 			setOps.add(key, (T[]) v.toArray());
@@ -105,7 +105,7 @@ public class RedisCache<T> {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 		}
 		catch (Throwable t) {
-			LOGGER.error("setSet key [{}] exception!", key, t);
+			logger.error("setSet key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
@@ -116,20 +116,20 @@ public class RedisCache<T> {
 
 	public Set<T> getSet(String k) {
 		String key = KEY_SET_PREFIX + k;
-		LOGGER.debug("getSet key [{}]", key);
+		logger.debug("getSet key [{}]", key);
 		try {
 			SetOperations<String, T> setOps = redisTemplate.opsForSet();
 			return setOps.members(key);
 		}
 		catch (Throwable t) {
-			LOGGER.error("getSet key [{}] exception!", key, t);
+			logger.error("getSet key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public void setList(String k, T v, long time) {
 		String key = KEY_LIST_PREFIX + k;
-		LOGGER.debug("setList key [{}]", key);
+		logger.debug("setList key [{}]", key);
 		try {
 			ListOperations<String, T> listOps = redisTemplate.opsForList();
 			listOps.rightPush(key, v);
@@ -137,14 +137,14 @@ public class RedisCache<T> {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 		}
 		catch (Throwable t) {
-			LOGGER.error("setList key [{}] exception!", key, t);
+			logger.error("setList key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public void setList(String k, List<T> v, long time) {
 		String key = KEY_LIST_PREFIX + k;
-		LOGGER.debug("setList key [{}]", key);
+		logger.debug("setList key [{}]", key);
 		try {
 			ListOperations<String, T> listOps = redisTemplate.opsForList();
 			listOps.rightPushAll(key, v);
@@ -152,7 +152,7 @@ public class RedisCache<T> {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 		}
 		catch (Throwable t) {
-			LOGGER.error("setList key [{}] exception!", key, t);
+			logger.error("setList key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
@@ -163,38 +163,38 @@ public class RedisCache<T> {
 
 	public List<T> getList(String k, long start, long end) {
 		String key = KEY_LIST_PREFIX + k;
-		LOGGER.debug("setList key [{}]", key);
+		logger.debug("setList key [{}]", key);
 		try {
 			ListOperations<String, T> listOps = redisTemplate.opsForList();
 			return listOps.range(key, start, end);
 		}
 		catch (Throwable t) {
-			LOGGER.error("getList key [{}] exception!", key, t);
+			logger.error("getList key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public long getListSize(String k) {
 		String key = KEY_LIST_PREFIX + k;
-		LOGGER.debug("setList key [{}]", key);
+		logger.debug("setList key [{}]", key);
 		try {
 			ListOperations<String, T> listOps = redisTemplate.opsForList();
 			return listOps.size(key);
 		}
 		catch (Throwable t) {
-			LOGGER.error("getListSize key [{}] exception!", key, t);
+			logger.error("getListSize key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}
 
 	public long getListSize(ListOperations<String, String> listOps, String k) {
 		String key = KEY_LIST_PREFIX + k;
-		LOGGER.debug("getListSize key [{}]", key);
+		logger.debug("getListSize key [{}]", key);
 		try {
 			return listOps.size(key);
 		}
 		catch (Throwable t) {
-			LOGGER.error("getListSize key [{}] exception!", key, t);
+			logger.error("getListSize key [{}] exception!", key, t);
 			throw new CacheException(t);
 		}
 	}

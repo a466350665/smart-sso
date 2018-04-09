@@ -1,7 +1,6 @@
 package com.smart.sso.server.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.service.mybatis.Service;
@@ -27,7 +26,7 @@ public interface AppService extends Service<App, Integer> {
 	 * @param name 应用名称
 	 * @return
 	 */
-	public List<App> findByAll(String name);
+	public List<App> findByAll(Boolean isEnable);
 	
 	/**
 	 * 根据名称分页查询
@@ -42,18 +41,4 @@ public interface AppService extends Service<App, Integer> {
 	 * @return
 	 */
 	public App findByCode(String code);
-	
-	/**
-	 * 根据用户ID查询已分配应用
-	 * @param userId 用户ID
-	 * @return
-	 */
-	public List<App> findByUserId(Boolean isEnable, Integer userId);
-	
-	/**
-	 * 根据用户ID查询已分配应用编码
-	 * @param userId
-	 * @return
-	 */
-	public Set<String> findAppCodeByUserId(Boolean isEnable, Integer userId);
 }

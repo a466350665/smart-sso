@@ -24,15 +24,6 @@
 						<div class="widget-main">
 							<form id="_form" class="form-inline">
 								<label>
-									<label class="control-label" for="form-field-1"> 应用： </label>
-									<select id="_appId" name="appId">
-										<option value="">--请选择--</option>
-										<c:forEach var="item" items="${appList}">
-											<option value="${item.id}">${item.name}</option>
-										</c:forEach>
-									</select>
-								</label>
-								<label>
 									<label class="control-label" for="form-field-1"> 登录名： </label>
 									<input name="account" type="text" class="form-data input-medium search-data">
 								</label>
@@ -72,7 +63,7 @@
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/user/delete', handler : function(){
 						$table.ajaxDelete({
-							confirm : "删除用户会影响关联的应用、角色、权限，确认要删除?",
+							confirm : "删除用户会关联对应的角色、权限，确认要删除?",
 							url : "${_path}/admin/user/delete"
 						});
 					}},
@@ -84,18 +75,11 @@
 								$table.reload();
 							}
 						});
-					}},
-					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userApp/allocate', handler : function(){
-						if(!$table.validateSelected(true)){
-							return;						
-						}
-						$.aceRedirect("${_path}/admin/userRole/allocate?userId=" + $table.getSelectedItemKeys("id"));
 					}}
 				],
 				columns : [
 			        {field:'id', hide : true},
 			        {field:'isEnable', hide : true},
-			        {field:'appId', hide : true},
 			        {field:'account', title:'登录名', align:'left'},
 			        {field:'loginCount', title:'登录总次数', mobileHide : true},
 			        {field:'lastLoginIp', title:'最后登录IP', mobileHide : true},
@@ -130,7 +114,7 @@
 					},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/user/delete', handler : function(d, i){
 						$table.ajaxDelete({
-							confirm : "删除用户会影响关联的应用、角色、权限，确认要删除?",
+							confirm : "删除用户会关联对应的角色、权限，确认要删除?",
 							url : "${_path}/admin/user/delete"
 						});
 					}},
@@ -142,9 +126,6 @@
 								$table.reload();
 							}
 						});
-					}},
-					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userRole/allocate', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/userRole/allocate?userId=" + d.id);
 					}}
 				],
 				after : function(){
@@ -157,9 +138,6 @@
 			$(".search-data").keyup(function () { 
 				$table.search();
 			});
-			$("#_appId").change(function () { 
-				$table.search();
-           	});
             
 			// 取消
 			$("#_cancel").click(function(){

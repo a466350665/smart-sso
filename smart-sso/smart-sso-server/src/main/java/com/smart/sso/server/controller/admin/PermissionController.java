@@ -1,9 +1,5 @@
 package com.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,10 +14,13 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.model.App;
 import com.smart.sso.server.model.Permission;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.PermissionService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -39,7 +38,7 @@ public class PermissionController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
-		model.addAttribute("appList", getAppList());
+		model.addAttribute("appList", appService.findByAll(true));
 		return "/admin/permission";
 	}
 
@@ -47,9 +46,9 @@ public class PermissionController extends BaseController {
 	@RequestMapping(value = "/nodes", method = RequestMethod.GET)
 	public @ResponseBody List<Permission> nodes(
 			@ApiParam(value = "应用id") Integer appId,
-			@ApiParam(value = "名称") String name,
+			@ApiParam(value = "角色id") Integer roleId,
 			@ApiParam(value = "是否启用 ") Boolean isEnable) {
-		List<Permission> list = permissionService.findByName(name, appId, isEnable);
+		List<Permission> list = permissionService.findByAppId(appId, roleId, isEnable);
 		Permission permission = new Permission();
 		permission.setId(null);
 		permission.setParentId(-1);
@@ -97,9 +96,5 @@ public class PermissionController extends BaseController {
 			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId) {
 		permissionService.deletePermission(id, appId);
 		return Result.createSuccessResult().setMessage("删除成功");
-	}
-
-	private List<App> getAppList() {
-		return appService.findByAll(null);
 	}
 }

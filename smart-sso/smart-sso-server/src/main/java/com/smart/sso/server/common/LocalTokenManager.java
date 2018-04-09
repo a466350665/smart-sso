@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LocalTokenManager extends TokenManager {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(LocalTokenManager.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 令牌存储结构
 	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, DummyUser>();
@@ -30,7 +30,7 @@ public class LocalTokenManager extends TokenManager {
 				// 已过期，清除对应token
 				if (now.compareTo(dummyUser.expired) > 0) {
 					tokenMap.remove(token);
-					LOGGER.debug("token : " + token + "已失效");
+					logger.debug("token : " + token + "已失效");
 				}
 			}
 		}

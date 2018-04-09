@@ -26,7 +26,7 @@ public interface UserRoleService extends Service<UserRole, Integer> {
 	 * @param list 用户角色映射集合
 	 * @return
 	 */
-	public void allocate(Integer userId, Integer appId, List<UserRole> list);
+	public void allocate(Integer userId, List<UserRole> list);
 	
 	/**
 	 * 根据角色ID集合删除映射
@@ -40,20 +40,5 @@ public interface UserRoleService extends Service<UserRole, Integer> {
 	 * @param idList 用户ID集合
 	 * @return
 	 */
-	public void deleteByUserIds(List<Integer> idList, Integer appId);
-	
-	/**
-	 * 根据应用ID集合删除映射
-	 * @param idList 应用ID集合
-	 * @return
-	 */
-	public void deleteByAppIds(List<Integer> idList);
-	
-	/**
-	 * 分配App时，删除无效的userRole
-	 * @param userId 应用ID
-	 * @param idList 可用应用ID集合
-	 * @return
-	 */
-	public void deleteForChangeApp(Integer userId, List<Integer> idList);
+	public void deleteByUserIds(List<Integer> idList);
 }

@@ -1,7 +1,5 @@
 package com.smart.mvc.resovler;
 
-import io.swagger.annotations.ApiParam;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,10 +13,11 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.smart.mvc.interceptor.StopWatchHandlerInterceptor;
 import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
+
+import io.swagger.annotations.ApiParam;
 
 /**
  * 自定义方法参数解析器
@@ -27,7 +26,7 @@ import com.smart.mvc.validator.annotation.ValidateParam;
  */
 public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StopWatchHandlerInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 参数结构缓存
@@ -113,7 +112,7 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 				}
 			}
 			else {
-				LOGGER.error("验证器[" + validators[i] + "],在Validator.java文件中没有定义，请检查！");
+				logger.error("验证器[" + validators[i] + "],在Validator.java文件中没有定义，请检查！");
 			}
 		}
 	}

@@ -21,11 +21,12 @@ public interface RolePermissionService extends Service<RolePermission, Integer> 
 	
 	/**
 	 * 根据角色ID给角色授权
+	 * @param appId 应用ID
 	 * @param roleId 角色ID
-	 * @param list 角色权限映射集合
+	 * @param permissionIdList 权限ID集合
 	 * @return
 	 */
-	public void allocate(Integer roleId, List<RolePermission> list);
+	public void allocate(Integer appId, Integer roleId, List<Integer> permissionIdList);
 	
 	/**
 	 * 根据权限ID集合删除映射

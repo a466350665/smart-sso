@@ -17,7 +17,7 @@ import com.smart.sso.rpc.AuthenticationRpcService;
  */
 public class PermissionJmsListener implements MessageListener {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionJmsListener.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private String ssoAppCode;
 	
@@ -30,7 +30,7 @@ public class PermissionJmsListener implements MessageListener {
 			appCode = ((TextMessage) message).getText();
 		}
 		catch (JMSException e) {
-			LOGGER.error("Jms illegal message!");
+			logger.error("Jms illegal message!");
 		}
 
 		if (ssoAppCode.equals(appCode)) {
@@ -40,7 +40,7 @@ public class PermissionJmsListener implements MessageListener {
 			PermissionJmsMonitor.tokenSet.clear();
 			// 3.更新应用权限（Application级别）
 			ApplicationPermission.initApplicationPermissions(authenticationRpcService, ssoAppCode);
-			LOGGER.info("成功通知appCode为：{}的应用更新权限！", appCode);
+			logger.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}
 
