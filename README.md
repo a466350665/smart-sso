@@ -86,7 +86,7 @@ smart
 注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
 
 ## 架构图
-![架构图](http://img.blog.csdn.net/20170505100811000?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![架构图](smart-structure.jpg)
     
 ## 数据库模型
 ![数据库模型](smart-pdm.jpg)
