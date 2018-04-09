@@ -89,7 +89,7 @@ smart
 ![架构图](http://img.blog.csdn.net/20170505100811000?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
     
 ## 数据库模型
-![数据库模型](https://img.blog.csdn.net/2018040916172017?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![数据库模型](smart-pdm.jpg)
 
 ## 效果展示
 
