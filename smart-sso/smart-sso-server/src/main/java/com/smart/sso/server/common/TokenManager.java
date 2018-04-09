@@ -9,6 +9,8 @@ import java.util.TimerTask;
  * @author Joe
  */
 public abstract class TokenManager {
+	
+	public static final String TOKEN = "token";
 
 	// 令牌有效期，单位为秒，默认30分钟
 	protected int tokenTimeout = 1800;

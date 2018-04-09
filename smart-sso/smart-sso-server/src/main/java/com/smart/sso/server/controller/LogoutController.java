@@ -30,7 +30,7 @@ public class LogoutController {
 	@ApiOperation("登出")
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(@ApiParam(value = "返回链接") String backUrl, HttpServletRequest request) {
-		String token = CookieUtils.getCookie(request, "token");
+		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
 		if (StringUtils.isNotBlank(token)) {
 			tokenManager.remove(token);
 		}
