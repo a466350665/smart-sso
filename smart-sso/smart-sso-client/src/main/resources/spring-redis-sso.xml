@@ -20,6 +20,5 @@
 	<!-- Redis覆盖HttpSession，配置Session超时时间 -->
 	<bean id="redisHttpSessionConfiguration"
 		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-		<property name="maxInactiveIntervalInSeconds" value="${sso.timeout}" />
 	</bean>
 </beans>

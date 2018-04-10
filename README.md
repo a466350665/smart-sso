@@ -40,10 +40,8 @@ smart
 - 分布式消息服务：ActiveMQ 5.13.3
 - NIO框架：Netty 4.0.23.Final
 - JSON工具：Fastjson 1.2.29
-- 定时任务：Quartz 2.2.1
 - 数据库连接池：Druid 1.0.15
 - 日志管理：SLF4J 1.7.21、Logback 1.1.7
-- 模板引擎：Freemarker 2.3.23
 - 单点登录：极简基于Cookie实现
 
 ### 前端
@@ -117,4 +115,4 @@ smart
 ![](http://img.blog.csdn.net/20170106172926694?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## 作者寄语
-艺术的做好一件你认为擅长的事情
+艺术的做好一件擅长的事情

@@ -134,12 +134,6 @@
 			<groupId>jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 		</dependency>
-		
-		<!-- quartz定时任务 -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
 
 		<!-- zookeeper -->
 		<dependency>

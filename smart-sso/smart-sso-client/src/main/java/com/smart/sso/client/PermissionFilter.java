@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -24,6 +25,9 @@ public class PermissionFilter extends ClientFilter {
 
 	// 当前应用关联权限系统的应用编码
 	private String ssoAppCode;
+	
+	// 存储已获取最新权限的token集合，当权限发生变动时清空
+	private static Set<String> sessionPermissionCache = new CopyOnWriteArraySet<String>();
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -53,15 +57,11 @@ public class PermissionFilter extends ClientFilter {
 
 	private Set<String> getLocalPermissionSet(HttpServletRequest request) {
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
-		if (sessionPermission == null || sessionPermissionChanged(request)) {
-			sessionPermission = invokePermissionInSession(request);
+		String token = SessionUtils.getSessionUser(request).getToken();
+		if (sessionPermission == null || !sessionPermissionCache.contains(token)) {
+			sessionPermission = invokePermissionInSession(request, token);
 		}
 		return sessionPermission.getPermissionSet();
-	}
-
-	private boolean sessionPermissionChanged(HttpServletRequest request) {
-		SessionUser user = SessionUtils.getSessionUser(request);
-		return PermissionJmsMonitor.isChanged && !PermissionJmsMonitor.tokenSet.contains(user.getToken());
 	}
 
 	/**
@@ -70,9 +70,8 @@ public class PermissionFilter extends ClientFilter {
 	 * @param token
 	 * @return
 	 */
-	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
-		SessionUser user = SessionUtils.getSessionUser(request);
-		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(user.getToken(), ssoAppCode);
+	public SessionPermission invokePermissionInSession(HttpServletRequest request, String token) {
+		List<RpcPermission> dbList = authenticationRpcService.findPermissionList(token, ssoAppCode);
 
 		List<RpcPermission> menuList = new ArrayList<RpcPermission>();
 		Set<String> operateSet = new HashSet<String>();
@@ -100,13 +99,15 @@ public class PermissionFilter extends ClientFilter {
 		SessionUtils.setSessionPermission(request, sessionPermission);
 
 		// 添加权限监控集合，当前session已更新最新权限
-		if (PermissionJmsMonitor.isChanged) {
-			PermissionJmsMonitor.tokenSet.add(user.getToken());
-		}
+		sessionPermissionCache.add(token);
 		return sessionPermission;
 	}
 
 	public void setSsoAppCode(String ssoAppCode) {
 		this.ssoAppCode = ssoAppCode;
+	}
+	
+	public static void invalidateSessionPermissions() {
+		sessionPermissionCache.clear();
 	}
 }
