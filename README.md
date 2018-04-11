@@ -88,6 +88,9 @@ smart
 
 ## 单点登录原理
 ![单点登录原理](smart-sso.png)
+
+## 单点退出原理
+![单点退出原理](smart-logout.png)
     
 ## 数据库模型
 ![数据库模型](smart-pdm.jpg)
