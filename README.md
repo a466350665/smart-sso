@@ -84,7 +84,10 @@ smart
 注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
 
 ## 架构图
-![架构图](smart-structure.jpg)
+![架构图](smart-structure.png)
+
+## 单点登录原理
+![单点登录原理](smart-sso.png)
     
 ## 数据库模型
 ![数据库模型](smart-pdm.jpg)

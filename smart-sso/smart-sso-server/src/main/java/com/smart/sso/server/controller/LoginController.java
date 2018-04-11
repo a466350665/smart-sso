@@ -54,17 +54,11 @@ public class LoginController extends BaseController{
 			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
-		if (token == null) {
-			return goLoginPath(backUrl, request);
+		if (StringUtils.isNotBlank(token) && tokenManager.validate(token) != null) {
+			return "redirect:" + authBackUrl(backUrl, token);
 		}
 		else {
-			LoginUser loginUser = tokenManager.validate(token);
-			if (loginUser != null) {
-				return "redirect:" + authBackUrl(backUrl, token);
-			}
-			else {
-				return goLoginPath(backUrl, request);
-			}
+			return goLoginPath(backUrl, request);
 		}
 	}
 

@@ -19,9 +19,9 @@ public class SsoFilter extends ClientFilter {
 
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SessionUser sessionUser = SessionUtils.getSessionUser(request);
-		if (sessionUser == null) {
-			String token = request.getParameter(SSO_TOKEN_NAME);
+		String token = getLocalToken(request);
+		if (token == null) {
+			token = request.getParameter(SSO_TOKEN_NAME);
 			if (token != null) {
 				invokeAuthInfoInSession(request, token);
 				// 再跳转一次当前URL，以便去掉URL中token参数
@@ -29,12 +29,24 @@ public class SsoFilter extends ClientFilter {
 				return false;
 			}
 		}
-		else if (authenticationRpcService.validate(sessionUser.getToken())) {// 验证token是否有效
+		else if (authenticationRpcService.validate(token)) {// 验证token是否有效
 			return true;
 		}
 		redirectLogin(request, response);
 		return false;
 	}
+	
+	/**
+	 * 获取Session中token
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String getLocalToken(HttpServletRequest request) {
+		SessionUser sessionUser = SessionUtils.getSessionUser(request);
+		return sessionUser == null ? null : sessionUser.getToken();
+	}
+
 
 	/**
 	 * 存储sessionUser
