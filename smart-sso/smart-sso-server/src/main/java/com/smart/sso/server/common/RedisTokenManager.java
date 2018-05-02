@@ -22,7 +22,7 @@ public class RedisTokenManager extends TokenManager {
 
 	@Override
 	public void addToken(String token, LoginUser loginUser) {
-		redisCache.set(token, loginUser, tokenTimeout * 1000);
+		redisCache.set(token, loginUser, tokenTimeout);
 	}
 
 	@Override

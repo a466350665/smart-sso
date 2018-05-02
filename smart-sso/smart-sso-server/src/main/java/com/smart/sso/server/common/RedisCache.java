@@ -54,7 +54,7 @@ public class RedisCache<T> {
 	public T set(String key, T value, long timeout) {
 		logger.debug("set key [{}]", key);
 		try {
-			redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.MINUTES);
+			redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
 			return value;
 		}
 		catch (Throwable t) {
