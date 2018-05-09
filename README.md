@@ -21,7 +21,6 @@ smart
 ├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
 ├───── smart-sso-demo -- 客户端
 ├───── smart-sso-server -- 服务端
-├── smart-static -- 公用静态js、css文件
 ```
 
 ## 技术选型
