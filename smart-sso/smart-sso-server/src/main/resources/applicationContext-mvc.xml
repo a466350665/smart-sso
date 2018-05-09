@@ -23,4 +23,7 @@
 	<bean id="swagger2Config" class="com.smart.sso.server.common.SwaggerConfig" />
 	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
 	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
+	
+	<!-- 前端脚本和样式 -->
+	<mvc:resources mapping="/smart-static/**" location="/smart-static/"/>
 </beans>

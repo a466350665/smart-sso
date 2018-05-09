@@ -24,7 +24,9 @@ public class ConfigServlet extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		servletContext.setAttribute("_path", servletContext.getContextPath());
 		try {
-			servletContext.setAttribute("_staticPath", ConfigUtils.getProperty("static.url"));
+			String staticPath = ConfigUtils.getProperty("static.url");
+			servletContext.setAttribute("_staticPath", staticPath != null && staticPath.startsWith("http") ? staticPath
+					: servletContext.getContextPath() + staticPath);
 			servletContext.setAttribute("_systemName", ConfigUtils.getProperty("system.name"));
 			servletContext.setAttribute("_systemAdminName", ConfigUtils.getProperty("system.admin.name"));
 			servletContext.setAttribute("_companyName", ConfigUtils.getProperty("system.company.name"));
