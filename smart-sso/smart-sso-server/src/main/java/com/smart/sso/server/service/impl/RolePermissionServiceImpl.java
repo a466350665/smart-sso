@@ -1,7 +1,6 @@
 package com.smart.sso.server.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 
 	@Transactional
 	public void allocate(Integer appId, Integer roleId, List<Integer> permissionIdList) {
-		dao.deleteByAppIds(Arrays.asList(appId));
+		dao.deleteByAppAndRoleId(appId, roleId);
 
 		List<RolePermission> list = new ArrayList<RolePermission>();
 		Integer permissionId;

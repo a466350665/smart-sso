@@ -21,4 +21,6 @@ public interface RolePermissionDao extends Dao<RolePermission, Integer> {
 	public int deleteByRoleIds(@Param("idList") List<Integer> idList);
 	
 	public int deleteByAppIds(@Param("idList") List<Integer> idList);
+	
+	public int deleteByAppAndRoleId(@Param("appId") Integer appId, @Param("roleId") Integer roleId);
 }

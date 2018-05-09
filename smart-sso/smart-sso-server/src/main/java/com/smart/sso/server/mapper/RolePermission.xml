@@ -47,4 +47,11 @@
 			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
 		</if>
 	</delete>
+	
+	<delete id="deleteByAppAndRoleId" parameterType="map" statementType="PREPARED">
+		DELETE FROM SYS_RE_ROLE_PERMISSION
+		WHERE 1 = 1
+		AND appId = #{appId}
+		AND roleId = #{roleId}
+	</delete>
 </mapper>
