@@ -1,6 +1,7 @@
 package com.smart.sso.client;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class SsoFilter extends ClientFilter {
 			if (token != null) {
 				invokeAuthInfoInSession(request, token);
 				// 再跳转一次当前URL，以便去掉URL中token参数
-				response.sendRedirect(request.getRequestURL().toString());
+				response.sendRedirect(getRemoveTokenBackUrl(request));
 				return false;
 			}
 		}
@@ -35,7 +36,7 @@ public class SsoFilter extends ClientFilter {
 		redirectLogin(request, response);
 		return false;
 	}
-	
+
 	/**
 	 * 获取Session中token
 	 * 
@@ -46,7 +47,6 @@ public class SsoFilter extends ClientFilter {
 		SessionUser sessionUser = SessionUtils.getSessionUser(request);
 		return sessionUser == null ? null : sessionUser.getToken();
 	}
-
 
 	/**
 	 * 存储sessionUser
@@ -75,10 +75,31 @@ public class SsoFilter extends ClientFilter {
 		}
 		else {
 			SessionUtils.invalidate(request);
+
 			String ssoLoginUrl = new StringBuilder().append(isServer ? request.getContextPath() : ssoServerUrl)
-					.append("/login?backUrl=").append(request.getRequestURL()).toString();
+					.append("/login?backUrl=").append(URLEncoder.encode(getBackUrl(request), "utf-8")).toString();
 
 			response.sendRedirect(ssoLoginUrl);
 		}
+	}
+
+	/**
+	 * 去除返回地址中的token参数
+	 * @param request
+	 * @return
+	 */
+	private String getRemoveTokenBackUrl(HttpServletRequest request) {
+		String backUrl = getBackUrl(request);
+		return backUrl.substring(0, backUrl.indexOf(SSO_TOKEN_NAME) - 1);
+	}
+
+	/**
+	 * 返回地址
+	 * @param request
+	 * @return
+	 */
+	private String getBackUrl(HttpServletRequest request) {
+		return new StringBuilder().append(request.getRequestURL())
+				.append(request.getQueryString() == null ? "" : "?" + request.getQueryString()).toString();
 	}
 }
