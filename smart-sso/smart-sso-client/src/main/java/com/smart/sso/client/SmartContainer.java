@@ -1,6 +1,7 @@
 package com.smart.sso.client;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,6 +16,9 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
+import com.caucho.hessian.client.HessianProxyFactory;
+import com.smart.sso.rpc.AuthenticationRpcService;
+
 /**
  * Smart容器中心
  * 
@@ -23,7 +27,7 @@ import org.springframework.util.StringUtils;
 public class SmartContainer extends ParamFilter implements Filter {
 
 	private ClientFilter[] filters;
-	
+
 	private PathMatcher pathMatcher = new AntPathMatcher();
 
 	@Override
@@ -32,7 +36,13 @@ public class SmartContainer extends ParamFilter implements Filter {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
 		}
 		if (authenticationRpcService == null) {
-			throw new IllegalArgumentException("authenticationRpcService注入失败");
+			try {
+				authenticationRpcService = (AuthenticationRpcService) new HessianProxyFactory()
+						.create(AuthenticationRpcService.class, ssoServerUrl + "/rpc/authenticationRpcService");
+			}
+			catch (MalformedURLException e) {
+				new IllegalArgumentException("authenticationRpcService初始化失败");
+			}
 		}
 		if (filters == null || filters.length == 0) {
 			throw new IllegalArgumentException("filters不能为空");
@@ -59,7 +69,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 		}
 		chain.doFilter(request, response);
 	}
-	
+
 	private boolean matchPath(String pattern, String path) {
 		return StringUtils.isEmpty(pattern) || pathMatcher.match(pattern, path);
 	}

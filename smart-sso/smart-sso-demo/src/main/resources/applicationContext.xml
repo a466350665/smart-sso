@@ -29,7 +29,9 @@
 	
 	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
 		<property name="ssoServerUrl" value="${sso.server.url}" />
+		<!-- Dubbo服务开启时，打开注释
 		<property name="authenticationRpcService" ref="authenticationRpcService" />
+		-->
 		<property name="filters">
 			<list>
 				<!-- 单点退出(选配) -->
@@ -47,20 +49,15 @@
 		</property>
 	</bean>
 	
-	<!-- 以下为Hessian和Dubbo提供Token验证和授权RPC服务，二选一即可，默认Hessian -->
-	<!-- Hessian -->
-	<bean id="authenticationRpcService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-		<property name="serviceUrl" value="${sso.server.url}/rpc/authenticationRpcService" />
-		<property name="serviceInterface" value="com.smart.sso.rpc.AuthenticationRpcService" />
-	</bean>
-	<!-- Dubbo
+	<!-- Dubbo : 为Token验证和授权提供RPC服务，不开启默认Hessian
 	<import resource="dubbo-consumer.xml" />
 	 -->
 
-	<!--redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
+	<!-- redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
 	<import resource="classpath:spring-redis-sso.xml" />
 	 -->
-	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
+
+	<!-- activeMQ : 用于权限有修改时，异步通知应用更新权限
 	<import resource="classpath:spring-mq-sso.xml" />
 	 -->
 </beans>

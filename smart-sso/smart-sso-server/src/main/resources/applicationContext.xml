@@ -65,14 +65,17 @@
 	</bean>
 	 -->
 
-	<!--activeMQ : 用于权限有修改时，异步通知应用更新权限
-	<import resource="applicationContext-mq.xml" />
-	 -->
 	<!-- 引入Mybatis及数据库相关 -->
 	<import resource="applicationContext-mybatis.xml" />
+
 	<!-- 引入服务相关 -->
 	<import resource="applicationContext-service.xml" />
-	<!-- 引入Dubbo服务相关
+
+	<!-- Dubbo : 服务提供方
 	<import resource="dubbo-provider.xml" />
+	 -->
+	 
+	<!-- activeMQ : 用于权限有修改时，异步通知应用更新权限
+	<import resource="applicationContext-mq.xml" />
 	 -->
 </beans>

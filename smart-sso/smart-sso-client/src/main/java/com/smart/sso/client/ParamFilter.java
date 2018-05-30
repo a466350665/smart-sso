@@ -23,6 +23,10 @@ public class ParamFilter {
 	public void setAuthenticationRpcService(AuthenticationRpcService authenticationRpcService) {
 		this.authenticationRpcService = authenticationRpcService;
 	}
+	
+	public AuthenticationRpcService getAuthenticationRpcService() {
+		return authenticationRpcService;
+	}
 
 	public void setIsServer(boolean isServer) {
 		this.isServer = isServer;

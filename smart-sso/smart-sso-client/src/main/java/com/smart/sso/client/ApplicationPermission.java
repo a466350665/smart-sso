@@ -40,7 +40,7 @@ public class ApplicationPermission {
 		}
 		catch (Exception e) {
 			dbList = new ArrayList<RpcPermission>(0);
-			logger.error("无法连接到单点登录鉴权系统,请检查配置sso.server.url", e);
+			logger.error("无法连接到单点登录服务端,请检查配置sso.server.url", e);
 		}
 
 		synchronized (monitor) {
