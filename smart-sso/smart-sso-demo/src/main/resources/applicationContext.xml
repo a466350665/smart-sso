@@ -32,13 +32,13 @@
 		-->
 		<property name="filters">
 			<list>
+				<!-- 单点登录 -->
+				<bean class="com.smart.sso.client.SsoFilter"/>
 				<!-- 单点退出(选配) -->
 				<bean class="com.smart.sso.client.LogoutFilter">
 					<property name="pattern" value="/logout" />
 					<property name="ssoBackUrl" value="/index" />
 				</bean>
-				<!-- 单点登录 -->
-				<bean class="com.smart.sso.client.SsoFilter"/>
 				<!-- 权限控制(选配) -->
 				<bean class="com.smart.sso.client.PermissionFilter">
 					<property name="ssoAppCode" value="${sso.app.code}" />
