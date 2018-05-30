@@ -25,6 +25,9 @@ import com.smart.sso.rpc.AuthenticationRpcService;
  * @author Joe
  */
 public class SmartContainer extends ParamFilter implements Filter {
+	
+	// 是否服务端，默认为false
+	private boolean isServer = false;
 
 	private ClientFilter[] filters;
 
@@ -32,9 +35,14 @@ public class SmartContainer extends ParamFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		if (!isServer && StringUtils.isEmpty(ssoServerUrl)) {
+		
+		if(isServer) {
+			ssoServerUrl = filterConfig.getServletContext().getContextPath();
+		}
+		else if (StringUtils.isEmpty(ssoServerUrl)) {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
 		}
+
 		if (authenticationRpcService == null) {
 			try {
 				authenticationRpcService = (AuthenticationRpcService) new HessianProxyFactory()
@@ -44,11 +52,11 @@ public class SmartContainer extends ParamFilter implements Filter {
 				new IllegalArgumentException("authenticationRpcService初始化失败");
 			}
 		}
+
 		if (filters == null || filters.length == 0) {
 			throw new IllegalArgumentException("filters不能为空");
 		}
 		for (ClientFilter filter : filters) {
-			filter.setIsServer(isServer);
 			filter.setSsoServerUrl(ssoServerUrl);
 			filter.setAuthenticationRpcService(authenticationRpcService);
 
@@ -72,6 +80,10 @@ public class SmartContainer extends ParamFilter implements Filter {
 
 	private boolean matchPath(String pattern, String path) {
 		return StringUtils.isEmpty(pattern) || pathMatcher.match(pattern, path);
+	}
+	
+	public void setIsServer(boolean isServer) {
+		this.isServer = isServer;
 	}
 
 	@Override
