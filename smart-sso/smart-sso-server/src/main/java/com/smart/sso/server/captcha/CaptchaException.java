@@ -1,4 +1,4 @@
-package com.smart.mvc.captcha;
+package com.smart.sso.server.captcha;
 
 /**
  * 验证码异常

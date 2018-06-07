@@ -1,7 +1,7 @@
 package com.smart.sso.server.model;
 
-import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.model.PersistentObject;
+import com.smart.sso.server.enums.TrueFalseEnum;
 
 /**
  * 角色

@@ -1,9 +1,5 @@
 package com.smart.sso.server.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -16,21 +12,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.mvc.captcha.CaptchaHelper;
-import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
-import com.smart.mvc.provider.IdProvider;
-import com.smart.mvc.provider.PasswordProvider;
-import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.SsoFilter;
+import com.smart.sso.server.captcha.CaptchaHelper;
 import com.smart.sso.server.common.LoginUser;
 import com.smart.sso.server.common.TokenManager;
+import com.smart.sso.server.controller.common.BaseController;
 import com.smart.sso.server.model.User;
+import com.smart.sso.server.provider.IdProvider;
+import com.smart.sso.server.provider.PasswordProvider;
 import com.smart.sso.server.service.UserService;
+import com.smart.sso.server.util.CookieUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe

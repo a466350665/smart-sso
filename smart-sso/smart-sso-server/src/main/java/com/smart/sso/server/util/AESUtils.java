@@ -1,4 +1,4 @@
-package com.smart.mvc.util;
+package com.smart.sso.server.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

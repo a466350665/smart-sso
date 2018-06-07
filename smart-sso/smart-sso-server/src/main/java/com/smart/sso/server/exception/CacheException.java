@@ -1,5 +1,6 @@
-package com.smart.mvc.exception;
+package com.smart.sso.server.exception;
 
+import com.smart.mvc.exception.ApplicationException;
 import com.smart.mvc.model.ResultCode;
 
 /**

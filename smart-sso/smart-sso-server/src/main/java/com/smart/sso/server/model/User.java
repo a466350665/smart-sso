@@ -3,8 +3,8 @@ package com.smart.sso.server.model;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.model.PersistentObject;
+import com.smart.sso.server.enums.TrueFalseEnum;
 
 /**
  * 用户

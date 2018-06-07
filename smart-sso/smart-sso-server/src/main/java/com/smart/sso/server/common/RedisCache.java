@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 
-import com.smart.mvc.exception.CacheException;
+import com.smart.sso.server.exception.CacheException;
 
 public class RedisCache<T> {
 

@@ -1,4 +1,4 @@
-package com.smart.mvc.captcha;
+package com.smart.sso.server.captcha;
 
 import java.awt.Color;
 import java.awt.Font;

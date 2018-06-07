@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smart.mvc.enums.TrueFalseEnum;
 import com.smart.mvc.model.Pagination;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.model.ResultCode;
-import com.smart.mvc.provider.PasswordProvider;
 import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.UserDao;
+import com.smart.sso.server.enums.TrueFalseEnum;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.model.UserRole;
+import com.smart.sso.server.provider.PasswordProvider;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;

@@ -37,7 +37,7 @@
 	<!-- 验证码 -->
 	<filter>
 		<filter-name>captchaFilter</filter-name>
-		<filter-class>com.smart.mvc.captcha.CaptchaFilter</filter-class>
+		<filter-class>com.smart.sso.server.captcha.CaptchaFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>captchaFilter</filter-name>

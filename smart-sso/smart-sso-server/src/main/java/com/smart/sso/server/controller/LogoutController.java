@@ -1,9 +1,5 @@
 package com.smart.sso.server.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,10 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.mvc.util.CookieUtils;
 import com.smart.mvc.util.StringUtils;
 import com.smart.sso.client.SessionUtils;
 import com.smart.sso.server.common.TokenManager;
+import com.smart.sso.server.util.CookieUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe

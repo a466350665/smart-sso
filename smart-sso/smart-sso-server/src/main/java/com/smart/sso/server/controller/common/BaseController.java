@@ -1,4 +1,4 @@
-package com.smart.mvc.controller;
+package com.smart.sso.server.controller.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;

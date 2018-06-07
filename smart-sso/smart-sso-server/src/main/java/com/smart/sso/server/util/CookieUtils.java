@@ -1,8 +1,10 @@
-package com.smart.mvc.util;
+package com.smart.sso.server.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.smart.mvc.util.StringUtils;
 
 /**
  * cookie操作工具

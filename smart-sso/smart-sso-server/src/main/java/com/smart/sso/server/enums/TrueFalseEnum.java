@@ -1,4 +1,4 @@
-package com.smart.mvc.enums;
+package com.smart.sso.server.enums;
 
 import com.smart.mvc.model.EnumItemable;
 
