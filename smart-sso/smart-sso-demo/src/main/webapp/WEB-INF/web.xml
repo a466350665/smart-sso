@@ -41,6 +41,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>IndexServlet</servlet-name>
-		<url-pattern>/index</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
