@@ -21,7 +21,7 @@
 			<properties>
 				<env>dev</env>
 				<log.level>debug</log.level>
-				<log.url>${catalina.home}/logs</log.url>
+				<!--<log.url>${catalina.home}/logs</log.url>-->
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -33,7 +33,7 @@
 			<properties>
 				<env>pro</env>
 				<log.level>info</log.level>
-				<log.url>${catalina.home}/logs</log.url>
+				<!--<log.url>${catalina.home}/logs</log.url>-->
 			</properties>
 		</profile>
 	</profiles>
@@ -372,10 +372,23 @@
 	
 	<build>
 		<plugins>
+            <!--maven-junit测试插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit4</artifactId>
+                        <version>2.10</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -438,6 +451,16 @@
 				<directory>deploy/${env}</directory>
 			</resource>
 		</resources>
+        <!--配置测试resource路径-->
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
 	</build>
 	
 	<!-- 阿里云镜像 -->

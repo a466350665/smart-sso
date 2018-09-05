@@ -83,6 +83,12 @@
 			<artifactId>druid</artifactId>
 		</dependency>
 
+		<!-- 单元测试 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
 		<!-- 日志 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
