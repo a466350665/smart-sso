@@ -4,7 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart.svg?style=social&label=Stars)](https://github.com/a466350665/smart)
 [![GitHub forks](https://img.shields.io/github/forks/a466350665/smart.svg?style=social&label=Fork)](https://github.com/a466350665/smart)
 
-QQ交流群：454343484（提供开发工具下载）
+QQ交流群：454343484🈵、769134727（提供开发工具下载）
 
 ## 简述
     Smart定位用当下最流行的SSM（SpringMVC + Spring + Mybatis）技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、修改实时生效（MQ广播实现）、支持分布式（Spring + Redis提供分布式Session）。
