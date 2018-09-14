@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Local
-Source Server Version : 50620
+Source Server         : localhost
+Source Server Version : 50637
 Source Host           : localhost:3306
 Source Database       : smart-sso
 
 Target Server Type    : MYSQL
-Target Server Version : 50620
+Target Server Version : 50637
 File Encoding         : 65001
 
-Date: 2017-06-22 09:05:34
+Date: 2018-09-13 16:29:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,7 @@ CREATE TABLE `SYS_APP` (
 -- ----------------------------
 INSERT INTO `SYS_APP` VALUES ('1', '单点登录权限管理系统', '20', '2015-06-02 11:31:44', '1', 'smart-sso-server');
 INSERT INTO `SYS_APP` VALUES ('81', 'Demo管理系统', '15', '2015-11-08 17:16:39', '1', 'smart-sso-demo');
+INSERT INTO `SYS_APP` VALUES ('82', '内容管理系统', '10', '2015-11-08 17:16:39', '1', 'smart-cms');
 
 -- ----------------------------
 -- Table structure for `SYS_PERMISSION`
@@ -90,6 +91,13 @@ INSERT INTO `SYS_PERMISSION` VALUES ('36', '81', '33', '菜单1删除', '/admin/
 INSERT INTO `SYS_PERMISSION` VALUES ('39', '1', null, '导航栏', '/admin/admin/menu', '99', '0', '1', '');
 INSERT INTO `SYS_PERMISSION` VALUES ('41', '1', null, '个人中心', '/admin/profile', '89', '1', '1', 'fa fa-desktop');
 INSERT INTO `SYS_PERMISSION` VALUES ('42', '1', '41', '修改密码', '/admin/profile/savePassword', '1', '0', '1', '');
+INSERT INTO `SYS_PERMISSION` VALUES ('44', '82', null, '栏目管理', '/admin/channel', '100', '1', '1', 'fa fa-th-large');
+INSERT INTO `SYS_PERMISSION` VALUES ('47', '82', null, '底部菜单管理', '/admin/menu', '110', '1', '1', 'fa fa-list-alt');
+INSERT INTO `SYS_PERMISSION` VALUES ('48', '82', null, '文章管理', '/admin/article', '90', '1', '1', 'fa fa-file-text');
+INSERT INTO `SYS_PERMISSION` VALUES ('49', '82', null, '产品管理', '/admin/product', '70', '1', '1', 'fa fa-file-powerpoint-o');
+INSERT INTO `SYS_PERMISSION` VALUES ('50', '82', null, '产品规格', '/admin/spec', '75', '1', '1', 'fa fa-cubes');
+INSERT INTO `SYS_PERMISSION` VALUES ('55', '82', null, '首页幻灯片管理', '/admin/slide', '120', '1', '1', 'fa fa-sliders');
+INSERT INTO `SYS_PERMISSION` VALUES ('56', '82', null, '底部菜单配置', '/admin/channelMenu/edit', '105', '1', '1', 'fa fa-cog');
 INSERT INTO `SYS_PERMISSION` VALUES ('59', '81', null, '菜单2', '/admin/menu2', '90', '1', '1', '');
 
 -- ----------------------------
@@ -106,7 +114,7 @@ CREATE TABLE `SYS_RE_ROLE_PERMISSION` (
   KEY `FK_SYS_RE_R_REFERENCE_SYS_ROLE` (`roleId`),
   CONSTRAINT `FK_SYS_RE_R_REFERENCE_SYS_PERM` FOREIGN KEY (`permissionId`) REFERENCES `SYS_PERMISSION` (`id`),
   CONSTRAINT `FK_SYS_RE_R_REFERENCE_SYS_ROLE` FOREIGN KEY (`roleId`) REFERENCES `SYS_ROLE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=356 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of SYS_RE_ROLE_PERMISSION
@@ -145,6 +153,13 @@ INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('345', '1', '33', '81');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('346', '1', '35', '81');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('347', '1', '36', '81');
 INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('348', '1', '59', '81');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('349', '1', '55', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('350', '1', '47', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('351', '1', '56', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('352', '1', '44', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('353', '1', '48', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('354', '1', '50', '82');
+INSERT INTO `SYS_RE_ROLE_PERMISSION` VALUES ('355', '1', '49', '82');
 
 -- ----------------------------
 -- Table structure for `SYS_RE_USER_ROLE`
@@ -203,4 +218,4 @@ CREATE TABLE `SYS_USER` (
 -- ----------------------------
 -- Records of SYS_USER
 -- ----------------------------
-INSERT INTO `SYS_USER` VALUES ('2', 'admin', '26524bdf4ea266f131566a89e8f4972c', '127.0.0.1', '2018-04-09 16:20:23', '213', '2015-06-02 11:31:56', '1');
+INSERT INTO `SYS_USER` VALUES ('2', 'admin', '26524bdf4ea266f131566a89e8f4972c', '0:0:0:0:0:0:0:1', '2018-09-13 16:28:02', '216', '2015-06-02 11:31:56', '1');
