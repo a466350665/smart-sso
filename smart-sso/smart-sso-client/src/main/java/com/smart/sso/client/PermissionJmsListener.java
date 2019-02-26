@@ -11,7 +11,6 @@ import org.springframework.web.context.ContextLoader;
 
 /**
  * 权限变更消息监听
- * 
  * @author Joe
  */
 public class PermissionJmsListener implements MessageListener {
