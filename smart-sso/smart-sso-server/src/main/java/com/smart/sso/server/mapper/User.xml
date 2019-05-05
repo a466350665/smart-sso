@@ -3,12 +3,12 @@
 <mapper namespace="com.smart.sso.server.dao.UserDao">
 	<select id="get" parameterType="java.lang.Integer" resultType="User">
      	SELECT * 
-     	FROM SYS_USER a
+     	FROM sys_user a
      	WHERE id = #{id}
     </select>
     
 	<insert id="insert" parameterType="User" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO SYS_USER(
+		INSERT INTO sys_user(
 			account,
 			password,
 			lastLoginIp,
@@ -29,7 +29,7 @@
 	</insert>
 	
     <update id="update" parameterType="User" statementType="PREPARED">
-		UPDATE SYS_USER a SET
+		UPDATE sys_user a SET
 			a.`account` = #{account},
 			a.`password` = #{password},
 			a.`lastLoginIp` = #{lastLoginIp},
@@ -40,7 +40,7 @@
 	</update>
 	
 	<update id="enable" parameterType="map" statementType="PREPARED">
-		UPDATE SYS_USER a SET
+		UPDATE sys_user a SET
 			a.isEnable = #{isEnable}
 		WHERE 1 = 1
 		<if test="idList != null">
@@ -49,7 +49,7 @@
 	</update>
 	
 	<update id="resetPassword" parameterType="map" statementType="PREPARED">
-		UPDATE SYS_USER a SET
+		UPDATE sys_user a SET
 			a.password = #{password}
 		WHERE 1 = 1
 		<if test="idList != null">
@@ -59,7 +59,7 @@
 	
 	<select id="findPaginationByAccount" parameterType="map" resultType="User">   
 		SELECT * 
-     	FROM SYS_USER a
+     	FROM sys_user a
      	WHERE 1 = 1
      	<if test="account != null and account != '' ">
 			AND a.account like CONCAT('%',#{account},'%')
@@ -69,7 +69,7 @@
 	
 	<select id="findByAccount" parameterType="map" resultType="User">   
 		SELECT a.* 
-     	FROM SYS_USER a
+     	FROM sys_user a
      	WHERE 1 = 1
      	<if test="account != null and account != '' ">
 			AND a.account = #{account} 
@@ -77,7 +77,7 @@
 	</select>
 	
 	<delete id="deleteById" parameterType="list" statementType="PREPARED">
-		DELETE FROM SYS_USER
+		DELETE FROM sys_user
 		<choose>
 			<when test="list == null or list.size() == 0">
 				WHERE 1 != 1

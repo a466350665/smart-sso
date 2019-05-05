@@ -3,12 +3,12 @@
 <mapper namespace="com.smart.sso.server.dao.RoleDao">
 	<select id="get" parameterType="java.lang.Integer" resultType="Role">
      	SELECT * 
-     	FROM SYS_ROLE a
+     	FROM sys_role a
      	WHERE id = #{id}
     </select>
     
 	<insert id="insert" parameterType="Role" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO SYS_ROLE(
+		INSERT INTO sys_role(
 			name,
 			sort,
 			description,
@@ -23,7 +23,7 @@
 	</insert>
 	
     <update id="update" parameterType="Role" statementType="PREPARED">
-		UPDATE SYS_ROLE a SET
+		UPDATE sys_role a SET
 			a.`name` = #{name},
 			a.`sort` = #{sort},
 			a.`description` = #{description},
@@ -32,7 +32,7 @@
 	</update>
 	
 	<update id="enable" parameterType="map" statementType="PREPARED">
-		UPDATE SYS_ROLE a SET
+		UPDATE sys_role a SET
 			a.isEnable = #{isEnable}
 		WHERE 1 = 1
 		<if test="idList != null">
@@ -42,7 +42,7 @@
 	
 	<select id="findPaginationByName" parameterType="map" resultType="Role">   
 		SELECT * 
-     	FROM SYS_ROLE a
+     	FROM sys_role a
      	WHERE 1 = 1
      	<if test="name != null and name != '' ">
 			AND a.name like CONCAT('%',#{name},'%')
@@ -54,7 +54,7 @@
 	</select>
 	
 	<delete id="deleteById" parameterType="list" statementType="PREPARED">
-		DELETE FROM SYS_ROLE
+		DELETE FROM sys_role
 		<choose>
 			<when test="list == null or list.size() == 0">
 				WHERE 1 != 1

@@ -3,7 +3,7 @@
 <mapper namespace="com.smart.sso.server.dao.UserRoleDao">
 	<select id="findByUserRoleId" parameterType="map" resultType="UserRole">   
 		SELECT * 
-     	FROM SYS_RE_USER_ROLE a
+     	FROM sys_re_user_role a
      	WHERE 1 = 1
      	<if test="userId != null">
 			AND a.userId = #{userId} 
@@ -14,7 +14,7 @@
 	</select>
 
 	<insert id="insert" parameterType="UserRole" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO SYS_RE_USER_ROLE(
+		INSERT INTO sys_re_user_role(
 			userId,
 			roleId
 		) 
@@ -25,7 +25,7 @@
 	</insert>
 
 	<delete id="deleteByRoleIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_RE_USER_ROLE
+		DELETE FROM sys_re_user_role
 		WHERE 1 = 1
 		<if test="idList != null">
 			AND roleId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
@@ -33,7 +33,7 @@
 	</delete>
 	
 	<delete id="deleteByUserIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_RE_USER_ROLE
+		DELETE FROM sys_re_user_role
 		WHERE 1 = 1
 		<if test="idList != null">
 			AND userId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>

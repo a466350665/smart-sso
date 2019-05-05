@@ -3,12 +3,12 @@
 <mapper namespace="com.smart.sso.server.dao.AppDao">
 	<select id="get" parameterType="java.lang.Integer" resultType="App">
      	SELECT * 
-     	FROM SYS_APP a
+     	FROM sys_app a
      	WHERE id = #{id}
     </select>
     
 	<insert id="insert" parameterType="App" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO SYS_APP(
+		INSERT INTO sys_app(
 			name,
 			code,
 			sort,
@@ -25,7 +25,7 @@
 	</insert>
 	
     <update id="update" parameterType="App" statementType="PREPARED">
-		UPDATE SYS_APP a SET
+		UPDATE sys_app a SET
 			a.`name` = #{name},
 			a.`code` = #{code},
 			a.sort = #{sort},
@@ -34,7 +34,7 @@
 	</update>
 	
 	<update id="enable" parameterType="Map" statementType="PREPARED">
-		UPDATE SYS_APP a SET
+		UPDATE sys_app a SET
 			a.isEnable = #{isEnable}
 		WHERE 1 = 1
 		<if test="idList != null">
@@ -44,7 +44,7 @@
 	
 	<select id="findPaginationByName" parameterType="Map" resultType="App">   
 		SELECT * 
-     	FROM SYS_APP a
+     	FROM sys_app a
      	WHERE 1 = 1
      	<if test="name != null and name != '' ">
 			AND a.name like CONCAT('%',#{name},'%')
@@ -57,13 +57,13 @@
 	
 	<select id="findByCode" parameterType="Map" resultType="App">   
 		SELECT * 
-     	FROM SYS_APP a
+     	FROM sys_app a
      	WHERE 1 = 1
 		AND a.code = #{code} 
 	</select>
 	
 	<delete id="deleteById" parameterType="list" statementType="PREPARED">
-		DELETE FROM SYS_APP
+		DELETE FROM sys_app
 		<choose>
 			<when test="list == null or list.size() == 0">
 				WHERE 1 != 1

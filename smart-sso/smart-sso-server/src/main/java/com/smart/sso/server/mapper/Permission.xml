@@ -3,12 +3,12 @@
 <mapper namespace="com.smart.sso.server.dao.PermissionDao">
 	<select id="get" parameterType="java.lang.Integer" resultType="Permission">
      	SELECT * 
-     	FROM SYS_PERMISSION a
+     	FROM sys_permission a
      	WHERE id = #{id}
     </select>
-    
+
 	<insert id="insert" parameterType="Permission" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO SYS_PERMISSION(
+		INSERT INTO sys_permission(
 			appId,
 			parentId,
 			icon,
@@ -31,7 +31,7 @@
 	</insert>
 	
     <update id="update" parameterType="Permission" statementType="PREPARED">
-		UPDATE SYS_PERMISSION a SET
+		UPDATE sys_permission a SET
 			a.`appId` = #{appId},
 			a.`parentId` = #{parentId},
 			a.`icon` = #{icon},
@@ -44,7 +44,7 @@
 	</update>
 	
 	<update id="enable" parameterType="map" statementType="PREPARED">
-		UPDATE SYS_PERMISSION a SET
+		UPDATE sys_permission a SET
 			a.isEnable = #{isEnable}
 		WHERE 1 = 1
 		<if test="idList != null">
@@ -54,7 +54,7 @@
 	
 	<select id="findByAppId" parameterType="map" resultType="Permission">   
 		SELECT * 
-     	FROM SYS_PERMISSION a
+     	FROM sys_permission a
      	WHERE 1 = 1
 		<if test="appId != null">
 			AND a.appId = #{appId} 
@@ -66,7 +66,7 @@
 	</select>
 	
 	<delete id="deleteById" parameterType="list" statementType="PREPARED">
-		DELETE FROM SYS_PERMISSION
+		DELETE FROM sys_permission
 		<choose>
 			<when test="list == null or list.size() == 0">
 				WHERE 1 != 1
@@ -81,7 +81,7 @@
 	</delete>
 	
 	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM SYS_PERMISSION
+		DELETE FROM sys_permission
 		WHERE 1 = 1
 		<if test="idList != null">
 			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
@@ -97,17 +97,17 @@
 		       p.icon,
 		       p.isMenu,
 		       p.sort
-		FROM   SYS_PERMISSION p
+		FROM   sys_permission p
 		<if test="userId != null">
-			   INNER JOIN SYS_RE_ROLE_PERMISSION rp ON p.id = rp.permissionId
-			   INNER JOIN SYS_ROLE r ON r.id = rp.roleId AND r.isEnable = 1
-			   INNER JOIN SYS_RE_USER_ROLE ur ON ur.roleId = r.id
+			   INNER JOIN sys_re_role_permission rp ON p.id = rp.permissionId
+			   INNER JOIN sys_role r ON r.id = rp.roleId AND r.isEnable = 1
+			   INNER JOIN sys_re_user_role ur ON ur.roleId = r.id
 		</if>
 		WHERE  1 = 1
 		       AND p.isEnable = 1
 		       <if test="appCode != null">
 			       AND EXISTS (SELECT 1
-			                   FROM   SYS_APP a
+			                   FROM   sys_app a
 			                   WHERE  a.id = p.appId
 			                          AND a.isEnable = 1
 			                          AND a.code = #{appCode})
