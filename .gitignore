@@ -10,3 +10,6 @@ target
 
 catalina.home_IS_UNDEFINED
 *.war
+
+# Mac:
+.DS_Store
