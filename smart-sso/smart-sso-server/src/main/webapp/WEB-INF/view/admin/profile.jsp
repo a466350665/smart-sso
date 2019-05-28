@@ -10,13 +10,6 @@
 	<jsp:param name="title" value="个人中心"/>
 </jsp:include>
 
-<!-- ajax layout which only needs content area -->
-<div class="page-header">
-	<h1>
-		个人中心
-	</h1>
-</div><!-- /.page-header -->
-
 <div class="row">
 	<div class="col-xs-12">
 		<!-- PAGE CONTENT BEGINS -->
@@ -69,6 +62,14 @@
 	
 									<div class="space"></div>
 									<h4 class="header blue bolder smaller">登录信息</h4>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-email">姓名</label>
+	
+										<div class="col-sm-9">
+											<label class="control-label"><b>${user.name}</b></label>
+										</div>
+									</div>
 	
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">最后登录IP</label>

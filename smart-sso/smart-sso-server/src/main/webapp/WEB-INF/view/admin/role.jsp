@@ -5,12 +5,6 @@
 	<jsp:param name="title" value="角色"/>
 </jsp:include>
 
-<div class="page-header">
-	<h1>
-		角色列表
-	</h1>
-</div>
-
 <div class="row">
 	<div class="col-xs-12">
 		<div class="row">

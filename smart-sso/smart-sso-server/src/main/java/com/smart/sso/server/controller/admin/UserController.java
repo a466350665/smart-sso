@@ -20,13 +20,10 @@ import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.controller.common.BaseController;
-import com.smart.sso.server.enums.TrueFalseEnum;
-import com.smart.sso.server.model.Role;
+import com.smart.sso.server.model.Office;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.model.UserRole;
 import com.smart.sso.server.provider.PasswordProvider;
-import com.smart.sso.server.service.RoleService;
-import com.smart.sso.server.service.UserRoleService;
+import com.smart.sso.server.service.OfficeService;
 import com.smart.sso.server.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -45,9 +42,7 @@ public class UserController extends BaseController {
 	@Resource
 	private UserService userService;
 	@Resource
-	private RoleService roleService;
-	@Resource
-	private UserRoleService userRoleService;
+	private OfficeService officeService;
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
@@ -66,7 +61,7 @@ public class UserController extends BaseController {
 			user = userService.get(id);
 		}
 		model.addAttribute("user", user);
-		model.addAttribute("roleList", getRoleList(id));
+		model.addAttribute("officeList", officeService.findByParams(true, null, null, "----"));
 		return "/admin/userEdit";
 	}
 
@@ -74,9 +69,12 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody Result list(
 			@ApiParam(value = "登录名") String account,
+			@ApiParam(value = "姓名") String name,
+			@ApiParam(value = "机构ID") Integer officeId,
 			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
 			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
-		return Result.createSuccessResult().setData(userService.findPaginationByAccount(account, new Pagination<User>(pageNo, pageSize)));
+		return Result.createSuccessResult()
+				.setData(userService.findPagination(account, name, officeId, new Pagination<User>(pageNo, pageSize)));
 	}
 
 	@ApiOperation("验证登录名")
@@ -106,10 +104,11 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody Result save(
 			@ApiParam(value = "id") Integer id,
+			@ApiParam(value = "机构ID", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer officeId,
+			@ApiParam(value = "姓名") String name,
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码 ") String password,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable,
-			@ApiParam(value = "角色ids") String roleIds) {
+			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
 		User user;
 		if (id == null) {
 			if (StringUtils.isBlank(password)) {
@@ -121,12 +120,14 @@ public class UserController extends BaseController {
 		else {
 			user = userService.get(id);
 		}
+		user.setOfficeId(officeId);
+		user.setName(name);
 		user.setAccount(account);
 		if (StringUtils.isNotBlank(password)) {
 			user.setPassword(PasswordProvider.encrypt(password));
 		}
 		user.setIsEnable(isEnable);
-		userService.save(user, getAjaxIds(roleIds));
+		userService.save(user);
 		return Result.createSuccessResult();
 	}
 
@@ -146,19 +147,15 @@ public class UserController extends BaseController {
 		return Result.createSuccessResult();
 	}
 	
-	private List<Role> getRoleList(Integer userId) {
-		List<Role> list = roleService.findByAll(TrueFalseEnum.TRUE.getValue());
-		if (userId != null) {
-			for (Role role : list) {
-				UserRole userRole = userRoleService.findByUserRoleId(userId, role.getId());
-				if (null != userRole) {
-					role.setIsChecked(true);
-				}
-				else {
-					role.setIsChecked(false);
-				}
-			}
-		}
+	@ApiOperation("机构树")
+	@RequestMapping(value = "/office/tree", method = RequestMethod.GET)
+	public @ResponseBody List<Office> officeTree() {
+		List<Office> list = officeService.findByParams(true, null, null, "");
+		Office office = new Office();
+		office.setId(null);
+		office.setParentId(-1);
+		office.setName("机构");
+		list.add(0, office);
 		return list;
 	}
 }

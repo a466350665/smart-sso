@@ -9,6 +9,8 @@
     
 	<insert id="insert" parameterType="User" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sys_user(
+			officeId,
+			name,
 			account,
 			password,
 			lastLoginIp,
@@ -18,6 +20,8 @@
 			isEnable
 		) 
 		VALUES (
+			#{officeId},
+			#{name},
 			#{account},
 			#{password},
 			#{lastLoginIp},
@@ -30,6 +34,8 @@
 	
     <update id="update" parameterType="User" statementType="PREPARED">
 		UPDATE sys_user a SET
+			a.`officeId` = #{officeId},
+			a.`name` = #{name},
 			a.`account` = #{account},
 			a.`password` = #{password},
 			a.`lastLoginIp` = #{lastLoginIp},
@@ -57,12 +63,19 @@
 		</if>
 	</update>
 	
-	<select id="findPaginationByAccount" parameterType="map" resultType="User">   
+	<select id="findPagination" parameterType="Map" resultType="User">   
 		SELECT * 
      	FROM sys_user a
      	WHERE 1 = 1
+     	<if test="name != null and name != '' ">
+			AND a.name like CONCAT('%',#{name},'%')
+		</if>
      	<if test="account != null and account != '' ">
 			AND a.account like CONCAT('%',#{account},'%')
+		</if>
+		<!-- 分页含list参数处理，务必使用List[${index}]获取每一项值，否则分页拦截器PaginationInterceptor会报错-->
+		<if test="officeIdList != null and officeIdList.size() > 0">
+			AND a.officeId in <foreach collection="officeIdList" index="index" item="item" open="(" separator="," close=")">#{officeIdList[${index}]}</foreach>
 		</if>
      	ORDER BY a.createTime DESC 
 	</select>

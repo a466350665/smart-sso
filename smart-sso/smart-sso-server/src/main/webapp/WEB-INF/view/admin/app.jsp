@@ -4,12 +4,6 @@
 	<jsp:param name="title" value="应用"/>
 </jsp:include>
 
-<div class="page-header">
-	<h1>
-		应用列表
-	</h1>
-</div>
-
 <div class="row">
 	<div class="col-xs-12">
 		<div class="row">

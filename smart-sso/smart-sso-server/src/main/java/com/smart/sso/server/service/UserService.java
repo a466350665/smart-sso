@@ -43,14 +43,14 @@ public interface UserService extends Service<User, Integer> {
 	public void resetPassword(String password, List<Integer> idList);
 
 	/**
-	 * 根据登录名和应用ID查询分页列表
+	 * 查询分页列表
 	 * @param account 登录名
-	 * @param appId 应用ID
-	 * @param pageNo 分页起始
-	 * @param pageSize 分页记录数
+	 * @param name 姓名
+	 * @param officeId 机构ID
+	 * @param p
 	 * @return
 	 */
-	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p);
+	public Pagination<User> findPagination(String account, String name, Integer officeId, Pagination<User> p);
 	
 	/**
 	 * 根据登录名和应用ID查询
@@ -70,7 +70,4 @@ public interface UserService extends Service<User, Integer> {
 	 * @return
 	 */
 	public void updatePassword(Integer id, String newPassword);
-	
-	
-	public void save(User user, List<Integer> roleIdList);
 }

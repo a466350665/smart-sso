@@ -1,6 +1,5 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,9 +16,9 @@ import com.smart.mvc.service.mybatis.impl.ServiceImpl;
 import com.smart.sso.server.dao.UserDao;
 import com.smart.sso.server.enums.TrueFalseEnum;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.model.UserRole;
 import com.smart.sso.server.provider.PasswordProvider;
 import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.service.OfficeService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
 
@@ -30,6 +29,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 	private UserRoleService userRoleService;
 	@Resource
 	private AppService appService;
+	@Resource
+	private OfficeService officeService;
 
 	@Autowired
 	public void setDao(UserDao dao) {
@@ -70,8 +71,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		verifyRows(dao.resetPassword(password, idList), idList.size(), "用户密码数据库重置失败");
 	}
 
-	public Pagination<User> findPaginationByAccount(String account, Pagination<User> p) {
-		dao.findPaginationByAccount(account, p);
+	public Pagination<User> findPagination(String account, String name, Integer officeId, Pagination<User> p) {
+		dao.findPagination(account, name, officeService.findIdListByParentId(officeId), p);
 		return p;
 	}
 	
@@ -90,20 +91,5 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User, Integer> impleme
 		User user = get(id);
 		user.setPassword(PasswordProvider.encrypt(newPassword));
 		update(user);
-	}
-	
-
-	@Override
-	public void save(User user, List<Integer> roleIdList) {
-		save(user);
-		List<UserRole> userRoleList = new ArrayList<UserRole>();
-		UserRole bean;
-		for (Integer roleId : roleIdList) {
-			bean = new UserRole();
-			bean.setUserId(user.getId());
-			bean.setRoleId(roleId);
-			userRoleList.add(bean);
-		}
-		userRoleService.allocate(user.getId(), userRoleList);
 	}
 }

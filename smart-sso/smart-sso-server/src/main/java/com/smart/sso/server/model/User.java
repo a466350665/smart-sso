@@ -15,6 +15,10 @@ public class User extends PersistentObject {
 
 	private static final long serialVersionUID = 1106412532325860697L;
 	
+	/** 机构 */
+	private Integer officeId;
+	/** 姓名 */
+	private String name;
 	/** 登录名 */
 	private String account;
 	/** 密码 */
@@ -31,6 +35,22 @@ public class User extends PersistentObject {
 	private Date createTime;
 	/** 是否启用 */
 	private Boolean isEnable = Boolean.valueOf(true);
+	
+	public Integer getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(Integer officeId) {
+		this.officeId = officeId;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getAccount() {
 		return account;
@@ -47,7 +67,7 @@ public class User extends PersistentObject {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public String getLastLoginIp() {
 		return lastLoginIp;
 	}

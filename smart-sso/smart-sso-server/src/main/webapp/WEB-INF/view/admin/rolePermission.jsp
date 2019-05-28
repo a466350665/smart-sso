@@ -80,7 +80,7 @@
 					otherParam: $.extend($.formJson('_editForm'), {"isEnable" : true}),
 					type: "get",
 					dataType: "text",
-					url: "${_path}/admin/permission/nodes"
+					url: "${_path}/admin/permission/tree"
 				},
 	            check: {
 	                enable: true,

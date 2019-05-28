@@ -19,6 +19,31 @@
 			<input type="hidden" name="id" value="${user.id}">
 			
 			<div class="form-group">
+				<label for="_officeId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>机构</label>
+
+				<div class="col-sm-3">
+					<select id="_officeId" name="officeId" class="form-control help-validate" required="true">
+						<option value="">请选择</option>
+						<c:forEach var="item" items="${officeList}">
+							<option value="${item.id}" ${(item.id eq user.officeId)?'selected="selected"':''}>${item.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="_name" class="col-sm-3 control-label no-padding-right">姓名</label>
+
+				<div class="col-sm-6">
+					<div class="clearfix help-validate">
+						<input id="_name" name="name" type="text" value="${user.name}" class="form-data col-xs-10 col-sm-5" placeholder="名称"
+							maxlength="50"/>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="form-group">
 				<label for="_account" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>登录名</label>
 
 				<div class="col-sm-9">
@@ -49,22 +74,6 @@
 								<i class="ace-icon fa fa-lock"></i>
 							</span>
 						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right">角色</label>
-				
-				<div class="col-xs-12 col-sm-9">
-					<div class="clearfix help-validate">
-						<c:forEach var="item" items="${roleList}">
-							<label>
-								<input name="roleId" value="${item.id}" type="checkbox" class="ace" ${item.isChecked ? 'checked="checked"' : ''}/>
-								<span class="lbl">&nbsp;&nbsp;${item.name}</span>
-							</label>
-						</c:forEach>
-						<input id="_roleIds" type="hidden" name="roleIds" value="">
 					</div>
 				</div>
 			</div>
@@ -122,15 +131,6 @@
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
-					var roleIds = "";
-					$("input[name='roleId']:checked").each(function(i, d){
-						if(i > 0){
-							roleIds += ",";
-						}
-						roleIds += $(this).val();
-					});
-					$("#_roleIds").val(roleIds);
-					
 					var btn = $(this);
 					btn.button('loading');
 					$.post("${_path}/admin/user/save", $.formJson('_editForm'),function(d) {

@@ -10,12 +10,6 @@
 	.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
 	.ztree li ul.level0 {padding:0; background:none;}
 </style>
-	
-<div class="page-header">
-	<h1>
-		权限管理
-	</h1>
-</div><!-- /.page-header -->
 
 <div class="row">
 	<div class="col-xs-12">
@@ -108,6 +102,7 @@
 									<input id="_icon" name="icon" type="text" class="form-data col-xs-10 col-sm-5" placeholder="图标"
 										maxlength="100"/>&nbsp;
 									<i id="_icon_fa"></i>
+									<a href="http://ace.jeka.by/buttons.html" target="_blank"><span class="help-button">?</span></a>
 								</div>
 							</div>
 							
@@ -209,7 +204,7 @@
 					type: "get",
 					otherParam: $.formJson("_form"),
 					dataType: "text",
-					url: "${_path}/admin/permission/nodes"
+					url: "${_path}/admin/permission/tree"
 				},
 	            check: {
 	                enable: false

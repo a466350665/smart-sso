@@ -165,20 +165,24 @@ public class PaginationInterceptor implements Interceptor {
 			}
 			pagination.setRowCount(rowCount);
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			logger.error("Ignore this exception", e);
 		}
 		finally {
 			try {
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			}
-			catch (SQLException e) {
+			catch (Exception e) {
 				logger.error("Ignore this exception", e);
 			}
 			try {
-				countStmt.close();
+				if (countStmt != null) {
+					countStmt.close();
+				}
 			}
-			catch (SQLException e) {
+			catch (Exception e) {
 				logger.error("Ignore this exception", e);
 			}
 		}

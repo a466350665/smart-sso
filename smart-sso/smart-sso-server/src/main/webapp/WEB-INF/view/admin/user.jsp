@@ -5,39 +5,40 @@
 	<jsp:param name="title" value="用户"/>
 </jsp:include>
 
-<div class="page-header">
-	<h1>
-		用户列表
-	</h1>
-</div>
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.custom.css" />
 
 <div class="row">
-	<div class="col-xs-12">
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="widget-box">
-					<div class="widget-header widget-header-small">
-						<h5 class="widget-title lighter">搜索栏</h5>
-					</div>
+	<div class="col-xs-12 col-sm-3">
+		<ul id="_tree" class="ztree" style="width:560px; overflow:auto;"></ul>
+	</div>
+	<div class="col-xs-12 col-sm-9">
+		<div class="widget-box">
+			<div class="widget-header widget-header-small">
+				<h5 class="widget-title lighter">搜索栏</h5>
+			</div>
 
-					<div class="widget-body">
-						<div class="widget-main">
-							<form id="_form" class="form-inline">
-								<label>
-									<label class="control-label" for="form-field-1"> 登录名： </label>
-									<input name="account" type="text" class="form-data input-medium search-data">
-								</label>
-							</form>
-						</div>
-					</div>
+			<div class="widget-body">
+				<div class="widget-main">
+					<form id="_form" class="form-inline">
+						<input id="_officeId" type="hidden" name="officeId" value="">
+						<label>
+							<label class="control-label" for="form-field-1"> 登录名： </label>
+							<input name="account" type="text" class="form-data input-medium search-data">
+						</label>
+						<label>
+							<label class="control-label" for="form-field-1"> 姓名： </label>
+							<input name="name" type="text" class="form-data input-medium search-data">
+						</label>
+					</form>
 				</div>
+			</div>
+		</div>
 
-				<div>
-					<div class="dataTables_wrapper form-inline no-footer">
-						<table id="_table" class="table table-striped table-bordered table-hover dataTable no-footer">
-						</table>
-					</div>
-				</div>
+		<div>
+			<div class="dataTables_wrapper form-inline no-footer">
+				<table id="_table" class="table table-striped table-bordered table-hover dataTable no-footer">
+				</table>
 			</div>
 		</div>
 	</div>
@@ -45,6 +46,11 @@
 
 <!-- page specific plugin scripts -->
 <script type="text/javascript">
+
+	scripts.push(
+		"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+		"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			// 列表
@@ -75,22 +81,25 @@
 								$table.reload();
 							}
 						});
+					}},
+					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userRole', handler : function(){
+						if($table.validateSelected(true)){
+							$.aceRedirect("${_path}/admin/userRole?userId=" + $table.getSelectedItemKeys("id"));
+						}
 					}}
 				],
 				columns : [
 			        {field:'id', hide : true},
 			        {field:'isEnable', hide : true},
+			        {field:'name', title:'姓名', align:'left'},
 			        {field:'account', title:'登录名', align:'left'},
-			        {field:'loginCount', title:'登录总次数', mobileHide : true},
-			        {field:'lastLoginIp', title:'最后登录IP', mobileHide : true},
 			        {field:'lastLoginTime', title:'最后登录时间', mobileHide : true},
 			        {field:'isEnableStr', title:'是否启用', replace : function (d){
 				        if(d.isEnable)
 				        	return "<span class='label label-sm label-success'>" + d.isEnableStr + 	"</span>";
 			        	else
 			        		return "<span class='label label-sm label-warning'>" + d.isEnableStr + "</span>";
-			        }},
-			        {field:'createTime', title:'创建时间', mobileHide : true}
+			        }}
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/user/edit', handler : function(d, i){
@@ -126,6 +135,9 @@
 								$table.reload();
 							}
 						});
+					}},
+					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userRole', handler : function(d, i){
+						$.aceRedirect("${_path}/admin/userRole?userId=" + d.id);
 					}}
 				],
 				after : function(){
@@ -143,6 +155,45 @@
 			$("#_cancel").click(function(){
 				$table.search();
 			});
+			
+			var setting = {
+	            view: {
+	                selectedMulti: true
+	            },
+	            async: {
+					enable: true,
+					contentType: "application/x-www-form-urlencoded",
+					type: "get",
+					dataType: "text",
+					url: "${_path}/admin/user/office/tree"
+				},
+	            data: {
+	                simpleData: {
+	                    enable: true
+	                }
+	            },
+	            callback: {
+	            	onAsyncSuccess: zTreeOnAsyncSuccess,
+	            	onClick: zTreeOnClick
+	            }
+	        };
+			
+			//树加载成功后，全部展开
+			function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+			    treeObj.expandAll(true);
+			};
+			
+			function zTreeOnClick(event, treeId, treeNode){
+				if(treeNode.id == undefined || treeNode.id == null){
+					$("#_officeId").val('');
+				}
+				else{
+					$("#_officeId").val(treeNode.id);
+				}
+				$table.search();
+			}
+			
+			var treeObj = $.fn.zTree.init($("#_tree"), setting);
 		});
 	});
 </script>

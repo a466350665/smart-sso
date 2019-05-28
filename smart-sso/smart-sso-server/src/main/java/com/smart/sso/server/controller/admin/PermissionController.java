@@ -43,8 +43,8 @@ public class PermissionController extends BaseController {
 	}
 
 	@ApiOperation("权限树节点")
-	@RequestMapping(value = "/nodes", method = RequestMethod.GET)
-	public @ResponseBody List<Permission> nodes(
+	@RequestMapping(value = "/tree", method = RequestMethod.GET)
+	public @ResponseBody List<Permission> tree(
 			@ApiParam(value = "应用id") Integer appId,
 			@ApiParam(value = "角色id") Integer roleId,
 			@ApiParam(value = "是否启用 ") Boolean isEnable) {

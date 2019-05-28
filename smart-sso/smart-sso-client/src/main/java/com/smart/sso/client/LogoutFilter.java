@@ -45,9 +45,13 @@ public class LogoutFilter extends ClientFilter {
 	 * @return
 	 */
 	private String getLocalUrl(HttpServletRequest request) {
-		return new StringBuilder().append(request.getScheme()).append("://").append(request.getServerName()).append(":")
-				.append(request.getServerPort() == 80 ? "" : request.getServerPort()).append(request.getContextPath())
-				.toString();
+		StringBuilder url = new StringBuilder();
+		url.append(request.getScheme()).append("://").append(request.getServerName());
+		if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+			url.append(":").append(request.getServerPort());
+		}
+		url.append(request.getContextPath());
+		return url.toString();
 	}
 
 	public void setSsoBackUrl(String ssoBackUrl) {

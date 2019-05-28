@@ -19,7 +19,8 @@ public interface UserDao extends Dao<User, Integer> {
 	
 	public int resetPassword(@Param("password") String password, @Param("idList") List<Integer> idList);
 
-	public List<User> findPaginationByAccount(@Param("account") String account, Pagination<User> p);
+	public List<User> findPagination(@Param("account") String account, @Param("name") String name,
+			@Param("officeIdList") List<Integer> officeIdList, Pagination<User> p);
 	
 	public User findByAccount(@Param("account") String account);
 }
