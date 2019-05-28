@@ -49,7 +49,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 						.create(AuthenticationRpcService.class, ssoServerUrl + "/rpc/authenticationRpcService");
 			}
 			catch (MalformedURLException e) {
-				new IllegalArgumentException("authenticationRpcService初始化失败");
+				throw new IllegalArgumentException("authenticationRpcService初始化失败");
 			}
 		}
 
