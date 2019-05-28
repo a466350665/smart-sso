@@ -45,7 +45,7 @@ public class AdminController {
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public @ResponseBody Result menu(HttpServletRequest request) {
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
-		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
+		// 获取登录用户权限下的菜单列表
 		return Result.createSuccessResult().setData(
 				sessionPermission == null ? new ArrayList<>() : sessionPermission
 						.getMenuList());
