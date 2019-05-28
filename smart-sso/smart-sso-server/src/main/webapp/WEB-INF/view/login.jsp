@@ -83,7 +83,7 @@
 												<fieldset>
 													<label class="block clearfix form-group">
 														<span class="block input-icon input-icon-right help-validate">
-															<input id="_account" name="account" type="text" class="form-control form-data" placeholder="登录名"
+															<input id="_account" name="account" value="admin" type="text" class="form-control form-data" placeholder="登录名"
 																required="true" minlength = '4'/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
@@ -91,7 +91,7 @@
 
 													<label class="block clearfix form-group">
 														<span class="block input-icon input-icon-right help-validate">
-															<input id="_password" name="password" type="password" class="form-control form-data" placeholder="密码"
+															<input id="_password" name="password" value="123456" type="password" class="form-control form-data" placeholder="密码"
 																required="true" minlength = '6' maxlength = '16'/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
@@ -187,6 +187,9 @@
 					alert(fail);
 				}
             	
+				// 为部署方便
+				$("#_captcha").focus();
+				/* 
 				//判断之前是否有设置cookie
 				if($.cookie('_account') != undefined){
 					$("#_account").val($.cookie('_account'));
@@ -198,7 +201,8 @@
 					$("#_account").focus();
 					$("#_rememberMe").attr("checked", false);
 				}
-			 	
+				*/
+				
 				$('#btn-login-dark').on('click', function(e) {
 					$('body').attr('class', 'login-layout');
 					$('#id-text2').attr('class', 'white');
