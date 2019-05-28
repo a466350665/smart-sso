@@ -1,7 +1,6 @@
 package com.smart.sso.server.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.model.Result;
-import com.smart.sso.client.ApplicationPermission;
 import com.smart.sso.client.SessionPermission;
 import com.smart.sso.client.SessionUser;
 import com.smart.sso.client.SessionUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author Joe
@@ -46,7 +47,7 @@ public class AdminController {
 		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
 		// 如果配置的权限拦截器，则获取登录用户权限下的菜单，没有权限拦截限制的情况下，获取当前系统菜单呈现
 		return Result.createSuccessResult().setData(
-				sessionPermission == null ? ApplicationPermission.getApplicationMenuList() : sessionPermission
+				sessionPermission == null ? new ArrayList<>() : sessionPermission
 						.getMenuList());
 	}
 }

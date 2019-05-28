@@ -98,4 +98,8 @@ public class SmartContainer extends ParamFilter implements Filter {
 	public void setFilters(ClientFilter[] filters) {
 		this.filters = filters;
 	}
+
+	public ClientFilter[] getFilters() {
+		return filters;
+	}
 }

@@ -31,11 +31,19 @@ public class PermissionJmsListener implements MessageListener {
 		}
 
 		if (ssoAppCode.equals(appCode)) {
-			// 1.失效所有session权限（session级别）
-			PermissionFilter.invalidateSessionPermissions();
-			// 2.更新应用权限（Application级别）
 			SmartContainer container = ContextLoader.getCurrentWebApplicationContext().getBean(SmartContainer.class);
-			ApplicationPermission.initApplicationPermissions(container.getAuthenticationRpcService(), ssoAppCode);
+			ClientFilter[] filters = container.getFilters();
+			if (filters != null && filters.length > 0) {
+				for (ClientFilter filter : filters) {
+					if (filter instanceof PermissionFilter) {
+						PermissionFilter permissionFilter = ((PermissionFilter) filter);
+						// 1.失效所有session权限（session级别）
+						permissionFilter.invalidateSessionPermissions();
+						// 2.更新应用权限（Application级别）
+						permissionFilter.initApplicationPermissions();
+					}
+				}
+			}
 			logger.info("成功通知appCode为：{}的应用更新权限！", appCode);
 		}
 	}
