@@ -17,6 +17,10 @@ public class ParamFilter {
 	public void setSsoServerUrl(String ssoServerUrl) {
 		this.ssoServerUrl = ssoServerUrl;
 	}
+	
+	public String getSsoServerUrl() {
+		return ssoServerUrl;
+	}
 
 	public void setAuthenticationRpcService(AuthenticationRpcService authenticationRpcService) {
 		this.authenticationRpcService = authenticationRpcService;

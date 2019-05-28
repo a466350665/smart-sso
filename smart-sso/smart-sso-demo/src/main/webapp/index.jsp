@@ -10,6 +10,6 @@
 		
 		<br/> <b>登录用户当前应用的权限</b>：<c:forEach var="item" items="${userPermissions}"><br/>${item}</c:forEach><br/>
 		
-		<br/><a href="${pageContext.request.contextPath}/logout">退出</a>
+		<br/><a href="${ssologoutUrl}">单点退出</a>
 	</body>
 </html>
