@@ -18,7 +18,19 @@
 		<!-- PAGE CONTENT BEGINS -->
 		<form id="_editForm" class="form-horizontal" role="form" 
 			validate="true">
-			<input name="roleId" type="hidden" value="${roleId}" required="true">
+			<input name="roleId" type="hidden" value="${role.id}" required="true">
+
+			<div class="form-group">
+				<label for="_name" class="col-sm-3 control-label no-padding-right">当前角色</label>
+
+				<div class="col-sm-6">
+					<div class="clearfix help-validate">
+						<input id="_name" name="name" type="text" value="${role.name}" class="form-data col-xs-10 col-sm-5"
+							   maxlength="50" disabled="disabled"/>
+					</div>
+				</div>
+
+			</div>
 			
 			<div class="form-group">
 				<label for="_appId" class="col-sm-3 control-label no-padding-right">应用</label>

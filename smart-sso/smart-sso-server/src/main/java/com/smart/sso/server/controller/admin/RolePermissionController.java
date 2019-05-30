@@ -2,6 +2,7 @@ package com.smart.sso.server.controller.admin;
 
 import javax.annotation.Resource;
 
+import com.smart.sso.server.service.RoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,8 @@ import io.swagger.annotations.ApiParam;
 public class RolePermissionController extends BaseController {
 
 	@Resource
+	private RoleService roleService;
+	@Resource
 	private AppService appService;
 	@Resource
 	private RolePermissionService rolePermissionService;
@@ -36,7 +39,7 @@ public class RolePermissionController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String edit(
 			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId, Model model) {
-		model.addAttribute("roleId", roleId);
+		model.addAttribute("role", roleService.get(roleId));
 		model.addAttribute("appList", appService.findByAll(true));
 		return "/admin/rolePermission";
 	}
