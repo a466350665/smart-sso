@@ -21,7 +21,7 @@
 			<properties>
 				<env>dev</env>
 				<log.level>debug</log.level>
-				<log.url>${catalina.home}/logs</log.url>
+				<log.url>/logs</log.url>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -33,7 +33,7 @@
 			<properties>
 				<env>pro</env>
 				<log.level>info</log.level>
-				<log.url>${catalina.home}/logs</log.url>
+				<log.url>/logs</log.url>
 			</properties>
 		</profile>
 	</profiles>
