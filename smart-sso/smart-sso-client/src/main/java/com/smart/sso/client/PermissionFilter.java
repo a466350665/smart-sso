@@ -36,6 +36,13 @@ public class PermissionFilter extends ClientFilter {
 	// 应用所有权限并发锁
 	private final Object applicationPermissionMonitor = new Object();
 
+	public PermissionFilter() {
+	}
+
+	public PermissionFilter(String ssoAppCode) {
+		this.ssoAppCode = ssoAppCode;
+	}
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		if (StringUtils.isEmpty(ssoAppCode)) {
