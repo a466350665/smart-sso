@@ -22,6 +22,7 @@ smart
 ├── smart-sso -- 单点登录权限系统
 ├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
 ├───── smart-sso-demo -- 客户端
+├───── smart-sso-springboot-demo -- SpringBoot客户端
 ├───── smart-sso-server -- 服务端
 ```
 
