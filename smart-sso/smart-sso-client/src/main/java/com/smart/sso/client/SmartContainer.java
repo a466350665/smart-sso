@@ -2,6 +2,10 @@ package com.smart.sso.client;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,8 +16,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 import com.caucho.hessian.client.HessianProxyFactory;
@@ -26,12 +28,17 @@ import com.smart.sso.rpc.AuthenticationRpcService;
  */
 public class SmartContainer extends ParamFilter implements Filter {
 	
-	// 是否服务端，默认为false
+	/** 模糊匹配后缀 */
+	private static final String URL_FUZZY_MATCH = "/*";
+
+	/** 是否服务端，默认为false */
 	private boolean isServer = false;
+
+	/** 忽略URL */
+	protected String[] excludeUrls;
 
 	private ClientFilter[] filters;
 
-	private PathMatcher pathMatcher = new AntPathMatcher();
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -41,6 +48,11 @@ public class SmartContainer extends ParamFilter implements Filter {
 		}
 		else if (StringUtils.isEmpty(ssoServerUrl)) {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
+		}
+		
+		String urls = filterConfig.getInitParameter("excludeUrls");
+		if (!StringUtils.isEmpty(urls)) {
+			excludeUrls = urls.split(",");
 		}
 
 		if (authenticationRpcService == null) {
@@ -68,18 +80,37 @@ public class SmartContainer extends ParamFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		if (isExcludeUrl(httpRequest.getServletPath())) {
+			chain.doFilter(request, response);
+			return;
+		}
+		
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		for (ClientFilter filter : filters) {
-			if (matchPath(filter.getPattern(), httpRequest.getServletPath())
-					&& !filter.isAccessAllowed(httpRequest, httpResponse)) {
+			if (!filter.isAccessAllowed(httpRequest, httpResponse)) {
 				return;
 			}
 		}
 		chain.doFilter(request, response);
 	}
+	
+	private boolean isExcludeUrl(String url) {
+		if (excludeUrls == null || excludeUrls.length < 1)
+			return false;
 
-	private boolean matchPath(String pattern, String path) {
-		return StringUtils.isEmpty(pattern) || pathMatcher.match(pattern, path);
+		Map<Boolean, List<String>> map = Arrays.stream(excludeUrls)
+				.collect(Collectors.partitioningBy(u -> u.endsWith(URL_FUZZY_MATCH)));
+		List<String> urlList = map.get(false);
+		if (urlList.contains(url)) { // 优先精确匹配
+			return true;
+		}
+		urlList = map.get(true);
+		for (String matchUrl : urlList) { // 再进行模糊匹配
+			if (url.startsWith(matchUrl.replace(URL_FUZZY_MATCH, ""))) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void setIsServer(boolean isServer) {
