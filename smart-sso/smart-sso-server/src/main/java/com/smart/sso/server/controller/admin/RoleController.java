@@ -17,7 +17,6 @@ import com.smart.sso.server.service.RoleService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -39,7 +38,7 @@ public class RoleController extends BaseController {
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ApiParam(value = "id") Integer id, Model model) {
+	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
 		Role role;
 		if (id == null) {
 			role = new Role();
@@ -52,11 +51,12 @@ public class RoleController extends BaseController {
 	}
 
 	@ApiOperation("列表")
+	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(
-			@ApiParam(value = "角色名")String name,
-			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
-			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
+	public Result list(
+			@ValidateParam(name = "角色名")String name,
+			@ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
+	        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
 		return Result.createSuccess(roleService.selectPage(name, Page.create(pageNo, pageSize)));
 	}
 
@@ -64,8 +64,8 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids,
+			@ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		roleService.enable(isEnable, convertToIdList(ids));
 		return Result.success();
 	}
@@ -74,11 +74,11 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "角色名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String name,
-			@ApiParam(value = "排序", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer sort,
-			@ApiParam(value = "描述") String description,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	        @ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "角色名", value = { Validator.NOT_BLANK }) String name,
+			@ValidateParam(name = "排序", value = { Validator.NOT_BLANK }) Integer sort,
+			@ValidateParam(name = "描述") String description,
+			@ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		Role role;
 		if (id == null) {
 			role = new Role();
@@ -98,7 +98,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
 		roleService.deleteByIds(convertToIdList(ids));
 		return Result.success();
 	}

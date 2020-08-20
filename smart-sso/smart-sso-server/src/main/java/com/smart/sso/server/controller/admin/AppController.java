@@ -20,7 +20,6 @@ import com.smart.sso.server.service.AppService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -42,7 +41,7 @@ public class AppController extends BaseController {
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ApiParam(value = "id") Integer id, Model model) {
+	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
 		App app;
 		if (id == null) {
 			app = new App();
@@ -58,17 +57,18 @@ public class AppController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
-			@ApiParam(value = "名称 ") String name,
-			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
-			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
+	    @ValidateParam(name = "名称 ") String name,
+			@ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
+	        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
 		return Result.createSuccess(appService.selectPage(name, Page.create(pageNo, pageSize)));
 	}
 
 	@ApiOperation("验证应用编码")
+	@ResponseBody
 	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
-	public @ResponseBody Result validateCode(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String code) {
+	public Result validateCode(
+	        @ValidateParam(name = "id") Integer id,
+	        @ValidateParam(name = "应用编码", value = { Validator.NOT_BLANK }) String code) {
 		App db = appService.selectByCode(code);
 		if (null != db && !db.getId().equals(id)) {
 			return Result.create(ResultConstant.ERROR, "应用编码已存在");
@@ -77,22 +77,24 @@ public class AppController extends BaseController {
 	}
 
 	@ApiOperation("启用/禁用")
+	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody Result enable(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	public Result enable(
+	        @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids,
+	        @ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		appService.enable(isEnable, convertToIdList(ids));
 		return Result.success();
 	}
 
 	@ApiOperation("新增/修改提交")
+	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "名称", required = true) @ValidateParam({ Validator.NOT_BLANK }) String name,
-			@ApiParam(value = "应用编码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String code,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable,
-			@ApiParam(value = "排序", required = true) @ValidateParam({ Validator.NOT_BLANK, Validator.INT }) Integer sort) {
+	public Result save(
+	        @ValidateParam(name = "id") Integer id,
+	        @ValidateParam(name = "名称", value = { Validator.NOT_BLANK }) String name,
+	        @ValidateParam(name = "应用编码", value = { Validator.NOT_BLANK }) String code,
+	        @ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable,
+	        @ValidateParam(name = "排序", value = { Validator.NOT_BLANK, Validator.INT }) Integer sort) {
 		App app;
 		if (id == null) {
 			app = new App();
@@ -110,9 +112,10 @@ public class AppController extends BaseController {
 	}
 
 	@ApiOperation("删除")
+	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
+	public Result delete(
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
 		appService.deleteByIds(convertToIdList(ids));
 		return Result.success();
 	}

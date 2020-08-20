@@ -17,7 +17,6 @@ import com.smart.sso.server.service.RoleService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -38,18 +37,19 @@ public class RolePermissionController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String edit(
-			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId, Model model) {
+			@ValidateParam(name = "角色id", value = { Validator.NOT_BLANK }) Integer roleId, Model model) {
 		model.addAttribute("role", roleService.selectById(roleId));
 		model.addAttribute("appList", appService.selectAll(true));
 		return "/admin/rolePermission";
 	}
 	
 	@ApiOperation("角色授权提交")
+	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(
-			@ApiParam(value = "应用id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer appId,
-			@ApiParam(value = "角色id", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer roleId,
-			@ApiParam(value = "权限ids") String permissionIds) {
+	public Result save(
+			@ValidateParam(name = "应用id", value = { Validator.NOT_BLANK }) Integer appId,
+			@ValidateParam(name = "角色id", value = { Validator.NOT_BLANK }) Integer roleId,
+			@ValidateParam(name = "权限ids") String permissionIds) {
 		rolePermissionService.allocate(appId, roleId, convertToIdList(permissionIds));
 		return Result.createSuccess().setMessage("授权成功");
 	}

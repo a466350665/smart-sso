@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
+import com.smart.mvc.validator.Validator;
+import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.enums.TrueFalseEnum;
 import com.smart.sso.server.model.Role;
 import com.smart.sso.server.model.UserRole;
@@ -21,8 +23,6 @@ import com.smart.sso.server.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
 
 /**
  * @author Joe
@@ -42,17 +42,19 @@ public class UserRoleController extends BaseController {
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(@ApiParam(value = "userId", required = true) Integer userId, Model model) {
+	public String execute(
+	    @ValidateParam(name = "userId", value = { Validator.NOT_BLANK }) Integer userId, 
+	    Model model) {
 		model.addAttribute("user", userService.selectById(userId));
 		model.addAttribute("roleList", getRoleList(userId));
 		return "/admin/userRole";
 	}
 
 	@ApiOperation("新增/修改提交")
-	@ApiResponse(response = Result.class, code = 200, message = "success")
+	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(@ApiParam(value = "userId") Integer userId,
-			@ApiParam(value = "角色ids") String roleIds) {
+	public Result save(@ValidateParam(name = "userId") Integer userId,
+			@ValidateParam(name = "角色ids") String roleIds) {
 		userRoleService.allocate(userId, createUserRoleList(userId, convertToIdList(roleIds)));
 		return Result.success();
 	}

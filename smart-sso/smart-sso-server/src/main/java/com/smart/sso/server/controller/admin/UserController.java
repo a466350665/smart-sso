@@ -27,7 +27,6 @@ import com.smart.sso.server.util.PasswordHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -51,7 +50,7 @@ public class UserController extends BaseController {
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ApiParam(value = "id") Integer id, Model model) {
+	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
 		User user;
 		if (id == null) {
 			user = new User();
@@ -68,11 +67,11 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
-			@ApiParam(value = "登录名") String account,
-			@ApiParam(value = "姓名") String name,
-			@ApiParam(value = "机构ID") Integer officeId,
-			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
-			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
+			@ValidateParam(name = "登录名") String account,
+			@ValidateParam(name = "姓名") String name,
+			@ValidateParam(name = "机构ID") Integer officeId,
+			@ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
+	        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
 		return Result.createSuccess(userService.selectPage(account, name, officeId, Page.create(pageNo, pageSize)));
 	}
 
@@ -80,8 +79,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/validateAccount", method = RequestMethod.POST)
 	public Result validateAccount(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account) {
+	        @ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "登录名", value = { Validator.NOT_BLANK }) String account) {
 		User user = userService.selectByAccount(account);
 		if (null != user && !user.getId().equals(id)) {
 		    return Result.create(ResultConstant.ERROR, "登录名已存在");
@@ -93,8 +92,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids,
+			@ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		userService.enable(isEnable, convertToIdList(ids));
 		return Result.success();
 	}
@@ -103,12 +102,12 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "机构ID", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer officeId,
-			@ApiParam(value = "姓名") String name,
-			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
-			@ApiParam(value = "密码 ") String password,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	        @ValidateParam(name = "id") Integer id,
+			@ValidateParam(name = "机构ID", value = { Validator.NOT_BLANK }) Integer officeId,
+			@ValidateParam(name = "姓名") String name,
+			@ValidateParam(name = "登录名", value = { Validator.NOT_BLANK }) String account,
+			@ValidateParam(name = "密码 ") String password,
+			@ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		User user;
 		if (id == null) {
 			if (StringUtils.isEmpty(password)) {
@@ -135,7 +134,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public Result resetPassword(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
 		userService.resetPassword(PasswordHelper.encrypt(ConfigUtils.getProperty("system.reset.password")), convertToIdList(ids));
 		return Result.success();
 	}
@@ -144,7 +143,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
 		userService.deleteByIds(convertToIdList(ids));
 		return Result.success();
 	}

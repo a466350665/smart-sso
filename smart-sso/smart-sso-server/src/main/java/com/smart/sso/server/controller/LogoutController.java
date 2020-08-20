@@ -8,13 +8,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.util.SessionUtils;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.util.CookieUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -29,7 +29,7 @@ public class LogoutController {
 
 	@ApiOperation("登出")
 	@RequestMapping(method = RequestMethod.GET)
-	public String logout(@ApiParam(value = "返回链接") String backUrl, HttpServletRequest request) {
+	public String logout(@ValidateParam(name = "返回链接") String backUrl, HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
 		if (!StringUtils.isEmpty(token)) {
 			tokenManager.remove(token);

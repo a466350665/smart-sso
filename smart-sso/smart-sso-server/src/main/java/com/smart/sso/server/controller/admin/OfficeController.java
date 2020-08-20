@@ -16,7 +16,6 @@ import com.smart.sso.server.service.OfficeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -40,14 +39,14 @@ public class OfficeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
-			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
-			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
+	    @ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
+        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
 		return Result.createSuccess(officeService.selectList(null, null, null, "----"));
 	}
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@ApiParam(value = "id") Integer id, Model model) {
+	public String edit(@ValidateParam(name = "id") Integer id, Model model) {
 		Office office;
 		if (id == null) {
 			office = new Office();
@@ -61,13 +60,14 @@ public class OfficeController extends BaseController {
 	}
 
 	@ApiOperation("新增/修改提交")
+	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public @ResponseBody Result save(
-			@ApiParam(value = "id") Integer id,
-			@ApiParam(value = "父ID") Integer parentId,
-			@ApiParam(value = "名称", required = true) @ValidateParam({ Validator.NOT_BLANK }) String name,
-			@ApiParam(value = "排序", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer sort,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable
+	public Result save(
+	        @ValidateParam(name = "id") Integer id,
+	        @ValidateParam(name = "父ID") Integer parentId,
+	        @ValidateParam(name = "名称", value = { Validator.NOT_BLANK }) String name,
+	        @ValidateParam(name = "排序", value = { Validator.NOT_BLANK }) Integer sort,
+	        @ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable
 			) {
 		Office office;
 		if (id == null) {
@@ -85,18 +85,20 @@ public class OfficeController extends BaseController {
 	}
 
 	@ApiOperation("启用/禁用")
+	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
-	public @ResponseBody Result enable(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
-			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
+	public Result enable(
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids,
+	    @ValidateParam(name = "是否启用", value = { Validator.NOT_BLANK }) Boolean isEnable) {
 		officeService.enable(isEnable, convertToIdList(ids));
 		return Result.success();
 	}
 
 	@ApiOperation("删除")
+	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Result delete(
-			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
+	public Result delete(
+	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
 		officeService.deleteByIds(convertToIdList(ids));
 		return Result.success();
 	}

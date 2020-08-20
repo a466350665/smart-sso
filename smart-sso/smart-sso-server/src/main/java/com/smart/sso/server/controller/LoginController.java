@@ -28,7 +28,6 @@ import com.smart.sso.server.util.PasswordHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -50,7 +49,7 @@ public class LoginController extends BaseController{
 	@ApiOperation("登录页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
+			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String backUrl,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
 		if (!StringUtils.isEmpty(token) && tokenManager.validate(token) != null) {
@@ -64,9 +63,9 @@ public class LoginController extends BaseController{
 	@ApiOperation("登录提交")
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
-			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
-			@ApiParam(value = "密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String password,
+			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String backUrl,
+			@ValidateParam(name = "登录名", value = { Validator.NOT_BLANK }) String account,
+			@ValidateParam(name = "密码", value = { Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         Result result = userService.login(getIpAddr(request), account, PasswordHelper.encrypt(password));
 		if (!result.isSuccess()) {

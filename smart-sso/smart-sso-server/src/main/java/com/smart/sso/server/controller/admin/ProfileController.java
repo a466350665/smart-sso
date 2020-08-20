@@ -21,7 +21,6 @@ import com.smart.sso.server.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * @author Joe
@@ -51,8 +50,8 @@ public class ProfileController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
 	public Result save(
-			@ApiParam(value = "新密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String newPassword,
-			@ApiParam(value = "确认密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String confirmPassword,
+			@ValidateParam(name = "新密码", value = { Validator.NOT_BLANK }) String newPassword,
+			@ValidateParam(name = "确认密码", value = { Validator.NOT_BLANK }) String confirmPassword,
 			HttpServletRequest request) {
 		LoginUserDto loginUser = tokenManager.validate(SessionUtils.getSessionUser(request).getToken());
 		if (loginUser != null) {
