@@ -1,8 +1,9 @@
 package com.smart.sso.server.service;
 
+import java.util.Collection;
 import java.util.List;
 
-import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.service.Service;
 import com.smart.sso.server.model.UserRole;
 
 /**
@@ -10,7 +11,7 @@ import com.smart.sso.server.model.UserRole;
  * 
  * @author Joe
  */
-public interface UserRoleService extends Service<UserRole, Integer> {
+public interface UserRoleService extends Service<UserRole> {
 	
 	/**
 	 * 根据用户ID和角色ID查询映射
@@ -18,7 +19,7 @@ public interface UserRoleService extends Service<UserRole, Integer> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	public UserRole findByUserRoleId(Integer userId, Integer roleId);
+	public UserRole selectByUserRoleId(Integer userId, Integer roleId);
 	
 	/**
 	 * 根据用户ID给用户分配角色
@@ -33,12 +34,12 @@ public interface UserRoleService extends Service<UserRole, Integer> {
 	 * @param idList 角色ID集合
 	 * @return
 	 */
-	public void deleteByRoleIds(List<Integer> idList);
+	public void deleteByRoleIds(Collection<Integer> idList);
 	
 	/**
 	 * 根据用户ID集合删除映射
 	 * @param idList 用户ID集合
 	 * @return
 	 */
-	public void deleteByUserIds(List<Integer> idList);
+	public void deleteByUserIds(Collection<Integer> idList);
 }

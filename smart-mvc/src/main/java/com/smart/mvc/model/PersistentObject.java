@@ -7,12 +7,20 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class PersistentObject implements Serializable{
+public class PersistentObject implements Serializable {
 
 	private static final long serialVersionUID = 1472145516693079043L;
 	
 	/** 主键ID */
-	private Integer id;
+	protected Integer id;
+	
+	public PersistentObject() {
+	}
+	
+	public PersistentObject(Integer id) {
+		this();
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return id;
@@ -29,6 +37,7 @@ public class PersistentObject implements Serializable{
 	 *            o
 	 * @return boolean
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -44,6 +53,7 @@ public class PersistentObject implements Serializable{
 	 * 
 	 * @return int
 	 */
+	@Override
 	public int hashCode() {
 		if (id == null) {
 			return Integer.valueOf(0);
@@ -56,6 +66,7 @@ public class PersistentObject implements Serializable{
 	 * 
 	 * @return String
 	 */
+	@Override
 	public String toString() {
 		return this.getClass().getName() + "[id=" + id + "]";
 	}

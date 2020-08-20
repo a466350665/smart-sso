@@ -4,7 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smart.mvc.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * cookie操作工具
@@ -25,7 +25,7 @@ public class CookieUtils {
 	 */
 	public static String getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
-		if (cookies == null || StringUtils.isBlank(name)) {
+		if (cookies == null || StringUtils.isEmpty(name)) {
 			return null;
 		}
 

@@ -34,15 +34,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	 -->
-	<!-- 验证码 -->
-	<filter>
-		<filter-name>captchaFilter</filter-name>
-		<filter-class>com.smart.sso.server.captcha.CaptchaFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>captchaFilter</filter-name>
-		<url-pattern>/captcha</url-pattern>
-	</filter-mapping>
 	<!-- Smart核心 -->
 	<filter>
 		<filter-name>smartFilter</filter-name>

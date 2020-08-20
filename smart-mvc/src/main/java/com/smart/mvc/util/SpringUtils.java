@@ -14,6 +14,7 @@ public final class SpringUtils {
 	 * 通过实体名称得它对应的service
 	 * 
 	 * @param beanName
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String beanName) {

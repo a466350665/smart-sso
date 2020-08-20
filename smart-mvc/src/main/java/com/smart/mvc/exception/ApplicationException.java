@@ -1,6 +1,6 @@
 package com.smart.mvc.exception;
 
-import com.smart.mvc.model.ResultCode;
+import com.smart.mvc.constant.ResultConstant;
 
 /**
  * 应用异常
@@ -13,7 +13,7 @@ public class ApplicationException extends RuntimeException{
 	
 	public static final String MESSAGE = "应用异常";
 
-	protected int code = ResultCode.APPLICATION_ERROR;
+	protected int code;
 
 	public ApplicationException() {
 		super(MESSAGE);
@@ -21,25 +21,13 @@ public class ApplicationException extends RuntimeException{
 
 	public ApplicationException(String message) {
 		super(message);
+		this.code = ResultConstant.APPLICATION_ERROR;
 	}
 	
-	public ApplicationException(int code, String message) {
-		super(message);
-		this.code = code;
-	}
-
-	public ApplicationException(String message, Throwable cause) {
-		super(message, cause);
-	}
-	
-	public ApplicationException(int code, String message, Throwable cause) {
-		super(message, cause);
-		this.code = code;
-	}
-
-	public ApplicationException(Throwable cause) {
-		super(cause);
-	}
+    public ApplicationException(int code, String message) {
+        super(message);
+        this.code = code;
+    }
 
 	public int getCode() {
 		return code;

@@ -1,11 +1,14 @@
 package com.smart.sso.server.common;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.smart.sso.server.dto.LoginUserDto;
 
 /**
  * 单实例环境令牌管理
@@ -17,7 +20,7 @@ public class LocalTokenManager extends TokenManager {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 令牌存储结构
-	private final ConcurrentHashMap<String, DummyUser> tokenMap = new ConcurrentHashMap<String, DummyUser>();
+	private final Map<String, DummyUser> tokenMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void verifyExpired() {
@@ -36,14 +39,14 @@ public class LocalTokenManager extends TokenManager {
 		}
 	}
 
-	public void addToken(String token, LoginUser loginUser) {
+	public void addToken(String token, LoginUserDto loginUser) {
 		DummyUser dummyUser = new DummyUser();
 		dummyUser.loginUser = loginUser;
 		extendExpiredTime(dummyUser);
 		tokenMap.putIfAbsent(token, dummyUser);
 	}
 
-	public LoginUser validate(String token) {
+	public LoginUserDto validate(String token) {
 		DummyUser dummyUser = tokenMap.get(token);
 		if (dummyUser == null) {
 			return null;
@@ -67,7 +70,7 @@ public class LocalTokenManager extends TokenManager {
 
 	// 复合结构体，含loginUser与过期时间expried两个成员
 	private class DummyUser {
-		private LoginUser loginUser;
+		private LoginUserDto loginUser;
 		private Date expired; // 过期时间
 	}
 }

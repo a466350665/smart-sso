@@ -1,6 +1,6 @@
 package com.smart.mvc.exception;
 
-import com.smart.mvc.model.ResultCode;
+import com.smart.mvc.constant.ResultConstant;
 
 /**
  * 数据访问异常
@@ -19,26 +19,11 @@ public class DaoException extends ApplicationException {
 
 	public DaoException(String message) {
 		super(message);
-		this.code = ResultCode.DAO_ERROR;
+		this.code = ResultConstant.DAO_ERROR;
 	}
 	
-	public DaoException(int code, String message) {
-		super(message);
-		this.code = code;
-	}
-
-	public DaoException(String message, Throwable cause) {
-		super(message, cause);
-		this.code = ResultCode.DAO_ERROR;
-	}
-	
-	public DaoException(int code, String message, Throwable cause) {
-		super(message, cause);
-		this.code = code;
-	}
-
-	public DaoException(Throwable cause) {
-		super(cause);
-		this.code = ResultCode.DAO_ERROR;
-	}
+    public DaoException(int code, String message) {
+        super(message);
+        this.code = code;
+    }
 }

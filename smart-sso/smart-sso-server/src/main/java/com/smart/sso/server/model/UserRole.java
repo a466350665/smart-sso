@@ -1,5 +1,7 @@
 package com.smart.sso.server.model;
 
+import javax.persistence.Table;
+
 import com.smart.mvc.model.PersistentObject;
 
 /**
@@ -7,6 +9,7 @@ import com.smart.mvc.model.PersistentObject;
  * 
  * @author Joe
  */
+@Table(name="sys_user_role")
 public class UserRole extends PersistentObject {
 
 	private static final long serialVersionUID = 4942358338145288018L;

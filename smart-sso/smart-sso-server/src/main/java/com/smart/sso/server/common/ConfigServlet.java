@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.mvc.config.ConfigUtils;
+import com.smart.mvc.util.ConfigUtils;
 
 /**
  * 初始化全局参数

@@ -1,94 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.smart.sso.server.dao.PermissionDao">
-	<select id="get" parameterType="java.lang.Integer" resultType="Permission">
-     	SELECT * 
-     	FROM sys_permission a
-     	WHERE id = #{id}
-    </select>
-
-	<insert id="insert" parameterType="Permission" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO sys_permission(
-			appId,
-			parentId,
-			icon,
-			name,
-			url,
-			sort,
-			isMenu,
-			isEnable
-		) 
-		VALUES (
-			#{appId},
-			#{parentId},
-			#{icon},
-			#{name},
-			#{url},
-			#{sort},
-			#{isMenu},
-			#{isEnable}
-		)
-	</insert>
 	
-    <update id="update" parameterType="Permission" statementType="PREPARED">
-		UPDATE sys_permission a SET
-			a.`appId` = #{appId},
-			a.`parentId` = #{parentId},
-			a.`icon` = #{icon},
-			a.`name` = #{name},
-			a.`url` = #{url},
-			a.`sort` = #{sort},
-			a.`isMenu` = #{isMenu},
-			a.isEnable = #{isEnable}
-		WHERE a.`id` = #{id}
-	</update>
-	
-	<update id="enable" parameterType="map" statementType="PREPARED">
-		UPDATE sys_permission a SET
-			a.isEnable = #{isEnable}
-		WHERE 1 = 1
-		<if test="idList != null">
-			AND a.`id` in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
-		</if>
-	</update>
-	
-	<select id="findByAppId" parameterType="map" resultType="Permission">   
-		SELECT * 
-     	FROM sys_permission a
-     	WHERE 1 = 1
-		<if test="appId != null">
-			AND a.appId = #{appId} 
-		</if>
-		<if test="isEnable != null and isEnable == true">
-			AND a.isEnable = #{isEnable} 
-		</if>
-     	ORDER BY a.sort DESC 
-	</select>
-	
-	<delete id="deleteById" parameterType="list" statementType="PREPARED">
-		DELETE FROM sys_permission
-		<choose>
-			<when test="list == null or list.size() == 0">
-				WHERE 1 != 1
-			</when>
-			<when test="list.size() == 1">
-				WHERE `id` = <foreach collection="list" item="id">#{id}</foreach>
-			</when>
-			<otherwise>
-				WHERE `id` in <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
-			</otherwise>
-		</choose>
-	</delete>
-	
-	<delete id="deleteByAppIds" parameterType="map" statementType="PREPARED">
-		DELETE FROM sys_permission
-		WHERE 1 = 1
-		<if test="idList != null">
-			AND appId in <foreach collection="idList" item="item" open="(" separator="," close=")">#{item}</foreach>
-		</if>
-	</delete>
-	
-	<select id="findListById" parameterType="map" resultType="com.smart.sso.rpc.RpcPermission">   
+	<select id="selectListByUserId" parameterType="map" resultType="com.smart.sso.client.model.RpcPermission">   
      	SELECT DISTINCT
      		   p.id,
 		       p.parentId,
@@ -99,9 +13,9 @@
 		       p.sort
 		FROM   sys_permission p
 		<if test="userId != null">
-			   INNER JOIN sys_re_role_permission rp ON p.id = rp.permissionId
+			   INNER JOIN sys_role_permission rp ON p.id = rp.permissionId
 			   INNER JOIN sys_role r ON r.id = rp.roleId AND r.isEnable = 1
-			   INNER JOIN sys_re_user_role ur ON ur.roleId = r.id
+			   INNER JOIN sys_user_role ur ON ur.roleId = r.id
 		</if>
 		WHERE  1 = 1
 		       AND p.isEnable = 1

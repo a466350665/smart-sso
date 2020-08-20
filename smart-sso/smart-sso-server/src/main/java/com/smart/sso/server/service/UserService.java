@@ -2,9 +2,9 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
+import com.smart.mvc.model.Page;
 import com.smart.mvc.model.Result;
-import com.smart.mvc.model.Pagination;
-import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.service.Service;
 import com.smart.sso.server.model.User;
 
 /**
@@ -12,7 +12,7 @@ import com.smart.sso.server.model.User;
  * 
  * @author Joe
  */
-public interface UserService extends Service<User, Integer> {
+public interface UserService extends Service<User> {
 	
 	/**
 	 * 登录
@@ -22,10 +22,8 @@ public interface UserService extends Service<User, Integer> {
 	 * @param password
 	 *            密码
 	 * @return 用户ID和应用编码集合Map
-	 * @throws AuthenticationException
-	 *             认证异常
 	 */
-	public Result login(String ip, String account, String password);
+	public Result<User> login(String ip, String account, String password);
 	
 	/**
 	 * 启用禁用操作
@@ -50,7 +48,7 @@ public interface UserService extends Service<User, Integer> {
 	 * @param p
 	 * @return
 	 */
-	public Pagination<User> findPagination(String account, String name, Integer officeId, Pagination<User> p);
+	public Page<User> selectPage(String account, String name, Integer officeId, Page<User> p);
 	
 	/**
 	 * 根据登录名和应用ID查询
@@ -58,7 +56,7 @@ public interface UserService extends Service<User, Integer> {
 	 * @param appId 应用ID
 	 * @return
 	 */
-	public User findByAccount(String account);
+	public User selectByAccount(String account);
 	
 	/**
 	 * 更新密码

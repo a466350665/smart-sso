@@ -2,6 +2,9 @@ package com.smart.sso.server.model;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.smart.mvc.model.PersistentObject;
 import com.smart.sso.server.enums.TrueFalseEnum;
@@ -11,6 +14,7 @@ import com.smart.sso.server.enums.TrueFalseEnum;
  * 
  * @author Joe
  */
+@Table(name="sys_app")
 public class App extends PersistentObject {
 
 	private static final long serialVersionUID = 7902814112969375973L;
@@ -20,12 +24,12 @@ public class App extends PersistentObject {
 	/** 编码  */
 	private String code;
 	/** 排序 */
-	private Integer sort = Integer.valueOf(1);
+	private Integer sort;
 	/** 创建时间 */
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	/** 是否启用 */
-	private Boolean isEnable = Boolean.valueOf(true);
+	private Boolean isEnable;
 	
 	public App(){
 	}
@@ -79,6 +83,7 @@ public class App extends PersistentObject {
 	}
 	
 	/** 以下为显示辅助参数 */
+	@Transient
 	private Boolean isChecked = Boolean.valueOf(false);
 	
 	public Boolean getIsChecked() {

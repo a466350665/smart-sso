@@ -2,31 +2,29 @@ package com.smart.sso.server.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
-import com.smart.mvc.model.ResultCode;
-import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.SsoFilter;
-import com.smart.sso.server.captcha.CaptchaHelper;
-import com.smart.sso.server.common.LoginUser;
+import com.smart.sso.client.filter.SsoFilter;
 import com.smart.sso.server.common.TokenManager;
-import com.smart.sso.server.controller.common.BaseController;
+import com.smart.sso.server.dto.LoginUserDto;
 import com.smart.sso.server.model.User;
-import com.smart.sso.server.provider.IdProvider;
-import com.smart.sso.server.provider.PasswordProvider;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.util.CookieUtils;
+import com.smart.sso.server.util.PasswordHelper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,14 +36,15 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "单点登录管理")
 @Controller
 @RequestMapping("/login")
+@SuppressWarnings("rawtypes")
 public class LoginController extends BaseController{
 	
 	// 登录页
 	private static final String LOGIN_PATH = "/login";
 
-	@Resource
+	@Autowired
 	private TokenManager tokenManager;
-	@Resource
+	@Autowired
 	private UserService userService;
 
 	@ApiOperation("登录页")
@@ -54,7 +53,7 @@ public class LoginController extends BaseController{
 			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
 			HttpServletRequest request) {
 		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
-		if (StringUtils.isNotBlank(token) && tokenManager.validate(token) != null) {
+		if (!StringUtils.isEmpty(token) && tokenManager.validate(token) != null) {
 			return "redirect:" + authBackUrl(backUrl, token);
 		}
 		else {
@@ -68,22 +67,17 @@ public class LoginController extends BaseController{
 			@ApiParam(value = "返回链接", required = true) @ValidateParam({ Validator.NOT_BLANK }) String backUrl,
 			@ApiParam(value = "登录名", required = true) @ValidateParam({ Validator.NOT_BLANK }) String account,
 			@ApiParam(value = "密码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String password,
-			@ApiParam(value = "验证码", required = true) @ValidateParam({ Validator.NOT_BLANK }) String captcha,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		if (!CaptchaHelper.validate(request, captcha)) {
-			request.setAttribute("errorMessage", "验证码不正确");
-			return goLoginPath(backUrl, request);
-		}
-		Result result = userService.login(getIpAddr(request), account, PasswordProvider.encrypt(password));
-		if (!result.getCode().equals(ResultCode.SUCCESS)) {
+        Result result = userService.login(getIpAddr(request), account, PasswordHelper.encrypt(password));
+		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(backUrl, request);
 		}
 		else {
 			User user = (User) result.getData();
-			LoginUser loginUser = new LoginUser(user.getId(), user.getAccount());
+			LoginUserDto loginUser = new LoginUserDto(user.getId(), user.getAccount());
 			String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
-			if (StringUtils.isBlank(token) || tokenManager.validate(token) == null) {// 没有登录的情况
+			if (StringUtils.isEmpty(token) || tokenManager.validate(token) == null) {// 没有登录的情况
 				token = createToken(loginUser);
 				addTokenInCookie(token, request, response);
 			}
@@ -93,6 +87,32 @@ public class LoginController extends BaseController{
 			return "redirect:" + authBackUrl(backUrl, token);
 		}
 	}
+	
+	/**
+     * 获取IP地址
+     * @param request
+     * @return
+     */
+	private String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("X-Real-IP");
+        if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+        ip = request.getHeader("X-Forwarded-For");
+        if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            // 多次反向代理后会有多个IP值，第一个为真实IP。
+            int index = ip.indexOf(',');
+            if (index != -1) {
+                return ip.substring(0, index);
+            }
+            else {
+                return ip;
+            }
+        }
+        else {
+            return request.getRemoteAddr();
+        }
+    }
 	
 	private String goLoginPath(String backUrl, HttpServletRequest request) {
 		request.setAttribute("backUrl", backUrl);
@@ -111,9 +131,9 @@ public class LoginController extends BaseController{
 		return sbf.toString();
 	}
 
-	private String createToken(LoginUser loginUser) {
+	private String createToken(LoginUserDto loginUser) {
 		// 生成token
-		String token = IdProvider.createUUIDId();
+		String token = UUID.randomUUID().toString().replaceAll("-", "");
 
 		// 缓存中添加token对应User
 		tokenManager.addToken(token, loginUser);

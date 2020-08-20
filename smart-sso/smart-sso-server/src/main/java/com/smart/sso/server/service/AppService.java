@@ -2,8 +2,8 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
-import com.smart.mvc.model.Pagination;
-import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.model.Page;
+import com.smart.mvc.service.Service;
 import com.smart.sso.server.model.App;
 
 /**
@@ -11,7 +11,7 @@ import com.smart.sso.server.model.App;
  * 
  * @author Joe
  */
-public interface AppService extends Service<App, Integer> {
+public interface AppService extends Service<App> {
 	
 	/**
 	 * 启用禁用操作
@@ -26,19 +26,19 @@ public interface AppService extends Service<App, Integer> {
 	 * @param name 应用名称
 	 * @return
 	 */
-	public List<App> findByAll(Boolean isEnable);
+	public List<App> selectAll(Boolean isEnable);
 	
 	/**
 	 * 根据名称分页查询
 	 * @param name 应用名称
 	 * @return
 	 */
-	public Pagination<App> findPaginationByName(String name, Pagination<App> p);
+	public Page<App> selectPage(String name, Page<App> p);
 	
 	/**
 	 * 根据应用编码查询
 	 * @param code 应用编码
 	 * @return
 	 */
-	public App findByCode(String code);
+	public App selectByCode(String code);
 }

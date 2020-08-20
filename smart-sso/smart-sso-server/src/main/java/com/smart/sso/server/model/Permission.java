@@ -1,8 +1,9 @@
 package com.smart.sso.server.model;
 
-import java.beans.Transient;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.smart.mvc.model.PersistentObject;
 
 /**
@@ -10,6 +11,7 @@ import com.smart.mvc.model.PersistentObject;
  * 
  * @author Joe
  */
+@Table(name="sys_permission")
 public class Permission extends PersistentObject {
 
 	private static final long serialVersionUID = 4368792338865943489L;
@@ -19,15 +21,13 @@ public class Permission extends PersistentObject {
 	/** 父ID */
 	private Integer parentId;
 	/** 图标 */
-	@JSONField(serialize = false)
 	private String icon;
 	/** 名称 */
 	private String name;
 	/** 权限URL */
-	@JSONField(serialize = false)
 	private String url;
 	/** 排序 */
-	private Integer sort = Integer.valueOf(1);
+	private Integer sort;
 	/** 是否菜单 */
 	private Boolean isMenu;
 	/** 是否启用 */
@@ -111,6 +111,7 @@ public class Permission extends PersistentObject {
 	}
 	
 	/** 以下为显示辅助参数 */
+	@Transient
 	private boolean checked = false;
 
 	public boolean isChecked() {

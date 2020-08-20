@@ -2,8 +2,8 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
-import com.smart.mvc.model.Pagination;
-import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.model.Page;
+import com.smart.mvc.service.Service;
 import com.smart.sso.server.model.Role;
 
 /**
@@ -11,7 +11,7 @@ import com.smart.sso.server.model.Role;
  * 
  * @author Joe
  */
-public interface RoleService extends Service<Role, Integer> {
+public interface RoleService extends Service<Role> {
 	
 	/**
 	 * 启用禁用操作
@@ -28,12 +28,12 @@ public interface RoleService extends Service<Role, Integer> {
 	 * @param pageSize 分页记录数
 	 * @return
 	 */
-	public Pagination<Role> findPaginationByName(String name, Pagination<Role> p);
+	public Page<Role> selectPage(String name, Page<Role> p);
 	
 	/**
 	 * 查询应用可用角色
 	 * @param isEnable 是否启用
 	 * @return
 	 */
-	public List<Role> findByAll(Boolean isEnable);
+	public List<Role> selectAll(Boolean isEnable);
 }

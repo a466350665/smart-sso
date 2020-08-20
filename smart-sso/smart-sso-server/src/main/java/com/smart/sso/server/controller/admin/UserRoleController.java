@@ -3,16 +3,15 @@ package com.smart.sso.server.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
-import com.smart.sso.server.controller.common.BaseController;
 import com.smart.sso.server.enums.TrueFalseEnum;
 import com.smart.sso.server.model.Role;
 import com.smart.sso.server.model.UserRole;
@@ -31,19 +30,20 @@ import io.swagger.annotations.ApiResponse;
 @Api(tags = "用户角色管理")
 @Controller
 @RequestMapping("/admin/userRole")
+@SuppressWarnings("rawtypes")
 public class UserRoleController extends BaseController {
 
-	@Resource
+	@Autowired
 	private UserService userService;
-	@Resource
+	@Autowired
 	private RoleService roleService;
-	@Resource
+	@Autowired
 	private UserRoleService userRoleService;
 
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(@ApiParam(value = "userId", required = true) Integer userId, Model model) {
-		model.addAttribute("user", userService.get(userId));
+		model.addAttribute("user", userService.selectById(userId));
 		model.addAttribute("roleList", getRoleList(userId));
 		return "/admin/userRole";
 	}
@@ -53,8 +53,8 @@ public class UserRoleController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody Result save(@ApiParam(value = "userId") Integer userId,
 			@ApiParam(value = "角色ids") String roleIds) {
-		userRoleService.allocate(userId, createUserRoleList(userId, getAjaxIds(roleIds)));
-		return Result.createSuccessResult();
+		userRoleService.allocate(userId, createUserRoleList(userId, convertToIdList(roleIds)));
+		return Result.success();
 	}
 
 	private List<UserRole> createUserRoleList(Integer userId, List<Integer> roleIdList) {
@@ -70,10 +70,10 @@ public class UserRoleController extends BaseController {
 	}
 
 	private List<Role> getRoleList(Integer userId) {
-		List<Role> list = roleService.findByAll(TrueFalseEnum.TRUE.getValue());
+		List<Role> list = roleService.selectAll(TrueFalseEnum.TRUE.getValue());
 		if (userId != null) {
 			for (Role role : list) {
-				UserRole userRole = userRoleService.findByUserRoleId(userId, role.getId());
+				UserRole userRole = userRoleService.selectByUserRoleId(userId, role.getId());
 				if (null != userRole) {
 					role.setIsChecked(true);
 				}

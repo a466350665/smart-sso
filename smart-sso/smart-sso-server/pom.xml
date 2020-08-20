@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.smart</groupId>
 		<artifactId>smart-sso</artifactId>
-		<version>1.3.0</version>
+		<version>1.4.0</version>
 	</parent>
 	<artifactId>smart-sso-server</artifactId>
 	<packaging>war</packaging>
@@ -16,6 +16,20 @@
 	</properties>
 	
 	<dependencies>
+		<!-- 基础项目支持 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-mvc</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- sso单点登录客户端 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-sso-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
 		<!-- J2EE支持 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -29,18 +43,52 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 		
-		<!-- 基础项目支持 -->
+		<!-- 日志实现类Logback -->
 		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-mvc</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
 		</dependency>
-
-		<!-- sso单点登录客户端 -->
 		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-client</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		
+		<!-- Json处理 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		
+		<!-- 阿里巴巴数据连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		
+		<!-- AOP支持 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		
+		<!-- Swagger API文档 -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
 		</dependency>
 		
 		<!-- mysql驱动包 -->
@@ -70,36 +118,5 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 		</dependency>
-		
-		<!-- Dubbo相关
-		<dependency>
-			<groupId>com.github.sgroschupf</groupId>
-			<artifactId>zkclient</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-handler</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-codec-http</artifactId>
-		</dependency>
-		 -->
 	</dependencies>
 </project>

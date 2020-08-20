@@ -17,6 +17,12 @@ import com.smart.mvc.validator.Validator;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ValidateParam {
+    
+    /**
+     * 参数的描述名称
+     * @return
+     */
+    String name() default "";
 
 	/**
 	 * 验证器
@@ -25,9 +31,9 @@ public @interface ValidateParam {
 	Validator[] value() default {};
 	
 	/**
-	 * 参数的描述名称
-	 * @return
-	 */
-	String name() default "";
+     * 默认值
+     * @return
+     */
+    String defaultValue() default "";
 }
 

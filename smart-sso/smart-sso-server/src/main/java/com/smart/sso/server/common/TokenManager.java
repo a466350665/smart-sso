@@ -3,6 +3,8 @@ package com.smart.sso.server.common;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.smart.sso.server.dto.LoginUserDto;
+
 /**
  * 令牌管理抽象
  * 
@@ -42,7 +44,7 @@ public abstract class TokenManager {
 	 * @param token
 	 * @param loginUser
 	 */
-	public abstract void addToken(String token, LoginUser loginUser);
+	public abstract void addToken(String token, LoginUserDto loginUser);
 
 	/**
 	 * 验证令牌有效性,有效则延长session生命周期
@@ -50,7 +52,7 @@ public abstract class TokenManager {
 	 * @param token
 	 * @return
 	 */
-	public abstract LoginUser validate(String token);
+	public abstract LoginUserDto validate(String token);
 
 	/**
 	 * 移除令牌

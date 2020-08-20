@@ -16,17 +16,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.caucho.hessian.client.HessianProxyFactory;
-import com.smart.sso.rpc.AuthenticationRpcService;
+import com.smart.sso.client.filter.ClientFilter;
+import com.smart.sso.client.filter.ParamFilter;
+import com.smart.sso.client.rpc.AuthenticationRpcService;
 
 /**
- * Smart容器中心
+ * smart-sso容器中心
  * 
  * @author Joe
  */
 public class SmartContainer extends ParamFilter implements Filter {
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/** 模糊匹配后缀 */
 	private static final String URL_FUZZY_MATCH = "/*";
@@ -46,12 +51,12 @@ public class SmartContainer extends ParamFilter implements Filter {
 		if(isServer) {
 			ssoServerUrl = filterConfig.getServletContext().getContextPath();
 		}
-		else if (StringUtils.isEmpty(ssoServerUrl)) {
+		else if (ssoServerUrl == null || ssoServerUrl.isEmpty()) {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
 		}
 		
 		String urls = filterConfig.getInitParameter("excludeUrls");
-		if (!StringUtils.isEmpty(urls)) {
+		if (!(urls == null || urls.isEmpty())) {
 			excludeUrls = urls.split(",");
 		}
 
@@ -61,6 +66,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 						.create(AuthenticationRpcService.class, ssoServerUrl + "/rpc/authenticationRpcService");
 			}
 			catch (MalformedURLException e) {
+			    logger.error("", e);
 				throw new IllegalArgumentException("authenticationRpcService初始化失败");
 			}
 		}

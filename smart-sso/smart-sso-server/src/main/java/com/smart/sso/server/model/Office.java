@@ -1,7 +1,8 @@
 package com.smart.sso.server.model;
 
 
-import java.beans.Transient;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.smart.mvc.model.PersistentObject;
 import com.smart.sso.server.enums.TrueFalseEnum;
@@ -9,6 +10,7 @@ import com.smart.sso.server.enums.TrueFalseEnum;
 /**
  * 机构
  */
+@Table(name="sys_office")
 public class Office extends PersistentObject {
 
 	private static final long serialVersionUID = 26416795235226335L;

@@ -1,29 +1,25 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import com.smart.mvc.util.StringUtils;
-import com.smart.sso.rpc.AuthenticationRpcService;
-import com.smart.sso.rpc.RpcPermission;
-import com.smart.sso.rpc.RpcUser;
-import com.smart.sso.server.common.LoginUser;
+import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.client.model.RpcUser;
+import com.smart.sso.client.rpc.AuthenticationRpcService;
 import com.smart.sso.server.common.TokenManager;
+import com.smart.sso.server.dto.LoginUserDto;
 import com.smart.sso.server.service.PermissionService;
-import com.smart.sso.server.service.UserService;
 
 @Service("authenticationRpcService")
 public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 
-	@Resource
+	@Autowired
 	private PermissionService permissionService;
-	@Resource
-	private UserService userService;
-	@Resource
+	@Autowired
 	private TokenManager tokenManager;
 
 	@Override
@@ -32,8 +28,8 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	}
 	
 	@Override
-	public RpcUser findAuthInfo(String token) {
-		LoginUser user = tokenManager.validate(token);
+	public RpcUser selectUser(String token) {
+		LoginUserDto user = tokenManager.validate(token);
 		if (user != null) {
 			return new RpcUser(user.getAccount());
 		}
@@ -41,17 +37,17 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	}
 	
 	@Override
-	public List<RpcPermission> findPermissionList(String token, String appCode) {
-		if (StringUtils.isBlank(token)) {
-			return permissionService.findListById(appCode, null);
+	public List<RpcPermission> selectPermissionList(String token, String appCode) {
+		if (StringUtils.isEmpty(token)) {
+			return permissionService.selectListByUserId(appCode, null);
 		}
 		else {
-			LoginUser user = tokenManager.validate(token);
+			LoginUserDto user = tokenManager.validate(token);
 			if (user != null) {
-				return permissionService.findListById(appCode, user.getUserId());
+				return permissionService.selectListByUserId(appCode, user.getUserId());
 			}
 			else {
-				return new ArrayList<RpcPermission>(0);
+				return Collections.emptyList();
 			}
 		}
 	}

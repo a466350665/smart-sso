@@ -1,5 +1,7 @@
 package com.smart.sso.server.model;
 
+import javax.persistence.Table;
+
 import com.smart.mvc.model.PersistentObject;
 
 /**
@@ -7,6 +9,7 @@ import com.smart.mvc.model.PersistentObject;
  * 
  * @author Joe
  */
+@Table(name="sys_role_permission")
 public class RolePermission extends PersistentObject {
 
 	private static final long serialVersionUID = 2817362249993235590L;
@@ -16,17 +19,6 @@ public class RolePermission extends PersistentObject {
 	private Integer roleId;
 	private Integer permissionId;
 	
-	public RolePermission() {
-		super();
-	}
-	
-	public RolePermission(Integer appId, Integer roleId, Integer permissionId) {
-		super();
-		this.appId = appId;
-		this.roleId = roleId;
-		this.permissionId = permissionId;
-	}
-
 	public Integer getAppId() {
 		return this.appId;
 	}

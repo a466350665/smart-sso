@@ -2,10 +2,10 @@ package com.smart.sso.server.service;
 
 import java.util.List;
 
-import com.smart.mvc.service.mybatis.Service;
+import com.smart.mvc.service.Service;
 import com.smart.sso.server.model.Office;
 
-public interface OfficeService extends Service<Office, Integer> {
+public interface OfficeService extends Service<Office> {
 
 	/**
 	 * 启用禁用操作
@@ -15,7 +15,7 @@ public interface OfficeService extends Service<Office, Integer> {
 	 */
 	public void enable(Boolean isEnable, List<Integer> idList);
 	
-	public List<Office> findByParams(Boolean isEnable, Boolean isParent, Integer currentId, String prefix);
+	public List<Office> selectList(Boolean isEnable, Boolean isParent, Integer currentId, String prefix);
 	
-	public List<Integer> findIdListByParentId(Integer parentId);
+	public List<Integer> selectIdListByParentId(Integer parentId);
 }

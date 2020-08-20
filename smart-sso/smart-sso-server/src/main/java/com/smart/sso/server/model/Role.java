@@ -1,5 +1,8 @@
 package com.smart.sso.server.model;
 
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.smart.mvc.model.PersistentObject;
 import com.smart.sso.server.enums.TrueFalseEnum;
 
@@ -8,6 +11,7 @@ import com.smart.sso.server.enums.TrueFalseEnum;
  * 
  * @author Joe
  */
+@Table(name="sys_role")
 public class Role extends PersistentObject {
 
 	private static final long serialVersionUID = 564115576254799088L;
@@ -15,11 +19,11 @@ public class Role extends PersistentObject {
 	/** 名称 */
 	private String name;
 	/** 排序 */
-	private Integer sort = Integer.valueOf(1);
+	private Integer sort;
 	/** 描述 */
 	private String description;
 	/** 是否启用 */
-	private Boolean isEnable = Boolean.valueOf(true);
+	private Boolean isEnable;
 
 	public String getName() {
 		return this.name;
@@ -54,6 +58,7 @@ public class Role extends PersistentObject {
 	}
 	
 	/** 以下为显示辅助参数 */
+	@Transient
 	private Boolean isChecked = Boolean.valueOf(false);
 	
 	public Boolean getIsChecked() {

@@ -1,17 +1,16 @@
 package com.smart.sso.server.controller.admin;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.controller.common.BaseController;
 import com.smart.sso.server.model.Office;
 import com.smart.sso.server.service.OfficeService;
 
@@ -25,9 +24,10 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "机构")
 @Controller
 @RequestMapping("/admin/office")
+@SuppressWarnings("rawtypes")
 public class OfficeController extends BaseController {
 
-	@Resource
+	@Autowired
 	private OfficeService officeService;
 
 	@ApiOperation("初始页")
@@ -37,11 +37,12 @@ public class OfficeController extends BaseController {
 	}
 	
 	@ApiOperation("列表")
+	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody Result list(
+	public Result list(
 			@ApiParam(value = "开始页码", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageNo,
 			@ApiParam(value = "显示条数", required = true) @ValidateParam({ Validator.NOT_BLANK }) Integer pageSize) {
-		return Result.createSuccessResult().setData(officeService.findByParams(null, null, null, "----"));
+		return Result.createSuccess(officeService.selectList(null, null, null, "----"));
 	}
 
 	@ApiOperation("新增/修改页")
@@ -52,9 +53,9 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.get(id);
+			office = officeService.selectById(id);
 		}
-		model.addAttribute("officeList", officeService.findByParams(null, null, id, "----"));
+		model.addAttribute("officeList", officeService.selectList(null, null, id, "----"));
 		model.addAttribute("office", office);
 		return "/admin/officeEdit";
 	}
@@ -73,14 +74,14 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.get(id);
+			office = officeService.selectById(id);
 		}
 		office.setParentId(parentId);
 		office.setName(name);
 		office.setSort(sort);
 		office.setIsEnable(isEnable);
 		officeService.save(office);
-		return Result.createSuccessResult();
+		return Result.success();
 	}
 
 	@ApiOperation("启用/禁用")
@@ -88,15 +89,15 @@ public class OfficeController extends BaseController {
 	public @ResponseBody Result enable(
 			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids,
 			@ApiParam(value = "是否启用", required = true) @ValidateParam({ Validator.NOT_BLANK }) Boolean isEnable) {
-		officeService.enable(isEnable, getAjaxIds(ids));
-		return Result.createSuccessResult();
+		officeService.enable(isEnable, convertToIdList(ids));
+		return Result.success();
 	}
 
 	@ApiOperation("删除")
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public @ResponseBody Result delete(
 			@ApiParam(value = "ids", required = true) @ValidateParam({ Validator.NOT_BLANK }) String ids) {
-		officeService.deleteById(getAjaxIds(ids));
-		return Result.createSuccessResult();
+		officeService.deleteByIds(convertToIdList(ids));
+		return Result.success();
 	}
 }

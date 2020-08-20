@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -13,11 +14,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.smart.mvc.util.StringUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-
-import io.swagger.annotations.ApiParam;
 
 /**
  * 自定义方法参数解析器
@@ -31,20 +29,11 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 	/**
 	 * 参数结构缓存
 	 */
-	private Map<MethodParameter, ParamInfo> paramInfoCache = new ConcurrentHashMap<MethodParameter, ParamInfo>(256);
-
-	public MethodArgumentResovler() {
-		super();
-	}
+	private Map<MethodParameter, ParamInfo> paramInfoCache = new ConcurrentHashMap<>(256);
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		if (parameter.hasParameterAnnotation(ValidateParam.class)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return parameter.hasParameterAnnotation(ValidateParam.class);
 	}
 
 	@Override
@@ -66,12 +55,18 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 		if (value == null) {
 			value = webRequest.getAttribute(paramInfo.paramName, RequestAttributes.SCOPE_REQUEST);
 		}
+		/**
+         * 赋于默认值
+         */
+        if (value == null && !StringUtils.isEmpty(paramInfo.defaultValue)) {
+            value = paramInfo.defaultValue;
+        }
 
 		/**
 		 * 验证器的数据校验
 		 */
 		if (paramInfo.validators != null) {
-			validateValue(value, paramInfo.name, paramInfo.validators, parameter);
+			validateValue(value, paramInfo.name, paramInfo.validators);
 		}
 
 		/**
@@ -93,22 +88,17 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 	 *            参数的中文名称
 	 * @param validators
 	 *            验证器
-	 * @param parameter
-	 *            方法参数
 	 * @throws Exception
 	 */
-	private void validateValue(Object value, String cName, Validator[] validators, MethodParameter parameter)
-			throws Exception {
+	private void validateValue(Object value, String cName, Validator[] validators) {
 		for (int i = 0; i < validators.length; i++) {
 			Validator validator = Validator.getValidator(validators[i]);
 			if (validator != null) {
 				if (value != null && value.toString().trim() != "") {
 					validator.validate(cName, value.toString());
 				}
-				else {
-					if (Validator.NOT_BLANK.equals(validator)) {
-						validator.validate(cName, null);
-					}
+				else if (Validator.NOT_BLANK.equals(validator)) {
+					validator.validate(cName, null);
 				}
 			}
 			else {
@@ -139,22 +129,15 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 	 * @return
 	 */
 	protected ParamInfo createParamInfo(MethodParameter parameter) {
+	    ParamInfo info = new ParamInfo(parameter.getParameterName());
 		ValidateParam validateParam = parameter.getParameterAnnotation(ValidateParam.class);
-		ParamInfo info = new ParamInfo(parameter.getParameterName());
 		if (validateParam != null) {
-			if (StringUtils.isBlank(validateParam.name())) {
-				ApiParam apiParam = parameter.getParameterAnnotation(ApiParam.class);
-				if (apiParam != null) {
-					info.setName(apiParam.value());
-				}
-			}
-			else {
-				info.setName(validateParam.name());
-			}
+			info.setName(validateParam.name());
 			info.setValidators(validateParam.value());
+			info.setDefaultValue(validateParam.defaultValue());
 		}
 		return info;
-	};
+	}
 
 	/**
 	 * 参数的相关信息
@@ -164,6 +147,8 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 		private String paramName;
 
 		private String name;
+		
+		private  String defaultValue;
 
 		private Validator[] validators;
 		
@@ -183,8 +168,16 @@ public class MethodArgumentResovler implements HandlerMethodArgumentResolver {
 		public void setName(String name) {
 			this.name = name;
 		}
+		
+		public String getDefaultValue() {
+            return defaultValue;
+        }
 
-		public Validator[] getValidators() {
+        public void setDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
+        }
+
+        public Validator[] getValidators() {
 			return validators;
 		}
 

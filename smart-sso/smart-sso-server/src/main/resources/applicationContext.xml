@@ -15,16 +15,15 @@
 	<context:annotation-config />
 
 	<aop:aspectj-autoproxy />
+	
+	<context:component-scan base-package="com.smart.sso.server.service.impl" />
 
-	<bean class="com.smart.mvc.config.ConfigUtils">
+	<bean class="com.smart.mvc.util.ConfigUtils">
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
 				<!--数据库参数配置 -->
 				<value>classpath:jdbc.properties</value>
-				<!--服务参数配置(Zookeeper、Dubbo、MQ、Redis相关)
-				<value>classpath:service.properties</value>
-				 -->
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
@@ -36,8 +35,8 @@
 		<property name="authenticationRpcService" ref="authenticationRpcService" />
 		<property name="filters">
 			<list>
-				<bean class="com.smart.sso.client.SsoFilter"/>
-				<bean class="com.smart.sso.client.PermissionFilter">
+				<bean class="com.smart.sso.client.filter.SsoFilter"/>
+				<bean class="com.smart.sso.client.filter.PermissionFilter">
 					<property name="ssoAppCode" value="${sso.app.code}" />
 				</bean>
 			</list>
@@ -48,31 +47,14 @@
 	<bean id="tokenManager" class="com.smart.sso.server.common.LocalTokenManager">
 		<property name="tokenTimeout" value="${sso.timeout}" />
 	</bean>
-
-	<!--SSO令牌管理(分布式) : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
-	<import resource="classpath:spring-redis-sso.xml" />
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-		<property name="connectionFactory" ref="jedisConnectionFactory" />
+	
+	<!-- 登录校验鉴权RPC服务 -->
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	<bean name="/authenticationRpcService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="authenticationRpcService" />
+		<property name="serviceInterface" value="com.smart.sso.client.rpc.AuthenticationRpcService" />
 	</bean>
-	<bean id="redisCache" class="com.smart.sso.server.common.RedisCache">
-		<property name="redisTemplate" ref="redisTemplate" />
-	</bean>
-	<bean id="tokenManager" class="com.smart.sso.server.common.RedisTokenManager">
-		<property name="tokenTimeout" value="${sso.timeout}" />
-	</bean>
-	 -->
 
 	<!-- 引入Mybatis及数据库相关 -->
 	<import resource="applicationContext-mybatis.xml" />
-
-	<!-- 引入服务相关 -->
-	<import resource="applicationContext-service.xml" />
-
-	<!-- Dubbo : 服务提供方
-	<import resource="dubbo-provider.xml" />
-	 -->
-	 
-	<!-- activeMQ : 用于权限有修改时，异步通知应用更新权限
-	<import resource="applicationContext-mq.xml" />
-	 -->
 </beans>

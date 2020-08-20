@@ -13,8 +13,31 @@
 	<!-- Controller扫描包 -->
 	<context:component-scan base-package="com.smart.sso.server.controller" />
 
-	<!-- 引入SpringMVC基础相关 -->
-	<import resource="classpath:spring-mvc.xml" />
+		<!-- 自定义Json解析器 -->
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.smart.mvc.resovler.MethodArgumentResovler" />
+		</mvc:argument-resolvers>
+		<mvc:message-converters>
+			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 自定义异常处理 -->
+	<bean id="exceptionResolver" class="com.smart.mvc.resovler.ExceptionResolver" />
+	
+	<!-- 视图解析器 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 	
 	<!-- 默认跳转用户首页，因为没有权限会跳转至登录页 -->
 	<mvc:view-controller path="/" view-name="redirect:admin/admin" />

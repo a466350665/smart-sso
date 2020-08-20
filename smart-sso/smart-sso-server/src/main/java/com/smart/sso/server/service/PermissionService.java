@@ -1,9 +1,10 @@
 package com.smart.sso.server.service;
 
+import java.util.Collection;
 import java.util.List;
 
-import com.smart.mvc.service.mybatis.Service;
-import com.smart.sso.rpc.RpcPermission;
+import com.smart.mvc.service.Service;
+import com.smart.sso.client.model.RpcPermission;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -11,7 +12,7 @@ import com.smart.sso.server.model.Permission;
  * 
  * @author Joe
  */
-public interface PermissionService extends Service<Permission, Integer> {
+public interface PermissionService extends Service<Permission> {
 
 	/**
 	 * 根据名称和应用ID查询
@@ -20,7 +21,7 @@ public interface PermissionService extends Service<Permission, Integer> {
 	 * @param isEnable
 	 * @return
 	 */
-	public List<Permission> findByAppId(Integer appId, Integer roleId, Boolean isEnable);
+	public List<Permission> selectList(Integer appId, Integer roleId, Boolean isEnable);
 	
 	/**
 	 * 删除权限
@@ -28,14 +29,14 @@ public interface PermissionService extends Service<Permission, Integer> {
 	 * @param appId 应用ID
 	 * @return
 	 */
-	public void deletePermission(Integer id, Integer appId);
+	public void delete(Integer id, Integer appId);
 	
 	/**
 	 * 删除应用下所有权限
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public void deleteByAppIds(List<Integer> idList);
+	public void deleteByAppIds(Collection<Integer> idList);
 	
 	/**
 	 * 根据应用编码和用户ID查权限
@@ -43,5 +44,5 @@ public interface PermissionService extends Service<Permission, Integer> {
 	 * @param userId 用户ID
 	 * @return
 	 */
-	public List<RpcPermission> findListById(String appCode, Integer userId);
+	public List<RpcPermission> selectListByUserId(String appCode, Integer userId);
 }
