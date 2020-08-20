@@ -1,6 +1,5 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.google.common.collect.Lists;
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
 import com.smart.mvc.util.ConvertUtils;
@@ -45,7 +45,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	private PermissionDto convertToDto(Permission r, List<Integer> permissionIdList) {
         PermissionDto dto = new PermissionDto();
         BeanUtils.copyProperties(r, dto);
-        if (!CollectionUtils.isEmpty(permissionIdList)) {
+        if (CollectionUtils.isEmpty(permissionIdList)) {
+            dto.setChecked(false);
+        }
+        else {
             dto.setChecked(permissionIdList.contains(r.getId()));
         }
         return dto;
@@ -54,7 +57,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	@Override
 	@Transactional
 	public void delete(Integer id, Integer appId) {
-		List<Integer> idList = new ArrayList<>();
+		List<Integer> idList = Lists.newArrayList();
 
 		List<Permission> list = selectList(appId, null, null);
 		loopSubList(id, idList, list);

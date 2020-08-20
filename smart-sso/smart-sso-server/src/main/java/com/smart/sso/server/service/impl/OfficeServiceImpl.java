@@ -1,6 +1,5 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.google.common.collect.Lists;
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
 import com.smart.sso.server.dao.OfficeDao;
@@ -31,7 +31,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
 	public List<Office> selectList(Boolean isEnable, Boolean isParent, Integer currentId, String prefix) {
 		List<Office> list = selectList(isEnable, isParent, currentId);
 		if (!StringUtils.isEmpty(prefix)) {
-			List<Office> dataList = new ArrayList<>();
+			List<Office> dataList = Lists.newArrayList();
 			for (Office office : list) {
 				if (office.getParentId() == null) {
 					dataList.add(office);
@@ -54,7 +54,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
     }  
       
     private List<Office> getSubList(Integer officeId, List<Office> list, String currentPrefix){  
-        List<Office> children = new ArrayList<>();
+        List<Office> children = Lists.newArrayList();
         for (Office child : list) {
             if (officeId.equals(child.getParentId())) {
             	child.setName(currentPrefix + child.getName());
@@ -68,7 +68,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
 	public List<Integer> selectIdListByParentId(Integer parentId) {
 		if (parentId == null)
 			return Collections.emptyList();
-		List<Integer> idList = new ArrayList<>();
+		List<Integer> idList = Lists.newArrayList();
 		idList.add(parentId);
 		List<Office> list = selectList(true, null, null);
 		if (!CollectionUtils.isEmpty(list)) {

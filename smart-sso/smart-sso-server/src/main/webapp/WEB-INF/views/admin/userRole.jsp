@@ -37,7 +37,7 @@
 					<div class="clearfix help-validate">
 						<c:forEach var="item" items="${roleList}">
 							<label>
-								<input name="roleId" value="${item.id}" type="checkbox" class="ace" ${item.isChecked ? 'checked="checked"' : ''}/>
+								<input name="roleId" value="${item.id}" type="checkbox" class="ace" ${item.checked ? 'checked="checked"' : ''}/>
 								<span class="lbl">&nbsp;&nbsp;${item.name}</span>
 							</label>
 						</c:forEach>

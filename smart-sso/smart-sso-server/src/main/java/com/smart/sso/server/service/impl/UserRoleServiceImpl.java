@@ -1,6 +1,5 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
 import com.smart.mvc.util.ConvertUtils;
@@ -26,7 +26,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
     }
     
     private List<UserRole> createUserRoleList(Integer userId, List<Integer> roleIdList) {
-        List<UserRole> userRoleList = new ArrayList<>();
+        List<UserRole> userRoleList = Lists.newArrayList();
         UserRole bean;
         for (Integer roleId : roleIdList) {
             bean = new UserRole();

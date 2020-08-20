@@ -15,6 +15,5 @@
 		<module>smart-sso-client</module>
 		<module>smart-sso-demo</module>
 		<module>smart-sso-server</module>
-		<module>smart-sso-springboot-demo</module>
 	</modules>
 </project>

@@ -74,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
         RoleDto dto = new RoleDto();
         BeanUtils.copyProperties(r, dto);
         if (!CollectionUtils.isEmpty(roleIdList)) {
-            dto.setIsChecked(roleIdList.contains(r.getId()));
+            dto.setChecked(roleIdList.contains(r.getId()));
         }
         return dto;
     }

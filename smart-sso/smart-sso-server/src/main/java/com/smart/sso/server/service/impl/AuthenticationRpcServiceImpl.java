@@ -30,10 +30,10 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	@Override
 	public RpcUser selectUser(String token) {
 		LoginUserDto user = tokenManager.validate(token);
-		if (user != null) {
-			return new RpcUser(user.getAccount());
+		if (user == null) {
+		    return null;
 		}
-		return null;
+		return new RpcUser(user.getAccount());
 	}
 	
 	@Override
@@ -43,12 +43,10 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 		}
 		else {
 			LoginUserDto user = tokenManager.validate(token);
-			if (user != null) {
-				return permissionService.selectListByUserId(appCode, user.getUserId());
-			}
-			else {
+			if (user == null) {
 				return Collections.emptyList();
 			}
+			return permissionService.selectListByUserId(appCode, user.getUserId());
 		}
 	}
 }

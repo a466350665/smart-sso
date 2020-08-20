@@ -6,13 +6,13 @@ public class PermissionDto extends Permission {
 
     private static final long serialVersionUID = 9191900436619971003L;
     
-    private boolean checked;
+    private Boolean checked;
 
-    public boolean isChecked() {
+    public Boolean getChecked() {
         return checked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(Boolean checked) {
         this.checked = checked;
     }
 }

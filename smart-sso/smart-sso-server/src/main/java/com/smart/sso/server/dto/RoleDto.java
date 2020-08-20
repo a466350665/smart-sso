@@ -6,13 +6,13 @@ public class RoleDto extends Permission {
 
     private static final long serialVersionUID = 9191900436619971003L;
     
-    private Boolean isChecked = Boolean.valueOf(false);
-    
-    public Boolean getIsChecked() {
-        return isChecked;
+    private Boolean checked;
+
+    public Boolean getChecked() {
+        return checked;
     }
 
-    public void setIsChecked(Boolean isChecked) {
-        this.isChecked = isChecked;
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 }
