@@ -31,17 +31,6 @@ public class App extends PersistentObject {
 	/** 是否启用 */
 	private Boolean isEnable;
 	
-	public App(){
-	}
-	
-	public App(String name, String code, Integer sort, Boolean isEnable) {
-		super();
-		this.name = name;
-		this.code = code;
-		this.sort = sort;
-		this.isEnable = isEnable;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -82,18 +71,7 @@ public class App extends PersistentObject {
 		this.isEnable = isEnable;
 	}
 	
-	/** 以下为显示辅助参数 */
 	@Transient
-	private Boolean isChecked = Boolean.valueOf(false);
-	
-	public Boolean getIsChecked() {
-		return isChecked;
-	}
-
-	public void setIsChecked(Boolean isChecked) {
-		this.isChecked = isChecked;
-	}
-	
 	public String getIsEnableStr() {
 		return (isEnable != null && isEnable) ? TrueFalseEnum.TRUE.getLabel() : TrueFalseEnum.FALSE.getLabel();
 	}

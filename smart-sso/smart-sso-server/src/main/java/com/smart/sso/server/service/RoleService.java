@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.smart.mvc.model.Page;
 import com.smart.mvc.service.Service;
+import com.smart.sso.server.dto.RoleDto;
 import com.smart.sso.server.model.Role;
 
 /**
@@ -36,4 +37,6 @@ public interface RoleService extends Service<Role> {
 	 * @return
 	 */
 	public List<Role> selectAll(Boolean isEnable);
+	
+	public List<RoleDto> getRoleList(Integer userId);
 }

@@ -49,4 +49,11 @@ public interface RolePermissionService extends Service<RolePermission> {
 	 * @return
 	 */
 	public void deleteByAppIds(Collection<Integer> idList);
+	
+	/**
+     * 根据用户ID查角色ID集合
+     * @param userId
+     * @return
+     */
+    public List<Integer> findPermissionIdListByRoleId(Integer roleId);
 }

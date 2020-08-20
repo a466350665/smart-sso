@@ -22,12 +22,12 @@ public interface UserRoleService extends Service<UserRole> {
 	public UserRole selectByUserRoleId(Integer userId, Integer roleId);
 	
 	/**
-	 * 根据用户ID给用户分配角色
-	 * @param userId 用户ID
-	 * @param list 用户角色映射集合
-	 * @return
-	 */
-	public void allocate(Integer userId, List<UserRole> list);
+     * 根据用户ID给用户分配角色
+     * @param userId 用户ID
+     * @param roleIdList 角色ID集合
+     * @return
+     */
+    public void allocate(Integer userId, List<Integer> roleIdList);
 	
 	/**
 	 * 根据角色ID集合删除映射
@@ -42,4 +42,11 @@ public interface UserRoleService extends Service<UserRole> {
 	 * @return
 	 */
 	public void deleteByUserIds(Collection<Integer> idList);
+	
+	/**
+     * 根据用户ID查角色ID集合
+     * @param userId
+     * @return
+     */
+    public List<Integer> findRoleIdListByUserId(Integer userId);
 }

@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
+import com.smart.mvc.util.ConvertUtils;
 import com.smart.sso.server.dao.RolePermissionDao;
 import com.smart.sso.server.model.RolePermission;
 import com.smart.sso.server.service.RolePermissionService;
@@ -61,4 +62,9 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 	public void deleteByAppIds(Collection<Integer> idList) {
 		deleteByCondition(Condition.create().in("appId", idList));
 	}
+
+    @Override
+    public List<Integer> findPermissionIdListByRoleId(Integer roleId) {
+        return ConvertUtils.convert(selectByRoleId(roleId), t -> t.getPermissionId());
+    }
 }

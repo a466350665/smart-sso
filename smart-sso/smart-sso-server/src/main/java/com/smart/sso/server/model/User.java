@@ -3,6 +3,7 @@ package com.smart.sso.server.model;
 import java.util.Date;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.smart.mvc.model.PersistentObject;
@@ -111,6 +112,7 @@ public class User extends PersistentObject {
 		this.isEnable = isEnable;
 	}
 
+	@Transient
 	public String getIsEnableStr() {
 		return (isEnable != null && isEnable) ? TrueFalseEnum.TRUE.getLabel() : TrueFalseEnum.FALSE.getLabel();
 	}

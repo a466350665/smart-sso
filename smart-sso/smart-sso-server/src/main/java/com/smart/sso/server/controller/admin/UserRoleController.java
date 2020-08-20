@@ -1,8 +1,5 @@
 package com.smart.sso.server.controller.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +11,6 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.enums.TrueFalseEnum;
-import com.smart.sso.server.model.Role;
-import com.smart.sso.server.model.UserRole;
 import com.smart.sso.server.service.RoleService;
 import com.smart.sso.server.service.UserRoleService;
 import com.smart.sso.server.service.UserService;
@@ -43,47 +37,20 @@ public class UserRoleController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(
-	    @ValidateParam(name = "userId", value = { Validator.NOT_BLANK }) Integer userId, 
-	    Model model) {
+	        @ValidateParam(name = "userId", value = { Validator.NOT_BLANK }) Integer userId, 
+	        Model model) {
 		model.addAttribute("user", userService.selectById(userId));
-		model.addAttribute("roleList", getRoleList(userId));
+		model.addAttribute("roleList", roleService.getRoleList(userId));
 		return "/admin/userRole";
 	}
 
 	@ApiOperation("新增/修改提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Result save(@ValidateParam(name = "userId") Integer userId,
-			@ValidateParam(name = "角色ids") String roleIds) {
-		userRoleService.allocate(userId, createUserRoleList(userId, convertToIdList(roleIds)));
+	public Result save(
+            @ValidateParam(name = "userId", value = { Validator.NOT_BLANK }) Integer userId,
+    		@ValidateParam(name = "角色ids") String roleIds) {
+	    userRoleService.allocate(userId, convertToIdList(roleIds));
 		return Result.success();
-	}
-
-	private List<UserRole> createUserRoleList(Integer userId, List<Integer> roleIdList) {
-		List<UserRole> userRoleList = new ArrayList<UserRole>();
-		UserRole bean;
-		for (Integer roleId : roleIdList) {
-			bean = new UserRole();
-			bean.setUserId(userId);
-			bean.setRoleId(roleId);
-			userRoleList.add(bean);
-		}
-		return userRoleList;
-	}
-
-	private List<Role> getRoleList(Integer userId) {
-		List<Role> list = roleService.selectAll(TrueFalseEnum.TRUE.getValue());
-		if (userId != null) {
-			for (Role role : list) {
-				UserRole userRole = userRoleService.selectByUserRoleId(userId, role.getId());
-				if (null != userRole) {
-					role.setIsChecked(true);
-				}
-				else {
-					role.setIsChecked(false);
-				}
-			}
-		}
-		return list;
 	}
 }

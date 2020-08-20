@@ -57,18 +57,7 @@ public class Role extends PersistentObject {
 		this.isEnable = isEnable;
 	}
 	
-	/** 以下为显示辅助参数 */
 	@Transient
-	private Boolean isChecked = Boolean.valueOf(false);
-	
-	public Boolean getIsChecked() {
-		return isChecked;
-	}
-
-	public void setIsChecked(Boolean isChecked) {
-		this.isChecked = isChecked;
-	}
-	
 	public String getIsEnableStr() {
 		return (isEnable != null && isEnable) ? TrueFalseEnum.TRUE.getLabel() : TrueFalseEnum.FALSE.getLabel();
 	}
