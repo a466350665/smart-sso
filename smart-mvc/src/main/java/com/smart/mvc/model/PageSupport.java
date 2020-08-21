@@ -1,7 +1,6 @@
 package com.smart.mvc.model;
 
 import java.io.Serializable;
-import java.util.regex.Pattern;
 
 /**
  * 分页基类
@@ -22,8 +21,6 @@ public class PageSupport implements Serializable {
 	private int pageSize = DEFAULT_PAGE_SIZE;
 	/** 记录总数 */
 	private long rowCount;
-	
-	private String orderBy = ""; // 标准查询有效， 实例： updatedate desc, name asc
 
 	protected PageSupport() {
     }
@@ -65,35 +62,5 @@ public class PageSupport implements Serializable {
 			return rowCount / pageSize;
 		else
 			return (rowCount / pageSize) + 1;
-	}
-
-	public int getFirstResult(){
-		int firstResult = (getPageNo() - 1) * getPageSize();
-		if (firstResult >= getRowCount()) {
-			firstResult = 0;
-		}
-		return firstResult;
-	}
-
-	public int getMaxResults(){
-		return getPageSize();
-	}
-	
-	public String getOrderBy() {
-		// SQL过滤，防止注入 
-		String reg = "(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|"
-					+ "(\\b(select|update|and|or|delete|insert|trancate|char|into|substr|ascii|declare|exec|count|master|into|drop|execute)\\b)";
-		Pattern sqlPattern = Pattern.compile(reg, Pattern.CASE_INSENSITIVE);
-		if (sqlPattern.matcher(orderBy).find()) {
-			return "";
-		}
-		return orderBy;
-	}
-	
-	/**
-	 * 设置查询排序，标准查询有效， 实例： updatedate desc, name asc
-	 */
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
 	}
 }
