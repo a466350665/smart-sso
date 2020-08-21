@@ -12,7 +12,6 @@ QQ交流群：454343484🈵、769134727（提供开发工具下载）
 ## 部署文档
 - [Java单点登录权限系统（一）—简介](https://blog.csdn.net/a466350665/article/details/54140411)
 - [Java单点登录权限系统（二）—部署文档](http://blog.csdn.net/a466350665/article/details/79628553)
-- [Java单点登录权限系统（三）—Dubbo配置](https://blog.csdn.net/a466350665/article/details/80612538)
 
 ## 组织结构
 
@@ -29,7 +28,7 @@ smart
 ## 技术选型
 
 ### 后端
-- JDK：1.8（支持1.6+）
+- JDK：1.8+
 - 数据库：Mysql
 - 项目构建工具：Maven 3.3.3
 - API文档：Springfox-Swagger2 2.6.1
@@ -118,4 +117,4 @@ smart
 ![](http://img.blog.csdn.net/20170106172926694?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTQ2NjM1MDY2NQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## 作者寄语
-艺术地做好一件擅长的事情
+艺术地做好一件擅长的事
