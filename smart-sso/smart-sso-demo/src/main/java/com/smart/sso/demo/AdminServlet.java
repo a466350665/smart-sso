@@ -15,7 +15,7 @@ import com.smart.sso.client.model.SessionPermission;
 import com.smart.sso.client.model.SessionUser;
 import com.smart.sso.client.util.SessionUtils;
 
-public class IndexServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -9082570370397324479L;
 

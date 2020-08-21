@@ -36,11 +36,11 @@
 	</filter-mapping>
 	<!-- 首页 -->
 	<servlet>
-		<servlet-name>IndexServlet</servlet-name>
-		<servlet-class>com.smart.sso.demo.IndexServlet</servlet-class>
+		<servlet-name>AdminServlet</servlet-name>
+		<servlet-class>com.smart.sso.demo.AdminServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>IndexServlet</servlet-name>
+		<servlet-name>AdminServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
