@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.smart.sso.client.SessionPermission;
-import com.smart.sso.client.SessionUser;
-import com.smart.sso.client.SessionUtils;
 import com.smart.sso.client.SmartContainer;
+import com.smart.sso.client.model.SessionPermission;
+import com.smart.sso.client.model.SessionUser;
+import com.smart.sso.client.util.SessionUtils;
 
 public class IndexServlet extends HttpServlet {
 
@@ -38,7 +38,7 @@ public class IndexServlet extends HttpServlet {
 			// 登录用户当前应用的权限
 			request.setAttribute("userPermissions", sessionPermission.getPermissionSet());
 		}
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/admin.jsp").forward(request, response);
 	}
 
 	/**

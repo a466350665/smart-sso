@@ -18,9 +18,6 @@
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="locations">
 			<list>
-				<!--服务参数配置(Zookeeper、Dubbo、MQ、Redis相关)
-				<value>classpath:service.properties</value>
-				 -->
 				<!--当前应用参数配置 -->
 				<value>classpath:config.properties</value>
 			</list>
@@ -29,30 +26,15 @@
 	
 	<bean id="smartFilter" class="com.smart.sso.client.SmartContainer">
 		<property name="ssoServerUrl" value="${sso.server.url}" />
-		<!-- Dubbo服务开启时，打开注释
-		<property name="authenticationRpcService" ref="authenticationRpcService" />
-		-->
 		<property name="filters">
 			<list>
 				<!-- 单点登录 -->
-				<bean class="com.smart.sso.client.SsoFilter"/>
+				<bean class="com.smart.sso.client.filter.SsoFilter"/>
 				<!-- 权限控制(选配) -->
-				<bean class="com.smart.sso.client.PermissionFilter">
+				<bean class="com.smart.sso.client.filter.PermissionFilter">
 					<property name="ssoAppCode" value="${sso.app.code}" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	
-	<!-- Dubbo : 为Token验证和授权提供RPC服务，不开启默认Hessian
-	<import resource="dubbo-consumer.xml" />
-	 -->
-
-	<!-- redis : 用于部署多JVM实例时，RedisSession覆盖HttpSession实现Session共享
-	<import resource="classpath:spring-redis-sso.xml" />
-	 -->
-
-	<!-- activeMQ : 用于权限有修改时，异步通知应用更新权限
-	<import resource="classpath:spring-mq-sso.xml" />
-	 -->
 </beans>
