@@ -85,7 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 	@Override
 	public void deleteByIds(Collection<Integer> idList) {
 		userRoleService.deleteByUserIds(idList);
-		deleteByIds(idList);
+		super.deleteByIds(idList);
 	}
 
 	@Override

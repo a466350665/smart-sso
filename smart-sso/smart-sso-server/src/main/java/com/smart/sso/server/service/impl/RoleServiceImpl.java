@@ -54,7 +54,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
 	public void deleteByIds(Collection<Integer> idList) {
 		userRoleService.deleteByRoleIds(idList);
 		rolePermissionService.deleteByRoleIds(idList);
-		deleteByIds(idList);
+		super.deleteByIds(idList);
 	}
 
 	@Override
