@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,6 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.exception.ValidateException;
 import com.smart.mvc.model.Page;
 import com.smart.mvc.model.Result;
-import com.smart.mvc.util.ConfigUtils;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.server.model.Office;
@@ -37,6 +37,8 @@ import io.swagger.annotations.ApiOperation;
 @SuppressWarnings("rawtypes")
 public class UserController extends BaseController {
 
+    @Value("${system.reset.password}")
+    private String resetPassword;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -126,6 +128,7 @@ public class UserController extends BaseController {
 			user.setPassword(PasswordHelper.encrypt(password));
 		}
 		user.setIsEnable(isEnable);
+		user.setLoginCount(0);
 		userService.save(user);
 		return Result.success();
 	}
@@ -135,7 +138,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public Result resetPassword(
 	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
-		userService.resetPassword(PasswordHelper.encrypt(ConfigUtils.getProperty("system.reset.password")), convertToIdList(ids));
+		userService.resetPassword(PasswordHelper.encrypt(resetPassword), convertToIdList(ids));
 		return Result.success();
 	}
 

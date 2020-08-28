@@ -53,6 +53,6 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App> implements AppServi
 	public void deleteByIds(Collection<Integer> idList) {
 		rolePermissionService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
-		deleteByIds(idList);
+		super.deleteByIds(idList);
 	}
 }

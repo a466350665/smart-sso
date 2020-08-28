@@ -1,22 +1,21 @@
 package com.smart.sso.server.service.impl;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
-import com.smart.mvc.util.ConvertUtils;
 import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.server.common.Tree;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.dto.PermissionDto;
+import com.smart.sso.server.dto.TreeDto;
 import com.smart.sso.server.model.Permission;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.RolePermissionService;
@@ -28,30 +27,32 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	private RolePermissionService rolePermissionService;
 
 	@Override
-	public List<Permission> selectList(Integer appId, Integer roleId, Boolean isEnable) {
+    public List<PermissionDto> selectTree(Integer appId, Integer roleId, Boolean isEnable) {
         List<Permission> permissionList = findByAppId(appId, isEnable);
         if (roleId == null) {
-            return ConvertUtils.convert(permissionList, r -> convertToDto(r, Collections.emptyList()));
+            return addRoot(Tree.build(permissionList, r -> convertToDto(r, false)));
         }
         List<Integer> permissionIdList = rolePermissionService.findPermissionIdListByRoleId(roleId);
-        return ConvertUtils.convert(permissionList, r -> convertToDto(r, permissionIdList));
-	}
+        return addRoot(Tree.build(permissionList, r -> convertToDto(r, permissionIdList.contains(r.getId()))));
+    }
+	
+	public List<PermissionDto> addRoot(List<TreeDto> list) {
+        PermissionDto dto = new PermissionDto();
+        dto.setName("根节点");
+        dto.setChildren(list);
+        return Lists.newArrayList(dto);
+    }
+	
+	private PermissionDto convertToDto(Permission r, Boolean checked) {
+        PermissionDto dto = new PermissionDto();
+        BeanUtils.copyProperties(r, dto);
+        dto.setChecked(checked);
+        return dto;
+    }
 	
     private List<Permission> findByAppId(Integer appId, Boolean isEnable) {
         return selectList(Condition.create().eq(appId != null, "appId", appId)
                 .eq(isEnable != null, "isEnable", isEnable).orderBy("sort asc, id asc"));
-    }
-	
-	private PermissionDto convertToDto(Permission r, List<Integer> permissionIdList) {
-        PermissionDto dto = new PermissionDto();
-        BeanUtils.copyProperties(r, dto);
-        if (CollectionUtils.isEmpty(permissionIdList)) {
-            dto.setChecked(false);
-        }
-        else {
-            dto.setChecked(permissionIdList.contains(r.getId()));
-        }
-        return dto;
     }
 
 	@Override
@@ -59,7 +60,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	public void delete(Integer id, Integer appId) {
 		List<Integer> idList = Lists.newArrayList();
 
-		List<Permission> list = selectList(appId, null, null);
+		List<Permission> list = findByAppId(appId, null);
 		loopSubList(id, idList, list);
 		idList.add(id);
 

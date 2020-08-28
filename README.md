@@ -7,7 +7,7 @@
 QQ交流群：454343484🈵、769134727（提供开发工具下载）
 
 ## 简述
-    Smart定位用当下最流行的SSM（SpringMVC + Spring + Mybatis）技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、支持分布式（Spring + Redis提供分布式Session）。
+    Smart定位用当下最流行的SpringBoot + Spring + Mybatis技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、支持分布式（Spring + Redis提供分布式Session）。
  
 ## 部署文档
 - [Java单点登录权限系统（一）—简介](https://blog.csdn.net/a466350665/article/details/54140411)
@@ -17,11 +17,10 @@ QQ交流群：454343484🈵、769134727（提供开发工具下载）
 
 ``` lua
 smart
-├── smart-mvc -- 公共核心模块（SpringMVC + Spring + Mybatis）
+├── smart-mvc -- 公共核心模块
 ├── smart-sso -- 单点登录权限系统
 ├───── smart-sso-client -- 客户端依赖包，提供登录认证、授权管理
 ├───── smart-sso-demo -- 客户端
-├───── smart-sso-springboot-demo -- SpringBoot客户端
 ├───── smart-sso-server -- 服务端
 ```
 
@@ -32,12 +31,12 @@ smart
 - 数据库：Mysql
 - 项目构建工具：Maven 3.3.3
 - API文档：Springfox-Swagger2 2.6.1
-- MVC框架：SpringMVC 4.2.1.RELEASE
-- 核心框架：Spring 4.2.1.RELEASE
+- MVC框架：SpringBoot 2.1.0.RELEASE
+- 核心框架：Spring 5.1.2.RELEASE
 - ORM框架：MyBatis 3.5.1
 - JSON工具：Fastjson 1.2.69
 - 数据库连接池：Druid 1.0.15
-- 日志管理：SLF4J 1.7.21、Logback 1.1.7
+- 日志管理：SLF4J 1.7.21
 - 单点登录：极简基于Cookie实现
 
 ### 前端

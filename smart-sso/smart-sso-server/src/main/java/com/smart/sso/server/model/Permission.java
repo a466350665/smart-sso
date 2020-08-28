@@ -2,9 +2,9 @@ package com.smart.sso.server.model;
 
 
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.smart.mvc.model.PersistentObject;
+import com.smart.sso.server.common.Tree;
 
 /**
  * 权限
@@ -12,7 +12,7 @@ import com.smart.mvc.model.PersistentObject;
  * @author Joe
  */
 @Table(name="sys_permission")
-public class Permission extends PersistentObject {
+public class Permission extends PersistentObject implements Tree {
 
 	private static final long serialVersionUID = 4368792338865943489L;
 
@@ -103,10 +103,5 @@ public class Permission extends PersistentObject {
 	
 	public String getPermissionIcon() {
 		return icon;
-	}
-
-	@Transient
-	public Integer getPId() {
-		return this.parentId;
 	}
 }

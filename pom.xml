@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.0.RELEASE</version>
+		<relativePath/>
+	</parent>
 	<groupId>com.smart</groupId>
 	<artifactId>smart</artifactId>
-	<version>1.4.0</version>
+	<version>1.5.0</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<!-- SpringMVC + Spring + Mybatis核心 -->
+		<!-- SpringBoot + Mybatis核心 -->
 		<module>smart-mvc</module>
 		<!-- 单点登录权限系统 -->
 		<module>smart-sso</module>
@@ -37,41 +43,19 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<server.port>80</server.port>
 		
 		<servlet.version>3.1.0</servlet.version>
 		<jpa.version>1.0</jpa.version>
-		<junit.version>4.12</junit.version>
 		
-		<spring.version>4.2.1.RELEASE</spring.version>
-		<spring-redis.version>1.2.2.RELEASE</spring-redis.version>
-		<aspectj.version>1.8.9</aspectj.version>
-		<jta.version>1.1</jta.version>
+		<spring.version>5.1.2.RELEASE</spring.version>
 		<mybatis.version>3.5.1</mybatis.version>
 		<mybatis-spring.version>2.0.5</mybatis-spring.version>
 		<druid.version>1.0.15</druid.version>
 		<mysql.version>5.1.36</mysql.version>
 		<fastjson.version>1.2.69</fastjson.version>
-		<xstream.version>1.4.8</xstream.version>
-		<dom4j.version>1.6.1</dom4j.version>
 		<slf4j.version>1.7.21</slf4j.version>
-		<logback.version>1.1.7</logback.version>
-		<jcl.version>1.7.21</jcl.version>
-		<mail.version>1.4.7</mail.version>
-		<poi.version>3.17</poi.version>
-		<jxl.version>2.6</jxl.version>
-		<commons-io.version>2.4</commons-io.version>
-		<commons-fileupload.version>1.3.1</commons-fileupload.version>
-		<jstl.version>1.2</jstl.version>
-		<jsp-api.version>2.2</jsp-api.version>
-		<activemq.version>5.13.3</activemq.version>
 		<hessian.version>4.0.38</hessian.version>
-		<dubbo.version>2.5.3</dubbo.version>
-		<zookeeper.version>0.1</zookeeper.version>
-		<netty.version>4.0.23.Final</netty.version>
 		<swagger.version>1.5.10</swagger.version>
-		<springfox.version>2.6.1</springfox.version>
-		<jackson.version>2.8.8</jackson.version>
 		<guava.version>20.0</guava.version>
 	</properties>
 
@@ -91,48 +75,6 @@
 	            <artifactId>persistence-api</artifactId>
 	            <version>${jpa.version}</version>
 	        </dependency>
-			
-			<!-- 单元测试 -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-			
-			<!-- Xstream处理 -->
-			<dependency>
-				<groupId>com.thoughtworks.xstream</groupId>
-				<artifactId>xstream</artifactId>
-				<version>${xstream.version}</version>
-			</dependency>
-			
-			<!-- Excel -->
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>${dom4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>${poi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${poi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml-schemas</artifactId>
-				<version>${poi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>jexcelapi</groupId>
-				<artifactId>jxl</artifactId>
-				<version>${jxl.version}</version>
-			</dependency>
 			
 			<!-- Spring -->
 			<dependency>
@@ -186,18 +128,6 @@
 			    <version>${spring-redis.version}</version>
 			</dependency>
 			
-			<!-- AOP支持 -->
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjrt</artifactId>
-				<version>${aspectj.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjweaver</artifactId>
-				<version>${aspectj.version}</version>
-			</dependency>
-			
 			<!-- Mybatis核心包 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -210,20 +140,6 @@
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
-			</dependency>
-			
-			<!-- IO操作 -->
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${commons-io.version}</version>
-			</dependency>
-			
-			<!-- 文件上传所依赖的jar包 -->
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>${commons-fileupload.version}</version>
 			</dependency>
 			
 			<!-- Mysql驱动程序 -->
@@ -246,30 +162,6 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			
-			<!-- 日志桥接，Spring中commons-logging替换为logback -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${jcl.version}</version>
-			</dependency>
-			
-			<!-- Java发送邮件 -->
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>${mail.version}</version>
-			</dependency>
 			
 			<!-- Json处理 -->
 			<dependency>
@@ -285,67 +177,11 @@
 				<version>${guava.version}</version>
 			</dependency>
 	
-			<!-- Jstl支持-->
-			<dependency>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-				<version>${jstl.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>${jsp-api.version}</version>
-			</dependency>
-			
-			<!-- ActiveMQ -->
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-client</artifactId>
-				<version>${activemq.version}</version>
-			</dependency>
-			
 			<!-- 远程RPC调用hessian支持 -->
 			<dependency>
 				<groupId>com.caucho</groupId>
 				<artifactId>hessian</artifactId>
 				<version>${hessian.version}</version>
-			</dependency>
-			
-			<!-- Dubbo -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>dubbo</artifactId>
-				<version>${dubbo.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>spring</artifactId>
-						<groupId>org.springframework</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-	        
-			<!-- Zookeeper -->
-			<dependency>
-				<groupId>com.github.sgroschupf</groupId>
-				<artifactId>zkclient</artifactId>
-				<version>${zookeeper.version}</version>
-			</dependency>
-	
-			<!-- Netty -->
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-transport</artifactId>
-				<version>${netty.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-handler</artifactId>
-				<version>${netty.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-codec-http</artifactId>
-				<version>${netty.version}</version>
 			</dependency>
 			
 			<!-- Springfox API文档 -->
@@ -354,82 +190,10 @@
 				<artifactId>swagger-annotations</artifactId>
 				<version>${swagger.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<warName>/${project.artifactId}</warName>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<port>${server.port}</port>
-					<path>/${project.artifactId}</path>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.2.v20170220</version>
-				<configuration>
-					<webApp>
-						<contextPath>/${project.artifactId}</contextPath>
-					</webApp>
-					<httpConnector>
-						<port>${server.port}</port>
-					</httpConnector>
-				</configuration>
-			</plugin>
-		</plugins>
 		<resources>
 			<!-- Intellij idea兼容 -->
 			<resource>
@@ -443,11 +207,6 @@
 				<directory>src/main/resources</directory>
 				<!-- 过滤替换配置文件变量 -->
 				<filtering>true</filtering>
-			</resource>
-			
-			<!-- 环境配置文件 -->
-			<resource>
-				<directory>deploy/${env}</directory>
 			</resource>
 		</resources>
 	</build>

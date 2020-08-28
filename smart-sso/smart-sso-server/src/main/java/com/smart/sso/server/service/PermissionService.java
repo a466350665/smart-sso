@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.smart.mvc.service.Service;
 import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.server.dto.PermissionDto;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -21,7 +22,7 @@ public interface PermissionService extends Service<Permission> {
 	 * @param isEnable
 	 * @return
 	 */
-	public List<Permission> selectList(Integer appId, Integer roleId, Boolean isEnable);
+	public List<PermissionDto> selectTree(Integer appId, Integer roleId, Boolean isEnable);
 	
 	/**
 	 * 删除权限

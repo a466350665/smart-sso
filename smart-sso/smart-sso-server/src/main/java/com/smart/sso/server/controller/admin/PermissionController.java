@@ -13,6 +13,7 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
+import com.smart.sso.server.dto.PermissionDto;
 import com.smart.sso.server.model.Permission;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.PermissionService;
@@ -40,22 +41,22 @@ public class PermissionController extends BaseController {
 		model.addAttribute("appList", appService.selectAll(true));
 		return "/admin/permission";
 	}
+	
+	@ApiOperation("获取")
+    @ResponseBody
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Result get(@ValidateParam(name = "id", value = {Validator.NOT_BLANK}) Integer id) {
+        return Result.createSuccess(permissionService.selectById(id));
+    }
 
 	@ApiOperation("权限树节点")
 	@ResponseBody
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
-	public List<Permission> tree(
+	public List<PermissionDto> tree(
 	    @ValidateParam(name = "应用id") Integer appId,
 	    @ValidateParam(name = "角色id") Integer roleId,
 	    @ValidateParam(name = "是否启用 ") Boolean isEnable) {
-		List<Permission> list = permissionService.selectList(appId, roleId, isEnable);
-		Permission permission = new Permission();
-		permission.setId(null);
-		permission.setParentId(-1);
-		permission.setName("根节点");
-		permission.setAppId(appId);
-		list.add(0, permission);
-		return list;
+		return permissionService.selectTree(appId, roleId, isEnable);
 	}
 
 	@ApiOperation("新增/修改提交")
@@ -64,7 +65,7 @@ public class PermissionController extends BaseController {
 	public Result save(
 	        @ValidateParam(name = "id") Integer id,
 	        @ValidateParam(name = "应用id", value = { Validator.NOT_BLANK }) Integer appId,
-	        @ValidateParam(name = "父id", value = { Validator.NOT_BLANK }) Integer parentId,
+	        @ValidateParam(name = "父id") Integer parentId,
 	        @ValidateParam(name = "图标") String icon,
 	        @ValidateParam(name = "名称", value = { Validator.NOT_BLANK }) String name,
 			@ValidateParam(name = "权限URL", value = { Validator.NOT_BLANK }) String url,
@@ -87,7 +88,7 @@ public class PermissionController extends BaseController {
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);
 		permissionService.save(permission);
-		return Result.createSuccess().setMessage("保存成功");
+		return Result.success();
 	}
 
 	@ApiOperation("删除")

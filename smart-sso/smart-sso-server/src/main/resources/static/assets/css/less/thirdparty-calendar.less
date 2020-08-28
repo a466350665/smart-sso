@@ -1,0 +1,226 @@
+.enable_plugin_fullcalendar() when(@enable-plugin-fullcalendar = true) {
+
+//calendar
+.fc-toolbar  h2 {
+	font-size: @font-size-calendar-header;
+	color: #65A0CE;
+}
+
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed hr, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-row, .fc-unthemed .fc-popover {
+	border-color: #BCD4E5;
+}
+	
+.fc-unthemed .fc-today {
+	background: #FFC;
+}
+.fc-event {
+	border-width: 0;    //default BORDER color
+	
+	&:not([class*="label-"]) {
+	 background-color: @label-default;
+    }
+	
+	color: @label-text;
+	&.label-yellow {
+		color: @label-yellow-text;
+	}
+	&.label-light {
+		color: @label-light-text;
+	}
+	
+	padding: 1px 1px 2px 2px;
+	border-radius: 0;
+	
+	.label-yellow & { color:#996633; }
+	.label-light & { color:#888; }
+	
+	[class*="label-"] > & , [class*="label-"] > & > .fc-event-skin.fc-event-head {
+		background-color: inherit;
+	}
+	
+	&.ui-draggable-dragging {
+		cursor:move;
+	}
+	
+	&.fc-event-vert , .fc-event-vert > &
+	{
+		padding:0 0 1px;
+	}
+}
+
+
+.fc-day-number {
+	color: #2E6589;
+	.opacity(1);
+}
+
+.fc-widget-header, .fc .fc-axis {
+	background:#ECF2F7;
+	color:#8090A0;
+}
+//
+//.fc-grid th  , th.fc-widget-header{
+//	height:28px;
+//	vertical-align:middle !important;
+//}
+
+.fc-event-hori , .fc-event-vert {
+	border-radius:0 !important;
+	border-color:transparent;
+}
+.fc-event-vert {
+	.fc-event-content  {
+		padding-left:1px;
+		padding-right:1px;
+	}
+	.fc-event-time {
+		padding:0;
+	}
+}
+
+
+
+.fc-state-default {
+	& , & .fc-button-inner {
+		border:none;
+		background-color: @btn-default;
+		color: #FFF;
+		background-image:none;
+		box-shadow:none;
+		text-shadow:none;
+		
+		border-radius:0 !important;
+		margin-left:2px;
+	}
+	
+	border:none;
+	.fc-button-effect {
+		display:none;
+	}
+}
+
+.fc-state-disabled {
+	& , & .fc-button-inner {
+		.opacity(0.75);
+		color:#DDD;
+	}
+}
+
+
+.fc-state-active {
+	& , & .fc-button-inner {
+		border-color:#4F99C6;
+		background-color:#6FB3E0;
+	}
+}
+.fc-state-hover {
+	& , & .fc-button-inner {
+		background-color:#8B9AA3;
+	}
+}
+
+
+.fc .fc-button-group > * {
+	margin: 0 1px 0 0;
+}
+
+
+
+
+.external-event {
+  margin: 6px 0;
+  padding: 0;
+ 
+  cursor: default;
+  display: block;
+
+  &:not([class*="label-"]) {
+	background-color: @label-default;
+  }
+  
+  font-size: @base-font-size;
+  line-height: 28px;
+  
+  &:hover {
+	.opacity(1);
+  }
+  &.ui-draggable-dragging {
+	cursor:move;
+  }
+  
+	color: @label-text;
+	&.label-yellow {
+		color: @label-yellow-text;
+	}
+	&.label-light {
+		color: @label-light-text;
+	}
+
+
+
+
+  > .@{icon}:first-child {// the move & drag icon
+	display: inline-block; height:32px; width:32px;
+	text-align: center;
+	line-height: 30px;
+	margin-right: 5px;
+ 
+	font-size: floor(@base-font-size * 1.2);
+ 
+	border-right:1px solid #FFF;
+ }  
+}
+
+
+
+
+
+//calendar inside widget-box --- not complete yet
+/**
+.widget-main {
+	.fc {
+		position:relative;
+		top:-40px;
+		
+		> .fc-header {
+			position:relative;
+			z-index:10;
+		}
+		
+		.fc-header-space {
+			padding-left:2px;
+		}
+	}
+	
+	.fc-header-title > h2 {
+		font-size: floor(@base-font-size * 1.4);
+		line-height: 36px;
+	}
+	
+	.fc-content {
+		top:-14px;
+		z-index:11;
+	}
+	
+	.fc-button-content {
+		height:37px;
+		line-height:36px;
+	}
+	
+}
+*/
+
+
+
+//calendar
+@media only screen and (max-width: @screen-xs) {
+ .fc-header td {
+  display:block;
+  width:auto;
+  text-align:left;
+ }
+}
+
+
+}
+.enable_plugin_fullcalendar();
