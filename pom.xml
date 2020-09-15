@@ -14,10 +14,9 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<!-- SpringBoot + Mybatis核心 -->
-		<module>smart-mvc</module>
-		<!-- 单点登录权限系统 -->
-		<module>smart-sso</module>
+		<module>smart-sso-client</module>
+		<module>smart-sso-demo</module>
+		<module>smart-sso-server</module>
 	</modules>
 	
 	<profiles>

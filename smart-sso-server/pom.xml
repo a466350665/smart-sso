@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.smart</groupId>
-		<artifactId>smart-sso</artifactId>
+		<artifactId>smart</artifactId>
 		<version>1.5.0</version>
 	</parent>
 	<artifactId>smart-sso-server</artifactId>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-mvc</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- sso单点登录客户端 -->
