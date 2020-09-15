@@ -1,4 +1,4 @@
-# Smart
+# smart-sso
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/a466350665/smart/pulls)
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart.svg?style=social&label=Stars)](https://github.com/a466350665/smart)
@@ -7,7 +7,7 @@
 QQ交流群：454343484🈵、769134727（提供开发工具下载）
 
 ## 简述
-    Smart定位用当下最流行的SpringBoot + Spring + Mybatis技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、支持分布式（Spring + Redis提供分布式Session）。
+    smart-sso定位用当下最流行的SpringBoot + Spring + Mybatis技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、支持分布式（Spring + Redis提供分布式Session）。
  
 ## 部署文档
 - [Java单点登录权限系统（一）—简介](https://blog.csdn.net/a466350665/article/details/54140411)
