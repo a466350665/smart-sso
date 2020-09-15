@@ -12,6 +12,13 @@
 	<name>${project.artifactId}</name>
 
 	<dependencies>
+		<!-- sso单点登录客户端 -->
+		<dependency>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-sso-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -26,13 +33,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<!-- sso单点登录客户端 -->
-		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-client</artifactId>
-			<version>1.5.0</version>
 		</dependency>
 	</dependencies>
 </project>
