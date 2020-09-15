@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.smart</groupId>
-		<artifactId>smart</artifactId>
-		<version>1.5.0</version>
+		<artifactId>smart-sso</artifactId>
+		<version>2.0.0</version>
 	</parent>
 	<artifactId>smart-sso-client</artifactId>
 	<packaging>jar</packaging>
