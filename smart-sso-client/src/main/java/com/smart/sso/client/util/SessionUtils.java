@@ -1,7 +1,10 @@
 package com.smart.sso.client.util;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.model.SessionPermission;
 import com.smart.sso.client.model.SessionUser;
 
@@ -11,34 +14,39 @@ import com.smart.sso.client.model.SessionUser;
  * @author Joe
  */
 public class SessionUtils {
-	/**
-	 * 用户信息
-	 */
-	public static final String SESSION_USER = "_sessionUser";
+    
+    public static String getToken(HttpServletRequest request) {
+        return (String) request.getSession().getAttribute(SsoConstant.SESSION_TOKEN);
+    }
 
-	/**
-	 * 用户权限
-	 */
-	public static final String SESSION_USER_PERMISSION = "_sessionUserPermission";
+    public static void setToken(HttpServletRequest request, String token) {
+        request.getSession().setAttribute(SsoConstant.SESSION_TOKEN, token);
+    }
 
-	public static SessionUser getSessionUser(HttpServletRequest request) {
-		return (SessionUser) request.getSession().getAttribute(SESSION_USER);
+	public static SessionUser getUser(HttpServletRequest request) {
+		return (SessionUser) request.getSession().getAttribute(SsoConstant.SESSION_USER);
+	}
+	
+	public static Integer getUserId(HttpServletRequest request) {
+        return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
+    }
+
+	public static void setUser(HttpServletRequest request, SessionUser sessionUser) {
+		request.getSession().setAttribute(SsoConstant.SESSION_USER, sessionUser);
 	}
 
-	public static void setSessionUser(HttpServletRequest request, SessionUser sessionUser) {
-		request.getSession().setAttribute(SESSION_USER, sessionUser);
+	public static SessionPermission getPermission(HttpServletRequest request) {
+		return (SessionPermission) request.getSession().getAttribute(SsoConstant.SESSION_PERMISSION);
 	}
 
-	public static SessionPermission getSessionPermission(HttpServletRequest request) {
-		return (SessionPermission) request.getSession().getAttribute(SESSION_USER_PERMISSION);
-	}
-
-	public static void setSessionPermission(HttpServletRequest request, SessionPermission sessionPermission) {
-	    request.getSession().setAttribute(SESSION_USER_PERMISSION, sessionPermission);
+	public static void setPermission(HttpServletRequest request, SessionPermission sessionPermission) {
+	    request.getSession().setAttribute(SsoConstant.SESSION_PERMISSION, sessionPermission);
 	}
 	
 	public static void invalidate(HttpServletRequest request){
-		setSessionUser(request, null);
-		setSessionPermission(request, null);
+	    setToken(request, null);
+		setUser(request, null);
+		setPermission(request, null);
+		request.getSession().invalidate();
 	}
 }

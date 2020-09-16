@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.smart.mvc.service.Service;
-import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.server.dto.PermissionDto;
 import com.smart.sso.server.model.Permission;
 
@@ -45,5 +45,5 @@ public interface PermissionService extends Service<Permission> {
 	 * @param userId 用户ID
 	 * @return
 	 */
-	public List<RpcPermission> selectListByUserId(String appCode, Integer userId);
+	public List<RpcPermissionDto> selectListByUserId(String appCode, Integer userId);
 }

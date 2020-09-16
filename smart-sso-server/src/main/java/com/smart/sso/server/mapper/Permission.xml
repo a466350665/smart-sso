@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.smart.sso.server.dao.PermissionDao">
 	
-	<select id="selectListByUserId" parameterType="map" resultType="com.smart.sso.client.model.RpcPermission">   
+	<select id="selectListByUserId" parameterType="map" resultType="com.smart.sso.client.dto.RpcPermissionDto">   
      	SELECT DISTINCT
      		   p.id,
 		       p.parentId,

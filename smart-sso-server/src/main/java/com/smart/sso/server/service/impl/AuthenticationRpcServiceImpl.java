@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.smart.sso.client.model.RpcPermission;
-import com.smart.sso.client.model.RpcUser;
+import com.smart.sso.client.dto.RpcPermissionDto;
+import com.smart.sso.client.dto.RpcUserDto;
 import com.smart.sso.client.rpc.AuthenticationRpcService;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.dto.LoginUserDto;
@@ -28,16 +28,12 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	}
 	
 	@Override
-	public RpcUser selectUser(String token) {
-		LoginUserDto user = tokenManager.validate(token);
-		if (user == null) {
-		    return null;
-		}
-		return new RpcUser(user.getAccount());
+	public RpcUserDto selectUser(String token) {
+		return tokenManager.validate(token);
 	}
 	
 	@Override
-	public List<RpcPermission> selectPermissionList(String token, String appCode) {
+	public List<RpcPermissionDto> selectPermissionList(String token, String appCode) {
 		if (StringUtils.isEmpty(token)) {
 			return permissionService.selectListByUserId(appCode, null);
 		}
@@ -46,7 +42,7 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 			if (user == null) {
 				return Collections.emptyList();
 			}
-			return permissionService.selectListByUserId(appCode, user.getUserId());
+			return permissionService.selectListByUserId(appCode, user.getId());
 		}
 	}
 }

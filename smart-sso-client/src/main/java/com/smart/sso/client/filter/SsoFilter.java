@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.model.RpcUser;
+import com.smart.sso.client.dto.RpcUserDto;
 import com.smart.sso.client.model.SessionUser;
 import com.smart.sso.client.util.SessionUtils;
 
@@ -18,17 +18,14 @@ import com.smart.sso.client.util.SessionUtils;
  */
 public class SsoFilter extends ClientFilter {
 
-	// sso授权回调参数token名称
-	public static final String SSO_TOKEN_NAME = "__vt_param__";
-
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String token = getLocalToken(request);
+		String token = SessionUtils.getToken(request);
 		if (token == null) {
-			token = request.getParameter(SSO_TOKEN_NAME);
+			token = request.getParameter(SsoConstant.SSO_TOKEN_NAME);
 			if (token != null) {
 				invokeAuthInfoInSession(request, token);
-				// 再跳转一次当前URL，以便去掉URL中token参数
+				// 去掉URL中token参数，再跳转一次当前BackUrl
 				response.sendRedirect(getRemoveTokenBackUrl(request));
 				return false;
 			}
@@ -41,17 +38,6 @@ public class SsoFilter extends ClientFilter {
 	}
 
 	/**
-	 * 获取Session中token
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private String getLocalToken(HttpServletRequest request) {
-		SessionUser sessionUser = SessionUtils.getSessionUser(request);
-		return sessionUser == null ? null : sessionUser.getToken();
-	}
-
-	/**
 	 * 存储sessionUser
 	 * 
 	 * @param request
@@ -59,10 +45,11 @@ public class SsoFilter extends ClientFilter {
 	 * @throws IOException
 	 */
 	private void invokeAuthInfoInSession(HttpServletRequest request, String token) throws IOException {
-		RpcUser rpcUser = authenticationRpcService.selectUser(token);
-		if (rpcUser != null) {
-			SessionUtils.setSessionUser(request, new SessionUser(token, rpcUser.getAccount()));
-		}
+        RpcUserDto rpcUser = authenticationRpcService.selectUser(token);
+        if (rpcUser != null) {
+            SessionUtils.setToken(request, token);
+            SessionUtils.setUser(request, new SessionUser(rpcUser.getId(), rpcUser.getAccount()));
+        }
 	}
 
 	/**
@@ -93,7 +80,7 @@ public class SsoFilter extends ClientFilter {
 	 */
 	private String getRemoveTokenBackUrl(HttpServletRequest request) {
 		String backUrl = getBackUrl(request);
-		return backUrl.substring(0, backUrl.indexOf(SSO_TOKEN_NAME) - 1);
+		return backUrl.substring(0, backUrl.indexOf(SsoConstant.SSO_TOKEN_NAME) - 1);
 	}
 
 	/**

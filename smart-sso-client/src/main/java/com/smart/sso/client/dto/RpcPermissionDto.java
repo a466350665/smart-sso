@@ -1,4 +1,4 @@
-package com.smart.sso.client.model;
+package com.smart.sso.client.dto;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class RpcPermission implements Serializable {
+public class RpcPermissionDto implements Serializable {
 
 	private static final long serialVersionUID = 6413358335961655343L;
 
@@ -21,7 +21,7 @@ public class RpcPermission implements Serializable {
 	private String name;
 	/** 权限URL */
 	private String url;
-	/** 是否菜单 */
+	/** True:菜单权限，False:按钮或数据权限  */
 	private Boolean isMenu;
 
 	public Integer getId() {

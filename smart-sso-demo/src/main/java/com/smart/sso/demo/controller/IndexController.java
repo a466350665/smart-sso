@@ -20,14 +20,14 @@ public class IndexController {
 	@GetMapping("/")
 	public String index(Model model, HttpServletRequest request) {
 
-		SessionUser sessionUser = SessionUtils.getSessionUser(request);
+		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
 		// 单点退出地址
 		model.addAttribute("ssologoutUrl", new StringBuilder().append(ssoServerUrl).append("/logout?backUrl=")
 				.append(getLocalUrl(request)).toString());
 
-		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getPermission(request);
 		if (sessionPermission != null) {
 			// 登录用户当前应用的菜单
 			request.setAttribute("userMenus", sessionPermission.getMenuList());

@@ -18,7 +18,7 @@ import com.smart.mvc.controller.BaseController;
 import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.filter.SsoFilter;
+import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.server.common.TokenManager;
 import com.smart.sso.server.dto.LoginUserDto;
 import com.smart.sso.server.model.User;
@@ -126,7 +126,7 @@ public class LoginController extends BaseController{
 		else {
 			sbf.append("?");
 		}
-		sbf.append(SsoFilter.SSO_TOKEN_NAME).append("=").append(token);
+		sbf.append(SsoConstant.SSO_TOKEN_NAME).append("=").append(token);
 		return sbf.toString();
 	}
 

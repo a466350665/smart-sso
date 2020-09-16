@@ -2,8 +2,8 @@ package com.smart.sso.client.rpc;
 
 import java.util.List;
 
-import com.smart.sso.client.model.RpcPermission;
-import com.smart.sso.client.model.RpcUser;
+import com.smart.sso.client.dto.RpcPermissionDto;
+import com.smart.sso.client.dto.RpcUserDto;
 
 
 /**
@@ -31,7 +31,7 @@ public interface AuthenticationRpcService {
 	 *            应用编码
 	 * @return
 	 */
-	public RpcUser selectUser(String token);
+	public RpcUserDto selectUser(String token);
 	
 	/**
 	 * 获取当前应用所有权限(含菜单)
@@ -42,5 +42,5 @@ public interface AuthenticationRpcService {
 	 *            应用编码
 	 * @return
 	 */
-	public List<RpcPermission> selectPermissionList(String token, String appCode);
+	public List<RpcPermissionDto> selectPermissionList(String token, String appCode);
 }

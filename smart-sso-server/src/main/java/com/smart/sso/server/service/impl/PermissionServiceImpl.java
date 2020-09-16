@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.smart.mvc.model.Condition;
 import com.smart.mvc.service.impl.ServiceImpl;
-import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.server.common.Tree;
 import com.smart.sso.server.dao.PermissionDao;
 import com.smart.sso.server.dto.PermissionDto;
@@ -85,7 +85,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 	}
 
 	@Override
-	public List<RpcPermission> selectListByUserId(String appCode, Integer userId) {
+	public List<RpcPermissionDto> selectListByUserId(String appCode, Integer userId) {
 		return dao.selectListByUserId(appCode, userId);
 	}
 }

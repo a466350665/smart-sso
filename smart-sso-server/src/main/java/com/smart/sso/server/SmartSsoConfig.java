@@ -1,7 +1,6 @@
 package com.smart.sso.server;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +22,7 @@ public class SmartSsoConfig {
     private int ssoTimeout;
     @Value("${sso.app.code}")
     private String ssoAppCode;
-    @Resource
+    @Autowired
     private AuthenticationRpcService authenticationRpcService;
 
     @Bean

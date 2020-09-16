@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import com.smart.sso.client.dto.RpcPermissionDto;
+
 /**
  * 已登录用户权限信息
  * 
@@ -14,17 +16,17 @@ public class SessionPermission implements Serializable {
 	private static final long serialVersionUID = 7744061178030182892L;
 	
 	// 用户菜单
-	private List<RpcPermission> menuList;
+	private List<RpcPermissionDto> menuList;
 	// 用户权限
 	private Set<String> permissionSet;
-	// 用户没有的权限
+	// 已添加权限控制，且用户没有分配的权限，以逗号分隔（用于前端显示控制）
 	private String noPermissions;
 
-	public List<RpcPermission> getMenuList() {
+	public List<RpcPermissionDto> getMenuList() {
 		return menuList;
 	}
 
-	public void setMenuList(List<RpcPermission> menuList) {
+	public void setMenuList(List<RpcPermissionDto> menuList) {
 		this.menuList = menuList;
 	}
 

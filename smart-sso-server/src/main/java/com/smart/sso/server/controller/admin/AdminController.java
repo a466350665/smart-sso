@@ -30,10 +30,10 @@ public class AdminController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(HttpServletRequest request, Model model) {
-		SessionUser sessionUser = SessionUtils.getSessionUser(request);
+		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 设置登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
-		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getPermission(request);
 		// 设置当前登录用户没有的权限，以便控制前台按钮的显示或者隐藏
 		model.addAttribute("sessionUserNoPermissions",
 				sessionPermission == null ? null : sessionPermission.getNoPermissions());
@@ -44,7 +44,7 @@ public class AdminController {
     @ResponseBody
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public Result menu(HttpServletRequest request) {
-		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
+		SessionPermission sessionPermission = SessionUtils.getPermission(request);
 		// 获取登录用户权限下的菜单列表
         return Result
             .createSuccess(sessionPermission == null ? Collections.emptyList() : sessionPermission.getMenuList());

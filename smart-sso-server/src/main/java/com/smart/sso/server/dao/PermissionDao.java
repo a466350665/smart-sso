@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.smart.mvc.dao.DynamicDao;
-import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.server.model.Permission;
 
 /**
@@ -15,5 +15,5 @@ import com.smart.sso.server.model.Permission;
  */
 public interface PermissionDao extends DynamicDao<Permission> {
 
-	public List<RpcPermission> selectListByUserId(@Param("appCode") String appCode, @Param("userId") Integer userId);
+	public List<RpcPermissionDto> selectListByUserId(@Param("appCode") String appCode, @Param("userId") Integer userId);
 }

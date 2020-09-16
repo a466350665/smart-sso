@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.model.RpcPermission;
+import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.client.model.SessionPermission;
 import com.smart.sso.client.util.SessionUtils;
 
@@ -32,12 +32,8 @@ public class PermissionFilter extends ClientFilter {
 
 	// 当前应用关联权限系统的应用编码
 	private String ssoAppCode;
-	// 存储已获取最新权限的token集合，当权限发生变动时清空
-	private Set<String> sessionPermissionCache = new CopyOnWriteArraySet<>();
-	// 应用所有权限URL
+	// 当前应用配置的所有权限
 	private Set<String> applicationPermissionSet;
-	// 应用所有权限并发锁
-	private final Object applicationPermissionMonitor = new Object();
 
 	public PermissionFilter() {
 	}
@@ -55,27 +51,20 @@ public class PermissionFilter extends ClientFilter {
 	}
 
 	/**
-	 * 1.应用初始化，获取应用所有的菜单及权限 2.权限有变动修改，JMS通知重新加载
+	 * 1.应用初始化，获取应用所有的菜单及权限
 	 */
-	public void initApplicationPermissions() {
-		List<RpcPermission> dbList = null;
-		try {
-			dbList = authenticationRpcService.selectPermissionList(null, ssoAppCode);
-		}
-		catch (Exception e) {
-			dbList = Collections.emptyList();
-			logger.error("无法连接到单点登录服务端,请检查配置sso.server.url", e);
-		}
+    public void initApplicationPermissions() {
+        List<RpcPermissionDto> dbList = null;
+        try {
+            dbList = authenticationRpcService.selectPermissionList(null, ssoAppCode);
+        } catch (Exception e) {
+            dbList = Collections.emptyList();
+            logger.error("无法连接到单点登录服务端,请检查配置sso.server.url", e);
+        }
 
-		synchronized (applicationPermissionMonitor) {
-			applicationPermissionSet = new HashSet<>();
-            for (RpcPermission menu : dbList) {
-                if (!(menu.getUrl() == null || menu.getUrl().isEmpty())) {
-                    applicationPermissionSet.add(menu.getUrl());
-                }
-            }
-		}
-	}
+        applicationPermissionSet = dbList.stream().filter(p -> p.getUrl() != null && !p.getUrl().isEmpty())
+            .map(p -> p.getUrl()).collect(Collectors.toSet());
+    }
 
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -94,16 +83,14 @@ public class PermissionFilter extends ClientFilter {
 		if (permissionSet.contains(path)) {
 			return true;
 		}
-		synchronized (applicationPermissionMonitor) {
-			return !applicationPermissionSet.contains(path);
-		}
+		// 如果当前权限没有配置权限控制，也返回为True
+		return !applicationPermissionSet.contains(path);
 	}
 
 	private Set<String> getLocalPermissionSet(HttpServletRequest request) {
-		SessionPermission sessionPermission = SessionUtils.getSessionPermission(request);
-		String token = SessionUtils.getSessionUser(request).getToken();
-		if (sessionPermission == null || !sessionPermissionCache.contains(token)) {
-			sessionPermission = invokePermissionInSession(request, token);
+		SessionPermission sessionPermission = SessionUtils.getPermission(request);
+		if (sessionPermission == null) {
+			sessionPermission = invokePermissionInSession(request);
 		}
 		return sessionPermission.getPermissionSet();
 	}
@@ -114,12 +101,13 @@ public class PermissionFilter extends ClientFilter {
 	 * @param token
 	 * @return
 	 */
-	public SessionPermission invokePermissionInSession(HttpServletRequest request, String token) {
-		List<RpcPermission> dbList = authenticationRpcService.selectPermissionList(token, ssoAppCode);
+	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
+	    String token = SessionUtils.getToken(request);
+		List<RpcPermissionDto> dbList = authenticationRpcService.selectPermissionList(token, ssoAppCode);
 
-		List<RpcPermission> menuList = new ArrayList<>();
+		List<RpcPermissionDto> menuList = new ArrayList<>();
 		Set<String> operateSet = new HashSet<>();
-		for (RpcPermission menu : dbList) {
+		for (RpcPermissionDto menu : dbList) {
 			if (menu.getIsMenu()) {
 				menuList.add(menu);
 			}
@@ -133,31 +121,18 @@ public class PermissionFilter extends ClientFilter {
 		sessionPermission.setMenuList(menuList);
 
 		// 保存登录用户没有权限的URL，方便前端去隐藏相应操作按钮
-		Set<String> noPermissionSet;
-		synchronized (applicationPermissionMonitor) {
-			noPermissionSet = new HashSet<>(applicationPermissionSet);
-		}
+		Set<String> noPermissionSet = new HashSet<>(applicationPermissionSet);
 		noPermissionSet.removeAll(operateSet);
 
 		sessionPermission.setNoPermissions(String.join(",", noPermissionSet));
 
 		// 保存登录用户权限列表
 		sessionPermission.setPermissionSet(operateSet);
-		SessionUtils.setSessionPermission(request, sessionPermission);
-
-		// 添加权限监控集合，当前session已更新最新权限
-		sessionPermissionCache.add(token);
+		SessionUtils.setPermission(request, sessionPermission);
 		return sessionPermission;
 	}
 
 	public void setSsoAppCode(String ssoAppCode) {
 		this.ssoAppCode = ssoAppCode;
-	}
-
-	/**
-	 * 失效session权限缓存
-	 */
-	public void invalidateSessionPermissions() {
-		sessionPermissionCache.clear();
 	}
 }
