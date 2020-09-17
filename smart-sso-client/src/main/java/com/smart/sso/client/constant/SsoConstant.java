@@ -12,6 +12,9 @@ public class SsoConstant {
      */
     public static final String SSO_TOKEN_NAME = "__vt_param__";
     
+    /** 模糊匹配后缀 */
+    public static final String URL_FUZZY_MATCH = "/*";
+    
     /**
      * 当前登录token
      */

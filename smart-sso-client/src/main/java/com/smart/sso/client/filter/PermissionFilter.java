@@ -56,7 +56,7 @@ public class PermissionFilter extends ClientFilter {
     public void initApplicationPermissions() {
         List<RpcPermissionDto> dbList = null;
         try {
-            dbList = authenticationRpcService.selectPermissionList(null, ssoAppCode);
+            dbList = authenticationRpcService.selectApplicationPermissionList(ssoAppCode);
         } catch (Exception e) {
             dbList = Collections.emptyList();
             logger.error("无法连接到单点登录服务端,请检查配置sso.server.url", e);
@@ -98,12 +98,12 @@ public class PermissionFilter extends ClientFilter {
 	/**
 	 * 保存权限信息
 	 * 
-	 * @param token
+	 * @param request
 	 * @return
 	 */
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
 	    String token = SessionUtils.getToken(request);
-		List<RpcPermissionDto> dbList = authenticationRpcService.selectPermissionList(token, ssoAppCode);
+		List<RpcPermissionDto> dbList = authenticationRpcService.selectUserPermissionList(token, ssoAppCode);
 
 		List<RpcPermissionDto> menuList = new ArrayList<>();
 		Set<String> operateSet = new HashSet<>();

@@ -81,8 +81,6 @@ public class LoginController extends BaseController{
 				addTokenInCookie(token, request, response);
 			}
 
-			// 跳转到原请求
-			backUrl = URLDecoder.decode(backUrl, "utf-8");
 			return "redirect:" + authBackUrl(backUrl, token);
 		}
 	}
@@ -118,16 +116,21 @@ public class LoginController extends BaseController{
 		return LOGIN_PATH;
 	}
 
-	private String authBackUrl(String backUrl, String token) {
-		StringBuilder sbf = new StringBuilder(backUrl);
-		if (backUrl.indexOf("?") > 0) {
-			sbf.append("&");
-		}
-		else {
-			sbf.append("?");
-		}
-		sbf.append(SsoConstant.SSO_TOKEN_NAME).append("=").append(token);
-		return sbf.toString();
+	private String authBackUrl(String backUrl, String token) {// 跳转到原请求
+        StringBuilder sbf = new StringBuilder(backUrl);
+        if (backUrl.indexOf("?") > 0) {
+            sbf.append("&");
+        } else {
+            sbf.append("?");
+        }
+        sbf.append(SsoConstant.SSO_TOKEN_NAME).append("=").append(token);
+        try {
+            return URLDecoder.decode(sbf.toString(), "utf-8");
+        } 
+        catch (UnsupportedEncodingException e) {
+            logger.error("", e);
+            return sbf.toString();
+        }
 	}
 
 	private String createToken(LoginUserDto loginUser) {

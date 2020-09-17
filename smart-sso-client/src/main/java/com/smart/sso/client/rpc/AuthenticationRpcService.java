@@ -7,7 +7,7 @@ import com.smart.sso.client.dto.RpcUserDto;
 
 
 /**
- * 身份认证授权服务接口
+ * 身份认证及授权服务接口
  * 
  * @author Joe
  */
@@ -34,7 +34,7 @@ public interface AuthenticationRpcService {
 	public RpcUserDto selectUser(String token);
 	
 	/**
-	 * 获取当前应用所有权限(含菜单)
+	 * 获取当前用户所有权限(含菜单)
 	 * 
 	 * @param token
 	 *            授权码 (如果token不为空，获取当前用户的所有权限)
@@ -42,5 +42,14 @@ public interface AuthenticationRpcService {
 	 *            应用编码
 	 * @return
 	 */
-	public List<RpcPermissionDto> selectPermissionList(String token, String appCode);
+	public List<RpcPermissionDto> selectUserPermissionList(String token, String appCode);
+	
+	/**
+     * 获取当前应用所有权限(含菜单)
+     * 
+     * @param appCode
+     *            应用编码
+     * @return
+     */
+    public List<RpcPermissionDto> selectApplicationPermissionList(String appCode);
 }

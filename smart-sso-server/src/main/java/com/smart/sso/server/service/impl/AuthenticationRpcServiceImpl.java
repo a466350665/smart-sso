@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.client.dto.RpcUserDto;
@@ -33,16 +32,16 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	}
 	
 	@Override
-	public List<RpcPermissionDto> selectPermissionList(String token, String appCode) {
-		if (StringUtils.isEmpty(token)) {
-			return permissionService.selectListByUserId(appCode, null);
+	public List<RpcPermissionDto> selectUserPermissionList(String token, String appCode) {
+		LoginUserDto user = tokenManager.validate(token);
+		if (user == null) {
+			return Collections.emptyList();
 		}
-		else {
-			LoginUserDto user = tokenManager.validate(token);
-			if (user == null) {
-				return Collections.emptyList();
-			}
-			return permissionService.selectListByUserId(appCode, user.getId());
-		}
+		return permissionService.selectListByUserId(appCode, user.getId());
 	}
+	
+	@Override
+    public List<RpcPermissionDto> selectApplicationPermissionList(String appCode) {
+        return permissionService.selectListByUserId(appCode, null);
+    }
 }

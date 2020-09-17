@@ -25,7 +25,7 @@ public class SsoFilter extends ClientFilter {
 			token = request.getParameter(SsoConstant.SSO_TOKEN_NAME);
 			if (token != null) {
 				invokeAuthInfoInSession(request, token);
-				// 去掉URL中token参数，再跳转一次当前BackUrl
+				// 为去掉URL中token参数，再跳转一次当前BackUrl
 				response.sendRedirect(getRemoveTokenBackUrl(request));
 				return false;
 			}

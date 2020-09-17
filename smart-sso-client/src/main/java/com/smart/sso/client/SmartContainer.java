@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.caucho.hessian.client.HessianProxyFactory;
+import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.filter.ClientFilter;
 import com.smart.sso.client.filter.ParamFilter;
 import com.smart.sso.client.rpc.AuthenticationRpcService;
@@ -33,9 +34,6 @@ public class SmartContainer extends ParamFilter implements Filter {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	/** 模糊匹配后缀 */
-	private static final String URL_FUZZY_MATCH = "/*";
-
 	/** 是否服务端，默认为false */
 	private boolean isServer = false;
 
@@ -105,14 +103,14 @@ public class SmartContainer extends ParamFilter implements Filter {
 			return false;
 
 		Map<Boolean, List<String>> map = Arrays.stream(excludeUrls)
-				.collect(Collectors.partitioningBy(u -> u.endsWith(URL_FUZZY_MATCH)));
+				.collect(Collectors.partitioningBy(u -> u.endsWith(SsoConstant.URL_FUZZY_MATCH)));
 		List<String> urlList = map.get(false);
 		if (urlList.contains(url)) { // 优先精确匹配
 			return true;
 		}
 		urlList = map.get(true);
 		for (String matchUrl : urlList) { // 再进行模糊匹配
-			if (url.startsWith(matchUrl.replace(URL_FUZZY_MATCH, ""))) {
+			if (url.startsWith(matchUrl.replace(SsoConstant.URL_FUZZY_MATCH, ""))) {
 				return true;
 			}
 		}
