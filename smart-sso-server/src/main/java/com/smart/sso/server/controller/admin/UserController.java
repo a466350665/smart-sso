@@ -58,7 +58,7 @@ public class UserController extends BaseController {
 			user = new User();
 		}
 		else {
-			user = userService.selectById(id);
+			user = userService.get(id);
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("officeList", officeService.selectList(true, null, null, "----"));
@@ -119,7 +119,7 @@ public class UserController extends BaseController {
 			user.setCreateTime(new Date());
 		}
 		else {
-			user = userService.selectById(id);
+			user = userService.get(id);
 		}
 		user.setOfficeId(officeId);
 		user.setName(name);

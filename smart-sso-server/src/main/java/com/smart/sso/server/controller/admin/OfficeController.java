@@ -52,7 +52,7 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.selectById(id);
+			office = officeService.get(id);
 		}
 		model.addAttribute("officeList", officeService.selectList(null, null, id, "----"));
 		model.addAttribute("office", office);
@@ -74,7 +74,7 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.selectById(id);
+			office = officeService.get(id);
 		}
 		office.setParentId(parentId);
 		office.setName(name);

@@ -34,7 +34,7 @@ public class ProfileController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model, HttpServletRequest request) {
-		model.addAttribute("user", userService.selectById(SessionUtils.getUserId(request)));
+		model.addAttribute("user", userService.get(SessionUtils.getUserId(request)));
 		return "/admin/profile";
 	}
 

@@ -38,7 +38,7 @@ public class RolePermissionController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String edit(
 			@ValidateParam(name = "角色id", value = { Validator.NOT_BLANK }) Integer roleId, Model model) {
-		model.addAttribute("role", roleService.selectById(roleId));
+		model.addAttribute("role", roleService.get(roleId));
 		model.addAttribute("appList", appService.selectAll(true));
 		return "/admin/rolePermission";
 	}

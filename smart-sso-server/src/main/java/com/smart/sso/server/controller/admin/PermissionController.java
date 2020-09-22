@@ -46,7 +46,7 @@ public class PermissionController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public Result get(@ValidateParam(name = "id", value = {Validator.NOT_BLANK}) Integer id) {
-        return Result.createSuccess(permissionService.selectById(id));
+        return Result.createSuccess(permissionService.get(id));
     }
 
 	@ApiOperation("权限树节点")
@@ -77,7 +77,7 @@ public class PermissionController extends BaseController {
 			permission = new Permission();
 		}
 		else {
-			permission = permissionService.selectById(id);
+			permission = permissionService.get(id);
 		}
 		permission.setAppId(appId);
 		permission.setParentId(parentId);

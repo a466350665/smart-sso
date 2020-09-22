@@ -47,7 +47,7 @@ public class AppController extends BaseController {
 			app = new App();
 		}
 		else {
-			app = appService.selectById(id);
+			app = appService.get(id);
 		}
 		model.addAttribute("app", app);
 		return "/admin/appEdit";
@@ -101,7 +101,7 @@ public class AppController extends BaseController {
 			app.setCreateTime(new Date());
 		}
 		else {
-			app = appService.selectById(id);
+			app = appService.get(id);
 		}
 		app.setName(name);
 		app.setSort(sort);

@@ -90,7 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
 	@Override
 	public void updatePassword(Integer id, String newPassword) {
-		User user = selectById(id);
+		User user = get(id);
 		user.setPassword(PasswordHelper.encrypt(newPassword));
 		update(user);
 	}

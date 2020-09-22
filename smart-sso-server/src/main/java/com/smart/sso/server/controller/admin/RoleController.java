@@ -44,7 +44,7 @@ public class RoleController extends BaseController {
 			role = new Role();
 		}
 		else {
-			role = roleService.selectById(id);
+			role = roleService.get(id);
 		}
 		model.addAttribute("role", role);
 		return "/admin/roleEdit";
@@ -84,7 +84,7 @@ public class RoleController extends BaseController {
 			role = new Role();
 		}
 		else {
-			role = roleService.selectById(id);
+			role = roleService.get(id);
 		}
 		role.setName(name);
 		role.setSort(sort);

@@ -39,7 +39,7 @@ public class UserRoleController extends BaseController {
 	public String execute(
 	        @ValidateParam(name = "userId", value = { Validator.NOT_BLANK }) Integer userId, 
 	        Model model) {
-		model.addAttribute("user", userService.selectById(userId));
+		model.addAttribute("user", userService.get(userId));
 		model.addAttribute("roleList", roleService.getRoleList(userId));
 		return "/admin/userRole";
 	}
