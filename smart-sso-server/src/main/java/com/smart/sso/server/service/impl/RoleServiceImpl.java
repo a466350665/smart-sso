@@ -46,7 +46,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
 
 	@Override
 	public List<Role> selectAll(Boolean isEnable) {
-		return selectList(Condition.create().eq("isEnable", isEnable));
+		return selectList(Condition.create().eq("is_enable", isEnable));
 	}
 
 	@Transactional

@@ -69,9 +69,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 	@Override
 	public Page<User> selectPage(String account, String name, Integer officeId, Page<User> p) {
 		Condition c = Condition.create().like(!StringUtils.isEmpty(account), "account", account)
-		    .like(!StringUtils.isEmpty(name), "name", name).orderBy("createTime DESC");
+		    .like(!StringUtils.isEmpty(name), "name", name).orderBy("create_time DESC");
 		if(officeId!=null) {
-		    c.in("officeId", officeService.selectIdListByParentId(officeId));
+		    c.in("office_id", officeService.selectIdListByParentId(officeId));
 		}
 		return selectPage(c, p);
 	}

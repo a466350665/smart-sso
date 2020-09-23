@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50637
 File Encoding         : 65001
 
-Date: 2019-05-28 15:31:21
+Date: 2020-09-23 10:15:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,8 +23,8 @@ CREATE TABLE `sys_app` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL COMMENT '名称',
   `sort` int(11) NOT NULL COMMENT '排序',
-  `createTime` datetime NOT NULL COMMENT '创建时间',
-  `isEnable` int(1) NOT NULL COMMENT '是否启用',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `code` varchar(16) NOT NULL COMMENT '编码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='应用表';
@@ -42,10 +42,10 @@ INSERT INTO `sys_app` VALUES ('82', '内容管理系统', '10', '2015-11-08 17:1
 DROP TABLE IF EXISTS `sys_office`;
 CREATE TABLE `sys_office` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parentId` int(11) DEFAULT NULL COMMENT '父ID',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父ID',
   `name` varchar(100) NOT NULL COMMENT '名称',
   `sort` int(11) NOT NULL COMMENT '排序',
-  `isEnable` int(1) NOT NULL COMMENT '是否启用',
+  `is_enable` int(1) NOT NULL COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='机构';
 
@@ -62,17 +62,15 @@ INSERT INTO `sys_office` VALUES ('3', '1', 'YY部门', '20', '1');
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `appId` int(11) NOT NULL COMMENT '应用ID',
-  `parentId` int(11) DEFAULT NULL COMMENT '父ID',
+  `app_id` int(11) NOT NULL COMMENT '应用ID',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父ID',
   `name` varchar(50) NOT NULL COMMENT '名称',
   `url` varchar(255) NOT NULL COMMENT '权限URL',
   `sort` int(11) NOT NULL COMMENT '排序',
-  `isMenu` int(1) NOT NULL COMMENT '是否菜单',
-  `isEnable` int(1) NOT NULL COMMENT '是否启用',
+  `is_menu` int(1) NOT NULL COMMENT '是否菜单',
+  `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `icon` varchar(100) DEFAULT NULL COMMENT '图标',
-  PRIMARY KEY (`id`),
-  KEY `FK_SYS_PERM_REFERENCE_sys_app` (`appId`),
-  CONSTRAINT `FK_SYS_PERM_REFERENCE_sys_app` FOREIGN KEY (`appId`) REFERENCES `sys_app` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
@@ -102,7 +100,7 @@ INSERT INTO `sys_permission` VALUES ('27', '1', '3', '用户保存', '/admin/use
 INSERT INTO `sys_permission` VALUES ('28', '1', '4', '角色保存', '/admin/role/save', '1', '0', '1', '');
 INSERT INTO `sys_permission` VALUES ('29', '1', '5', '权限保存', '/admin/permission/save', '1', '0', '1', '');
 INSERT INTO `sys_permission` VALUES ('30', '1', '5', '权限删除', '/admin/permission/delete', '1', '0', '1', '');
-INSERT INTO `sys_permission` VALUES ('33', '81', null, '菜单1', '/admin/men1', '100', '1', '1', 'fa-user');
+INSERT INTO `sys_permission` VALUES ('33', '81', null, '菜单1', '/admin/menu1', '100', '1', '1', 'fa-user');
 INSERT INTO `sys_permission` VALUES ('35', '81', '33', '菜单1新增', '/admin/menu1/edit', '1', '0', '1', '');
 INSERT INTO `sys_permission` VALUES ('36', '81', '33', '菜单1删除', '/admin/menu1/delete', '1', '0', '1', '');
 INSERT INTO `sys_permission` VALUES ('39', '1', null, '导航栏', '/admin/admin/menu', '99', '0', '1', '');
@@ -123,89 +121,6 @@ INSERT INTO `sys_permission` VALUES ('63', '1', '60', '机构启/禁用', '/admi
 INSERT INTO `sys_permission` VALUES ('65', '1', '60', '机构删除', '/admin/office/delete', '1', '0', '1', 'fa-trash-o red');
 
 -- ----------------------------
--- Table structure for `sys_re_role_permission`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_re_role_permission`;
-CREATE TABLE `sys_re_role_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roleId` int(11) NOT NULL COMMENT '角色ID',
-  `permissionId` int(11) NOT NULL COMMENT '权限ID',
-  `appId` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_SYS_RE_R_REFERENCE_SYS_PERM` (`permissionId`),
-  KEY `FK_SYS_RE_R_REFERENCE_sys_role` (`roleId`),
-  CONSTRAINT `FK_SYS_RE_R_REFERENCE_SYS_PERM` FOREIGN KEY (`permissionId`) REFERENCES `sys_permission` (`id`),
-  CONSTRAINT `FK_SYS_RE_R_REFERENCE_sys_role` FOREIGN KEY (`roleId`) REFERENCES `sys_role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
-
--- ----------------------------
--- Records of sys_re_role_permission
--- ----------------------------
-INSERT INTO `sys_re_role_permission` VALUES ('345', '1', '33', '81');
-INSERT INTO `sys_re_role_permission` VALUES ('346', '1', '35', '81');
-INSERT INTO `sys_re_role_permission` VALUES ('347', '1', '36', '81');
-INSERT INTO `sys_re_role_permission` VALUES ('348', '1', '59', '81');
-INSERT INTO `sys_re_role_permission` VALUES ('349', '1', '55', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('350', '1', '47', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('351', '1', '56', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('352', '1', '44', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('353', '1', '48', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('354', '1', '50', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('355', '1', '49', '82');
-INSERT INTO `sys_re_role_permission` VALUES ('387', '1', '39', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('388', '1', '41', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('389', '1', '42', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('390', '1', '60', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('391', '1', '61', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('392', '1', '62', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('393', '1', '63', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('394', '1', '65', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('395', '1', '3', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('396', '1', '23', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('397', '1', '10', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('398', '1', '11', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('399', '1', '13', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('400', '1', '14', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('401', '1', '27', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('402', '1', '2', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('403', '1', '22', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('404', '1', '6', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('405', '1', '7', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('406', '1', '9', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('407', '1', '26', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('408', '1', '4', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('409', '1', '24', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('410', '1', '16', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('411', '1', '17', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('412', '1', '19', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('413', '1', '20', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('414', '1', '28', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('415', '1', '5', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('416', '1', '25', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('417', '1', '29', '1');
-INSERT INTO `sys_re_role_permission` VALUES ('418', '1', '30', '1');
-
--- ----------------------------
--- Table structure for `sys_re_user_role`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_re_user_role`;
-CREATE TABLE `sys_re_user_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL COMMENT '用户ID ',
-  `roleId` int(11) NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`id`),
-  KEY `FK_SYS_RE_U_REFERENCE_sys_user` (`userId`),
-  KEY `FK_SYS_RE_U_REFERENCE_sys_role` (`roleId`),
-  CONSTRAINT `FK_SYS_RE_U_REFERENCE_sys_role` FOREIGN KEY (`roleId`) REFERENCES `sys_role` (`id`),
-  CONSTRAINT `FK_SYS_RE_U_REFERENCE_sys_user` FOREIGN KEY (`userId`) REFERENCES `sys_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
-
--- ----------------------------
--- Records of sys_re_user_role
--- ----------------------------
-INSERT INTO `sys_re_user_role` VALUES ('33', '2', '1');
-
--- ----------------------------
 -- Table structure for `sys_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
@@ -214,7 +129,7 @@ CREATE TABLE `sys_role` (
   `name` varchar(50) NOT NULL COMMENT '名称',
   `sort` int(11) NOT NULL COMMENT '排序',
   `description` varchar(200) DEFAULT NULL COMMENT '描述',
-  `isEnable` int(1) NOT NULL COMMENT '是否启用',
+  `is_enable` int(1) NOT NULL COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
@@ -224,24 +139,99 @@ CREATE TABLE `sys_role` (
 INSERT INTO `sys_role` VALUES ('1', '系统管理员', '999', '系统管理员', '1');
 
 -- ----------------------------
+-- Table structure for `sys_role_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE `sys_role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL COMMENT '角色ID',
+  `permission_id` int(11) NOT NULL COMMENT '权限ID',
+  `app_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+
+-- ----------------------------
+-- Records of sys_role_permission
+-- ----------------------------
+INSERT INTO `sys_role_permission` VALUES ('345', '1', '33', '81');
+INSERT INTO `sys_role_permission` VALUES ('346', '1', '35', '81');
+INSERT INTO `sys_role_permission` VALUES ('347', '1', '36', '81');
+INSERT INTO `sys_role_permission` VALUES ('348', '1', '59', '81');
+INSERT INTO `sys_role_permission` VALUES ('349', '1', '55', '82');
+INSERT INTO `sys_role_permission` VALUES ('350', '1', '47', '82');
+INSERT INTO `sys_role_permission` VALUES ('351', '1', '56', '82');
+INSERT INTO `sys_role_permission` VALUES ('352', '1', '44', '82');
+INSERT INTO `sys_role_permission` VALUES ('353', '1', '48', '82');
+INSERT INTO `sys_role_permission` VALUES ('354', '1', '50', '82');
+INSERT INTO `sys_role_permission` VALUES ('355', '1', '49', '82');
+INSERT INTO `sys_role_permission` VALUES ('387', '1', '39', '1');
+INSERT INTO `sys_role_permission` VALUES ('388', '1', '41', '1');
+INSERT INTO `sys_role_permission` VALUES ('389', '1', '42', '1');
+INSERT INTO `sys_role_permission` VALUES ('390', '1', '60', '1');
+INSERT INTO `sys_role_permission` VALUES ('391', '1', '61', '1');
+INSERT INTO `sys_role_permission` VALUES ('392', '1', '62', '1');
+INSERT INTO `sys_role_permission` VALUES ('393', '1', '63', '1');
+INSERT INTO `sys_role_permission` VALUES ('394', '1', '65', '1');
+INSERT INTO `sys_role_permission` VALUES ('395', '1', '3', '1');
+INSERT INTO `sys_role_permission` VALUES ('396', '1', '23', '1');
+INSERT INTO `sys_role_permission` VALUES ('397', '1', '10', '1');
+INSERT INTO `sys_role_permission` VALUES ('398', '1', '11', '1');
+INSERT INTO `sys_role_permission` VALUES ('399', '1', '13', '1');
+INSERT INTO `sys_role_permission` VALUES ('400', '1', '14', '1');
+INSERT INTO `sys_role_permission` VALUES ('401', '1', '27', '1');
+INSERT INTO `sys_role_permission` VALUES ('402', '1', '2', '1');
+INSERT INTO `sys_role_permission` VALUES ('403', '1', '22', '1');
+INSERT INTO `sys_role_permission` VALUES ('404', '1', '6', '1');
+INSERT INTO `sys_role_permission` VALUES ('405', '1', '7', '1');
+INSERT INTO `sys_role_permission` VALUES ('406', '1', '9', '1');
+INSERT INTO `sys_role_permission` VALUES ('407', '1', '26', '1');
+INSERT INTO `sys_role_permission` VALUES ('408', '1', '4', '1');
+INSERT INTO `sys_role_permission` VALUES ('409', '1', '24', '1');
+INSERT INTO `sys_role_permission` VALUES ('410', '1', '16', '1');
+INSERT INTO `sys_role_permission` VALUES ('411', '1', '17', '1');
+INSERT INTO `sys_role_permission` VALUES ('412', '1', '19', '1');
+INSERT INTO `sys_role_permission` VALUES ('413', '1', '20', '1');
+INSERT INTO `sys_role_permission` VALUES ('414', '1', '28', '1');
+INSERT INTO `sys_role_permission` VALUES ('415', '1', '5', '1');
+INSERT INTO `sys_role_permission` VALUES ('416', '1', '25', '1');
+INSERT INTO `sys_role_permission` VALUES ('417', '1', '29', '1');
+INSERT INTO `sys_role_permission` VALUES ('418', '1', '30', '1');
+
+-- ----------------------------
 -- Table structure for `sys_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `officeId` int(11) NOT NULL COMMENT '机构ID',
+  `office_id` int(11) NOT NULL COMMENT '机构ID',
   `name` varchar(50) DEFAULT NULL COMMENT '姓名',
   `account` varchar(50) NOT NULL COMMENT '登录名',
   `password` varchar(100) NOT NULL COMMENT '密码(加密)',
-  `lastLoginIp` varchar(20) DEFAULT NULL COMMENT '最后登录IP',
-  `lastLoginTime` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `loginCount` int(11) NOT NULL COMMENT '登录总次数',
-  `createTime` datetime NOT NULL COMMENT '创建时间',
-  `isEnable` int(1) NOT NULL COMMENT '是否启用',
+  `last_login_ip` varchar(20) DEFAULT NULL COMMENT '最后登录IP',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `login_count` int(11) NOT NULL COMMENT '登录总次数',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `is_enable` int(1) NOT NULL COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('2', '3', 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '0:0:0:0:0:0:0:1', '2019-05-28 15:26:00', '266', '2015-06-02 11:31:56', '1');
+INSERT INTO `sys_user` VALUES ('2', '3', 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '0:0:0:0:0:0:0:1', '2020-09-23 10:11:13', '0', '2015-06-02 11:31:56', '1');
+
+-- ----------------------------
+-- Table structure for `sys_user_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户ID ',
+  `role_id` int(11) NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES ('33', '2', '1');

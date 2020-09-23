@@ -51,8 +51,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
     }
 	
     private List<Permission> findByAppId(Integer appId, Boolean isEnable) {
-        return selectList(Condition.create().eq(appId != null, "appId", appId)
-                .eq(isEnable != null, "isEnable", isEnable).orderBy("sort asc, id asc"));
+        return selectList(Condition.create().eq(appId != null, "app_id", appId)
+                .eq(isEnable != null, "is_enable", isEnable).orderBy("sort asc, id asc"));
     }
 
 	@Override
@@ -81,7 +81,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 	@Override
 	public void deleteByAppIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("appId", idList));
+		deleteByCondition(Condition.create().in("app_id", idList));
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 	@Transactional
 	@Override
 	public void allocate(Integer appId, Integer roleId, List<Integer> permissionIdList) {
-		deleteByCondition(Condition.create().eq("appId", appId).eq("roleId", roleId));
+		deleteByCondition(Condition.create().eq("app_id", appId).eq("role_id", roleId));
 
 		List<RolePermission> list = Lists.newArrayList();
 		Integer permissionId;
@@ -45,22 +45,22 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionDao, Ro
 
 	@Override
 	public List<RolePermission> selectByRoleId(Integer roleId) {
-		return selectList(Condition.create().eq("roleId", roleId));
+		return selectList(Condition.create().eq("role_id", roleId));
 	}
 
 	@Override
 	public void deleteByPermissionIds(List<Integer> idList) {
-	    deleteByCondition(Condition.create().in("permissionId", idList));
+	    deleteByCondition(Condition.create().in("permission_id", idList));
 	}
 	
 	@Override
 	public void deleteByRoleIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("roleId", idList));
+		deleteByCondition(Condition.create().in("role_id", idList));
 	}
 	
 	@Override
 	public void deleteByAppIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("appId", idList));
+		deleteByCondition(Condition.create().in("app_id", idList));
 	}
 
     @Override

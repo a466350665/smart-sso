@@ -88,7 +88,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
     } 
 	
     private List<Office> selectList(Boolean isEnable, Boolean isParent, Integer currentId) {
-        return selectList(Condition.create().eq(isEnable != null, "isEnable", isEnable)
-            .isNull(isParent != null && isParent, "parentId").ne(currentId != null, "id", currentId));
+        return selectList(Condition.create().eq(isEnable != null, "is_enable", isEnable)
+            .isNull(isParent != null && isParent, "parent_id").ne(currentId != null, "id", currentId));
     }
 }

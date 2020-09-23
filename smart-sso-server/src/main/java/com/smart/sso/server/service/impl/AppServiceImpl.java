@@ -35,7 +35,7 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App> implements AppServi
 	
 	@Override
 	public List<App> selectAll(Boolean isEnable) {
-		return selectList(Condition.create().eq("isEnable", isEnable));
+		return selectList(Condition.create().eq("is_enable", isEnable));
 	}
 
 	@Override

@@ -39,17 +39,17 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
 	
 	@Override
 	public UserRole selectByUserRoleId(Integer userId, Integer roleId) {
-		return selectOne(Condition.create().eq("userId", userId).eq("roleId", roleId));
+		return selectOne(Condition.create().eq("user_id", userId).eq("role_id", roleId));
 	}
 	
 	@Override
 	public void deleteByRoleIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("roleId", idList));
+		deleteByCondition(Condition.create().in("role_id", idList));
 	}
 	
 	@Override
 	public void deleteByUserIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("userId", idList));
+		deleteByCondition(Condition.create().in("user_id", idList));
 	}
 	
 	@Override
@@ -58,6 +58,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
     }
 	
 	private List<UserRole> findByUserId(Integer userId) {
-        return selectList(Condition.create().eq("userId", userId));
+        return selectList(Condition.create().eq("user_id", userId));
     }
 }
