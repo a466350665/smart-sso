@@ -19,12 +19,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- 日志 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		
 		<!-- 远程RPC调用hessian支持 -->
 		<dependency>
 			<groupId>com.caucho</groupId>

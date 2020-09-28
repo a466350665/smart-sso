@@ -2,7 +2,6 @@ package com.smart.sso.client.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +11,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.RpcPermissionDto;
@@ -27,8 +23,6 @@ import com.smart.sso.client.util.SessionUtils;
  * @author Joe
  */
 public class PermissionFilter extends ClientFilter {
-
-	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 当前应用关联权限系统的应用编码
 	private String ssoAppCode;
@@ -57,9 +51,9 @@ public class PermissionFilter extends ClientFilter {
         List<RpcPermissionDto> dbList = null;
         try {
             dbList = authenticationRpcService.selectApplicationPermissionList(ssoAppCode);
-        } catch (Exception e) {
-            dbList = Collections.emptyList();
-            logger.error("无法连接到单点登录服务端,请检查配置sso.server.url", e);
+        } 
+        catch (Exception e) {
+            throw new IllegalArgumentException("无法连接到单点登录服务端,请检查配置sso.server.url", e);
         }
 
         applicationPermissionSet = dbList.stream().filter(p -> p.getUrl() != null && !p.getUrl().isEmpty())

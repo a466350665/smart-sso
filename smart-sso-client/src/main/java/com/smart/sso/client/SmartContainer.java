@@ -16,9 +16,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.filter.ClientFilter;
@@ -32,8 +29,6 @@ import com.smart.sso.client.rpc.AuthenticationRpcService;
  */
 public class SmartContainer extends ParamFilter implements Filter {
     
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-	
 	/** 是否服务端，默认为false */
 	private boolean isServer = false;
 
@@ -64,7 +59,6 @@ public class SmartContainer extends ParamFilter implements Filter {
 						.create(AuthenticationRpcService.class, ssoServerUrl + "/rpc/authenticationRpcService");
 			}
 			catch (MalformedURLException e) {
-			    logger.error("", e);
 				throw new IllegalArgumentException("authenticationRpcService初始化失败");
 			}
 		}
