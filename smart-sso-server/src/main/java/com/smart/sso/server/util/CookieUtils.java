@@ -37,6 +37,28 @@ public class CookieUtils {
 
 		return null;
 	}
+	
+	/**
+     * 添加cookie
+     * 
+     * @param name
+     * @param value
+     * @param path
+     * @param request
+     * @param response
+     */
+    public static void addCookie(String name, String value, String path, HttpServletRequest request,
+        HttpServletResponse response) {
+        Cookie cookie = new Cookie(name, value);
+        if (path != null) {
+            cookie.setPath(path);
+        }
+        if ("https".equals(request.getScheme())) {
+            cookie.setSecure(true);
+        }
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+    }
 
 	/**
 	 * 清除cookie
@@ -45,18 +67,13 @@ public class CookieUtils {
 	 * @param response
 	 * @param string
 	 */
-	public static void removeCookie(HttpServletResponse response, String name, String path, String domain) {
+	public static void removeCookie(String name, String path, HttpServletResponse response) {
 
 		Cookie cookie = new Cookie(name, null);
 
 		if (path != null) {
 			cookie.setPath(path);
 		}
-
-		if (domain != null) {
-			cookie.setDomain(domain);
-		}
-
 		cookie.setMaxAge(-1000);
 		response.addCookie(cookie);
 	}

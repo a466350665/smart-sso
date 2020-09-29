@@ -15,14 +15,6 @@ import com.smart.sso.client.model.SessionUser;
  */
 public class SessionUtils {
     
-    public static String getToken(HttpServletRequest request) {
-        return (String) request.getSession().getAttribute(SsoConstant.SESSION_TOKEN);
-    }
-
-    public static void setToken(HttpServletRequest request, String token) {
-        request.getSession().setAttribute(SsoConstant.SESSION_TOKEN, token);
-    }
-
 	public static SessionUser getUser(HttpServletRequest request) {
 		return (SessionUser) request.getSession().getAttribute(SsoConstant.SESSION_USER);
 	}
@@ -44,7 +36,6 @@ public class SessionUtils {
 	}
 	
 	public static void invalidate(HttpServletRequest request){
-	    setToken(request, null);
 		setUser(request, null);
 		setPermission(request, null);
 		request.getSession().invalidate();

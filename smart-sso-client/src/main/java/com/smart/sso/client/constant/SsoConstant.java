@@ -8,9 +8,9 @@ package com.smart.sso.client.constant;
 public class SsoConstant {
     
     /**
-     * 服务端授权回调参数token名称
+     * 服务端认证回调票据参数ticket名称
      */
-    public static final String SSO_TOKEN_NAME = "__vt_param__";
+    public static final String TICKET = "ticket";
     
     /** 模糊匹配后缀 */
     public static final String URL_FUZZY_MATCH = "/*";

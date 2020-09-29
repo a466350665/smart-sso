@@ -23,9 +23,8 @@ public class IndexController {
 		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
-		// 单点退出地址
-		model.addAttribute("ssologoutUrl", new StringBuilder().append(ssoServerUrl).append("/logout?backUrl=")
-				.append(getLocalUrl(request)).toString());
+		// 单点退出
+		model.addAttribute("ssologoutUrl", request.getServletContext().getContextPath() + "/logout");
 
 		SessionPermission sessionPermission = SessionUtils.getPermission(request);
 		if (sessionPermission != null) {
@@ -35,21 +34,5 @@ public class IndexController {
 			request.setAttribute("userPermissions", sessionPermission.getPermissionSet());
 		}
 		return "index";
-	}
-
-	/**
-	 * 获取当前应用访问路径
-	 *
-	 * @param request
-	 * @return
-	 */
-	private String getLocalUrl(HttpServletRequest request) {
-		StringBuilder url = new StringBuilder();
-		url.append(request.getScheme()).append("://").append(request.getServerName());
-		if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-			url.append(":").append(request.getServerPort());
-		}
-		url.append(request.getContextPath());
-		return url.toString();
 	}
 }

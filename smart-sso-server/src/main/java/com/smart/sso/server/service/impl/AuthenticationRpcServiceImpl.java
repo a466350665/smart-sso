@@ -1,16 +1,16 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.client.dto.RpcUserDto;
 import com.smart.sso.client.rpc.AuthenticationRpcService;
-import com.smart.sso.server.common.TokenManager;
-import com.smart.sso.server.dto.LoginUserDto;
+import com.smart.sso.server.common.ServiceTicketManager;
+import com.smart.sso.server.common.TicketGrantingTicketManager;
 import com.smart.sso.server.service.PermissionService;
 
 @Service("authenticationRpcService")
@@ -19,25 +19,22 @@ public class AuthenticationRpcServiceImpl implements AuthenticationRpcService {
 	@Autowired
 	private PermissionService permissionService;
 	@Autowired
-	private TokenManager tokenManager;
+    private ServiceTicketManager serviceTicketManager;
+	@Autowired
+    private TicketGrantingTicketManager ticketGrantingTicketManager;
 
 	@Override
-	public boolean validate(String token) {
-		return tokenManager.validate(token) != null;
+	public RpcUserDto validate(String ticket) {
+	    String tgt = serviceTicketManager.validate(ticket);
+	    if(StringUtils.isEmpty(tgt)) {
+	        return null;
+	    }
+		return ticketGrantingTicketManager.validate(tgt);
 	}
 	
 	@Override
-	public RpcUserDto selectUser(String token) {
-		return tokenManager.validate(token);
-	}
-	
-	@Override
-	public List<RpcPermissionDto> selectUserPermissionList(String token, String appCode) {
-		LoginUserDto user = tokenManager.validate(token);
-		if (user == null) {
-			return Collections.emptyList();
-		}
-		return permissionService.selectListByUserId(appCode, user.getId());
+	public List<RpcPermissionDto> selectUserPermissionList(Integer userId, String appCode) {
+		return permissionService.selectListByUserId(appCode, userId);
 	}
 	
 	@Override

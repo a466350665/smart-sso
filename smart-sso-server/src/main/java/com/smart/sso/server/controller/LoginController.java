@@ -2,9 +2,7 @@ package com.smart.sso.server.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.UUID;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,8 +17,10 @@ import com.smart.mvc.model.Result;
 import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.server.common.TokenManager;
-import com.smart.sso.server.dto.LoginUserDto;
+import com.smart.sso.client.dto.RpcUserDto;
+import com.smart.sso.server.common.ServiceTicketManager;
+import com.smart.sso.server.common.TicketGrantingTicketManager;
+import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.util.CookieUtils;
@@ -35,95 +35,79 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "单点登录管理")
 @Controller
 @RequestMapping("/login")
-@SuppressWarnings("rawtypes")
 public class LoginController extends BaseController{
 	
-	// 登录页
-	private static final String LOGIN_PATH = "/login";
-
 	@Autowired
-	private TokenManager tokenManager;
+	private ServiceTicketManager serviceTicketManager;
+	@Autowired
+    private TicketGrantingTicketManager ticketGrantingTicketManager;
 	@Autowired
 	private UserService userService;
 
 	@ApiOperation("登录页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String backUrl,
+			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String service,
 			HttpServletRequest request) {
-		String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
-		if (!StringUtils.isEmpty(token) && tokenManager.validate(token) != null) {
-			return "redirect:" + authBackUrl(backUrl, token);
-		}
-		else {
-			return goLoginPath(backUrl, request);
-		}
+        String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
+        if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.validate(tgt) == null) {
+            return goLoginPath(service, request);
+        }
+        return "redirect:" + authService(service, tgt);
 	}
 
 	@ApiOperation("登录提交")
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String backUrl,
+			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String service,
 			@ValidateParam(name = "登录名", value = { Validator.NOT_BLANK }) String account,
 			@ValidateParam(name = "密码", value = { Validator.NOT_BLANK }) String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        Result result = userService.login(getIpAddr(request), account, PasswordHelper.encrypt(password));
+	    Result<User> result = userService.login(account, PasswordHelper.encrypt(password));
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
-			return goLoginPath(backUrl, request);
+			return goLoginPath(service, request);
 		}
 		else {
-			User user = (User) result.getData();
-			LoginUserDto loginUser = new LoginUserDto(user.getId(), user.getAccount());
-			String token = CookieUtils.getCookie(request, TokenManager.TOKEN);
-			if (StringUtils.isEmpty(token) || tokenManager.validate(token) == null) {// 没有登录的情况
-				token = createToken(loginUser);
-				addTokenInCookie(token, request, response);
-			}
-
-			return "redirect:" + authBackUrl(backUrl, token);
+			String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
+			if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.validate(tgt) == null) {
+			    User user = result.getData();
+			    tgt = ticketGrantingTicketManager.generate(new RpcUserDto(user.getId(), user.getAccount()));
+			    
+			    // TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
+			    CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);
+	        }
+			return "redirect:" + authService(service, tgt);
 		}
 	}
 	
-	/**
-     * 获取IP地址
+    /**
+     * 设置request的service参数，跳转到登录页
+     * 
+     * @param service
      * @param request
      * @return
      */
-	private String getIpAddr(HttpServletRequest request) {
-        String ip = request.getHeader("X-Real-IP");
-        if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
-            return ip;
-        }
-        ip = request.getHeader("X-Forwarded-For");
-        if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
-            // 多次反向代理后会有多个IP值，第一个为真实IP。
-            int index = ip.indexOf(',');
-            if (index != -1) {
-                return ip.substring(0, index);
-            }
-            else {
-                return ip;
-            }
-        }
-        else {
-            return request.getRemoteAddr();
-        }
+    private String goLoginPath(String service, HttpServletRequest request) {
+        request.setAttribute("service", service);
+        return AppConstant.LOGIN_PATH;
     }
-	
-	private String goLoginPath(String backUrl, HttpServletRequest request) {
-		request.setAttribute("backUrl", backUrl);
-		return LOGIN_PATH;
-	}
 
-	private String authBackUrl(String backUrl, String token) {// 跳转到原请求
-        StringBuilder sbf = new StringBuilder(backUrl);
-        if (backUrl.indexOf("?") > 0) {
+	/**
+	 * 根据TGT生成ST，并拼接到回调service中
+	 * @param service
+	 * @param tgt
+	 * @return
+	 */
+	private String authService(String service, String tgt) {
+        StringBuilder sbf = new StringBuilder(service);
+        if (service.indexOf("?") > 0) {
             sbf.append("&");
-        } else {
+        } 
+        else {
             sbf.append("?");
         }
-        sbf.append(SsoConstant.SSO_TOKEN_NAME).append("=").append(token);
+        sbf.append(SsoConstant.TICKET).append("=").append(serviceTicketManager.generate(tgt));
         try {
             return URLDecoder.decode(sbf.toString(), "utf-8");
         } 
@@ -131,25 +115,5 @@ public class LoginController extends BaseController{
             logger.error("", e);
             return sbf.toString();
         }
-	}
-
-	private String createToken(LoginUserDto loginUser) {
-		// 生成token
-		String token = UUID.randomUUID().toString().replaceAll("-", "");
-
-		// 缓存中添加token对应User
-		tokenManager.addToken(token, loginUser);
-		return token;
-	}
-	
-	private void addTokenInCookie(String token, HttpServletRequest request, HttpServletResponse response) {
-		// Cookie添加token
-		Cookie cookie = new Cookie(TokenManager.TOKEN, token);
-		cookie.setPath("/");
-		if ("https".equals(request.getScheme())) {
-			cookie.setSecure(true);
-		}
-		cookie.setHttpOnly(true);
-		response.addCookie(cookie);
 	}
 }

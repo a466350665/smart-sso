@@ -31,7 +31,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 	private OfficeService officeService;
 
 	@Override
-	public Result<User> login(String ip, String account, String password) {
+	public Result<User> login(String account, String password) {
 		User user = selectByAccount(account);
 		if (user == null) {
 		    return Result.create(ResultConstant.SERVICE_ERROR, "用户不存在");
@@ -43,7 +43,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 		    return Result.create(ResultConstant.SERVICE_ERROR, "已被用户禁用");
 		}
 		else {
-			user.setLastLoginIp(ip);
 			user.setLoginCount(user.getLoginCount() + 1);
 			user.setLastLoginTime(new Date());
 			update(user);

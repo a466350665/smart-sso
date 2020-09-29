@@ -12,7 +12,7 @@ import com.smart.sso.client.model.SessionUser;
 import com.smart.sso.client.util.SessionUtils;
 
 /**
- * 单点登录及Token验证Filter
+ * 单点登录ticket验证Filter
  * 
  * @author Joe
  */
@@ -20,40 +20,27 @@ public class SsoFilter extends ClientFilter {
 
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String token = SessionUtils.getToken(request);
-		if (token == null) {
-			token = request.getParameter(SsoConstant.SSO_TOKEN_NAME);
-			if (token != null) {
-				invokeAuthInfoInSession(request, token);
-				// 为去掉URL中token参数，再跳转一次当前BackUrl
-				response.sendRedirect(getRemoveTokenBackUrl(request));
-				return false;
-			}
-		}
-		else if (authenticationRpcService.validate(token)) {// 验证token是否有效
-			return true;
-		}
-		redirectLogin(request, response);
-		return false;
-	}
-
-	/**
-	 * 存储sessionUser
-	 * 
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
-	private void invokeAuthInfoInSession(HttpServletRequest request, String token) throws IOException {
-        RpcUserDto rpcUser = authenticationRpcService.selectUser(token);
-        if (rpcUser != null) {
-            SessionUtils.setToken(request, token);
-            SessionUtils.setUser(request, new SessionUser(rpcUser.getId(), rpcUser.getAccount()));
+        if (SessionUtils.getUser(request) == null) {
+            String ticket = request.getParameter(SsoConstant.TICKET);
+            RpcUserDto rpcUser;
+            if (ticket != null && (rpcUser = authenticationRpcService.validate(ticket)) != null) {
+                // 存储sessionUser
+                SessionUtils.setUser(request, new SessionUser(rpcUser.getId(), rpcUser.getAccount()));
+                // 为去掉URL中token参数，再跳转一次当前Service
+                response.sendRedirect(getRemoveTicketService(request));
+            }
+            else {
+                redirectLogin(request, response);
+            }
+            return false;
+        } 
+        else {
+            return true;
         }
 	}
 
 	/**
-	 * 跳转登录
+	 * 跳转至服务端登录
 	 * 
 	 * @param request
 	 * @param response
@@ -64,31 +51,31 @@ public class SsoFilter extends ClientFilter {
 			responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			SessionUtils.invalidate(request);
-
 			String ssoLoginUrl = new StringBuilder().append(ssoServerUrl)
-					.append("/login?backUrl=").append(URLEncoder.encode(getBackUrl(request), "utf-8")).toString();
+					.append("/login?service=").append(URLEncoder.encode(getService(request), "utf-8")).toString();
 
 			response.sendRedirect(ssoLoginUrl);
 		}
 	}
 
-	/**
-	 * 去除返回地址中的token参数
-	 * @param request
-	 * @return
-	 */
-	private String getRemoveTokenBackUrl(HttpServletRequest request) {
-		String backUrl = getBackUrl(request);
-		return backUrl.substring(0, backUrl.indexOf(SsoConstant.SSO_TOKEN_NAME) - 1);
+    /**
+     * 去除返回地址中的票据参数
+     * 
+     * @param request
+     * @return
+     */
+	private String getRemoveTicketService(HttpServletRequest request) {
+		String service = getService(request);
+		return service.substring(0, service.indexOf(SsoConstant.TICKET) - 1);
 	}
 
-	/**
-	 * 返回地址
-	 * @param request
-	 * @return
-	 */
-	private String getBackUrl(HttpServletRequest request) {
+    /**
+     * 获取当前请求地址
+     * 
+     * @param request
+     * @return
+     */
+	private String getService(HttpServletRequest request) {
 		return new StringBuilder().append(request.getRequestURL())
 				.append(request.getQueryString() == null ? "" : "?" + request.getQueryString()).toString();
 	}

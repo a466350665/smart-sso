@@ -32,8 +32,8 @@ public class SmartContainer extends ParamFilter implements Filter {
 	/** 是否服务端，默认为false */
 	private boolean isServer = false;
 
-	/** 忽略URL */
-	protected String[] excludeUrls;
+	/** 排除URL */
+	protected String excludeUrls;
 
 	private ClientFilter[] filters;
 
@@ -48,11 +48,6 @@ public class SmartContainer extends ParamFilter implements Filter {
 			throw new IllegalArgumentException("ssoServerUrl不能为空");
 		}
 		
-		String urls = filterConfig.getInitParameter("excludeUrls");
-		if (!(urls == null || urls.isEmpty())) {
-			excludeUrls = urls.split(",");
-		}
-
 		if (authenticationRpcService == null) {
 			try {
 				authenticationRpcService = (AuthenticationRpcService) new HessianProxyFactory()
@@ -93,10 +88,10 @@ public class SmartContainer extends ParamFilter implements Filter {
 	}
 	
 	private boolean isExcludeUrl(String url) {
-		if (excludeUrls == null || excludeUrls.length < 1)
+		if (excludeUrls == null || excludeUrls.isEmpty())
 			return false;
 
-		Map<Boolean, List<String>> map = Arrays.stream(excludeUrls)
+		Map<Boolean, List<String>> map = Arrays.stream(excludeUrls.split(","))
 				.collect(Collectors.partitioningBy(u -> u.endsWith(SsoConstant.URL_FUZZY_MATCH)));
 		List<String> urlList = map.get(false);
 		if (urlList.contains(url)) { // 优先精确匹配
@@ -114,21 +109,25 @@ public class SmartContainer extends ParamFilter implements Filter {
 	public void setIsServer(boolean isServer) {
 		this.isServer = isServer;
 	}
+	
+	public void setExcludeUrls(String excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
 
-	@Override
-	public void destroy() {
-		if (filters == null || filters.length == 0)
-			return;
-		for (ClientFilter filter : filters) {
-			filter.destroy();
-		}
-	}
-
-	public void setFilters(ClientFilter[] filters) {
+    public void setFilters(ClientFilter[] filters) {
 		this.filters = filters;
 	}
 
 	public ClientFilter[] getFilters() {
 		return filters;
 	}
+	
+	@Override
+    public void destroy() {
+        if (filters == null || filters.length == 0)
+            return;
+        for (ClientFilter filter : filters) {
+            filter.destroy();
+        }
+    }
 }

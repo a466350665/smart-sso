@@ -21,9 +21,9 @@ public interface UserService extends Service<User> {
 	 *            登录名
 	 * @param password
 	 *            密码
-	 * @return 用户ID和应用编码集合Map
+	 * @return
 	 */
-	public Result<User> login(String ip, String account, String password);
+	public Result<User> login(String account, String password);
 	
 	/**
 	 * 启用禁用操作

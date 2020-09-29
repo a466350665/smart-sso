@@ -96,8 +96,8 @@ public class PermissionFilter extends ClientFilter {
 	 * @return
 	 */
 	public SessionPermission invokePermissionInSession(HttpServletRequest request) {
-	    String token = SessionUtils.getToken(request);
-		List<RpcPermissionDto> dbList = authenticationRpcService.selectUserPermissionList(token, ssoAppCode);
+        List<RpcPermissionDto> dbList =
+            authenticationRpcService.selectUserPermissionList(SessionUtils.getUserId(request), ssoAppCode);
 
 		List<RpcPermissionDto> menuList = new ArrayList<>();
 		Set<String> operateSet = new HashSet<>();

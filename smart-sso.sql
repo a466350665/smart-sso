@@ -207,7 +207,6 @@ CREATE TABLE `sys_user` (
   `name` varchar(50) DEFAULT NULL COMMENT '姓名',
   `account` varchar(50) NOT NULL COMMENT '登录名',
   `password` varchar(100) NOT NULL COMMENT '密码(加密)',
-  `last_login_ip` varchar(20) DEFAULT NULL COMMENT '最后登录IP',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `login_count` int(11) NOT NULL COMMENT '登录总次数',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -218,7 +217,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('2', '3', 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '0:0:0:0:0:0:0:1', '2020-09-23 10:11:13', '0', '2015-06-02 11:31:56', '1');
+INSERT INTO `sys_user` VALUES ('2', '3', 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '2020-09-23 10:11:13', '0', '2015-06-02 11:31:56', '1');
 
 -- ----------------------------
 -- Table structure for `sys_user_role`

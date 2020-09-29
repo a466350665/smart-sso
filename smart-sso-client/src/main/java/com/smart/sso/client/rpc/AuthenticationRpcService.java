@@ -14,35 +14,23 @@ import com.smart.sso.client.dto.RpcUserDto;
 public interface AuthenticationRpcService {
 	
 	/**
-	 * 验证是否已经登录
+	 * 校验票据是否有效
 	 * 
-	 * @param token
-	 *            授权码
+	 * @param ticket 票据
 	 * @return
 	 */
-	public boolean validate(String token);
-
-	/**
-	 * 根据登录的Token和应用编码获取授权用户信息
-	 * 
-	 * @param token
-	 *            授权码
-	 * @param appCode
-	 *            应用编码
-	 * @return
-	 */
-	public RpcUserDto selectUser(String token);
+	public RpcUserDto validate(String ticket);
 	
 	/**
 	 * 获取当前用户所有权限(含菜单)
 	 * 
-	 * @param token
-	 *            授权码 (如果token不为空，获取当前用户的所有权限)
+	 * @param userId
+	 *            用户ID
 	 * @param appCode
 	 *            应用编码
 	 * @return
 	 */
-	public List<RpcPermissionDto> selectUserPermissionList(String token, String appCode);
+	public List<RpcPermissionDto> selectUserPermissionList(Integer userId, String appCode);
 	
 	/**
      * 获取当前应用所有权限(含菜单)

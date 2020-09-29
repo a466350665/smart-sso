@@ -36,7 +36,7 @@ smart-sso
 - JSON工具：Fastjson 1.2.69
 - 数据库连接池：Druid 1.0.15
 - 日志管理：SLF4J 1.7.21
-- 单点登录：极简基于Cookie实现
+- 单点登录：极简参考Cas单点登录协议实现
 
 ### 前端
 - 基础代码库：Jquery 2.1.1
@@ -61,7 +61,7 @@ smart-sso
 
 ### 配置层面
 - Cas：在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。<br>
-- Smart：将serverName定义在properties文件中，通过Spring的<context:property-placeholder />标签注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
+- Smart：将serverName定义在properties文件中，通过Spring注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
 
 ### 耦合度
 - Shiro：大家更多是熟悉通过annotation或者配置文件的方式去控制权限，有相对较低的耦合。<br>

@@ -27,8 +27,6 @@ public class User extends PersistentObject {
 	private String account;
 	/** 密码 */
 	private String password;
-	/** 最后登录IP */
-	private String lastLoginIp;
 	/** 登录总次数 */
 	private Integer loginCount;
 	/** 最后登录时间 */
@@ -70,14 +68,6 @@ public class User extends PersistentObject {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	public String getLastLoginIp() {
-		return lastLoginIp;
-	}
-
-	public void setLastLoginIp(String lastLoginIp) {
-		this.lastLoginIp = lastLoginIp;
 	}
 
 	public Integer getLoginCount() {
