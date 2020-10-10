@@ -18,7 +18,6 @@ import com.smart.mvc.validator.Validator;
 import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.RpcUserDto;
-import com.smart.sso.server.common.ServiceTicketManager;
 import com.smart.sso.server.common.TicketGrantingTicketManager;
 import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.model.User;
@@ -37,8 +36,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/login")
 public class LoginController extends BaseController{
 	
-	@Autowired
-	private ServiceTicketManager serviceTicketManager;
 	@Autowired
     private TicketGrantingTicketManager ticketGrantingTicketManager;
 	@Autowired
@@ -107,7 +104,7 @@ public class LoginController extends BaseController{
         else {
             sbf.append("?");
         }
-        sbf.append(SsoConstant.TICKET).append("=").append(serviceTicketManager.generate(tgt));
+        sbf.append(SsoConstant.TICKET).append("=").append(ticketGrantingTicketManager.signSt(tgt, service));
         try {
             return URLDecoder.decode(sbf.toString(), "utf-8");
         } 

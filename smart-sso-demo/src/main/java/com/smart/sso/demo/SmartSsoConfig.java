@@ -1,13 +1,17 @@
 package com.smart.sso.demo;
 
+import javax.servlet.http.HttpSessionListener;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.smart.sso.client.SmartContainer;
 import com.smart.sso.client.filter.ClientFilter;
 import com.smart.sso.client.filter.LogoutFilter;
+import com.smart.sso.client.filter.LogoutSessionListener;
 import com.smart.sso.client.filter.PermissionFilter;
 import com.smart.sso.client.filter.SsoFilter;
 
@@ -18,8 +22,13 @@ public class SmartSsoConfig {
     private String ssoServerUrl;
     @Value("${sso.app.code}")
     private String ssoAppCode;
-    @Value("${sso.logout.backUrl}")
-    private String backUrl;
+    
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionListener> sessionListenerWithMetrics() {
+        ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
+        listenerRegBean.setListener(new LogoutSessionListener());
+        return listenerRegBean;
+    }
     
     /**
      * 单点登出
@@ -28,8 +37,8 @@ public class SmartSsoConfig {
      */
     @Bean
     public FilterRegistrationBean<LogoutFilter> logoutFilter() {
-        FilterRegistrationBean<LogoutFilter> registration = new FilterRegistrationBean<>(new LogoutFilter(ssoServerUrl, backUrl));
-        registration.addUrlPatterns("/logout");
+        FilterRegistrationBean<LogoutFilter> registration = new FilterRegistrationBean<>(new LogoutFilter());
+        registration.addUrlPatterns("/*");
         registration.setName("logoutFilter");
         registration.setOrder(1);
         return registration;

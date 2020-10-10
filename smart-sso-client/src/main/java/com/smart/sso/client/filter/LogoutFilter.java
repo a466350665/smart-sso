@@ -1,7 +1,6 @@
 package com.smart.sso.client.filter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,8 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.session.HashMapBackedSessionMappingStorage;
+import com.smart.sso.client.session.SessionMappingStorage;
 
 /**
  * 单点登出Filter
@@ -20,48 +22,56 @@ import com.smart.sso.client.util.SessionUtils;
  * @author Joe
  */
 public class LogoutFilter extends ParamFilter implements Filter {
-    
-    /**
-     * 登出后，回调地址
-     */
-    private String backUrl;
-    
-    public LogoutFilter() {
-    }
 
-    public LogoutFilter(String ssoServerUrl, String backUrl) {
-        this.ssoServerUrl = ssoServerUrl;
-        this.backUrl = backUrl;
-    }
-    
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        if (ssoServerUrl == null || ssoServerUrl.isEmpty()) {
-            throw new IllegalArgumentException("ssoServerUrl不能为空");
-        }
-        if (backUrl == null || backUrl.isEmpty()) {
-            throw new IllegalArgumentException("backUrl不能为空");
-        }
-    }
+    private static SessionMappingStorage sessionMappingStorage = new HashMapBackedSessionMappingStorage();
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void init(FilterConfig filterConfig) throws ServletException {}
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
         throws IOException, ServletException {
-        // 清除本地session
-        SessionUtils.invalidate((HttpServletRequest) request);
-        
-        // 跳转至服务端退出
-        String ssoLoginUrl = new StringBuilder().append(ssoServerUrl).append("/logout?service=")
-            .append(URLEncoder.encode(backUrl, "utf-8")).toString();
+        final HttpServletRequest request = (HttpServletRequest)servletRequest;
+        final HttpServletResponse response = (HttpServletResponse)servletResponse;
 
-        ((HttpServletResponse) response).sendRedirect(ssoLoginUrl);
+        String token = request.getParameter(SsoConstant.TICKET);
+        if (token != null) {
+            recordSession(request, token);
+            chain.doFilter(request, response);
+        }
+
+        token = request.getParameter(SsoConstant.LOGOUT_PARAMETER_NAME);
+        if (token != null) {
+            destroySession(request, token);
+        }
+
+        chain.doFilter(request, response);
     }
-    
-    public void setBackUrl(String backUrl) {
-        this.backUrl = backUrl;
+
+    private void recordSession(final HttpServletRequest request, String token) {
+        final HttpSession session = request.getSession();
+        try {
+            sessionMappingStorage.removeBySessionById(session.getId());
+        } catch (Exception e) {
+        }
+        sessionMappingStorage.addSessionById(token, session);
+    }
+
+    private void destroySession(final HttpServletRequest request, String token) {
+        final HttpSession session = sessionMappingStorage.removeSessionByMappingId(token);
+
+        if (session != null) {
+            try {
+                session.invalidate();
+            } catch (IllegalStateException e) {
+            }
+        }
+    }
+
+    public static SessionMappingStorage getSessionMappingStorage() {
+        return sessionMappingStorage;
     }
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
 }

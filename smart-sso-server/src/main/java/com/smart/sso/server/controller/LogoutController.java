@@ -1,6 +1,7 @@
 package com.smart.sso.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,10 +33,11 @@ public class LogoutController {
 	@ApiOperation("登出")
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String service,
-	        HttpServletRequest request) {
+	        HttpServletRequest request, HttpServletResponse response) {
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 		if (!StringUtils.isEmpty(tgt)) {
 		    ticketGrantingTicketManager.remove(tgt);
+		    CookieUtils.removeCookie(AppConstant.TGC, "/", response);
 		}
 		SessionUtils.invalidate(request);
         return "redirect:" + service;

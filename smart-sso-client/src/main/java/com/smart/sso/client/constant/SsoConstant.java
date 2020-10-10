@@ -12,6 +12,8 @@ public class SsoConstant {
      */
     public static final String TICKET = "ticket";
     
+    public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
+    
     /** 模糊匹配后缀 */
     public static final String URL_FUZZY_MATCH = "/*";
     

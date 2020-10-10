@@ -37,4 +37,13 @@ public abstract class TicketGrantingTicketManager extends TicketManager {
      * @param tgt
      */
     public abstract void remove(String tgt);
+    
+    /**
+     * 签发ST
+     * 
+     * @param tgt
+     * @param service
+     * @return
+     */
+    public abstract String signSt(String tgt, String service);
 }

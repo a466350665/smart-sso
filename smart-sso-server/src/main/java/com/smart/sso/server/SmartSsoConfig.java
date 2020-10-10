@@ -24,8 +24,6 @@ public class SmartSsoConfig {
     private String ssoServerUrl;
     @Value("${sso.app.code}")
     private String ssoAppCode;
-    @Value("${sso.logout.backUrl}")
-    private String backUrl;
 
     @Autowired
     private AuthenticationRpcService authenticationRpcService;

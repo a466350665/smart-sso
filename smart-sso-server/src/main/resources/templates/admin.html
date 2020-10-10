@@ -396,7 +396,7 @@
 		<script type="text/javascript">
 			jQuery(function ($) {
 				$("#_btnExit").click(function(){
-					window.location.href="${_path}/logout?service=/";
+					window.location.href="${_path}/logout?service=${_path}";
 				});
 			
 				$.getJSON("${_path}/admin/admin/menu?v=" + Math.random(), function(d) {

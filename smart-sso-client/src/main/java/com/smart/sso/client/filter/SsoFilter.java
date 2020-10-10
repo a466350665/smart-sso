@@ -22,10 +22,12 @@ public class SsoFilter extends ClientFilter {
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (SessionUtils.getUser(request) == null) {
             String ticket = request.getParameter(SsoConstant.TICKET);
-            RpcUserDto rpcUser;
-            if (ticket != null && (rpcUser = authenticationRpcService.validate(ticket)) != null) {
-                // 存储sessionUser
-                SessionUtils.setUser(request, new SessionUser(rpcUser.getId(), rpcUser.getAccount()));
+            if (ticket != null) {
+                RpcUserDto rpcUser = authenticationRpcService.validate(ticket);
+                if (rpcUser != null) {
+                    // 存储sessionUser
+                    SessionUtils.setUser(request, new SessionUser(rpcUser.getId(), rpcUser.getAccount()));
+                }
                 // 为去掉URL中token参数，再跳转一次当前Service
                 response.sendRedirect(getRemoveTicketService(request));
             }
