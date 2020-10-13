@@ -21,7 +21,7 @@ public class SsoFilter extends ClientFilter {
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (SessionUtils.getUser(request) == null) {
-            String ticket = request.getParameter(SsoConstant.TICKET);
+            String ticket = request.getParameter(SsoConstant.TICKET_PARAMETER_NAME);
             if (ticket != null) {
                 RpcUserDto rpcUser = authenticationRpcService.validate(ticket);
                 if (rpcUser != null) {
@@ -68,7 +68,7 @@ public class SsoFilter extends ClientFilter {
      */
 	private String getRemoveTicketService(HttpServletRequest request) {
 		String service = getService(request);
-		return service.substring(0, service.indexOf(SsoConstant.TICKET) - 1);
+		return service.substring(0, service.indexOf(SsoConstant.TICKET_PARAMETER_NAME) - 1);
 	}
 
     /**

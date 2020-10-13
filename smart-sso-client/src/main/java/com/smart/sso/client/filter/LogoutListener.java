@@ -25,16 +25,11 @@ import javax.servlet.http.HttpSessionListener;
 import com.smart.sso.client.session.SessionMappingStorage;
 
 /**
- * Listener to detect when an HTTP session is destroyed and remove it from the map of
- * managed sessions.  Also allows for the programmatic removal of sessions.
- * <p>
- * Enables the CAS Single Sign out feature.
- *
- * Scott Battaglia
- * @version $Revision$ Date$
- * @since 3.1
+ * 单点登出Listener
+ * 
+ * @author Joe
  */
-public final class LogoutSessionListener implements HttpSessionListener {
+public final class LogoutListener implements HttpSessionListener {
 
     private SessionMappingStorage sessionMappingStorage;
 

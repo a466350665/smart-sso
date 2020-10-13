@@ -104,7 +104,7 @@ public class LoginController extends BaseController{
         else {
             sbf.append("?");
         }
-        sbf.append(SsoConstant.TICKET).append("=").append(ticketGrantingTicketManager.signSt(tgt, service));
+        sbf.append(SsoConstant.TICKET_PARAMETER_NAME).append("=").append(ticketGrantingTicketManager.signSt(tgt, service));
         try {
             return URLDecoder.decode(sbf.toString(), "utf-8");
         } 

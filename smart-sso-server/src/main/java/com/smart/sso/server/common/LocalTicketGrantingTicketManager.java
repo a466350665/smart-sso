@@ -66,7 +66,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
             DummyTgt dummyTgt = entry.getValue();
             // 已过期
             if (now.compareTo(dummyTgt.expired) > 0) {
-                tgtMap.remove(tgt);
+                remove(tgt);
                 logger.debug("TGT : " + tgt + "已失效");
             }
         }

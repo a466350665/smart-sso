@@ -10,7 +10,7 @@ public class SsoConstant {
     /**
      * 服务端认证回调票据参数ticket名称
      */
-    public static final String TICKET = "ticket";
+    public static final String TICKET_PARAMETER_NAME = "ticket";
     
     public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
     
