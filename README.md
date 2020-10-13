@@ -7,7 +7,7 @@
 QQ交流群：454343484🈵、769134727（提供开发工具下载）
 
 ## 简述
-    smart-sso定位用当下最流行的SpringBoot + Spring + Mybatis技术，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层，方便实现快速开发。权限按钮级（可控制到Controller中方法）、支持分布式（Spring + Redis提供分布式Session）。
+    smart-sso使用当下最流行的SpringBoot + Mybatis技术，参考并简化Cas单点登录协议，为您构建一个易理解、高可用、高扩展性的单点登录权限管理应用基层。
  
 ## 部署文档
 - [Java单点登录权限系统（一）—简介](https://blog.csdn.net/a466350665/article/details/54140411)
