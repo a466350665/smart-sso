@@ -1,6 +1,5 @@
 package com.smart.sso.server.common;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -23,7 +22,7 @@ public class LocalServiceTicketManager extends ServiceTicketManager {
 	    
 	    DummySt dummySt = new DummySt();
 		dummySt.tgt = tgt;
-		dummySt.expired = new Date(new Date().getTime() + timeout * 1000);
+		dummySt.expired = System.currentTimeMillis() + timeout * 1000;
 		ticketMap.put(ticket, dummySt);
 		return ticket;
 	}
@@ -31,7 +30,7 @@ public class LocalServiceTicketManager extends ServiceTicketManager {
 	@Override
 	public String validate(String ticket) {
 	    DummySt dummySt = ticketMap.remove(ticket);
-        if (dummySt == null || new Date().getTime() > dummySt.expired.getTime()) {
+        if (dummySt == null || System.currentTimeMillis() > dummySt.expired) {
             return null;
         }
         return dummySt.tgt;
@@ -44,12 +43,11 @@ public class LocalServiceTicketManager extends ServiceTicketManager {
 	
 	@Override
     public void verifyExpired() {
-        Date now = new Date();
         for (Entry<String, DummySt> entry : ticketMap.entrySet()) {
             String ticket = entry.getKey();
             DummySt dummySt = entry.getValue();
             // 已过期
-            if (now.compareTo(dummySt.expired) > 0) {
+            if (System.currentTimeMillis() > dummySt.expired) {
                 ticketMap.remove(ticket);
                 logger.debug("ticket : " + ticket + "已失效");
             }
@@ -58,6 +56,6 @@ public class LocalServiceTicketManager extends ServiceTicketManager {
 
 	private class DummySt {
 		private String tgt;
-		private Date expired; // 过期时间
+		private long expired; // 过期时间
 	}
 }

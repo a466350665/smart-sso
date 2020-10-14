@@ -33,6 +33,11 @@ public class SmartSsoConfig {
     @Autowired
     private AuthenticationRpcService authenticationRpcService;
     
+    /**
+     * 单点登出Listener
+     * 
+     * @return
+     */
     @Bean
     public ServletListenerRegistrationBean<HttpSessionListener> sessionListenerWithMetrics() {
         ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
@@ -40,12 +45,17 @@ public class SmartSsoConfig {
         return listenerRegBean;
     }
     
+    /**
+     * 单点登录Filter容器
+     * 
+     * @return
+     */
     @Bean
     public FilterRegistrationBean<SmartContainer> smartContainer() {
         SmartContainer smartContainer = new SmartContainer();
         smartContainer.setIsServer(true);
         smartContainer.setAuthenticationRpcService(authenticationRpcService);
-        
+
         // 忽略登录URL,多个逗号分隔
         // smartContainer.setExcludeUrls("/login,/h5/*");
 
@@ -78,6 +88,11 @@ public class SmartSsoConfig {
         return new LocalTicketGrantingTicketManager();
     }
 
+    /**
+     * ST校验及权限信息RPC服务
+     * 
+     * @return
+     */
     @Bean(name = "/rpc/authenticationRpcService")
     public HessianServiceExporter authenticationRpcService() {
         HessianServiceExporter exporter = new HessianServiceExporter();

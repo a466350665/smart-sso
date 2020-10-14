@@ -6,6 +6,12 @@ package com.smart.sso.server.common;
  * @author Joe
  */
 public abstract class ServiceTicketManager extends TicketManager {
+    
+    public ServiceTicketManager() {
+        super();
+        // ST默认超时时间10秒
+        setTimeout(10);
+    }
 
     /**
      * 生成票据

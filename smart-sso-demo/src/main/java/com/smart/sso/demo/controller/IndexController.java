@@ -23,8 +23,6 @@ public class IndexController {
 		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
-		// 单点退出地址
-		model.addAttribute("ssologoutUrl", ssoServerUrl + "/logout?service=" + getLocalUrl(request).toString());
 
 		SessionPermission sessionPermission = SessionUtils.getPermission(request);
 		if (sessionPermission != null) {
@@ -33,6 +31,9 @@ public class IndexController {
 			// 登录用户当前应用的权限
 			request.setAttribute("userPermissions", sessionPermission.getPermissionSet());
 		}
+		
+		// 单点退出地址
+		model.addAttribute("ssologoutUrl", ssoServerUrl + "/logout?service=" + getLocalUrl(request).toString());
 		return "index";
 	}
 	

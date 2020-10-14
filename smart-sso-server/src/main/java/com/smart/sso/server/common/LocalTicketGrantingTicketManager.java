@@ -1,6 +1,5 @@
 package com.smart.sso.server.common;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         
         DummyTgt dummyTgt = new DummyTgt();
         dummyTgt.user = user;
-        dummyTgt.expired = new Date(new Date().getTime() + timeout * 1000);
+        dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
         dummyTgt.stMap = Maps.newConcurrentMap();
         tgtMap.put(tgt, dummyTgt);
         return tgt;
@@ -39,7 +38,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     @Override
     public RpcUserDto validate(String tgt) {
         DummyTgt dummyTgt = tgtMap.get(tgt);
-        if (dummyTgt == null || new Date().getTime() > dummyTgt.expired.getTime()) {
+        if (dummyTgt == null || System.currentTimeMillis() > dummyTgt.expired) {
             return null;
         }
         return dummyTgt.user;
@@ -60,13 +59,12 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
 
     @Override
     public void verifyExpired() {
-        Date now = new Date();
         for (Entry<String, DummyTgt> entry : tgtMap.entrySet()) {
             String tgt = entry.getKey();
             DummyTgt dummyTgt = entry.getValue();
             // 已过期
-            if (now.compareTo(dummyTgt.expired) > 0) {
-                remove(tgt);
+            if (System.currentTimeMillis() > dummyTgt.expired) {
+                tgtMap.remove(tgt);
                 logger.debug("TGT : " + tgt + "已失效");
             }
         }
@@ -75,7 +73,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     private class DummyTgt {
         private RpcUserDto user;
         private Map<String, String> stMap;
-        private Date expired; // 过期时间
+        private long expired; // 过期时间
     }
 
     @Override
@@ -87,5 +85,9 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         String st = serviceTicketManager.generate(tgt);
         dummyTgt.stMap.put(st, service);
         return st;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
     }
 }

@@ -23,6 +23,11 @@ public class SmartSsoConfig {
     @Value("${sso.app.code}")
     private String ssoAppCode;
     
+    /**
+     * 单点登出Listener
+     * 
+     * @return
+     */
     @Bean
     public ServletListenerRegistrationBean<HttpSessionListener> sessionListenerWithMetrics() {
         ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
@@ -30,6 +35,11 @@ public class SmartSsoConfig {
         return listenerRegBean;
     }
     
+    /**
+     * 单点登录Filter容器
+     * 
+     * @return
+     */
     @Bean
     public FilterRegistrationBean<SmartContainer> smartContainer() {
         SmartContainer smartContainer = new SmartContainer();
