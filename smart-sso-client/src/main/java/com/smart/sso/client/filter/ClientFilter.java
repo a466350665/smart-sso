@@ -1,7 +1,6 @@
 package com.smart.sso.client.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,24 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe
  */
 public abstract class ClientFilter extends ParamFilter implements Filter {
-	
+    
 	public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
-
-	protected boolean isAjaxRequest(HttpServletRequest request) {
-		String requestedWith = request.getHeader("X-Requested-With");
-		return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
-	}
-
-	protected void responseJson(HttpServletResponse response, int code, String message) throws IOException {
-		response.setContentType("application/json;charset=UTF-8");
-		response.setStatus(200);
-		PrintWriter writer = response.getWriter();
-		writer.write(new StringBuilder().append("{\"code\":").append(code).append(",\"message\":\"").append(message)
-				.append("\"}").toString());
-		writer.flush();
-		writer.close();
-	}
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,22 +1,13 @@
-package com.smart.sso.client.model;
+package com.smart.sso.server.dto;
 
-import java.io.Serializable;
+public class UserDto {
 
-/**
- * 已登录用户信息
- * 
- * @author Joe
- */
-public class SessionUser implements Serializable {
-
-	private static final long serialVersionUID = 1764365572138947234L;
-
-	// 登录成功userId
+    // 登录成功userId
     private Integer id;
     // 登录名
     private String account;
 
-    public SessionUser(Integer id, String account) {
+    public UserDto(Integer id, String account) {
         super();
         this.id = id;
         this.account = account;
@@ -46,7 +37,7 @@ public class SessionUser implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SessionUser other = (SessionUser)obj;
+        UserDto other = (UserDto)obj;
         if (id == null) {
             if (other.id != null)
                 return false;

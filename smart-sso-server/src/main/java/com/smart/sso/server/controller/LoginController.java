@@ -11,40 +11,41 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.RpcUserDto;
+import com.smart.sso.client.model.Result;
 import com.smart.sso.server.common.TicketGrantingTicketManager;
 import com.smart.sso.server.constant.AppConstant;
-import com.smart.sso.server.model.User;
+import com.smart.sso.server.dto.UserDto;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.util.CookieUtils;
-import com.smart.sso.server.util.PasswordHelper;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
+ * 单点登录管理
+ * 
  * @author Joe
  */
-@Api(tags = "单点登录管理")
 @Controller
 @RequestMapping("/login")
-public class LoginController extends BaseController{
-	
+public class LoginController{
+
 	@Autowired
     private TicketGrantingTicketManager ticketGrantingTicketManager;
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation("登录页")
+	/**
+	 * 登录页
+	 * 
+	 * @param service
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String service,
+			@RequestParam String service,
 			HttpServletRequest request) {
         String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
         if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.validate(tgt) == null) {
@@ -53,14 +54,13 @@ public class LoginController extends BaseController{
         return "redirect:" + authService(service, tgt);
 	}
 
-	@ApiOperation("登录提交")
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@ValidateParam(name = "返回链接", value = { Validator.NOT_BLANK }) String service,
-			@ValidateParam(name = "登录名", value = { Validator.NOT_BLANK }) String account,
-			@ValidateParam(name = "密码", value = { Validator.NOT_BLANK }) String password,
+    	    @RequestParam String service,
+    	    @RequestParam String account,
+    	    @RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-	    Result<User> result = userService.login(account, PasswordHelper.encrypt(password));
+	    Result<UserDto> result = userService.login(account, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(service, request);
@@ -68,7 +68,7 @@ public class LoginController extends BaseController{
 		else {
 			String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 			if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.validate(tgt) == null) {
-			    User user = result.getData();
+			    UserDto user = result.getData();
 			    tgt = ticketGrantingTicketManager.generate(new RpcUserDto(user.getId(), user.getAccount()));
 			    
 			    // TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
@@ -109,7 +109,6 @@ public class LoginController extends BaseController{
             return URLDecoder.decode(sbf.toString(), "utf-8");
         } 
         catch (UnsupportedEncodingException e) {
-            logger.error("", e);
             return sbf.toString();
         }
 	}

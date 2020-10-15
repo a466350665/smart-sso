@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.smart.sso.client.model.SessionPermission;
 import com.smart.sso.client.model.SessionUser;
 import com.smart.sso.client.util.SessionUtils;
 
@@ -23,14 +22,6 @@ public class IndexController {
 		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
-
-		SessionPermission sessionPermission = SessionUtils.getPermission(request);
-		if (sessionPermission != null) {
-			// 登录用户当前应用的菜单
-			request.setAttribute("userMenus", sessionPermission.getMenuList());
-			// 登录用户当前应用的权限
-			request.setAttribute("userPermissions", sessionPermission.getPermissionSet());
-		}
 		
 		// 单点退出地址
 		model.addAttribute("ssologoutUrl", ssoServerUrl + "/logout?service=" + getLocalUrl(request).toString());

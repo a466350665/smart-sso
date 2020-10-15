@@ -1,7 +1,6 @@
 package com.smart.sso.client;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +15,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.caucho.hessian.client.HessianProxyFactory;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.filter.ClientFilter;
 import com.smart.sso.client.filter.ParamFilter;
-import com.smart.sso.client.rpc.AuthenticationRpcService;
 
 /**
  * smart-sso容器中心
@@ -29,42 +26,18 @@ import com.smart.sso.client.rpc.AuthenticationRpcService;
  */
 public class SmartContainer extends ParamFilter implements Filter {
     
-	/** 是否服务端，默认为false */
-	private boolean isServer = false;
-
 	/** 排除URL */
 	protected String excludeUrls;
 
 	private ClientFilter[] filters;
 
-
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		
-		if(isServer) {
-			ssoServerUrl = filterConfig.getServletContext().getContextPath();
-		}
-		else if (ssoServerUrl == null || ssoServerUrl.isEmpty()) {
-			throw new IllegalArgumentException("ssoServerUrl不能为空");
-		}
-		
-		if (authenticationRpcService == null) {
-			try {
-				authenticationRpcService = (AuthenticationRpcService) new HessianProxyFactory()
-						.create(AuthenticationRpcService.class, ssoServerUrl + "/rpc/authenticationRpcService");
-			}
-			catch (MalformedURLException e) {
-				throw new IllegalArgumentException("authenticationRpcService初始化失败");
-			}
-		}
-
 		if (filters == null || filters.length == 0) {
 			throw new IllegalArgumentException("filters不能为空");
 		}
 		for (ClientFilter filter : filters) {
 			filter.setSsoServerUrl(ssoServerUrl);
-			filter.setAuthenticationRpcService(authenticationRpcService);
-
 			filter.init(filterConfig);
 		}
 	}
@@ -106,15 +79,11 @@ public class SmartContainer extends ParamFilter implements Filter {
 		return false;
 	}
 	
-	public void setIsServer(boolean isServer) {
-		this.isServer = isServer;
-	}
-	
 	public void setExcludeUrls(String excludeUrls) {
         this.excludeUrls = excludeUrls;
     }
 
-    public void setFilters(ClientFilter[] filters) {
+    public void setFilters(ClientFilter... filters) {
 		this.filters = filters;
 	}
 

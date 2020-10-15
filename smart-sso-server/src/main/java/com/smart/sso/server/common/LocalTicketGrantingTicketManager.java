@@ -3,13 +3,13 @@ package com.smart.sso.server.common;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Maps;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.RpcUserDto;
-import com.smart.sso.server.util.HttpRequestUtils;
+import com.smart.sso.client.util.HttpRequestUtils;
 
 /**
  * 本地票据管理
@@ -18,7 +18,7 @@ import com.smart.sso.server.util.HttpRequestUtils;
  */
 public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManager {
 
-    private final Map<String, DummyTgt> tgtMap = Maps.newConcurrentMap();
+    private final Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
     
     @Autowired
     private ServiceTicketManager serviceTicketManager;
@@ -30,7 +30,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         DummyTgt dummyTgt = new DummyTgt();
         dummyTgt.user = user;
         dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
-        dummyTgt.stMap = Maps.newConcurrentMap();
+        dummyTgt.stMap = new ConcurrentHashMap<>();
         tgtMap.put(tgt, dummyTgt);
         return tgt;
     }
@@ -85,9 +85,5 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         String st = serviceTicketManager.generate(tgt);
         dummyTgt.stMap.put(st, service);
         return st;
-    }
-    
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
     }
 }

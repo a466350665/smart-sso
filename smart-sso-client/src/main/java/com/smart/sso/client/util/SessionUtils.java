@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.model.SessionPermission;
 import com.smart.sso.client.model.SessionUser;
 
 /**
@@ -27,17 +26,8 @@ public class SessionUtils {
 		request.getSession().setAttribute(SsoConstant.SESSION_USER, sessionUser);
 	}
 
-	public static SessionPermission getPermission(HttpServletRequest request) {
-		return (SessionPermission) request.getSession().getAttribute(SsoConstant.SESSION_PERMISSION);
-	}
-
-	public static void setPermission(HttpServletRequest request, SessionPermission sessionPermission) {
-	    request.getSession().setAttribute(SsoConstant.SESSION_PERMISSION, sessionPermission);
-	}
-	
 	public static void invalidate(HttpServletRequest request){
 		setUser(request, null);
-		setPermission(request, null);
 		request.getSession().invalidate();
 	}
 }

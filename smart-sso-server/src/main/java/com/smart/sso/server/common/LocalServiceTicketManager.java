@@ -3,8 +3,7 @@ package com.smart.sso.server.common;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import com.google.common.collect.Maps;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地票据管理
@@ -14,7 +13,7 @@ import com.google.common.collect.Maps;
 public class LocalServiceTicketManager extends ServiceTicketManager {
 
 	// 票据存储结构
-	private final Map<String, DummySt> ticketMap = Maps.newConcurrentMap();
+	private final Map<String, DummySt> ticketMap = new ConcurrentHashMap<>();
 
 	@Override
 	public String generate(String tgt) {
