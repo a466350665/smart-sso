@@ -1,4 +1,4 @@
-package com.smart.sso.demo;
+package com.smart.sso.demo.config;
 
 import javax.servlet.http.HttpSessionListener;
 
