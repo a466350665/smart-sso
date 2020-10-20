@@ -49,5 +49,5 @@ smart-sso
 ![](https://img-blog.csdnimg.cn/20201020163349855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
 
 ### 请作者喝杯茶颜悦色?
-![image](https://github.com/a466350665/smart-sso/alipay.jpg#pic_left)
-![image](https://github.com/a466350665/smart-sso/wechat_pay.jpg#pic_left)
+![image](https://github.com/a466350665/smart-sso/blob/master/alipay.jpg)
+![image](https://github.com/a466350665/smart-sso/blob/master/alipay.jpg#pic_left)
