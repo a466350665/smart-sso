@@ -30,23 +30,6 @@ smart-sso
 - 日志管理：SLF4J 1.7.21
 - 单点登录：极简参考Cas协议实现
 
-## 对比Cas + Shiro
-
-### 请求协议
-- Cas：默认https，如果使用http需要把cas server解压修改配置参数。<br>
-- Smart：默认http，可选配为Https，减少配置，降低门槛。
-
-### 配置层面
-- Cas：在web.xml中指定的TicketValidationFilter、AuthenticationFilter及SingleSignOutFilter存在重复的serverName参数，serverName的修改，需要分别修改三处。<br>
-- Smart：将serverName定义在properties文件中，通过Spring的<context:property-placeholder />标签注入，简化配置。(毕竟当今大部分Java项目都会用到Spring框架)
-
-### 分布式部署
-- Shiro：通常大家部署依赖Shiro注入的RedisSession。<br>
-- Smart：通过大家更为常用的Spring，覆盖HttpSession注入RedisSession。
-
-注：Cas和Shiro的风光伟绩就无需笔者在此多加吹捧，现在只是关起门来聊聊Smart的优势，当然个人的理解和知识面也有限，有描述不对的地方，也欢迎大家加群探讨。友善！勿喷！谢谢！
-
-
 ## 单点登录原理
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201015165855788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
 
