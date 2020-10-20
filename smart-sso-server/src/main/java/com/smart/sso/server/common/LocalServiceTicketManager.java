@@ -6,29 +6,35 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 本地票据管理
+ * 本地ST管理
  * 
  * @author Joe
  */
 public class LocalServiceTicketManager extends ServiceTicketManager {
 
-	// 票据存储结构
-	private final Map<String, DummySt> ticketMap = new ConcurrentHashMap<>();
+	// ST存储结构
+	private final Map<String, DummySt> stMap = new ConcurrentHashMap<>();
+	
+	public LocalServiceTicketManager() {
+	    // 默认ST失效为10秒
+        super(10);
+    }
+	
+	public LocalServiceTicketManager(int timeout) {
+        super(timeout);
+    }
 
 	@Override
 	public String generate(String tgt) {
-	    String ticket = "ST-" + UUID.randomUUID().toString().replaceAll("-", "");
-	    
-	    DummySt dummySt = new DummySt();
-		dummySt.tgt = tgt;
-		dummySt.expired = System.currentTimeMillis() + timeout * 1000;
-		ticketMap.put(ticket, dummySt);
-		return ticket;
+	    String st = "ST-" + UUID.randomUUID().toString().replaceAll("-", "");
+	    DummySt dummySt = new DummySt(tgt, System.currentTimeMillis() + timeout * 1000);
+		stMap.put(st, dummySt);
+		return st;
 	}
 
 	@Override
-	public String validate(String ticket) {
-	    DummySt dummySt = ticketMap.remove(ticket);
+	public String validate(String st) {
+	    DummySt dummySt = stMap.remove(st);
         if (dummySt == null || System.currentTimeMillis() > dummySt.expired) {
             return null;
         }
@@ -36,25 +42,31 @@ public class LocalServiceTicketManager extends ServiceTicketManager {
 	}
 	
 	@Override
-    public void remove(String ticket) {
-        ticketMap.remove(ticket);
+    public void remove(String st) {
+        stMap.remove(st);
     }
 	
 	@Override
     public void verifyExpired() {
-        for (Entry<String, DummySt> entry : ticketMap.entrySet()) {
-            String ticket = entry.getKey();
+        for (Entry<String, DummySt> entry : stMap.entrySet()) {
+            String st = entry.getKey();
             DummySt dummySt = entry.getValue();
             // 已过期
             if (System.currentTimeMillis() > dummySt.expired) {
-                ticketMap.remove(ticket);
-                logger.debug("ticket : " + ticket + "已失效");
+                stMap.remove(st);
+                logger.debug("ticket : " + st + "已失效");
             }
         }
     }
 
-	private class DummySt {
-		private String tgt;
-		private long expired; // 过期时间
-	}
+    private class DummySt {
+        private String tgt;
+        private long expired; // 过期时间
+
+        public DummySt(String tgt, long expired) {
+            super();
+            this.tgt = tgt;
+            this.expired = expired;
+        }
+    }
 }

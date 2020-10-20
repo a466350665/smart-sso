@@ -29,7 +29,7 @@ public class LogoutFilter extends ClientFilter {
 
         token = request.getParameter(SsoConstant.LOGOUT_PARAMETER_NAME);
         if (token != null) {
-            destroySession(request, token);
+            destroySession(token);
             return false;
         }
 
@@ -38,21 +38,14 @@ public class LogoutFilter extends ClientFilter {
 
     private void recordSession(final HttpServletRequest request, String token) {
         final HttpSession session = request.getSession();
-        try {
-            sessionMappingStorage.removeBySessionById(session.getId());
-        } catch (Exception e) {
-        }
+        sessionMappingStorage.removeBySessionById(session.getId());
         sessionMappingStorage.addSessionById(token, session);
     }
 
-    private void destroySession(final HttpServletRequest request, String token) {
+    private void destroySession(String token) {
         final HttpSession session = sessionMappingStorage.removeSessionByMappingId(token);
-
         if (session != null) {
-            try {
-                session.invalidate();
-            } catch (IllegalStateException e) {
-            }
+            session.invalidate();
         }
     }
 

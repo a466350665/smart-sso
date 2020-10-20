@@ -1,6 +1,6 @@
 package com.smart.sso.server.service;
 
-import com.smart.sso.client.model.Result;
+import com.smart.sso.client.dto.Result;
 import com.smart.sso.server.dto.UserDto;
 
 /**

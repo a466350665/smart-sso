@@ -5,14 +5,12 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.dto.RpcUserDto;
+import com.smart.sso.client.dto.SsoUser;
 import com.smart.sso.client.util.HttpRequestUtils;
 
 /**
- * 本地票据管理
+ * 本地TGT管理
  * 
  * @author Joe
  */
@@ -20,23 +18,27 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
 
     private final Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
     
-    @Autowired
-    private ServiceTicketManager serviceTicketManager;
-
-    @Override
-    public String generate(RpcUserDto user) {
-        String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        
-        DummyTgt dummyTgt = new DummyTgt();
-        dummyTgt.user = user;
-        dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
-        dummyTgt.stMap = new ConcurrentHashMap<>();
-        tgtMap.put(tgt, dummyTgt);
-        return tgt;
+    public LocalTicketGrantingTicketManager(int timeout) {
+        super(timeout);
     }
     
     @Override
-    public RpcUserDto validate(String tgt) {
+    public String generate(SsoUser user) {
+        String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
+        tgtMap.put(tgt, createDummyTgt(user));
+        return tgt;
+    }
+    
+    private DummyTgt createDummyTgt(SsoUser user) {
+        DummyTgt dummyTgt = new DummyTgt();
+        dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
+        dummyTgt.stMap = new ConcurrentHashMap<>();
+        dummyTgt.user = user;
+        return dummyTgt;
+    }
+    
+    @Override
+    public SsoUser exists(String tgt) {
         DummyTgt dummyTgt = tgtMap.get(tgt);
         if (dummyTgt == null || System.currentTimeMillis() > dummyTgt.expired) {
             return null;
@@ -56,6 +58,26 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         }
         tgtMap.remove(tgt);
     }
+    
+    @Override
+    public String signSt(String tgt, String st, String service) {
+        DummyTgt dummyTgt = tgtMap.get(tgt);
+        if (dummyTgt == null) {
+            return null;
+        }
+        dummyTgt.stMap.put(st, service);
+        return st;
+    }
+
+    @Override
+    public boolean refresh(String tgt) {
+        DummyTgt dummyTgt = tgtMap.get(tgt);
+        if (dummyTgt == null) {
+            return false;
+        }
+        dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
+        return true;
+    }
 
     @Override
     public void verifyExpired() {
@@ -71,19 +93,8 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     }
     
     private class DummyTgt {
-        private RpcUserDto user;
+        private SsoUser user;
         private Map<String, String> stMap;
         private long expired; // 过期时间
-    }
-
-    @Override
-    public String signSt(String tgt, String service) {
-        DummyTgt dummyTgt = tgtMap.get(tgt);
-        if(dummyTgt==null) {
-            return null;
-        }
-        String st = serviceTicketManager.generate(tgt);
-        dummyTgt.stMap.put(st, service);
-        return st;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.sso.client.model.SessionUser;
+import com.smart.sso.client.dto.SsoUser;
 import com.smart.sso.client.util.SessionUtils;
 
 /**
@@ -31,7 +31,7 @@ public class AdminController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(HttpServletRequest request, Model model) {
-		SessionUser sessionUser = SessionUtils.getUser(request);
+		SsoUser sessionUser = SessionUtils.getUser(request);
 		// 设置登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
 		// 单点退出地址

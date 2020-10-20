@@ -1,4 +1,4 @@
-package com.smart.sso.client.model;
+package com.smart.sso.client.dto;
 
 import java.beans.Transient;
 import java.io.Serializable;

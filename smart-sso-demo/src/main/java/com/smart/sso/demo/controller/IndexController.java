@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.smart.sso.client.model.SessionUser;
+import com.smart.sso.client.dto.SsoUser;
 import com.smart.sso.client.util.SessionUtils;
 
 @Controller
@@ -19,7 +19,7 @@ public class IndexController {
 	@GetMapping("/")
 	public String index(Model model, HttpServletRequest request) {
 
-		SessionUser sessionUser = SessionUtils.getUser(request);
+		SsoUser sessionUser = SessionUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
 		

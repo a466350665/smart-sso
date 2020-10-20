@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.smart.sso.client.SmartContainer;
 import com.smart.sso.client.filter.LogoutFilter;
 import com.smart.sso.client.filter.LogoutListener;
-import com.smart.sso.client.filter.SsoFilter;
+import com.smart.sso.client.filter.LoginFilter;
 
 @Configuration
 public class SmartSsoConfig {
@@ -25,7 +25,7 @@ public class SmartSsoConfig {
      * @return
      */
     @Bean
-    public ServletListenerRegistrationBean<HttpSessionListener> sessionListenerWithMetrics() {
+    public ServletListenerRegistrationBean<HttpSessionListener> LogoutListener() {
         ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
         listenerRegBean.setListener(new LogoutListener());
         return listenerRegBean;
@@ -44,7 +44,7 @@ public class SmartSsoConfig {
         // 忽略登录URL,多个逗号分隔
         // smartContainer.setExcludeUrls("/login,/h5/*");
         
-        smartContainer.setFilters(new LogoutFilter(), new SsoFilter());
+        smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
 
         FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
         registration.setFilter(smartContainer);

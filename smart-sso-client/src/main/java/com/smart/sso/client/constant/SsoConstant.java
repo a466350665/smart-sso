@@ -1,7 +1,7 @@
 package com.smart.sso.client.constant;
 
 /**
- * 单点登录权限返回码
+ * 单点登录码值
  * 
  * @author Joe
  */
@@ -12,15 +12,23 @@ public class SsoConstant {
      */
     public static final String TICKET_PARAMETER_NAME = "ticket";
     
+    /**
+     * 服务端单点登出回调登出参数名称
+     */
     public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
     
-    /** 模糊匹配后缀 */
+    /**
+     * 模糊匹配后缀
+     */
     public static final String URL_FUZZY_MATCH = "/*";
     
     /**
-     * 用户信息
+     * 本地session用户信息
      */
     public static final String SESSION_USER = "_sessionUser";
 	
-	public static final int NO_LOGIN = 2100;// 未登录或已过期
+	/**
+	 * 未登录或已过期
+	 */
+	public static final int NO_LOGIN = 2100;
 }

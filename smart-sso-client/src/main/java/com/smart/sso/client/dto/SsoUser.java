@@ -3,20 +3,20 @@ package com.smart.sso.client.dto;
 import java.io.Serializable;
 
 /**
- * RPC回传用户对象
+ * 已登录用户信息
  * 
  * @author Joe
  */
-public class RpcUserDto implements Serializable {
+public class SsoUser implements Serializable {
 
-    private static final long serialVersionUID = 4507869346123296527L;
+	private static final long serialVersionUID = 1764365572138947234L;
 
-    // 登录成功userId
+	// 登录成功userId
     private Integer id;
     // 登录名
     private String account;
 
-    public RpcUserDto(Integer id, String account) {
+    public SsoUser(Integer id, String account) {
         super();
         this.id = id;
         this.account = account;
@@ -46,7 +46,7 @@ public class RpcUserDto implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RpcUserDto other = (RpcUserDto)obj;
+        SsoUser other = (SsoUser)obj;
         if (id == null) {
             if (other.id != null)
                 return false;

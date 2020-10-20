@@ -1,18 +1,16 @@
 package com.smart.sso.server.common;
 
-import com.smart.sso.client.dto.RpcUserDto;
+import com.smart.sso.client.dto.SsoUser;
 
 /**
  * 令牌（TGT）管理抽象
  * 
  * @author Joe
  */
-public abstract class TicketGrantingTicketManager extends TicketManager {
-
-    public TicketGrantingTicketManager() {
-        super();
-        // TGT默认超时时间2小时
-        setTimeout(7200);
+public abstract class TicketGrantingTicketManager extends TimeoutManager {
+    
+    public TicketGrantingTicketManager(int timeout) {
+        super(timeout);
     }
 
     /**
@@ -21,15 +19,15 @@ public abstract class TicketGrantingTicketManager extends TicketManager {
      * @param user
      * @return
      */
-    public abstract String generate(RpcUserDto user);
+    public abstract String generate(SsoUser user);
     
     /**
-     * 验证TGT是否存在，且在有效期内
+     * 验证st是否存在，且在有效期内
      * 
      * @param tgt
      * @return
      */
-    public abstract RpcUserDto validate(String tgt);
+    public abstract SsoUser exists(String tgt);
     
     /**
      * 移除
@@ -42,8 +40,17 @@ public abstract class TicketGrantingTicketManager extends TicketManager {
      * 签发ST
      * 
      * @param tgt
+     * @param st
      * @param service
      * @return
      */
-    public abstract String signSt(String tgt, String service);
+    public abstract String signSt(String tgt, String st, String service);
+    
+    /**
+     * 延长TGT生命周期
+     * 
+     * @param tgt
+     * @return
+     */
+    public abstract boolean refresh(String tgt);
 }

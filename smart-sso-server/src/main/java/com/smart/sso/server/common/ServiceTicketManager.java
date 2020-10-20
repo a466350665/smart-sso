@@ -1,37 +1,41 @@
 package com.smart.sso.server.common;
 
 /**
- * 票据（ST）管理抽象
+ * ST管理抽象
  * 
  * @author Joe
  */
-public abstract class ServiceTicketManager extends TicketManager {
+public abstract class ServiceTicketManager extends TimeoutManager {
     
-    public ServiceTicketManager() {
-        super();
-        // ST默认超时时间10秒
-        setTimeout(10);
+    /**
+     * 带时效参数构造方法
+     * 
+     * @param timeout
+     */
+    public ServiceTicketManager(int timeout) {
+        super(timeout);
     }
 
     /**
-     * 生成票据
+     * 生成ST
      * 
      * @param tgt
+     * @return
      */
     public abstract String generate(String tgt);
 
     /**
-     * 验证票据有效性，无论有效性与否，都remove掉ticket
+     * 验证票据有效性，无论有效性与否，都remove掉st
      * 
-     * @param ticket
+     * @param st
      * @return
      */
-    public abstract String validate(String ticket);
-
+    public abstract String validate(String st);
+    
     /**
      * 移除票据
      * 
-     * @param ticket
+     * @param st
      */
-    public abstract void remove(String ticket);
+    public abstract void remove(String st);
 }
