@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.SsoUser;
-import com.smart.sso.client.util.HttpRequestUtils;
+import com.smart.sso.client.util.HttpUtils;
 
 /**
  * 本地TGT管理
@@ -54,7 +54,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
         }
         Map<String, String> stMap = dummyTgt.stMap;
         for (Entry<String, String> entry : stMap.entrySet()) {
-            HttpRequestUtils.get(entry.getValue() + "?" + SsoConstant.LOGOUT_PARAMETER_NAME + "=" + entry.getKey());
+            HttpUtils.get(entry.getValue() + "?" + SsoConstant.LOGOUT_PARAMETER_NAME + "=" + entry.getKey());
         }
         tgtMap.remove(tgt);
     }

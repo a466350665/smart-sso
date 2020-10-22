@@ -5,11 +5,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * 借鉴CAS
+ * 
+ * @author Joe
+ */
 public final class LocalSessionMappingStorage implements SessionMappingStorage {
 
-    private final Map<String, HttpSession> MANAGED_SESSIONS = new HashMap<String, HttpSession>();
+    private final Map<String, HttpSession> MANAGED_SESSIONS = new HashMap<>();
 
-    private final Map<String, String> ID_TO_SESSION_KEY_MAPPING = new HashMap<String, String>();
+    private final Map<String, String> ID_TO_SESSION_KEY_MAPPING = new HashMap<>();
 
     @Override
     public synchronized void addSessionById(final String mappingId, final HttpSession session) {

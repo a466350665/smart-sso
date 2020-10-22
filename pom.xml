@@ -19,43 +19,9 @@
 		<module>smart-sso-server</module>
 	</modules>
 	
-	<profiles>
-		<!-- 开发环境 -->
-		<profile>
-			<id>dev</id>
-			<properties>
-				<env>dev</env>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<!-- 生产环境 -->
-		<profile>
-			<id>pro</id>
-			<properties>
-				<env>pro</env>
-			</properties>
-		</profile>
-	</profiles>
-	
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		
 		<servlet.version>3.1.0</servlet.version>
-		<jpa.version>1.0</jpa.version>
-		
-		<spring.version>5.1.2.RELEASE</spring.version>
-		<mybatis.version>3.5.1</mybatis.version>
-		<mybatis-spring.version>2.0.5</mybatis-spring.version>
-		<druid.version>1.0.15</druid.version>
-		<mysql.version>5.1.36</mysql.version>
 		<fastjson.version>1.2.69</fastjson.version>
-		<slf4j.version>1.7.21</slf4j.version>
-		<hessian.version>4.0.38</hessian.version>
-		<swagger.version>1.5.10</swagger.version>
-		<guava.version>20.0</guava.version>
 	</properties>
 
 	<dependencyManagement>
@@ -68,126 +34,11 @@
 				<scope>provided</scope>
 			</dependency>
 			
-			<!-- JPA支持-->
-			<dependency>
-	            <groupId>javax.persistence</groupId>
-	            <artifactId>persistence-api</artifactId>
-	            <version>${jpa.version}</version>
-	        </dependency>
-			
-			<!-- Spring -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jms</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-aop</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework.session</groupId>
-			    <artifactId>spring-session-data-redis</artifactId>
-			    <version>${spring-redis.version}</version>
-			</dependency>
-			
-			<!-- Mybatis核心包 -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis</artifactId>
-				<version>${mybatis.version}</version>
-			</dependency>
-			
-			<!-- Mybatis-Spring包 -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis-spring</artifactId>
-				<version>${mybatis-spring.version}</version>
-			</dependency>
-			
-			<!-- Mysql驱动程序 -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.version}</version>
-			</dependency>
-			
-			<!-- 阿里巴巴数据连接池 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid</artifactId>
-				<version>${druid.version}</version>
-			</dependency>
-			
-			<!-- 日志 -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			
 			<!-- Json处理 -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
-			</dependency>
-			
-			<!-- Guava工具类 -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
-			</dependency>
-	
-			<!-- 远程RPC调用hessian支持 -->
-			<dependency>
-				<groupId>com.caucho</groupId>
-				<artifactId>hessian</artifactId>
-				<version>${hessian.version}</version>
-			</dependency>
-			
-			<!-- Springfox API文档 -->
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -209,15 +60,6 @@
 			</resource>
 		</resources>
 	</build>
-	
-	<!-- 阿里云镜像 -->
-	<repositories>
-		<repository>
-			<id>nexus-aliyun</id>
-			<name>Nexus Aliyun</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-		</repository>
-	</repositories>
 	
 	<issueManagement>
 		<system>github</system>

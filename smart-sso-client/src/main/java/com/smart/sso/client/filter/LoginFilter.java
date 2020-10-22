@@ -17,7 +17,7 @@ import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.Result;
 import com.smart.sso.client.dto.SessionUser;
 import com.smart.sso.client.dto.AccessToken;
-import com.smart.sso.client.util.HttpRequestUtils;
+import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.client.util.SessionUtils;
 
 /**
@@ -58,7 +58,7 @@ public class LoginFilter extends ClientFilter {
      * @return
      */
     private AccessToken validateTicket(String ticket) {
-        String tokenStr = HttpRequestUtils
+        String tokenStr = HttpUtils
             .get(new StringBuilder().append(ssoServerUrl).append("/cas/validate?ticket=").append(ticket).toString());
         if (tokenStr == null || tokenStr.isEmpty()) {
             logger.error("ticket validate exception, return null. ticket:{}", ticket);
@@ -109,7 +109,7 @@ public class LoginFilter extends ClientFilter {
      * @return
      */
     private String invokeHttpRefresh(String refreshToken) {
-		String newRefreshToken = HttpRequestUtils.get(new StringBuilder().append(ssoServerUrl)
+		String newRefreshToken = HttpUtils.get(new StringBuilder().append(ssoServerUrl)
 				.append("/cas/refresh?refreshToken=").append(refreshToken).toString());
 		if (newRefreshToken == null || newRefreshToken.isEmpty()) {
 			logger.error("refresh exception, return null. refreshToken:{}", refreshToken);

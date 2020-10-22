@@ -10,7 +10,7 @@
 	<artifactId>smart-sso-client</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
-
+	
 	<dependencies>
 		<!-- J2EE支持 -->
 		<dependency>

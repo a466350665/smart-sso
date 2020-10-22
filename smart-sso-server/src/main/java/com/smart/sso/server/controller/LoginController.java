@@ -19,7 +19,6 @@ import com.smart.sso.client.dto.SsoUser;
 import com.smart.sso.server.common.ServiceTicketManager;
 import com.smart.sso.server.common.TicketGrantingTicketManager;
 import com.smart.sso.server.constant.AppConstant;
-import com.smart.sso.server.dto.UserDto;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.util.CookieUtils;
 
@@ -58,7 +57,7 @@ public class LoginController{
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(@RequestParam String service, @RequestParam String account, @RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		Result<UserDto> result = userService.login(account, password);
+		Result<SsoUser> result = userService.login(account, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(service, request);
@@ -66,8 +65,7 @@ public class LoginController{
 		else {
 			String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 			if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.exists(tgt) == null) {
-				UserDto user = result.getData();
-				tgt = ticketGrantingTicketManager.generate(new SsoUser(user.getId(), user.getAccount()));
+				tgt = ticketGrantingTicketManager.generate(result.getData());
 
 				// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
 				CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);

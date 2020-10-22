@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Joe
  */
-public class HttpRequestUtils {
+public class HttpUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpRequestUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
 	public static String get(String url) {
 		String result = null;
