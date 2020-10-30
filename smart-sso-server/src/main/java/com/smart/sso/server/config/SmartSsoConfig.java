@@ -9,24 +9,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.smart.sso.client.SmartContainer;
+import com.smart.sso.client.filter.LoginFilter;
 import com.smart.sso.client.filter.LogoutFilter;
 import com.smart.sso.client.filter.LogoutListener;
-import com.smart.sso.client.filter.LoginFilter;
-import com.smart.sso.server.common.LocalRefreshTokenManager;
-import com.smart.sso.server.common.LocalServiceTicketManager;
-import com.smart.sso.server.common.LocalTicketGrantingTicketManager;
-import com.smart.sso.server.common.RefreshTokenManager;
-import com.smart.sso.server.common.ServiceTicketManager;
-import com.smart.sso.server.common.TicketGrantingTicketManager;
+import com.smart.sso.server.session.AccessTokenManager;
+import com.smart.sso.server.session.CodeManager;
+import com.smart.sso.server.session.RefreshTokenManager;
+import com.smart.sso.server.session.TicketGrantingTicketManager;
+import com.smart.sso.server.session.local.LocalAccessTokenManager;
+import com.smart.sso.server.session.local.LocalCodeManager;
+import com.smart.sso.server.session.local.LocalRefreshTokenManager;
+import com.smart.sso.server.session.local.LocalTicketGrantingTicketManager;
 
 @Configuration
 public class SmartSsoConfig {
 
     @Value("${sso.server.url}")
-    private String ssoServerUrl;
+    private String serverUrl;
+    @Value("${sso.app.id}")
+    private String appId;
+    @Value("${sso.app.secret}")
+    private String appSecret;
     @Value("${sso.timeout}")
-    private int ssoTimeout;
-
+    private int timeout;
+    
 	/**
 	 * 单点登出Listener
 	 * 
@@ -47,45 +53,61 @@ public class SmartSsoConfig {
 	@Bean
 	public FilterRegistrationBean<SmartContainer> smartContainer() {
 		SmartContainer smartContainer = new SmartContainer();
-		smartContainer.setSsoServerUrl(ssoServerUrl);
+		smartContainer.setServerUrl(serverUrl);
+		smartContainer.setAppId(appId);
+		smartContainer.setAppSecret(appSecret);
+		
+		// 忽略拦截URL,多个逗号分隔
+        smartContainer.setExcludeUrls("/login,/logout,/oauth2/*,/userinfo,/custom/*,/assets/*");
 
 		smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
 
 		FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
 		registration.setFilter(smartContainer);
-		registration.addUrlPatterns("/admin/*");
+		registration.addUrlPatterns("/*");
 		registration.setName("smartContainer");
 		registration.setOrder(2);
 		return registration;
 	}
 
 	/**
-	 * ST管理器
+	 * 授权码管理器
 	 * 
 	 * @return
 	 */
 	@Bean
-	public ServiceTicketManager serviceTicketManager() {
-		return new LocalServiceTicketManager();
+	public CodeManager codeManager() {
+		return new LocalCodeManager();
 	}
-
+	
 	/**
-	 * TGT管理器
+	 * 调用凭证管理器
 	 * 
 	 * @return
 	 */
 	@Bean
-	public TicketGrantingTicketManager ticketGrantingTicketManager() {
-		return new LocalTicketGrantingTicketManager(ssoTimeout);
+	public AccessTokenManager accessTokenManager() {
+		// AccessToken时效为登录session时效的1/2
+		return new LocalAccessTokenManager(timeout / 2);
 	}
-
+	
 	/**
-	 * RT管理器
+	 * 刷新凭证管理器
 	 * 
 	 * @return
 	 */
 	@Bean
 	public RefreshTokenManager refreshTokenManager() {
-		return new LocalRefreshTokenManager(ssoTimeout);
+		return new LocalRefreshTokenManager(timeout);
+	}
+
+	/**
+	 * 登录凭证管理器
+	 * 
+	 * @return
+	 */
+	@Bean
+	public TicketGrantingTicketManager ticketGrantingTicketManager() {
+		return new LocalTicketGrantingTicketManager(timeout);
 	}
 }

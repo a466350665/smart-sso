@@ -1,15 +1,19 @@
-package com.smart.sso.server.controller.admin;
+package com.smart.sso.server.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import com.smart.sso.client.dto.SsoUser;
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.session.SessionUser;
+import com.smart.sso.client.session.SessionUtils;
 
 /**
  * 首页管理
@@ -17,26 +21,33 @@ import com.smart.sso.client.util.SessionUtils;
  * @author Joe
  */
 @Controller
-@RequestMapping("/admin/admin")
-public class AdminController {
+public class IndexController {
     
+	@Value("${server.port}")
+	private Integer serverPort;
     @Value("${sso.server.url}")
-    private String ssoServerUrl;
+    private String serverUrl;
 
 	/**
 	 * 初始页
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute(HttpServletRequest request, Model model) {
-		SsoUser sessionUser = SessionUtils.getUser(request);
+    @GetMapping("/")
+	public String execute(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+		SessionUser sessionUser = SessionUtils.getUser(request);
 		// 设置登录用户名
 		model.addAttribute("userName", sessionUser.getAccount());
+		// 当前服务端口号
+		model.addAttribute("serverPort", serverPort);
+		// 当前sessionId
+		model.addAttribute("sessionId", request.getSession().getId());
 		// 单点退出地址
-        model.addAttribute("ssologoutUrl", ssoServerUrl + "/logout?service=" + getLocalUrl(request).toString());
-		return "/admin";
+		model.addAttribute("logoutUrl", MessageFormat.format(SsoConstant.LOGOUT_URL, serverUrl,
+				URLEncoder.encode(getLocalUrl(request), "utf-8")));
+		return "index";
 	}
     
     /**

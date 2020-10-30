@@ -7,14 +7,31 @@ package com.smart.sso.client.filter;
  */
 public class ParamFilter {
 
-	// 单点登录服务端URL
-	protected String ssoServerUrl;
+	protected String appId;
+	protected String appSecret;
+	protected String serverUrl;
 
-	public void setSsoServerUrl(String ssoServerUrl) {
-		this.ssoServerUrl = ssoServerUrl;
+	public String getAppId() {
+		return appId;
 	}
-	
-	public String getSsoServerUrl() {
-		return ssoServerUrl;
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
 	}
 }

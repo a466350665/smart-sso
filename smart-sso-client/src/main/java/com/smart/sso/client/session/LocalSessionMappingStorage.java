@@ -12,33 +12,29 @@ import javax.servlet.http.HttpSession;
  */
 public final class LocalSessionMappingStorage implements SessionMappingStorage {
 
-    private final Map<String, HttpSession> MANAGED_SESSIONS = new HashMap<>();
-
-    private final Map<String, String> ID_TO_SESSION_KEY_MAPPING = new HashMap<>();
+    private final Map<String, HttpSession> tokenSessionMap = new HashMap<>();
+    private final Map<String, String> sessionTokenMap = new HashMap<>();
 
     @Override
-    public synchronized void addSessionById(final String mappingId, final HttpSession session) {
-        ID_TO_SESSION_KEY_MAPPING.put(session.getId(), mappingId);
-        MANAGED_SESSIONS.put(mappingId, session);
+    public synchronized void addSessionById(final String accessToken, final HttpSession session) {
+        sessionTokenMap.put(session.getId(), accessToken);
+        tokenSessionMap.put(accessToken, session);
 
     }
 
     @Override
     public synchronized void removeBySessionById(final String sessionId) {
-        final String key = ID_TO_SESSION_KEY_MAPPING.get(sessionId);
-
-        MANAGED_SESSIONS.remove(key);
-        ID_TO_SESSION_KEY_MAPPING.remove(sessionId);
+        final String accessToken = sessionTokenMap.get(sessionId);
+        tokenSessionMap.remove(accessToken);
+        sessionTokenMap.remove(sessionId);
     }
 
     @Override
-    public synchronized HttpSession removeSessionByMappingId(final String mappingId) {
-        final HttpSession session = MANAGED_SESSIONS.get(mappingId);
-
+    public synchronized HttpSession removeSessionByMappingId(final String accessToken) {
+        final HttpSession session = tokenSessionMap.get(accessToken);
         if (session != null) {
             removeBySessionById(session.getId());
         }
-
         return session;
     }
 }

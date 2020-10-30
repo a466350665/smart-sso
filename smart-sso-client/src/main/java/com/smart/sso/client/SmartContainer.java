@@ -37,7 +37,9 @@ public class SmartContainer extends ParamFilter implements Filter {
 			throw new IllegalArgumentException("filters不能为空");
 		}
 		for (ClientFilter filter : filters) {
-			filter.setSsoServerUrl(ssoServerUrl);
+			filter.setAppId(appId);
+			filter.setAppSecret(appSecret);
+			filter.setServerUrl(serverUrl);
 			filter.init(filterConfig);
 		}
 	}

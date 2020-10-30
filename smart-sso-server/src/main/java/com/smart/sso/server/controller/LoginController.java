@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.dto.Result;
-import com.smart.sso.client.dto.SsoUser;
-import com.smart.sso.server.common.ServiceTicketManager;
-import com.smart.sso.server.common.TicketGrantingTicketManager;
+import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.rpc.RpcUser;
 import com.smart.sso.server.constant.AppConstant;
+import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
+import com.smart.sso.server.session.CodeManager;
+import com.smart.sso.server.session.TicketGrantingTicketManager;
 import com.smart.sso.server.util.CookieUtils;
 
 /**
@@ -32,92 +33,120 @@ import com.smart.sso.server.util.CookieUtils;
 public class LoginController{
 
 	@Autowired
-	private ServiceTicketManager serviceTicketManager;
+	private CodeManager codeManager;
 	@Autowired
 	private TicketGrantingTicketManager ticketGrantingTicketManager;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AppService appService;
 
 	/**
 	 * 登录页
 	 * 
-	 * @param service
+	 * @param redirectUri
+	 * @param appId
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String login(@RequestParam String service, HttpServletRequest request) {
+	public String login(
+			@RequestParam String redirectUri,
+			@RequestParam String appId,
+			HttpServletRequest request) throws UnsupportedEncodingException {
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.exists(tgt) == null) {
-			return goLoginPath(service, request);
+			return goLoginPath(redirectUri, appId, request);
 		}
-		return "redirect:" + authService(service, tgt);
+		return generateCodeAndRedirect(redirectUri, tgt);
 	}
-
+	
+	/**
+	 * 登录提交
+	 * 
+	 * @param redirectUri
+	 * @param appId
+	 * @param account
+	 * @param password
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String login(@RequestParam String service, @RequestParam String account, @RequestParam String password,
+	public String login(
+			@RequestParam String redirectUri,
+			@RequestParam String appId,
+			@RequestParam String account, 
+			@RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-		Result<SsoUser> result = userService.login(account, password);
+
+		if(!appService.exists(appId)) {
+			request.setAttribute("errorMessage", "非法应用");
+			return goLoginPath(redirectUri, appId, request);
+		}
+		
+		Result<RpcUser> result = userService.login(account, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
-			return goLoginPath(service, request);
+			return goLoginPath(redirectUri, appId, request);
 		}
-		else {
-			String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-			if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.exists(tgt) == null) {
-				tgt = ticketGrantingTicketManager.generate(result.getData());
 
-				// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
-				CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);
-			}
-			return "redirect:" + authService(service, tgt);
+		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
+		if (StringUtils.isEmpty(tgt) || !ticketGrantingTicketManager.refresh(tgt)) {
+			tgt = ticketGrantingTicketManager.generate(result.getData());
+
+			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
+			CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);
 		}
+		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 
 	/**
-	 * 设置request的service参数，跳转到登录页
+	 * 设置request的redirectUri和appId参数，跳转到登录页
 	 * 
-	 * @param service
+	 * @param redirectUri
 	 * @param request
 	 * @return
 	 */
-	private String goLoginPath(String service, HttpServletRequest request) {
-		request.setAttribute("service", service);
+	private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
+		request.setAttribute("redirectUri", redirectUri);
+		request.setAttribute("appId", appId);
 		return AppConstant.LOGIN_PATH;
+	}
+	
+	/**
+	 * 生成授权码，跳转到redirectUri
+	 * 
+	 * @param redirectUri
+	 * @param tgt
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
+		// 生成授权码
+		String code = codeManager.generate(redirectUri, tgt);
+		return "redirect:" + authRedirectUri(redirectUri, code);
 	}
 
 	/**
-	 * 根据TGT生成ST，并拼接到回调service中
+	 * 将授权码拼接到回调redirectUri中
 	 * 
-	 * @param service
-	 * @param tgt
+	 * @param redirectUri
+	 * @param code
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	private String authService(String service, String tgt) {
-		StringBuilder sbf = new StringBuilder(service);
-		if (service.indexOf("?") > 0) {
+	private String authRedirectUri(String redirectUri, String code) throws UnsupportedEncodingException {
+		StringBuilder sbf = new StringBuilder(redirectUri);
+		if (redirectUri.indexOf("?") > -1) {
 			sbf.append("&");
 		}
 		else {
 			sbf.append("?");
 		}
-		sbf.append(SsoConstant.TICKET_PARAMETER_NAME).append("=").append(generateSt(service, tgt));
-		try {
-			return URLDecoder.decode(sbf.toString(), "utf-8");
-		}
-		catch (UnsupportedEncodingException e) {
-			return sbf.toString();
-		}
+		sbf.append(Oauth2Constant.AUTH_CODE).append("=").append(code);
+		return URLDecoder.decode(sbf.toString(), "utf-8");
 	}
 
-	/**
-	 * 生成并签发ST
-	 * 
-	 * @param service
-	 * @param tgt
-	 * @return
-	 */
-	private String generateSt(String service, String tgt) {
-		return ticketGrantingTicketManager.signSt(tgt, serviceTicketManager.generate(tgt), service);
-	}
 }

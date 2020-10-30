@@ -1,4 +1,4 @@
-package com.smart.sso.client.dto;
+package com.smart.sso.client.rpc;
 
 import java.beans.Transient;
 import java.io.Serializable;

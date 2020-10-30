@@ -9,9 +9,9 @@ import javax.servlet.http.HttpSession;
  */
 public interface SessionMappingStorage {
 
-    HttpSession removeSessionByMappingId(String mappingId);
+    HttpSession removeSessionByMappingId(String accessToken);
 
     void removeBySessionById(String sessionId);
 
-    void addSessionById(String mappingId, HttpSession session);
+    void addSessionById(String accessToken, HttpSession session);
 }

@@ -1,7 +1,7 @@
 package com.smart.sso.server.service;
 
-import com.smart.sso.client.dto.Result;
-import com.smart.sso.client.dto.SsoUser;
+import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.rpc.RpcUser;
 
 /**
  * 用户服务接口
@@ -19,5 +19,5 @@ public interface UserService {
 	 *            密码
 	 * @return
 	 */
-	public Result<SsoUser> login(String account, String password);
+	public Result<RpcUser> login(String account, String password);
 }

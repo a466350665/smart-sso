@@ -17,7 +17,11 @@ import com.smart.sso.client.filter.LoginFilter;
 public class SmartSsoConfig {
 
     @Value("${sso.server.url}")
-    private String ssoServerUrl;
+    private String serverUrl;
+    @Value("${sso.app.id}")
+    private String appId;
+    @Value("${sso.app.secret}")
+    private String appSecret;
     
     /**
      * 单点登出Listener
@@ -39,9 +43,11 @@ public class SmartSsoConfig {
     @Bean
     public FilterRegistrationBean<SmartContainer> smartContainer() {
         SmartContainer smartContainer = new SmartContainer();
-        smartContainer.setSsoServerUrl(ssoServerUrl);
+        smartContainer.setServerUrl(serverUrl);
+		smartContainer.setAppId(appId);
+		smartContainer.setAppSecret(appSecret);
 
-        // 忽略登录URL,多个逗号分隔
+        // 忽略拦截URL,多个逗号分隔
         // smartContainer.setExcludeUrls("/login,/h5/*");
         
         smartContainer.setFilters(new LogoutFilter(), new LoginFilter());

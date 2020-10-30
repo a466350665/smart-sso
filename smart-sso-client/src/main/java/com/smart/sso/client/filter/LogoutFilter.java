@@ -21,29 +21,16 @@ public class LogoutFilter extends ClientFilter {
     
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String token = request.getParameter(SsoConstant.TICKET_PARAMETER_NAME);
-        if (token != null) {
-            recordSession(request, token);
-            return true;
-        }
-
-        token = request.getParameter(SsoConstant.LOGOUT_PARAMETER_NAME);
-        if (token != null) {
-            destroySession(token);
+        String accessToken = request.getParameter(SsoConstant.LOGOUT_PARAMETER_NAME);
+        if (accessToken != null) {
+            destroySession(accessToken);
             return false;
         }
-
         return true;
     }
 
-    private void recordSession(final HttpServletRequest request, String token) {
-        final HttpSession session = request.getSession();
-        sessionMappingStorage.removeBySessionById(session.getId());
-        sessionMappingStorage.addSessionById(token, session);
-    }
-
-    private void destroySession(String token) {
-        final HttpSession session = sessionMappingStorage.removeSessionByMappingId(token);
+    private void destroySession(String accessToken) {
+        final HttpSession session = sessionMappingStorage.removeSessionByMappingId(accessToken);
         if (session != null) {
             session.invalidate();
         }
