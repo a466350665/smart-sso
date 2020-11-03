@@ -35,15 +35,9 @@
 		    <artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 		
-	    <!--spring-session
-	    <dependency>
+	    <dependency>   
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-data-redis</artifactId>
 	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.session</groupId>
-	        <artifactId>spring-session-data-redis</artifactId>
-	    </dependency>
-	    -->
 	</dependencies>
 </project>

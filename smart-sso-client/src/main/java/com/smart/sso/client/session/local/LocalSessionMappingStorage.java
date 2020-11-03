@@ -1,9 +1,11 @@
-package com.smart.sso.client.session;
+package com.smart.sso.client.session.local;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
+import com.smart.sso.client.session.SessionMappingStorage;
 
 /**
  * 借鉴CAS
@@ -19,7 +21,6 @@ public final class LocalSessionMappingStorage implements SessionMappingStorage {
     public synchronized void addSessionById(final String accessToken, final HttpSession session) {
         sessionTokenMap.put(session.getId(), accessToken);
         tokenSessionMap.put(accessToken, session);
-
     }
 
     @Override

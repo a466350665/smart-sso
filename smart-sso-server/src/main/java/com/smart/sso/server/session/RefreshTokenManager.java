@@ -2,6 +2,7 @@ package com.smart.sso.server.session;
 
 import java.util.UUID;
 
+import com.smart.sso.server.common.Expiration;
 import com.smart.sso.server.common.RefreshTokenContent;
 
 /**
@@ -9,7 +10,7 @@ import com.smart.sso.server.common.RefreshTokenContent;
  * 
  * @author Joe
  */
-public interface RefreshTokenManager {
+public interface RefreshTokenManager extends Expiration {
 
 	/**
 	 * 生成refreshToken
@@ -21,7 +22,7 @@ public interface RefreshTokenManager {
 	 */
 	default String generate(String accessToken, String appId, String service, String tgt) {
 		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		generate(resfreshToken, accessToken, appId, service, tgt);
+		create(resfreshToken, accessToken, appId, service, tgt);
 		return resfreshToken;
 	}
 
@@ -33,7 +34,7 @@ public interface RefreshTokenManager {
 	 * @param service
 	 * @param tgt
 	 */
-	void generate(String refreshToken, String accessToken, String appId, String service, String tgt);
+	void create(String refreshToken, String accessToken, String appId, String service, String tgt);
 
 	/**
 	 * 验证refreshToken有效性，无论有效性与否，都remove掉

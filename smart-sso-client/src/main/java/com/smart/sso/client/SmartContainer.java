@@ -30,7 +30,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 	protected String excludeUrls;
 
 	private ClientFilter[] filters;
-
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		if (filters == null || filters.length == 0) {
@@ -40,6 +40,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 			filter.setAppId(appId);
 			filter.setAppSecret(appSecret);
 			filter.setServerUrl(serverUrl);
+			filter.setSessionMappingStorage(sessionMappingStorage);
 			filter.init(filterConfig);
 		}
 	}

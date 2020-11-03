@@ -3,13 +3,14 @@ package com.smart.sso.server.session;
 import java.util.UUID;
 
 import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.common.Expiration;
 
 /**
  * 调用凭证AccessToken管理抽象
  * 
  * @author Joe
  */
-public interface AccessTokenManager {
+public interface AccessTokenManager extends Expiration {
 
 	/**
 	 * 生成AccessToken
@@ -19,8 +20,8 @@ public interface AccessTokenManager {
 	 * @return
 	 */
 	default String generate(String service, String tgt) {
-		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		generate(resfreshToken, service, tgt);
+		String resfreshToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
+		create(resfreshToken, service, tgt);
 		return resfreshToken;
 	}
 
@@ -31,7 +32,7 @@ public interface AccessTokenManager {
 	 * @param service
 	 * @param tgt
 	 */
-	void generate(String accessToken, String service,  String tgt);
+	void create(String accessToken, String service,  String tgt);
 	
 	/**
 	 * 验证accessToken有效性，无论有效性与否，都remove掉
@@ -47,7 +48,7 @@ public interface AccessTokenManager {
 	 * @param accessToken
 	 * @return
 	 */
-	String refresh(String accessToken);
+	boolean refresh(String accessToken);
 	
 	/**
 	 * 根据TGT删除AccessToken
@@ -55,10 +56,4 @@ public interface AccessTokenManager {
 	 * @param tgt
 	 */
 	void remove(String tgt);
-	
-	/**
-	 * 获取AccessToken有效期
-	 * @return
-	 */
-	int getExpiresIn();
 }

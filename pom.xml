@@ -15,6 +15,7 @@
 	
 	<modules>
 		<module>smart-sso-client</module>
+		<module>smart-sso-client-redis</module>
 		<module>smart-sso-demo</module>
 		<module>smart-sso-server</module>
 	</modules>

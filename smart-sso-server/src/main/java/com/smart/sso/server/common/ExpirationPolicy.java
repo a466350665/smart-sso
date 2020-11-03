@@ -6,7 +6,7 @@ package com.smart.sso.server.common;
  * @author Joe
  */
 public interface ExpirationPolicy {
-    
+	
     /**
      * 定时清理
      */

@@ -8,36 +8,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.ExpirationPolicy;
-import com.smart.sso.server.common.TimeoutParamter;
 import com.smart.sso.server.session.AccessTokenManager;
 
 /**
- * 本地AccessToken管理
+ * 本地调用凭证管理
  * 
  * @author Joe
  */
-public class LocalAccessTokenManager extends TimeoutParamter implements AccessTokenManager, ExpirationPolicy {
+@Component
+@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
+public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Value("${sso.timeout}")
+    private int timeout;
 
 	private final Map<String, DummyAccessToken> accessTokenMap = new ConcurrentHashMap<>();
 	private final Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
-	public LocalAccessTokenManager(int timeout) {
-		this.timeout = timeout;
-	}
-
 	@Override
-	public void generate(String accessToken, String service, String tgt) {
+	public void create(String accessToken, String service, String tgt) {
 		AccessTokenContent accessTokenContent = new AccessTokenContent(service, tgt);
-		DummyAccessToken dat = new DummyAccessToken(accessTokenContent, System.currentTimeMillis() + timeout * 1000);
+		DummyAccessToken dat = new DummyAccessToken(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
 		accessTokenMap.put(accessToken, dat);
 
 		Set<String> accessTokenSet = tgtMap.get(tgt);
@@ -58,13 +61,13 @@ public class LocalAccessTokenManager extends TimeoutParamter implements AccessTo
 	}
 	
 	@Override
-	public String refresh(String accessToken) {
+	public boolean refresh(String accessToken) {
 		DummyAccessToken dummyRt = accessTokenMap.get(accessToken);
 		if (dummyRt == null || System.currentTimeMillis() > dummyRt.expired) {
-			return null;
+			return false;
 		}
-		dummyRt.expired = System.currentTimeMillis() + timeout * 1000;
-		return accessToken;
+		dummyRt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
+		return true;
 	}
 
 	@Override
@@ -95,6 +98,14 @@ public class LocalAccessTokenManager extends TimeoutParamter implements AccessTo
 			}
 		}
 	}
+	
+	/**
+	 * accessToken时效为登录session时效的1/2
+	 */
+	@Override
+	public int getExpiresIn() {
+		return timeout / 2;
+	}
 
 	private class DummyAccessToken {
 		private AccessTokenContent accessTokenContent;
@@ -105,10 +116,5 @@ public class LocalAccessTokenManager extends TimeoutParamter implements AccessTo
 			this.accessTokenContent = accessTokenContent;
 			this.expired = expired;
 		}
-	}
-
-	@Override
-	public int getExpiresIn() {
-		return timeout;
 	}
 }

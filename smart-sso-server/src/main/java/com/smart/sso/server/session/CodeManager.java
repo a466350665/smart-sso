@@ -3,13 +3,14 @@ package com.smart.sso.server.session;
 import java.util.UUID;
 
 import com.smart.sso.server.common.CodeContent;
+import com.smart.sso.server.common.Expiration;
 
 /**
  * 授权码code管理
  * 
  * @author Joe
  */
-public interface CodeManager {
+public interface CodeManager extends Expiration {
 	
 	/**
 	 * 生成授权码
@@ -20,7 +21,7 @@ public interface CodeManager {
 	 */
 	default String generate(String service, String tgt) {
 		String st = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
-		generate(st, service, tgt);
+		create(st, service, tgt);
 		return st;
 	}
     
@@ -31,7 +32,7 @@ public interface CodeManager {
 	 * @param service
 	 * @param tgt
 	 */
-	public void generate(String code, String service, String tgt) ;
+	public void create(String code, String service, String tgt) ;
 
     /**
      * 验证授权码有效性，无论有效性与否，都remove掉
@@ -40,4 +41,12 @@ public interface CodeManager {
      * @return
      */
 	CodeContent validate(String code);
+	
+	/* 
+	 * code失效时间默认为10分钟
+	 */
+	@Override
+	default int getExpiresIn() {
+		return 600;
+	}
 }

@@ -6,33 +6,36 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.common.RefreshTokenContent;
-import com.smart.sso.server.common.TimeoutParamter;
 import com.smart.sso.server.session.RefreshTokenManager;
 
 /**
- * 本地RefreshToken管理
+ * 本地刷新凭证管理
  * 
  * @author Joe
  */
-public class LocalRefreshTokenManager extends TimeoutParamter implements RefreshTokenManager, ExpirationPolicy {
+@Component
+@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
+public class LocalRefreshTokenManager implements RefreshTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Value("${sso.timeout}")
+    private int timeout;
 
 	private final Map<String, DummyRefreshToken> refreshTokenMap = new ConcurrentHashMap<>();
 
-	public LocalRefreshTokenManager(int timeout) {
-		this.timeout = timeout;
-	}
-
 	@Override
-	public void generate(String refreshToken, String accessToken, String appId, String service, String tgt) {
+	public void create(String refreshToken, String accessToken, String appId, String service, String tgt) {
 		RefreshTokenContent refreshTokenContent = new RefreshTokenContent(service, tgt, accessToken, appId);
 		DummyRefreshToken dummyRt = new DummyRefreshToken(refreshTokenContent,
-				System.currentTimeMillis() + timeout * 1000);
+				System.currentTimeMillis() + getExpiresIn() * 1000);
 		refreshTokenMap.put(refreshToken, dummyRt);
 	}
 
@@ -57,6 +60,14 @@ public class LocalRefreshTokenManager extends TimeoutParamter implements Refresh
 				logger.debug("resfreshToken : " + resfreshToken + "已失效");
 			}
 		}
+	}
+	
+	/*
+	 * refreshToken时效和登录session时效一致
+	 */
+	@Override
+	public int getExpiresIn() {
+		return timeout;
 	}
 
 	private class DummyRefreshToken {

@@ -6,11 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.ExpirationPolicy;
-import com.smart.sso.server.common.TimeoutParamter;
 import com.smart.sso.server.session.CodeManager;
 
 /**
@@ -18,24 +19,17 @@ import com.smart.sso.server.session.CodeManager;
  * 
  * @author Joe
  */
-public class LocalCodeManager extends TimeoutParamter implements CodeManager, ExpirationPolicy {
+@Component
+@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
+public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
 	
-	public LocalCodeManager() {
-	    // 默认ST失效为10秒
-        this(10);
-    }
-	
-	public LocalCodeManager(int timeout) {
-		this.timeout = timeout;
-    }
-
 	@Override
-	public void generate(String code, String service, String tgt) {
-		codeMap.put(code, new DummyCode(new CodeContent(service, tgt), System.currentTimeMillis() + timeout * 1000));
+	public void create(String code, String service, String tgt) {
+		codeMap.put(code, new DummyCode(new CodeContent(service, tgt), System.currentTimeMillis() + getExpiresIn() * 1000));
 	}
 
 	@Override

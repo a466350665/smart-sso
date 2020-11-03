@@ -20,7 +20,6 @@ import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
 import com.smart.sso.client.rpc.RpcUser;
 import com.smart.sso.client.session.SessionAccessToken;
-import com.smart.sso.client.session.SessionMappingStorage;
 import com.smart.sso.client.session.SessionUser;
 import com.smart.sso.client.session.SessionUtils;
 import com.smart.sso.client.util.HttpUtils;
@@ -34,8 +33,6 @@ public class LoginFilter extends ClientFilter {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private SessionMappingStorage sessionMappingStorage = LogoutFilter.getSessionMappingStorage();
-
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionAccessToken accessToken = SessionUtils.getAccessToken(request);

@@ -6,37 +6,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.smart.sso.client.rpc.RpcUser;
 import com.smart.sso.server.common.ExpirationPolicy;
-import com.smart.sso.server.common.TimeoutParamter;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
 
 /**
- * 本地TGT管理
+ * 本地登录凭证管理
  * 
  * @author Joe
  */
-public class LocalTicketGrantingTicketManager extends TimeoutParamter
-		implements TicketGrantingTicketManager, ExpirationPolicy {
+@Component
+@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
+public class LocalTicketGrantingTicketManager implements TicketGrantingTicketManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Value("${sso.timeout}")
+    private int timeout;
 
 	private final Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
 
-	public LocalTicketGrantingTicketManager(int timeout) {
-		this.timeout = timeout;
-	}
-
 	@Override
-	public void generate(String tgt, RpcUser user) {
+	public void create(String tgt, RpcUser user) {
 		tgtMap.put(tgt, createDummyTgt(user));
 	}
 
 	private DummyTgt createDummyTgt(RpcUser user) {
 		DummyTgt dummyTgt = new DummyTgt();
-		dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
+		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
 		dummyTgt.user = user;
 		return dummyTgt;
 	}
@@ -61,7 +63,7 @@ public class LocalTicketGrantingTicketManager extends TimeoutParamter
 		if (dummyTgt == null) {
 			return false;
 		}
-		dummyTgt.expired = System.currentTimeMillis() + timeout * 1000;
+		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
 		return true;
 	}
 
@@ -79,6 +81,11 @@ public class LocalTicketGrantingTicketManager extends TimeoutParamter
 		}
 	}
 
+	@Override
+	public int getExpiresIn() {
+		return timeout;
+	}
+	
 	private class DummyTgt {
 		private RpcUser user;
 		private long expired; // 过期时间

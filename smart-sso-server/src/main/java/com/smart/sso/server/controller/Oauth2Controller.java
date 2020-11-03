@@ -100,8 +100,8 @@ public class Oauth2Controller {
 			return Result.createError("服务端session已过期");
 		}
 
-		String accessToken = accessTokenManager.refresh(refreshTokenContent.getAccessToken());
-		if (accessToken == null) {
+		String accessToken = refreshTokenContent.getAccessToken();
+		if (!accessTokenManager.refresh(accessToken)) {
 			accessToken = accessTokenManager.generate(refreshTokenContent.getService(), refreshTokenContent.getTgt());
 		}
 		

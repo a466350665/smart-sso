@@ -3,13 +3,14 @@ package com.smart.sso.server.session;
 import java.util.UUID;
 
 import com.smart.sso.client.rpc.RpcUser;
+import com.smart.sso.server.common.Expiration;
 
 /**
  * 登录凭证（TGT）管理抽象
  * 
  * @author Joe
  */
-public interface TicketGrantingTicketManager {
+public interface TicketGrantingTicketManager extends Expiration {
 	
     /**
      * 登录成功后，根据用户信息生成令牌
@@ -19,7 +20,7 @@ public interface TicketGrantingTicketManager {
      */
 	default String generate(RpcUser user) {
 		String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		generate(tgt, user);
+		create(tgt, user);
 		return tgt;
 	}
     
@@ -29,7 +30,7 @@ public interface TicketGrantingTicketManager {
      * @param user
      * @return
      */
-    void generate(String tgt, RpcUser user);
+    void create(String tgt, RpcUser user);
     
     /**
      * 验证st是否存在，且在有效期内
