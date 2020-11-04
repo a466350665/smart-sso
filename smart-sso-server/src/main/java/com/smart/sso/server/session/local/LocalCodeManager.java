@@ -40,7 +40,7 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
         return dc.codeContent;
 	}
 	
-	@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
     public void verifyExpired() {
 		codeMap.forEach((code, dummyCode) -> {

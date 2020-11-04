@@ -79,7 +79,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 		});
 	}
 
-	@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		accessTokenMap.forEach((accessToken, dummyAt) -> {

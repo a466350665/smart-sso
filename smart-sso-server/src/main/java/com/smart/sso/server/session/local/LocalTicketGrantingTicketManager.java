@@ -66,7 +66,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 		return true;
 	}
 
-	@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		tgtMap.forEach((tgt, dummyTgt) -> {

@@ -82,18 +82,6 @@ public class SmartContainer extends ParamFilter implements Filter {
 		return false;
 	}
 	
-	public void setExcludeUrls(String excludeUrls) {
-        this.excludeUrls = excludeUrls;
-    }
-
-    public void setFilters(ClientFilter... filters) {
-		this.filters = filters;
-	}
-
-	public ClientFilter[] getFilters() {
-		return filters;
-	}
-	
 	@Override
     public void destroy() {
         if (filters == null || filters.length == 0)
@@ -102,4 +90,12 @@ public class SmartContainer extends ParamFilter implements Filter {
             filter.destroy();
         }
     }
+	
+	public void setExcludeUrls(String excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
+
+    public void setFilters(ClientFilter... filters) {
+		this.filters = filters;
+	}
 }

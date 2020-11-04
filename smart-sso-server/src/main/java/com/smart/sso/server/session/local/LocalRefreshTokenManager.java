@@ -47,7 +47,7 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 		return dummyRt.refreshTokenContent;
 	}
 
-	@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		refreshTokenMap.forEach((resfreshToken, dummyRt) -> {
