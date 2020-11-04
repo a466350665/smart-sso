@@ -61,13 +61,13 @@ public class LoginFilter extends ClientFilter {
      * @return
      */
 	private void getTokenAndUserInSession(String code, HttpServletRequest request) {
-		String accessTokenUrl = MessageFormat.format(Oauth2Constant.ACCESS_TOKEN_URL, serverUrl, appId, appSecret,
-				code);
+		String accessTokenUrl = MessageFormat.format(Oauth2Constant.ACCESS_TOKEN_URL, getServerUrl(), getAppId(),
+				getAppSecret(), code);
 		RpcAccessToken rpcAccessToken = getHttpJson(accessTokenUrl, RpcAccessToken.class);
 		if (rpcAccessToken == null) {
 			return;
 		}
-		String userinfoUrl = MessageFormat.format(Oauth2Constant.USERINFO_URL, serverUrl,
+		String userinfoUrl = MessageFormat.format(Oauth2Constant.USERINFO_URL, getServerUrl(),
 				rpcAccessToken.getAccessToken());
 		RpcUser user = getHttpJson(userinfoUrl, RpcUser.class);
 		if (user == null) {
@@ -84,7 +84,8 @@ public class LoginFilter extends ClientFilter {
      * @return
      */
 	private boolean refreshToken(String refreshToken, SessionUser sessionUser, HttpServletRequest request) {
-		String refreshTokenUrl = MessageFormat.format(Oauth2Constant.REFRESH_TOKEN_URL, serverUrl, appId, refreshToken);
+		String refreshTokenUrl = MessageFormat.format(Oauth2Constant.REFRESH_TOKEN_URL, getServerUrl(), getAppId(),
+				refreshToken);
 		RpcAccessToken accessToken = getHttpJson(refreshTokenUrl, RpcAccessToken.class);
 		if (accessToken == null) {
 			return false;
@@ -133,8 +134,8 @@ public class LoginFilter extends ClientFilter {
 	
     private void recordSession(final HttpServletRequest request, String accessToken) {
         final HttpSession session = request.getSession();
-        sessionMappingStorage.removeBySessionById(session.getId());
-        sessionMappingStorage.addSessionById(accessToken, session);
+        getSessionMappingStorage().removeBySessionById(session.getId());
+        getSessionMappingStorage().addSessionById(accessToken, session);
     }
     
 	/**
@@ -149,7 +150,7 @@ public class LoginFilter extends ClientFilter {
 			responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			String loginUrl = MessageFormat.format(SsoConstant.LOGIN_URL, serverUrl, appId,
+			String loginUrl = MessageFormat.format(SsoConstant.LOGIN_URL, getServerUrl(), getAppId(),
 					URLEncoder.encode(getCurrentUrl(request), "utf-8"));
 			response.sendRedirect(loginUrl);
 		}

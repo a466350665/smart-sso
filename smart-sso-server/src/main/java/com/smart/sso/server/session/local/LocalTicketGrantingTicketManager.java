@@ -1,7 +1,6 @@
 package com.smart.sso.server.session.local;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Value("${sso.timeout}")
     private int timeout;
 
-	private final Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
+	private Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void create(String tgt, RpcUser user) {
@@ -70,15 +69,12 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Scheduled(cron = "0 */1 * * * ?")
 	@Override
 	public void verifyExpired() {
-		for (Entry<String, DummyTgt> entry : tgtMap.entrySet()) {
-			String tgt = entry.getKey();
-			DummyTgt dummyTgt = entry.getValue();
-			// 已过期
+		tgtMap.forEach((tgt, dummyTgt) -> {
 			if (System.currentTimeMillis() > dummyTgt.expired) {
 				tgtMap.remove(tgt);
 				logger.debug("TGT : " + tgt + "已失效");
 			}
-		}
+		});
 	}
 
 	@Override
@@ -88,6 +84,6 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	
 	private class DummyTgt {
 		private RpcUser user;
-		private long expired; // 过期时间
+		private long expired;
 	}
 }

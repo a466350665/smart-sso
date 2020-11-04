@@ -78,7 +78,7 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 	}
 	
 	private String getKey(String tgt) {
-		return tgt + "_accessToken";
+		return tgt + "_access_token";
 	}
 	
 	/**

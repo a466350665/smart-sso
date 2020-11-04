@@ -39,7 +39,7 @@ public class SmartSsoConfig {
     }
     
 	/**
-	 * 单机方式单点登出Listener
+	 * 单实例方式单点登出Listener
 	 * 
 	 * @return
 	 */
@@ -88,7 +88,6 @@ public class SmartSsoConfig {
         registration.setFilter(smartContainer);
         registration.addUrlPatterns("/*");
         registration.setName("smartContainer");
-        registration.setOrder(1);
         return registration;
     }
 }

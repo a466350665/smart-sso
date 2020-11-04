@@ -9,10 +9,10 @@ import com.smart.sso.client.session.SessionMappingStorage;
  */
 public class ParamFilter {
 
-	protected String appId;
-	protected String appSecret;
-	protected String serverUrl;
-	protected SessionMappingStorage sessionMappingStorage;
+	private String appId;
+	private String appSecret;
+	private String serverUrl;
+	private SessionMappingStorage sessionMappingStorage;
 	
 	public String getAppId() {
 		return appId;

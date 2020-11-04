@@ -1,7 +1,6 @@
 package com.smart.sso.server.session.local;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
+	private Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
 	
 	@Override
 	public void create(String code, String service, String tgt) {
@@ -44,15 +43,12 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	@Scheduled(cron = "0 */1 * * * ?")
 	@Override
     public void verifyExpired() {
-        for (Entry<String, DummyCode> entry : codeMap.entrySet()) {
-            String code = entry.getKey();
-            DummyCode dc = entry.getValue();
-            // 已过期
-            if (System.currentTimeMillis() > dc.expired) {
+		codeMap.forEach((code, dummyCode) -> {
+            if (System.currentTimeMillis() > dummyCode.expired) {
                 codeMap.remove(code);
                 logger.debug("code : " + code + "已失效");
             }
-        }
+        });
     }
 	
     private class DummyCode {

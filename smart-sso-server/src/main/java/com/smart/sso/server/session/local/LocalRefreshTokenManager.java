@@ -1,7 +1,6 @@
 package com.smart.sso.server.session.local;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 	@Value("${sso.timeout}")
     private int timeout;
 
-	private final Map<String, DummyRefreshToken> refreshTokenMap = new ConcurrentHashMap<>();
+	private Map<String, DummyRefreshToken> refreshTokenMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void create(String refreshToken, String accessToken, String appId, String service, String tgt) {
@@ -51,15 +50,12 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 	@Scheduled(cron = "0 */1 * * * ?")
 	@Override
 	public void verifyExpired() {
-		for (Entry<String, DummyRefreshToken> entry : refreshTokenMap.entrySet()) {
-			String resfreshToken = entry.getKey();
-			DummyRefreshToken dummyRt = entry.getValue();
-			// 已过期
+		refreshTokenMap.forEach((resfreshToken, dummyRt) -> {
 			if (System.currentTimeMillis() > dummyRt.expired) {
 				refreshTokenMap.remove(resfreshToken);
 				logger.debug("resfreshToken : " + resfreshToken + "已失效");
 			}
-		}
+		});
 	}
 	
 	/*

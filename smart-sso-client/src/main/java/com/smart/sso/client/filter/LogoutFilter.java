@@ -26,7 +26,7 @@ public class LogoutFilter extends ClientFilter {
     }
 
     private void destroySession(String accessToken) {
-        final HttpSession session = sessionMappingStorage.removeSessionByMappingId(accessToken);
+        final HttpSession session = getSessionMappingStorage().removeSessionByMappingId(accessToken);
         if (session != null) {
             session.invalidate();
         }
