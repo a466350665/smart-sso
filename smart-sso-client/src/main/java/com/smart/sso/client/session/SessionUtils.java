@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.rpc.SsoUser;
 
 /**
  * 当前已登录用户Session工具
@@ -17,7 +18,7 @@ public class SessionUtils {
         return (SessionAccessToken) request.getSession().getAttribute(SsoConstant.SESSION_ACCESS_TOKEN);
     }
     
-	public static SessionUser getUser(HttpServletRequest request) {
+	public static SsoUser getUser(HttpServletRequest request) {
 	    return Optional.ofNullable(getAccessToken(request)).map(u -> u.getUser()).orElse(null);
 	}
 	

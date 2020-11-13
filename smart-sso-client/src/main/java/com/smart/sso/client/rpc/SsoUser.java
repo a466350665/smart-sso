@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class RpcUser implements Serializable {
+public class SsoUser implements Serializable {
 
 	private static final long serialVersionUID = 1764365572138947234L;
 
@@ -16,7 +16,7 @@ public class RpcUser implements Serializable {
     // 登录名
     private String account;
 
-    public RpcUser(Integer id, String account) {
+    public SsoUser(Integer id, String account) {
         super();
         this.id = id;
         this.account = account;
@@ -46,7 +46,7 @@ public class RpcUser implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RpcUser other = (RpcUser)obj;
+        SsoUser other = (SsoUser)obj;
         if (id == null) {
             if (other.id != null)
                 return false;

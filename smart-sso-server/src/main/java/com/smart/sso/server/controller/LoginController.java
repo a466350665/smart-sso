@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.RpcUser;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
@@ -86,14 +86,14 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 		
-		Result<RpcUser> result = userService.login(account, password);
+		Result<SsoUser> result = userService.login(account, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(redirectUri, appId, request);
 		}
 
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (StringUtils.isEmpty(tgt) || !ticketGrantingTicketManager.refresh(tgt)) {
+		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.refresh(tgt) == null) {
 			tgt = ticketGrantingTicketManager.generate(result.getData());
 
 			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC

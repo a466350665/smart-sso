@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.smart.sso.client.rpc.RpcUser;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
 
 /**
@@ -29,18 +29,18 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 	private StringRedisTemplate redisTemplate;
 
 	@Override
-	public void create(String tgt, RpcUser user) {
+	public void create(String tgt, SsoUser user) {
 		redisTemplate.opsForValue().set(tgt, JSON.toJSONString(user), getExpiresIn(),
 				TimeUnit.SECONDS);
 	}
 
 	@Override
-	public RpcUser exists(String tgt) {
+	public SsoUser exists(String tgt) {
 		String user = redisTemplate.opsForValue().get(tgt);
 		if (StringUtils.isEmpty(user)) {
 			return null;
 		}
-		return JSONObject.parseObject(user, RpcUser.class);
+		return JSONObject.parseObject(user, SsoUser.class);
 	}
 
 	@Override
@@ -49,12 +49,13 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public boolean refresh(String tgt) {
-		if (redisTemplate.opsForValue().get(tgt) == null) {
-			return false;
+	public SsoUser refresh(String tgt) {
+		SsoUser user = exists(tgt);
+		if (user == null) {
+			return null;
 		}
 		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
-        return true;
+        return user;
 	}
     
 	@Override

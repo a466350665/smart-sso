@@ -24,9 +24,4 @@ public class Oauth2Constant {
 	 * 刷新accessToken地址
 	 */
 	public static final String REFRESH_TOKEN_URL = "{0}/oauth2/refresh_token?appId={1}&refreshToken={2}";
-	
-	/**
-	 * 获取用户个人信息
-	 */
-	public static final String USERINFO_URL = "{0}/userinfo?accessToken={1}";
 }

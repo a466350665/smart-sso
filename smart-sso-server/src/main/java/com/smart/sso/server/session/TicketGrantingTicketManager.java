@@ -2,7 +2,7 @@ package com.smart.sso.server.session;
 
 import java.util.UUID;
 
-import com.smart.sso.client.rpc.RpcUser;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.Expiration;
 
 /**
@@ -18,7 +18,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-	default String generate(RpcUser user) {
+	default String generate(SsoUser user) {
 		String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
 		create(tgt, user);
 		return tgt;
@@ -30,7 +30,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-    void create(String tgt, RpcUser user);
+    void create(String tgt, SsoUser user);
     
     /**
      * 验证st是否存在，且在有效期内
@@ -38,7 +38,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param tgt
      * @return
      */
-    RpcUser exists(String tgt);
+    SsoUser exists(String tgt);
     
     /**
      * 移除
@@ -53,5 +53,5 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param tgt
      * @return
      */
-    boolean refresh(String tgt);
+    SsoUser refresh(String tgt);
 }

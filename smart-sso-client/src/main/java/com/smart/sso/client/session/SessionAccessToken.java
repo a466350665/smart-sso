@@ -1,6 +1,7 @@
 package com.smart.sso.client.session;
 
 import com.smart.sso.client.rpc.RpcAccessToken;
+import com.smart.sso.client.rpc.SsoUser;
 
 /**
  * 存Session中AccessToken
@@ -16,16 +17,10 @@ public class SessionAccessToken extends RpcAccessToken {
 	 */
 	private long expirationTime;
 
-	/**
-	 * 用户信息
-	 */
-	private SessionUser user;
-
-	public SessionAccessToken(String accessToken, int expiresIn, String refreshToken, long expirationTime,
-			SessionUser user) {
-		super(accessToken, expiresIn, refreshToken);
+	public SessionAccessToken(String accessToken, int expiresIn, String refreshToken, SsoUser user,
+			long expirationTime) {
+		super(accessToken, expiresIn, refreshToken, user);
 		this.expirationTime = expirationTime;
-		this.user = user;
 	}
 
 	public long getExpirationTime() {
@@ -34,14 +29,6 @@ public class SessionAccessToken extends RpcAccessToken {
 
 	public void setExpirationTime(long expirationTime) {
 		this.expirationTime = expirationTime;
-	}
-
-	public SessionUser getUser() {
-		return user;
-	}
-
-	public void setUser(SessionUser user) {
-		this.user = user;
 	}
 
 	public boolean isExpired() {

@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.session.SessionUser;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.client.session.SessionUtils;
 
 @Controller
@@ -32,9 +32,9 @@ public class IndexController {
 	 */
 	@GetMapping("/")
 	public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		SessionUser sessionUser = SessionUtils.getUser(request);
+		SsoUser user = SessionUtils.getUser(request);
 		// 登录用户名
-		model.addAttribute("userName", sessionUser.getAccount());
+		model.addAttribute("userName", user.getAccount());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
 		// 当前sessionId

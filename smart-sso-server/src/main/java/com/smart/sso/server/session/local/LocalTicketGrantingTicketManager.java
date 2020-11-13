@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.smart.sso.client.rpc.RpcUser;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
 
@@ -31,11 +31,11 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	private Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
 
 	@Override
-	public void create(String tgt, RpcUser user) {
+	public void create(String tgt, SsoUser user) {
 		tgtMap.put(tgt, createDummyTgt(user));
 	}
 
-	private DummyTgt createDummyTgt(RpcUser user) {
+	private DummyTgt createDummyTgt(SsoUser user) {
 		DummyTgt dummyTgt = new DummyTgt();
 		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
 		dummyTgt.user = user;
@@ -43,7 +43,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public RpcUser exists(String tgt) {
+	public SsoUser exists(String tgt) {
 		DummyTgt dummyTgt = tgtMap.get(tgt);
 		if (dummyTgt == null || System.currentTimeMillis() > dummyTgt.expired) {
 			return null;
@@ -57,13 +57,13 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public boolean refresh(String tgt) {
+	public SsoUser refresh(String tgt) {
 		DummyTgt dummyTgt = tgtMap.get(tgt);
 		if (dummyTgt == null) {
-			return false;
+			return null;
 		}
 		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
-		return true;
+		return dummyTgt.user;
 	}
 
 	@Scheduled(cron = SCHEDULED_CRON)
@@ -83,7 +83,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 	
 	private class DummyTgt {
-		private RpcUser user;
+		private SsoUser user;
 		private long expired;
 	}
 }

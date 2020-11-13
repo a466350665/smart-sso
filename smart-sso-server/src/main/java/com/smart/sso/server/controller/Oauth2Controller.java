@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
+import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.RefreshTokenContent;
 import com.smart.sso.server.service.AppService;
@@ -62,7 +63,8 @@ public class Oauth2Controller {
 			return Result.createError("code有误或已过期");
 		}
 
-		if (!ticketGrantingTicketManager.refresh(codeContent.getTgt())) {
+		SsoUser user = ticketGrantingTicketManager.refresh(codeContent.getTgt());
+		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}
 
@@ -70,7 +72,7 @@ public class Oauth2Controller {
 
 		String refreshToken = refreshTokenManager.generate(accessToken, appId, codeContent.getService(), codeContent.getTgt());
 		
-		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), refreshToken));
+		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), refreshToken, user));
 	}
 
 	/**
@@ -96,7 +98,8 @@ public class Oauth2Controller {
 			return Result.createError("refreshToken有误或已过期");
 		}
 
-		if (!ticketGrantingTicketManager.refresh(refreshTokenContent.getTgt())) {
+		SsoUser user = ticketGrantingTicketManager.refresh(refreshTokenContent.getTgt());
+		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}
 
@@ -107,6 +110,6 @@ public class Oauth2Controller {
 		
 		String newRefreshToken = refreshTokenManager.generate(accessToken, appId, refreshTokenContent.getService(),
 				refreshTokenContent.getTgt());
-		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), newRefreshToken));
+		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), newRefreshToken, user));
 	}
 }

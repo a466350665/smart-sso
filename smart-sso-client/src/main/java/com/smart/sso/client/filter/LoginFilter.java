@@ -18,9 +18,7 @@ import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
-import com.smart.sso.client.rpc.RpcUser;
 import com.smart.sso.client.session.SessionAccessToken;
-import com.smart.sso.client.session.SessionUser;
 import com.smart.sso.client.session.SessionUtils;
 import com.smart.sso.client.util.HttpUtils;
 
@@ -35,16 +33,16 @@ public class LoginFilter extends ClientFilter {
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SessionAccessToken accessToken = SessionUtils.getAccessToken(request);
+		SessionAccessToken sessionAccessToken = SessionUtils.getAccessToken(request);
 		// 本地Session中已存在，且accessToken没过期或者refreshToken成功，直接返回
-		if (accessToken != null && (!accessToken.isExpired()
-				|| refreshToken(accessToken.getRefreshToken(), accessToken.getUser(), request))) {
+		if (sessionAccessToken != null && (!sessionAccessToken.isExpired()
+				|| refreshToken(sessionAccessToken.getRefreshToken(), request))) {
 			return true;
 		}
 		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
 		if (code != null) {
 			// 获取accessToken
-			getTokenAndUserInSession(code, request);
+			accessToken(code, request);
 			// 为去掉URL中授权码参数，再跳转一次当前地址
 			redirectLocalRemoveCode(request, response);
 		}
@@ -60,21 +58,10 @@ public class LoginFilter extends ClientFilter {
      * @param code
      * @return
      */
-	private void getTokenAndUserInSession(String code, HttpServletRequest request) {
+	private void accessToken(String code, HttpServletRequest request) {
 		String accessTokenUrl = MessageFormat.format(Oauth2Constant.ACCESS_TOKEN_URL, getServerUrl(), getAppId(),
 				getAppSecret(), code);
-		RpcAccessToken rpcAccessToken = getHttpJson(accessTokenUrl, RpcAccessToken.class);
-		if (rpcAccessToken == null) {
-			return;
-		}
-		String userinfoUrl = MessageFormat.format(Oauth2Constant.USERINFO_URL, getServerUrl(),
-				rpcAccessToken.getAccessToken());
-		RpcUser user = getHttpJson(userinfoUrl, RpcUser.class);
-		if (user == null) {
-			return;
-		}
-		SessionUser sessionUser = new SessionUser(user.getId(), user.getAccount());
-		setTokenAndUserInSession(rpcAccessToken, sessionUser, request);
+		getAccessTokenInSession(accessTokenUrl, request);
 	}
 	
 	/**
@@ -83,14 +70,31 @@ public class LoginFilter extends ClientFilter {
      * @param refreshToken
      * @return
      */
-	private boolean refreshToken(String refreshToken, SessionUser sessionUser, HttpServletRequest request) {
+	private boolean refreshToken(String refreshToken, HttpServletRequest request) {
 		String refreshTokenUrl = MessageFormat.format(Oauth2Constant.REFRESH_TOKEN_URL, getServerUrl(), getAppId(),
 				refreshToken);
-		RpcAccessToken accessToken = getHttpJson(refreshTokenUrl, RpcAccessToken.class);
-		if (accessToken == null) {
+		return getAccessTokenInSession(refreshTokenUrl, request);
+	}
+	
+	/**
+	 * AccessToken存session
+	 * 
+	 * @param url
+	 * @param request
+	 * @return
+	 */
+	private boolean getAccessTokenInSession(String url, HttpServletRequest request) {
+		RpcAccessToken rpcAccessToken = getHttpJson(url, RpcAccessToken.class);
+		if (rpcAccessToken == null) {
 			return false;
 		}
-		setTokenAndUserInSession(accessToken, sessionUser, request);
+		SessionAccessToken sessionAccessToken = createSessionAccessToken(rpcAccessToken);
+
+		// 本地session存accessToken
+		SessionUtils.setAccessToken(request, sessionAccessToken);
+
+		// 记录本地session和AccessToken映射
+		recordSession(request, rpcAccessToken.getAccessToken());
 		return true;
 	}
 	
@@ -108,28 +112,11 @@ public class LoginFilter extends ClientFilter {
 		return JSONObject.parseObject(result.getData().toString(), clazz);
 	}
     
-	/**
-	 * AccessToken存session
-	 * 
-	 * @param rpcAccessToken
-	 * @param user
-	 * @param request
-	 */
-	private void setTokenAndUserInSession(RpcAccessToken rpcAccessToken, SessionUser sessionUser, HttpServletRequest request) {
-		SessionAccessToken sessionAccessToken = createSessionAccessToken(rpcAccessToken, sessionUser);
-		
-		// 本地session存accessToken
-		SessionUtils.setAccessToken(request, sessionAccessToken);
-		
-		// 记录本地session和AccessToken映射
-		recordSession(request, rpcAccessToken.getAccessToken());
-	}
-	
-	private SessionAccessToken createSessionAccessToken(RpcAccessToken accessToken, SessionUser sessionUser) {
+	private SessionAccessToken createSessionAccessToken(RpcAccessToken accessToken) {
 		// session存储accessToken失效时间
 		long expirationTime = System.currentTimeMillis() + accessToken.getExpiresIn() * 1000;
 		return new SessionAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn(),
-				accessToken.getRefreshToken(), expirationTime, sessionUser);
+				accessToken.getRefreshToken(), accessToken.getUser(), expirationTime);
 	}
 	
     private void recordSession(final HttpServletRequest request, String accessToken) {

@@ -23,12 +23,17 @@ public class RpcAccessToken implements Serializable {
 	 * 当前AccessToken超时，用于刷新AccessToken并延长服务端session时效必要参数
 	 */
 	private String refreshToken;
+	/**
+	 * 用户信息
+	 */
+	private SsoUser user;
 
-	public RpcAccessToken(String accessToken, int expiresIn, String refreshToken) {
+	public RpcAccessToken(String accessToken, int expiresIn, String refreshToken, SsoUser user) {
 		super();
 		this.accessToken = accessToken;
 		this.expiresIn = expiresIn;
 		this.refreshToken = refreshToken;
+		this.user = user;
 	}
 
 	public String getAccessToken() {
@@ -53,5 +58,13 @@ public class RpcAccessToken implements Serializable {
 
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+	
+	public SsoUser getUser() {
+		return user;
+	}
+
+	public void setUser(SsoUser user) {
+		this.user = user;
 	}
 }
