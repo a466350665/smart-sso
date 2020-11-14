@@ -31,8 +31,7 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 	private Map<String, DummyRefreshToken> refreshTokenMap = new ConcurrentHashMap<>();
 
 	@Override
-	public void create(String refreshToken, String accessToken, String appId, String service, String tgt) {
-		RefreshTokenContent refreshTokenContent = new RefreshTokenContent(service, tgt, accessToken, appId);
+	public void create(String refreshToken, RefreshTokenContent refreshTokenContent) {
 		DummyRefreshToken dummyRt = new DummyRefreshToken(refreshTokenContent,
 				System.currentTimeMillis() + getExpiresIn() * 1000);
 		refreshTokenMap.put(refreshToken, dummyRt);

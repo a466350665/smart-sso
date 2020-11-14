@@ -80,13 +80,14 @@ public class SmartSsoConfig {
 		smartContainer.setSessionMappingStorage(sessionMappingStorage);
 		
 		// 忽略拦截URL,多个逗号分隔
-        smartContainer.setExcludeUrls("/login,/logout,/oauth2/*,/userinfo,/custom/*,/assets/*");
+        smartContainer.setExcludeUrls("/login,/logout,/oauth2/*,/custom/*,/assets/*");
 
 		smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
 
 		FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
 		registration.setFilter(smartContainer);
 		registration.addUrlPatterns("/*");
+		registration.setOrder(1);
 		registration.setName("smartContainer");
 		return registration;
 	}

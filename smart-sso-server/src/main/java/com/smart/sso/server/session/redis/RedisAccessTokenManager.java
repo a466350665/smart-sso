@@ -13,9 +13,8 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.session.AccessTokenManager;
 
 /**
@@ -33,12 +32,11 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 	private StringRedisTemplate redisTemplate;
 
 	@Override
-	public void create(String accessToken, String service, String tgt) {
-		AccessTokenContent atc = new AccessTokenContent(service, tgt);
-		redisTemplate.opsForValue().set(accessToken, JSON.toJSONString(atc), getExpiresIn(),
+	public void create(String accessToken, AccessTokenContent accessTokenContent) {
+		redisTemplate.opsForValue().set(accessToken, JSON.toJSONString(accessTokenContent), getExpiresIn(),
 				TimeUnit.SECONDS);
-		
-		redisTemplate.opsForSet().add(getKey(tgt) , accessToken);
+
+		redisTemplate.opsForSet().add(getKey(accessTokenContent.getTgt()), accessToken);
 	}
 
 	@Override
@@ -72,8 +70,11 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 			if (StringUtils.isEmpty(atcStr)) {
 				return;
 			}
-			AccessTokenContent atc = JSONObject.parseObject(atcStr, AccessTokenContent.class);
-			HttpUtils.get(atc.getService() + "?" + SsoConstant.LOGOUT_PARAMETER_NAME + "=" + accessToken);
+			AccessTokenContent accessTokenContent = JSONObject.parseObject(atcStr, AccessTokenContent.class);
+			if (accessTokenContent == null || accessTokenContent.getClientType() != ClientTypeEnum.WEB) {
+				return;
+			}
+			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);
 		});
 	}
 	

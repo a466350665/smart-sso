@@ -17,12 +17,16 @@ public class LogoutFilter extends ClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String accessToken = request.getParameter(SsoConstant.LOGOUT_PARAMETER_NAME);
+        String accessToken = getLogoutParam(request);
         if (accessToken != null) {
             destroySession(accessToken);
             return false;
         }
         return true;
+    }
+    
+    protected String getLogoutParam(HttpServletRequest request) {
+    	return request.getHeader(SsoConstant.LOGOUT_PARAMETER_NAME);
     }
 
     private void destroySession(String accessToken) {

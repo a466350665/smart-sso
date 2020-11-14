@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.Expiration;
+import com.smart.sso.server.enums.ClientTypeEnum;
 
 /**
  * 授权码code管理
@@ -15,24 +16,24 @@ public interface CodeManager extends Expiration {
 	/**
 	 * 生成授权码
 	 * 
-	 * @param service
 	 * @param tgt
+	 * @param clientType
+	 * @param redirectUri
 	 * @return
 	 */
-	default String generate(String service, String tgt) {
-		String st = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(st, service, tgt);
-		return st;
+	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri) {
+		String code = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
+		create(code, new CodeContent(tgt, clientType, redirectUri));
+		return code;
 	}
     
     /**
      * 生成授权码
      * 
 	 * @param code
-	 * @param service
-	 * @param tgt
+	 * @param codeContent
 	 */
-	public void create(String code, String service, String tgt) ;
+	public void create(String code, CodeContent codeContent) ;
 
     /**
      * 验证授权码有效性，无论有效性与否，都remove掉

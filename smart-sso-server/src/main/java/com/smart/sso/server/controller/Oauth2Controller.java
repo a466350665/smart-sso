@@ -11,7 +11,9 @@ import com.smart.sso.client.rpc.RpcAccessToken;
 import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.RefreshTokenContent;
+import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.AccessTokenManager;
 import com.smart.sso.server.session.CodeManager;
 import com.smart.sso.server.session.RefreshTokenManager;
@@ -29,6 +31,8 @@ public class Oauth2Controller {
 	
 	@Autowired
 	private AppService appService;
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private CodeManager codeManager;
@@ -38,6 +42,32 @@ public class Oauth2Controller {
 	private RefreshTokenManager refreshTokenManager;
 	@Autowired
 	private TicketGrantingTicketManager ticketGrantingTicketManager;
+	
+	/**
+	 * 获取授权码（app通过此方式由客户端代理转发http请求到服务端获取授权码）
+	 * 
+	 * @param appId
+	 * @param account
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value = "/authorize")
+	public Result getCode(
+			@RequestParam String appId,
+			@RequestParam String account, 
+			@RequestParam String password) {
+
+		if(!appService.exists(appId)) {
+			return Result.createError("非法应用");
+		}
+		
+		Result<SsoUser> result = userService.login(account, password);
+		if (!result.isSuccess()) {
+			return Result.createError(result.getMessage());
+		}
+		String tgt = ticketGrantingTicketManager.generate(result.getData());
+		return Result.createSuccess(codeManager.generate(tgt, ClientTypeEnum.APP, null));
+	}
 
 	/**
 	 * 获取accessToken
@@ -48,7 +78,7 @@ public class Oauth2Controller {
 	 * @return
 	 */
 	@RequestMapping(value = "/access_token", method = RequestMethod.GET)
-	public Result accessToken(
+	public Result getAccessToken(
 			@RequestParam String appId,
 			@RequestParam String appSecret,
 			@RequestParam String code) {
@@ -68,9 +98,12 @@ public class Oauth2Controller {
 			return Result.createError("服务端session已过期");
 		}
 
-		String accessToken = accessTokenManager.generate(codeContent.getService(), codeContent.getTgt());
+		
+		String accessToken = accessTokenManager.generate(codeContent.getTgt(), codeContent.getClientType(),
+				codeContent.getRedirectUri());
 
-		String refreshToken = refreshTokenManager.generate(accessToken, appId, codeContent.getService(), codeContent.getTgt());
+		String refreshToken = refreshTokenManager.generate(codeContent.getTgt(), codeContent.getClientType(),
+				codeContent.getRedirectUri(), accessToken, appId);
 		
 		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), refreshToken, user));
 	}
@@ -81,8 +114,9 @@ public class Oauth2Controller {
 	 * accessToken刷新结果有两种：
 	 * 1. 若accessToken已超时，那么进行refreshToken会获取一个新的accessToken，新的超时时间；
 	 * 2. 若accessToken未超时，那么进行refreshToken不会改变accessToken，但超时时间会刷新，相当于续期accessToken。
-	 * @param service
-	 * @param request
+	 * 
+	 * @param appId
+	 * @param refreshToken
 	 * @return
 	 */
 	@RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
@@ -105,11 +139,12 @@ public class Oauth2Controller {
 
 		String accessToken = refreshTokenContent.getAccessToken();
 		if (!accessTokenManager.refresh(accessToken)) {
-			accessToken = accessTokenManager.generate(refreshTokenContent.getService(), refreshTokenContent.getTgt());
+			accessToken = accessTokenManager.generate(refreshTokenContent.getTgt(), refreshTokenContent.getClientType(),
+					refreshTokenContent.getRedirectUri());
 		}
-		
-		String newRefreshToken = refreshTokenManager.generate(accessToken, appId, refreshTokenContent.getService(),
-				refreshTokenContent.getTgt());
+
+		String newRefreshToken = refreshTokenManager.generate(refreshTokenContent.getTgt(),
+				refreshTokenContent.getClientType(), refreshTokenContent.getRedirectUri(), accessToken, appId);
 		return Result.createSuccess(new RpcAccessToken(accessToken, accessTokenManager.getExpiresIn(), newRefreshToken, user));
 	}
 }

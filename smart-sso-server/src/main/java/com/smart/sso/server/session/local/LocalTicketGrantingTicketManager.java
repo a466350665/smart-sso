@@ -32,14 +32,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 
 	@Override
 	public void create(String tgt, SsoUser user) {
-		tgtMap.put(tgt, createDummyTgt(user));
-	}
-
-	private DummyTgt createDummyTgt(SsoUser user) {
-		DummyTgt dummyTgt = new DummyTgt();
-		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
-		dummyTgt.user = user;
-		return dummyTgt;
+		tgtMap.put(tgt, new DummyTgt(user, System.currentTimeMillis() + getExpiresIn() * 1000));
 	}
 
 	@Override
@@ -85,5 +78,11 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	private class DummyTgt {
 		private SsoUser user;
 		private long expired;
+
+		public DummyTgt(SsoUser user, long expired) {
+			super();
+			this.user = user;
+			this.expired = expired;
+		}
 	}
 }

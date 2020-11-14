@@ -13,10 +13,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.ExpirationPolicy;
+import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.session.AccessTokenManager;
 
 /**
@@ -37,12 +36,12 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
 	@Override
-	public void create(String accessToken, String service, String tgt) {
-		AccessTokenContent accessTokenContent = new AccessTokenContent(service, tgt);
-		DummyAccessToken dat = new DummyAccessToken(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
+	public void create(String accessToken, AccessTokenContent accessTokenContent) {
+		DummyAccessToken dat = new DummyAccessToken(accessTokenContent,
+				System.currentTimeMillis() + getExpiresIn() * 1000);
 		accessTokenMap.put(accessToken, dat);
 
-		tgtMap.computeIfAbsent(tgt, a -> new HashSet<>()).add(accessToken);
+		tgtMap.computeIfAbsent(accessTokenContent.getTgt(), a -> new HashSet<>()).add(accessToken);
 	}
 	
 	@Override
@@ -75,7 +74,11 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
 				return;
 			}
-			HttpUtils.get(dummyAt.accessTokenContent.getService() + "?" + SsoConstant.LOGOUT_PARAMETER_NAME + "=" + accessToken);
+			AccessTokenContent accessTokenContent = dummyAt.accessTokenContent;
+			if (accessTokenContent == null || accessTokenContent.getClientType() != ClientTypeEnum.WEB) {
+				return;
+			}
+			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);
 		});
 	}
 

@@ -16,6 +16,11 @@ public class Oauth2Constant {
 	public static final String AUTH_CODE = "code";
 	
 	/**
+     * 获取授权码（app通过此方式由客户端代理转发http请求到服务端获取授权码）
+     */
+	public static final String AUTHORIZE_URL = "{0}/oauth2/authorize";
+	
+	/**
 	 * 通过 code获取accessToken地址
 	 */
 	public static final String ACCESS_TOKEN_URL = "{0}/oauth2/access_token?appId={1}&appSecret={2}&" + AUTH_CODE + "={3}";

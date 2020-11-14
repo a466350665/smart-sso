@@ -1,9 +1,14 @@
 package com.smart.sso.server.session;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.Expiration;
+import com.smart.sso.server.enums.ClientTypeEnum;
 
 /**
  * 调用凭证AccessToken管理抽象
@@ -15,24 +20,24 @@ public interface AccessTokenManager extends Expiration {
 	/**
 	 * 生成AccessToken
 	 * 
-	 * @param service
 	 * @param tgt
+	 * @param clientType
+	 * @param redirectUri
 	 * @return
 	 */
-	default String generate(String service, String tgt) {
-		String resfreshToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(resfreshToken, service, tgt);
-		return resfreshToken;
+	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri) {
+		String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
+		create(accessToken, new AccessTokenContent(tgt, clientType, redirectUri));
+		return accessToken;
 	}
 
 	/**
 	 * 生成AccessToken
 	 * 
 	 * @param accessToken
-	 * @param service
-	 * @param tgt
+	 * @param accessTokenContent
 	 */
-	void create(String accessToken, String service,  String tgt);
+	void create(String accessToken, AccessTokenContent accessTokenContent);
 	
 	/**
 	 * 验证accessToken有效性，无论有效性与否，都remove掉
@@ -56,4 +61,16 @@ public interface AccessTokenManager extends Expiration {
 	 * @param tgt
 	 */
 	void remove(String tgt);
+	
+	/**
+	 * 发起客户端登出请求
+	 * 
+	 * @param redirectUri
+	 * @param accessToken
+	 */
+	default void sendLogoutRequest(String redirectUri, String accessToken) {
+		Map<String, String> headerMap = new HashMap<>();
+		headerMap.put(SsoConstant.LOGOUT_PARAMETER_NAME, accessToken);
+		HttpUtils.postHeader(redirectUri, headerMap);
+	}
 }

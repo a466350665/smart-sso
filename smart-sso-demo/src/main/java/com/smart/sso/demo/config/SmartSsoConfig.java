@@ -67,7 +67,7 @@ public class SmartSsoConfig {
 //	}
     
     /**
-     * 单点登录Filter容器
+     * Web支持单点登录Filter容器
      * 
      * @return
      */
@@ -80,14 +80,40 @@ public class SmartSsoConfig {
 		smartContainer.setSessionMappingStorage(sessionMappingStorage);
 
         // 忽略拦截URL,多个逗号分隔
-        // smartContainer.setExcludeUrls("/login,/h5/*");
+		// smartContainer.setExcludeUrls("/app/*");
         
         smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
 
         FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
         registration.setFilter(smartContainer);
         registration.addUrlPatterns("/*");
+        registration.setOrder(1);
         registration.setName("smartContainer");
         return registration;
     }
+    
+    /**
+     * App支持单点登录Filter容器
+     * 
+     * @return
+     */
+//	@Bean
+//	public FilterRegistrationBean<SmartContainer> appSmartContainer() {
+//		SmartContainer smartContainer = new SmartContainer();
+//		smartContainer.setServerUrl(serverUrl);
+//		smartContainer.setAppId(appId);
+//		smartContainer.setAppSecret(appSecret);
+//		smartContainer.setSessionMappingStorage(sessionMappingStorage);
+//
+//		smartContainer.setExcludeUrls("/app/login");
+//
+//		smartContainer.setFilters(new AppLogoutFilter(), new AppLoginFilter());
+//
+//		FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
+//		registration.setFilter(smartContainer);
+//		registration.addUrlPatterns("/app/*");
+//		registration.setOrder(2);
+//		registration.setName("appSmartContainer");
+//		return registration;
+//	}
 }

@@ -27,8 +27,8 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	private Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
 	
 	@Override
-	public void create(String code, String service, String tgt) {
-		codeMap.put(code, new DummyCode(new CodeContent(service, tgt), System.currentTimeMillis() + getExpiresIn() * 1000));
+	public void create(String code, CodeContent codeContent) {
+		codeMap.put(code, new DummyCode(codeContent, System.currentTimeMillis() + getExpiresIn() * 1000));
 	}
 
 	@Override

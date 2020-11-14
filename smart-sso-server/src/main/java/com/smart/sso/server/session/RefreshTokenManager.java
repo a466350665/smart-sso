@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.smart.sso.server.common.Expiration;
 import com.smart.sso.server.common.RefreshTokenContent;
+import com.smart.sso.server.enums.ClientTypeEnum;
 
 /**
  * 刷新凭证refreshToken管理抽象
@@ -15,14 +16,17 @@ public interface RefreshTokenManager extends Expiration {
 	/**
 	 * 生成refreshToken
 	 * 
-	 * @param accessToken
-	 * @param service
 	 * @param tgt
+	 * @param clientType
+	 * @param redirectUri
+	 * @param accessToken
+	 * @param appId
 	 * @return
 	 */
-	default String generate(String accessToken, String appId, String service, String tgt) {
+	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri, String accessToken,
+			String appId) {
 		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(resfreshToken, accessToken, appId, service, tgt);
+		create(resfreshToken, new RefreshTokenContent(tgt, clientType, redirectUri, accessToken, appId));
 		return resfreshToken;
 	}
 
@@ -30,11 +34,9 @@ public interface RefreshTokenManager extends Expiration {
 	 * 生成refreshToken
 	 * 
 	 * @param refreshToken
-	 * @param accessToken
-	 * @param service
-	 * @param tgt
+	 * @param refreshTokenContent
 	 */
-	void create(String refreshToken, String accessToken, String appId, String service, String tgt);
+	void create(String refreshToken, RefreshTokenContent refreshTokenContent);
 
 	/**
 	 * 验证refreshToken有效性，无论有效性与否，都remove掉

@@ -26,10 +26,8 @@ public class RedisCodeManager implements CodeManager {
 	private StringRedisTemplate redisTemplate;
 
 	@Override
-	public void create(String code, String service, String tgt) {
-		CodeContent cc = new CodeContent(service, tgt);
-		redisTemplate.opsForValue().set(code, JSON.toJSONString(cc), getExpiresIn(),
-				TimeUnit.SECONDS);
+	public void create(String code, CodeContent codeContent) {
+		redisTemplate.opsForValue().set(code, JSON.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
 	}
 
 	@Override

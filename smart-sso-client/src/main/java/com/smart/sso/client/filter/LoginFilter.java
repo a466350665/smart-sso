@@ -9,18 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
 import com.smart.sso.client.session.SessionAccessToken;
-import com.smart.sso.client.session.SessionUtils;
-import com.smart.sso.client.util.HttpUtils;
+import com.smart.sso.client.util.Oauth2Utils;
+import com.smart.sso.client.util.SessionUtils;
 
 /**
  * 单点登录Filter
@@ -28,8 +24,6 @@ import com.smart.sso.client.util.HttpUtils;
  * @author Joe
  */
 public class LoginFilter extends ClientFilter {
-    
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,7 +36,7 @@ public class LoginFilter extends ClientFilter {
 		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
 		if (code != null) {
 			// 获取accessToken
-			accessToken(code, request);
+			getAccessToken(code, request);
 			// 为去掉URL中授权码参数，再跳转一次当前地址
 			redirectLocalRemoveCode(request, response);
 		}
@@ -58,10 +52,10 @@ public class LoginFilter extends ClientFilter {
      * @param code
      * @return
      */
-	private void accessToken(String code, HttpServletRequest request) {
-		String accessTokenUrl = MessageFormat.format(Oauth2Constant.ACCESS_TOKEN_URL, getServerUrl(), getAppId(),
+	private void getAccessToken(String code, HttpServletRequest request) {
+		RpcAccessToken rpcAccessToken = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
 				getAppSecret(), code);
-		getAccessTokenInSession(accessTokenUrl, request);
+		setAccessTokenInSession(rpcAccessToken, request);
 	}
 	
 	/**
@@ -70,53 +64,21 @@ public class LoginFilter extends ClientFilter {
      * @param refreshToken
      * @return
      */
-	private boolean refreshToken(String refreshToken, HttpServletRequest request) {
-		String refreshTokenUrl = MessageFormat.format(Oauth2Constant.REFRESH_TOKEN_URL, getServerUrl(), getAppId(),
-				refreshToken);
-		return getAccessTokenInSession(refreshTokenUrl, request);
+	protected boolean refreshToken(String refreshToken, HttpServletRequest request) {
+		RpcAccessToken rpcAccessToken = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
+		return setAccessTokenInSession(rpcAccessToken, request);
 	}
 	
-	/**
-	 * AccessToken存session
-	 * 
-	 * @param url
-	 * @param request
-	 * @return
-	 */
-	private boolean getAccessTokenInSession(String url, HttpServletRequest request) {
-		RpcAccessToken rpcAccessToken = getHttpJson(url, RpcAccessToken.class);
+	private boolean setAccessTokenInSession(RpcAccessToken rpcAccessToken, HttpServletRequest request) {
 		if (rpcAccessToken == null) {
 			return false;
 		}
-		SessionAccessToken sessionAccessToken = createSessionAccessToken(rpcAccessToken);
-
-		// 本地session存accessToken
-		SessionUtils.setAccessToken(request, sessionAccessToken);
-
-		// 记录本地session和AccessToken映射
+		// 记录accessToken到本地session
+		SessionUtils.setAccessToken(request, rpcAccessToken);
+		
+		// 记录本地session和accessToken映射
 		recordSession(request, rpcAccessToken.getAccessToken());
 		return true;
-	}
-	
-	private <T> T getHttpJson(String url, Class<T> clazz) {
-		String jsonStr = HttpUtils.get(url);
-		if (jsonStr == null || jsonStr.isEmpty()) {
-			logger.error("getHttpJson exception, return null. url:{}", url);
-			return null;
-		}
-		Result<?> result = JSONObject.parseObject(jsonStr, Result.class);
-		if (!result.isSuccess()) {
-			logger.error("getHttpJson has error, url:{}, message:{}", url, result.getMessage());
-			return null;
-		}
-		return JSONObject.parseObject(result.getData().toString(), clazz);
-	}
-    
-	private SessionAccessToken createSessionAccessToken(RpcAccessToken accessToken) {
-		// session存储accessToken失效时间
-		long expirationTime = System.currentTimeMillis() + accessToken.getExpiresIn() * 1000;
-		return new SessionAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn(),
-				accessToken.getRefreshToken(), accessToken.getUser(), expirationTime);
 	}
 	
     private void recordSession(final HttpServletRequest request, String accessToken) {
