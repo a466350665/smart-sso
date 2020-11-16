@@ -11,22 +11,47 @@ public class Oauth2Constant {
 	public static final String STATE = "state";
 	
 	/**
-	 * 授权码名称
+	 * 授权方式
+	 */
+	public static final String GRANT_TYPE = "grant_type";
+	
+	/**
+	 * 应用唯一标识
+	 */
+	public static final String APP_ID = "app_id";
+	
+	/**
+	 * 应用密钥
+	 */
+	public static final String APP_SECRET = "app_secret";
+	
+	/**
+	 * 刷新token
+	 */
+	public static final String REFRESH_TOKEN = "refresh_token";
+	
+	/**
+	 * 授权码（授权码模式）
 	 */
 	public static final String AUTH_CODE = "code";
 	
 	/**
-     * 获取授权码（app通过此方式由客户端代理转发http请求到服务端获取授权码）
-     */
-	public static final String AUTHORIZE_URL = "{0}/oauth2/authorize";
+	 * 用户名（密码模式）
+	 */
+	public static final String USERNAME = "username";
 	
 	/**
-	 * 通过 code获取accessToken地址
+	 * 密码（密码模式）
 	 */
-	public static final String ACCESS_TOKEN_URL = "{0}/oauth2/access_token?appId={1}&appSecret={2}&" + AUTH_CODE + "={3}";
+	public static final String PASSWORD = "password";
+	
+	/**
+	 * 获取accessToken地址
+	 */
+	public static final String ACCESS_TOKEN_URL = "/oauth2/access_token";
 	
 	/**
 	 * 刷新accessToken地址
 	 */
-	public static final String REFRESH_TOKEN_URL = "{0}/oauth2/refresh_token?appId={1}&refreshToken={2}";
+	public static final String REFRESH_TOKEN_URL = "/oauth2/refresh_token";
 }

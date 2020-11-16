@@ -45,15 +45,6 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	}
 	
 	@Override
-	public AccessTokenContent validate(String accessToken) {
-		DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
-		if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
-			return null;
-		}
-		return dummyAt.accessTokenContent;
-	}
-	
-	@Override
 	public boolean refresh(String accessToken) {
 		DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
 		if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {

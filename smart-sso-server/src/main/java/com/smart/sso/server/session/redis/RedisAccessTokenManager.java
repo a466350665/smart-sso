@@ -40,15 +40,6 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 	}
 
 	@Override
-	public AccessTokenContent validate(String accessToken) {
-		String atc = redisTemplate.opsForValue().get(accessToken);
-		if (StringUtils.isEmpty(atc)) {
-			return null;
-		}
-		return JSONObject.parseObject(atc, AccessTokenContent.class);
-	}
-
-	@Override
 	public boolean refresh(String accessToken) {
 		if (redisTemplate.opsForValue().get(accessToken) == null) {
 			return false;

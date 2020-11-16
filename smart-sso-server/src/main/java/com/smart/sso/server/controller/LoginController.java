@@ -56,7 +56,7 @@ public class LoginController{
 			@RequestParam String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.exists(tgt) == null) {
+		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
 			return goLoginPath(redirectUri, appId, request);
 		}
 		return generateCodeAndRedirect(redirectUri, tgt);
@@ -67,7 +67,7 @@ public class LoginController{
 	 * 
 	 * @param redirectUri
 	 * @param appId
-	 * @param account
+	 * @param username
 	 * @param password
 	 * @param request
 	 * @param response
@@ -78,7 +78,7 @@ public class LoginController{
 	public String login(
 			@RequestParam String redirectUri,
 			@RequestParam String appId,
-			@RequestParam String account, 
+			@RequestParam String username, 
 			@RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
@@ -87,7 +87,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 		
-		Result<SsoUser> result = userService.login(account, password);
+		Result<SsoUser> result = userService.login(username, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(redirectUri, appId, request);

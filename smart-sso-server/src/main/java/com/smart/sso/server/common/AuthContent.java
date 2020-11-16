@@ -4,7 +4,12 @@ import java.io.Serializable;
 
 import com.smart.sso.server.enums.ClientTypeEnum;
 
-public class CodeContent implements Serializable {
+/**
+ * 授权存储信息
+ * 
+ * @author Joe
+ */
+public class AuthContent implements Serializable {
 
 	private static final long serialVersionUID = -1332598459045608781L;
 
@@ -12,7 +17,7 @@ public class CodeContent implements Serializable {
 	private ClientTypeEnum clientType;
 	private String redirectUri;
 
-	public CodeContent(String tgt, ClientTypeEnum clientType, String redirectUri) {
+	public AuthContent(String tgt, ClientTypeEnum clientType, String redirectUri) {
 		this.tgt = tgt;
 		this.clientType = clientType;
 		this.redirectUri = redirectUri;

@@ -41,7 +41,7 @@ public class IndexController {
 	public String execute(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
 		SsoUser user = SessionUtils.getUser(request);
 		// 设置登录用户名
-		model.addAttribute("userName", user.getAccount());
+		model.addAttribute("userName", user.getUsername());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
 		// 当前sessionId

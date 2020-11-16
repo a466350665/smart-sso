@@ -36,7 +36,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public SsoUser exists(String tgt) {
+	public SsoUser get(String tgt) {
 		DummyTgt dummyTgt = tgtMap.get(tgt);
 		if (dummyTgt == null || System.currentTimeMillis() > dummyTgt.expired) {
 			return null;

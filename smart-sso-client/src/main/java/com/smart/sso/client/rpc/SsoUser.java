@@ -14,12 +14,12 @@ public class SsoUser implements Serializable {
 	// 登录成功userId
     private Integer id;
     // 登录名
-    private String account;
+    private String username;
 
-    public SsoUser(Integer id, String account) {
+    public SsoUser(Integer id, String username) {
         super();
         this.id = id;
-        this.account = account;
+        this.username = username;
     }
 
     public Integer getId() {
@@ -30,15 +30,15 @@ public class SsoUser implements Serializable {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
-    }
+    public String getUsername() {
+		return username;
+	}
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    @Override
+	@Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

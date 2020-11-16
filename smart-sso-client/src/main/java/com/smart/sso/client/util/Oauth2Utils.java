@@ -1,6 +1,6 @@
 package com.smart.sso.client.util;
 
-import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.enums.GrantTypeEnum;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
 
@@ -21,46 +22,28 @@ public class Oauth2Utils {
 	private static final Logger logger = LoggerFactory.getLogger(Oauth2Utils.class);
 
 	/**
-	 * 获取授权码（app通过此方式由客户端代理转发http请求到服务端获取授权码）
-	 * 
-	 * @param serverUrl
-	 * @param paramMap
-	 * @return
-	 */
-	public static String getCode(String serverUrl, Map<String, String> paramMap) {
-		String authorizeUrl = MessageFormat.format(Oauth2Constant.AUTHORIZE_URL, serverUrl);
-		String resultStr = HttpUtils.post(authorizeUrl, paramMap);
-		if (resultStr == null) {
-			return null;
-		}
-		Result<?> result = JSONObject.parseObject(resultStr, Result.class);
-		if (!result.isSuccess()) {
-			logger.error("getCode has error, appLoginUrl:{}, message:{}", authorizeUrl, result.getMessage());
-			return null;
-		}
-		return result.getData().toString();
-	}
-	
-	/**
-	 * 获取accessToken（app通过此方式获取accessToken）
+	 * 密码模式获取accessToken（app通过此方式获取accessToken）
 	 * 
 	 * @param serverUrl
 	 * @param appId
 	 * @param appSecret
-	 * @param paramMap 可根据不同场景自定义登录参数
+	 * @param username
+	 * @param password
 	 * @return
 	 */
-	public static RpcAccessToken getAccessToken(String serverUrl, String appId, String appSecret,
-			Map<String, String> paramMap) {
-		String code = getCode(serverUrl, paramMap);
-		if (code == null) {
-			return null;
-		}
-		return getAccessToken(serverUrl, appId, appSecret, code);
+	public static RpcAccessToken getAccessToken(String serverUrl, String appId, String appSecret, String username,
+			String password) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.PASSWORD.getValue());
+		paramMap.put(Oauth2Constant.APP_ID, appId);
+		paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
+		paramMap.put(Oauth2Constant.USERNAME, username);
+		paramMap.put(Oauth2Constant.PASSWORD, password);
+		return getHttpJson(serverUrl + Oauth2Constant.ACCESS_TOKEN_URL, paramMap, RpcAccessToken.class);
 	}
 
 	/**
-	 * 获取accessToken
+	 * 授权码模式获取accessToken
 	 * 
 	 * @param serverUrl
 	 * @param appId
@@ -69,9 +52,12 @@ public class Oauth2Utils {
 	 * @return
 	 */
 	public static RpcAccessToken getAccessToken(String serverUrl, String appId, String appSecret, String code) {
-		String accessTokenUrl = MessageFormat.format(Oauth2Constant.ACCESS_TOKEN_URL, serverUrl, appId, appSecret,
-				code);
-		return getHttpJson(accessTokenUrl, RpcAccessToken.class);
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
+		paramMap.put(Oauth2Constant.APP_ID, appId);
+		paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
+		paramMap.put(Oauth2Constant.AUTH_CODE, code);
+		return getHttpJson(serverUrl + Oauth2Constant.ACCESS_TOKEN_URL, paramMap, RpcAccessToken.class);
 	}
 
 	/**
@@ -83,12 +69,14 @@ public class Oauth2Utils {
 	 * @return
 	 */
 	public static RpcAccessToken refreshToken(String serverUrl, String appId, String refreshToken) {
-		String refreshTokenUrl = MessageFormat.format(Oauth2Constant.REFRESH_TOKEN_URL, serverUrl, appId, refreshToken);
-		return getHttpJson(refreshTokenUrl, RpcAccessToken.class);
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put(Oauth2Constant.APP_ID, appId);
+		paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
+		return getHttpJson(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap, RpcAccessToken.class);
 	}
 
-	private static <T> T getHttpJson(String url, Class<T> clazz) {
-		String jsonStr = HttpUtils.get(url);
+	private static <T> T getHttpJson(String url, Map<String, String> paramMap, Class<T> clazz) {
+		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
 			logger.error("getHttpJson exception, return null. url:{}", url);
 			return null;

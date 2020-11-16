@@ -13,11 +13,11 @@ public interface UserService {
 	/**
 	 * 登录
 	 * 
-	 * @param account
+	 * @param username
 	 *            登录名
 	 * @param password
 	 *            密码
 	 * @return
 	 */
-	public Result<SsoUser> login(String account, String password);
+	public Result<SsoUser> login(String username, String password);
 }

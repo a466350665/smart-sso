@@ -35,7 +35,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public SsoUser exists(String tgt) {
+	public SsoUser get(String tgt) {
 		String user = redisTemplate.opsForValue().get(tgt);
 		if (StringUtils.isEmpty(user)) {
 			return null;
@@ -50,7 +50,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 
 	@Override
 	public SsoUser refresh(String tgt) {
-		SsoUser user = exists(tgt);
+		SsoUser user = get(tgt);
 		if (user == null) {
 			return null;
 		}

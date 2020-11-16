@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.smart.sso.server.common.CodeContent;
+import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.CodeManager;
 
@@ -27,17 +27,17 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	private Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
 	
 	@Override
-	public void create(String code, CodeContent codeContent) {
-		codeMap.put(code, new DummyCode(codeContent, System.currentTimeMillis() + getExpiresIn() * 1000));
+	public void create(String code, AuthContent authContent) {
+		codeMap.put(code, new DummyCode(authContent, System.currentTimeMillis() + getExpiresIn() * 1000));
 	}
 
 	@Override
-	public CodeContent validate(String code) {
+	public AuthContent validate(String code) {
 		DummyCode dc = codeMap.remove(code);
         if (dc == null || System.currentTimeMillis() > dc.expired) {
             return null;
         }
-        return dc.codeContent;
+        return dc.authContent;
 	}
 	
 	@Scheduled(cron = SCHEDULED_CRON)
@@ -52,11 +52,11 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
     }
 	
     private class DummyCode {
-    	private CodeContent codeContent;
+    	private AuthContent authContent;
         private long expired; // 过期时间
 
-        public DummyCode(CodeContent codeContent, long expired) {
-            this.codeContent = codeContent;
+        public DummyCode(AuthContent authContent, long expired) {
+            this.authContent = authContent;
             this.expired = expired;
         }
     }

@@ -2,7 +2,7 @@ package com.smart.sso.server.session;
 
 import java.util.UUID;
 
-import com.smart.sso.server.common.CodeContent;
+import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.Expiration;
 import com.smart.sso.server.enums.ClientTypeEnum;
 
@@ -23,7 +23,7 @@ public interface CodeManager extends Expiration {
 	 */
 	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri) {
 		String code = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(code, new CodeContent(tgt, clientType, redirectUri));
+		create(code, new AuthContent(tgt, clientType, redirectUri));
 		return code;
 	}
     
@@ -31,9 +31,9 @@ public interface CodeManager extends Expiration {
      * 生成授权码
      * 
 	 * @param code
-	 * @param codeContent
+	 * @param authContent
 	 */
-	public void create(String code, CodeContent codeContent) ;
+	public void create(String code, AuthContent authContent) ;
 
     /**
      * 验证授权码有效性，无论有效性与否，都remove掉
@@ -41,7 +41,7 @@ public interface CodeManager extends Expiration {
      * @param code
      * @return
      */
-	CodeContent validate(String code);
+	AuthContent validate(String code);
 	
 	/* 
 	 * code失效时间默认为10分钟

@@ -77,7 +77,7 @@
 												<fieldset>
 													<label class="block clearfix form-group">
 														<span class="block input-icon input-icon-right help-validate">
-															<input id="_account" name="account" value="admin" type="text" class="form-control form-data" placeholder="登录名"
+															<input id="_username" name="username" value="admin" type="text" class="form-control form-data" placeholder="登录名"
 																required="true" minlength = '4'/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
@@ -176,14 +176,14 @@
 				$("#_captcha").focus();
 				/* 
 				//判断之前是否有设置cookie
-				if($.cookie('_account') != undefined){
-					$("#_account").val($.cookie('_account'));
+				if($.cookie('_username') != undefined){
+					$("#_username").val($.cookie('_username'));
 					
 					$("#_password").focus();
 					$("#_rememberMe").attr("checked", true);
 				}
 				else{
-					$("#_account").focus();
+					$("#_username").focus();
 					$("#_rememberMe").attr("checked", false);
 				}
 				*/
@@ -214,10 +214,10 @@
 					if($('#_loginForm').validate()){
 
 						if($('#_rememberMe:checked').length > 0){
-							$.cookie('_account', $("#_account").val());
+							$.cookie('_username', $("#_username").val());
 						} 
 						else{
-							$.removeCookie('_account');
+							$.removeCookie('_username');
 						}
 
 						$('#_loginForm').submit();

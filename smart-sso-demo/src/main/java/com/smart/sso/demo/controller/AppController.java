@@ -1,8 +1,6 @@
 package com.smart.sso.demo.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
 import com.smart.sso.client.rpc.SsoUser;
@@ -49,7 +48,7 @@ public class AppController {
 	/**
 	 * 登录提交
 	 * 
-	 * @param account
+	 * @param username
 	 * @param password
 	 * @param request
 	 * @return
@@ -57,14 +56,10 @@ public class AppController {
 	 */
 	@RequestMapping("/login")
 	public Result login(
-			@RequestParam String account, 
-			@RequestParam String password,
+			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
+			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
 			HttpServletRequest request) throws UnsupportedEncodingException {
-		Map<String, String> paramMap = new HashMap<>();
-		paramMap.put("appId", appId);
-		paramMap.put("account", account);
-		paramMap.put("password", password);
-		RpcAccessToken rpcAccessToken = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, paramMap);
+		RpcAccessToken rpcAccessToken = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
 		if (rpcAccessToken == null) {
 			return Result.createError("登录失败");
 		}

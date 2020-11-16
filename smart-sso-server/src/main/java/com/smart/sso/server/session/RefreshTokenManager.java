@@ -2,9 +2,9 @@ package com.smart.sso.server.session;
 
 import java.util.UUID;
 
+import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.Expiration;
 import com.smart.sso.server.common.RefreshTokenContent;
-import com.smart.sso.server.enums.ClientTypeEnum;
 
 /**
  * 刷新凭证refreshToken管理抽象
@@ -16,17 +16,15 @@ public interface RefreshTokenManager extends Expiration {
 	/**
 	 * 生成refreshToken
 	 * 
-	 * @param tgt
-	 * @param clientType
-	 * @param redirectUri
+	 * @param authContent
 	 * @param accessToken
 	 * @param appId
 	 * @return
 	 */
-	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri, String accessToken,
-			String appId) {
+	default String generate(AuthContent authContent, String accessToken, String appId) {
 		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(resfreshToken, new RefreshTokenContent(tgt, clientType, redirectUri, accessToken, appId));
+		create(resfreshToken, new RefreshTokenContent(authContent.getTgt(), authContent.getClientType(),
+				authContent.getRedirectUri(), accessToken, appId));
 		return resfreshToken;
 	}
 

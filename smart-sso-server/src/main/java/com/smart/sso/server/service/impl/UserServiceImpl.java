@@ -21,11 +21,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Result<SsoUser> login(String account, String password) {
+	public Result<SsoUser> login(String username, String password) {
 		for (User user : userList) {
-			if (user.getAccount().equals(account)) {
+			if (user.getUsername().equals(username)) {
 				if(user.getPassword().equals(password)) {
-					return Result.createSuccess(new SsoUser(user.getId(), user.getAccount()));
+					return Result.createSuccess(new SsoUser(user.getId(), user.getUsername()));
 				}
 				else {
 					return Result.createError("密码有误");

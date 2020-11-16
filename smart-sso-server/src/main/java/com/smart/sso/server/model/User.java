@@ -14,7 +14,7 @@ public class User implements Serializable {
 	/** 姓名 */
 	private String name;
 	/** 登录名 */
-	private String account;
+	private String username;
 	/** 密码 */
 	private String password;
 	
@@ -22,11 +22,11 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(Integer id, String name, String account, String password) {
+	public User(Integer id, String name, String username, String password) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.account = account;
+		this.username = username;
 		this.password = password;
 	}
 	
@@ -46,12 +46,12 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public String getAccount() {
-		return this.account;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setAccount(String account) {
-		this.account = account;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {

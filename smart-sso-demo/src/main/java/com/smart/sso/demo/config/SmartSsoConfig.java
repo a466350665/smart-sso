@@ -80,7 +80,7 @@ public class SmartSsoConfig {
 		smartContainer.setSessionMappingStorage(sessionMappingStorage);
 
         // 忽略拦截URL,多个逗号分隔
-		// smartContainer.setExcludeUrls("/app/*");
+//		smartContainer.setExcludeUrls("/app/*");
         
         smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
 

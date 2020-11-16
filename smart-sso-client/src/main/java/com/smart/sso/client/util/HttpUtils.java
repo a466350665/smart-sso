@@ -28,14 +28,23 @@ import org.slf4j.LoggerFactory;
 public class HttpUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
-
-	public static String get(String url) {
+	
+	public static String get(String url, Map<String, String> paramMap) {
 		String result = null;
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpGet get = new HttpGet(url);
 		CloseableHttpResponse response = null;
+		String realUrl = url;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
-			response = httpClient.execute(get);
+			if (paramMap != null && !paramMap.isEmpty()) {
+				List<NameValuePair> params = new ArrayList<>();
+				for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+					params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+				}
+				String paramStr = EntityUtils.toString(new UrlEncodedFormEntity(params, "UTF-8"));
+				realUrl += "?" + paramStr;
+			}
+			HttpGet httpGet = new HttpGet(realUrl);
+			response = httpClient.execute(httpGet);
 			if (response != null && response.getStatusLine().getStatusCode() == 200) {
 				HttpEntity entity = response.getEntity();
 				if (entity != null) {
@@ -60,6 +69,10 @@ public class HttpUtils {
 			}
 		}
 		return null;
+	}
+	
+	public static String get(String url) {
+		return get(url, null);
 	}
 	
 	public static String post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
