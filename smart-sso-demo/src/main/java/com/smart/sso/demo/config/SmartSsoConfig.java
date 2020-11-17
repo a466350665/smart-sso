@@ -41,7 +41,7 @@ public class SmartSsoConfig {
 	 * 
 	 * 注：
 	 * 1.需注入RedisSessionMappingStorage
-	 * 2.需要使用Spring方式注入LogoutListener，否则Listene会失效
+	 * 2.需要使用Spring方式注入LogoutListener，使用ServletListenerRegistrationBean方式不生效
 	 */
 //	@Autowired
 //	private SessionMappingStorage sessionMappingStorage;
@@ -86,7 +86,7 @@ public class SmartSsoConfig {
     }
     
     /**
-     * App支持单点登录Filter容器（可与Web方式共存）
+     * App登录Filter容器（可与Web方式共存）
      * 
      * @return
      */
