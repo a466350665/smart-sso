@@ -1,7 +1,5 @@
 package com.smart.sso.client.filter;
 
-import com.smart.sso.client.session.SessionMappingStorage;
-
 /**
  * 参数注入Filter
  * 
@@ -12,7 +10,6 @@ public class ParamFilter {
 	private String appId;
 	private String appSecret;
 	private String serverUrl;
-	private SessionMappingStorage sessionMappingStorage;
 	
 	public String getAppId() {
 		return appId;
@@ -36,13 +33,5 @@ public class ParamFilter {
 
 	public void setServerUrl(String serverUrl) {
 		this.serverUrl = serverUrl;
-	}
-
-	public SessionMappingStorage getSessionMappingStorage() {
-		return sessionMappingStorage;
-	}
-
-	public void setSessionMappingStorage(SessionMappingStorage sessionMappingStorage) {
-		this.sessionMappingStorage = sessionMappingStorage;
 	}
 }

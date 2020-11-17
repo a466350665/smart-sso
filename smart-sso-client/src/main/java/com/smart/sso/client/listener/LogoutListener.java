@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import com.smart.sso.client.session.SessionMappingStorage;
+import com.smart.sso.client.session.local.LocalSessionMappingStorage;
 
 /**
  * 单点登出Listener
@@ -15,7 +16,7 @@ import com.smart.sso.client.session.SessionMappingStorage;
  */
 public final class LogoutListener implements HttpSessionListener {
 	
-    private SessionMappingStorage sessionMappingStorage;
+	private static SessionMappingStorage sessionMappingStorage = new LocalSessionMappingStorage();
     
 	@Override
     public void sessionCreated(final HttpSessionEvent event) {
@@ -26,8 +27,12 @@ public final class LogoutListener implements HttpSessionListener {
         final HttpSession session = event.getSession();
         sessionMappingStorage.removeBySessionById(session.getId());
     }
+    
+    public void setSessionMappingStorage(SessionMappingStorage sms){
+    	sessionMappingStorage = sms;
+    }
 
-	public void setSessionMappingStorage(SessionMappingStorage sessionMappingStorage) {
-		this.sessionMappingStorage = sessionMappingStorage;
+    public static SessionMappingStorage getSessionMappingStorage() {
+		return sessionMappingStorage;
 	}
 }

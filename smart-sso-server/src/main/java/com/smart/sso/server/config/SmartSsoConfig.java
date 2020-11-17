@@ -2,7 +2,6 @@ package com.smart.sso.server.config;
 
 import javax.servlet.http.HttpSessionListener;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -13,8 +12,6 @@ import com.smart.sso.client.SmartContainer;
 import com.smart.sso.client.filter.LoginFilter;
 import com.smart.sso.client.filter.LogoutFilter;
 import com.smart.sso.client.listener.LogoutListener;
-import com.smart.sso.client.session.SessionMappingStorage;
-import com.smart.sso.client.session.local.LocalSessionMappingStorage;
 
 @Configuration
 public class SmartSsoConfig {
@@ -26,18 +23,6 @@ public class SmartSsoConfig {
     @Value("${sso.app.secret}")
     private String appSecret;
     
-    @Autowired
-    private SessionMappingStorage sessionMappingStorage;
-    
-	/**
-	 * 存储session和accessToken映射
-	 * @return
-	 */
-	@Bean
-    public SessionMappingStorage sessionMappingStorage() {
-		return new LocalSessionMappingStorage();
-    }
-    
 	/**
 	 * 单实例方式注册单点登出Listener
 	 * 
@@ -47,7 +32,6 @@ public class SmartSsoConfig {
 	public ServletListenerRegistrationBean<HttpSessionListener> LogoutListener() {
 		ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
 		LogoutListener logoutListener = new LogoutListener();
-		logoutListener.setSessionMappingStorage(sessionMappingStorage);
 		listenerRegBean.setListener(logoutListener);
 		return listenerRegBean;
 	}
@@ -55,8 +39,18 @@ public class SmartSsoConfig {
 	/**
 	 * 分布式redis方式注册单点登出Listener
 	 * 
-	 * @return
+	 * 注：
+	 * 1.需注入RedisSessionMappingStorage
+	 * 2.需要使用Spring方式注入LogoutListener，否则Listene会失效
 	 */
+//	@Autowired
+//	private SessionMappingStorage sessionMappingStorage;
+//
+//	@Bean
+//	public SessionMappingStorage sessionMappingStorage() {
+//		return new RedisSessionMappingStorage();
+//	}
+//
 //	@Bean
 //	public ApplicationListener<AbstractSessionEvent> LogoutListener() {
 //		List<HttpSessionListener> httpSessionListeners = new ArrayList<>();
@@ -77,7 +71,6 @@ public class SmartSsoConfig {
 		smartContainer.setServerUrl(serverUrl);
 		smartContainer.setAppId(appId);
 		smartContainer.setAppSecret(appSecret);
-		smartContainer.setSessionMappingStorage(sessionMappingStorage);
 		
 		// 忽略拦截URL,多个逗号分隔
         smartContainer.setExcludeUrls("/login,/logout,/oauth2/*,/custom/*,/assets/*");

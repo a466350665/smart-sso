@@ -40,7 +40,6 @@ public class SmartContainer extends ParamFilter implements Filter {
 			filter.setAppId(getAppId());
 			filter.setAppSecret(getAppSecret());
 			filter.setServerUrl(getServerUrl());
-			filter.setSessionMappingStorage(getSessionMappingStorage());
 			filter.init(filterConfig);
 		}
 	}
