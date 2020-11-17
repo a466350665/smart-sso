@@ -119,7 +119,7 @@ public class Oauth2Controller {
 			authDto = new AuthDto(authContent, user);
 		}
 		else if (GrantTypeEnum.PASSWORD.getValue().equals(grantType)) {
-			// app通过此方式由客户端代理转发http请求到服务端获取授权码
+			// app通过此方式由客户端代理转发http请求到服务端获取accessToken
 			Result<SsoUser> loginResult = userService.login(username, password);
 			if (!loginResult.isSuccess()) {
 				return Result.createError(loginResult.getMessage());

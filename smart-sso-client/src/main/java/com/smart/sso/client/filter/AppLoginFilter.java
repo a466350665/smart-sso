@@ -15,8 +15,7 @@ import com.smart.sso.client.util.SessionUtils;
  * @author Joe
  */
 public class AppLoginFilter extends LoginFilter {
-    
-    
+
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionAccessToken sessionAccessToken = SessionUtils.getAccessToken(request);

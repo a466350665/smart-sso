@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSON;
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.constant.SsoConstant;
@@ -24,6 +27,8 @@ import com.smart.sso.client.util.SessionUtils;
  * @author Joe
  */
 public class LoginFilter extends ClientFilter {
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -49,24 +54,33 @@ public class LoginFilter extends ClientFilter {
     /**
      * 获取accessToken和用户信息存session
      * 
-     * @param code
-     * @return
-     */
+	 * @param code
+	 * @param request
+	 */
 	private void getAccessToken(String code, HttpServletRequest request) {
-		RpcAccessToken rpcAccessToken = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
+		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
 				getAppSecret(), code);
-		setAccessTokenInSession(rpcAccessToken, request);
+		if (!result.isSuccess()) {
+			logger.error("getAccessToken has error, message:{}", result.getMessage());
+			return;
+		}
+		setAccessTokenInSession(result.getData(), request);
 	}
 	
 	/**
      * 通过refreshToken参数调用http请求延长服务端session，并返回新的accessToken
      * 
-     * @param refreshToken
-     * @return
-     */
+	 * @param refreshToken
+	 * @param request
+	 * @return
+	 */
 	protected boolean refreshToken(String refreshToken, HttpServletRequest request) {
-		RpcAccessToken rpcAccessToken = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
-		return setAccessTokenInSession(rpcAccessToken, request);
+		Result<RpcAccessToken> result = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
+		if (!result.isSuccess()) {
+			logger.error("refreshToken has error, message:{}", result.getMessage());
+			return false;
+		}
+		return setAccessTokenInSession(result.getData(), request);
 	}
 	
 	private boolean setAccessTokenInSession(RpcAccessToken rpcAccessToken, HttpServletRequest request) {

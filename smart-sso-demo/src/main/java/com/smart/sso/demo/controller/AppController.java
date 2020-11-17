@@ -1,7 +1,5 @@
 package com.smart.sso.demo.controller;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +35,9 @@ public class AppController {
 	 * @param request
 	 * @param model
 	 * @return
-	 * @throws UnsupportedEncodingException 
 	 */
     @RequestMapping
-	public Result index(HttpServletRequest request) throws UnsupportedEncodingException {
+	public Result index(HttpServletRequest request) {
 		SsoUser user = SessionUtils.getUser(request);
 		return Result.createSuccess(user);
 	}
@@ -52,18 +49,17 @@ public class AppController {
 	 * @param password
 	 * @param request
 	 * @return
-	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("/login")
 	public Result login(
 			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
 			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
-			HttpServletRequest request) throws UnsupportedEncodingException {
-		RpcAccessToken rpcAccessToken = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
-		if (rpcAccessToken == null) {
-			return Result.createError("登录失败");
+			HttpServletRequest request) {
+		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
+		if (!result.isSuccess()) {
+			return result;
 		}
-		SessionUtils.setAccessToken(request, rpcAccessToken);
+		SessionUtils.setAccessToken(request, result.getData());
 		return Result.createSuccess().setMessage("登录成功");
 	}
 }
