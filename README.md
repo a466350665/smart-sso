@@ -7,7 +7,7 @@
 QQ交流群：454343484🈵、769134727
 
 ## 简述
-    smart-sso使用当下最流行的SpringBoot技术，基于Oauth2认证授权协议，为您构建一个易理解、高可用、高扩展性的分布式单点登录应用基层。
+    smart-sso使用当下最流行的SpringBoot技术，基于OAuth2认证授权协议，为您构建一个易理解、高可用、高扩展性的分布式单点登录应用基层。
 
 ## 相关文档
 - [Java单点登录系统—简介（一）](https://blog.csdn.net/a466350665/article/details/54140411)
@@ -31,7 +31,7 @@ smart-sso
 - MVC框架：SpringBoot 2.1.0.RELEASE
 - JSON工具：Fastjson 1.2.69
 - 日志管理：SLF4J 1.7.21
-- 单点登录：基于Oauth2协议实现
+- 单点登录：基于OAuth2协议实现
 
 ## 单点登录原理
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201030140826191.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
