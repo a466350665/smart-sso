@@ -8,12 +8,17 @@ public class SsoConstant {
 	/**
      * 服务端登录地址
      */
-	public static final String LOGIN_URL = "{0}/login?appId={1}&redirectUri={2}";
+	public static final String LOGIN_URL = "/login";
 
 	/**
 	 * 服务端登出地址
 	 */
-	public static final String LOGOUT_URL = "{0}/logout?redirectUri={1}";
+	public static final String LOGOUT_URL = "/logout";
+	
+	/**
+	 * 服务端回调客户端地址参数名称
+	 */
+	public static final String REDIRECT_URI = "redirectUri";
     
     /**
      * 服务端单点登出回调客户端登出参数名称

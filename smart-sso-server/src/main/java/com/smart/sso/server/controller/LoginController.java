@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.constant.AppConstant;
@@ -52,8 +53,8 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@RequestParam String redirectUri,
-			@RequestParam String appId,
+			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
@@ -76,8 +77,8 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@RequestParam String redirectUri,
-			@RequestParam String appId,
+			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			@RequestParam String username, 
 			@RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -111,8 +112,8 @@ public class LoginController{
 	 * @return
 	 */
 	private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
-		request.setAttribute("redirectUri", redirectUri);
-		request.setAttribute("appId", appId);
+		request.setAttribute(SsoConstant.REDIRECT_URI, redirectUri);
+		request.setAttribute(Oauth2Constant.APP_ID, appId);
 		return AppConstant.LOGIN_PATH;
 	}
 	

@@ -10,7 +10,7 @@ import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.client.session.SessionAccessToken;
 
 /**
- * 当前已登录用户Session工具
+ * Session工具
  * 
  * @author Joe
  */

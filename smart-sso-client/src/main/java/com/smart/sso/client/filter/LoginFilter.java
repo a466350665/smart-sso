@@ -3,7 +3,6 @@ package com.smart.sso.client.filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -113,8 +112,10 @@ public class LoginFilter extends ClientFilter {
 			responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			String loginUrl = MessageFormat.format(SsoConstant.LOGIN_URL, getServerUrl(), getAppId(),
-					URLEncoder.encode(getCurrentUrl(request), "utf-8"));
+			String loginUrl = new StringBuilder().append(getServerUrl()).append(SsoConstant.LOGIN_URL).append("?")
+					.append(Oauth2Constant.APP_ID).append("=").append(getAppId()).append("&")
+					.append(SsoConstant.REDIRECT_URI).append("=")
+					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
 			response.sendRedirect(loginUrl);
 		}
 	}

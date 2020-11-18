@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.session.AccessTokenManager;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
@@ -39,7 +40,7 @@ public class LogoutController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(
-			@RequestParam String redirectUri,
+			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
 	        HttpServletRequest request, HttpServletResponse response) {
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
 		if (!StringUtils.isEmpty(tgt)) {

@@ -79,7 +79,7 @@ public class Oauth2Utils {
 	private static Result<RpcAccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
 		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
-			logger.error("getHttpJson exception, return null. url:{}", url);
+			logger.error("getHttpAccessToken exception, return null. url:{}", url);
 			return null;
 		}
 		return JSONObject.parseObject(jsonStr, new TypeReference<Result<RpcAccessToken>>(){});

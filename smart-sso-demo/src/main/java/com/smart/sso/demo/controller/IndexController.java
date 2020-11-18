@@ -2,7 +2,6 @@ package com.smart.sso.demo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,8 +41,8 @@ public class IndexController {
 		// 当前sessionId
 		model.addAttribute("sessionId", request.getSession().getId());
 		// 单点退出地址
-		model.addAttribute("logoutUrl", MessageFormat.format(SsoConstant.LOGOUT_URL, serverUrl,
-				URLEncoder.encode(getLocalUrl(request), "utf-8")));
+		model.addAttribute("logoutUrl", serverUrl + SsoConstant.LOGOUT_URL + "?" + SsoConstant.REDIRECT_URI + "="
+				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
 		return "index";
 	}
 	
