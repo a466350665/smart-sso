@@ -10,10 +10,10 @@ QQ交流群：454343484🈵、769134727
     smart-sso使用当下最流行的SpringBoot技术，基于OAuth2认证授权协议，为您构建一个易理解、高可用、高扩展性的分布式单点登录应用基层。
 
 ## 相关文档
-- [Java单点登录系统—简介（一）](https://blog.csdn.net/a466350665/article/details/54140411)
-- [Java单点登录系统—部署文档（二）](http://blog.csdn.net/a466350665/article/details/79628553)
-- [Java单点登录系统—App登录支持（三）](https://blog.csdn.net/a466350665/article/details/109742638)
-- [Java单点登录系统—引入redis支持分布式（四）](https://blog.csdn.net/a466350665/article/details/109388429)
+- [smart-sso单点登录（一）：简介](https://blog.csdn.net/a466350665/article/details/54140411)
+- [smart-sso单点登录（二）：部署文档](http://blog.csdn.net/a466350665/article/details/79628553)
+- [smart-sso单点登录（三）：App登录支持](https://blog.csdn.net/a466350665/article/details/109742638)
+- [smart-sso单点登录（四）：引入redis支持分布式](https://blog.csdn.net/a466350665/article/details/109388429)
 
 ## 组织结构
 
@@ -24,14 +24,6 @@ smart-sso
 ├── smart-sso-demo -- 客户端
 ├── smart-sso-server -- 服务端
 ```
-
-## 技术选型
-- JDK：1.8+
-- 项目构建工具：Maven 3.3.3
-- MVC框架：SpringBoot 2.1.0.RELEASE
-- JSON工具：Fastjson 1.2.69
-- 日志管理：SLF4J 1.7.21
-- 单点登录：基于OAuth2协议实现
 
 ## 单点登录原理
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201118170252707.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
