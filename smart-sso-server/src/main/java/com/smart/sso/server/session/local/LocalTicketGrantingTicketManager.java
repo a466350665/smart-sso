@@ -38,25 +38,17 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Override
 	public SsoUser get(String tgt) {
 		DummyTgt dummyTgt = tgtMap.get(tgt);
-		if (dummyTgt == null || System.currentTimeMillis() > dummyTgt.expired) {
+		long currentTime = System.currentTimeMillis();
+		if (dummyTgt == null || currentTime > dummyTgt.expired) {
 			return null;
 		}
+		dummyTgt.expired = currentTime + getExpiresIn() * 1000;
 		return dummyTgt.user;
 	}
 
 	@Override
 	public void remove(String tgt) {
 		tgtMap.remove(tgt);
-	}
-
-	@Override
-	public SsoUser refresh(String tgt) {
-		DummyTgt dummyTgt = tgtMap.get(tgt);
-		if (dummyTgt == null) {
-			return null;
-		}
-		dummyTgt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
-		return dummyTgt.user;
 	}
 
 	@Scheduled(cron = SCHEDULED_CRON)

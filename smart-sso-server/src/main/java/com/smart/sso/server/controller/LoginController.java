@@ -95,7 +95,7 @@ public class LoginController{
 		}
 
 		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.refresh(tgt) == null) {
+		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
 			tgt = ticketGrantingTicketManager.generate(result.getData());
 
 			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC

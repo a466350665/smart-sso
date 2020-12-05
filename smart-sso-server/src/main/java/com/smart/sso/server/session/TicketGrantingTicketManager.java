@@ -33,7 +33,7 @@ public interface TicketGrantingTicketManager extends Expiration {
     void create(String tgt, SsoUser user);
     
     /**
-     * 验证st是否存在，且在有效期内
+     * 验证st是否存在且在有效期内，并更新过期时间戳
      * 
      * @param tgt
      * @return
@@ -46,12 +46,4 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param tgt
      */
     void remove(String tgt);
-    
-    /**
-     * 存在，则延长TGT生命周期，返回true。不存在，返回false
-     * 
-     * @param tgt
-     * @return
-     */
-    SsoUser refresh(String tgt);
 }

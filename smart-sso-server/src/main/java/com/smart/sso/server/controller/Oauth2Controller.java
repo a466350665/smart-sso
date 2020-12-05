@@ -112,7 +112,7 @@ public class Oauth2Controller {
 				return Result.createError("code有误或已过期");
 			}
 
-			SsoUser user = ticketGrantingTicketManager.refresh(authContent.getTgt());
+			SsoUser user = ticketGrantingTicketManager.get(authContent.getTgt());
 			if (user == null) {
 				return Result.createError("服务端session已过期");
 			}
@@ -157,7 +157,7 @@ public class Oauth2Controller {
 			return Result.createError("refreshToken有误或已过期");
 		}
 
-		SsoUser user = ticketGrantingTicketManager.refresh(refreshTokenContent.getTgt());
+		SsoUser user = ticketGrantingTicketManager.get(refreshTokenContent.getTgt());
 		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}

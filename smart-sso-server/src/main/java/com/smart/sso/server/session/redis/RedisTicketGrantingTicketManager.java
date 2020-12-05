@@ -40,6 +40,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 		if (StringUtils.isEmpty(user)) {
 			return null;
 		}
+		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
 		return JSONObject.parseObject(user, SsoUser.class);
 	}
 
@@ -48,16 +49,6 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 		redisTemplate.delete(tgt);
 	}
 
-	@Override
-	public SsoUser refresh(String tgt) {
-		SsoUser user = get(tgt);
-		if (user == null) {
-			return null;
-		}
-		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
-        return user;
-	}
-    
 	@Override
 	public int getExpiresIn() {
 		return timeout;
