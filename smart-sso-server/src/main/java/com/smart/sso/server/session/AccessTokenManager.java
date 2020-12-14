@@ -25,7 +25,7 @@ public interface AccessTokenManager extends Expiration {
 	 */
 	default String generate(AuthContent authContent) {
 		String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(accessToken, new AccessTokenContent(authContent.getTgt(), authContent.getClientType(),
+		create(accessToken, new AccessTokenContent(authContent.getTgt(), authContent.isSendLogoutRequest(),
 				authContent.getRedirectUri()));
 		return accessToken;
 	}

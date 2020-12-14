@@ -18,7 +18,6 @@ import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.constant.AppConstant;
-import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.CodeManager;
@@ -127,7 +126,7 @@ public class LoginController{
 	 */
 	private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
 		// 生成授权码
-		String code = codeManager.generate(tgt, ClientTypeEnum.WEB, redirectUri);
+		String code = codeManager.generate(tgt, true, redirectUri);
 		return "redirect:" + authRedirectUri(redirectUri, code);
 	}
 

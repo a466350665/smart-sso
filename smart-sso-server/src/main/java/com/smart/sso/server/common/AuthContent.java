@@ -2,8 +2,6 @@ package com.smart.sso.server.common;
 
 import java.io.Serializable;
 
-import com.smart.sso.server.enums.ClientTypeEnum;
-
 /**
  * 授权存储信息
  * 
@@ -14,12 +12,12 @@ public class AuthContent implements Serializable {
 	private static final long serialVersionUID = -1332598459045608781L;
 
 	private String tgt;
-	private ClientTypeEnum clientType;
+	private boolean sendLogoutRequest;
 	private String redirectUri;
 
-	public AuthContent(String tgt, ClientTypeEnum clientType, String redirectUri) {
+	public AuthContent(String tgt, boolean sendLogoutRequest, String redirectUri) {
 		this.tgt = tgt;
-		this.clientType = clientType;
+		this.sendLogoutRequest = sendLogoutRequest;
 		this.redirectUri = redirectUri;
 	}
 
@@ -31,12 +29,12 @@ public class AuthContent implements Serializable {
 		this.tgt = tgt;
 	}
 
-	public ClientTypeEnum getClientType() {
-		return clientType;
+	public boolean isSendLogoutRequest() {
+		return sendLogoutRequest;
 	}
 
-	public void setClientType(ClientTypeEnum clientType) {
-		this.clientType = clientType;
+	public void setSendLogoutRequest(boolean sendLogoutRequest) {
+		this.sendLogoutRequest = sendLogoutRequest;
 	}
 
 	public String getRedirectUri() {

@@ -15,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.ExpirationPolicy;
-import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.session.AccessTokenManager;
 
 /**
@@ -66,7 +65,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 				return;
 			}
 			AccessTokenContent accessTokenContent = dummyAt.accessTokenContent;
-			if (accessTokenContent == null || accessTokenContent.getClientType() != ClientTypeEnum.WEB) {
+			if (accessTokenContent == null || !accessTokenContent.isSendLogoutRequest()) {
 				return;
 			}
 			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);

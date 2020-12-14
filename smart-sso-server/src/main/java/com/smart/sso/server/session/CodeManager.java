@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.Expiration;
-import com.smart.sso.server.enums.ClientTypeEnum;
 
 /**
  * 授权码code管理
@@ -21,9 +20,9 @@ public interface CodeManager extends Expiration {
 	 * @param redirectUri
 	 * @return
 	 */
-	default String generate(String tgt, ClientTypeEnum clientType, String redirectUri) {
+	default String generate(String tgt, boolean sendLogoutRequest, String redirectUri) {
 		String code = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(code, new AuthContent(tgt, clientType, redirectUri));
+		create(code, new AuthContent(tgt, sendLogoutRequest, redirectUri));
 		return code;
 	}
     

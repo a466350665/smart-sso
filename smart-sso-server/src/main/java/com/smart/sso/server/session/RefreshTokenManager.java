@@ -23,7 +23,7 @@ public interface RefreshTokenManager extends Expiration {
 	 */
 	default String generate(AuthContent authContent, String accessToken, String appId) {
 		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(resfreshToken, new RefreshTokenContent(authContent.getTgt(), authContent.getClientType(),
+		create(resfreshToken, new RefreshTokenContent(authContent.getTgt(), authContent.isSendLogoutRequest(),
 				authContent.getRedirectUri(), accessToken, appId));
 		return resfreshToken;
 	}

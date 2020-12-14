@@ -15,7 +15,6 @@ import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.RefreshTokenContent;
 import com.smart.sso.server.dto.AuthDto;
-import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.AccessTokenManager;
@@ -126,7 +125,7 @@ public class Oauth2Controller {
 			}
 			SsoUser user = loginResult.getData();
 			String tgt = ticketGrantingTicketManager.generate(loginResult.getData());
-			AuthContent authContent = new AuthContent(tgt, ClientTypeEnum.APP, null);
+			AuthContent authContent = new AuthContent(tgt, false, null);
 			
 			authDto = new AuthDto(authContent, user);
 		}

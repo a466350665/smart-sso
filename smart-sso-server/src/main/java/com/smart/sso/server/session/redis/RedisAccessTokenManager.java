@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.server.common.AccessTokenContent;
-import com.smart.sso.server.enums.ClientTypeEnum;
 import com.smart.sso.server.session.AccessTokenManager;
 
 /**
@@ -62,7 +61,7 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 				return;
 			}
 			AccessTokenContent accessTokenContent = JSONObject.parseObject(atcStr, AccessTokenContent.class);
-			if (accessTokenContent == null || accessTokenContent.getClientType() != ClientTypeEnum.WEB) {
+			if (accessTokenContent == null || !accessTokenContent.isSendLogoutRequest()) {
 				return;
 			}
 			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);
