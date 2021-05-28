@@ -35,7 +35,16 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 		redisTemplate.opsForValue().set(accessToken, JSON.toJSONString(accessTokenContent), getExpiresIn(),
 				TimeUnit.SECONDS);
 
-		redisTemplate.opsForSet().add(getKey(accessTokenContent.getTgt()), accessToken);
+		redisTemplate.opsForSet().add(getKey(accessTokenContent.getCodeContent().getTgt()), accessToken);
+	}
+	
+	@Override
+	public AccessTokenContent get(String accessToken) {
+		String atcStr = redisTemplate.opsForValue().get(accessToken);
+		if (StringUtils.isEmpty(atcStr)) {
+			return null;
+		}
+		return JSONObject.parseObject(atcStr, AccessTokenContent.class);
 	}
 
 	@Override
@@ -61,10 +70,10 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 				return;
 			}
 			AccessTokenContent accessTokenContent = JSONObject.parseObject(atcStr, AccessTokenContent.class);
-			if (accessTokenContent == null || !accessTokenContent.isSendLogoutRequest()) {
+			if (accessTokenContent == null || !accessTokenContent.getCodeContent().isSendLogoutRequest()) {
 				return;
 			}
-			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);
+			sendLogoutRequest(accessTokenContent.getCodeContent().getRedirectUri(), accessToken);
 		});
 	}
 	

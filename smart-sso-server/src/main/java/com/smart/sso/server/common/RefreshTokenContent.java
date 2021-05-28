@@ -1,18 +1,26 @@
 package com.smart.sso.server.common;
 
-public class RefreshTokenContent extends AccessTokenContent {
+import java.io.Serializable;
+
+public class RefreshTokenContent implements Serializable {
 
 	private static final long serialVersionUID = -1332598459045608781L;
 
-	private String accessToken;
-	
-	private String appId;
+	private AccessTokenContent accessTokenContent;
 
-	public RefreshTokenContent(String tgt, boolean sendLogoutRequest, String redirectUri, String accessToken,
-			String appId) {
-		super(tgt, sendLogoutRequest, redirectUri);
+	private String accessToken;
+
+	public RefreshTokenContent(AccessTokenContent accessTokenContent, String accessToken) {
+		this.accessTokenContent = accessTokenContent;
 		this.accessToken = accessToken;
-		this.appId = appId;
+	}
+
+	public AccessTokenContent getAccessTokenContent() {
+		return accessTokenContent;
+	}
+
+	public void setAccessTokenContent(AccessTokenContent accessTokenContent) {
+		this.accessTokenContent = accessTokenContent;
 	}
 
 	public String getAccessToken() {
@@ -21,13 +29,5 @@ public class RefreshTokenContent extends AccessTokenContent {
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
-	}
-
-	public String getAppId() {
-		return appId;
-	}
-
-	public void setAppId(String appId) {
-		this.appId = appId;
 	}
 }

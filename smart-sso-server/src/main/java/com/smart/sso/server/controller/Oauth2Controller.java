@@ -12,9 +12,9 @@ import com.smart.sso.client.enums.GrantTypeEnum;
 import com.smart.sso.client.rpc.Result;
 import com.smart.sso.client.rpc.RpcAccessToken;
 import com.smart.sso.client.rpc.SsoUser;
-import com.smart.sso.server.common.AuthContent;
+import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.RefreshTokenContent;
-import com.smart.sso.server.dto.AuthDto;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.AccessTokenManager;
@@ -76,14 +76,13 @@ public class Oauth2Controller {
 		}
 
 		// 校验授权
-		Result<AuthDto> authResult = validateAuth(grantType, code, username, password);
-		if (!authResult.isSuccess()) {
-			return authResult;
+		Result<AccessTokenContent> accessTokenResult = validateAuth(grantType, code, username, password, appId);
+		if (!accessTokenResult.isSuccess()) {
+			return accessTokenResult;
 		}
-		AuthDto authDto = authResult.getData();
 		
 		// 生成RpcAccessToken返回
-		return Result.createSuccess(genereateRpcAccessToken(authDto.getAuthContent(), authDto.getUser(), appId, null));
+		return Result.createSuccess(genereateRpcAccessToken(accessTokenResult.getData(), null));
 	}
 	
 	private Result<Void> validateParam(String grantType, String code, String username, String password) {
@@ -103,19 +102,20 @@ public class Oauth2Controller {
 		return Result.success();
 	}
 	
-	private Result<AuthDto> validateAuth(String grantType, String code, String username, String password) {
-		AuthDto authDto = null;
+	private Result<AccessTokenContent> validateAuth(String grantType, String code, String username, String password,
+			String appId) {
+		AccessTokenContent authDto = null;
 		if (GrantTypeEnum.AUTHORIZATION_CODE.getValue().equals(grantType)) {
-			AuthContent authContent = codeManager.validate(code);
-			if (authContent == null) {
+			CodeContent codeContent = codeManager.validate(code);
+			if (codeContent == null) {
 				return Result.createError("code有误或已过期");
 			}
 
-			SsoUser user = ticketGrantingTicketManager.get(authContent.getTgt());
+			SsoUser user = ticketGrantingTicketManager.get(codeContent.getTgt());
 			if (user == null) {
 				return Result.createError("服务端session已过期");
 			}
-			authDto = new AuthDto(authContent, user);
+			authDto = new AccessTokenContent(codeContent, user, appId);
 		}
 		else if (GrantTypeEnum.PASSWORD.getValue().equals(grantType)) {
 			// app通过此方式由客户端代理转发http请求到服务端获取accessToken
@@ -125,9 +125,8 @@ public class Oauth2Controller {
 			}
 			SsoUser user = loginResult.getData();
 			String tgt = ticketGrantingTicketManager.generate(loginResult.getData());
-			AuthContent authContent = new AuthContent(tgt, false, null);
-			
-			authDto = new AuthDto(authContent, user);
+			CodeContent codeContent = new CodeContent(tgt, false, null);
+			authDto = new AccessTokenContent(codeContent, user, appId);
 		}
 		return Result.createSuccess(authDto);
 	}
@@ -152,28 +151,30 @@ public class Oauth2Controller {
 		}
 		
 		RefreshTokenContent refreshTokenContent = refreshTokenManager.validate(refreshToken);
-		if (refreshTokenContent == null || !appId.equals(refreshTokenContent.getAppId())) {
+		if (refreshTokenContent == null) {
 			return Result.createError("refreshToken有误或已过期");
 		}
-
-		SsoUser user = ticketGrantingTicketManager.get(refreshTokenContent.getTgt());
+		AccessTokenContent accessTokenContent = refreshTokenContent.getAccessTokenContent();
+		if (!appId.equals(accessTokenContent.getAppId())) {
+			return Result.createError("非法应用");
+		}
+		SsoUser user = ticketGrantingTicketManager.get(accessTokenContent.getCodeContent().getTgt());
 		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}
 
-		return Result.createSuccess(
-				genereateRpcAccessToken(refreshTokenContent, user, appId, refreshTokenContent.getAccessToken()));
+		return Result.createSuccess(genereateRpcAccessToken(accessTokenContent, refreshTokenContent.getAccessToken()));
 	}
 	
-	private RpcAccessToken genereateRpcAccessToken(AuthContent authContent, SsoUser user, String appId,
-			String accessToken) {
+	private RpcAccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
 		String newAccessToken = accessToken;
 		if (newAccessToken == null || !accessTokenManager.refresh(newAccessToken)) {
-			newAccessToken = accessTokenManager.generate(authContent);
+			newAccessToken = accessTokenManager.generate(accessTokenContent);
 		}
 
-		String refreshToken = refreshTokenManager.generate(authContent, newAccessToken, appId);
+		String refreshToken = refreshTokenManager.generate(accessTokenContent, newAccessToken);
 
-		return new RpcAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken, user);
+		return new RpcAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
+				accessTokenContent.getUser());
 	}
 }

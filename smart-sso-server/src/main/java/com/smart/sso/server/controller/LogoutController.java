@@ -5,16 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.server.constant.AppConstant;
-import com.smart.sso.server.session.AccessTokenManager;
-import com.smart.sso.server.session.TicketGrantingTicketManager;
-import com.smart.sso.server.util.CookieUtils;
+import com.smart.sso.server.session.SessionManager;
 
 /**
  * 单点登出
@@ -26,9 +22,7 @@ import com.smart.sso.server.util.CookieUtils;
 public class LogoutController {
 
 	@Autowired
-	private AccessTokenManager accessTokenManager;
-    @Autowired
-    private TicketGrantingTicketManager ticketGrantingTicketManager;
+	private SessionManager sessionManager;
 
 	/**
 	 * 登出
@@ -42,15 +36,7 @@ public class LogoutController {
 	public String logout(
 			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
 	        HttpServletRequest request, HttpServletResponse response) {
-		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (!StringUtils.isEmpty(tgt)) {
-			// 删除登录凭证
-		    ticketGrantingTicketManager.remove(tgt);
-		    // 删除凭证Cookie
-		    CookieUtils.removeCookie(AppConstant.TGC, "/", response);
-		    // 删除所有tgt对应的调用凭证，并通知客户端登出注销本地session
-		    accessTokenManager.remove(tgt);
-		}
+		sessionManager.invalidate(request, response);
         return "redirect:" + redirectUri;
 	}
 }

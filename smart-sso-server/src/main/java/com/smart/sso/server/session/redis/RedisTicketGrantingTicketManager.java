@@ -43,6 +43,11 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
 		return JSONObject.parseObject(user, SsoUser.class);
 	}
+	
+	@Override
+	public void set(String tgt, SsoUser user) {
+		create(tgt, user);
+	}
 
 	@Override
 	public void remove(String tgt) {

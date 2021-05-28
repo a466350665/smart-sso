@@ -21,8 +21,7 @@ import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.CodeManager;
-import com.smart.sso.server.session.TicketGrantingTicketManager;
-import com.smart.sso.server.util.CookieUtils;
+import com.smart.sso.server.session.SessionManager;
 
 /**
  * 单点登录管理
@@ -36,7 +35,7 @@ public class LoginController{
 	@Autowired
 	private CodeManager codeManager;
 	@Autowired
-	private TicketGrantingTicketManager ticketGrantingTicketManager;
+	private SessionManager sessionManager;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -55,8 +54,8 @@ public class LoginController{
 			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
-		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
+		String tgt = sessionManager.getTgt(request);
+		if (StringUtils.isEmpty(tgt)) {
 			return goLoginPath(redirectUri, appId, request);
 		}
 		return generateCodeAndRedirect(redirectUri, tgt);
@@ -93,13 +92,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 
-		String tgt = CookieUtils.getCookie(request, AppConstant.TGC);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
-			tgt = ticketGrantingTicketManager.generate(result.getData());
-
-			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
-			CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);
-		}
+		String tgt = sessionManager.setUser(result.getData(), request, response);
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 

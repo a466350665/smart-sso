@@ -41,6 +41,14 @@ public interface TicketGrantingTicketManager extends Expiration {
     SsoUser get(String tgt);
     
     /**
+     * 设置新的用户信息
+     * 
+     * @param user
+     * @return
+     */
+    void set(String tgt, SsoUser user);
+    
+    /**
      * 移除
      * 
      * @param tgt

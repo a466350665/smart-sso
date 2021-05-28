@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.smart.sso.server.common.AuthContent;
+import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.session.CodeManager;
 
 /**
@@ -26,16 +26,16 @@ public class RedisCodeManager implements CodeManager {
 	private StringRedisTemplate redisTemplate;
 
 	@Override
-	public void create(String code, AuthContent authContent) {
-		redisTemplate.opsForValue().set(code, JSON.toJSONString(authContent), getExpiresIn(), TimeUnit.SECONDS);
+	public void create(String code, CodeContent codeContent) {
+		redisTemplate.opsForValue().set(code, JSON.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
 	}
 
 	@Override
-	public AuthContent validate(String code) {
+	public CodeContent validate(String code) {
 		String cc = redisTemplate.opsForValue().get(code);
 		if (!StringUtils.isEmpty(cc)) {
 			redisTemplate.delete(code);
 		}
-		return JSONObject.parseObject(cc, AuthContent.class);
+		return JSONObject.parseObject(cc, CodeContent.class);
 	}
 }

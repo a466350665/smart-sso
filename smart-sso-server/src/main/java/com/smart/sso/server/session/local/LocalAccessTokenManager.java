@@ -8,12 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.AccessTokenManager;
 
@@ -23,7 +23,6 @@ import com.smart.sso.server.session.AccessTokenManager;
  * @author Joe
  */
 @Component
-@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
 public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,11 +35,22 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {
-		DummyAccessToken dat = new DummyAccessToken(accessTokenContent,
-				System.currentTimeMillis() + getExpiresIn() * 1000);
+		DummyAccessToken dat = new DummyAccessToken(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
 		accessTokenMap.put(accessToken, dat);
 
-		tgtMap.computeIfAbsent(accessTokenContent.getTgt(), a -> new HashSet<>()).add(accessToken);
+		tgtMap.computeIfAbsent(accessTokenContent.getCodeContent().getTgt(), a -> new HashSet<>()).add(accessToken);
+		logger.info("调用凭证生成成功, accessToken:{}", accessToken);
+	}
+	
+	@Override
+	public AccessTokenContent get(String accessToken) {
+		DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
+		if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
+			return null;
+		}
+		else {
+			return dummyAt.accessTokenContent;
+		}
 	}
 	
 	@Override
@@ -64,11 +74,12 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
 				return;
 			}
-			AccessTokenContent accessTokenContent = dummyAt.accessTokenContent;
-			if (accessTokenContent == null || !accessTokenContent.isSendLogoutRequest()) {
+			CodeContent codeContent = dummyAt.accessTokenContent.getCodeContent();
+			if (codeContent == null || !codeContent.isSendLogoutRequest()) {
 				return;
 			}
-			sendLogoutRequest(accessTokenContent.getRedirectUri(), accessToken);
+			logger.debug("发起客户端登出请求, accessToken:{}, url:{}", accessToken, codeContent.getRedirectUri());
+			sendLogoutRequest(codeContent.getRedirectUri(), accessToken);
 		});
 	}
 
@@ -78,7 +89,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 		accessTokenMap.forEach((accessToken, dummyAt) -> {
 			if (System.currentTimeMillis() > dummyAt.expired) {
 				accessTokenMap.remove(accessToken);
-				logger.debug("accessToken : " + accessToken + "已失效");
+				logger.debug("调用凭证已失效, accessToken:{}", accessToken);
 			}
 		});
 	}

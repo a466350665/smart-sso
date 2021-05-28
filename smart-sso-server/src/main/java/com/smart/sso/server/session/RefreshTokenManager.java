@@ -2,7 +2,7 @@ package com.smart.sso.server.session;
 
 import java.util.UUID;
 
-import com.smart.sso.server.common.AuthContent;
+import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.Expiration;
 import com.smart.sso.server.common.RefreshTokenContent;
 
@@ -16,15 +16,13 @@ public interface RefreshTokenManager extends Expiration {
 	/**
 	 * 生成refreshToken
 	 * 
-	 * @param authContent
+	 * @param accessTokenContent
 	 * @param accessToken
-	 * @param appId
 	 * @return
 	 */
-	default String generate(AuthContent authContent, String accessToken, String appId) {
+	default String generate(AccessTokenContent accessTokenContent, String accessToken) {
 		String resfreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(resfreshToken, new RefreshTokenContent(authContent.getTgt(), authContent.isSendLogoutRequest(),
-				authContent.getRedirectUri(), accessToken, appId));
+		create(resfreshToken, new RefreshTokenContent(accessTokenContent, accessToken));
 		return resfreshToken;
 	}
 

@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ import com.smart.sso.server.session.RefreshTokenManager;
  * @author Joe
  */
 @Component
-@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
 public class LocalRefreshTokenManager implements RefreshTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());

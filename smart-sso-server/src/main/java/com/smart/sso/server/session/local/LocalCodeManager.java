@@ -5,11 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.smart.sso.server.common.AuthContent;
+import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.CodeManager;
 
@@ -19,7 +18,6 @@ import com.smart.sso.server.session.CodeManager;
  * @author Joe
  */
 @Component
-@ConditionalOnProperty(name = "sso.session.manager", havingValue = "local")
 public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -27,17 +25,18 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	private Map<String, DummyCode> codeMap = new ConcurrentHashMap<>();
 	
 	@Override
-	public void create(String code, AuthContent authContent) {
-		codeMap.put(code, new DummyCode(authContent, System.currentTimeMillis() + getExpiresIn() * 1000));
+	public void create(String code, CodeContent codeContent) {
+		codeMap.put(code, new DummyCode(codeContent, System.currentTimeMillis() + getExpiresIn() * 1000));
+		logger.info("授权码生成成功, code:{}", code);
 	}
 
 	@Override
-	public AuthContent validate(String code) {
+	public CodeContent validate(String code) {
 		DummyCode dc = codeMap.remove(code);
         if (dc == null || System.currentTimeMillis() > dc.expired) {
             return null;
         }
-        return dc.authContent;
+        return dc.codeContent;
 	}
 	
 	@Scheduled(cron = SCHEDULED_CRON)
@@ -46,17 +45,17 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 		codeMap.forEach((code, dummyCode) -> {
             if (System.currentTimeMillis() > dummyCode.expired) {
                 codeMap.remove(code);
-                logger.debug("code : " + code + "已失效");
+                logger.info("授权码已失效, code:{}", code);
             }
         });
     }
 	
     private class DummyCode {
-    	private AuthContent authContent;
+    	private CodeContent codeContent;
         private long expired; // 过期时间
 
-        public DummyCode(AuthContent authContent, long expired) {
-            this.authContent = authContent;
+        public DummyCode(CodeContent codeContent, long expired) {
+            this.codeContent = codeContent;
             this.expired = expired;
         }
     }

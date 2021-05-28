@@ -7,7 +7,6 @@ import java.util.UUID;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.util.HttpUtils;
 import com.smart.sso.server.common.AccessTokenContent;
-import com.smart.sso.server.common.AuthContent;
 import com.smart.sso.server.common.Expiration;
 
 /**
@@ -20,13 +19,12 @@ public interface AccessTokenManager extends Expiration {
 	/**
 	 * 生成AccessToken
 	 * 
-	 * @param authContent
+	 * @param accessTokenContent
 	 * @return
 	 */
-	default String generate(AuthContent authContent) {
+	default String generate(AccessTokenContent accessTokenContent) {
 		String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
-		create(accessToken, new AccessTokenContent(authContent.getTgt(), authContent.isSendLogoutRequest(),
-				authContent.getRedirectUri()));
+		create(accessToken, accessTokenContent);
 		return accessToken;
 	}
 
@@ -45,6 +43,14 @@ public interface AccessTokenManager extends Expiration {
 	 * @return
 	 */
 	boolean refresh(String accessToken);
+	
+	/**
+     * 查询
+     * 
+	 * @param accessToken
+	 * @return
+	 */
+	AccessTokenContent get(String accessToken);
 	
 	/**
 	 * 根据TGT删除AccessToken

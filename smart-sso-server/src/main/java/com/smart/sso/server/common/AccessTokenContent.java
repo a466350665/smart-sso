@@ -1,10 +1,44 @@
 package com.smart.sso.server.common;
 
-public class AccessTokenContent extends AuthContent {
+import java.io.Serializable;
 
-	private static final long serialVersionUID = -1332598459045608781L;
+import com.smart.sso.client.rpc.SsoUser;
 
-	public AccessTokenContent(String tgt, boolean sendLogoutRequest, String redirectUri) {
-		super(tgt, sendLogoutRequest, redirectUri);
+public class AccessTokenContent implements Serializable {
+
+	private static final long serialVersionUID = 4587667812642196058L;
+
+	private CodeContent codeContent;
+	private SsoUser user;
+	private String appId;
+
+	public AccessTokenContent(CodeContent codeContent, SsoUser user, String appId) {
+		this.codeContent = codeContent;
+		this.user = user;
+		this.appId = appId;
+	}
+
+	public CodeContent getCodeContent() {
+		return codeContent;
+	}
+
+	public void setCodeContent(CodeContent codeContent) {
+		this.codeContent = codeContent;
+	}
+
+	public SsoUser getUser() {
+		return user;
+	}
+
+	public void setUser(SsoUser user) {
+		this.user = user;
+	}
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 }
