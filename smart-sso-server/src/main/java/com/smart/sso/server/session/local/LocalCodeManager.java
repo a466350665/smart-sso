@@ -31,7 +31,7 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	}
 
 	@Override
-	public CodeContent validate(String code) {
+	public CodeContent getAndRemove(String code) {
 		DummyCode dc = codeMap.remove(code);
         if (dc == null || System.currentTimeMillis() > dc.expired) {
             return null;

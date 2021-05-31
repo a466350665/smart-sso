@@ -106,12 +106,12 @@ public class Oauth2Controller {
 			String appId) {
 		AccessTokenContent authDto = null;
 		if (GrantTypeEnum.AUTHORIZATION_CODE.getValue().equals(grantType)) {
-			CodeContent codeContent = codeManager.validate(code);
+			CodeContent codeContent = codeManager.getAndRemove(code);
 			if (codeContent == null) {
 				return Result.createError("code有误或已过期");
 			}
 
-			SsoUser user = ticketGrantingTicketManager.get(codeContent.getTgt());
+			SsoUser user = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
 			if (user == null) {
 				return Result.createError("服务端session已过期");
 			}
@@ -158,7 +158,7 @@ public class Oauth2Controller {
 		if (!appId.equals(accessTokenContent.getAppId())) {
 			return Result.createError("非法应用");
 		}
-		SsoUser user = ticketGrantingTicketManager.get(accessTokenContent.getCodeContent().getTgt());
+		SsoUser user = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
 		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}

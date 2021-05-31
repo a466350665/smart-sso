@@ -1,7 +1,5 @@
 package com.smart.sso.server.session;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +12,7 @@ import com.smart.sso.server.constant.AppConstant;
 import com.smart.sso.server.util.CookieUtils;
 
 /**
- * 服务端凭证管理（类似Session）
+ * 服务端凭证管理
  * 
  * @author Joe
  */
@@ -34,7 +32,7 @@ public class SessionManager {
 			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
 			CookieUtils.addCookie(AppConstant.TGC, tgt, "/", request, response);
 		}
-		else if(ticketGrantingTicketManager.get(tgt) == null){
+		else if(ticketGrantingTicketManager.getAndRefresh(tgt) == null){
 			ticketGrantingTicketManager.create(tgt, user);
 		}
 		else {
@@ -48,11 +46,7 @@ public class SessionManager {
 		if (StringUtils.isEmpty(tgt)) {
 			return null;
 		}
-		return ticketGrantingTicketManager.get(tgt);
-	}
-
-	public Integer getUserId(HttpServletRequest request) {
-		return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
+		return ticketGrantingTicketManager.getAndRefresh(tgt);
 	}
 
 	public void invalidate(HttpServletRequest request, HttpServletResponse response) {
@@ -70,7 +64,7 @@ public class SessionManager {
 
 	public String getTgt(HttpServletRequest request) {
 		String tgt = getCookieTgt(request);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.get(tgt) == null) {
+		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.getAndRefresh(tgt) == null) {
 			return null;
 		}
 		else {

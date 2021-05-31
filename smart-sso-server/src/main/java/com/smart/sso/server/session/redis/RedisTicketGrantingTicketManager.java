@@ -35,7 +35,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public SsoUser get(String tgt) {
+	public SsoUser getAndRefresh(String tgt) {
 		String user = redisTemplate.opsForValue().get(tgt);
 		if (StringUtils.isEmpty(user)) {
 			return null;

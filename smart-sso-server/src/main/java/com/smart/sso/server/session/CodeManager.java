@@ -35,12 +35,12 @@ public interface CodeManager extends Expiration {
 	public void create(String code, CodeContent codeContent) ;
 
     /**
-     * 验证授权码有效性，无论有效性与否，都remove掉
+     * 查找并删除
      * 
      * @param code
      * @return
      */
-	CodeContent validate(String code);
+	CodeContent getAndRemove(String code);
 	
 	/* 
 	 * code失效时间默认为10分钟

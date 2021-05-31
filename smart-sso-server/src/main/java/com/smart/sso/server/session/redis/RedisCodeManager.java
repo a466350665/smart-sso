@@ -31,7 +31,7 @@ public class RedisCodeManager implements CodeManager {
 	}
 
 	@Override
-	public CodeContent validate(String code) {
+	public CodeContent getAndRemove(String code) {
 		String cc = redisTemplate.opsForValue().get(code);
 		if (!StringUtils.isEmpty(cc)) {
 			redisTemplate.delete(code);
