@@ -33,7 +33,7 @@ public class AppController {
 	/**
 	 * 初始页
 	 * @param request
-	 * @param model
+//	 * @param model
 	 * @return
 	 */
     @RequestMapping
@@ -55,10 +55,12 @@ public class AppController {
 			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
 			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
 			HttpServletRequest request) {
+		//发起access_token请求
 		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
 		if (!result.isSuccess()) {
 			return result;
 		}
+		// TODO: 2022/7/21 将得到access_token放到本地的session
 		SessionUtils.setAccessToken(request, result.getData());
 		return Result.createSuccess().setMessage("登录成功");
 	}

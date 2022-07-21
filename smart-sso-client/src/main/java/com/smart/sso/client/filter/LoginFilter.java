@@ -28,7 +28,8 @@ import com.smart.sso.client.util.SessionUtils;
 public class LoginFilter extends ClientFilter {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
+
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionAccessToken sessionAccessToken = SessionUtils.getAccessToken(request);
@@ -45,6 +46,7 @@ public class LoginFilter extends ClientFilter {
 			redirectLocalRemoveCode(request, response);
 		}
 		else {
+			// TODO: 2022/7/21 只要请求中没有code参数就说明没有登录捏,需要求sso那里重新登录一下.
 			redirectLogin(request, response);
 		}
 		return false;
@@ -59,10 +61,12 @@ public class LoginFilter extends ClientFilter {
 	private void getAccessToken(String code, HttpServletRequest request) {
 		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
 				getAppSecret(), code);
+		// TODO: 2022/7/21 这里得到了accesstoken 和 用户信息 这里的信息来自oauth2服务器.
 		if (!result.isSuccess()) {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
 			return;
 		}
+		// TODO: 2022/7/21 将得到的json信息对象传入 
 		setAccessTokenInSession(result.getData(), request);
 	}
 	
@@ -112,11 +116,13 @@ public class LoginFilter extends ClientFilter {
 			responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
+			// TODO: 2022/7/21 通过同一父类ParamFilter的一个实例化对象,可以得到当前sso服务器的url 
+			// TODO: 2022/7/21 从而可以拼接出跳转服务端登录的url 
 			String loginUrl = new StringBuilder().append(getServerUrl()).append(SsoConstant.LOGIN_URL).append("?")
 					.append(Oauth2Constant.APP_ID).append("=").append(getAppId()).append("&")
 					.append(SsoConstant.REDIRECT_URI).append("=")
 					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
-			response.sendRedirect(loginUrl);
+			response.sendRedirect(loginUrl);//转发
 		}
 	}
 

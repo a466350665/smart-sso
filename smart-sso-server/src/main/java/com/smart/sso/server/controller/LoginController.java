@@ -54,10 +54,13 @@ public class LoginController{
 			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
+		// TODO: 2022/7/21 其他服务转发发起的登录请求, appid,redirectUri,request(用于检查tgt)
 		String tgt = sessionManager.getTgt(request);
 		if (StringUtils.isEmpty(tgt)) {
+			// TODO: 2022/7/21 没有tgt就开始登录操作了 appid,redirectUri,request
 			return goLoginPath(redirectUri, appId, request);
 		}
+		// TODO: 2022/7/21 有tgt的话就开始授权码登录了 
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 	
@@ -81,18 +84,21 @@ public class LoginController{
 			@RequestParam String password,
 			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-		if(!appService.exists(appId)) {
+		// TODO: 2022/7/21 主要是login.html会提交表单,post请求.  redirectUri,appId,username,password
+		if(!appService.exists(appId)) {//检查appid是不是正确的
 			request.setAttribute("errorMessage", "非法应用");
-			return goLoginPath(redirectUri, appId, request);
+			return goLoginPath(redirectUri, appId, request);//回显到前端报错一下.
 		}
-		
+		// TODO: 2022/7/21 模拟一个查数据库用户密码操作,判断登录成功否 
 		Result<SsoUser> result = userService.login(username, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(redirectUri, appId, request);
 		}
 
+		// TODO: 2022/7/21  登录成功后,创建tgt将其写到客户端的cookie中
 		String tgt = sessionManager.setUser(result.getData(), request, response);
+		// TODO: 2022/7/21 然后就走生成授权码的那个步骤了.算是登录告捷!
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 
@@ -104,8 +110,10 @@ public class LoginController{
 	 * @return
 	 */
 	private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
+		// TODO: 2022/7/21 往request中放一些信息. 
 		request.setAttribute(SsoConstant.REDIRECT_URI, redirectUri);
 		request.setAttribute(Oauth2Constant.APP_ID, appId);
+		// TODO: 2022/7/21 进入登录界面 
 		return AppConstant.LOGIN_PATH;
 	}
 	
@@ -119,8 +127,10 @@ public class LoginController{
 	 */
 	private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
 		// 生成授权码
+		// TODO: 2022/7/21 如果cookie中有tgt就生成授权码
 		String code = codeManager.generate(tgt, true, redirectUri);
 		return "redirect:" + authRedirectUri(redirectUri, code);
+		// TODO: 2022/7/21 转发到http://ip:port?code=****;就是回调了
 	}
 
 	/**

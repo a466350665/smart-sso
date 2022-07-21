@@ -77,11 +77,13 @@ public class Oauth2Utils {
 	}
 
 	private static Result<RpcAccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
+		// TODO: 2022/7/21 这里通过http请求/oauth2/access_token得到了acesstoken也
 		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
 			logger.error("getHttpAccessToken exception, return null. url:{}", url);
 			return null;
 		}
+		// TODO: 2022/7/21 将String类型的数据转化成RpcAccessTokenjson对象
 		return JSONObject.parseObject(jsonStr, new TypeReference<Result<RpcAccessToken>>(){});
 	}
 }

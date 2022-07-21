@@ -36,6 +36,7 @@ public class LogoutController {
 	public String logout(
 			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
 	        HttpServletRequest request, HttpServletResponse response) {
+		// TODO: 2022/7/21 转发的登出请求.
 		sessionManager.invalidate(request, response);
         return "redirect:" + redirectUri;
 	}

@@ -57,7 +57,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Override
 	public void remove(String tgt) {
 		tgtMap.remove(tgt);
-		logger.debug("登录凭证删除成功, tgt:{}", tgt);
+		logger.info("登录凭证删除成功, tgt:{}", tgt);
 	}
 
 	@Scheduled(cron = SCHEDULED_CRON)
@@ -66,7 +66,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 		tgtMap.forEach((tgt, dummyTgt) -> {
 			if (System.currentTimeMillis() > dummyTgt.expired) {
 				tgtMap.remove(tgt);
-				logger.debug("登录凭证已失效, tgt:{}", tgt);
+				logger.info("登录凭证已失效, tgt:{}", tgt);
 			}
 		});
 	}

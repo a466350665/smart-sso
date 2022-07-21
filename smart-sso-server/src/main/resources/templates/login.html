@@ -12,6 +12,7 @@
 		<script type="text/javascript">
 			var url = window.location.href;
 			if(url.indexOf('/login') == -1){
+				//如果没有登录字样就继续转发咯.
 				window.location.href = '${request.contextPath}/login';
 			}
 		</script>

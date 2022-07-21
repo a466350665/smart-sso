@@ -78,7 +78,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			if (codeContent == null || !codeContent.isSendLogoutRequest()) {
 				return;
 			}
-			logger.debug("发起客户端登出请求, accessToken:{}, url:{}", accessToken, codeContent.getRedirectUri());
+			logger.info("发起客户端登出请求, accessToken:{}, url:{}", accessToken, codeContent.getRedirectUri());
 			sendLogoutRequest(codeContent.getRedirectUri(), accessToken);
 		});
 	}
@@ -89,7 +89,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 		accessTokenMap.forEach((accessToken, dummyAt) -> {
 			if (System.currentTimeMillis() > dummyAt.expired) {
 				accessTokenMap.remove(accessToken);
-				logger.debug("调用凭证已失效, accessToken:{}", accessToken);
+				logger.info("调用凭证已失效, accessToken:{}", accessToken);
 			}
 		});
 	}
