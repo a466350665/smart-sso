@@ -1,17 +1,17 @@
 package com.smart.sso.server.service;
 
+import com.smart.sso.server.service.BaseService;
+import com.smart.sso.server.model.UserRole;
+
 import java.util.Collection;
 import java.util.List;
-
-import com.smart.mvc.service.Service;
-import com.smart.sso.server.model.UserRole;
 
 /**
  * 用户角色映射服务接口
  * 
  * @author Joe
  */
-public interface UserRoleService extends Service<UserRole> {
+public interface UserRoleService extends BaseService<UserRole> {
 	
 	/**
 	 * 根据用户ID和角色ID查询映射

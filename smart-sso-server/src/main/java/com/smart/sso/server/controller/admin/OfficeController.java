@@ -1,21 +1,19 @@
 package com.smart.sso.server.controller.admin;
 
+import com.smart.core.entity.Result;
+import com.smart.sso.server.controller.BaseController;
+import com.smart.sso.server.model.Office;
+import com.smart.sso.server.service.OfficeService;
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.model.Office;
-import com.smart.sso.server.service.OfficeService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * @author Joe
@@ -52,7 +50,7 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.get(id);
+			office = officeService.getById(id);
 		}
 		model.addAttribute("officeList", officeService.selectList(null, null, id, "----"));
 		model.addAttribute("office", office);
@@ -74,7 +72,7 @@ public class OfficeController extends BaseController {
 			office = new Office();
 		}
 		else {
-			office = officeService.get(id);
+			office = officeService.getById(id);
 		}
 		office.setParentId(parentId);
 		office.setName(name);
@@ -99,7 +97,7 @@ public class OfficeController extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
 	    @ValidateParam(name = "ids", value = { Validator.NOT_BLANK }) String ids) {
-		officeService.deleteByIds(convertToIdList(ids));
+		officeService.removeByIds(convertToIdList(ids));
 		return Result.success();
 	}
 }

@@ -1,17 +1,17 @@
 package com.smart.sso.server.service;
 
+import com.smart.sso.server.service.BaseService;
+import com.smart.sso.server.model.RolePermission;
+
 import java.util.Collection;
 import java.util.List;
-
-import com.smart.mvc.service.Service;
-import com.smart.sso.server.model.RolePermission;
 
 /**
  * 角色权限映射服务接口
  * 
  * @author Joe
  */
-public interface RolePermissionService extends Service<RolePermission> {
+public interface RolePermissionService extends BaseService<RolePermission> {
 	
 	/**
 	 * 根据角色ID查询映射

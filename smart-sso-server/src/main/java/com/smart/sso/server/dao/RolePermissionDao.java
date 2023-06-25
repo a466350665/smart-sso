@@ -1,6 +1,6 @@
 package com.smart.sso.server.dao;
 
-import com.smart.mvc.dao.DynamicDao;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.smart.sso.server.model.RolePermission;
 
 /**
@@ -8,5 +8,5 @@ import com.smart.sso.server.model.RolePermission;
  * 
  * @author Joe
  */
-public interface RolePermissionDao extends DynamicDao<RolePermission> {
+public interface RolePermissionDao extends BaseMapper<RolePermission> {
 }

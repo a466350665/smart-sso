@@ -1,17 +1,17 @@
 package com.smart.sso.server.model;
 
 
-import javax.persistence.Table;
-
-import com.smart.mvc.model.PersistentObject;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.smart.sso.server.common.Tree;
+
+import javax.persistence.Table;
 
 /**
  * 权限
  * 
  * @author Joe
  */
-@Table(name="sys_permission")
+@TableName("sys_permission")
 public class Permission extends PersistentObject implements Tree {
 
 	private static final long serialVersionUID = 4368792338865943489L;
@@ -41,6 +41,7 @@ public class Permission extends PersistentObject implements Tree {
 		this.appId = appId;
 	}
 
+	@Override
 	public Integer getParentId() {
 		return this.parentId;
 	}

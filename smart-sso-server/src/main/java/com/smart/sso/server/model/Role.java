@@ -1,17 +1,17 @@
 package com.smart.sso.server.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.smart.sso.server.enums.TrueFalseEnum;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.smart.mvc.model.PersistentObject;
-import com.smart.sso.server.enums.TrueFalseEnum;
 
 /**
  * 角色
  * 
  * @author Joe
  */
-@Table(name="sys_role")
+@TableName("sys_role")
 public class Role extends PersistentObject {
 
 	private static final long serialVersionUID = 564115576254799088L;

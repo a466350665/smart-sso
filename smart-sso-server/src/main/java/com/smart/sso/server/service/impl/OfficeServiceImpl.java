@@ -1,30 +1,36 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
+import com.smart.sso.server.service.impl.BaseServiceImpl;
+import com.smart.sso.server.dao.OfficeDao;
+import com.smart.sso.server.model.Office;
+import com.smart.sso.server.service.OfficeService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.google.common.collect.Lists;
-import com.smart.mvc.model.Condition;
-import com.smart.mvc.service.impl.ServiceImpl;
-import com.smart.sso.server.dao.OfficeDao;
-import com.smart.sso.server.model.Office;
-import com.smart.sso.server.service.OfficeService;
+import java.util.Collections;
+import java.util.List;
 
 @Component("officeService")
-public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements OfficeService {
+public class OfficeServiceImpl extends BaseServiceImpl<OfficeDao, Office> implements OfficeService {
 
     @Override
     @Transactional(readOnly = false)
     public void enable(Boolean isEnable, List<Integer> idList) {
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
-            update(t);
+            updateById(t);
         });
+    }
+
+    private List<Office> selectByIds(List<Integer> idList){
+        LambdaQueryWrapper<Office> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(Office::getId, idList);
+        return list(wrapper);
     }
 
 	@Override
@@ -66,8 +72,9 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
 
 	@Override
 	public List<Integer> selectIdListByParentId(Integer parentId) {
-		if (parentId == null)
-			return Collections.emptyList();
+		if (parentId == null){
+            return Collections.emptyList();
+        }
 		List<Integer> idList = Lists.newArrayList();
 		idList.add(parentId);
 		List<Office> list = selectList(true, null, null);
@@ -88,7 +95,10 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeDao, Office> implements
     } 
 	
     private List<Office> selectList(Boolean isEnable, Boolean isParent, Integer currentId) {
-        return selectList(Condition.create().eq(isEnable != null, "is_enable", isEnable)
-            .isNull(isParent != null && isParent, "parent_id").ne(currentId != null, "id", currentId));
+        LambdaQueryWrapper<Office> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(isEnable != null, Office::getIsEnable, isEnable);
+        wrapper.isNull(isParent != null && isParent, Office::getParentId);
+        wrapper.ne(currentId != null, Office::getId, currentId);
+        return list(wrapper);
     }
 }

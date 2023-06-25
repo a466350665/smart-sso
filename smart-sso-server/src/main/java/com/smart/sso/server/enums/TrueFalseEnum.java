@@ -1,7 +1,5 @@
 package com.smart.sso.server.enums;
 
-import com.smart.mvc.model.EnumItemable;
-
 /**
  * 是否枚举
  * 
@@ -20,10 +18,12 @@ public enum TrueFalseEnum implements EnumItemable<TrueFalseEnum> {
 		this.value = value;
 	}
 
+	@Override
 	public String getLabel() {
 		return this.label;
 	}
 
+	@Override
 	public Boolean getValue() {
 		return this.value;
 	}

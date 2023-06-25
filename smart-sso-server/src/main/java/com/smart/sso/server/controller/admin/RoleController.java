@@ -1,22 +1,19 @@
 package com.smart.sso.server.controller.admin;
 
+import com.smart.core.entity.Result;
+import com.smart.sso.server.controller.BaseController;
+import com.smart.sso.server.model.Role;
+import com.smart.sso.server.service.RoleService;
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Page;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.model.Role;
-import com.smart.sso.server.service.RoleService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * @author Joe
@@ -44,7 +41,7 @@ public class RoleController extends BaseController {
 			role = new Role();
 		}
 		else {
-			role = roleService.get(id);
+			role = roleService.getById(id);
 		}
 		model.addAttribute("role", role);
 		return "/admin/roleEdit";
@@ -57,7 +54,7 @@ public class RoleController extends BaseController {
 			@ValidateParam(name = "角色名")String name,
 			@ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
 	        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
-		return Result.createSuccess(roleService.selectPage(name, Page.create(pageNo, pageSize)));
+		return Result.createSuccess(roleService.selectPage(name, pageNo, pageSize));
 	}
 
 	@ApiOperation("启用/禁用")
@@ -84,7 +81,7 @@ public class RoleController extends BaseController {
 			role = new Role();
 		}
 		else {
-			role = roleService.get(id);
+			role = roleService.getById(id);
 		}
 		role.setName(name);
 		role.setSort(sort);

@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+		<version>2.5.13</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.smart</groupId>
 	<artifactId>smart-sso</artifactId>
-	<version>2.0.0</version>
+	<version>1.5.0</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
@@ -45,16 +45,11 @@
 		
 		<servlet.version>3.1.0</servlet.version>
 		<jpa.version>1.0</jpa.version>
-		
-		<spring.version>5.1.2.RELEASE</spring.version>
-		<mybatis.version>3.5.1</mybatis.version>
-		<mybatis-spring.version>2.0.5</mybatis-spring.version>
-		<druid.version>1.0.15</druid.version>
-		<mysql.version>5.1.36</mysql.version>
-		<fastjson.version>1.2.69</fastjson.version>
-		<slf4j.version>1.7.21</slf4j.version>
+
+		<smart.version>1.0.0-SNAPSHOT</smart.version>
+		<mysql.version>8.0.28</mysql.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<hessian.version>4.0.38</hessian.version>
-		<swagger.version>1.5.10</swagger.version>
 		<guava.version>20.0</guava.version>
 	</properties>
 
@@ -74,71 +69,29 @@
 	            <artifactId>persistence-api</artifactId>
 	            <version>${jpa.version}</version>
 	        </dependency>
-			
-			<!-- Spring -->
+
+			<!-- smart -->
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring.version}</version>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-core</artifactId>
+				<version>${smart.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
-				<version>${spring.version}</version>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-starter-web</artifactId>
+				<version>${smart.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring.version}</version>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-starter-web-mybatisplus</artifactId>
+				<version>${smart.version}</version>
 			</dependency>
+
+			<!-- sso单点登录客户端 -->
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jms</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-aop</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.springframework.session</groupId>
-			    <artifactId>spring-session-data-redis</artifactId>
-			    <version>${spring-redis.version}</version>
-			</dependency>
-			
-			<!-- Mybatis核心包 -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis</artifactId>
-				<version>${mybatis.version}</version>
-			</dependency>
-			
-			<!-- Mybatis-Spring包 -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis-spring</artifactId>
-				<version>${mybatis-spring.version}</version>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-client</artifactId>
+				<version>${project.parent.version}</version>
 			</dependency>
 			
 			<!-- Mysql驱动程序 -->
@@ -146,20 +99,6 @@
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql.version}</version>
-			</dependency>
-			
-			<!-- 阿里巴巴数据连接池 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid</artifactId>
-				<version>${druid.version}</version>
-			</dependency>
-			
-			<!-- 日志 -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
 			</dependency>
 			
 			<!-- Json处理 -->
@@ -181,13 +120,6 @@
 				<groupId>com.caucho</groupId>
 				<artifactId>hessian</artifactId>
 				<version>${hessian.version}</version>
-			</dependency>
-			
-			<!-- Springfox API文档 -->
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

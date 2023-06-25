@@ -1,17 +1,18 @@
 package com.smart.sso.server.service;
 
-import java.util.List;
-
-import com.smart.mvc.model.Page;
-import com.smart.mvc.service.Service;
+import com.smart.sso.server.model.Page;
+import com.smart.sso.server.service.BaseService;
 import com.smart.sso.server.model.App;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 应用服务接口
  * 
  * @author Joe
  */
-public interface AppService extends Service<App> {
+public interface AppService extends BaseService<App> {
 	
 	/**
 	 * 启用禁用操作
@@ -23,8 +24,6 @@ public interface AppService extends Service<App> {
 	
 	/**
 	 * 根据名称查询
-	 * @param name 应用名称
-	 * @return
 	 */
 	public List<App> selectAll(Boolean isEnable);
 	
@@ -33,7 +32,7 @@ public interface AppService extends Service<App> {
 	 * @param name 应用名称
 	 * @return
 	 */
-	public Page<App> selectPage(String name, Page<App> p);
+	public Page<App> selectPage(String name, Integer pageNo, Integer pageSize);
 	
 	/**
 	 * 根据应用编码查询
@@ -41,4 +40,6 @@ public interface AppService extends Service<App> {
 	 * @return
 	 */
 	public App selectByCode(String code);
+
+	public void deleteByIds(Collection<Integer> idList);
 }

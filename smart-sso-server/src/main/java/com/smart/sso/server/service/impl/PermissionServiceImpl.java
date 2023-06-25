@@ -1,9 +1,10 @@
 package com.smart.sso.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.smart.mvc.model.Condition;
-import com.smart.mvc.service.impl.ServiceImpl;
+import com.smart.sso.server.service.impl.BaseServiceImpl;
 import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.server.common.Tree;
 import com.smart.sso.server.dao.PermissionDao;
@@ -28,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
-public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permission> implements PermissionService {
 
 	@Autowired
 	private RolePermissionService rolePermissionService;
@@ -62,8 +63,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
     }
 	
     private List<Permission> findByAppId(Integer appId, Boolean isEnable) {
-        return selectList(Condition.create().eq(appId != null, "app_id", appId)
-                .eq(isEnable != null, "is_enable", isEnable).orderBy("sort asc, id asc"));
+		LambdaQueryWrapper<Permission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.eq(appId != null, Permission::getAppId, appId);
+		wrapper.eq(isEnable != null, Permission::getIsEnable, isEnable);
+		wrapper.orderByAsc(Permission::getSort).orderByAsc(Permission::getId);
+		return list(wrapper);
     }
 
 	@Override
@@ -77,7 +81,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 		rolePermissionService.deleteByPermissionIds(idList);
 
-		deleteByIds(idList);
+		removeByIds(idList);
 	}
 
 	// 递归方法，删除子权限
@@ -92,7 +96,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
 
 	@Override
 	public void deleteByAppIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("app_id", idList));
+		LambdaQueryWrapper<Permission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(Permission::getAppId, idList);
+		remove(wrapper);
 	}
 
 	@Override

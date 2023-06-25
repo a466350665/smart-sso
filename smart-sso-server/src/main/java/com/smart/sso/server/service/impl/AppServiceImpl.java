@@ -1,23 +1,23 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.smart.mvc.model.Condition;
-import com.smart.mvc.model.Page;
-import com.smart.mvc.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.smart.sso.server.model.Page;
+import com.smart.sso.server.service.impl.BaseServiceImpl;
 import com.smart.sso.server.dao.AppDao;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.PermissionService;
 import com.smart.sso.server.service.RolePermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service("appService")
-public class AppServiceImpl extends ServiceImpl<AppDao, App> implements AppService {
+public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppService {
 	
 	@Autowired
 	private PermissionService permissionService;
@@ -29,23 +29,35 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App> implements AppServi
     public void enable(Boolean isEnable, List<Integer> idList) {
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
-            update(t);
+            updateById(t);
         });
     }
+
+	private List<App> selectByIds(List<Integer> idList){
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(App::getId, idList);
+		return list(wrapper);
+	}
 	
 	@Override
 	public List<App> selectAll(Boolean isEnable) {
-		return selectList(Condition.create().eq("is_enable", isEnable));
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.eq(App::getIsEnable, isEnable);
+		return list(wrapper);
 	}
 
 	@Override
-	public Page<App> selectPage(String name, Page<App> p) {
-		return selectPage(Condition.create().like("name", name), p);
+	public Page<App> selectPage(String name, Integer pageNo, Integer pageSize) {
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.like(App::getName, name);
+		return findPage(pageNo, pageSize, wrapper);
 	}
 
 	@Override
 	public App selectByCode(String code) {
-		return selectOne(Condition.create().eq("code", code));
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.eq(App::getCode, code);
+		return getOne(wrapper);
 	}
 	
 	@Override
@@ -53,6 +65,6 @@ public class AppServiceImpl extends ServiceImpl<AppDao, App> implements AppServi
 	public void deleteByIds(Collection<Integer> idList) {
 		rolePermissionService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
-		super.deleteByIds(idList);
+		super.removeByIds(idList);
 	}
 }

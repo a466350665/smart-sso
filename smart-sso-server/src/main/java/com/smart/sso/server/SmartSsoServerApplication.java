@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @ComponentScan(value = {"com.smart.sso.server.controller", "com.smart.sso.server.service.impl"})
-@Import({WebMvcConfig.class, MybatisConfig.class, SmartSsoConfig.class, ConfigInitListener.class})
+@Import({WebMvcConfig.class, SmartSsoConfig.class, ConfigInitListener.class})
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.smart.sso.server.dao")
 @SpringBootApplication

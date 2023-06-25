@@ -1,20 +1,18 @@
 package com.smart.sso.server.model;
 
-import java.util.Date;
-
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import com.alibaba.fastjson.annotation.JSONField;
-import com.smart.mvc.model.PersistentObject;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.smart.sso.server.enums.TrueFalseEnum;
+
+import javax.persistence.Transient;
+import java.util.Date;
 
 /**
  * 应用
  * 
  * @author Joe
  */
-@Table(name="sys_app")
+@TableName("sys_app")
 public class App extends PersistentObject {
 
 	private static final long serialVersionUID = 7902814112969375973L;

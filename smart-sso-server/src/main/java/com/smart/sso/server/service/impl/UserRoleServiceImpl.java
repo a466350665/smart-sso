@@ -1,28 +1,28 @@
 package com.smart.sso.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Lists;
+import com.smart.sso.server.service.impl.BaseServiceImpl;
+import com.smart.sso.server.dao.UserRoleDao;
+import com.smart.sso.server.model.UserRole;
+import com.smart.sso.server.service.UserRoleService;
+import com.smart.sso.server.util.ConvertUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.google.common.collect.Lists;
-import com.smart.mvc.model.Condition;
-import com.smart.mvc.service.impl.ServiceImpl;
-import com.smart.mvc.util.ConvertUtils;
-import com.smart.sso.server.dao.UserRoleDao;
-import com.smart.sso.server.model.UserRole;
-import com.smart.sso.server.service.UserRoleService;
-
 @Service("userRoleService")
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> implements UserRoleService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> implements UserRoleService {
 
     @Transactional
     @Override
     public void allocate(Integer userId, List<Integer> roleIdList) {
         deleteByUserIds(Arrays.asList(userId));
-        save(createUserRoleList(userId, roleIdList));
+        saveBatch(createUserRoleList(userId, roleIdList));
     }
     
     private List<UserRole> createUserRoleList(Integer userId, List<Integer> roleIdList) {
@@ -39,17 +39,24 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
 	
 	@Override
 	public UserRole selectByUserRoleId(Integer userId, Integer roleId) {
-		return selectOne(Condition.create().eq("user_id", userId).eq("role_id", roleId));
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(UserRole::getUserId, userId);
+        wrapper.eq(UserRole::getRoleId, roleId);
+        return getOne(wrapper);
 	}
 	
 	@Override
 	public void deleteByRoleIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("role_id", idList));
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(UserRole::getRoleId, idList);
+        remove(wrapper);
 	}
 	
 	@Override
 	public void deleteByUserIds(Collection<Integer> idList) {
-		deleteByCondition(Condition.create().in("user_id", idList));
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(UserRole::getUserId, idList);
+        remove(wrapper);
 	}
 	
 	@Override
@@ -58,6 +65,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
     }
 	
 	private List<UserRole> findByUserId(Integer userId) {
-        return selectList(Condition.create().eq("user_id", userId));
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(UserRole::getUserId, userId);
+        return list(wrapper);
     }
 }

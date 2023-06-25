@@ -1,12 +1,11 @@
 package com.smart.sso.server.util;
 
+import com.smart.sso.server.exception.ServiceException;
+import org.springframework.util.StringUtils;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.springframework.util.StringUtils;
-
-import com.smart.mvc.exception.ServiceException;
 
 /**
  * 密码加密实现提供者

@@ -1,18 +1,19 @@
 package com.smart.sso.server.service;
 
-import java.util.List;
-
-import com.smart.mvc.model.Page;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.service.Service;
+import com.smart.sso.server.model.Page;
+import com.smart.core.entity.Result;
+import com.smart.sso.server.service.BaseService;
 import com.smart.sso.server.model.User;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 用户服务接口
  * 
  * @author Joe
  */
-public interface UserService extends Service<User> {
+public interface UserService extends BaseService<User> {
 	
 	/**
 	 * 登录
@@ -45,15 +46,13 @@ public interface UserService extends Service<User> {
 	 * @param account 登录名
 	 * @param name 姓名
 	 * @param officeId 机构ID
-	 * @param p
 	 * @return
 	 */
-	public Page<User> selectPage(String account, String name, Integer officeId, Page<User> p);
+	public Page<User> selectPage(String account, String name, Integer officeId, Integer pageNo, Integer pageSize);
 	
 	/**
 	 * 根据登录名和应用ID查询
 	 * @param account 登录名
-	 * @param appId 应用ID
 	 * @return
 	 */
 	public User selectByAccount(String account);
@@ -68,4 +67,6 @@ public interface UserService extends Service<User> {
 	 * @return
 	 */
 	public void updatePassword(Integer id, String newPassword);
+
+	public void deleteByIds(Collection<Integer> idList);
 }

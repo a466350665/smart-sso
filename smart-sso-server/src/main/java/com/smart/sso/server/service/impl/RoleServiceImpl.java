@@ -1,19 +1,9 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
-import com.smart.mvc.model.Condition;
-import com.smart.mvc.model.Page;
-import com.smart.mvc.service.impl.ServiceImpl;
-import com.smart.mvc.util.ConvertUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.smart.sso.server.model.Page;
+import com.smart.sso.server.service.impl.BaseServiceImpl;
 import com.smart.sso.server.dao.RoleDao;
 import com.smart.sso.server.dto.RoleDto;
 import com.smart.sso.server.enums.TrueFalseEnum;
@@ -21,9 +11,19 @@ import com.smart.sso.server.model.Role;
 import com.smart.sso.server.service.RolePermissionService;
 import com.smart.sso.server.service.RoleService;
 import com.smart.sso.server.service.UserRoleService;
+import com.smart.sso.server.util.ConvertUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service("roleService")
-public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<RoleDao, Role> implements RoleService {
 
 	@Autowired
 	private UserRoleService userRoleService;
@@ -35,18 +35,28 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
     public void enable(Boolean isEnable, List<Integer> idList) {
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
-            update(t);
+            updateById(t);
         });
     }
 
+    private List<Role> selectByIds(List<Integer> idList){
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(Role::getId, idList);
+        return list(wrapper);
+    }
+
 	@Override
-	public Page<Role> selectPage(String name, Page<Role> p) {
-		return selectPage(Condition.create().like("name", name), p);
+	public Page<Role> selectPage(String name, Integer pageNo, Integer pageSize) {
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.like(Role::getName, name);
+        return findPage(pageNo, pageSize, wrapper);
 	}
 
 	@Override
 	public List<Role> selectAll(Boolean isEnable) {
-		return selectList(Condition.create().eq("is_enable", isEnable));
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(Role::getIsEnable, isEnable);
+        return list(wrapper);
 	}
 
 	@Transactional
@@ -54,7 +64,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
 	public void deleteByIds(Collection<Integer> idList) {
 		userRoleService.deleteByRoleIds(idList);
 		rolePermissionService.deleteByRoleIds(idList);
-		super.deleteByIds(idList);
+		super.removeByIds(idList);
 	}
 
 	@Override
@@ -75,6 +85,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
         BeanUtils.copyProperties(r, dto);
         if (!CollectionUtils.isEmpty(roleIdList)) {
             dto.setChecked(roleIdList.contains(r.getId()));
+        }
+        else {
+            dto.setChecked(false);
         }
         return dto;
     }

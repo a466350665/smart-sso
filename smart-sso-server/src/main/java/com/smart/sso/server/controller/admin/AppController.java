@@ -1,7 +1,14 @@
 package com.smart.sso.server.controller.admin;
 
-import java.util.Date;
-
+import com.smart.core.entity.Result;
+import com.smart.core.enums.ResultEnum;
+import com.smart.sso.server.controller.BaseController;
+import com.smart.sso.server.model.App;
+import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,17 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.smart.mvc.constant.ResultConstant;
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Page;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.model.App;
-import com.smart.sso.server.service.AppService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.Date;
 
 /**
  * @author Joe
@@ -47,7 +44,7 @@ public class AppController extends BaseController {
 			app = new App();
 		}
 		else {
-			app = appService.get(id);
+			app = appService.getById(id);
 		}
 		model.addAttribute("app", app);
 		return "/admin/appEdit";
@@ -60,7 +57,7 @@ public class AppController extends BaseController {
 	    @ValidateParam(name = "名称 ") String name,
 			@ValidateParam(name = "开始页码", defaultValue = DEFAULT_PAGE_NO) Integer pageNo,
 	        @ValidateParam(name = "显示条数", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
-		return Result.createSuccess(appService.selectPage(name, Page.create(pageNo, pageSize)));
+		return Result.createSuccess(appService.selectPage(name, pageNo, pageSize));
 	}
 
 	@ApiOperation("验证应用编码")
@@ -71,7 +68,7 @@ public class AppController extends BaseController {
 	        @ValidateParam(name = "应用编码", value = { Validator.NOT_BLANK }) String code) {
 		App db = appService.selectByCode(code);
 		if (null != db && !db.getId().equals(id)) {
-			return Result.create(ResultConstant.ERROR, "应用编码已存在");
+			return Result.create(ResultEnum.ERROR.getCode(), "应用编码已存在");
 		}
 		return Result.success();
 	}
@@ -101,7 +98,7 @@ public class AppController extends BaseController {
 			app.setCreateTime(new Date());
 		}
 		else {
-			app = appService.get(id);
+			app = appService.getById(id);
 		}
 		app.setName(name);
 		app.setSort(sort);

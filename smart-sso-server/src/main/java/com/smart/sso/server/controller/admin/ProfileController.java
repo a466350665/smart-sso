@@ -1,7 +1,13 @@
 package com.smart.sso.server.controller.admin;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.smart.core.entity.Result;
+import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.server.controller.BaseController;
+import com.smart.sso.server.service.UserService;
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,15 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.client.util.SessionUtils;
-import com.smart.sso.server.service.UserService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Joe
@@ -34,7 +32,7 @@ public class ProfileController extends BaseController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model, HttpServletRequest request) {
-		model.addAttribute("user", userService.get(SessionUtils.getUserId(request)));
+		model.addAttribute("user", userService.getById(SessionUtils.getUserId(request)));
 		return "/admin/profile";
 	}
 

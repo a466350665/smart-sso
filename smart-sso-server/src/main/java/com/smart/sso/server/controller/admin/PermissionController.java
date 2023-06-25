@@ -1,7 +1,15 @@
 package com.smart.sso.server.controller.admin;
 
-import java.util.List;
-
+import com.smart.core.entity.Result;
+import com.smart.sso.server.controller.BaseController;
+import com.smart.sso.server.dto.PermissionDto;
+import com.smart.sso.server.model.Permission;
+import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.service.PermissionService;
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,17 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
-import com.smart.sso.server.dto.PermissionDto;
-import com.smart.sso.server.model.Permission;
-import com.smart.sso.server.service.AppService;
-import com.smart.sso.server.service.PermissionService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.List;
 
 /**
  * @author Joe
@@ -46,7 +44,7 @@ public class PermissionController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public Result get(@ValidateParam(name = "id", value = {Validator.NOT_BLANK}) Integer id) {
-        return Result.createSuccess(permissionService.get(id));
+        return Result.createSuccess(permissionService.getById(id));
     }
 
 	@ApiOperation("权限树节点")
@@ -77,7 +75,7 @@ public class PermissionController extends BaseController {
 			permission = new Permission();
 		}
 		else {
-			permission = permissionService.get(id);
+			permission = permissionService.getById(id);
 		}
 		permission.setAppId(appId);
 		permission.setParentId(parentId);

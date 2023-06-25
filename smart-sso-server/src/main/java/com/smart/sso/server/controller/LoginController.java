@@ -1,21 +1,6 @@
 package com.smart.sso.server.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.smart.mvc.controller.BaseController;
-import com.smart.mvc.model.Result;
-import com.smart.mvc.validator.Validator;
-import com.smart.mvc.validator.annotation.ValidateParam;
+import com.smart.core.entity.Result;
 import com.smart.sso.client.constant.SsoConstant;
 import com.smart.sso.client.dto.RpcUserDto;
 import com.smart.sso.server.common.TicketGrantingTicketManager;
@@ -24,9 +9,20 @@ import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.util.CookieUtils;
 import com.smart.sso.server.util.PasswordHelper;
-
+import com.smart.sso.server.validator.ValidateParam;
+import com.smart.sso.server.validator.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * @author Joe

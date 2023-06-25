@@ -1,15 +1,15 @@
 package com.smart.sso.server.model;
 
-import javax.persistence.Table;
+import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.smart.mvc.model.PersistentObject;
+import javax.persistence.Table;
 
 /**
  * 用户角色映射
  * 
  * @author Joe
  */
-@Table(name="sys_user_role")
+@TableName("sys_user_role")
 public class UserRole extends PersistentObject {
 
 	private static final long serialVersionUID = 4942358338145288018L;

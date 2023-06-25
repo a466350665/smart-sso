@@ -1,19 +1,19 @@
 package com.smart.sso.server.service;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.smart.mvc.service.Service;
+import com.smart.sso.server.service.BaseService;
 import com.smart.sso.client.dto.RpcPermissionDto;
 import com.smart.sso.server.dto.PermissionDto;
 import com.smart.sso.server.model.Permission;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 权限服务接口
  * 
  * @author Joe
  */
-public interface PermissionService extends Service<Permission> {
+public interface PermissionService extends BaseService<Permission> {
 
 	/**
 	 * 根据名称和应用ID查询

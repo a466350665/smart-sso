@@ -1,11 +1,11 @@
 package com.smart.sso.server.service;
 
-import java.util.List;
-
-import com.smart.mvc.service.Service;
+import com.smart.sso.server.service.BaseService;
 import com.smart.sso.server.model.Office;
 
-public interface OfficeService extends Service<Office> {
+import java.util.List;
+
+public interface OfficeService extends BaseService<Office> {
 
 	/**
 	 * 启用禁用操作
