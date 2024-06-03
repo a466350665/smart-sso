@@ -14,14 +14,6 @@ import com.smart.sso.server.model.UserRole;
 public interface UserRoleService extends Service<UserRole> {
 	
 	/**
-	 * 根据用户ID和角色ID查询映射
-	 * @param userId 用户ID
-	 * @param roleId 角色ID
-	 * @return
-	 */
-	public UserRole selectByUserRoleId(Integer userId, Integer roleId);
-	
-	/**
      * 根据用户ID给用户分配角色
      * @param userId 用户ID
      * @param roleIdList 角色ID集合

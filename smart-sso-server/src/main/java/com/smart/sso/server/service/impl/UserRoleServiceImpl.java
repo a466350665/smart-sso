@@ -38,11 +38,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRole> impl
     }
 	
 	@Override
-	public UserRole selectByUserRoleId(Integer userId, Integer roleId) {
-		return selectOne(Condition.create().eq("user_id", userId).eq("role_id", roleId));
-	}
-	
-	@Override
 	public void deleteByRoleIds(Collection<Integer> idList) {
 		deleteByCondition(Condition.create().in("role_id", idList));
 	}
