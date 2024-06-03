@@ -8,19 +8,13 @@
 		<version>2.1.1</version>
 	</parent>
 	<artifactId>smart-sso-server</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
         
         <dependency>
@@ -31,41 +25,56 @@
 		<!-- sso单点登录客户端 -->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-client</artifactId>
-			<version>${project.parent.version}</version>
+			<artifactId>smart-sso-starter-server-redis</artifactId>
 		</dependency>
-		
-		<!-- redis支持 -->
-	    <dependency>   
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-data-redis</artifactId>
-	    </dependency>
 	</dependencies>
-	
+
 	<build>
-	    <plugins>
-	        <plugin>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-maven-plugin</artifactId>
-	        </plugin>
-	    </plugins>
-	    <resources>
-	        <resource>
-	            <directory>src/main/resources</directory>
-	            <filtering>true</filtering>
-	            <excludes>
-	                <exclude>**/*.ttf</exclude>
-	                <exclude>**/*.woff</exclude>
-	            </excludes>
-	        </resource>
-	        <resource>
-	            <directory>src/main/resources</directory>
-	            <filtering>false</filtering>
-	            <includes>
-	                <include>**/*.ttf</include>
-	                <include>**/*.woff</include>
-	            </includes>
-	        </resource>
-	    </resources>
+		<finalName>smart-sso-server</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.smart.sso.server.SmartSsoServerApplication</mainClass>
+					<includeSystemScope>false</includeSystemScope>
+					<layout>ZIP</layout>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
+	
+<!--	<build>-->
+<!--	    <plugins>-->
+<!--	        <plugin>-->
+<!--	            <groupId>org.springframework.boot</groupId>-->
+<!--	            <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--	        </plugin>-->
+<!--	    </plugins>-->
+<!--	    <resources>-->
+<!--	        <resource>-->
+<!--	            <directory>src/main/resources</directory>-->
+<!--	            <filtering>true</filtering>-->
+<!--	            <excludes>-->
+<!--	                <exclude>**/*.ttf</exclude>-->
+<!--	                <exclude>**/*.woff</exclude>-->
+<!--	            </excludes>-->
+<!--	        </resource>-->
+<!--	        <resource>-->
+<!--	            <directory>src/main/resources</directory>-->
+<!--	            <filtering>false</filtering>-->
+<!--	            <includes>-->
+<!--	                <include>**/*.ttf</include>-->
+<!--	                <include>**/*.woff</include>-->
+<!--	            </includes>-->
+<!--	        </resource>-->
+<!--	    </resources>-->
+<!--	</build>-->
 </project>

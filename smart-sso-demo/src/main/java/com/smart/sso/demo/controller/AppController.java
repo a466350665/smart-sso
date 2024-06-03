@@ -33,7 +33,6 @@ public class AppController {
 	/**
 	 * 初始页
 	 * @param request
-	 * @param model
 	 * @return
 	 */
     @RequestMapping

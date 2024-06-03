@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+		<version>2.5.13</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.smart</groupId>
@@ -14,15 +14,15 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<module>smart-sso-client</module>
-		<module>smart-sso-client-redis</module>
 		<module>smart-sso-demo</module>
 		<module>smart-sso-server</module>
+		<module>smart-sso-starter</module>
 	</modules>
 	
 	<properties>
 		<servlet.version>3.1.0</servlet.version>
-		<fastjson.version>1.2.69</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
+		<httpclient.version>4.5.13</httpclient.version>
 	</properties>
 
 	<dependencyManagement>
@@ -34,6 +34,20 @@
 				<version>${servlet.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
+			<!-- 日志 -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.36</version>
+			</dependency>
+
+			<!-- httpclient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
 			
 			<!-- Json处理 -->
 			<dependency>
@@ -41,26 +55,51 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
+
+			<!-- sso单点登录客户端 -->
+			<dependency>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-starter-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-starter-client-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-starter-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-starter-server-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
-	<build>
-		<resources>
-			<!-- Intellij idea兼容 -->
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.xml</include>
-				</includes>
-			</resource>
-			
-			<resource>
-				<directory>src/main/resources</directory>
-				<!-- 过滤替换配置文件变量 -->
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-	</build>
+<!--	<build>-->
+<!--		<resources>-->
+<!--			&lt;!&ndash; Intellij idea兼容 &ndash;&gt;-->
+<!--			<resource>-->
+<!--				<directory>src/main/java</directory>-->
+<!--				<includes>-->
+<!--					<include>**/*.xml</include>-->
+<!--				</includes>-->
+<!--			</resource>-->
+
+<!--			<resource>-->
+<!--				<directory>src/main/resources</directory>-->
+<!--				&lt;!&ndash; 过滤替换配置文件变量 &ndash;&gt;-->
+<!--				<filtering>true</filtering>-->
+<!--			</resource>-->
+<!--		</resources>-->
+<!--	</build>-->
 	
 	<issueManagement>
 		<system>github</system>
