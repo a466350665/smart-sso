@@ -14,34 +14,19 @@
 	<name>${project.artifactId}</name>
 	
 	<modules>
-		<module>smart-sso-demo</module>
+		<module>smart-sso-demo1</module>
+		<module>smart-sso-demo2</module>
 		<module>smart-sso-server</module>
 		<module>smart-sso-starter</module>
 	</modules>
 	
 	<properties>
-		<servlet.version>3.1.0</servlet.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<httpclient.version>4.5.13</httpclient.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- J2EE支持-->
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<!-- 日志 -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.36</version>
-			</dependency>
-
 			<!-- httpclient -->
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
@@ -82,24 +67,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-<!--	<build>-->
-<!--		<resources>-->
-<!--			&lt;!&ndash; Intellij idea兼容 &ndash;&gt;-->
-<!--			<resource>-->
-<!--				<directory>src/main/java</directory>-->
-<!--				<includes>-->
-<!--					<include>**/*.xml</include>-->
-<!--				</includes>-->
-<!--			</resource>-->
-
-<!--			<resource>-->
-<!--				<directory>src/main/resources</directory>-->
-<!--				&lt;!&ndash; 过滤替换配置文件变量 &ndash;&gt;-->
-<!--				<filtering>true</filtering>-->
-<!--			</resource>-->
-<!--		</resources>-->
-<!--	</build>-->
 	
 	<issueManagement>
 		<system>github</system>

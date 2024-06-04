@@ -7,23 +7,17 @@
 		<artifactId>smart-sso</artifactId>
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>smart-sso-server</artifactId>
+	<artifactId>smart-sso-demo1</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
-	
+
 	<dependencies>
         <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
-
-		<!-- sso单点登录服务端装配 -->
-		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-starter-server</artifactId>
-		</dependency>
-
-		<!-- sso单点登录客户端装配（服务端也可以登录，可以理解为它是自己的一个客户端） -->
+		
+		<!-- sso单点登录客户端 -->
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-sso-starter-client</artifactId>
