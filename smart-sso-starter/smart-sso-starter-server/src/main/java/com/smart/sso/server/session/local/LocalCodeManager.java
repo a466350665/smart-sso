@@ -1,23 +1,20 @@
 package com.smart.sso.server.session.local;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.CodeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地授权码管理
  * 
  * @author Joe
  */
-@Component
 public class LocalCodeManager implements CodeManager, ExpirationPolicy {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());

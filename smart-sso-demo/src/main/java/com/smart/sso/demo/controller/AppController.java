@@ -1,18 +1,18 @@
 package com.smart.sso.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
+import com.smart.sso.client.ClientProperties;
+import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.ClientUser;
+import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.util.Oauth2Utils;
+import com.smart.sso.client.util.SessionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.ClientAccessToken;
-import com.smart.sso.client.rpc.ClientUser;
-import com.smart.sso.client.util.Oauth2Utils;
-import com.smart.sso.client.util.SessionUtils;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Joe
@@ -22,13 +22,9 @@ import com.smart.sso.client.util.SessionUtils;
 @RestController
 @RequestMapping("/app")
 public class AppController {
-	
-	@Value("${sso.server.url}")
-    private String serverUrl;
-    @Value("${sso.app.id}")
-    private String appId;
-    @Value("${sso.app.secret}")
-    private String appSecret;
+
+	@Autowired
+	private ClientProperties smartSsoProperties;
 
 	/**
 	 * 初始页
@@ -54,7 +50,8 @@ public class AppController {
 			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
 			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
 			HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
+		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(smartSsoProperties.getServerUrl(),
+				smartSsoProperties.getAppId(), smartSsoProperties.getAppSecret(), username, password);
 		if (!result.isSuccess()) {
 			return result;
 		}

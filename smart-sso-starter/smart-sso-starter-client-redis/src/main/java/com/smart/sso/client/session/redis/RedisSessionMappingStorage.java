@@ -26,7 +26,7 @@ public final class RedisSessionMappingStorage implements SessionMappingStorage {
 
     @Override
     public synchronized void addSessionById(final String accessToken, final HttpSession session) {
-		redisTemplate.opsForValue().set(SESSION_TOKEN_KEY + session.getId(), accessToken);
+        redisTemplate.opsForValue().set(SESSION_TOKEN_KEY + session.getId(), accessToken);
 		
 		redisTemplate.opsForValue().set(TOKEN_SESSION_KEY + accessToken, session.getId());
     }

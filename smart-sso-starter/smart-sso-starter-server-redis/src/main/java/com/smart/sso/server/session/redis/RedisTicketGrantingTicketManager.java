@@ -6,9 +6,7 @@ import com.smart.sso.server.common.ServerUser;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -18,14 +16,15 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author Joe
  */
-@Component
-@ConditionalOnProperty(name = "sso.session.manager", havingValue = "redis")
 public class RedisTicketGrantingTicketManager implements TicketGrantingTicketManager {
-	
-	@Value("${sso.timeout}")
-    private int timeout;
-	@Autowired
+
 	private StringRedisTemplate redisTemplate;
+	private int timeout;
+
+	public RedisTicketGrantingTicketManager(StringRedisTemplate redisTemplate, int timeout) {
+		this.redisTemplate = redisTemplate;
+		this.timeout = timeout;
+	}
 
 	@Override
 	public void create(String tgt, ServerUser user) {

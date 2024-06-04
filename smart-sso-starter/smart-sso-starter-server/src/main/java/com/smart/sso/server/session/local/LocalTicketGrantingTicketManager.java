@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,15 +16,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author Joe
  */
-@Component
 public class LocalTicketGrantingTicketManager implements TicketGrantingTicketManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Value("${sso.timeout}")
+
     private int timeout;
 
 	private Map<String, TgtWrapper> tgtMap = new ConcurrentHashMap<>();
+
+	public LocalTicketGrantingTicketManager(int timeout) {
+		this.timeout = timeout;
+	}
 
 	@Override
 	public void create(String tgt, ServerUser user) {

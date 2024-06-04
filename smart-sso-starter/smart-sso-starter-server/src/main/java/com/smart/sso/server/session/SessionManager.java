@@ -3,8 +3,6 @@ package com.smart.sso.server.session;
 import com.smart.sso.server.common.ServerUser;
 import com.smart.sso.server.constant.ServerConstant;
 import com.smart.sso.server.util.CookieUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +13,15 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Joe
  */
-@Component
 public class SessionManager {
-	
-	@Autowired
+
 	private AccessTokenManager accessTokenManager;
-	@Autowired
 	private TicketGrantingTicketManager ticketGrantingTicketManager;
+
+	public SessionManager(AccessTokenManager accessTokenManager, TicketGrantingTicketManager ticketGrantingTicketManager) {
+		this.accessTokenManager = accessTokenManager;
+		this.ticketGrantingTicketManager = ticketGrantingTicketManager;
+	}
 
 	public String setUser(ServerUser user, HttpServletRequest request, HttpServletResponse response) {
 		String tgt = getCookieTgt(request);

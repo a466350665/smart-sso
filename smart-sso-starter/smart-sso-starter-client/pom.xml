@@ -12,17 +12,9 @@
 	<name>${project.artifactId}</name>
 	
 	<dependencies>
-		<!-- J2EE支持 -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
-		<!-- 日志 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
 		<!-- httpclient -->
@@ -36,5 +28,5 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 </project>

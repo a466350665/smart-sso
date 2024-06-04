@@ -21,14 +21,15 @@ import com.smart.sso.server.session.AccessTokenManager;
  * 
  * @author Joe
  */
-@Component
-@ConditionalOnProperty(name = "sso.session.manager", havingValue = "redis")
 public class RedisAccessTokenManager implements AccessTokenManager {
-	
-	@Value("${sso.timeout}")
-    private int timeout;
-	@Autowired
+
 	private StringRedisTemplate redisTemplate;
+    private int timeout;
+
+	public RedisAccessTokenManager(StringRedisTemplate redisTemplate, int timeout) {
+		this.redisTemplate = redisTemplate;
+		this.timeout = timeout;
+	}
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {

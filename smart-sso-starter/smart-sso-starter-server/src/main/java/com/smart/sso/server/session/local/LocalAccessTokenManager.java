@@ -22,16 +22,18 @@ import com.smart.sso.server.session.AccessTokenManager;
  * 
  * @author Joe
  */
-@Component
 public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Value("${sso.timeout}")
+
     private int timeout;
 
 	private Map<String, AccessTokenWrapper> accessTokenMap = new ConcurrentHashMap<>();
 	private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
+
+	public LocalAccessTokenManager(int timeout) {
+		this.timeout = timeout;
+	}
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {

@@ -1,19 +1,19 @@
 package com.smart.sso.server.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.smart.sso.client.ClientProperties;
+import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.client.rpc.ClientUser;
+import com.smart.sso.client.util.SessionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.rpc.ClientUser;
-import com.smart.sso.client.util.SessionUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * 首页管理
@@ -26,8 +26,8 @@ public class IndexController {
     
 	@Value("${server.port}")
 	private Integer serverPort;
-    @Value("${sso.server.url}")
-    private String serverUrl;
+	@Autowired
+    private ClientProperties smartSsoProperties;
 
 	/**
 	 * 初始页
@@ -46,7 +46,7 @@ public class IndexController {
 		// 当前sessionId
 		model.addAttribute("sessionId", request.getSession().getId());
 		// 单点退出地址
-		model.addAttribute("logoutUrl", serverUrl + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
+		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
 		return "index";
 	}

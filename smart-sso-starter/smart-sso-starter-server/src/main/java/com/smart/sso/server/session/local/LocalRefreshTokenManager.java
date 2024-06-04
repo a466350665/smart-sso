@@ -18,15 +18,17 @@ import com.smart.sso.server.session.RefreshTokenManager;
  * 
  * @author Joe
  */
-@Component
 public class LocalRefreshTokenManager implements RefreshTokenManager, ExpirationPolicy {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Value("${sso.timeout}")
+
     private int timeout;
 
 	private Map<String, RefreshTokenWrapper> refreshTokenMap = new ConcurrentHashMap<>();
+
+	public LocalRefreshTokenManager(int timeout) {
+		this.timeout = timeout;
+	}
 
 	@Override
 	public void create(String refreshToken, RefreshTokenContent refreshTokenContent) {
