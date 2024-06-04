@@ -1,12 +1,10 @@
 package com.smart.sso.client.session.redis;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smart.sso.client.session.SessionMappingStorage;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.session.SessionRepository;
 
-import com.smart.sso.client.session.SessionMappingStorage;
+import javax.servlet.http.HttpSession;
 
 /**
  * 借鉴CAS
@@ -18,11 +16,13 @@ public final class RedisSessionMappingStorage implements SessionMappingStorage {
 	private static final String SESSION_TOKEN_KEY = "session_token_key_";
 	private static final String TOKEN_SESSION_KEY = "token_session_key_";
 
-	@Autowired
-	private SessionRepository<?> sessionRepository;
-
-	@Autowired
 	private StringRedisTemplate redisTemplate;
+    private SessionRepository<?> sessionRepository;
+
+    public RedisSessionMappingStorage(StringRedisTemplate redisTemplate, SessionRepository<?> sessionRepository) {
+        this.redisTemplate = redisTemplate;
+        this.sessionRepository = sessionRepository;
+    }
 
     @Override
     public synchronized void addSessionById(final String accessToken, final HttpSession session) {

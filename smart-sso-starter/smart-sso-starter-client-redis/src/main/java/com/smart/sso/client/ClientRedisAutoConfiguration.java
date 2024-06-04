@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.session.SessionRepository;
 import org.springframework.session.events.AbstractSessionEvent;
 import org.springframework.session.web.http.SessionEventHttpSessionListenerAdapter;
 
@@ -21,8 +23,8 @@ public class ClientRedisAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(SessionMappingStorage.class)
-	public SessionMappingStorage sessionMappingStorage() {
-		return new RedisSessionMappingStorage();
+	public SessionMappingStorage sessionMappingStorage(StringRedisTemplate redisTemplate, SessionRepository sessionRepository) {
+		return new RedisSessionMappingStorage(redisTemplate, sessionRepository);
 	}
 
 	/**

@@ -49,7 +49,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.smart.sso.server.SmartSsoServerApplication</mainClass>
+					<mainClass>com.smart.sso.server.ServerApplication</mainClass>
 					<includeSystemScope>false</includeSystemScope>
 					<layout>ZIP</layout>
 				</configuration>

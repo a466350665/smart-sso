@@ -25,7 +25,7 @@
 		<!-- sso单点登录客户端 -->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-starter-client</artifactId>
+			<artifactId>smart-sso-starter-client-redis</artifactId>
 		</dependency>
 	</dependencies>
 </project>
