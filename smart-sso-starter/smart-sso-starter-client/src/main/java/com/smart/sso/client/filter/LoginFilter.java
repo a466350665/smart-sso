@@ -57,8 +57,8 @@ public class LoginFilter extends ClientFilter {
 	 * @param request
 	 */
 	private void getAccessToken(String code, HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
-				getAppSecret(), code);
+		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
+				properties.getAppSecret(), code);
 		if (!result.isSuccess()) {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
 			return;
@@ -74,7 +74,7 @@ public class LoginFilter extends ClientFilter {
 	 * @return
 	 */
 	protected boolean refreshToken(String refreshToken, HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
+		Result<ClientAccessToken> result = Oauth2Utils.refreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
 		if (!result.isSuccess()) {
 			logger.error("refreshToken has error, message:{}", result.getMessage());
 			return false;
@@ -112,8 +112,8 @@ public class LoginFilter extends ClientFilter {
 			responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			String loginUrl = new StringBuilder().append(getServerUrl()).append(ClientConstant.LOGIN_URL).append("?")
-					.append(Oauth2Constant.APP_ID).append("=").append(getAppId()).append("&")
+			String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(ClientConstant.LOGIN_URL).append("?")
+					.append(Oauth2Constant.APP_ID).append("=").append(properties.getAppId()).append("&")
 					.append(ClientConstant.REDIRECT_URI).append("=")
 					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
 			response.sendRedirect(loginUrl);

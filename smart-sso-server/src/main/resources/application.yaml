@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  freemarker:
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html; charset=utf-8
+    template-loader-path: classpath:/templates
+    request-context-attribute: request
+
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password: 123456
+#
+#  session:
+#    store-type: redis
+
+#----------单点登录服务----------#
+smart:
+  sso:
+    #服务端地址
+    server-url: http://server.smart-sso.com:8080
+    #客户端应用信息（服务端也可以登录，可以理解为它是自己的一个客户端）
+    app-id: server
+    app-secret: 123456
+    #忽略拦截URL,多个逗号分隔
+    exclude-urls: /login,/logout,/oauth2/*,/custom/*,/assets/*
+  #单点登录超时时间，默认2小时（单位秒）
+#  server:
+#    timeout: 7200

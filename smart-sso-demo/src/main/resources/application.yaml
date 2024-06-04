@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+spring:
+  freemarker:
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html; charset=utf-8
+    template-loader-path: classpath:/templates
+    request-context-attribute: request
+
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password: 123456
+#
+#  session:
+#    store-type: redis
+
+#----------单点登录服务----------#
+smart:
+  sso:
+    #服务端地址
+    server-url: http://server.smart-sso.com:8080
+    #客户端应用信息
+    app-id: demo1
+    app-secret: 123456

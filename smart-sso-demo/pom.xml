@@ -12,11 +12,6 @@
 	<name>${project.artifactId}</name>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
         <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-freemarker</artifactId>
@@ -25,7 +20,7 @@
 		<!-- sso单点登录客户端 -->
 		<dependency>
 			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-starter-client-redis</artifactId>
+			<artifactId>smart-sso-starter-client</artifactId>
 		</dependency>
 	</dependencies>
 </project>

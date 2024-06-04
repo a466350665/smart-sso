@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.listener.LogoutListener;
 import com.smart.sso.client.session.SessionMappingStorage;
 
@@ -19,9 +20,11 @@ import com.smart.sso.client.session.SessionMappingStorage;
  * 
  * @author Joe
  */
-public abstract class ClientFilter extends ParamFilter implements Filter {
+public abstract class ClientFilter implements Filter {
 	
 	private SessionMappingStorage sessionMappingStorage;
+
+	protected ClientProperties properties;
     
 	public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
@@ -40,9 +43,14 @@ public abstract class ClientFilter extends ParamFilter implements Filter {
 	}
 	
 	protected SessionMappingStorage getSessionMappingStorage() {
-		if (sessionMappingStorage == null) {
-            sessionMappingStorage = LogoutListener.getSessionMappingStorage();
-        }
 		return sessionMappingStorage;
+	}
+
+	public void setSessionMappingStorage(SessionMappingStorage sessionMappingStorage) {
+		this.sessionMappingStorage = sessionMappingStorage;
+	}
+
+	public void setProperties(ClientProperties properties) {
+		this.properties = properties;
 	}
 }

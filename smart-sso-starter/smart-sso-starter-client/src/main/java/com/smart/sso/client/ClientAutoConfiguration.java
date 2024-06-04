@@ -39,22 +39,15 @@ public class ClientAutoConfiguration {
 	}
 
 	@Bean
-	public FilterRegistrationBean<SmartContainer> smartContainer(ClientProperties properties) {
-		SmartContainer smartContainer = new SmartContainer();
-		smartContainer.setServerUrl(properties.getServerUrl());
-		smartContainer.setAppId(properties.getAppId());
-		smartContainer.setAppSecret(properties.getAppSecret());
+	public FilterRegistrationBean<ClientContainer> clientContainer(ClientProperties properties, SessionMappingStorage sessionMappingStorage) {
+		ClientContainer clientContainer = new ClientContainer(properties, sessionMappingStorage);
+		clientContainer.setFilters(new LogoutFilter(), new LoginFilter());
 
-		// 忽略拦截URL,多个逗号分隔
-		smartContainer.setExcludeUrls(properties.getExcludeUrls());
-
-		smartContainer.setFilters(new LogoutFilter(), new LoginFilter());
-
-		FilterRegistrationBean<SmartContainer> registration = new FilterRegistrationBean<>();
-		registration.setFilter(smartContainer);
-		registration.addUrlPatterns("/*");
-		registration.setOrder(1);
-		registration.setName("smartContainer");
+		FilterRegistrationBean<ClientContainer> registration = new FilterRegistrationBean<>();
+		registration.setFilter(clientContainer);
+		registration.addUrlPatterns(properties.getUrlPatterns());
+		registration.setOrder(properties.getOrder());
+		registration.setName("clientContainer");
 		return registration;
 	}
 }
