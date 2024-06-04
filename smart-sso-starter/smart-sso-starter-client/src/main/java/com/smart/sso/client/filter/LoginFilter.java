@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.RpcAccessToken;
+import com.smart.sso.client.rpc.ClientAccessToken;
 import com.smart.sso.client.session.SessionAccessToken;
 import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.SessionUtils;
@@ -57,7 +57,7 @@ public class LoginFilter extends ClientFilter {
 	 * @param request
 	 */
 	private void getAccessToken(String code, HttpServletRequest request) {
-		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
+		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(getServerUrl(), getAppId(),
 				getAppSecret(), code);
 		if (!result.isSuccess()) {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
@@ -74,7 +74,7 @@ public class LoginFilter extends ClientFilter {
 	 * @return
 	 */
 	protected boolean refreshToken(String refreshToken, HttpServletRequest request) {
-		Result<RpcAccessToken> result = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
+		Result<ClientAccessToken> result = Oauth2Utils.refreshToken(getServerUrl(), getAppId(), refreshToken);
 		if (!result.isSuccess()) {
 			logger.error("refreshToken has error, message:{}", result.getMessage());
 			return false;
@@ -82,7 +82,7 @@ public class LoginFilter extends ClientFilter {
 		return setAccessTokenInSession(result.getData(), request);
 	}
 	
-	private boolean setAccessTokenInSession(RpcAccessToken rpcAccessToken, HttpServletRequest request) {
+	private boolean setAccessTokenInSession(ClientAccessToken rpcAccessToken, HttpServletRequest request) {
 		if (rpcAccessToken == null) {
 			return false;
 		}
@@ -109,12 +109,12 @@ public class LoginFilter extends ClientFilter {
 	 */
 	private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (isAjaxRequest(request)) {
-			responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
+			responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			String loginUrl = new StringBuilder().append(getServerUrl()).append(SsoConstant.LOGIN_URL).append("?")
+			String loginUrl = new StringBuilder().append(getServerUrl()).append(ClientConstant.LOGIN_URL).append("?")
 					.append(Oauth2Constant.APP_ID).append("=").append(getAppId()).append("&")
-					.append(SsoConstant.REDIRECT_URI).append("=")
+					.append(ClientConstant.REDIRECT_URI).append("=")
 					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
 			response.sendRedirect(loginUrl);
 		}

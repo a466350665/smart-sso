@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.rpc.RpcAccessToken;
-import com.smart.sso.client.rpc.SsoUser;
+import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.ClientUser;
 import com.smart.sso.client.session.SessionAccessToken;
 
 /**
@@ -17,10 +17,10 @@ import com.smart.sso.client.session.SessionAccessToken;
 public class SessionUtils {
     
     public static SessionAccessToken getAccessToken(HttpServletRequest request) {
-        return (SessionAccessToken) request.getSession().getAttribute(SsoConstant.SESSION_ACCESS_TOKEN);
+        return (SessionAccessToken) request.getSession().getAttribute(ClientConstant.SESSION_ACCESS_TOKEN);
     }
     
-	public static SsoUser getUser(HttpServletRequest request) {
+	public static ClientUser getUser(HttpServletRequest request) {
 	    return Optional.ofNullable(getAccessToken(request)).map(u -> u.getUser()).orElse(null);
 	}
 	
@@ -28,15 +28,15 @@ public class SessionUtils {
         return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
     }
 
-	public static void setAccessToken(HttpServletRequest request, RpcAccessToken rpcAccessToken) {
+	public static void setAccessToken(HttpServletRequest request, ClientAccessToken rpcAccessToken) {
 		SessionAccessToken sessionAccessToken = null;
 		if (rpcAccessToken != null) {
 			sessionAccessToken = createSessionAccessToken(rpcAccessToken);
 		}
-		request.getSession().setAttribute(SsoConstant.SESSION_ACCESS_TOKEN, sessionAccessToken);
+		request.getSession().setAttribute(ClientConstant.SESSION_ACCESS_TOKEN, sessionAccessToken);
 	}
 
-	private static SessionAccessToken createSessionAccessToken(RpcAccessToken accessToken) {
+	private static SessionAccessToken createSessionAccessToken(ClientAccessToken accessToken) {
 		long expirationTime = System.currentTimeMillis() + accessToken.getExpiresIn() * 1000;
 		return new SessionAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn(),
 				accessToken.getRefreshToken(), accessToken.getUser(), expirationTime);

@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.session.SessionAccessToken;
 import com.smart.sso.client.util.SessionUtils;
 
@@ -24,7 +24,7 @@ public class AppLoginFilter extends LoginFilter {
 				|| refreshToken(sessionAccessToken.getRefreshToken(), request))) {
 			return true;
 		}
-		responseJson(response, SsoConstant.NO_LOGIN, "未登录或已超时");
+		responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
 		return false;
 	}
 }

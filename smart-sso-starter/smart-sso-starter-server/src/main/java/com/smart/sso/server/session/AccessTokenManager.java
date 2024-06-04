@@ -1,13 +1,13 @@
 package com.smart.sso.server.session;
 
+import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.common.Expiration;
+import com.smart.sso.server.constant.ServerConstant;
+import com.smart.sso.server.util.HttpUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.util.HttpUtils;
-import com.smart.sso.server.common.AccessTokenContent;
-import com.smart.sso.server.common.Expiration;
 
 /**
  * 调用凭证AccessToken管理抽象
@@ -67,7 +67,7 @@ public interface AccessTokenManager extends Expiration {
 	 */
 	default void sendLogoutRequest(String redirectUri, String accessToken) {
 		Map<String, String> headerMap = new HashMap<>();
-		headerMap.put(SsoConstant.LOGOUT_PARAMETER_NAME, accessToken);
+		headerMap.put(ServerConstant.LOGOUT_PARAMETER_NAME, accessToken);
 		HttpUtils.postHeader(redirectUri, headerMap);
 	}
 }

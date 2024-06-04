@@ -1,11 +1,14 @@
 package com.smart.sso.server.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.client.rpc.Result;
+import com.smart.sso.server.common.ServerUser;
+import com.smart.sso.server.constant.ServerConstant;
+import com.smart.sso.server.service.AppService;
+import com.smart.sso.server.service.UserService;
+import com.smart.sso.server.session.CodeManager;
+import com.smart.sso.server.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -13,15 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.constant.SsoConstant;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.SsoUser;
-import com.smart.sso.server.constant.AppConstant;
-import com.smart.sso.server.service.AppService;
-import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.session.CodeManager;
-import com.smart.sso.server.session.SessionManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * 单点登录管理
@@ -51,7 +49,7 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = ClientConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
 		String tgt = sessionManager.getTgt(request);
@@ -75,7 +73,7 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@RequestParam(value = SsoConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = ClientConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			@RequestParam String username, 
 			@RequestParam String password,
@@ -86,7 +84,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 		
-		Result<SsoUser> result = userService.login(username, password);
+		Result<ServerUser> result = userService.login(username, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(redirectUri, appId, request);
@@ -104,9 +102,9 @@ public class LoginController{
 	 * @return
 	 */
 	private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
-		request.setAttribute(SsoConstant.REDIRECT_URI, redirectUri);
+		request.setAttribute(ClientConstant.REDIRECT_URI, redirectUri);
 		request.setAttribute(Oauth2Constant.APP_ID, appId);
-		return AppConstant.LOGIN_PATH;
+		return ServerConstant.LOGIN_PATH;
 	}
 	
 	/**

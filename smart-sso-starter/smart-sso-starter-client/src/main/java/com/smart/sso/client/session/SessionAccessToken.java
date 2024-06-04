@@ -1,14 +1,14 @@
 package com.smart.sso.client.session;
 
-import com.smart.sso.client.rpc.RpcAccessToken;
-import com.smart.sso.client.rpc.SsoUser;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.ClientUser;
 
 /**
  * 存Session中AccessToken
  * 
  * @author Joe
  */
-public class SessionAccessToken extends RpcAccessToken {
+public class SessionAccessToken extends ClientAccessToken {
 
 	private static final long serialVersionUID = 4507869346123296527L;
 
@@ -17,7 +17,7 @@ public class SessionAccessToken extends RpcAccessToken {
 	 */
 	private long expirationTime;
 
-	public SessionAccessToken(String accessToken, int expiresIn, String refreshToken, SsoUser user,
+	public SessionAccessToken(String accessToken, int expiresIn, String refreshToken, ClientUser user,
 			long expirationTime) {
 		super(accessToken, expiresIn, refreshToken, user);
 		this.expirationTime = expirationTime;

@@ -15,7 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.filter.ClientFilter;
 import com.smart.sso.client.filter.ParamFilter;
 
@@ -68,7 +68,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 		}
 
 		Map<Boolean, List<String>> map = Arrays.stream(excludeUrls.split(","))
-				.collect(Collectors.partitioningBy(u -> u.endsWith(SsoConstant.URL_FUZZY_MATCH)));
+				.collect(Collectors.partitioningBy(u -> u.endsWith(ClientConstant.URL_FUZZY_MATCH)));
 		List<String> urlList = map.get(false);
 		// 优先精确匹配
 		if (urlList.contains(url)) {
@@ -77,7 +77,7 @@ public class SmartContainer extends ParamFilter implements Filter {
 		urlList = map.get(true);
 		// 再进行模糊匹配
 		for (String matchUrl : urlList) {
-			if (url.startsWith(matchUrl.replace(SsoConstant.URL_FUZZY_MATCH, ""))) {
+			if (url.startsWith(matchUrl.replace(ClientConstant.URL_FUZZY_MATCH, ""))) {
 				return true;
 			}
 		}

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.smart.sso.client.constant.SsoConstant;
+import com.smart.sso.client.constant.ClientConstant;
 
 /**
  * 单点登出Filter
@@ -26,7 +26,7 @@ public class LogoutFilter extends ClientFilter {
     }
     
     protected String getLogoutParam(HttpServletRequest request) {
-    	return request.getHeader(SsoConstant.LOGOUT_PARAMETER_NAME);
+    	return request.getHeader(ClientConstant.LOGOUT_PARAMETER_NAME);
     }
 
     private void destroySession(String accessToken) {

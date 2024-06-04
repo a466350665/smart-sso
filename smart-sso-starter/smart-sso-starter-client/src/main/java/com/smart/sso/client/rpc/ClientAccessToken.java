@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class RpcAccessToken implements Serializable {
+public class ClientAccessToken implements Serializable {
 
 	private static final long serialVersionUID = 4507869346123296527L;
 
@@ -26,9 +26,9 @@ public class RpcAccessToken implements Serializable {
 	/**
 	 * 用户信息
 	 */
-	private SsoUser user;
+	private ClientUser user;
 
-	public RpcAccessToken(String accessToken, int expiresIn, String refreshToken, SsoUser user) {
+	public ClientAccessToken(String accessToken, int expiresIn, String refreshToken, ClientUser user) {
 		super();
 		this.accessToken = accessToken;
 		this.expiresIn = expiresIn;
@@ -60,11 +60,11 @@ public class RpcAccessToken implements Serializable {
 		this.refreshToken = refreshToken;
 	}
 	
-	public SsoUser getUser() {
+	public ClientUser getUser() {
 		return user;
 	}
 
-	public void setUser(SsoUser user) {
+	public void setUser(ClientUser user) {
 		this.user = user;
 	}
 }

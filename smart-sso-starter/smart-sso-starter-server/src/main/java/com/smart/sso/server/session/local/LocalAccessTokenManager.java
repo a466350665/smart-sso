@@ -30,12 +30,12 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	@Value("${sso.timeout}")
     private int timeout;
 
-	private Map<String, DummyAccessToken> accessTokenMap = new ConcurrentHashMap<>();
+	private Map<String, AccessTokenWrapper> accessTokenMap = new ConcurrentHashMap<>();
 	private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {
-		DummyAccessToken dat = new DummyAccessToken(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
+		AccessTokenWrapper dat = new AccessTokenWrapper(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
 		accessTokenMap.put(accessToken, dat);
 
 		tgtMap.computeIfAbsent(accessTokenContent.getCodeContent().getTgt(), a -> new HashSet<>()).add(accessToken);
@@ -44,22 +44,22 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	
 	@Override
 	public AccessTokenContent get(String accessToken) {
-		DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
-		if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
+		AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
+		if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
 			return null;
 		}
 		else {
-			return dummyAt.accessTokenContent;
+			return wrapper.accessTokenContent;
 		}
 	}
 	
 	@Override
 	public boolean refresh(String accessToken) {
-		DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
-		if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
+		AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
+		if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
 			return false;
 		}
-		dummyAt.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
+		wrapper.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
 		return true;
 	}
 
@@ -70,11 +70,11 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			return;
 		}
 		accessTokenSet.forEach(accessToken -> {
-			DummyAccessToken dummyAt = accessTokenMap.get(accessToken);
-			if (dummyAt == null || System.currentTimeMillis() > dummyAt.expired) {
+			AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
+			if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
 				return;
 			}
-			CodeContent codeContent = dummyAt.accessTokenContent.getCodeContent();
+			CodeContent codeContent = wrapper.accessTokenContent.getCodeContent();
 			if (codeContent == null || !codeContent.isSendLogoutRequest()) {
 				return;
 			}
@@ -86,8 +86,8 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
-		accessTokenMap.forEach((accessToken, dummyAt) -> {
-			if (System.currentTimeMillis() > dummyAt.expired) {
+		accessTokenMap.forEach((accessToken, wrapper) -> {
+			if (System.currentTimeMillis() > wrapper.expired) {
 				accessTokenMap.remove(accessToken);
 				logger.debug("调用凭证已失效, accessToken:{}", accessToken);
 			}
@@ -102,11 +102,11 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 		return timeout / 2;
 	}
 
-	private class DummyAccessToken {
+	private class AccessTokenWrapper {
 		private AccessTokenContent accessTokenContent;
 		private long expired; // 过期时间
 
-		public DummyAccessToken(AccessTokenContent accessTokenContent, long expired) {
+		public AccessTokenWrapper(AccessTokenContent accessTokenContent, long expired) {
 			super();
 			this.accessTokenContent = accessTokenContent;
 			this.expired = expired;

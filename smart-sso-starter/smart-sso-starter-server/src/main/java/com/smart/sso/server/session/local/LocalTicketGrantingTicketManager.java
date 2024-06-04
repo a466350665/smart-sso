@@ -1,17 +1,16 @@
 package com.smart.sso.server.session.local;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import com.smart.sso.server.common.ExpirationPolicy;
+import com.smart.sso.server.common.ServerUser;
+import com.smart.sso.server.session.TicketGrantingTicketManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.smart.sso.client.rpc.SsoUser;
-import com.smart.sso.server.common.ExpirationPolicy;
-import com.smart.sso.server.session.TicketGrantingTicketManager;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地登录凭证管理
@@ -26,32 +25,32 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Value("${sso.timeout}")
     private int timeout;
 
-	private Map<String, DummyTgt> tgtMap = new ConcurrentHashMap<>();
+	private Map<String, TgtWrapper> tgtMap = new ConcurrentHashMap<>();
 
 	@Override
-	public void create(String tgt, SsoUser user) {
-		tgtMap.put(tgt, new DummyTgt(user, System.currentTimeMillis() + getExpiresIn() * 1000));
+	public void create(String tgt, ServerUser user) {
+		tgtMap.put(tgt, new TgtWrapper(user, System.currentTimeMillis() + getExpiresIn() * 1000));
 		logger.info("登录凭证生成成功, tgt:{}", tgt);
 	}
 
 	@Override
-	public SsoUser getAndRefresh(String tgt) {
-		DummyTgt dummyTgt = tgtMap.get(tgt);
+	public ServerUser getAndRefresh(String tgt) {
+		TgtWrapper wrapper = tgtMap.get(tgt);
 		long currentTime = System.currentTimeMillis();
-		if (dummyTgt == null || currentTime > dummyTgt.expired) {
+		if (wrapper == null || currentTime > wrapper.expired) {
 			return null;
 		}
-		dummyTgt.expired = currentTime + getExpiresIn() * 1000;
-		return dummyTgt.user;
+		wrapper.expired = currentTime + getExpiresIn() * 1000;
+		return wrapper.user;
 	}
 	
 	@Override
-	public void set(String tgt, SsoUser user) {
-		DummyTgt dummyTgt = tgtMap.get(tgt);
-		if (dummyTgt == null) {
+	public void set(String tgt, ServerUser user) {
+		TgtWrapper wrapper = tgtMap.get(tgt);
+		if (wrapper == null) {
 			return;
 		}
-		dummyTgt.user = user;
+		wrapper.user = user;
 	}
 
 	@Override
@@ -63,8 +62,8 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
-		tgtMap.forEach((tgt, dummyTgt) -> {
-			if (System.currentTimeMillis() > dummyTgt.expired) {
+		tgtMap.forEach((tgt, wrapper) -> {
+			if (System.currentTimeMillis() > wrapper.expired) {
 				tgtMap.remove(tgt);
 				logger.debug("登录凭证已失效, tgt:{}", tgt);
 			}
@@ -76,11 +75,11 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 		return timeout;
 	}
 	
-	private class DummyTgt {
-		private SsoUser user;
+	private class TgtWrapper {
+		private ServerUser user;
 		private long expired;
 
-		public DummyTgt(SsoUser user, long expired) {
+		public TgtWrapper(ServerUser user, long expired) {
 			super();
 			this.user = user;
 			this.expired = expired;

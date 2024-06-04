@@ -3,7 +3,7 @@ package com.smart.sso.client.constant;
 /**
  * @author Joe
  */
-public class SsoConstant {
+public class ClientConstant {
 	
 	/**
      * 服务端登录地址

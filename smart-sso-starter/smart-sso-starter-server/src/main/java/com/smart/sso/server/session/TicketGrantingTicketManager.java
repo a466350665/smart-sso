@@ -1,9 +1,9 @@
 package com.smart.sso.server.session;
 
-import java.util.UUID;
-
-import com.smart.sso.client.rpc.SsoUser;
 import com.smart.sso.server.common.Expiration;
+import com.smart.sso.server.common.ServerUser;
+
+import java.util.UUID;
 
 /**
  * 登录凭证（TGT）管理抽象
@@ -18,7 +18,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-	default String generate(SsoUser user) {
+	default String generate(ServerUser user) {
 		String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
 		create(tgt, user);
 		return tgt;
@@ -30,7 +30,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-    void create(String tgt, SsoUser user);
+    void create(String tgt, ServerUser user);
     
     /**
      * 验证st是否存在且在有效期内，并更新过期时间戳
@@ -38,7 +38,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param tgt
      * @return
      */
-    SsoUser getAndRefresh(String tgt);
+    ServerUser getAndRefresh(String tgt);
     
     /**
      * 设置新的用户信息
@@ -46,7 +46,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-    void set(String tgt, SsoUser user);
+    void set(String tgt, ServerUser user);
     
     /**
      * 移除

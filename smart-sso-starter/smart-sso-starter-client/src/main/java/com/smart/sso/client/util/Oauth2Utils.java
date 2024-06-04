@@ -11,7 +11,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.enums.GrantTypeEnum;
 import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.RpcAccessToken;
+import com.smart.sso.client.rpc.ClientAccessToken;
 
 /**
  * Oauth2辅助类
@@ -32,8 +32,8 @@ public class Oauth2Utils {
 	 * @param password
 	 * @return
 	 */
-	public static Result<RpcAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String username,
-			String password) {
+	public static Result<ClientAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String username,
+                                                           String password) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.PASSWORD.getValue());
 		paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -52,7 +52,7 @@ public class Oauth2Utils {
 	 * @param code
 	 * @return
 	 */
-	public static Result<RpcAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
+	public static Result<ClientAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
 		paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -69,19 +69,19 @@ public class Oauth2Utils {
 	 * @param refreshToken
 	 * @return
 	 */
-	public static Result<RpcAccessToken> refreshToken(String serverUrl, String appId, String refreshToken) {
+	public static Result<ClientAccessToken> refreshToken(String serverUrl, String appId, String refreshToken) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.APP_ID, appId);
 		paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
 		return getHttpAccessToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap);
 	}
 
-	private static Result<RpcAccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
+	private static Result<ClientAccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
 		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
 			logger.error("getHttpAccessToken exception, return null. url:{}", url);
 			return null;
 		}
-		return JSONObject.parseObject(jsonStr, new TypeReference<Result<RpcAccessToken>>(){});
+		return JSONObject.parseObject(jsonStr, new TypeReference<Result<ClientAccessToken>>(){});
 	}
 }

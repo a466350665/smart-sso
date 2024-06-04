@@ -2,14 +2,12 @@ package com.smart.sso.server.common;
 
 import java.io.Serializable;
 
-import com.smart.sso.client.rpc.SsoUser;
-
 /**
  * 服务端回传Token对象
  * 
  * @author Joe
  */
-public class RpcAccessToken implements Serializable {
+public class ServerAccessToken implements Serializable {
 
 	private static final long serialVersionUID = 4507869346123296527L;
 
@@ -28,9 +26,9 @@ public class RpcAccessToken implements Serializable {
 	/**
 	 * 用户信息
 	 */
-	private SsoUser user;
+	private ServerUser user;
 
-	public RpcAccessToken(String accessToken, int expiresIn, String refreshToken, SsoUser user) {
+	public ServerAccessToken(String accessToken, int expiresIn, String refreshToken, ServerUser user) {
 		super();
 		this.accessToken = accessToken;
 		this.expiresIn = expiresIn;
@@ -62,11 +60,11 @@ public class RpcAccessToken implements Serializable {
 		this.refreshToken = refreshToken;
 	}
 	
-	public SsoUser getUser() {
+	public ServerUser getUser() {
 		return user;
 	}
 
-	public void setUser(SsoUser user) {
+	public void setUser(ServerUser user) {
 		this.user = user;
 	}
 }

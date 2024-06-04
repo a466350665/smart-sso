@@ -2,17 +2,15 @@ package com.smart.sso.server.common;
 
 import java.io.Serializable;
 
-import com.smart.sso.client.rpc.SsoUser;
-
 public class AccessTokenContent implements Serializable {
 
 	private static final long serialVersionUID = 4587667812642196058L;
 
 	private CodeContent codeContent;
-	private SsoUser user;
+	private ServerUser user;
 	private String appId;
 
-	public AccessTokenContent(CodeContent codeContent, SsoUser user, String appId) {
+	public AccessTokenContent(CodeContent codeContent, ServerUser user, String appId) {
 		this.codeContent = codeContent;
 		this.user = user;
 		this.appId = appId;
@@ -26,11 +24,11 @@ public class AccessTokenContent implements Serializable {
 		this.codeContent = codeContent;
 	}
 
-	public SsoUser getUser() {
+	public ServerUser getUser() {
 		return user;
 	}
 
-	public void setUser(SsoUser user) {
+	public void setUser(ServerUser user) {
 		this.user = user;
 	}
 

@@ -26,29 +26,29 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 	@Value("${sso.timeout}")
     private int timeout;
 
-	private Map<String, DummyRefreshToken> refreshTokenMap = new ConcurrentHashMap<>();
+	private Map<String, RefreshTokenWrapper> refreshTokenMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void create(String refreshToken, RefreshTokenContent refreshTokenContent) {
-		DummyRefreshToken dummyRt = new DummyRefreshToken(refreshTokenContent,
+		RefreshTokenWrapper wrapper = new RefreshTokenWrapper(refreshTokenContent,
 				System.currentTimeMillis() + getExpiresIn() * 1000);
-		refreshTokenMap.put(refreshToken, dummyRt);
+		refreshTokenMap.put(refreshToken, wrapper);
 	}
 
 	@Override
 	public RefreshTokenContent validate(String rt) {
-		DummyRefreshToken dummyRt = refreshTokenMap.remove(rt);
-		if (dummyRt == null || System.currentTimeMillis() > dummyRt.expired) {
+		RefreshTokenWrapper wrapper = refreshTokenMap.remove(rt);
+		if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
 			return null;
 		}
-		return dummyRt.refreshTokenContent;
+		return wrapper.refreshTokenContent;
 	}
 
 	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
-		refreshTokenMap.forEach((resfreshToken, dummyRt) -> {
-			if (System.currentTimeMillis() > dummyRt.expired) {
+		refreshTokenMap.forEach((resfreshToken, wrapper) -> {
+			if (System.currentTimeMillis() > wrapper.expired) {
 				refreshTokenMap.remove(resfreshToken);
 				logger.debug("resfreshToken : " + resfreshToken + "已失效");
 			}
@@ -63,11 +63,11 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 		return timeout;
 	}
 
-	private class DummyRefreshToken {
+	private class RefreshTokenWrapper {
 		private RefreshTokenContent refreshTokenContent;
 		private long expired; // 过期时间
 
-		public DummyRefreshToken(RefreshTokenContent refreshTokenContent, long expired) {
+		public RefreshTokenWrapper(RefreshTokenContent refreshTokenContent, long expired) {
 			super();
 			this.refreshTokenContent = refreshTokenContent;
 			this.expired = expired;

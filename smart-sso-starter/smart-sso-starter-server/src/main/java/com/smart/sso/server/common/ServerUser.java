@@ -1,4 +1,4 @@
-package com.smart.sso.client.rpc;
+package com.smart.sso.server.common;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class SsoUser implements Serializable {
+public class ServerUser implements Serializable {
 
 	private static final long serialVersionUID = 1764365572138947234L;
 
@@ -16,7 +16,7 @@ public class SsoUser implements Serializable {
     // 登录名
     private String username;
 
-    public SsoUser(Integer id, String username) {
+    public ServerUser(Integer id, String username) {
         super();
         this.id = id;
         this.username = username;
@@ -37,21 +37,4 @@ public class SsoUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	@Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SsoUser other = (SsoUser)obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
 }

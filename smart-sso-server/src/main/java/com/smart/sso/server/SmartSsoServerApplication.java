@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 //@EnableRedisHttpSession
-//@SpringBootApplication
-@SpringBootApplication(exclude = { RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
+@SpringBootApplication
+//@SpringBootApplication(exclude = { RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
 public class SmartSsoServerApplication {
 
     public static void main(String[] args) {

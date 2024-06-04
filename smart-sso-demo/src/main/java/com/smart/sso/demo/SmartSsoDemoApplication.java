@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 
 //@EnableRedisHttpSession
-//@SpringBootApplication
-@SpringBootApplication(exclude = { RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
+@SpringBootApplication
+//@SpringBootApplication(exclude = { RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
 public class SmartSsoDemoApplication {
 
 	public static void main(String[] args) {

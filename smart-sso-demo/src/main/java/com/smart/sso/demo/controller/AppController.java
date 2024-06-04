@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.RpcAccessToken;
-import com.smart.sso.client.rpc.SsoUser;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.ClientUser;
 import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.SessionUtils;
 
@@ -37,7 +37,7 @@ public class AppController {
 	 */
     @RequestMapping
 	public Result index(HttpServletRequest request) {
-		SsoUser user = SessionUtils.getUser(request);
+		ClientUser user = SessionUtils.getUser(request);
 		return Result.createSuccess(user);
 	}
 	
@@ -54,7 +54,7 @@ public class AppController {
 			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
 			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
 			HttpServletRequest request) {
-		Result<RpcAccessToken> result = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
+		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(serverUrl, appId, appSecret, username, password);
 		if (!result.isSuccess()) {
 			return result;
 		}

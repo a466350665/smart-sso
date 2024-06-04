@@ -1,26 +1,21 @@
 package com.smart.sso.server.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.enums.GrantTypeEnum;
 import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.RpcAccessToken;
-import com.smart.sso.client.rpc.SsoUser;
-import com.smart.sso.server.common.AccessTokenContent;
-import com.smart.sso.server.common.CodeContent;
-import com.smart.sso.server.common.RefreshTokenContent;
+import com.smart.sso.server.common.*;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.session.AccessTokenManager;
 import com.smart.sso.server.session.CodeManager;
 import com.smart.sso.server.session.RefreshTokenManager;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Oauth2服务管理
@@ -111,7 +106,7 @@ public class Oauth2Controller {
 				return Result.createError("code有误或已过期");
 			}
 
-			SsoUser user = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
+			ServerUser user = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
 			if (user == null) {
 				return Result.createError("服务端session已过期");
 			}
@@ -119,11 +114,11 @@ public class Oauth2Controller {
 		}
 		else if (GrantTypeEnum.PASSWORD.getValue().equals(grantType)) {
 			// app通过此方式由客户端代理转发http请求到服务端获取accessToken
-			Result<SsoUser> loginResult = userService.login(username, password);
+			Result<ServerUser> loginResult = userService.login(username, password);
 			if (!loginResult.isSuccess()) {
 				return Result.createError(loginResult.getMessage());
 			}
-			SsoUser user = loginResult.getData();
+			ServerUser user = loginResult.getData();
 			String tgt = ticketGrantingTicketManager.generate(loginResult.getData());
 			CodeContent codeContent = new CodeContent(tgt, false, null);
 			authDto = new AccessTokenContent(codeContent, user, appId);
@@ -158,7 +153,7 @@ public class Oauth2Controller {
 		if (!appId.equals(accessTokenContent.getAppId())) {
 			return Result.createError("非法应用");
 		}
-		SsoUser user = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
+		ServerUser user = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
 		if (user == null) {
 			return Result.createError("服务端session已过期");
 		}
@@ -166,7 +161,7 @@ public class Oauth2Controller {
 		return Result.createSuccess(genereateRpcAccessToken(accessTokenContent, refreshTokenContent.getAccessToken()));
 	}
 	
-	private RpcAccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
+	private ServerAccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
 		String newAccessToken = accessToken;
 		if (newAccessToken == null || !accessTokenManager.refresh(newAccessToken)) {
 			newAccessToken = accessTokenManager.generate(accessTokenContent);
@@ -174,7 +169,7 @@ public class Oauth2Controller {
 
 		String refreshToken = refreshTokenManager.generate(accessTokenContent, newAccessToken);
 
-		return new RpcAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
+		return new ServerAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
 				accessTokenContent.getUser());
 	}
 }
