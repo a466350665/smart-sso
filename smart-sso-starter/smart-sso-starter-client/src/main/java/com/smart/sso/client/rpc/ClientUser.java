@@ -1,20 +1,19 @@
 package com.smart.sso.client.rpc;
 
-import java.io.Serializable;
-
 /**
  * 已登录用户信息
  * 
  * @author Joe
  */
-public class ClientUser implements Serializable {
-
-	private static final long serialVersionUID = 1764365572138947234L;
+public class ClientUser {
 
 	// 登录成功userId
     private Integer id;
     // 登录名
     private String username;
+
+    public ClientUser(){
+    }
 
     public ClientUser(Integer id, String username) {
         super();
@@ -37,21 +36,4 @@ public class ClientUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	@Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ClientUser other = (ClientUser)obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
 }

@@ -28,6 +28,10 @@ public class ClientAccessToken implements Serializable {
 	 */
 	private ClientUser user;
 
+	public ClientAccessToken() {
+		super();
+	}
+
 	public ClientAccessToken(String accessToken, int expiresIn, String refreshToken, ClientUser user) {
 		super();
 		this.accessToken = accessToken;

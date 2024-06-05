@@ -1,10 +1,8 @@
 package com.smart.sso.server.session.redis;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.session.CodeManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smart.sso.server.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +23,7 @@ public class RedisCodeManager implements CodeManager {
 
 	@Override
 	public void create(String code, CodeContent codeContent) {
-		redisTemplate.opsForValue().set(code, JSON.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
 	}
 
 	@Override
@@ -34,6 +32,6 @@ public class RedisCodeManager implements CodeManager {
 		if (!StringUtils.isEmpty(cc)) {
 			redisTemplate.delete(code);
 		}
-		return JSONObject.parseObject(cc, CodeContent.class);
+		return JsonUtils.parseObject(cc, CodeContent.class);
 	}
 }

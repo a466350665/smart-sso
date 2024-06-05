@@ -1,17 +1,15 @@
 package com.smart.sso.client.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.enums.GrantTypeEnum;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.enums.GrantTypeEnum;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.ClientAccessToken;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Oauth2辅助类
@@ -82,6 +80,6 @@ public class Oauth2Utils {
 			logger.error("getHttpAccessToken exception, return null. url:{}", url);
 			return null;
 		}
-		return JSONObject.parseObject(jsonStr, new TypeReference<Result<ClientAccessToken>>(){});
+		return JsonUtils.parseObject(jsonStr, new TypeReference<Result<ClientAccessToken>>(){});
 	}
 }

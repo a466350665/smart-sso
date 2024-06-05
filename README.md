@@ -33,7 +33,8 @@ smart-sso
 
 | 技术                   | 版本    | 说明             |
 | ---------------------- | ------- | ---------------- |
-| spring-boot             | 2.5.13   | 容器+MVC框架     |
+| spring-boot             | 2.5.13   | 容器 + MVC框架     |
+| httpclient    | 4.5.13   | 授权码认证，客户端和服务端通信  |
 | spring-session-data-redis    | 2.5.6   | 分布式Session管理  |
 
 ## 功能说明

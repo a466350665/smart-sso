@@ -3,11 +3,7 @@ server:
 
 spring:
   freemarker:
-    charset: UTF-8
     suffix: .html
-    content-type: text/html; charset=utf-8
-    template-loader-path: classpath:/templates
-    request-context-attribute: request
 
 #  redis:
 #    host: 127.0.0.1
@@ -17,7 +13,6 @@ spring:
 #  session:
 #    store-type: redis
 
-#----------单点登录服务----------#
 smart:
   sso:
     #服务端地址

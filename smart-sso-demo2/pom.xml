@@ -17,7 +17,7 @@
 		    <artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 		
-		<!-- sso单点登录客户端 -->
+		<!-- 客户端装配 -->
 		<dependency>
 			<groupId>com.smart</groupId>
 			<artifactId>smart-sso-starter-client</artifactId>

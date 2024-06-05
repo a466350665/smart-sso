@@ -1,11 +1,8 @@
 package com.smart.sso.server.session.redis;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.server.common.RefreshTokenContent;
 import com.smart.sso.server.session.RefreshTokenManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.smart.sso.server.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -28,7 +25,7 @@ public class RedisRefreshTokenManager implements RefreshTokenManager {
 
 	@Override
 	public void create(String refreshToken, RefreshTokenContent refreshTokenContent) {
-		redisTemplate.opsForValue().set(refreshToken, JSON.toJSONString(refreshTokenContent), getExpiresIn(),
+		redisTemplate.opsForValue().set(refreshToken, JsonUtils.toJSONString(refreshTokenContent), getExpiresIn(),
 				TimeUnit.SECONDS);
 	}
 
@@ -38,7 +35,7 @@ public class RedisRefreshTokenManager implements RefreshTokenManager {
 		if (!StringUtils.isEmpty(rtc)) {
 			redisTemplate.delete(refreshToken);
 		}
-		return JSONObject.parseObject(rtc, RefreshTokenContent.class);
+		return JsonUtils.parseObject(rtc, RefreshTokenContent.class);
 	}
 	
 	/*

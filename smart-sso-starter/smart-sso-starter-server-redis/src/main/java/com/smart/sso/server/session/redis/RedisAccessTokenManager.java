@@ -1,20 +1,14 @@
 package com.smart.sso.server.session.redis;
 
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import com.smart.sso.server.common.AccessTokenContent;
+import com.smart.sso.server.session.AccessTokenManager;
+import com.smart.sso.server.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.smart.sso.server.common.AccessTokenContent;
-import com.smart.sso.server.session.AccessTokenManager;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 分布式调用凭证管理
@@ -33,7 +27,7 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {
-		redisTemplate.opsForValue().set(accessToken, JSON.toJSONString(accessTokenContent), getExpiresIn(),
+		redisTemplate.opsForValue().set(accessToken, JsonUtils.toJSONString(accessTokenContent), getExpiresIn(),
 				TimeUnit.SECONDS);
 
 		redisTemplate.opsForSet().add(getKey(accessTokenContent.getCodeContent().getTgt()), accessToken);
@@ -45,7 +39,7 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 		if (StringUtils.isEmpty(atcStr)) {
 			return null;
 		}
-		return JSONObject.parseObject(atcStr, AccessTokenContent.class);
+		return JsonUtils.parseObject(atcStr, AccessTokenContent.class);
 	}
 
 	@Override
@@ -70,7 +64,7 @@ public class RedisAccessTokenManager implements AccessTokenManager {
 			if (StringUtils.isEmpty(atcStr)) {
 				return;
 			}
-			AccessTokenContent accessTokenContent = JSONObject.parseObject(atcStr, AccessTokenContent.class);
+			AccessTokenContent accessTokenContent = JsonUtils.parseObject(atcStr, AccessTokenContent.class);
 			if (accessTokenContent == null || !accessTokenContent.getCodeContent().isSendLogoutRequest()) {
 				return;
 			}

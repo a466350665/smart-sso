@@ -21,7 +21,6 @@
 	</modules>
 	
 	<properties>
-		<fastjson.version>1.2.83</fastjson.version>
 		<httpclient.version>4.5.13</httpclient.version>
 	</properties>
 
@@ -32,13 +31,6 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
-			</dependency>
-			
-			<!-- Json处理 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
 			</dependency>
 
 			<!-- sso单点登录客户端 -->

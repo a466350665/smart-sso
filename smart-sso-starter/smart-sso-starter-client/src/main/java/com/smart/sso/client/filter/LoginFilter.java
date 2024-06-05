@@ -1,24 +1,22 @@
 package com.smart.sso.client.filter;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
+import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.client.constant.Oauth2Constant;
+import com.smart.sso.client.rpc.ClientAccessToken;
+import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.session.SessionAccessToken;
+import com.smart.sso.client.util.JsonUtils;
+import com.smart.sso.client.util.Oauth2Utils;
+import com.smart.sso.client.util.SessionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.rpc.ClientAccessToken;
-import com.smart.sso.client.session.SessionAccessToken;
-import com.smart.sso.client.util.Oauth2Utils;
-import com.smart.sso.client.util.SessionUtils;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 /**
  * 单点登录Filter
@@ -153,7 +151,7 @@ public class LoginFilter extends ClientFilter {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(200);
         PrintWriter writer = response.getWriter();
-        writer.write(JSON.toJSONString(Result.create(code, message)));
+        writer.write(JsonUtils.toJSONString(Result.create(code, message)));
         writer.flush();
         writer.close();
     }

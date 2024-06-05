@@ -35,7 +35,7 @@ public class Result<T> implements Serializable {
 	 */
 	protected String message;
 
-	private Result() {
+	public Result() {
 		super();
 	}
 	

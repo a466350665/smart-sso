@@ -1,11 +1,8 @@
 package com.smart.sso.server.session.redis;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.smart.sso.server.common.ServerUser;
 import com.smart.sso.server.session.TicketGrantingTicketManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.smart.sso.server.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -28,7 +25,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 
 	@Override
 	public void create(String tgt, ServerUser user) {
-		redisTemplate.opsForValue().set(tgt, JSON.toJSONString(user), getExpiresIn(),
+		redisTemplate.opsForValue().set(tgt, JsonUtils.toJSONString(user), getExpiresIn(),
 				TimeUnit.SECONDS);
 	}
 
@@ -39,7 +36,7 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 			return null;
 		}
 		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
-		return JSONObject.parseObject(user, ServerUser.class);
+		return JsonUtils.parseObject(user, ServerUser.class);
 	}
 	
 	@Override
