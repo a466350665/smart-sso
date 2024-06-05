@@ -50,15 +50,15 @@ smart-sso
 5. **高度扩展性：** 服务端实现的简化版OAuth2协议和Session管理机制都允许自定义扩展覆盖。
 
 ## 单点登录原理
-![](https://img-blog.csdnimg.cn/20201118170252707.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
+![](./images/smart-sso-login.png)
 
 
 ## 单点退出原理
-![](https://img-blog.csdnimg.cn/20201118165835197.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E0NjYzNTA2NjU=,size_16,color_FFFFFF,t_70#pic_center)
+![](./images/smart-sso-logout.png)
 
 
 ## 效果展示
-### 服务端单点登录页
+### 服务端登录页
 ![](./images/img1.jpg)
 
 ### 客户端示例1登录成功页
