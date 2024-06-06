@@ -1,10 +1,12 @@
 package com.smart.sso.client;
 
+import com.smart.sso.base.BaseAutoConfiguration;
 import com.smart.sso.client.filter.LoginFilter;
 import com.smart.sso.client.filter.LogoutFilter;
 import com.smart.sso.client.token.TokenStorage;
 import com.smart.sso.client.token.local.LocalTokenStorage;
 import com.smart.sso.client.util.TokenUtils;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Joe
  */
 @Configuration(proxyBeanMethods = false)
+@AutoConfigureBefore({ BaseAutoConfiguration.class })
 @EnableConfigurationProperties({ClientProperties.class})
 public class ClientAutoConfiguration {
 

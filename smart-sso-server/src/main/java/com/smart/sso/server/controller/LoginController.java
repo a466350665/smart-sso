@@ -1,10 +1,9 @@
 package com.smart.sso.server.controller;
 
+import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.entity.Result;
-import com.smart.sso.server.entity.ServerUser;
-import com.smart.sso.server.constant.ServerConstant;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.token.CodeManager;
@@ -49,7 +48,7 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@RequestParam(value = ClientConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = BaseConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
 		String tgt = tokenManager.getTgt(request);
@@ -73,7 +72,7 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(
-			@RequestParam(value = ClientConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = BaseConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			@RequestParam String username, 
 			@RequestParam String password,
@@ -84,7 +83,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 		
-		Result<ServerUser> result = userService.login(username, password);
+		Result<Userinfo> result = userService.login(username, password);
 		if (!result.isSuccess()) {
 			request.setAttribute("errorMessage", result.getMessage());
 			return goLoginPath(redirectUri, appId, request);
@@ -102,9 +101,9 @@ public class LoginController{
 	 * @return
 	 */
 	private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
-		request.setAttribute(ClientConstant.REDIRECT_URI, redirectUri);
+		request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
 		request.setAttribute(Oauth2Constant.APP_ID, appId);
-		return ServerConstant.LOGIN_PATH;
+		return BaseConstant.LOGIN_PATH;
 	}
 	
 	/**

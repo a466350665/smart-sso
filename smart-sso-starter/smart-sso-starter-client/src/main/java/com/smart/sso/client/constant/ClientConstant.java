@@ -4,26 +4,11 @@ package com.smart.sso.client.constant;
  * @author Joe
  */
 public class ClientConstant {
-	
-	/**
-     * 服务端登录地址
-     */
-	public static final String LOGIN_URL = "/login";
 
 	/**
 	 * 服务端登出地址
 	 */
 	public static final String LOGOUT_URL = "/logout";
-	
-	/**
-	 * 服务端回调客户端地址参数名称
-	 */
-	public static final String REDIRECT_URI = "redirectUri";
-    
-    /**
-     * 服务端单点登出回调客户端登出参数名称
-     */
-    public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
     
     /**
      * 模糊匹配后缀

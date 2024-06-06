@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>smart-sso-starter-base</module>
         <module>smart-sso-starter-client</module>
         <module>smart-sso-starter-client-redis</module>
         <module>smart-sso-starter-server</module>

@@ -1,12 +1,11 @@
 package com.smart.sso.server.token.local;
 
+import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.server.entity.AccessTokenContent;
 import com.smart.sso.server.entity.CodeContent;
-import com.smart.sso.server.entity.ExpirationPolicy;
 import com.smart.sso.server.token.AccessTokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -82,7 +81,6 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 		});
 	}
 
-	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		accessTokenMap.forEach((accessToken, wrapper) -> {

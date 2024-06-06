@@ -1,7 +1,8 @@
 package com.smart.sso.client.token.local;
 
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.client.ClientProperties;
-import com.smart.sso.client.entity.ClientAccessToken;
 import com.smart.sso.client.token.TokenStorage;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author Joe
  */
-public final class LocalTokenStorage extends TokenStorage {
+public final class LocalTokenStorage extends TokenStorage implements ExpirationPolicy {
     private final Map<String, StWrapper> stMap = new HashMap<>();
     private Map<String, String> accessTokenMap = new ConcurrentHashMap<>();
 
@@ -22,7 +23,7 @@ public final class LocalTokenStorage extends TokenStorage {
     }
 
     @Override
-    public void create(String st, ClientAccessToken accessToken) {
+    public void create(String st, AccessToken accessToken) {
         stMap.put(st, new StWrapper(accessToken, System.currentTimeMillis() + accessToken.getExpiresIn() * 1000
                 , System.currentTimeMillis() + accessToken.getRefreshExpiresIn() * 1000));
         accessTokenMap.put(accessToken.getAccessToken(), st);
@@ -30,7 +31,7 @@ public final class LocalTokenStorage extends TokenStorage {
     }
 
     @Override
-    public ClientAccessToken getAndRefresh(String st) {
+    public AccessToken getAndRefresh(String st) {
         StWrapper wrapper = stMap.get(st);
         if (wrapper == null) {
             return null;
@@ -41,7 +42,7 @@ public final class LocalTokenStorage extends TokenStorage {
         }
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
         if(!wrapper.isRefreshExpired()){
-            ClientAccessToken accessToken = refreshToken(wrapper.accessToken.getRefreshToken());
+            AccessToken accessToken = refreshToken(wrapper.accessToken.getRefreshToken());
             if(accessToken != null){
                 create(st, accessToken);
                 return accessToken;
@@ -52,6 +53,10 @@ public final class LocalTokenStorage extends TokenStorage {
 
     @Override
     public void removeByServiceTicket(String st) {
+        StWrapper wrapper = stMap.get(st);
+        if (wrapper != null) {
+            accessTokenMap.remove(wrapper.accessToken.getAccessToken());
+        }
         stMap.remove(st);
         logger.debug("服务凭证删除成功, tgt:{}", st);
     }
@@ -62,12 +67,23 @@ public final class LocalTokenStorage extends TokenStorage {
         removeByServiceTicket(st);
     }
 
+    @Override
+    public void verifyExpired() {
+        stMap.forEach((st, wrapper) -> {
+            if (wrapper.isRefreshExpired()) {
+                stMap.remove(st);
+                accessTokenMap.remove(wrapper.accessToken.getAccessToken());
+                logger.debug("服务凭证已失效, st:{}", st);
+            }
+        });
+    }
+
     private class StWrapper {
-        private ClientAccessToken accessToken;
+        private AccessToken accessToken;
         private long expired;
         private long refreshExpired;
 
-        public StWrapper(ClientAccessToken accessToken, long expired, long refreshExpired) {
+        public StWrapper(AccessToken accessToken, long expired, long refreshExpired) {
             super();
             this.accessToken = accessToken;
             this.expired = expired;

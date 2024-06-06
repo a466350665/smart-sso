@@ -13,14 +13,8 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>com.smart</groupId>
+			<artifactId>smart-sso-starter-base</artifactId>
 		</dependency>
-		
-		<!-- httpclient -->
-		<dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
     </dependencies>
 </project>

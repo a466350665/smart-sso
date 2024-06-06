@@ -1,6 +1,6 @@
 package com.smart.sso.client.filter;
 
-import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.base.constant.BaseConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +24,6 @@ public class LogoutFilter extends ClientFilter {
     }
     
     protected String getLogoutParam(HttpServletRequest request) {
-    	return request.getHeader(ClientConstant.LOGOUT_PARAMETER_NAME);
+    	return request.getHeader(BaseConstant.LOGOUT_PARAMETER_NAME);
     }
 }

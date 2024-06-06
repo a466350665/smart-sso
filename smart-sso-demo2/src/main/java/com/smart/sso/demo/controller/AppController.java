@@ -1,9 +1,9 @@
 package com.smart.sso.demo.controller;
 
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.entity.ClientAccessToken;
-import com.smart.sso.client.entity.ClientUser;
 import com.smart.sso.client.entity.Result;
 import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.TokenUtils;
@@ -33,8 +33,8 @@ public class AppController {
 	 */
     @RequestMapping
 	public Result index(HttpServletRequest request) {
-		ClientUser user = TokenUtils.getUser(request);
-		return Result.createSuccess(user);
+		Userinfo userinfo = TokenUtils.getUserinfo(request);
+		return Result.createSuccess(userinfo);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class AppController {
 			@RequestParam(value = Oauth2Constant.USERNAME, required = true) String username,
 			@RequestParam(value = Oauth2Constant.PASSWORD, required = true) String password,
 			HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(smartSsoProperties.getServerUrl(),
+		Result<AccessToken> result = Oauth2Utils.getAccessToken(smartSsoProperties.getServerUrl(),
 				smartSsoProperties.getAppId(), smartSsoProperties.getAppSecret(), username, password);
 		if (!result.isSuccess()) {
 			return result;

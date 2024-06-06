@@ -1,24 +1,21 @@
-package com.smart.sso.server.entity;
+package com.smart.sso.base.entity;
 
 /**
  * 已登录用户信息
  * 
  * @author Joe
  */
-public class ServerUser {
-
-	private static final long serialVersionUID = 1764365572138947234L;
+public class Userinfo {
 
 	// 登录成功userId
     private Integer id;
     // 登录名
     private String username;
 
-    public ServerUser() {
-        super();
+    public Userinfo(){
     }
 
-    public ServerUser(Integer id, String username) {
+    public Userinfo(Integer id, String username) {
         super();
         this.id = id;
         this.username = username;

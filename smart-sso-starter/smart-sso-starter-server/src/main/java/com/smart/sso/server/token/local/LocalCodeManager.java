@@ -1,11 +1,10 @@
 package com.smart.sso.server.token.local;
 
+import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.server.entity.CodeContent;
-import com.smart.sso.server.entity.ExpirationPolicy;
 import com.smart.sso.server.token.CodeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,8 +34,7 @@ public class LocalCodeManager implements CodeManager, ExpirationPolicy {
         }
         return wrapper.codeContent;
 	}
-	
-	@Scheduled(cron = SCHEDULED_CRON)
+
 	@Override
     public void verifyExpired() {
 		codeMap.forEach((code, wrapper) -> {

@@ -1,8 +1,9 @@
 package com.smart.sso.client.util;
 
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Userinfo;
+import com.smart.sso.base.util.CookieUtils;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.entity.ClientAccessToken;
-import com.smart.sso.client.entity.ClientUser;
 import com.smart.sso.client.token.TokenStorage;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +25,7 @@ public class TokenUtils {
 		tokenStorage = ts;
 	}
 
-	public static ClientAccessToken getAccessToken(HttpServletRequest request, HttpServletResponse response) {
+	public static AccessToken getAccessToken(HttpServletRequest request, HttpServletResponse response) {
 		String st = getCookieServiceTicket(request);
 		// cookie中没有
 		if (StringUtils.isEmpty(st)) {
@@ -35,7 +36,7 @@ public class TokenUtils {
 		return tokenStorage.getAndRefresh(st);
     }
 
-	public static ClientAccessToken getAccessToken(HttpServletRequest request) {
+	public static AccessToken getAccessToken(HttpServletRequest request) {
 		String st = getCookieServiceTicket(request);
 		// cookie中没有
 		if (StringUtils.isEmpty(st)) {
@@ -44,15 +45,15 @@ public class TokenUtils {
 		return tokenStorage.getAndRefresh(st);
 	}
     
-	public static ClientUser getUser(HttpServletRequest request) {
-	    return Optional.ofNullable(getAccessToken(request)).map(u -> u.getUser()).orElse(null);
+	public static Userinfo getUserinfo(HttpServletRequest request) {
+	    return Optional.ofNullable(getAccessToken(request)).map(u -> u.getUserinfo()).orElse(null);
 	}
 	
 	public static Integer getUserId(HttpServletRequest request) {
-        return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
+        return Optional.ofNullable(getUserinfo(request)).map(u -> u.getId()).orElse(null);
     }
 
-	public static void setAccessToken(ClientAccessToken accessToken, HttpServletRequest request) {
+	public static void setAccessToken(AccessToken accessToken, HttpServletRequest request) {
 		String st = getCookieServiceTicket(request);
 		// cookie中没有
 		if (!StringUtils.isEmpty(st)) {

@@ -1,17 +1,19 @@
 package com.smart.sso.server.entity;
 
+import com.smart.sso.base.entity.Userinfo;
+
 public class AccessTokenContent {
 
 	private CodeContent codeContent;
-	private ServerUser user;
+	private Userinfo userinfo;
 	private String appId;
 
 	public AccessTokenContent() {
 	}
 
-	public AccessTokenContent(CodeContent codeContent, ServerUser user, String appId) {
+	public AccessTokenContent(CodeContent codeContent, Userinfo userinfo, String appId) {
 		this.codeContent = codeContent;
-		this.user = user;
+		this.userinfo = userinfo;
 		this.appId = appId;
 	}
 
@@ -23,12 +25,12 @@ public class AccessTokenContent {
 		this.codeContent = codeContent;
 	}
 
-	public ServerUser getUser() {
-		return user;
+	public Userinfo getUserinfo() {
+		return userinfo;
 	}
 
-	public void setUser(ServerUser user) {
-		this.user = user;
+	public void setUserinfo(Userinfo userinfo) {
+		this.userinfo = userinfo;
 	}
 
 	public String getAppId() {

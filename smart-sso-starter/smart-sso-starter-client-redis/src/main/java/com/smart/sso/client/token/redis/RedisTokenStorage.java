@@ -1,9 +1,9 @@
 package com.smart.sso.client.token.redis;
 
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.ClientProperties;
-import com.smart.sso.client.entity.ClientAccessToken;
 import com.smart.sso.client.token.TokenStorage;
-import com.smart.sso.client.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -27,7 +27,7 @@ public final class RedisTokenStorage extends TokenStorage {
     }
 
     @Override
-    public void create(String st, ClientAccessToken accessToken) {
+    public void create(String st, AccessToken accessToken) {
         StWrapper wrapper = new StWrapper(accessToken, System.currentTimeMillis() + accessToken.getExpiresIn() * 1000);
         redisTemplate.opsForValue().set(ST_TOKEN_KEY + st, JsonUtils.toJSONString(wrapper), accessToken.getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
@@ -35,7 +35,7 @@ public final class RedisTokenStorage extends TokenStorage {
     }
 
     @Override
-    public ClientAccessToken getAndRefresh(String st) {
+    public AccessToken getAndRefresh(String st) {
         String str = redisTemplate.opsForValue().get(ST_TOKEN_KEY + st);
         if (StringUtils.isEmpty(str)) {
             return null;
@@ -47,7 +47,7 @@ public final class RedisTokenStorage extends TokenStorage {
         }
 
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
-        ClientAccessToken accessToken = refreshToken(wrapper.accessToken.getRefreshToken());
+        AccessToken accessToken = refreshToken(wrapper.accessToken.getRefreshToken());
         if (accessToken != null) {
             create(st, accessToken);
             return accessToken;
@@ -70,10 +70,10 @@ public final class RedisTokenStorage extends TokenStorage {
     }
 
     private class StWrapper {
-        private ClientAccessToken accessToken;
+        private AccessToken accessToken;
         private long expired;
 
-        public StWrapper(ClientAccessToken accessToken, long expired) {
+        public StWrapper(AccessToken accessToken, long expired) {
             super();
             this.accessToken = accessToken;
             this.expired = expired;

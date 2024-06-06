@@ -1,9 +1,9 @@
 package com.smart.sso.server.token;
 
-import java.util.UUID;
-
+import com.smart.sso.base.entity.Expiration;
 import com.smart.sso.server.entity.CodeContent;
-import com.smart.sso.server.entity.Expiration;
+
+import java.util.UUID;
 
 /**
  * 授权码code管理

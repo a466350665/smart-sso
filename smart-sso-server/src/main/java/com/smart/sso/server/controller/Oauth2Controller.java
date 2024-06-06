@@ -1,5 +1,7 @@
 package com.smart.sso.server.controller;
 
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.enums.GrantTypeEnum;
 import com.smart.sso.client.entity.Result;
@@ -106,22 +108,22 @@ public class Oauth2Controller {
 				return Result.createError("code有误或已过期");
 			}
 
-			ServerUser user = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
-			if (user == null) {
+			Userinfo userinfo = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
+			if (userinfo == null) {
 				return Result.createError("服务端TGT已过期");
 			}
-			authDto = new AccessTokenContent(codeContent, user, appId);
+			authDto = new AccessTokenContent(codeContent, userinfo, appId);
 		}
 		else if (GrantTypeEnum.PASSWORD.getValue().equals(grantType)) {
 			// app通过此方式由客户端代理转发http请求到服务端获取accessToken
-			Result<ServerUser> loginResult = userService.login(username, password);
+			Result<Userinfo> loginResult = userService.login(username, password);
 			if (!loginResult.isSuccess()) {
 				return Result.createError(loginResult.getMessage());
 			}
-			ServerUser user = loginResult.getData();
+			Userinfo userinfo = loginResult.getData();
 			String tgt = ticketGrantingTicketManager.generate(loginResult.getData());
 			CodeContent codeContent = new CodeContent(tgt, false, null);
-			authDto = new AccessTokenContent(codeContent, user, appId);
+			authDto = new AccessTokenContent(codeContent, userinfo, appId);
 		}
 		return Result.createSuccess(authDto);
 	}
@@ -153,15 +155,15 @@ public class Oauth2Controller {
 		if (!appId.equals(accessTokenContent.getAppId())) {
 			return Result.createError("非法应用");
 		}
-		ServerUser user = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
-		if (user == null) {
+		Userinfo userinfo = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
+		if (userinfo == null) {
 			return Result.createError("服务端TGT已过期");
 		}
 
 		return Result.createSuccess(genereateRpcAccessToken(accessTokenContent, refreshTokenContent.getAccessToken()));
 	}
 
-	private ServerAccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
+	private AccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
 		String newAccessToken = accessToken;
 		if (newAccessToken == null || !accessTokenManager.refresh(newAccessToken)) {
 			newAccessToken = accessTokenManager.generate(accessTokenContent);
@@ -169,7 +171,7 @@ public class Oauth2Controller {
 
 		String refreshToken = refreshTokenManager.generate(accessTokenContent, newAccessToken);
 
-		return new ServerAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
-				refreshTokenManager.getExpiresIn(), accessTokenContent.getUser());
+		return new AccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
+				refreshTokenManager.getExpiresIn(), accessTokenContent.getUserinfo());
 	}
 }

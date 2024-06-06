@@ -1,7 +1,7 @@
 package com.smart.sso.client.token;
 
+import com.smart.sso.base.entity.AccessToken;
 import com.smart.sso.client.ClientProperties;
-import com.smart.sso.client.entity.ClientAccessToken;
 import com.smart.sso.client.entity.Result;
 import com.smart.sso.client.util.Oauth2Utils;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public abstract class TokenStorage {
      * @param st
      * @return
      */
-    public abstract void create(String st, ClientAccessToken accessToken);
+    public abstract void create(String st, AccessToken accessToken);
 
     /**
      * 验证st是否存在且在有效期内，并更新过期时间戳
@@ -32,7 +32,7 @@ public abstract class TokenStorage {
      * @param st
      * @return
      */
-    public abstract ClientAccessToken getAndRefresh(String st);
+    public abstract AccessToken getAndRefresh(String st);
 
     /**
      * 移除
@@ -49,8 +49,8 @@ public abstract class TokenStorage {
      * @param refreshToken
      * @return
      */
-    protected ClientAccessToken refreshToken(String refreshToken) {
-        Result<ClientAccessToken> result = Oauth2Utils.refreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
+    protected AccessToken refreshToken(String refreshToken) {
+        Result<AccessToken> result = Oauth2Utils.refreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
         if (!result.isSuccess()) {
             logger.error("refreshToken has error, message:{}", result.getMessage());
             return null;

@@ -1,8 +1,8 @@
 package com.smart.sso.server.token;
 
-import com.smart.sso.server.entity.ServerUser;
+import com.smart.sso.base.entity.Userinfo;
+import com.smart.sso.base.util.CookieUtils;
 import com.smart.sso.server.constant.ServerConstant;
-import com.smart.sso.server.util.CookieUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class TokenManager {
 		this.ticketGrantingTicketManager = ticketGrantingTicketManager;
 	}
 
-	public String getOrGenerateTgt(ServerUser user, HttpServletRequest request, HttpServletResponse response) {
+	public String getOrGenerateTgt(Userinfo user, HttpServletRequest request, HttpServletResponse response) {
 		String tgt = getCookieTgt(request);
 		if (StringUtils.isEmpty(tgt)) {// cookie中没有
 			tgt = ticketGrantingTicketManager.generate(user);
@@ -40,7 +40,7 @@ public class TokenManager {
 		return tgt;
 	}
 
-	public ServerUser getUser(HttpServletRequest request) {
+	public Userinfo getUserinfo(HttpServletRequest request) {
 		String tgt = getCookieTgt(request);
 		if (StringUtils.isEmpty(tgt)) {
 			return null;

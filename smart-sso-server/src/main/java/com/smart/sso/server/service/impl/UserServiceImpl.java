@@ -1,14 +1,13 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.smart.sso.server.entity.ServerUser;
-import org.springframework.stereotype.Service;
-
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.entity.Result;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -21,11 +20,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Result<ServerUser> login(String username, String password) {
+	public Result<Userinfo> login(String username, String password) {
 		for (User user : userList) {
 			if (user.getUsername().equals(username)) {
 				if(user.getPassword().equals(password)) {
-					return Result.createSuccess(new ServerUser(user.getId(), user.getUsername()));
+					return Result.createSuccess(new Userinfo(user.getId(), user.getUsername()));
 				}
 				else {
 					return Result.createError("密码有误");

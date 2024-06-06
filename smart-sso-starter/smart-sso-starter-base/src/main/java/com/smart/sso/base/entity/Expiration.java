@@ -1,4 +1,4 @@
-package com.smart.sso.server.entity;
+package com.smart.sso.base.entity;
 
 /**
  * 含时效

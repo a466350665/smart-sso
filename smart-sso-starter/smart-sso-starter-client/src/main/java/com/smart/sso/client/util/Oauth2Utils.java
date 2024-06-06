@@ -1,10 +1,12 @@
 package com.smart.sso.client.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.util.HttpUtils;
+import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.enums.GrantTypeEnum;
-import com.smart.sso.client.entity.ClientAccessToken;
 import com.smart.sso.client.entity.Result;
+import com.smart.sso.client.enums.GrantTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +32,8 @@ public class Oauth2Utils {
 	 * @param password
 	 * @return
 	 */
-	public static Result<ClientAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String username,
-                                                           String password) {
+	public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String username,
+													 String password) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.PASSWORD.getValue());
 		paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -50,7 +52,7 @@ public class Oauth2Utils {
 	 * @param code
 	 * @return
 	 */
-	public static Result<ClientAccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
+	public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
 		paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -67,19 +69,19 @@ public class Oauth2Utils {
 	 * @param refreshToken
 	 * @return
 	 */
-	public static Result<ClientAccessToken> refreshToken(String serverUrl, String appId, String refreshToken) {
+	public static Result<AccessToken> refreshToken(String serverUrl, String appId, String refreshToken) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.APP_ID, appId);
 		paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
 		return getHttpAccessToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap);
 	}
 
-	private static Result<ClientAccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
+	private static Result<AccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
 		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
 			logger.error("getHttpAccessToken exception, return null. url:{}", url);
 			return null;
 		}
-		return JsonUtils.parseObject(jsonStr, new TypeReference<Result<ClientAccessToken>>(){});
+		return JsonUtils.parseObject(jsonStr, new TypeReference<Result<AccessToken>>(){});
 	}
 }

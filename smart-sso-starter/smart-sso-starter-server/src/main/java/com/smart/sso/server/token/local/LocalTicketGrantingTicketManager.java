@@ -1,11 +1,10 @@
 package com.smart.sso.server.token.local;
 
-import com.smart.sso.server.entity.ExpirationPolicy;
-import com.smart.sso.server.entity.ServerUser;
+import com.smart.sso.base.entity.ExpirationPolicy;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.server.token.TicketGrantingTicketManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,13 +27,13 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public void create(String tgt, ServerUser user) {
+	public void create(String tgt, Userinfo user) {
 		tgtMap.put(tgt, new TgtWrapper(user, System.currentTimeMillis() + getExpiresIn() * 1000));
 		logger.info("登录凭证生成成功, tgt:{}", tgt);
 	}
 
 	@Override
-	public ServerUser getAndRefresh(String tgt) {
+	public Userinfo getAndRefresh(String tgt) {
 		TgtWrapper wrapper = tgtMap.get(tgt);
 		long currentTime = System.currentTimeMillis();
 		if (wrapper == null || currentTime > wrapper.expired) {
@@ -45,7 +44,7 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 	
 	@Override
-	public void set(String tgt, ServerUser user) {
+	public void set(String tgt, Userinfo user) {
 		TgtWrapper wrapper = tgtMap.get(tgt);
 		if (wrapper == null) {
 			return;
@@ -59,7 +58,6 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 		logger.debug("登录凭证删除成功, tgt:{}", tgt);
 	}
 
-	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		tgtMap.forEach((tgt, wrapper) -> {
@@ -76,10 +74,10 @@ public class LocalTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 	
 	private class TgtWrapper {
-		private ServerUser user;
+		private Userinfo user;
 		private long expired;
 
-		public TgtWrapper(ServerUser user, long expired) {
+		public TgtWrapper(Userinfo user, long expired) {
 			super();
 			this.user = user;
 			this.expired = expired;

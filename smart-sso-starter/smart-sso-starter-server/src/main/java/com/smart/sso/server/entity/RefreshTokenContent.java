@@ -2,8 +2,6 @@ package com.smart.sso.server.entity;
 
 public class RefreshTokenContent {
 
-	private static final long serialVersionUID = -1332598459045608781L;
-
 	private AccessTokenContent accessTokenContent;
 
 	private String accessToken;

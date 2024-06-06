@@ -1,4 +1,4 @@
-package com.smart.sso.client.entity;
+package com.smart.sso.base.entity;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class ClientAccessToken implements Serializable {
+public class AccessToken implements Serializable {
 
 	private static final long serialVersionUID = 4507869346123296527L;
 
@@ -30,19 +30,19 @@ public class ClientAccessToken implements Serializable {
 	/**
 	 * 用户信息
 	 */
-	private ClientUser user;
+	private Userinfo userinfo;
 
-	public ClientAccessToken() {
+	public AccessToken() {
 		super();
 	}
 
-	public ClientAccessToken(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, ClientUser user) {
+	public AccessToken(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, Userinfo userinfo) {
 		super();
 		this.accessToken = accessToken;
 		this.expiresIn = expiresIn;
 		this.refreshToken = refreshToken;
 		this.refreshExpiresIn = refreshExpiresIn;
-		this.user = user;
+		this.userinfo = userinfo;
 	}
 
 	public String getAccessToken() {
@@ -77,11 +77,11 @@ public class ClientAccessToken implements Serializable {
 		this.refreshExpiresIn = refreshExpiresIn;
 	}
 
-	public ClientUser getUser() {
-		return user;
+	public Userinfo getUserinfo() {
+		return userinfo;
 	}
 
-	public void setUser(ClientUser user) {
-		this.user = user;
+	public void setUserinfo(Userinfo userinfo) {
+		this.userinfo = userinfo;
 	}
 }

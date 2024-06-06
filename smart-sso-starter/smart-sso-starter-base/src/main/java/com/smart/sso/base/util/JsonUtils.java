@@ -1,4 +1,4 @@
-package com.smart.sso.client.util;
+package com.smart.sso.base.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

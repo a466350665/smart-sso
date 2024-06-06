@@ -1,10 +1,11 @@
 package com.smart.sso.client.filter;
 
+import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.entity.ClientAccessToken;
 import com.smart.sso.client.entity.Result;
-import com.smart.sso.client.util.JsonUtils;
 import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.TokenUtils;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class LoginFilter extends ClientFilter {
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		ClientAccessToken accessToken = TokenUtils.getAccessToken(request, response);
+		AccessToken accessToken = TokenUtils.getAccessToken(request, response);
 		// 本地已存在accessToken，直接返回
 		if (accessToken != null) {
 			return true;
@@ -53,7 +54,7 @@ public class LoginFilter extends ClientFilter {
 	 * @param request
 	 */
 	private void getAccessToken(String code, HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
+		Result<AccessToken> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
 				properties.getAppSecret(), code);
 		if (!result.isSuccess()) {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
@@ -74,9 +75,9 @@ public class LoginFilter extends ClientFilter {
 			responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
 		}
 		else {
-			String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(ClientConstant.LOGIN_URL).append("?")
+			String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
 					.append(Oauth2Constant.APP_ID).append("=").append(properties.getAppId()).append("&")
-					.append(ClientConstant.REDIRECT_URI).append("=")
+					.append(BaseConstant.REDIRECT_URI).append("=")
 					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
 			response.sendRedirect(loginUrl);
 		}

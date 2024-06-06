@@ -1,8 +1,9 @@
 package com.smart.sso.server.controller;
 
+import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.entity.ClientUser;
 import com.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,13 +39,13 @@ public class IndexController {
 	 */
     @GetMapping
 	public String execute(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		ClientUser user = TokenUtils.getUser(request);
+		Userinfo userinfo = TokenUtils.getUserinfo(request);
 		// 设置登录用户名
-		model.addAttribute("userName", user.getUsername());
+		model.addAttribute("userName", userinfo.getUsername());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
 		// 单点退出地址
-		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
+		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
 		return "index";
 	}

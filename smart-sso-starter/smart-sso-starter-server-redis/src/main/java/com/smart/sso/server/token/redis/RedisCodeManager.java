@@ -1,8 +1,8 @@
 package com.smart.sso.server.token.redis;
 
+import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.util.JsonUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 

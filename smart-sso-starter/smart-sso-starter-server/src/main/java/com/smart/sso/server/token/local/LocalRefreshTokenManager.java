@@ -1,15 +1,13 @@
 package com.smart.sso.server.token.local;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-
-import com.smart.sso.server.entity.ExpirationPolicy;
+import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.server.entity.RefreshTokenContent;
 import com.smart.sso.server.token.RefreshTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地刷新凭证管理
@@ -44,7 +42,6 @@ public class LocalRefreshTokenManager implements RefreshTokenManager, Expiration
 		return wrapper.refreshTokenContent;
 	}
 
-	@Scheduled(cron = SCHEDULED_CRON)
 	@Override
 	public void verifyExpired() {
 		refreshTokenMap.forEach((resfreshToken, wrapper) -> {

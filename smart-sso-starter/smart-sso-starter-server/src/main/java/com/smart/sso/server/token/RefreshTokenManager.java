@@ -1,10 +1,10 @@
 package com.smart.sso.server.token;
 
-import java.util.UUID;
-
+import com.smart.sso.base.entity.Expiration;
 import com.smart.sso.server.entity.AccessTokenContent;
-import com.smart.sso.server.entity.Expiration;
 import com.smart.sso.server.entity.RefreshTokenContent;
+
+import java.util.UUID;
 
 /**
  * 刷新凭证refreshToken管理抽象

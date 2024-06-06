@@ -36,6 +36,12 @@
 			<!-- sso单点登录客户端 -->
 			<dependency>
 				<groupId>com.smart</groupId>
+				<artifactId>smart-sso-starter-base</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.smart</groupId>
 				<artifactId>smart-sso-starter-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>

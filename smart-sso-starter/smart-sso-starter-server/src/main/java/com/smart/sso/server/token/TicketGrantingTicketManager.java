@@ -1,7 +1,7 @@
 package com.smart.sso.server.token;
 
-import com.smart.sso.server.entity.Expiration;
-import com.smart.sso.server.entity.ServerUser;
+import com.smart.sso.base.entity.Expiration;
+import com.smart.sso.base.entity.Userinfo;
 
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-	default String generate(ServerUser user) {
+	default String generate(Userinfo user) {
 		String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
 		create(tgt, user);
 		return tgt;
@@ -30,7 +30,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-    void create(String tgt, ServerUser user);
+    void create(String tgt, Userinfo user);
     
     /**
      * 验证st是否存在且在有效期内，并更新过期时间戳
@@ -38,7 +38,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param tgt
      * @return
      */
-    ServerUser getAndRefresh(String tgt);
+    Userinfo getAndRefresh(String tgt);
     
     /**
      * 设置新的用户信息
@@ -46,7 +46,7 @@ public interface TicketGrantingTicketManager extends Expiration {
      * @param user
      * @return
      */
-    void set(String tgt, ServerUser user);
+    void set(String tgt, Userinfo user);
     
     /**
      * 移除

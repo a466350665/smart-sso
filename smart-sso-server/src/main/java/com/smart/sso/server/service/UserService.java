@@ -1,7 +1,7 @@
 package com.smart.sso.server.service;
 
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.entity.Result;
-import com.smart.sso.server.entity.ServerUser;
 
 /**
  * 用户服务接口
@@ -19,5 +19,5 @@ public interface UserService {
 	 *            密码
 	 * @return
 	 */
-	Result<ServerUser> login(String username, String password);
+	Result<Userinfo> login(String username, String password);
 }

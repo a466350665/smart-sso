@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({ServerProperties.class})
 @AutoConfigureBefore({ ServerAutoConfiguration.class })
+@EnableConfigurationProperties({ServerProperties.class})
 public class ServerRedisAutoConfiguration {
 
 	@Bean

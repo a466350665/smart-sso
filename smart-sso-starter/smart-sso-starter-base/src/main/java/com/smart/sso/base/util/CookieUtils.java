@@ -1,10 +1,10 @@
-package com.smart.sso.server.util;
+package com.smart.sso.base.util;
+
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.util.StringUtils;
 
 /**
  * cookie操作工具

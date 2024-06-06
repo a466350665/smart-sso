@@ -1,11 +1,10 @@
 package com.smart.sso.demo.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.client.ClientProperties;
+import com.smart.sso.client.constant.ClientConstant;
+import com.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,9 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.entity.ClientUser;
-import com.smart.sso.client.util.TokenUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 @RequestMapping("/")
@@ -35,13 +34,13 @@ public class IndexController {
 	 */
 	@GetMapping
 	public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		ClientUser user = TokenUtils.getUser(request);
+		Userinfo userinfo = TokenUtils.getUserinfo(request);
 		// 登录用户名
-		model.addAttribute("userName", user.getUsername());
+		model.addAttribute("userName", userinfo.getUsername());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
 		// 单点退出地址
-		model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
+		model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
 		return "index";
 	}

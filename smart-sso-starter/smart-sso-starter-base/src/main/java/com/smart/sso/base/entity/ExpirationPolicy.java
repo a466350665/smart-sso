@@ -1,4 +1,4 @@
-package com.smart.sso.server.entity;
+package com.smart.sso.base.entity;
 
 /**
  * 有效期限管理器
@@ -6,11 +6,6 @@ package com.smart.sso.server.entity;
  * @author Joe
  */
 public interface ExpirationPolicy {
-	
-	/**
-	 * 每5分钟执行一次
-	 */
-	String SCHEDULED_CRON = "0 */5 * * * ?";
 	
     /**
      * 定时清理
