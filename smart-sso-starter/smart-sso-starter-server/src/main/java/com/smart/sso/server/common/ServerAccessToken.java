@@ -1,15 +1,11 @@
 package com.smart.sso.server.common;
 
-import java.io.Serializable;
-
 /**
  * 服务端回传Token对象
  * 
  * @author Joe
  */
-public class ServerAccessToken implements Serializable {
-
-	private static final long serialVersionUID = 4507869346123296527L;
+public class ServerAccessToken {
 
 	/**
 	 * 调用凭证
@@ -27,6 +23,10 @@ public class ServerAccessToken implements Serializable {
 	 * 用户信息
 	 */
 	private ServerUser user;
+
+	public ServerAccessToken() {
+		super();
+	}
 
 	public ServerAccessToken(String accessToken, int expiresIn, String refreshToken, ServerUser user) {
 		super();

@@ -1,13 +1,11 @@
 package com.smart.sso.server.common;
 
-import java.io.Serializable;
-
 /**
  * 已登录用户信息
  * 
  * @author Joe
  */
-public class ServerUser implements Serializable {
+public class ServerUser {
 
 	private static final long serialVersionUID = 1764365572138947234L;
 
@@ -15,6 +13,10 @@ public class ServerUser implements Serializable {
     private Integer id;
     // 登录名
     private String username;
+
+    public ServerUser() {
+        super();
+    }
 
     public ServerUser(Integer id, String username) {
         super();

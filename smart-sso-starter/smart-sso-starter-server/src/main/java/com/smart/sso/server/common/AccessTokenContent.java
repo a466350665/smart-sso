@@ -1,14 +1,13 @@
 package com.smart.sso.server.common;
 
-import java.io.Serializable;
-
-public class AccessTokenContent implements Serializable {
-
-	private static final long serialVersionUID = 4587667812642196058L;
+public class AccessTokenContent {
 
 	private CodeContent codeContent;
 	private ServerUser user;
 	private String appId;
+
+	public AccessTokenContent() {
+	}
 
 	public AccessTokenContent(CodeContent codeContent, ServerUser user, String appId) {
 		this.codeContent = codeContent;

@@ -90,7 +90,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 
-		String tgt = sessionManager.setUser(result.getData(), request, response);
+		String tgt = sessionManager.getOrGenerateTgt(result.getData(), request, response);
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 

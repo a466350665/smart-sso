@@ -23,7 +23,7 @@ public class SessionManager {
 		this.ticketGrantingTicketManager = ticketGrantingTicketManager;
 	}
 
-	public String setUser(ServerUser user, HttpServletRequest request, HttpServletResponse response) {
+	public String getOrGenerateTgt(ServerUser user, HttpServletRequest request, HttpServletResponse response) {
 		String tgt = getCookieTgt(request);
 		if (StringUtils.isEmpty(tgt)) {// cookie中没有
 			tgt = ticketGrantingTicketManager.generate(user);

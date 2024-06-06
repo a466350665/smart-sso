@@ -1,21 +1,18 @@
 package com.smart.sso.server.session.local;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
 import com.smart.sso.server.common.AccessTokenContent;
 import com.smart.sso.server.common.CodeContent;
 import com.smart.sso.server.common.ExpirationPolicy;
 import com.smart.sso.server.session.AccessTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.util.CollectionUtils;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地调用凭证管理

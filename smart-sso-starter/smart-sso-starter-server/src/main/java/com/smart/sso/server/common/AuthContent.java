@@ -1,19 +1,18 @@
 package com.smart.sso.server.common;
 
-import java.io.Serializable;
-
 /**
  * 授权存储信息
  * 
  * @author Joe
  */
-public class AuthContent implements Serializable {
-
-	private static final long serialVersionUID = -1332598459045608781L;
+public class AuthContent {
 
 	private String tgt;
 	private boolean sendLogoutRequest;
 	private String redirectUri;
+
+	public AuthContent() {
+	}
 
 	public AuthContent(String tgt, boolean sendLogoutRequest, String redirectUri) {
 		this.tgt = tgt;

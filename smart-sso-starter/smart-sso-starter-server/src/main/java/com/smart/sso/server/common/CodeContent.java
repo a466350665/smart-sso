@@ -7,13 +7,14 @@ import java.io.Serializable;
  * 
  * @author Joe
  */
-public class CodeContent implements Serializable {
-
-	private static final long serialVersionUID = -1332598459045608781L;
+public class CodeContent {
 
 	private String tgt;
 	private boolean sendLogoutRequest;
 	private String redirectUri;
+
+	public CodeContent() {
+	}
 
 	public CodeContent(String tgt, boolean sendLogoutRequest, String redirectUri) {
 		this.tgt = tgt;
