@@ -23,6 +23,7 @@ smart-sso
 ├── smart-sso-demo2 -- 客户端示例2
 ├── smart-sso-server -- 服务端
 ├── smart-sso-starter -- 依赖装配模块
+│   ├── smart-stage-starter-base -- 公用的基础依赖装配
 │   ├── smart-stage-starter-client -- 客户端依赖装配
 │   ├── smart-stage-starter-client-redis -- 客户端依赖装配，分布式部署场景redis支持
 │   ├── smart-stage-starter-server -- 服务端依赖装配

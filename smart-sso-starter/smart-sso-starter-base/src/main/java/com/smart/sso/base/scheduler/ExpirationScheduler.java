@@ -20,8 +20,8 @@ public class ExpirationScheduler {
     /**
      * 每5分钟执行一次
      */
-    @Scheduled(cron = "0 */1 * * * ?")
-    public void performCleanUp() {
+    @Scheduled(cron = "0 */5 * * * ?")
+    public void verifyExpired() {
         if(CollectionUtils.isEmpty(expirationList)){
             return;
         }

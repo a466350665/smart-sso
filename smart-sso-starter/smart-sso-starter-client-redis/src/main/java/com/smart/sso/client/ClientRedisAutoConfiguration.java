@@ -2,6 +2,7 @@ package com.smart.sso.client;
 
 import com.smart.sso.client.token.TokenStorage;
 import com.smart.sso.client.token.redis.RedisTokenStorage;
+import com.smart.sso.client.util.TokenUtils;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ public class ClientRedisAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(TokenStorage.class)
 	public TokenStorage tokenStorage(ClientProperties properties, StringRedisTemplate redisTemplate) {
-		return new RedisTokenStorage(properties, redisTemplate);
+		TokenStorage ts =  new RedisTokenStorage(properties, redisTemplate);
+		TokenUtils.setTokenStorage(ts);
+		return ts;
 	}
 }

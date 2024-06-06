@@ -31,7 +31,7 @@ public final class RedisTokenStorage extends TokenStorage {
         StWrapper wrapper = new StWrapper(accessToken, System.currentTimeMillis() + accessToken.getExpiresIn() * 1000);
         redisTemplate.opsForValue().set(ST_TOKEN_KEY + st, JsonUtils.toJSONString(wrapper), accessToken.getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(TOKEN_ST_KEY + accessToken, st);
+        redisTemplate.opsForValue().set(TOKEN_ST_KEY + accessToken.getAccessToken(), st);
     }
 
     @Override
@@ -69,13 +69,32 @@ public final class RedisTokenStorage extends TokenStorage {
         }
     }
 
-    private class StWrapper {
+    public static class StWrapper {
         private AccessToken accessToken;
         private long expired;
+
+        public StWrapper(){
+        }
 
         public StWrapper(AccessToken accessToken, long expired) {
             super();
             this.accessToken = accessToken;
+            this.expired = expired;
+        }
+
+        public AccessToken getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(AccessToken accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public long getExpired() {
+            return expired;
+        }
+
+        public void setExpired(long expired) {
             this.expired = expired;
         }
 
