@@ -57,7 +57,7 @@ public class TokenManager {
 		ticketGrantingTicketManager.remove(tgt);
 		// 删除凭证Cookie
 		CookieUtils.removeCookie(ServerConstant.TGC, "/", response);
-		// 删除所有tgt对应的调用凭证，并通知客户端登出注销本地Token
+		// 删除所有tgt对应的调用凭证，并通知客户端退出注销本地Token
 	    accessTokenManager.remove(tgt);
 	}
 

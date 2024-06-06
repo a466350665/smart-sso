@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 单点登出Filter
+ * 单点退出Filter
  * 
  * @author Joe
  */

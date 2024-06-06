@@ -6,7 +6,7 @@ package com.smart.sso.client.constant;
 public class ClientConstant {
 
 	/**
-	 * 服务端登出地址
+	 * 服务端退出地址
 	 */
 	public static final String LOGOUT_URL = "/logout";
     

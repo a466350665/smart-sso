@@ -60,7 +60,7 @@ public interface AccessTokenManager extends Expiration {
 	void remove(String tgt);
 	
 	/**
-	 * 发起客户端登出请求
+	 * 发起客户端退出请求
 	 * 
 	 * @param redirectUri
 	 * @param accessToken

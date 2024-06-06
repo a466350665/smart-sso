@@ -76,7 +76,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			if (codeContent == null || !codeContent.isSendLogoutRequest()) {
 				return;
 			}
-			logger.debug("发起客户端登出请求, accessToken:{}, url:{}", accessToken, codeContent.getRedirectUri());
+			logger.debug("发起客户端退出请求, accessToken:{}, url:{}", accessToken, codeContent.getRedirectUri());
 			sendLogoutRequest(codeContent.getRedirectUri(), accessToken);
 		});
 	}

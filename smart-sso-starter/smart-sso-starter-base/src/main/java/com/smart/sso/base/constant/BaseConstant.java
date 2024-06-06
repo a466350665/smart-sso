@@ -18,7 +18,7 @@ public class BaseConstant {
 	public static final String REDIRECT_URI = "redirectUri";
     
     /**
-     * 服务端单点登出回调客户端登出参数名称
+     * 服务端单点退出回调客户端退出参数名称
      */
     public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
 }

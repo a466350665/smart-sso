@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 单点登出
+ * 单点退出
  * 
  * @author Joe
  */
@@ -25,7 +25,7 @@ public class LogoutController {
 	private TokenManager tokenManager;
 
 	/**
-	 * 登出
+	 * 退出
 	 * 
 	 * @param redirectUri
 	 * @param request
