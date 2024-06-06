@@ -1,7 +1,7 @@
 package com.smart.sso.server.controller;
 
 import com.smart.sso.server.constant.ServerConstant;
-import com.smart.sso.server.session.SessionManager;
+import com.smart.sso.server.token.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutController {
 
 	@Autowired
-	private SessionManager sessionManager;
+	private TokenManager tokenManager;
 
 	/**
 	 * 登出
@@ -33,9 +33,9 @@ public class LogoutController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(
-			@RequestParam(value = ServerConstant.REDIRECT_URI, required = true) String redirectUri,
+			@RequestParam(value = ServerConstant.REDIRECT_URI) String redirectUri,
 	        HttpServletRequest request, HttpServletResponse response) {
-		sessionManager.invalidate(request, response);
+		tokenManager.invalidate(request, response);
         return "redirect:" + redirectUri;
 	}
 }

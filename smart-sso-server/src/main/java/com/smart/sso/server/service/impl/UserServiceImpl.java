@@ -3,10 +3,10 @@ package com.smart.sso.server.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.smart.sso.server.common.ServerUser;
+import com.smart.sso.server.entity.ServerUser;
 import org.springframework.stereotype.Service;
 
-import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.entity.Result;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 

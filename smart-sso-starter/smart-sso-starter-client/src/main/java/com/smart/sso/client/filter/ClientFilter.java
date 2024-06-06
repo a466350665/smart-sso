@@ -1,19 +1,12 @@
 package com.smart.sso.client.filter;
 
-import java.io.IOException;
+import com.smart.sso.client.ClientProperties;
+import com.smart.sso.client.token.TokenStorage;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.smart.sso.client.ClientProperties;
-import com.smart.sso.client.listener.LogoutListener;
-import com.smart.sso.client.session.SessionMappingStorage;
+import java.io.IOException;
 
 /**
  * Filter基类
@@ -22,7 +15,7 @@ import com.smart.sso.client.session.SessionMappingStorage;
  */
 public abstract class ClientFilter implements Filter {
 	
-	private SessionMappingStorage sessionMappingStorage;
+	private TokenStorage tokenStorage;
 
 	protected ClientProperties properties;
     
@@ -41,13 +34,13 @@ public abstract class ClientFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
-	
-	protected SessionMappingStorage getSessionMappingStorage() {
-		return sessionMappingStorage;
+
+	public TokenStorage getTokenStorage() {
+		return tokenStorage;
 	}
 
-	public void setSessionMappingStorage(SessionMappingStorage sessionMappingStorage) {
-		this.sessionMappingStorage = sessionMappingStorage;
+	public void setTokenStorage(TokenStorage tokenStorage) {
+		this.tokenStorage = tokenStorage;
 	}
 
 	public void setProperties(ClientProperties properties) {

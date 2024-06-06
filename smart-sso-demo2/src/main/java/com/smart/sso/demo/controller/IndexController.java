@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.rpc.ClientUser;
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.entity.ClientUser;
+import com.smart.sso.client.util.TokenUtils;
 
 @Controller
 @RequestMapping("/")
@@ -35,13 +35,11 @@ public class IndexController {
 	 */
 	@GetMapping
 	public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		ClientUser user = SessionUtils.getUser(request);
+		ClientUser user = TokenUtils.getUser(request);
 		// 登录用户名
 		model.addAttribute("userName", user.getUsername());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
-		// 当前sessionId
-		model.addAttribute("sessionId", request.getSession().getId());
 		// 单点退出地址
 		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));

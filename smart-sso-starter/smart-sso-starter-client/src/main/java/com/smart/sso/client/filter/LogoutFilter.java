@@ -1,12 +1,10 @@
 package com.smart.sso.client.filter;
 
-import java.io.IOException;
+import com.smart.sso.client.constant.ClientConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.smart.sso.client.constant.ClientConstant;
+import java.io.IOException;
 
 /**
  * 单点登出Filter
@@ -19,7 +17,7 @@ public class LogoutFilter extends ClientFilter {
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String accessToken = getLogoutParam(request);
         if (accessToken != null) {
-            destroySession(accessToken);
+            getTokenStorage().removeByAccessToken(accessToken);
             return false;
         }
         return true;
@@ -27,12 +25,5 @@ public class LogoutFilter extends ClientFilter {
     
     protected String getLogoutParam(HttpServletRequest request) {
     	return request.getHeader(ClientConstant.LOGOUT_PARAMETER_NAME);
-    }
-
-    private void destroySession(String accessToken) {
-        final HttpSession session = getSessionMappingStorage().removeSessionByMappingId(accessToken);
-        if (session != null) {
-            session.invalidate();
-        }
     }
 }

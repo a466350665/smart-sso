@@ -34,8 +34,8 @@ smart-sso
 | 技术                   | 版本    | 说明             |
 | ---------------------- | ------- | ---------------- |
 | spring-boot             | 2.5.13   | 容器 + MVC框架     |
+| spring-boot-starter-data-redis    | 2.5.13   | 分布式场景Token管理  |
 | httpclient    | 4.5.13   | 授权码认证，客户端和服务端通信  |
-| spring-session-data-redis    | 2.5.6   | 分布式Session管理  |
 
 ## 功能说明
 
@@ -43,11 +43,11 @@ smart-sso
 
 2. **跨域支持：** 服务端和客户端都支持不同域名的跨域单点登录访问机制；
 
-3. **分布式部署：** 服务端和客户端都支持多实例部署场景，基于spring-session + redis管理分布式Session；
+3. **分布式部署：** 服务端和客户端都支持多实例部署场景，基于redis实现分布式Token管理；
 
 4. **APP登录支持：** 基于Oauth2密码模式由客户端代理转发http请求到服务端完成APP登录认证；
 
-5. **高度扩展性：** 服务端实现的简化版OAuth2协议和Session管理机制都允许自定义扩展覆盖。
+5. **高度扩展性：** 服务端实现的简化版OAuth2协议和Token管理机制都允许自定义扩展覆盖。
 
 ## 单点登录原理
 ![](./images/smart-sso-login.png)

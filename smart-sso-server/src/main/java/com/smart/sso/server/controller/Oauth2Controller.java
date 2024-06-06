@@ -2,14 +2,14 @@ package com.smart.sso.server.controller;
 
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.enums.GrantTypeEnum;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.server.common.*;
+import com.smart.sso.client.entity.Result;
+import com.smart.sso.server.entity.*;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.session.AccessTokenManager;
-import com.smart.sso.server.session.CodeManager;
-import com.smart.sso.server.session.RefreshTokenManager;
-import com.smart.sso.server.session.TicketGrantingTicketManager;
+import com.smart.sso.server.token.AccessTokenManager;
+import com.smart.sso.server.token.CodeManager;
+import com.smart.sso.server.token.RefreshTokenManager;
+import com.smart.sso.server.token.TicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,7 +108,7 @@ public class Oauth2Controller {
 
 			ServerUser user = ticketGrantingTicketManager.getAndRefresh(codeContent.getTgt());
 			if (user == null) {
-				return Result.createError("服务端session已过期");
+				return Result.createError("服务端TGT已过期");
 			}
 			authDto = new AccessTokenContent(codeContent, user, appId);
 		}
@@ -155,12 +155,12 @@ public class Oauth2Controller {
 		}
 		ServerUser user = ticketGrantingTicketManager.getAndRefresh(accessTokenContent.getCodeContent().getTgt());
 		if (user == null) {
-			return Result.createError("服务端session已过期");
+			return Result.createError("服务端TGT已过期");
 		}
 
 		return Result.createSuccess(genereateRpcAccessToken(accessTokenContent, refreshTokenContent.getAccessToken()));
 	}
-	
+
 	private ServerAccessToken genereateRpcAccessToken(AccessTokenContent accessTokenContent, String accessToken) {
 		String newAccessToken = accessToken;
 		if (newAccessToken == null || !accessTokenManager.refresh(newAccessToken)) {
@@ -170,6 +170,6 @@ public class Oauth2Controller {
 		String refreshToken = refreshTokenManager.generate(accessTokenContent, newAccessToken);
 
 		return new ServerAccessToken(newAccessToken, accessTokenManager.getExpiresIn(), refreshToken,
-				accessTokenContent.getUser());
+				refreshTokenManager.getExpiresIn(), accessTokenContent.getUser());
 	}
 }

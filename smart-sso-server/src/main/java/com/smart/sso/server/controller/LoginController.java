@@ -2,13 +2,13 @@ package com.smart.sso.server.controller;
 
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.server.common.ServerUser;
+import com.smart.sso.client.entity.Result;
+import com.smart.sso.server.entity.ServerUser;
 import com.smart.sso.server.constant.ServerConstant;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.session.CodeManager;
-import com.smart.sso.server.session.SessionManager;
+import com.smart.sso.server.token.CodeManager;
+import com.smart.sso.server.token.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,7 +33,7 @@ public class LoginController{
 	@Autowired
 	private CodeManager codeManager;
 	@Autowired
-	private SessionManager sessionManager;
+	private TokenManager tokenManager;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -52,7 +52,7 @@ public class LoginController{
 			@RequestParam(value = ClientConstant.REDIRECT_URI, required = true) String redirectUri,
 			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
-		String tgt = sessionManager.getTgt(request);
+		String tgt = tokenManager.getTgt(request);
 		if (StringUtils.isEmpty(tgt)) {
 			return goLoginPath(redirectUri, appId, request);
 		}
@@ -90,7 +90,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 
-		String tgt = sessionManager.getOrGenerateTgt(result.getData(), request, response);
+		String tgt = tokenManager.getOrGenerateTgt(result.getData(), request, response);
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 

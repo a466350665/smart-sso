@@ -2,11 +2,11 @@ package com.smart.sso.demo.controller;
 
 import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.rpc.ClientAccessToken;
-import com.smart.sso.client.rpc.ClientUser;
-import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.entity.ClientAccessToken;
+import com.smart.sso.client.entity.ClientUser;
+import com.smart.sso.client.entity.Result;
 import com.smart.sso.client.util.Oauth2Utils;
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +33,7 @@ public class AppController {
 	 */
     @RequestMapping
 	public Result index(HttpServletRequest request) {
-		ClientUser user = SessionUtils.getUser(request);
+		ClientUser user = TokenUtils.getUser(request);
 		return Result.createSuccess(user);
 	}
 	
@@ -55,7 +55,7 @@ public class AppController {
 		if (!result.isSuccess()) {
 			return result;
 		}
-		SessionUtils.setAccessToken(request, result.getData());
+		TokenUtils.setAccessToken(result.getData(), request);
 		return Result.createSuccess().setMessage("登录成功");
 	}
 }

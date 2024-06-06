@@ -1,13 +1,13 @@
 package com.smart.sso.server;
 
-import com.smart.sso.server.session.AccessTokenManager;
-import com.smart.sso.server.session.CodeManager;
-import com.smart.sso.server.session.RefreshTokenManager;
-import com.smart.sso.server.session.TicketGrantingTicketManager;
-import com.smart.sso.server.session.redis.RedisAccessTokenManager;
-import com.smart.sso.server.session.redis.RedisCodeManager;
-import com.smart.sso.server.session.redis.RedisRefreshTokenManager;
-import com.smart.sso.server.session.redis.RedisTicketGrantingTicketManager;
+import com.smart.sso.server.token.AccessTokenManager;
+import com.smart.sso.server.token.CodeManager;
+import com.smart.sso.server.token.RefreshTokenManager;
+import com.smart.sso.server.token.TicketGrantingTicketManager;
+import com.smart.sso.server.token.redis.RedisAccessTokenManager;
+import com.smart.sso.server.token.redis.RedisCodeManager;
+import com.smart.sso.server.token.redis.RedisRefreshTokenManager;
+import com.smart.sso.server.token.redis.RedisTicketGrantingTicketManager;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

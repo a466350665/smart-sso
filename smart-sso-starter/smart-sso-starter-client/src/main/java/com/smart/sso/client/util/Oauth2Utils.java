@@ -3,8 +3,8 @@ package com.smart.sso.client.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.smart.sso.client.constant.Oauth2Constant;
 import com.smart.sso.client.enums.GrantTypeEnum;
-import com.smart.sso.client.rpc.ClientAccessToken;
-import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.entity.ClientAccessToken;
+import com.smart.sso.client.entity.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

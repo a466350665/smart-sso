@@ -19,7 +19,7 @@ public enum GrantTypeEnum {
 
 	private String value;
 
-	private GrantTypeEnum(String value) {
+	GrantTypeEnum(String value) {
 		this.value = value;
 	}
 

@@ -5,10 +5,14 @@ package com.smart.sso.server.constant;
  */
 public class ServerConstant {
 
-	// 存cookie中TGT名称，和Cas保存一致
+	/**
+	 * 存cookie中TGT名称，和CAS概念保存一致
+	 */
 	public static final String TGC = "TGC";
 
-	// 登录页
+	/**
+	 * 登录页
+	 */
 	public static final String LOGIN_PATH = "/login";
 	
 	/**

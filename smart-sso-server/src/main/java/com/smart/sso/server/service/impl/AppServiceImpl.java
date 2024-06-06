@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.smart.sso.client.rpc.Result;
+import com.smart.sso.client.entity.Result;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
 

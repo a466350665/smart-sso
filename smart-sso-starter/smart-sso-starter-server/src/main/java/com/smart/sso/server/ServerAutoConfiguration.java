@@ -1,10 +1,10 @@
 package com.smart.sso.server;
 
-import com.smart.sso.server.session.*;
-import com.smart.sso.server.session.local.LocalAccessTokenManager;
-import com.smart.sso.server.session.local.LocalCodeManager;
-import com.smart.sso.server.session.local.LocalRefreshTokenManager;
-import com.smart.sso.server.session.local.LocalTicketGrantingTicketManager;
+import com.smart.sso.server.token.*;
+import com.smart.sso.server.token.local.LocalAccessTokenManager;
+import com.smart.sso.server.token.local.LocalCodeManager;
+import com.smart.sso.server.token.local.LocalRefreshTokenManager;
+import com.smart.sso.server.token.local.LocalTicketGrantingTicketManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -39,8 +39,8 @@ public class ServerAutoConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(SessionManager.class)
-	public SessionManager sessionManager(AccessTokenManager accessTokenManager, TicketGrantingTicketManager ticketGrantingTicketManager) {
-		return new SessionManager(accessTokenManager, ticketGrantingTicketManager);
+	@ConditionalOnMissingBean(TokenManager.class)
+	public TokenManager tManager(AccessTokenManager accessTokenManager, TicketGrantingTicketManager ticketGrantingTicketManager) {
+		return new TokenManager(accessTokenManager, ticketGrantingTicketManager);
 	}
 }

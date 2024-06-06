@@ -2,8 +2,8 @@ package com.smart.sso.server.controller;
 
 import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.rpc.ClientUser;
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.entity.ClientUser;
+import com.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -38,13 +38,11 @@ public class IndexController {
 	 */
     @GetMapping
 	public String execute(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		ClientUser user = SessionUtils.getUser(request);
+		ClientUser user = TokenUtils.getUser(request);
 		// 设置登录用户名
 		model.addAttribute("userName", user.getUsername());
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
-		// 当前sessionId
-		model.addAttribute("sessionId", request.getSession().getId());
 		// 单点退出地址
 		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + ClientConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));

@@ -26,14 +26,14 @@ public class ClientConstant {
     public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";
     
     /**
-     * 本地session中的AccessToken信息
-     */
-    public static final String SESSION_ACCESS_TOKEN = "_sessionAccessToken";
-    
-    /**
      * 模糊匹配后缀
      */
     public static final String URL_FUZZY_MATCH = "/*";
+
+	/**
+	 * 存cookie中ST名称，和CAS概念保存一致
+	 */
+	public static final String COOKIE_SERVICE_TICKET = "ST";
 	
 	/**
 	 * 未登录或已过期

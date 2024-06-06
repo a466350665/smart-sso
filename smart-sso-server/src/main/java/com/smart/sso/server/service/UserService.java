@@ -1,7 +1,7 @@
 package com.smart.sso.server.service;
 
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.server.common.ServerUser;
+import com.smart.sso.client.entity.Result;
+import com.smart.sso.server.entity.ServerUser;
 
 /**
  * 用户服务接口

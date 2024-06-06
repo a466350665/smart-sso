@@ -2,18 +2,16 @@ package com.smart.sso.client.filter;
 
 import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.rpc.ClientAccessToken;
-import com.smart.sso.client.rpc.Result;
-import com.smart.sso.client.session.SessionAccessToken;
+import com.smart.sso.client.entity.ClientAccessToken;
+import com.smart.sso.client.entity.Result;
 import com.smart.sso.client.util.JsonUtils;
 import com.smart.sso.client.util.Oauth2Utils;
-import com.smart.sso.client.util.SessionUtils;
+import com.smart.sso.client.util.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
@@ -29,17 +27,17 @@ public class LoginFilter extends ClientFilter {
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SessionAccessToken sessionAccessToken = SessionUtils.getAccessToken(request);
-		// 本地Session中已存在，且accessToken没过期或者refreshToken成功，直接返回
-		if (sessionAccessToken != null && (!sessionAccessToken.isExpired()
-				|| refreshToken(sessionAccessToken.getRefreshToken(), request))) {
+		ClientAccessToken accessToken = TokenUtils.getAccessToken(request, response);
+		// 本地已存在accessToken，直接返回
+		if (accessToken != null) {
 			return true;
 		}
 		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
+		// 携带授权码请求
 		if (code != null) {
 			// 获取accessToken
 			getAccessToken(code, request);
-			// 为去掉URL中授权码参数，再跳转一次当前地址
+			// 为去除URL中授权码参数，再跳转一次当前地址
 			redirectLocalRemoveCode(request, response);
 		}
 		else {
@@ -47,10 +45,10 @@ public class LoginFilter extends ClientFilter {
 		}
 		return false;
 	}
-	
-    /**
-     * 获取accessToken和用户信息存session
-     * 
+
+	/**
+	 * 获取accessToken和用户信息存储到Token管理器
+	 *
 	 * @param code
 	 * @param request
 	 */
@@ -61,42 +59,8 @@ public class LoginFilter extends ClientFilter {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
 			return;
 		}
-		setAccessTokenInSession(result.getData(), request);
+		TokenUtils.setAccessToken(result.getData(), request);
 	}
-	
-	/**
-     * 通过refreshToken参数调用http请求延长服务端session，并返回新的accessToken
-     * 
-	 * @param refreshToken
-	 * @param request
-	 * @return
-	 */
-	protected boolean refreshToken(String refreshToken, HttpServletRequest request) {
-		Result<ClientAccessToken> result = Oauth2Utils.refreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
-		if (!result.isSuccess()) {
-			logger.error("refreshToken has error, message:{}", result.getMessage());
-			return false;
-		}
-		return setAccessTokenInSession(result.getData(), request);
-	}
-	
-	private boolean setAccessTokenInSession(ClientAccessToken rpcAccessToken, HttpServletRequest request) {
-		if (rpcAccessToken == null) {
-			return false;
-		}
-		// 记录accessToken到本地session
-		SessionUtils.setAccessToken(request, rpcAccessToken);
-		
-		// 记录本地session和accessToken映射
-		recordSession(request, rpcAccessToken.getAccessToken());
-		return true;
-	}
-	
-    private void recordSession(final HttpServletRequest request, String accessToken) {
-        final HttpSession session = request.getSession();
-        getSessionMappingStorage().removeBySessionById(session.getId());
-        getSessionMappingStorage().addSessionById(accessToken, session);
-    }
     
 	/**
 	 * 跳转至服务端登录

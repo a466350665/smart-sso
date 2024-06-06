@@ -2,7 +2,7 @@ package com.smart.sso.client;
 
 import com.smart.sso.client.constant.ClientConstant;
 import com.smart.sso.client.filter.ClientFilter;
-import com.smart.sso.client.session.SessionMappingStorage;
+import com.smart.sso.client.token.TokenStorage;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,15 +20,15 @@ import java.util.stream.Collectors;
  */
 public class ClientContainer implements Filter {
 
-	private SessionMappingStorage sessionMappingStorage;
+	private TokenStorage tokenStorage;
 
 	private ClientProperties properties;
 
 	private ClientFilter[] filters;
 
-	public ClientContainer(ClientProperties properties, SessionMappingStorage sessionMappingStorage) {
+	public ClientContainer(ClientProperties properties, TokenStorage tokenStorage) {
 		this.properties = properties;
-		this.sessionMappingStorage = sessionMappingStorage;
+		this.tokenStorage = tokenStorage;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class ClientContainer implements Filter {
 		}
 		for (ClientFilter filter : filters) {
 			filter.setProperties(properties);
-			filter.setSessionMappingStorage(sessionMappingStorage);
+			filter.setTokenStorage(tokenStorage);
 			filter.init(filterConfig);
 		}
 	}
