@@ -1,12 +1,12 @@
 package com.smart.sso.client.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.smart.sso.base.entity.AccessToken;
-import com.smart.sso.base.util.HttpUtils;
-import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.base.constant.Oauth2Constant;
+import com.smart.sso.base.entity.AccessToken;
 import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.enums.GrantTypeEnum;
+import com.smart.sso.base.util.HttpUtils;
+import com.smart.sso.base.util.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,9 +79,14 @@ public class Oauth2Utils {
 	private static Result<AccessToken> getHttpAccessToken(String url, Map<String, String> paramMap) {
 		String jsonStr = HttpUtils.get(url, paramMap);
 		if (jsonStr == null || jsonStr.isEmpty()) {
-			logger.error("getHttpAccessToken exception, return null. url:{}", url);
-			return null;
+			logger.error("get http accessToken return null. url:{}", url);
+			return Result.createError("获取accessToken失败");
 		}
-		return JsonUtils.parseObject(jsonStr, new TypeReference<Result<AccessToken>>(){});
+		Result<AccessToken> result = JsonUtils.parseObject(jsonStr, new TypeReference<Result<AccessToken>>(){});
+		if(result == null){
+			logger.error("parse accessToken return null. jsonStr:{}", jsonStr);
+			return Result.createError("解析accessToken失败");
+		}
+		return result;
 	}
 }

@@ -24,7 +24,7 @@ public class JsonUtils {
     public static <T> T parseObject(String jsonString, Class<T> cls) {
         try {
             return mapper.readValue(jsonString, cls);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             logger.error("deserialize has error, jsonString:{}, class:{}", jsonString, cls, e);
         }
         return null;

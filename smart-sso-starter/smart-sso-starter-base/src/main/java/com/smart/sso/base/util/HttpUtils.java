@@ -50,12 +50,12 @@ public class HttpUtils {
 				if (entity != null) {
 					result = EntityUtils.toString(entity);
 				}
-				logger.info("url: {}, result: {}", url, result);
+				logger.info("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result);
 			}
 			return result;
 		}
 		catch (Exception e) {
-			logger.error("url: {}, result: {}", url, result, e);
+			logger.error("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result, e);
 		}
 		finally {
 			try {

@@ -32,8 +32,8 @@ public class RedisRefreshTokenManager implements RefreshTokenManager {
 	@Override
 	public RefreshTokenContent validate(String refreshToken) {
 		String rtc = redisTemplate.opsForValue().get(refreshToken);
-		if (!StringUtils.isEmpty(rtc)) {
-			redisTemplate.delete(refreshToken);
+		if (StringUtils.isEmpty(rtc)) {
+			return null;
 		}
 		return JsonUtils.parseObject(rtc, RefreshTokenContent.class);
 	}
