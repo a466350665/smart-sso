@@ -2,7 +2,7 @@ package com.smart.sso.client.token;
 
 import com.smart.sso.base.entity.AccessToken;
 import com.smart.sso.client.ClientProperties;
-import com.smart.sso.client.entity.Result;
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.client.util.Oauth2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

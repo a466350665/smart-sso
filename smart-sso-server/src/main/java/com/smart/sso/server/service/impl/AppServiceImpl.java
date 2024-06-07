@@ -1,13 +1,12 @@
 package com.smart.sso.server.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
-import com.smart.sso.client.entity.Result;
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.server.model.App;
 import com.smart.sso.server.service.AppService;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("appService")
 public class AppServiceImpl implements AppService {
@@ -16,7 +15,6 @@ public class AppServiceImpl implements AppService {
 
 	static {
 		appList = new ArrayList<>();
-		appList.add(new App("服务端", "server", "123456"));
 		appList.add(new App("客户端1", "demo1", "123456"));
 		appList.add(new App("客户端2", "demo2", "123456"));
 	}

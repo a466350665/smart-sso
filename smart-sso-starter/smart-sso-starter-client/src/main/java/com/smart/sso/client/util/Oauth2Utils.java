@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.smart.sso.base.entity.AccessToken;
 import com.smart.sso.base.util.HttpUtils;
 import com.smart.sso.base.util.JsonUtils;
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.entity.Result;
-import com.smart.sso.client.enums.GrantTypeEnum;
+import com.smart.sso.base.constant.Oauth2Constant;
+import com.smart.sso.base.entity.Result;
+import com.smart.sso.base.enums.GrantTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,9 @@
 package com.smart.sso.server.controller;
 
 import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.constant.Oauth2Constant;
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.entity.Userinfo;
-import com.smart.sso.client.constant.Oauth2Constant;
-import com.smart.sso.client.entity.Result;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.token.CodeManager;

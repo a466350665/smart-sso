@@ -1,4 +1,4 @@
-package com.smart.sso.client.constant;
+package com.smart.sso.base.constant;
 
 /**
  * @author Joe

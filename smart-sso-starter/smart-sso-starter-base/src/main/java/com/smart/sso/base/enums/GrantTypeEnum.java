@@ -1,4 +1,4 @@
-package com.smart.sso.client.enums;
+package com.smart.sso.base.enums;
 
 /**
  * Oauth2授权方式

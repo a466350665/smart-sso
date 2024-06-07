@@ -1,4 +1,4 @@
-package com.smart.sso.client.entity;
+package com.smart.sso.base.entity;
 
 import java.beans.Transient;
 import java.io.Serializable;

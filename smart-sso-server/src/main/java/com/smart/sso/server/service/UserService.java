@@ -1,7 +1,7 @@
 package com.smart.sso.server.service;
 
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.entity.Userinfo;
-import com.smart.sso.client.entity.Result;
 
 /**
  * 用户服务接口

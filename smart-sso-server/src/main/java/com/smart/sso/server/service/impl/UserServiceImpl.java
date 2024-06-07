@@ -1,7 +1,7 @@
 package com.smart.sso.server.service.impl;
 
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.entity.Userinfo;
-import com.smart.sso.client.entity.Result;
 import com.smart.sso.server.model.User;
 import com.smart.sso.server.service.UserService;
 import org.springframework.stereotype.Service;

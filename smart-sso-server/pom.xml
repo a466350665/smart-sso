@@ -22,11 +22,5 @@
 			<groupId>com.smart</groupId>
 			<artifactId>smart-sso-starter-server</artifactId>
 		</dependency>
-
-		<!-- 客户端装配（服务端也可以登录，可以理解为它是自己的一个客户端） -->
-		<dependency>
-			<groupId>com.smart</groupId>
-			<artifactId>smart-sso-starter-client</artifactId>
-		</dependency>
 	</dependencies>
 </project>
