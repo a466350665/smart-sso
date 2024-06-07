@@ -7,95 +7,59 @@ import com.smart.sso.client.token.TokenStorage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 借鉴CAS
+ * Token存储本地实现
  * 
  * @author Joe
  */
 public final class LocalTokenStorage extends TokenStorage implements ExpirationPolicy {
-    private final Map<String, StWrapper> stMap = new HashMap<>();
-    private Map<String, String> accessTokenMap = new ConcurrentHashMap<>();
+    private final Map<String, TokenWrapper> tokenMap = new HashMap<>();
 
     public LocalTokenStorage(ClientProperties properties) {
         this.properties = properties;
     }
 
     @Override
-    public void create(String st, AccessToken accessToken) {
-        stMap.put(st, new StWrapper(accessToken, System.currentTimeMillis() + accessToken.getExpiresIn() * 1000
-                , System.currentTimeMillis() + accessToken.getRefreshExpiresIn() * 1000));
-        accessTokenMap.put(accessToken.getAccessToken(), st);
-        logger.info("服务凭证生成成功, st:{}", st);
+    public void create(AccessToken at) {
+        tokenMap.put(at.getAccessToken(), createTokenWrapper(at));
+        logger.info("服务凭证生成成功, accessToken:{}", at.getAccessToken());
     }
 
     @Override
-    public AccessToken getAndRefresh(String st) {
-        StWrapper wrapper = stMap.get(st);
+    public AccessToken getAndRefresh(String accessToken) {
+        TokenWrapper wrapper = tokenMap.get(accessToken);
         if (wrapper == null) {
             return null;
         }
         // accessToken没过期直接返回
         if(!wrapper.isExpired()){
-            return wrapper.accessToken;
+            return wrapper.getAt();
         }
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
         if(!wrapper.isRefreshExpired()){
-            AccessToken accessToken = refreshToken(wrapper.accessToken.getRefreshToken());
-            if(accessToken != null){
-                create(st, accessToken);
-                return accessToken;
+            AccessToken at = refreshToken(wrapper.getAt().getRefreshToken());
+            if(at != null){
+                create(at);
+                return at;
             }
         }
         return null;
     }
 
     @Override
-    public void removeByServiceTicket(String st) {
-        StWrapper wrapper = stMap.get(st);
-        if (wrapper != null) {
-            accessTokenMap.remove(wrapper.accessToken.getAccessToken());
-        }
-        stMap.remove(st);
-        logger.debug("服务凭证删除成功, tgt:{}", st);
-    }
-
-    @Override
-    public void removeByAccessToken(String accessToken) {
-        String st = accessTokenMap.remove(accessToken);
-        removeByServiceTicket(st);
+    public void remove(String accessToken) {
+        tokenMap.remove(accessToken);
+        logger.debug("服务凭证删除成功, accessToken:{}", accessToken);
     }
 
     @Override
     public void verifyExpired() {
-        stMap.forEach((st, wrapper) -> {
+        tokenMap.forEach((accessToken, wrapper) -> {
             if (wrapper.isRefreshExpired()) {
-                stMap.remove(st);
-                accessTokenMap.remove(wrapper.accessToken.getAccessToken());
-                logger.debug("服务凭证已失效, st:{}", st);
+                tokenMap.remove(accessToken);
+                logger.debug("服务凭证已失效, accessToken:{}", accessToken);
             }
         });
-    }
-
-    private class StWrapper {
-        private AccessToken accessToken;
-        private long expired;
-        private long refreshExpired;
-
-        public StWrapper(AccessToken accessToken, long expired, long refreshExpired) {
-            super();
-            this.accessToken = accessToken;
-            this.expired = expired;
-            this.refreshExpired = refreshExpired;
-        }
-
-        public boolean isExpired() {
-            return System.currentTimeMillis() > expired;
-        }
-
-        public boolean isRefreshExpired() {
-            return System.currentTimeMillis() > refreshExpired;
-        }
     }
 }

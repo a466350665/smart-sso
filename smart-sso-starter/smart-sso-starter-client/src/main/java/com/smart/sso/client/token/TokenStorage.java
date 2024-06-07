@@ -19,29 +19,27 @@ public abstract class TokenStorage {
     protected ClientProperties properties;
 
     /**
-     * 登录成功后，根据用户信息生成令牌
+     * 登录成功后，存储accessToken
      *
-     * @param st
+     * @param at
      * @return
      */
-    public abstract void create(String st, AccessToken accessToken);
+    public abstract void create(AccessToken at);
 
     /**
-     * 验证st是否存在且在有效期内，并更新过期时间戳
+     * 验证accessToken是否存在且在有效期内，过期使用refresh接口刷新
      *
-     * @param st
+     * @param accessToken
      * @return
      */
-    public abstract AccessToken getAndRefresh(String st);
+    public abstract AccessToken getAndRefresh(String accessToken);
 
     /**
      * 移除
      *
-     * @param st
+     * @param accessToken
      */
-    public abstract void removeByServiceTicket(String st);
-
-    public abstract void removeByAccessToken(String accessToken);
+    public abstract void remove(String accessToken);
 
     /**
      * 通过refreshToken参数调用http请求延长服务端Token时效，并返回新的accessToken
@@ -56,5 +54,58 @@ public abstract class TokenStorage {
             return null;
         }
         return result.getData();
+    }
+
+    protected TokenWrapper createTokenWrapper(AccessToken at) {
+        return new TokenWrapper(at, System.currentTimeMillis() + at.getExpiresIn() * 1000,
+                System.currentTimeMillis() + at.getRefreshExpiresIn() * 1000);
+    }
+
+    protected static class TokenWrapper {
+        private AccessToken at;
+        private long expired;
+        private long refreshExpired;
+
+        public TokenWrapper(){
+        }
+
+        public TokenWrapper(AccessToken at, long expired, long refreshExpired) {
+            super();
+            this.at = at;
+            this.expired = expired;
+            this.refreshExpired = refreshExpired;
+        }
+
+        public AccessToken getAt() {
+            return at;
+        }
+
+        public void setAt(AccessToken at) {
+            this.at = at;
+        }
+
+        public long getExpired() {
+            return expired;
+        }
+
+        public void setExpired(long expired) {
+            this.expired = expired;
+        }
+
+        public long getRefreshExpired() {
+            return refreshExpired;
+        }
+
+        public void setRefreshExpired(long refreshExpired) {
+            this.refreshExpired = refreshExpired;
+        }
+
+        public boolean isExpired() {
+            return System.currentTimeMillis() > expired;
+        }
+
+        public boolean isRefreshExpired() {
+            return System.currentTimeMillis() > refreshExpired;
+        }
     }
 }

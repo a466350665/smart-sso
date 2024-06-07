@@ -16,9 +16,9 @@ public class ClientConstant {
     public static final String URL_FUZZY_MATCH = "/*";
 
 	/**
-	 * 存cookie中ST名称，和CAS概念保存一致
+	 * 存cookie中accessToken名称
 	 */
-	public static final String COOKIE_SERVICE_TICKET = "ST";
+	public static final String COOKIE_ACCESS_TOKEN = "AT";
 	
 	/**
 	 * 未登录或已过期

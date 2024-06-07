@@ -28,20 +28,21 @@ public class LoginFilter extends ClientFilter {
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		AccessToken accessToken = TokenUtils.getAccessToken(request, response);
+		AccessToken at = TokenUtils.getAccessToken(request);
 		// 本地已存在accessToken，直接返回
-		if (accessToken != null) {
+		if (at != null) {
 			return true;
 		}
 		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
 		// 携带授权码请求
 		if (code != null) {
 			// 获取accessToken
-			getAccessToken(code, request);
+			getAccessToken(code, request, response);
 			// 为去除URL中授权码参数，再跳转一次当前地址
 			redirectLocalRemoveCode(request, response);
 		}
 		else {
+			// 跳转至服务端登录
 			redirectLogin(request, response);
 		}
 		return false;
@@ -53,14 +54,14 @@ public class LoginFilter extends ClientFilter {
 	 * @param code
 	 * @param request
 	 */
-	private void getAccessToken(String code, HttpServletRequest request) {
+	private void getAccessToken(String code, HttpServletRequest request, HttpServletResponse response) {
 		Result<AccessToken> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
 				properties.getAppSecret(), code);
 		if (!result.isSuccess()) {
 			logger.error("getAccessToken has error, message:{}", result.getMessage());
 			return;
 		}
-		TokenUtils.setAccessToken(result.getData(), request);
+		TokenUtils.setAccessToken(result.getData(), request, response);
 	}
     
 	/**
