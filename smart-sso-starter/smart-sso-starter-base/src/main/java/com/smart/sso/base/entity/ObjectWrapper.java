@@ -12,13 +12,13 @@ public class ObjectWrapper<T> {
 	/**
 	 * 过期时间
 	 */
-	private long expired;
+	private Long expired;
 
 	public ObjectWrapper() {
 		super();
 	}
 
-	public ObjectWrapper(T object, long expired) {
+	public ObjectWrapper(T object, Long expired) {
 		super();
 		this.object = object;
 		this.expired = expired;
@@ -32,11 +32,11 @@ public class ObjectWrapper<T> {
 		this.object = object;
 	}
 
-	public long getExpired() {
+	public Long getExpired() {
 		return expired;
 	}
 
-	public void setExpired(long expired) {
+	public void setExpired(Long expired) {
 		this.expired = expired;
 	}
 }

@@ -33,11 +33,11 @@ public final class LocalTokenStorage extends TokenStorage implements ExpirationP
             return null;
         }
         // accessToken没过期直接返回
-        if(!wrapper.isExpired()){
+        if(!wrapper.verifyExpired()){
             return wrapper.getObject();
         }
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
-        if(!wrapper.isRefreshExpired()){
+        if(!wrapper.verifyRefreshExpired()){
             AccessToken at = refreshToken(wrapper.getObject().getRefreshToken());
             if(at != null){
                 create(at);
@@ -56,7 +56,7 @@ public final class LocalTokenStorage extends TokenStorage implements ExpirationP
     @Override
     public void verifyExpired() {
         tokenMap.forEach((accessToken, wrapper) -> {
-            if (wrapper.isRefreshExpired()) {
+            if (wrapper.verifyRefreshExpired()) {
                 tokenMap.remove(accessToken);
                 logger.debug("服务凭证已失效, accessToken:{}", accessToken);
             }

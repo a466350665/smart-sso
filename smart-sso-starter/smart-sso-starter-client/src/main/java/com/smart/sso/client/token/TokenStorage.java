@@ -64,13 +64,13 @@ public abstract class TokenStorage {
 
     protected static class TokenWrapper extends ObjectWrapper<AccessToken> {
 
-        private long refreshExpired;
+        private Long refreshExpired;
 
         public TokenWrapper(){
             super();
         }
 
-        public TokenWrapper(AccessToken at, long expired, long refreshExpired) {
+        public TokenWrapper(AccessToken at, Long expired, Long refreshExpired) {
             super(at, expired);
             this.refreshExpired = refreshExpired;
         }
@@ -79,15 +79,15 @@ public abstract class TokenStorage {
             return refreshExpired;
         }
 
-        public void setRefreshExpired(long refreshExpired) {
+        public void setRefreshExpired(Long refreshExpired) {
             this.refreshExpired = refreshExpired;
         }
 
-        public boolean isExpired() {
+        public boolean verifyExpired() {
             return System.currentTimeMillis() > getExpired();
         }
 
-        public boolean isRefreshExpired() {
+        public boolean verifyRefreshExpired() {
             return System.currentTimeMillis() > getRefreshExpired();
         }
     }
