@@ -39,7 +39,7 @@ public final class RedisTokenStorage extends TokenStorage {
         }
         TokenWrapper wrapper = JsonUtils.parseObject(str, TokenWrapper.class);
         // accessToken没过期直接返回
-        if (!wrapper.verifyExpired()) {
+        if (!wrapper.checkExpired()) {
             return wrapper.getObject();
         }
 

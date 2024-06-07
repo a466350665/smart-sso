@@ -83,11 +83,11 @@ public abstract class TokenStorage {
             this.refreshExpired = refreshExpired;
         }
 
-        public boolean verifyExpired() {
+        public boolean checkExpired() {
             return System.currentTimeMillis() > getExpired();
         }
 
-        public boolean verifyRefreshExpired() {
+        public boolean checkRefreshExpired() {
             return System.currentTimeMillis() > getRefreshExpired();
         }
     }

@@ -5,8 +5,8 @@ import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.token.TokenStorage;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Token存储本地实现
@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Joe
  */
 public final class LocalTokenStorage extends TokenStorage implements ExpirationPolicy {
-    private final Map<String, TokenWrapper> tokenMap = new HashMap<>();
+    private final Map<String, TokenWrapper> tokenMap = new ConcurrentHashMap<>();
 
     public LocalTokenStorage(ClientProperties properties) {
         this.properties = properties;
@@ -33,11 +33,11 @@ public final class LocalTokenStorage extends TokenStorage implements ExpirationP
             return null;
         }
         // accessToken没过期直接返回
-        if(!wrapper.verifyExpired()){
+        if(!wrapper.checkExpired()){
             return wrapper.getObject();
         }
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
-        if(!wrapper.verifyRefreshExpired()){
+        if(!wrapper.checkRefreshExpired()){
             AccessToken at = refreshToken(wrapper.getObject().getRefreshToken());
             if(at != null){
                 create(at);
@@ -56,7 +56,7 @@ public final class LocalTokenStorage extends TokenStorage implements ExpirationP
     @Override
     public void verifyExpired() {
         tokenMap.forEach((accessToken, wrapper) -> {
-            if (wrapper.verifyRefreshExpired()) {
+            if (wrapper.checkRefreshExpired()) {
                 tokenMap.remove(accessToken);
                 logger.debug("服务凭证已失效, accessToken:{}", accessToken);
             }
