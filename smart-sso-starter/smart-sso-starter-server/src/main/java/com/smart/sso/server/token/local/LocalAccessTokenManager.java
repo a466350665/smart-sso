@@ -1,6 +1,7 @@
 package com.smart.sso.server.token.local;
 
 import com.smart.sso.base.entity.ExpirationPolicy;
+import com.smart.sso.base.entity.ObjectWrapper;
 import com.smart.sso.server.entity.AccessTokenContent;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.AccessTokenManager;
@@ -24,7 +25,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 
     private int timeout;
 
-	private Map<String, AccessTokenWrapper> accessTokenMap = new ConcurrentHashMap<>();
+	private Map<String, ObjectWrapper<AccessTokenContent>> accessTokenMap = new ConcurrentHashMap<>();
 	private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
 	public LocalAccessTokenManager(int timeout) {
@@ -33,7 +34,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 
 	@Override
 	public void create(String accessToken, AccessTokenContent accessTokenContent) {
-		AccessTokenWrapper dat = new AccessTokenWrapper(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
+		ObjectWrapper<AccessTokenContent> dat = new ObjectWrapper(accessTokenContent, System.currentTimeMillis() + getExpiresIn() * 1000);
 		accessTokenMap.put(accessToken, dat);
 
 		tgtMap.computeIfAbsent(accessTokenContent.getCodeContent().getTgt(), a -> new HashSet<>()).add(accessToken);
@@ -42,22 +43,22 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	
 	@Override
 	public AccessTokenContent get(String accessToken) {
-		AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
-		if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
+		ObjectWrapper<AccessTokenContent> wrapper = accessTokenMap.get(accessToken);
+		if (wrapper == null || System.currentTimeMillis() > wrapper.getExpired()) {
 			return null;
 		}
 		else {
-			return wrapper.accessTokenContent;
+			return wrapper.getObject();
 		}
 	}
 	
 	@Override
 	public boolean refresh(String accessToken) {
-		AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
-		if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
+		ObjectWrapper<AccessTokenContent> wrapper = accessTokenMap.get(accessToken);
+		if (wrapper == null || System.currentTimeMillis() > wrapper.getExpired()) {
 			return false;
 		}
-		wrapper.expired = System.currentTimeMillis() + getExpiresIn() * 1000;
+		wrapper.setExpired(System.currentTimeMillis() + getExpiresIn() * 1000);
 		return true;
 	}
 
@@ -68,11 +69,11 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 			return;
 		}
 		accessTokenSet.forEach(accessToken -> {
-			AccessTokenWrapper wrapper = accessTokenMap.get(accessToken);
-			if (wrapper == null || System.currentTimeMillis() > wrapper.expired) {
+			ObjectWrapper<AccessTokenContent> wrapper = accessTokenMap.get(accessToken);
+			if (wrapper == null || System.currentTimeMillis() > wrapper.getExpired()) {
 				return;
 			}
-			CodeContent codeContent = wrapper.accessTokenContent.getCodeContent();
+			CodeContent codeContent = wrapper.getObject().getCodeContent();
 			if (codeContent == null || !codeContent.isSendLogoutRequest()) {
 				return;
 			}
@@ -84,7 +85,7 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	@Override
 	public void verifyExpired() {
 		accessTokenMap.forEach((accessToken, wrapper) -> {
-			if (System.currentTimeMillis() > wrapper.expired) {
+			if (System.currentTimeMillis() > wrapper.getExpired()) {
 				accessTokenMap.remove(accessToken);
 				logger.debug("调用凭证已失效, accessToken:{}", accessToken);
 			}
@@ -97,16 +98,5 @@ public class LocalAccessTokenManager implements AccessTokenManager, ExpirationPo
 	@Override
 	public int getExpiresIn() {
 		return timeout / 2;
-	}
-
-	private class AccessTokenWrapper {
-		private AccessTokenContent accessTokenContent;
-		private long expired; // 过期时间
-
-		public AccessTokenWrapper(AccessTokenContent accessTokenContent, long expired) {
-			super();
-			this.accessTokenContent = accessTokenContent;
-			this.expired = expired;
-		}
 	}
 }

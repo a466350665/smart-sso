@@ -1,8 +1,9 @@
 package com.smart.sso.client.token;
 
 import com.smart.sso.base.entity.AccessToken;
-import com.smart.sso.client.ClientProperties;
+import com.smart.sso.base.entity.ObjectWrapper;
 import com.smart.sso.base.entity.Result;
+import com.smart.sso.client.ClientProperties;
 import com.smart.sso.client.util.Oauth2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,35 +62,17 @@ public abstract class TokenStorage {
                 System.currentTimeMillis() + at.getRefreshExpiresIn() * 1000);
     }
 
-    protected static class TokenWrapper {
-        private AccessToken at;
-        private long expired;
+    protected static class TokenWrapper extends ObjectWrapper<AccessToken> {
+
         private long refreshExpired;
 
         public TokenWrapper(){
+            super();
         }
 
         public TokenWrapper(AccessToken at, long expired, long refreshExpired) {
-            super();
-            this.at = at;
-            this.expired = expired;
+            super(at, expired);
             this.refreshExpired = refreshExpired;
-        }
-
-        public AccessToken getAt() {
-            return at;
-        }
-
-        public void setAt(AccessToken at) {
-            this.at = at;
-        }
-
-        public long getExpired() {
-            return expired;
-        }
-
-        public void setExpired(long expired) {
-            this.expired = expired;
         }
 
         public long getRefreshExpired() {
@@ -101,11 +84,11 @@ public abstract class TokenStorage {
         }
 
         public boolean isExpired() {
-            return System.currentTimeMillis() > expired;
+            return System.currentTimeMillis() > getExpired();
         }
 
         public boolean isRefreshExpired() {
-            return System.currentTimeMillis() > refreshExpired;
+            return System.currentTimeMillis() > getRefreshExpired();
         }
     }
 }

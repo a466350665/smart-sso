@@ -34,11 +34,11 @@ public final class LocalTokenStorage extends TokenStorage implements ExpirationP
         }
         // accessToken没过期直接返回
         if(!wrapper.isExpired()){
-            return wrapper.getAt();
+            return wrapper.getObject();
         }
         // accessToken已过期，refreshToken没过期，使用refresh接口刷新
         if(!wrapper.isRefreshExpired()){
-            AccessToken at = refreshToken(wrapper.getAt().getRefreshToken());
+            AccessToken at = refreshToken(wrapper.getObject().getRefreshToken());
             if(at != null){
                 create(at);
                 return at;
