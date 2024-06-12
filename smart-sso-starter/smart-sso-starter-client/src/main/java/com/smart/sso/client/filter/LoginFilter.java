@@ -24,7 +24,7 @@ public class LoginFilter extends ClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AccessToken token = TokenUtils.getAndRefresh(properties, request);
+        AccessToken token = TokenUtils.getAndRefresh(properties, request, response);
         // 本地已存在token，直接返回
         if (token != null) {
             return true;

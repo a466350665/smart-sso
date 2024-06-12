@@ -18,12 +18,12 @@ public class CookieUtils {
 
 	/**
 	 * 按名称获取cookie
-	 * 
+	 *
 	 * @param request
 	 * @param name
 	 * @return
 	 */
-	public static String getCookie(HttpServletRequest request, String name) {
+	public static Cookie getCookie(String name, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null || StringUtils.isEmpty(name)) {
 			return null;
@@ -31,11 +31,23 @@ public class CookieUtils {
 
 		for (Cookie cookie : cookies) {
 			if (name.equals(cookie.getName())) {
-				return cookie.getValue();
+				return cookie;
 			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * 按名称获取cookie中的值
+	 * 
+	 * @param request
+	 * @param name
+	 * @return
+	 */
+	public static String getCookieValue(String name, HttpServletRequest request) {
+		Cookie cookie = getCookie(name, request);
+		return cookie == null ? null : cookie.getValue();
 	}
 	
 	/**
@@ -59,6 +71,18 @@ public class CookieUtils {
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
     }
+
+	/**
+	 * 更新cookie中的值
+	 *
+	 * @param name
+	 * @param value
+	 * @param request
+	 */
+	public static void updateCookie(String name, String value, HttpServletRequest request) {
+		Cookie cookie = CookieUtils.getCookie(name, request);
+		cookie.setValue(value);
+	}
 
 	/**
 	 * 清除cookie

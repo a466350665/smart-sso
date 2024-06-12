@@ -26,7 +26,7 @@ public class RedisTokenManager extends TokenManager {
 
 	@Override
 	public void create(String refreshToken, TokenContent tokenContent) {
-		redisTemplate.opsForValue().set(refreshToken, JsonUtils.toJSONString(tokenContent), getExpiresIn(),
+		redisTemplate.opsForValue().set(refreshToken, JsonUtils.toJSONString(tokenContent), getRefreshExpiresIn(),
 				TimeUnit.SECONDS);
 
 		redisTemplate.opsForSet().add(getKey(tokenContent.getCodeContent().getTgt()), refreshToken);

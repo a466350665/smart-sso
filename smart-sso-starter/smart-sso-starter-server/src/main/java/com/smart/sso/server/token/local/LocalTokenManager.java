@@ -28,7 +28,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 
 	@Override
 	public void create(String refreshToken, TokenContent tokenContent) {
-		ObjectWrapper<TokenContent> dat = new ObjectWrapper(tokenContent, getExpiresIn());
+		ObjectWrapper<TokenContent> dat = new ObjectWrapper(tokenContent, getRefreshExpiresIn());
 		tokenMap.put(refreshToken, dat);
 
 		tgtMap.computeIfAbsent(tokenContent.getCodeContent().getTgt(), a -> new HashSet<>()).add(refreshToken);
