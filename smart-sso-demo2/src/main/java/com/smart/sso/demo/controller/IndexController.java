@@ -23,7 +23,7 @@ public class IndexController {
 	@Value("${server.port}")
 	private Integer serverPort;
 	@Autowired
-	private ClientProperties smartSsoProperties;
+	private ClientProperties clientProperties;
 
 	/**
 	 * 初始页
@@ -40,7 +40,7 @@ public class IndexController {
 		// 当前服务端口号
 		model.addAttribute("serverPort", serverPort);
 		// 单点退出地址
-		model.addAttribute("logoutUrl", smartSsoProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
+		model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
 				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
 		return "index";
 	}

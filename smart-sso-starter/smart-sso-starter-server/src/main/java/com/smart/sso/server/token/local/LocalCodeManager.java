@@ -12,35 +12,38 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 本地授权码管理
- * 
+ *
  * @author Joe
  */
-public class LocalCodeManager implements CodeManager, ExpirationPolicy {
-	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
 
-	private Map<String, ObjectWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
-	
-	@Override
-	public void create(String code, CodeContent codeContent) {
-        ObjectWrapper<CodeContent> wrapper = new ObjectWrapper<>(codeContent, System.currentTimeMillis() + getExpiresIn() * 1000);
-		codeMap.put(code, wrapper);
-		logger.info("授权码生成成功, code:{}", code);
-	}
+    private Map<String, ObjectWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
 
-	@Override
-	public CodeContent getAndRemove(String code) {
-        ObjectWrapper<CodeContent> wrapper = codeMap.remove(code);
-        if (wrapper == null || System.currentTimeMillis() > wrapper.getExpired()) {
+    @Override
+    public void create(String code, CodeContent codeContent) {
+        ObjectWrapper<CodeContent> wrapper = new ObjectWrapper<>(codeContent, getExpiresIn());
+        codeMap.put(code, wrapper);
+        logger.info("授权码生成成功, code:{}", code);
+    }
+
+    @Override
+    public CodeContent get(String code) {
+        ObjectWrapper<CodeContent> wrapper = codeMap.get(code);
+        if (wrapper == null || wrapper.checkExpired()) {
             return null;
         }
         return wrapper.getObject();
-	}
+    }
 
-	@Override
+    @Override
+    public void remove(String code) {
+        codeMap.remove(code);
+    }
+
+    @Override
     public void verifyExpired() {
-		codeMap.forEach((code, wrapper) -> {
-            if (System.currentTimeMillis() > wrapper.getExpired()) {
+        codeMap.forEach((code, wrapper) -> {
+            if (wrapper.checkExpired()) {
                 codeMap.remove(code);
                 logger.info("授权码已失效, code:{}", code);
             }

@@ -18,10 +18,10 @@ public class ObjectWrapper<T> {
 		super();
 	}
 
-	public ObjectWrapper(T object, Long expired) {
+	public ObjectWrapper(T object, int expiresIn) {
 		super();
 		this.object = object;
-		this.expired = expired;
+		this.expired = System.currentTimeMillis() + expiresIn * 1000;
 	}
 
 	public T getObject() {
@@ -38,5 +38,13 @@ public class ObjectWrapper<T> {
 
 	public void setExpired(Long expired) {
 		this.expired = expired;
+	}
+
+	/**
+	 * 校验是否过期
+	 * @return
+	 */
+	public boolean checkExpired() {
+		return System.currentTimeMillis() > getExpired();
 	}
 }

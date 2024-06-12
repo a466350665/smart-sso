@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Token工具
@@ -24,38 +25,40 @@ public class TokenUtils {
 		tokenStorage = ts;
 	}
 
-	public static AccessToken getAccessToken(HttpServletRequest request) {
-		String accessToken = getCookieAccessToken(request);
+	public static AccessToken getAndRefresh(HttpServletRequest request) {
+		String st = getCookieServiceTicket(request);
 		// cookie中没有
-		if (StringUtils.isEmpty(accessToken)) {
+		if (StringUtils.isEmpty(st)) {
 			return null;
 		}
-		return tokenStorage.getAndRefresh(accessToken);
+		return tokenStorage.getAndRefresh(st);
 	}
-    
+
+	public static AccessToken get(HttpServletRequest request) {
+		String st = getCookieServiceTicket(request);
+		// cookie中没有
+		if (StringUtils.isEmpty(st)) {
+			return null;
+		}
+		return tokenStorage.get(st);
+	}
+
 	public static Userinfo getUserinfo(HttpServletRequest request) {
-	    return Optional.ofNullable(getAccessToken(request)).map(u -> u.getUserinfo()).orElse(null);
+		return Optional.ofNullable(get(request)).map(u -> u.getUserinfo()).orElse(null);
 	}
-	
-	public static Integer getUserId(HttpServletRequest request) {
-        return Optional.ofNullable(getUserinfo(request)).map(u -> u.getId()).orElse(null);
-    }
 
 	public static void setAccessToken(AccessToken at, HttpServletRequest request, HttpServletResponse response) {
-		// 将accessToken写入cookie
-		CookieUtils.addCookie(ClientConstant.COOKIE_ACCESS_TOKEN, at.getAccessToken(), "/", request, response);
-		tokenStorage.create(at);
-	}
-
-	public static void invalidate(HttpServletRequest request) {
-		String accessToken = getCookieAccessToken(request);
+		String st = getCookieServiceTicket(request);
 		// cookie中没有
-		if (!StringUtils.isEmpty(accessToken)) {
-			tokenStorage.remove(accessToken);
+		if (StringUtils.isEmpty(st)) {
+			st = "ST-" + UUID.randomUUID().toString().replaceAll("-", "");
+			// 写入cookie
+			CookieUtils.addCookie(ClientConstant.COOKIE_ST, st, "/", request, response);
 		}
+		tokenStorage.create(st, at);
 	}
 
-	private static String getCookieAccessToken(HttpServletRequest request) {
-		return CookieUtils.getCookie(request, ClientConstant.COOKIE_ACCESS_TOKEN);
+	private static String getCookieServiceTicket(HttpServletRequest request) {
+		return CookieUtils.getCookie(request, ClientConstant.COOKIE_ST);
 	}
 }

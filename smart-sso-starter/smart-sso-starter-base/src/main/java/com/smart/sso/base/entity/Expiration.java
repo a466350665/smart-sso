@@ -1,7 +1,7 @@
 package com.smart.sso.base.entity;
 
 /**
- * 含时效
+ * 时效控制
  * 
  * @author Joe
  */

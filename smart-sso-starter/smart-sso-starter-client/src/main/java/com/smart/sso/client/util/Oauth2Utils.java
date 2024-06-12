@@ -7,9 +7,12 @@ import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.enums.GrantTypeEnum;
 import com.smart.sso.base.util.HttpUtils;
 import com.smart.sso.base.util.JsonUtils;
+import com.smart.sso.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,24 +26,19 @@ public class Oauth2Utils {
 	private static final Logger logger = LoggerFactory.getLogger(Oauth2Utils.class);
 
 	/**
-	 * 获取accessToken（密码模式，app通过此方式由客户端代理转发http请求到服务端获取accessToken）
-	 * 
-	 * @param serverUrl
-	 * @param appId
-	 * @param appSecret
-	 * @param username
-	 * @param password
-	 * @return
+	 * 获取accessToken和用户信息存储到Token管理器
+	 *
+	 * @param properties
+	 * @param code
 	 */
-	public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String username,
-													 String password) {
-		Map<String, String> paramMap = new HashMap<>();
-		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.PASSWORD.getValue());
-		paramMap.put(Oauth2Constant.APP_ID, appId);
-		paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
-		paramMap.put(Oauth2Constant.USERNAME, username);
-		paramMap.put(Oauth2Constant.PASSWORD, password);
-		return getHttpAccessToken(serverUrl + Oauth2Constant.ACCESS_TOKEN_URL, paramMap);
+	public static AccessToken getAccessToken(ClientProperties properties, String code) {
+		Result<AccessToken> result = getAccessToken(properties.getServerUrl(), properties.getAppId(),
+				properties.getAppSecret(), code);
+		if (!result.isSuccess()) {
+			logger.error("getAccessToken has error, message:{}", result.getMessage());
+			return null;
+		}
+		return result.getData();
 	}
 
 	/**
@@ -52,13 +50,29 @@ public class Oauth2Utils {
 	 * @param code
 	 * @return
 	 */
-	public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
+	private static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
 		paramMap.put(Oauth2Constant.APP_ID, appId);
 		paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
 		paramMap.put(Oauth2Constant.AUTH_CODE, code);
 		return getHttpAccessToken(serverUrl + Oauth2Constant.ACCESS_TOKEN_URL, paramMap);
+	}
+
+	/**
+	 * 通过refreshToken参数调用http请求延长服务端Token时效，并返回新的accessToken
+	 *
+	 * @param properties
+	 * @param refreshToken
+	 * @return
+	 */
+	public static AccessToken getRefreshToken(ClientProperties properties, String refreshToken) {
+		Result<AccessToken> result = getRefreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
+		if (!result.isSuccess()) {
+			logger.error("refreshToken has error, message:{}", result.getMessage());
+			return null;
+		}
+		return result.getData();
 	}
 
 	/**
@@ -69,7 +83,7 @@ public class Oauth2Utils {
 	 * @param refreshToken
 	 * @return
 	 */
-	public static Result<AccessToken> refreshToken(String serverUrl, String appId, String refreshToken) {
+	private static Result<AccessToken> getRefreshToken(String serverUrl, String appId, String refreshToken) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put(Oauth2Constant.APP_ID, appId);
 		paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);

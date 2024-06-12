@@ -1,77 +1,81 @@
 package com.smart.sso.server.token;
 
+import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.entity.Expiration;
+import com.smart.sso.base.entity.LifecycleManager;
 import com.smart.sso.base.entity.Userinfo;
-import com.smart.sso.base.util.CookieUtils;
-import com.smart.sso.server.constant.ServerConstant;
-import org.springframework.util.StringUtils;
+import com.smart.sso.base.util.HttpUtils;
+import com.smart.sso.server.entity.CodeContent;
+import com.smart.sso.server.entity.TokenContent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
- * 服务端凭证管理
+ * 调用凭证AccessToken管理抽象
  * 
  * @author Joe
  */
-public class TokenManager {
+public abstract class TokenManager implements LifecycleManager<TokenContent>, Expiration {
 
-	private AccessTokenManager accessTokenManager;
-	private TicketGrantingTicketManager ticketGrantingTicketManager;
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public TokenManager(AccessTokenManager accessTokenManager, TicketGrantingTicketManager ticketGrantingTicketManager) {
-		this.accessTokenManager = accessTokenManager;
-		this.ticketGrantingTicketManager = ticketGrantingTicketManager;
+	protected int timeout;
+
+	public TokenManager(int timeout) {
+		this.timeout = timeout;
 	}
 
-	public String getOrGenerateTgt(Userinfo user, HttpServletRequest request, HttpServletResponse response) {
-		String tgt = getCookieTgt(request);
-		if (StringUtils.isEmpty(tgt)) {// cookie中没有
-			tgt = ticketGrantingTicketManager.generate(user);
-			
-			// TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
-			CookieUtils.addCookie(ServerConstant.TGC, tgt, "/", request, response);
-		}
-		else if(ticketGrantingTicketManager.getAndRefresh(tgt) == null){
-			ticketGrantingTicketManager.create(tgt, user);
-		}
-		else {
-			ticketGrantingTicketManager.set(tgt, user);
-		}
-		return tgt;
-	}
+	/**
+	 * 通过TGT移除
+	 *
+	 * @param tgt
+	 */
+	public abstract void removeByTgt(String tgt);
 
-	public Userinfo getUserinfo(HttpServletRequest request) {
-		String tgt = getCookieTgt(request);
-		if (StringUtils.isEmpty(tgt)) {
-			return null;
-		}
-		return ticketGrantingTicketManager.getAndRefresh(tgt);
-	}
-
-	public void invalidate(HttpServletRequest request, HttpServletResponse response) {
-		String tgt = getCookieTgt(request);
-		if (StringUtils.isEmpty(tgt)) {
-			return;
-		}
-		// 删除登录凭证
-		ticketGrantingTicketManager.remove(tgt);
-		// 删除凭证Cookie
-		CookieUtils.removeCookie(ServerConstant.TGC, "/", response);
-		// 删除所有tgt对应的调用凭证，并通知客户端退出注销本地Token
-	    accessTokenManager.remove(tgt);
-	}
-
-	public String getTgt(HttpServletRequest request) {
-		String tgt = getCookieTgt(request);
-		if (StringUtils.isEmpty(tgt) || ticketGrantingTicketManager.getAndRefresh(tgt) == null) {
-			return null;
-		}
-		else {
-			return tgt;
-		}
+	/**
+	 * 生成AccessToken
+	 *
+	 * @param codeContent
+	 * @param userinfo
+	 * @param appId
+	 * @return
+	 */
+	public TokenContent generate(CodeContent codeContent, Userinfo userinfo, String appId) {
+		String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
+		String refreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
+		TokenContent tc = new TokenContent(accessToken, refreshToken, codeContent, userinfo, appId);
+		create(refreshToken, tc);
+		return tc;
 	}
 	
-	private String getCookieTgt(HttpServletRequest request) {
-		return CookieUtils.getCookie(request, ServerConstant.TGC);
+	/**
+	 * 发起客户端退出请求
+	 * 
+	 * @param redirectUri
+	 * @param accessToken
+	 */
+	protected void sendLogoutRequest(String redirectUri, String accessToken) {
+		Map<String, String> headerMap = new HashMap<>();
+		headerMap.put(BaseConstant.LOGOUT_PARAMETER_NAME, accessToken);
+		HttpUtils.postHeader(redirectUri, headerMap);
+	}
+
+	/**
+	 * refreshToken时效和自定义的登录超时时效保持一致
+	 */
+	public int getRefreshExpiresIn() {
+		return 2 * timeout;
+	}
+
+	/**
+	 * accessToken时效为登录超时时效的1/2
+	 */
+	@Override
+	public int getExpiresIn() {
+		return timeout;
 	}
 }

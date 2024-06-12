@@ -7,7 +7,7 @@ import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
 import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.TicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -32,7 +32,7 @@ public class LoginController{
 	@Autowired
 	private CodeManager codeManager;
 	@Autowired
-	private TokenManager tokenManager;
+	private TicketGrantingTicketManager tgtManager;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -48,10 +48,10 @@ public class LoginController{
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(
-			@RequestParam(value = BaseConstant.REDIRECT_URI, required = true) String redirectUri,
-			@RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
+			@RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
+			@RequestParam(value = Oauth2Constant.APP_ID) String appId,
 			HttpServletRequest request) throws UnsupportedEncodingException {
-		String tgt = tokenManager.getTgt(request);
+		String tgt = tgtManager.getTgt(request);
 		if (StringUtils.isEmpty(tgt)) {
 			return goLoginPath(redirectUri, appId, request);
 		}
@@ -89,7 +89,7 @@ public class LoginController{
 			return goLoginPath(redirectUri, appId, request);
 		}
 
-		String tgt = tokenManager.getOrGenerateTgt(result.getData(), request, response);
+		String tgt = tgtManager.getOrGenerateTgt(result.getData(), request, response);
 		return generateCodeAndRedirect(redirectUri, tgt);
 	}
 
@@ -116,7 +116,7 @@ public class LoginController{
 	 */
 	private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
 		// 生成授权码
-		String code = codeManager.generate(tgt, true, redirectUri);
+		String code = codeManager.generate(tgt, redirectUri);
 		return "redirect:" + authRedirectUri(redirectUri, code);
 	}
 

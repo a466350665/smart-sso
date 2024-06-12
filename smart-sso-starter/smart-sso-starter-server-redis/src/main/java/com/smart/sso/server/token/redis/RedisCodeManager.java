@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author Joe
  */
-public class RedisCodeManager implements CodeManager {
+public class RedisCodeManager extends CodeManager {
 
 	private StringRedisTemplate redisTemplate;
 
@@ -27,11 +27,16 @@ public class RedisCodeManager implements CodeManager {
 	}
 
 	@Override
-	public CodeContent getAndRemove(String code) {
+	public CodeContent get(String code) {
 		String cc = redisTemplate.opsForValue().get(code);
-		if (!StringUtils.isEmpty(cc)) {
-			redisTemplate.delete(code);
+		if (StringUtils.isEmpty(cc)) {
+			return null;
 		}
 		return JsonUtils.parseObject(cc, CodeContent.class);
+	}
+
+	@Override
+	public void remove(String code) {
+		redisTemplate.delete(code);
 	}
 }

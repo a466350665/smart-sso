@@ -1,8 +1,9 @@
 package com.smart.sso.server.token.redis;
 
-import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.base.util.JsonUtils;
+import com.smart.sso.server.entity.TicketGrantingTicketContent;
 import com.smart.sso.server.token.TicketGrantingTicketManager;
+import com.smart.sso.server.token.TokenManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -13,35 +14,29 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author Joe
  */
-public class RedisTicketGrantingTicketManager implements TicketGrantingTicketManager {
+public class RedisTicketGrantingTicketManager extends TicketGrantingTicketManager {
 
 	private StringRedisTemplate redisTemplate;
-	private int timeout;
 
-	public RedisTicketGrantingTicketManager(StringRedisTemplate redisTemplate, int timeout) {
+	public RedisTicketGrantingTicketManager(TokenManager tokenManager, int timeout, StringRedisTemplate redisTemplate) {
+		super(tokenManager, timeout);
 		this.redisTemplate = redisTemplate;
-		this.timeout = timeout;
 	}
 
 	@Override
-	public void create(String tgt, Userinfo userinfo) {
-		redisTemplate.opsForValue().set(tgt, JsonUtils.toJSONString(userinfo), getExpiresIn(),
+	public void create(String tgt, TicketGrantingTicketContent tgtContent) {
+		redisTemplate.opsForValue().set(tgt, JsonUtils.toJSONString(tgtContent), getExpiresIn(),
 				TimeUnit.SECONDS);
 	}
 
 	@Override
-	public Userinfo getAndRefresh(String tgt) {
-		String user = redisTemplate.opsForValue().get(tgt);
-		if (StringUtils.isEmpty(user)) {
+	public TicketGrantingTicketContent get(String tgt) {
+		String tgtContent = redisTemplate.opsForValue().get(tgt);
+		if (StringUtils.isEmpty(tgtContent)) {
 			return null;
 		}
-		redisTemplate.expire(tgt, timeout, TimeUnit.SECONDS);
-		return JsonUtils.parseObject(user, Userinfo.class);
-	}
-	
-	@Override
-	public void set(String tgt, Userinfo user) {
-		create(tgt, user);
+		redisTemplate.expire(tgt, getExpiresIn(), TimeUnit.SECONDS);
+		return JsonUtils.parseObject(tgtContent, TicketGrantingTicketContent.class);
 	}
 
 	@Override
@@ -50,7 +45,13 @@ public class RedisTicketGrantingTicketManager implements TicketGrantingTicketMan
 	}
 
 	@Override
-	public int getExpiresIn() {
-		return timeout;
+	public void refresh(String tgt) {
+		redisTemplate.expire(tgt, getExpiresIn(), TimeUnit.SECONDS);
 	}
+
+//	@Override
+//	public void verifyExpired() {
+//		// TODO 监听TGT过期，并通知删除所有Token
+//		// removeTgtAndToken();
+//	}
 }

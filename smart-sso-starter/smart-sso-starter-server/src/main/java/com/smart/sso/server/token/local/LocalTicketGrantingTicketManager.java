@@ -2,10 +2,9 @@ package com.smart.sso.server.token.local;
 
 import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ObjectWrapper;
-import com.smart.sso.base.entity.Userinfo;
+import com.smart.sso.server.entity.TicketGrantingTicketContent;
 import com.smart.sso.server.token.TicketGrantingTicketManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.smart.sso.server.token.TokenManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,63 +14,50 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public class LocalTicketGrantingTicketManager implements TicketGrantingTicketManager, ExpirationPolicy {
+public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManager implements ExpirationPolicy {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private Map<String, ObjectWrapper<TicketGrantingTicketContent>> tgtMap = new ConcurrentHashMap<>();
 
-    private int timeout;
-
-    private Map<String, ObjectWrapper<Userinfo>> tgtMap = new ConcurrentHashMap<>();
-
-    public LocalTicketGrantingTicketManager(int timeout) {
-        this.timeout = timeout;
+    public LocalTicketGrantingTicketManager(TokenManager tokenManager, int timeout) {
+        super(tokenManager, timeout);
     }
 
     @Override
-    public void create(String tgt, Userinfo userinfo) {
-        ObjectWrapper<Userinfo> wrapper = new ObjectWrapper<>(userinfo, System.currentTimeMillis() + getExpiresIn() * 1000);
+    public void create(String tgt, TicketGrantingTicketContent tgtContent) {
+        ObjectWrapper<TicketGrantingTicketContent> wrapper = new ObjectWrapper<>(tgtContent, getExpiresIn());
         tgtMap.put(tgt, wrapper);
         logger.info("登录凭证生成成功, tgt:{}", tgt);
     }
 
     @Override
-    public Userinfo getAndRefresh(String tgt) {
-        ObjectWrapper<Userinfo> wrapper = tgtMap.get(tgt);
-        long currentTime = System.currentTimeMillis();
-        if (wrapper == null || currentTime > wrapper.getExpired()) {
+    public TicketGrantingTicketContent get(String tgt) {
+        ObjectWrapper<TicketGrantingTicketContent> wrapper = tgtMap.get(tgt);
+        if (wrapper == null || wrapper.checkExpired()) {
             return null;
         }
-        wrapper.setExpired(currentTime + getExpiresIn() * 1000);
         return wrapper.getObject();
-    }
-
-    @Override
-    public void set(String tgt, Userinfo userinfo) {
-        ObjectWrapper<Userinfo> wrapper = tgtMap.get(tgt);
-        if (wrapper == null) {
-            return;
-        }
-        wrapper.setObject(userinfo);
     }
 
     @Override
     public void remove(String tgt) {
         tgtMap.remove(tgt);
-        logger.debug("登录凭证删除成功, tgt:{}", tgt);
+        logger.info("登录凭证删除成功, tgt:{}", tgt);
+    }
+
+    @Override
+    public void refresh(String tgt) {
+        ObjectWrapper<TicketGrantingTicketContent> wrapper = tgtMap.get(tgt);
+        if(wrapper != null){
+            wrapper.setExpired(System.currentTimeMillis() + getExpiresIn() * 1000);
+        }
     }
 
     @Override
     public void verifyExpired() {
         tgtMap.forEach((tgt, wrapper) -> {
-            if (System.currentTimeMillis() > wrapper.getExpired()) {
-                tgtMap.remove(tgt);
-                logger.debug("登录凭证已失效, tgt:{}", tgt);
+            if (wrapper.checkExpired()) {
+                removeTgtAndToken(tgt);
             }
         });
-    }
-
-    @Override
-    public int getExpiresIn() {
-        return timeout;
     }
 }

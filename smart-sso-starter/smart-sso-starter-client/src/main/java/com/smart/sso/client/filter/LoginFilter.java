@@ -1,15 +1,13 @@
 package com.smart.sso.client.filter;
 
 import com.smart.sso.base.constant.BaseConstant;
+import com.smart.sso.base.constant.Oauth2Constant;
 import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.base.constant.Oauth2Constant;
-import com.smart.sso.base.entity.Result;
 import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.TokenUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,21 +21,19 @@ import java.net.URLEncoder;
  * @author Joe
  */
 public class LoginFilter extends ClientFilter {
-	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
     
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		AccessToken at = TokenUtils.getAccessToken(request);
+		AccessToken at = TokenUtils.getAndRefresh(request);
 		// 本地已存在accessToken，直接返回
 		if (at != null) {
 			return true;
 		}
 		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
 		// 携带授权码请求
-		if (code != null) {
-			// 获取accessToken
-			getAccessToken(code, request, response);
+		if (code != null && (at = Oauth2Utils.getAccessToken(properties, code)) != null) {
+			// 将accessToken存储到本地
+			TokenUtils.setAccessToken(at, request, response);
 			// 为去除URL中授权码参数，再跳转一次当前地址
 			redirectLocalRemoveCode(request, response);
 		}
@@ -46,22 +42,6 @@ public class LoginFilter extends ClientFilter {
 			redirectLogin(request, response);
 		}
 		return false;
-	}
-
-	/**
-	 * 获取accessToken和用户信息存储到Token管理器
-	 *
-	 * @param code
-	 * @param request
-	 */
-	private void getAccessToken(String code, HttpServletRequest request, HttpServletResponse response) {
-		Result<AccessToken> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
-				properties.getAppSecret(), code);
-		if (!result.isSuccess()) {
-			logger.error("getAccessToken has error, message:{}", result.getMessage());
-			return;
-		}
-		TokenUtils.setAccessToken(result.getData(), request, response);
 	}
     
 	/**

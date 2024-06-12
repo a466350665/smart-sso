@@ -17,7 +17,7 @@ public class LogoutFilter extends ClientFilter {
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String accessToken = getLogoutParam(request);
         if (accessToken != null) {
-            getTokenStorage().remove(accessToken);
+            getTokenStorage().removeByAccessToken(accessToken);
             return false;
         }
         return true;
