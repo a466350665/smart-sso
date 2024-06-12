@@ -25,8 +25,8 @@ public class ClientAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(TokenStorage.class)
-	public TokenStorage tokenStorage(ClientProperties properties) {
-		TokenStorage ts = new LocalTokenStorage(properties);
+	public TokenStorage tokenStorage() {
+		TokenStorage ts = new LocalTokenStorage();
 		TokenUtils.setTokenStorage(ts);
 		return ts;
 	}

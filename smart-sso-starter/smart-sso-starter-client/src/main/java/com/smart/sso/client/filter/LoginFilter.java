@@ -17,56 +17,54 @@ import java.net.URLEncoder;
 
 /**
  * 单点登录Filter
- * 
+ *
  * @author Joe
  */
 public class LoginFilter extends ClientFilter {
-    
-	@Override
-	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		AccessToken at = TokenUtils.getAndRefresh(request);
-		// 本地已存在accessToken，直接返回
-		if (at != null) {
-			return true;
-		}
-		String code = request.getParameter(Oauth2Constant.AUTH_CODE);
-		// 携带授权码请求
-		if (code != null && (at = Oauth2Utils.getAccessToken(properties, code)) != null) {
-			// 将accessToken存储到本地
-			TokenUtils.setAccessToken(at, request, response);
-			// 为去除URL中授权码参数，再跳转一次当前地址
-			redirectLocalRemoveCode(request, response);
-		}
-		else {
-			// 跳转至服务端登录
-			redirectLogin(request, response);
-		}
-		return false;
-	}
-    
-	/**
-	 * 跳转至服务端登录
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (isAjaxRequest(request)) {
-			responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
-		}
-		else {
-			String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
-					.append(Oauth2Constant.APP_ID).append("=").append(properties.getAppId()).append("&")
-					.append(BaseConstant.REDIRECT_URI).append("=")
-					.append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
-			response.sendRedirect(loginUrl);
-		}
-	}
+
+    @Override
+    public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        AccessToken token = TokenUtils.getAndRefresh(properties, request);
+        // 本地已存在token，直接返回
+        if (token != null) {
+            return true;
+        }
+        String code = request.getParameter(Oauth2Constant.AUTH_CODE);
+        // 携带授权码请求
+        if (code != null && (token = Oauth2Utils.getHttpAccessToken(properties, code)) != null) {
+            // 将token存储到本地
+            TokenUtils.set(token, request, response);
+            // 为去除URL中授权码参数，再跳转一次当前地址
+            redirectLocalRemoveCode(request, response);
+        } else {
+            // 跳转至服务端登录
+            redirectLogin(request, response);
+        }
+        return false;
+    }
+
+    /**
+     * 跳转至服务端登录
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (isAjaxRequest(request)) {
+            responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
+        } else {
+            String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
+                    .append(Oauth2Constant.APP_ID).append("=").append(properties.getAppId()).append("&")
+                    .append(BaseConstant.REDIRECT_URI).append("=")
+                    .append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
+            response.sendRedirect(loginUrl);
+        }
+    }
 
     /**
      * 去除返回地址中的票据参数
-     * 
+     *
      * @param request
      * @return
      * @throws IOException
@@ -76,23 +74,23 @@ public class LoginFilter extends ClientFilter {
         currentUrl = currentUrl.substring(0, currentUrl.indexOf(Oauth2Constant.AUTH_CODE) - 1);
         response.sendRedirect(currentUrl);
     }
-	
+
     /**
      * 获取当前请求地址
-     * 
+     *
      * @param request
      * @return
      */
-	private String getCurrentUrl(HttpServletRequest request) {
-		return new StringBuilder().append(request.getRequestURL())
-				.append(request.getQueryString() == null ? "" : "?" + request.getQueryString()).toString();
-	}
-	
-	protected boolean isAjaxRequest(HttpServletRequest request) {
+    private String getCurrentUrl(HttpServletRequest request) {
+        return new StringBuilder().append(request.getRequestURL())
+                .append(request.getQueryString() == null ? "" : "?" + request.getQueryString()).toString();
+    }
+
+    protected boolean isAjaxRequest(HttpServletRequest request) {
         String requestedWith = request.getHeader("X-Requested-With");
         return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
     }
-    
+
     protected void responseJson(HttpServletResponse response, int code, String message) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(200);
