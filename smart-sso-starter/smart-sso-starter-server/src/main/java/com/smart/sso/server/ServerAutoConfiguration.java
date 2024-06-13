@@ -1,9 +1,9 @@
 package com.smart.sso.server;
 
 import com.smart.sso.base.BaseAutoConfiguration;
-import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractCodeManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 import com.smart.sso.server.token.local.LocalCodeManager;
 import com.smart.sso.server.token.local.LocalTicketGrantingTicketManager;
 import com.smart.sso.server.token.local.LocalTokenManager;
@@ -19,20 +19,20 @@ import org.springframework.context.annotation.Configuration;
 public class ServerAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(CodeManager.class)
-    public CodeManager codeManager() {
+    @ConditionalOnMissingBean(AbstractCodeManager.class)
+    public AbstractCodeManager codeManager() {
         return new LocalCodeManager();
     }
 
     @Bean
-    @ConditionalOnMissingBean(TokenManager.class)
-    public TokenManager tokenManager(ServerProperties properties) {
+    @ConditionalOnMissingBean(AbstractTokenManager.class)
+    public AbstractTokenManager tokenManager(ServerProperties properties) {
         return new LocalTokenManager(properties.getTimeout());
     }
 
     @Bean
-    @ConditionalOnMissingBean(TicketGrantingTicketManager.class)
-    public TicketGrantingTicketManager ticketGrantingTicketManager(TokenManager tokenManager, ServerProperties properties) {
+    @ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
+    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(AbstractTokenManager tokenManager, ServerProperties properties) {
         return new LocalTicketGrantingTicketManager(tokenManager, properties.getTimeout());
     }
 }

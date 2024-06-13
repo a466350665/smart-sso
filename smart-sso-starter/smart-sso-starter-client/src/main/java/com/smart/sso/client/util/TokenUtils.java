@@ -43,7 +43,7 @@ public class TokenUtils {
     public static AccessToken getAndRefresh(ClientProperties properties, HttpServletRequest request, HttpServletResponse response) {
         String token = getCookieToken(request);
         // cookie中没有
-        if (StringUtils.isEmpty(token)) {
+        if (!StringUtils.hasLength(token)) {
             return null;
         }
         TokenWrapper wrapper = tokenStorage.get(token);
@@ -76,7 +76,7 @@ public class TokenUtils {
     public static AccessToken get(HttpServletRequest request) {
         String token = getCookieToken(request);
         // cookie中没有
-        if (StringUtils.isEmpty(token)) {
+        if (!StringUtils.hasLength(token)) {
             return null;
         }
         TokenWrapper wrapper = tokenStorage.get(token);

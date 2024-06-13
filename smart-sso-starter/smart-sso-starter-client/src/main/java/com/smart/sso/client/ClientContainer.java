@@ -1,7 +1,7 @@
 package com.smart.sso.client;
 
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.filter.ClientFilter;
+import com.smart.sso.client.filter.AbstractClientFilter;
 import com.smart.sso.client.token.TokenStorage;
 
 import javax.servlet.*;
@@ -24,7 +24,7 @@ public class ClientContainer implements Filter {
 
     private ClientProperties properties;
 
-    private ClientFilter[] filters;
+    private AbstractClientFilter[] filters;
 
     public ClientContainer(ClientProperties properties, TokenStorage tokenStorage) {
         this.properties = properties;
@@ -36,7 +36,7 @@ public class ClientContainer implements Filter {
         if (filters == null || filters.length == 0) {
             throw new IllegalArgumentException("filters不能为空");
         }
-        for (ClientFilter filter : filters) {
+        for (AbstractClientFilter filter : filters) {
             filter.setProperties(properties);
             filter.setTokenStorage(tokenStorage);
             filter.init(filterConfig);
@@ -53,7 +53,7 @@ public class ClientContainer implements Filter {
         }
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        for (ClientFilter filter : filters) {
+        for (AbstractClientFilter filter : filters) {
             if (!filter.isAccessAllowed(httpRequest, httpResponse)) {
                 return;
             }
@@ -88,12 +88,12 @@ public class ClientContainer implements Filter {
         if (filters == null || filters.length == 0) {
             return;
         }
-        for (ClientFilter filter : filters) {
+        for (AbstractClientFilter filter : filters) {
             filter.destroy();
         }
     }
 
-    public void setFilters(ClientFilter... filters) {
+    public void setFilters(AbstractClientFilter... filters) {
         this.filters = filters;
     }
 }

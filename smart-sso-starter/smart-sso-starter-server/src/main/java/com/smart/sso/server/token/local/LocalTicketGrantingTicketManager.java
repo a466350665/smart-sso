@@ -3,8 +3,8 @@ package com.smart.sso.server.token.local;
 import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.base.entity.Userinfo;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManager implements ExpirationPolicy {
+public class LocalTicketGrantingTicketManager extends AbstractTicketGrantingTicketManager implements ExpirationPolicy {
 
     private Map<String, ExpirationWrapper<Userinfo>> tgtMap = new ConcurrentHashMap<>();
 
-    public LocalTicketGrantingTicketManager(TokenManager tokenManager, int timeout) {
+    public LocalTicketGrantingTicketManager(AbstractTokenManager tokenManager, int timeout) {
         super(tokenManager, timeout);
     }
 

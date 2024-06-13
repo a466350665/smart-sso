@@ -17,7 +17,7 @@ public class JsonUtils {
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public static String toJSONString(Object object) {
+    public static String toString(Object object) {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {

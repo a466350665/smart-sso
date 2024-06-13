@@ -6,11 +6,6 @@ package com.smart.sso.base.constant;
 public class Oauth2Constant {
 
     /**
-     * 用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止 csrf 攻击
-     */
-    public static final String STATE = "state";
-
-    /**
      * 授权方式
      */
     public static final String GRANT_TYPE = "grantType";

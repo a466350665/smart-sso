@@ -50,11 +50,11 @@ public class HttpUtils {
                 if (entity != null) {
                     result = EntityUtils.toString(entity);
                 }
-                logger.debug("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result);
+                logger.debug("http get url: {}, paramMap: {}, result: {}", url, JsonUtils.toString(paramMap), result);
             }
             return result;
         } catch (Exception e) {
-            logger.error("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result, e);
+            logger.error("http get url: {}, paramMap: {}, result: {}", url, JsonUtils.toString(paramMap), result, e);
         } finally {
             try {
                 httpClient.close();
@@ -100,12 +100,12 @@ public class HttpUtils {
             if (entity != null && response.getStatusLine().getStatusCode() == 200) {
                 String result = EntityUtils.toString(entity, "UTF-8");
                 EntityUtils.consume(entity);
-                logger.debug("url: {}, result: {}", url, result);
+                logger.debug("http post url: {}, result: {}", url, result);
                 return result;
             }
             return null;
         } catch (Exception e) {
-            logger.error("url: {}, paramMap: {}", url, paramMap, e);
+            logger.error("http post url: {}, paramMap: {}", url, paramMap, e);
             return null;
         } finally {
             if (httpPost != null) {

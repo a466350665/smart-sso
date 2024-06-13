@@ -19,13 +19,13 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class TokenManager implements LifecycleManager<TokenContent>, Expiration {
+public abstract class AbstractTokenManager implements LifecycleManager<TokenContent>, Expiration {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected int timeout;
 
-    public TokenManager(int timeout) {
+    public AbstractTokenManager(int timeout) {
         this.timeout = timeout;
     }
 

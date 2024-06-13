@@ -9,9 +9,9 @@ import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.entity.TokenContent;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractCodeManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,11 +34,11 @@ public class Oauth2Controller {
     private UserService userService;
 
     @Autowired
-    private CodeManager codeManager;
+    private AbstractCodeManager codeManager;
     @Autowired
-    private TokenManager tokenManager;
+    private AbstractTokenManager tokenManager;
     @Autowired
-    private TicketGrantingTicketManager ticketGrantingTicketManager;
+    private AbstractTicketGrantingTicketManager ticketGrantingTicketManager;
 
     /**
      * 获取accessToken

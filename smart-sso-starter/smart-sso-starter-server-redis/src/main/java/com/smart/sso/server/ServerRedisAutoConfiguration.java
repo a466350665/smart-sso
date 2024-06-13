@@ -1,8 +1,8 @@
 package com.smart.sso.server;
 
-import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractCodeManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 import com.smart.sso.server.token.redis.RedisCodeManager;
 import com.smart.sso.server.token.redis.RedisTicketGrantingTicketManager;
 import com.smart.sso.server.token.redis.RedisTokenManager;
@@ -19,20 +19,20 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class ServerRedisAutoConfiguration {
 
 	@Bean
-	@ConditionalOnMissingBean(CodeManager.class)
-	public CodeManager codeManager(StringRedisTemplate redisTemplate) {
+	@ConditionalOnMissingBean(AbstractCodeManager.class)
+	public AbstractCodeManager codeManager(StringRedisTemplate redisTemplate) {
 		return new RedisCodeManager(redisTemplate);
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(TokenManager.class)
-	public TokenManager tokenManager(ServerProperties properties, StringRedisTemplate redisTemplate) {
+	@ConditionalOnMissingBean(AbstractTokenManager.class)
+	public AbstractTokenManager tokenManager(ServerProperties properties, StringRedisTemplate redisTemplate) {
 		return new RedisTokenManager(properties.getTimeout(), redisTemplate);
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(TicketGrantingTicketManager.class)
-	public TicketGrantingTicketManager ticketGrantingTicketManager(TokenManager tokenManager, ServerProperties properties, StringRedisTemplate redisTemplate) {
+	@ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
+	public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(AbstractTokenManager tokenManager, ServerProperties properties, StringRedisTemplate redisTemplate) {
 		return new RedisTicketGrantingTicketManager(tokenManager, properties.getTimeout(), redisTemplate);
 	}
 }

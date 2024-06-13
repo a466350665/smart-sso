@@ -19,7 +19,7 @@ import java.net.URLEncoder;
  *
  * @author Joe
  */
-public class LoginFilter extends ClientFilter {
+public class LoginFilter extends AbstractClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -94,7 +94,7 @@ public class LoginFilter extends ClientFilter {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(200);
         PrintWriter writer = response.getWriter();
-        writer.write(JsonUtils.toJSONString(Result.create(code, message)));
+        writer.write(JsonUtils.toString(Result.create(code, message)));
         writer.flush();
         writer.close();
     }

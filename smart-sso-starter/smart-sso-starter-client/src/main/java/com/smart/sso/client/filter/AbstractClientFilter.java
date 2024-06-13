@@ -13,7 +13,7 @@ import java.io.IOException;
  *
  * @author Joe
  */
-public abstract class ClientFilter implements Filter {
+public abstract class AbstractClientFilter implements Filter {
 
     private TokenStorage tokenStorage;
 

@@ -1,7 +1,7 @@
 package com.smart.sso.server.controller;
 
 import com.smart.sso.base.constant.BaseConstant;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutController {
 
     @Autowired
-    private TicketGrantingTicketManager tgtManager;
+    private AbstractTicketGrantingTicketManager tgtManager;
 
     /**
      * 退出

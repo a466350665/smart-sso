@@ -2,9 +2,8 @@ package com.smart.sso.server.token.local;
 
 import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ExpirationWrapper;
-import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.entity.TokenContent;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -17,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public class LocalTokenManager extends TokenManager implements ExpirationPolicy {
+public class LocalTokenManager extends AbstractTokenManager implements ExpirationPolicy {
 
     private Map<String, ExpirationWrapper<TokenContent>> tokenMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();

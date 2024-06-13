@@ -25,7 +25,7 @@ public class CookieUtils {
      */
     public static Cookie getCookie(String name, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null || StringUtils.isEmpty(name)) {
+        if (cookies == null || !StringUtils.hasLength(name)) {
             return null;
         }
 

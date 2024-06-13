@@ -3,7 +3,7 @@ package com.smart.sso.server.token.local;
 import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.server.entity.CodeContent;
-import com.smart.sso.server.token.CodeManager;
+import com.smart.sso.server.token.AbstractCodeManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
+public class LocalCodeManager extends AbstractCodeManager implements ExpirationPolicy {
 
     private Map<String, ExpirationWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
 

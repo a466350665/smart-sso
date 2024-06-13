@@ -2,7 +2,7 @@ package com.smart.sso.server.token.redis;
 
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.server.entity.TokenContent;
-import com.smart.sso.server.token.TokenManager;
+import com.smart.sso.server.token.AbstractTokenManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Joe
  */
-public class RedisTokenManager extends TokenManager {
+public class RedisTokenManager extends AbstractTokenManager {
 
     private static final String REFRESH_TOKEN_KEY = "server_rt_";
     private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
@@ -29,7 +29,7 @@ public class RedisTokenManager extends TokenManager {
 
     @Override
     public void create(String refreshToken, TokenContent tokenContent) {
-        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toJSONString(tokenContent), getRefreshExpiresIn(),
+        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toString(tokenContent), getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
 
         redisTemplate.opsForSet().add(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), refreshToken);
@@ -42,7 +42,7 @@ public class RedisTokenManager extends TokenManager {
     @Override
     public TokenContent get(String refreshToken) {
         String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-        if (StringUtils.isEmpty(atcStr)) {
+        if (!StringUtils.hasLength(atcStr)) {
             return null;
         }
         return JsonUtils.parseObject(atcStr, TokenContent.class);
@@ -51,7 +51,7 @@ public class RedisTokenManager extends TokenManager {
     @Override
     public void remove(String refreshToken) {
         String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-        if (StringUtils.isEmpty(atcStr)) {
+        if (!StringUtils.hasLength(atcStr)) {
             return;
         }
         redisTemplate.delete(refreshToken);
@@ -74,7 +74,7 @@ public class RedisTokenManager extends TokenManager {
 
         accessTokenSet.forEach(refreshToken -> {
             String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-            if (StringUtils.isEmpty(atcStr)) {
+            if (!StringUtils.hasLength(atcStr)) {
                 return;
             }
             redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);

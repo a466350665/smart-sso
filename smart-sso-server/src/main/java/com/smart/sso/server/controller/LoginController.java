@@ -6,8 +6,8 @@ import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.server.service.AppService;
 import com.smart.sso.server.service.UserService;
-import com.smart.sso.server.token.CodeManager;
-import com.smart.sso.server.token.TicketGrantingTicketManager;
+import com.smart.sso.server.token.AbstractCodeManager;
+import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -30,9 +30,9 @@ import java.net.URLDecoder;
 public class LoginController {
 
     @Autowired
-    private CodeManager codeManager;
+    private AbstractCodeManager codeManager;
     @Autowired
-    private TicketGrantingTicketManager tgtManager;
+    private AbstractTicketGrantingTicketManager tgtManager;
     @Autowired
     private UserService userService;
     @Autowired
@@ -52,7 +52,7 @@ public class LoginController {
             @RequestParam(value = Oauth2Constant.APP_ID) String appId,
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
-        if (StringUtils.isEmpty(tgt)) {
+        if (!StringUtils.hasLength(tgt)) {
             return goLoginPath(redirectUri, appId, request);
         }
         return generateCodeAndRedirect(redirectUri, tgt);
@@ -72,8 +72,8 @@ public class LoginController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String login(
-            @RequestParam(value = BaseConstant.REDIRECT_URI, required = true) String redirectUri,
-            @RequestParam(value = Oauth2Constant.APP_ID, required = true) String appId,
+            @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
+            @RequestParam(value = Oauth2Constant.APP_ID) String appId,
             @RequestParam String username,
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {

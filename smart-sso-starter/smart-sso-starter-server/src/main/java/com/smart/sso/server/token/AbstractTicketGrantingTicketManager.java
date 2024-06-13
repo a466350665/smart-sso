@@ -18,14 +18,14 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class TicketGrantingTicketManager implements LifecycleManager<Userinfo>, Expiration {
+public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Userinfo>, Expiration {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private TokenManager tokenManager;
+    private AbstractTokenManager tokenManager;
     private int timeout;
 
-    public TicketGrantingTicketManager(TokenManager tokenManager, int timeout) {
+    public AbstractTicketGrantingTicketManager(AbstractTokenManager tokenManager, int timeout) {
         this.tokenManager = tokenManager;
         this.timeout = timeout;
     }
@@ -45,7 +45,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
     public String getOrCreate(Userinfo userinfo, HttpServletRequest request, HttpServletResponse response) {
         String tgt = getCookieTgt(request);
         // cookie中没有
-        if (StringUtils.isEmpty(tgt)) {
+        if (!StringUtils.hasLength(tgt)) {
             tgt = create(userinfo);
 
             // TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
@@ -58,7 +58,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
 
     public void invalidate(HttpServletRequest request, HttpServletResponse response) {
         String tgt = getCookieTgt(request);
-        if (StringUtils.isEmpty(tgt)) {
+        if (!StringUtils.hasLength(tgt)) {
             return;
         }
         // 删除登录凭证
@@ -71,7 +71,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
 
     public String get(HttpServletRequest request) {
         String tgt = getCookieTgt(request);
-        if (StringUtils.isEmpty(tgt) || get(tgt) == null) {
+        if (!StringUtils.hasLength(tgt) || get(tgt) == null) {
             return null;
         } else {
             return tgt;

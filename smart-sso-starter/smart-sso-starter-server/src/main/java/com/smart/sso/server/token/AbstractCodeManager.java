@@ -13,7 +13,7 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class CodeManager implements LifecycleManager<CodeContent>, Expiration {
+public abstract class AbstractCodeManager implements LifecycleManager<CodeContent>, Expiration {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

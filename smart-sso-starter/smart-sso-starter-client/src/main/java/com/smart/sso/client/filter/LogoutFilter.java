@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author Joe
  */
-public class LogoutFilter extends ClientFilter {
+public class LogoutFilter extends AbstractClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {

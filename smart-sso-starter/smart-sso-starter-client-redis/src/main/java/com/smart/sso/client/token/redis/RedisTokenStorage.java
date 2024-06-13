@@ -27,7 +27,7 @@ public final class RedisTokenStorage implements TokenStorage {
 
     @Override
     public void create(String accessToken, TokenWrapper wrapper) {
-        redisTemplate.opsForValue().set(ACCESS_TOKEN_KEY + accessToken, JsonUtils.toJSONString(wrapper), wrapper.getObject().getRefreshExpiresIn(),
+        redisTemplate.opsForValue().set(ACCESS_TOKEN_KEY + accessToken, JsonUtils.toString(wrapper), wrapper.getObject().getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
         logger.debug("Redis服务凭证创建成功, accessToken:{}", accessToken);
     }
@@ -35,7 +35,7 @@ public final class RedisTokenStorage implements TokenStorage {
     @Override
     public TokenWrapper get(String accessToken) {
         String str = redisTemplate.opsForValue().get(ACCESS_TOKEN_KEY + accessToken);
-        if (StringUtils.isEmpty(str)) {
+        if (!StringUtils.hasLength(str)) {
             return null;
         }
         return JsonUtils.parseObject(str, TokenWrapper.class);
