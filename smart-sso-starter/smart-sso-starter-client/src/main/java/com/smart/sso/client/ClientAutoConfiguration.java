@@ -40,7 +40,7 @@ public class ClientAutoConfiguration {
         registration.setFilter(clientContainer);
         registration.addUrlPatterns(properties.getUrlPatterns());
         registration.setOrder(properties.getOrder());
-        registration.setName("clientContainer");
+        registration.setName(properties.getContainerName());
         return registration;
     }
 }

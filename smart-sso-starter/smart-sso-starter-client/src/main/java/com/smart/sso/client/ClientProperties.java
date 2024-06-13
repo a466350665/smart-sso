@@ -22,19 +22,24 @@ public class ClientProperties {
     private String appSecret;
 
     /**
-     * 忽略拦截URL,多个逗号分隔
-     */
-    private String[] excludeUrls;
-
-    /**
      * 拦截URL，默认全路径
      */
     private String[] urlPatterns = {"/*"};
 
     /**
+     * 忽略拦截URL
+     */
+    private String[] excludeUrls;
+
+    /**
      * 排序，默认最高优先级
      */
     private int order = Ordered.HIGHEST_PRECEDENCE;
+
+    /**
+     * 客户端拦截Filter容器名称
+     */
+    private String containerName = "clientContainer";
 
     public String getServerUrl() {
         return serverUrl;
@@ -60,14 +65,6 @@ public class ClientProperties {
         this.appSecret = appSecret;
     }
 
-    public String[] getExcludeUrls() {
-        return excludeUrls;
-    }
-
-    public void setExcludeUrls(String[] excludeUrls) {
-        this.excludeUrls = excludeUrls;
-    }
-
     public String[] getUrlPatterns() {
         return urlPatterns;
     }
@@ -76,11 +73,27 @@ public class ClientProperties {
         this.urlPatterns = urlPatterns;
     }
 
+    public String[] getExcludeUrls() {
+        return excludeUrls;
+    }
+
+    public void setExcludeUrls(String[] excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
+
     public int getOrder() {
         return order;
     }
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public String getContainerName() {
+        return containerName;
+    }
+
+    public void setContainerName(String containerName) {
+        this.containerName = containerName;
     }
 }
