@@ -50,7 +50,7 @@ public class HttpUtils {
 				if (entity != null) {
 					result = EntityUtils.toString(entity);
 				}
-				logger.info("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result);
+				logger.debug("url: {}, paramMap: {}, result: {}", url, JsonUtils.toJSONString(paramMap), result);
 			}
 			return result;
 		}
@@ -103,7 +103,7 @@ public class HttpUtils {
 			if (entity != null && response.getStatusLine().getStatusCode() == 200) {
 				String result = EntityUtils.toString(entity, "UTF-8");
 				EntityUtils.consume(entity);
-				logger.info("url: {}, result: {}", url, result);
+				logger.debug("url: {}, result: {}", url, result);
 				return result;
 			}
 			return null;

@@ -28,7 +28,7 @@ public class RedisTicketGrantingTicketManager extends TicketGrantingTicketManage
 	public void create(String tgt, TicketGrantingTicketContent tgtContent) {
 		redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toJSONString(tgtContent), getExpiresIn(),
 				TimeUnit.SECONDS);
-		logger.info("Redis登录凭证生成成功, tgt:{}", tgt);
+		logger.debug("Redis登录凭证生成成功, tgt:{}", tgt);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class RedisTicketGrantingTicketManager extends TicketGrantingTicketManage
 	@Override
 	public void remove(String tgt) {
 		redisTemplate.delete(TGT_KEY + tgt);
-		logger.info("Redis登录凭证删除成功, tgt:{}", tgt);
+		logger.debug("Redis登录凭证删除成功, tgt:{}", tgt);
 	}
 
 	@Override

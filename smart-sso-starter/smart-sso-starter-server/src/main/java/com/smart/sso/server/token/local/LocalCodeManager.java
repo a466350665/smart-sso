@@ -21,7 +21,7 @@ public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
     public void create(String code, CodeContent codeContent) {
         ObjectWrapper<CodeContent> wrapper = new ObjectWrapper<>(codeContent, getExpiresIn());
         codeMap.put(code, wrapper);
-        logger.info("授权码生成成功, code:{}", code);
+        logger.debug("授权码生成成功, code:{}", code);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
         codeMap.forEach((code, wrapper) -> {
             if (wrapper.checkExpired()) {
                 remove(code);
-                logger.info("授权码已失效, code:{}", code);
+                logger.debug("授权码已失效, code:{}", code);
             }
         });
     }

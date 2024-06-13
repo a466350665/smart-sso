@@ -21,7 +21,7 @@ public final class LocalTokenStorage implements TokenStorage, ExpirationPolicy {
     @Override
     public void create(String accessToken, TokenWrapper wrapper) {
         tokenMap.put(accessToken, wrapper);
-        logger.info("服务凭证生成成功, accessToken:{}", accessToken);
+        logger.debug("服务凭证生成成功, accessToken:{}", accessToken);
     }
 
     @Override
@@ -39,7 +39,7 @@ public final class LocalTokenStorage implements TokenStorage, ExpirationPolicy {
         tokenMap.forEach((accessToken, wrapper) -> {
             if (wrapper.checkRefreshExpired()) {
                 remove(accessToken);
-                logger.info("服务凭证已失效, accessToken:{}", accessToken);
+                logger.debug("服务凭证已失效, accessToken:{}", accessToken);
             }
         });
     }

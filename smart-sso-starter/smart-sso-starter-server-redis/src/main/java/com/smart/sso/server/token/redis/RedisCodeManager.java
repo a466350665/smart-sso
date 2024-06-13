@@ -26,7 +26,7 @@ public class RedisCodeManager extends CodeManager {
 	@Override
 	public void create(String code, CodeContent codeContent) {
 		redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
-		logger.info("Redis授权码生成成功, code:{}", code);
+		logger.debug("Redis授权码生成成功, code:{}", code);
 	}
 
 	@Override

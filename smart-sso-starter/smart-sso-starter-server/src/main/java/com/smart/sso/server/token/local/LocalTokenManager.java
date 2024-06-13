@@ -32,7 +32,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 		tokenMap.put(refreshToken, dat);
 
 		tgtMap.computeIfAbsent(tokenContent.getCodeContent().getTgt(), a -> new HashSet<>()).add(refreshToken);
-		logger.info("调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
+		logger.debug("调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 			if (codeContent == null) {
 				return;
 			}
-			logger.info("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", wrapper.getObject().getAccessToken(), refreshToken, codeContent.getRedirectUri());
+			logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", wrapper.getObject().getAccessToken(), refreshToken, codeContent.getRedirectUri());
 			sendLogoutRequest(codeContent.getRedirectUri(), wrapper.getObject().getAccessToken());
 		});
 	}
@@ -86,7 +86,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 		tokenMap.forEach((refreshToken, wrapper) -> {
 			if (wrapper.checkExpired()) {
 				remove(refreshToken);
-				logger.info("调用凭证已失效, accessToken:{}, refreshToken:{}", wrapper.getObject().getAccessToken(), refreshToken);
+				logger.debug("调用凭证已失效, accessToken:{}, refreshToken:{}", wrapper.getObject().getAccessToken(), refreshToken);
 			}
 		});
 	}

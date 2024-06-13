@@ -36,7 +36,7 @@ public class RedisTokenManager extends TokenManager {
 		// 创建任意的Token，都为TGT和Token映射更新失效时间
 		redisTemplate.expire(TGT_REFRESH_TOKEN_KEY + tokenContent.getCodeContent().getTgt(), getRefreshExpiresIn(),
 				TimeUnit.SECONDS);
-		logger.info("Redis调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
+		logger.debug("Redis调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class RedisTokenManager extends TokenManager {
 			if (tokenContent == null) {
 				return;
 			}
-			logger.info("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getCodeContent().getRedirectUri());
+			logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getCodeContent().getRedirectUri());
 			sendLogoutRequest(tokenContent.getCodeContent().getRedirectUri(), tokenContent.getAccessToken());
 		});
 	}

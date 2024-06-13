@@ -26,7 +26,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     public void create(String tgt, TicketGrantingTicketContent tgtContent) {
         ObjectWrapper<TicketGrantingTicketContent> wrapper = new ObjectWrapper<>(tgtContent, getExpiresIn());
         tgtMap.put(tgt, wrapper);
-        logger.info("登录凭证生成成功, tgt:{}", tgt);
+        logger.debug("登录凭证生成成功, tgt:{}", tgt);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     @Override
     public void remove(String tgt) {
         tgtMap.remove(tgt);
-        logger.info("登录凭证删除成功, tgt:{}", tgt);
+        logger.debug("登录凭证删除成功, tgt:{}", tgt);
     }
 
     @Override
