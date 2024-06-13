@@ -24,7 +24,7 @@ public class ClientProperties {
     /**
      * 忽略拦截URL,多个逗号分隔
      */
-    private String excludeUrls;
+    private String[] excludeUrls;
 
     /**
      * 拦截URL，默认全路径
@@ -60,11 +60,11 @@ public class ClientProperties {
         this.appSecret = appSecret;
     }
 
-    public String getExcludeUrls() {
+    public String[] getExcludeUrls() {
         return excludeUrls;
     }
 
-    public void setExcludeUrls(String excludeUrls) {
+    public void setExcludeUrls(String[] excludeUrls) {
         this.excludeUrls = excludeUrls;
     }
 

@@ -62,11 +62,11 @@ public class ClientContainer implements Filter {
     }
 
     private boolean isExcludeUrl(String url) {
-        if (properties.getExcludeUrls() == null || properties.getExcludeUrls().isEmpty()) {
+        if (properties.getExcludeUrls() == null || properties.getExcludeUrls().length == 0) {
             return false;
         }
 
-        Map<Boolean, List<String>> map = Arrays.stream(properties.getExcludeUrls().split(","))
+        Map<Boolean, List<String>> map = Arrays.stream(properties.getExcludeUrls())
                 .collect(Collectors.partitioningBy(u -> u.endsWith(ClientConstant.URL_FUZZY_MATCH)));
         List<String> urlList = map.get(false);
         // 优先精确匹配
