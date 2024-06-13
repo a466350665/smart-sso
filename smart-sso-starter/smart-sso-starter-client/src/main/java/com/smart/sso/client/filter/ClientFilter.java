@@ -17,7 +17,7 @@ public abstract class ClientFilter implements Filter {
 
     private TokenStorage tokenStorage;
 
-    protected ClientProperties properties;
+    private ClientProperties properties;
 
     public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
             throws IOException;
@@ -45,5 +45,9 @@ public abstract class ClientFilter implements Filter {
 
     public void setProperties(ClientProperties properties) {
         this.properties = properties;
+    }
+
+    public ClientProperties getProperties() {
+        return properties;
     }
 }

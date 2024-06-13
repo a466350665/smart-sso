@@ -31,25 +31,25 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
     }
 
     /**
-     * 登录成功后，根据用户信息生成令牌
+     * 登录成功后，根据用户信息创建令牌
      *
      * @param user
      * @return
      */
-    String generate(Userinfo user) {
+    String create(Userinfo user) {
         String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
         create(tgt, user);
         return tgt;
     }
 
-    public String getOrGenerateTgt(Userinfo userinfo, HttpServletRequest request, HttpServletResponse response) {
+    public String getOrCreate(Userinfo userinfo, HttpServletRequest request, HttpServletResponse response) {
         String tgt = getCookieTgt(request);
         // cookie中没有
         if (StringUtils.isEmpty(tgt)) {
-            tgt = generate(userinfo);
+            tgt = create(userinfo);
 
             // TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
-            CookieUtils.addCookie(ServerConstant.COOKIE_TGC, tgt, "/", request, response);
+            CookieUtils.addCookie(ServerConstant.COOKIE_TGT, tgt, "/", request, response);
         } else {
             create(tgt, userinfo);
         }
@@ -62,19 +62,14 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
             return;
         }
         // 删除登录凭证
-        removeTgtAndToken(tgt);
-        // 删除凭证Cookie
-        CookieUtils.removeCookie(ServerConstant.COOKIE_TGC, "/", response);
-    }
-
-    public void removeTgtAndToken(String tgt) {
-        // 删除登录凭证
         remove(tgt);
-        // 删除所有Token
+        // 删除所有Token，通知所有客户端退出，注销其本地Token
         tokenManager.removeByTgt(tgt);
+        // 删除凭证Cookie
+        CookieUtils.removeCookie(ServerConstant.COOKIE_TGT, "/", response);
     }
 
-    public String getTgt(HttpServletRequest request) {
+    public String get(HttpServletRequest request) {
         String tgt = getCookieTgt(request);
         if (StringUtils.isEmpty(tgt) || get(tgt) == null) {
             return null;
@@ -84,7 +79,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
     }
 
     private String getCookieTgt(HttpServletRequest request) {
-        return CookieUtils.getCookieValue(ServerConstant.COOKIE_TGC, request);
+        return CookieUtils.getCookieValue(ServerConstant.COOKIE_TGT, request);
     }
 
     @Override
@@ -93,7 +88,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Us
     }
 
     /**
-     * 更新过期时间戳
+     * 刷新时效
      *
      * @param tgt
      * @return

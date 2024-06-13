@@ -18,14 +18,14 @@ public abstract class CodeManager implements LifecycleManager<CodeContent>, Expi
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * 生成授权码
+     * 创建授权码
      *
      * @param tgt
      * @param redirectUri
      * @return
      */
-    public String generate(String tgt, String redirectUri) {
-        String code = "code-" + UUID.randomUUID().toString().replaceAll("-", "");
+    public String create(String tgt, String redirectUri) {
+        String code = "Code-" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
         create(code, new CodeContent(tgt, redirectUri));
         return code;
     }

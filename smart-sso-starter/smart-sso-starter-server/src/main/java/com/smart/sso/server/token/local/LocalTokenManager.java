@@ -32,7 +32,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
         tokenMap.put(refreshToken, dat);
 
         tgtMap.computeIfAbsent(tokenContent.getTgt(), a -> new HashSet<>()).add(refreshToken);
-        logger.debug("调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
+        logger.debug("调用凭证创建成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
     }
 
     @Override

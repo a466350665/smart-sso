@@ -6,7 +6,6 @@ import com.smart.sso.base.entity.AccessToken;
 import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.constant.ClientConstant;
-import com.smart.sso.client.util.Oauth2Utils;
 import com.smart.sso.client.util.TokenUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +23,14 @@ public class LoginFilter extends ClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AccessToken token = TokenUtils.getAndRefresh(properties, request, response);
+        AccessToken token = TokenUtils.getAndRefresh(getProperties(), request, response);
         // 本地已存在token，直接返回
         if (token != null) {
             return true;
         }
         String code = request.getParameter(Oauth2Constant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && (token = Oauth2Utils.getHttpAccessToken(properties, code)) != null) {
+        if (code != null && (token = TokenUtils.getHttpAccessToken(getProperties(), code)) != null) {
             // 将token存储到本地
             TokenUtils.set(token, request, response);
             // 为去除URL中授权码参数，再跳转一次当前地址
@@ -54,8 +53,8 @@ public class LoginFilter extends ClientFilter {
         if (isAjaxRequest(request)) {
             responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
         } else {
-            String loginUrl = new StringBuilder().append(properties.getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
-                    .append(Oauth2Constant.APP_ID).append("=").append(properties.getAppId()).append("&")
+            String loginUrl = new StringBuilder().append(getProperties().getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
+                    .append(Oauth2Constant.APP_ID).append("=").append(getProperties().getAppId()).append("&")
                     .append(BaseConstant.REDIRECT_URI).append("=")
                     .append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
             response.sendRedirect(loginUrl);

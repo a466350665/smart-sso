@@ -51,7 +51,7 @@ public class LoginController {
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
             @RequestParam(value = Oauth2Constant.APP_ID) String appId,
             HttpServletRequest request) throws UnsupportedEncodingException {
-        String tgt = tgtManager.getTgt(request);
+        String tgt = tgtManager.get(request);
         if (StringUtils.isEmpty(tgt)) {
             return goLoginPath(redirectUri, appId, request);
         }
@@ -89,7 +89,7 @@ public class LoginController {
             return goLoginPath(redirectUri, appId, request);
         }
 
-        String tgt = tgtManager.getOrGenerateTgt(result.getData(), request, response);
+        String tgt = tgtManager.getOrCreate(result.getData(), request, response);
         return generateCodeAndRedirect(redirectUri, tgt);
     }
 
@@ -107,7 +107,7 @@ public class LoginController {
     }
 
     /**
-     * 生成授权码，跳转到redirectUri
+     * 创建授权码，跳转到redirectUri
      *
      * @param redirectUri
      * @param tgt
@@ -115,8 +115,8 @@ public class LoginController {
      * @throws UnsupportedEncodingException
      */
     private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
-        // 生成授权码
-        String code = codeManager.generate(tgt, redirectUri);
+        // 创建授权码
+        String code = codeManager.create(tgt, redirectUri);
         return "redirect:" + authRedirectUri(redirectUri, code);
     }
 

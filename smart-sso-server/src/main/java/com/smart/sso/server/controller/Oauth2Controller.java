@@ -79,8 +79,8 @@ public class Oauth2Controller {
             return Result.createError("服务端TGT已过期");
         }
 
-        // 生成token
-        TokenContent tc = tokenManager.generate(userinfo, appId, codeContent);
+        // 创建token
+        TokenContent tc = tokenManager.create(userinfo, appId, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
@@ -113,8 +113,8 @@ public class Oauth2Controller {
         // 删除原有token
         tokenManager.remove(refreshToken);
 
-        // 生成新token
-        TokenContent tc = tokenManager.generate(atContent);
+        // 创建新token
+        TokenContent tc = tokenManager.create(atContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());

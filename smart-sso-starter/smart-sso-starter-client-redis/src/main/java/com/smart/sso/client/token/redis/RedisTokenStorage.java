@@ -29,7 +29,7 @@ public final class RedisTokenStorage implements TokenStorage {
     public void create(String accessToken, TokenWrapper wrapper) {
         redisTemplate.opsForValue().set(ACCESS_TOKEN_KEY + accessToken, JsonUtils.toJSONString(wrapper), wrapper.getObject().getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
-        logger.debug("Redis服务凭证生成成功, accessToken:{}", accessToken);
+        logger.debug("Redis服务凭证创建成功, accessToken:{}", accessToken);
     }
 
     @Override

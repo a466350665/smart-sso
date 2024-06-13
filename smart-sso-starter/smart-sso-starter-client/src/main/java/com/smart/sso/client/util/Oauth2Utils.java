@@ -7,7 +7,6 @@ import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.enums.GrantTypeEnum;
 import com.smart.sso.base.util.HttpUtils;
 import com.smart.sso.base.util.JsonUtils;
-import com.smart.sso.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,38 +23,6 @@ public class Oauth2Utils {
     private static final Logger logger = LoggerFactory.getLogger(Oauth2Utils.class);
 
     /**
-     * 发送http请求获取accessToken
-     *
-     * @param properties
-     * @param code
-     */
-    public static AccessToken getHttpAccessToken(ClientProperties properties, String code) {
-        Result<AccessToken> result = getAccessToken(properties.getServerUrl(), properties.getAppId(),
-                properties.getAppSecret(), code);
-        if (!result.isSuccess()) {
-            logger.error("getHttpAccessToken has error, message:{}", result.getMessage());
-            return null;
-        }
-        return result.getData();
-    }
-
-    /**
-     * 发送http请求刷新token
-     *
-     * @param properties
-     * @param refreshToken
-     * @return
-     */
-    public static AccessToken getHttpRefreshToken(ClientProperties properties, String refreshToken) {
-        Result<AccessToken> result = getRefreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
-        if (!result.isSuccess()) {
-            logger.error("getHttpRefreshToken has error, message:{}", result.getMessage());
-            return null;
-        }
-        return result.getData();
-    }
-
-    /**
      * 获取accessToken（授权码模式）
      *
      * @param serverUrl
@@ -64,7 +31,7 @@ public class Oauth2Utils {
      * @param code
      * @return
      */
-    private static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
+    public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
         paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -81,14 +48,14 @@ public class Oauth2Utils {
      * @param refreshToken
      * @return
      */
-    private static Result<AccessToken> getRefreshToken(String serverUrl, String appId, String refreshToken) {
+    public static Result<AccessToken> getRefreshToken(String serverUrl, String appId, String refreshToken) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Oauth2Constant.APP_ID, appId);
         paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
         return getHttpToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap);
     }
 
-    private static Result<AccessToken> getHttpToken(String url, Map<String, String> paramMap) {
+    public static Result<AccessToken> getHttpToken(String url, Map<String, String> paramMap) {
         String jsonStr = HttpUtils.get(url, paramMap);
         if (jsonStr == null || jsonStr.isEmpty()) {
             logger.error("get http token return null. url:{}", url);

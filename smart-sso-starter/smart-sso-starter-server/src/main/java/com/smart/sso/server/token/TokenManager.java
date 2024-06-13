@@ -37,24 +37,24 @@ public abstract class TokenManager implements LifecycleManager<TokenContent>, Ex
     public abstract void removeByTgt(String tgt);
 
     /**
-     * 生成AccessToken
+     * 创建AccessToken
      *
      * @param tc
      * @return
      */
-    public TokenContent generate(TokenContent tc) {
-        return generate(tc.getUserinfo(), tc.getAppId(), tc);
+    public TokenContent create(TokenContent tc) {
+        return create(tc.getUserinfo(), tc.getAppId(), tc);
     }
 
     /**
-     * 生成AccessToken
+     * 创建AccessToken
      *
      * @param userinfo
      * @param appId
      * @param codeContent
      * @return
      */
-    public TokenContent generate(Userinfo userinfo, String appId, CodeContent codeContent) {
+    public TokenContent create(Userinfo userinfo, String appId, CodeContent codeContent) {
         String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
         String refreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
         TokenContent tc = new TokenContent(accessToken, refreshToken, userinfo, appId, codeContent.getTgt(), codeContent.getRedirectUri());

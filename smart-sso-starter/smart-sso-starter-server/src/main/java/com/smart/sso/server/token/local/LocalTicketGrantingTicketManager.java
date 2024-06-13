@@ -26,7 +26,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     public void create(String tgt, Userinfo userinfo) {
         ExpirationWrapper<Userinfo> wrapper = new ExpirationWrapper<>(userinfo, getExpiresIn());
         tgtMap.put(tgt, wrapper);
-        logger.debug("登录凭证生成成功, tgt:{}", tgt);
+        logger.debug("登录凭证创建成功, tgt:{}", tgt);
     }
 
     @Override
