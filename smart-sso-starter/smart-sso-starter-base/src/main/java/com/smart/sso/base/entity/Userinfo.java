@@ -1,18 +1,22 @@
 package com.smart.sso.base.entity;
 
 /**
- * 已登录用户信息
- * 
+ * 用户信息
+ *
  * @author Joe
  */
 public class Userinfo {
 
-	// 登录成功userId
+    /**
+     * 用户ID
+     */
     private Integer id;
-    // 登录名
+    /**
+     * 用户名
+     */
     private String username;
 
-    public Userinfo(){
+    public Userinfo() {
     }
 
     public Userinfo(Integer id, String username) {
@@ -30,10 +34,10 @@ public class Userinfo {
     }
 
     public String getUsername() {
-		return username;
-	}
+        return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

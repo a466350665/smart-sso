@@ -20,31 +20,32 @@ import java.net.URLEncoder;
 @RequestMapping("/")
 public class IndexController {
 
-	@Value("${server.port}")
-	private Integer serverPort;
-	@Autowired
-	private ClientProperties clientProperties;
+    @Value("${server.port}")
+    private Integer serverPort;
+    @Autowired
+    private ClientProperties clientProperties;
 
-	/**
-	 * 初始页
-	 * @param request
-	 * @param model
-	 * @return
-	 * @throws UnsupportedEncodingException 
-	 */
-	@GetMapping
-	public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-		Userinfo userinfo = TokenUtils.getUserinfo(request);
-		// 登录用户名
-		model.addAttribute("userName", userinfo.getUsername());
-		// 当前服务端口号
-		model.addAttribute("serverPort", serverPort);
-		// 单点退出地址
-		model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
-				+ URLEncoder.encode(getLocalUrl(request), "utf-8"));
-		return "index";
-	}
-	
+    /**
+     * 初始页
+     *
+     * @param request
+     * @param model
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @GetMapping
+    public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+        Userinfo userinfo = TokenUtils.getUserinfo(request);
+        // 登录用户名
+        model.addAttribute("userName", userinfo.getUsername());
+        // 当前服务端口号
+        model.addAttribute("serverPort", serverPort);
+        // 单点退出地址
+        model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
+                + URLEncoder.encode(getLocalUrl(request), "utf-8"));
+        return "index";
+    }
+
 
     /**
      * 获取当前应用访问路径

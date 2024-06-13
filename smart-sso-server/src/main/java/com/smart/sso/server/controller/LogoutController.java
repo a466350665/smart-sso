@@ -13,29 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 单点退出
- * 
+ *
  * @author Joe
  */
 @Controller
 @RequestMapping("/logout")
 public class LogoutController {
 
-	@Autowired
-	private TicketGrantingTicketManager tgtManager;
+    @Autowired
+    private TicketGrantingTicketManager tgtManager;
 
-	/**
-	 * 退出
-	 * 
-	 * @param redirectUri
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public String logout(
-			@RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-	        HttpServletRequest request, HttpServletResponse response) {
-		tgtManager.invalidate(request, response);
+    /**
+     * 退出
+     *
+     * @param redirectUri
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public String logout(
+            @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
+            HttpServletRequest request, HttpServletResponse response) {
+        tgtManager.invalidate(request, response);
         return "redirect:" + redirectUri;
-	}
+    }
 }

@@ -10,40 +10,40 @@ import java.io.IOException;
 
 /**
  * Filter基类
- * 
+ *
  * @author Joe
  */
 public abstract class ClientFilter implements Filter {
-	
-	private TokenStorage tokenStorage;
 
-	protected ClientProperties properties;
-    
-	public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
-			throws IOException;
+    private TokenStorage tokenStorage;
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+    protected ClientProperties properties;
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException {
-	}
+    public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
+            throws IOException;
 
-	@Override
-	public void destroy() {
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
 
-	public TokenStorage getTokenStorage() {
-		return tokenStorage;
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException {
+    }
 
-	public void setTokenStorage(TokenStorage tokenStorage) {
-		this.tokenStorage = tokenStorage;
-	}
+    @Override
+    public void destroy() {
+    }
 
-	public void setProperties(ClientProperties properties) {
-		this.properties = properties;
-	}
+    public TokenStorage getTokenStorage() {
+        return tokenStorage;
+    }
+
+    public void setTokenStorage(TokenStorage tokenStorage) {
+        this.tokenStorage = tokenStorage;
+    }
+
+    public void setProperties(ClientProperties properties) {
+        this.properties = properties;
+    }
 }

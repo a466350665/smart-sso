@@ -1,15 +1,16 @@
 package com.smart.sso.base.entity;
 
 /**
- * 时效控制
- * 
+ * 时效接口
+ *
  * @author Joe
  */
 public interface Expiration {
-	
-	/**
-	 * 时效（秒）
-	 * @return
-	 */
-	int getExpiresIn();
+
+    /**
+     * 获取时效时间（秒）
+     *
+     * @return
+     */
+    int getExpiresIn();
 }

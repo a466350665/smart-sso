@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * 单点退出Filter
- * 
+ *
  * @author Joe
  */
 public class LogoutFilter extends ClientFilter {
@@ -22,8 +22,8 @@ public class LogoutFilter extends ClientFilter {
         }
         return true;
     }
-    
+
     protected String getLogoutParam(HttpServletRequest request) {
-    	return request.getHeader(BaseConstant.LOGOUT_PARAMETER_NAME);
+        return request.getHeader(BaseConstant.LOGOUT_PARAMETER_NAME);
     }
 }

@@ -1,7 +1,7 @@
 package com.smart.sso.base.entity;
 
 /**
- * 生命周期管理器
+ * 对象生命周期管理器
  *
  * @author Joe
  */
@@ -24,7 +24,7 @@ public interface LifecycleManager<T> {
     T get(String key);
 
     /**
-     * 移除
+     * 删除
      *
      * @param key
      */

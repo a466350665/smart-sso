@@ -1,9 +1,9 @@
 package com.smart.sso.client.token;
 
 import com.smart.sso.base.entity.AccessToken;
-import com.smart.sso.base.entity.ObjectWrapper;
+import com.smart.sso.base.entity.ExpirationWrapper;
 
-public class TokenWrapper extends ObjectWrapper<AccessToken> {
+public class TokenWrapper extends ExpirationWrapper<AccessToken> {
 
     /**
      * refreshToken过期时间

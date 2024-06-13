@@ -8,51 +8,51 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * cookie操作工具
- * 
+ *
  * @author Joe
  */
 public class CookieUtils {
 
-	private CookieUtils() {
-	}
+    private CookieUtils() {
+    }
 
-	/**
-	 * 按名称获取cookie
-	 *
-	 * @param request
-	 * @param name
-	 * @return
-	 */
-	public static Cookie getCookie(String name, HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null || StringUtils.isEmpty(name)) {
-			return null;
-		}
+    /**
+     * 按名称获取cookie
+     *
+     * @param request
+     * @param name
+     * @return
+     */
+    public static Cookie getCookie(String name, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null || StringUtils.isEmpty(name)) {
+            return null;
+        }
 
-		for (Cookie cookie : cookies) {
-			if (name.equals(cookie.getName())) {
-				return cookie;
-			}
-		}
+        for (Cookie cookie : cookies) {
+            if (name.equals(cookie.getName())) {
+                return cookie;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * 按名称获取cookie中的值
-	 * 
-	 * @param request
-	 * @param name
-	 * @return
-	 */
-	public static String getCookieValue(String name, HttpServletRequest request) {
-		Cookie cookie = getCookie(name, request);
-		return cookie == null ? null : cookie.getValue();
-	}
-	
-	/**
+    /**
+     * 按名称获取cookie中的值
+     *
+     * @param request
+     * @param name
+     * @return
+     */
+    public static String getCookieValue(String name, HttpServletRequest request) {
+        Cookie cookie = getCookie(name, request);
+        return cookie == null ? null : cookie.getValue();
+    }
+
+    /**
      * 添加cookie
-     * 
+     *
      * @param name
      * @param value
      * @param path
@@ -60,7 +60,7 @@ public class CookieUtils {
      * @param response
      */
     public static void addCookie(String name, String value, String path, HttpServletRequest request,
-        HttpServletResponse response) {
+                                 HttpServletResponse response) {
         Cookie cookie = new Cookie(name, value);
         if (path != null) {
             cookie.setPath(path);
@@ -72,33 +72,33 @@ public class CookieUtils {
         response.addCookie(cookie);
     }
 
-	/**
-	 * 更新cookie中的值
-	 *
-	 * @param name
-	 * @param value
-	 * @param request
-	 */
-	public static void updateCookie(String name, String value, HttpServletRequest request) {
-		Cookie cookie = CookieUtils.getCookie(name, request);
-		cookie.setValue(value);
-	}
+    /**
+     * 更新cookie中的值
+     *
+     * @param name
+     * @param value
+     * @param request
+     */
+    public static void updateCookie(String name, String value, HttpServletRequest request) {
+        Cookie cookie = CookieUtils.getCookie(name, request);
+        cookie.setValue(value);
+    }
 
-	/**
-	 * 清除cookie
-	 * 
-	 * @param name
-	 * @param path
-	 * @param response
-	 */
-	public static void removeCookie(String name, String path, HttpServletResponse response) {
+    /**
+     * 清除cookie
+     *
+     * @param name
+     * @param path
+     * @param response
+     */
+    public static void removeCookie(String name, String path, HttpServletResponse response) {
 
-		Cookie cookie = new Cookie(name, null);
+        Cookie cookie = new Cookie(name, null);
 
-		if (path != null) {
-			cookie.setPath(path);
-		}
-		cookie.setMaxAge(-1000);
-		response.addCookie(cookie);
-	}
+        if (path != null) {
+            cookie.setPath(path);
+        }
+        cookie.setMaxAge(-1000);
+        response.addCookie(cookie);
+    }
 }

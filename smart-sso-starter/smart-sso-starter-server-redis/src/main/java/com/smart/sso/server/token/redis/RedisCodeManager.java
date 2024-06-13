@@ -10,36 +10,36 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 分布式授权码管理
- * 
+ *
  * @author Joe
  */
 public class RedisCodeManager extends CodeManager {
 
-	private static final String CODE_KEY = "server_code_";
+    private static final String CODE_KEY = "server_code_";
 
-	private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
-	public RedisCodeManager(StringRedisTemplate redisTemplate) {
-		this.redisTemplate = redisTemplate;
-	}
+    public RedisCodeManager(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
-	@Override
-	public void create(String code, CodeContent codeContent) {
-		redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
-		logger.debug("Redis授权码生成成功, code:{}", code);
-	}
+    @Override
+    public void create(String code, CodeContent codeContent) {
+        redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
+        logger.debug("Redis授权码生成成功, code:{}", code);
+    }
 
-	@Override
-	public CodeContent get(String code) {
-		String cc = redisTemplate.opsForValue().get(CODE_KEY + code);
-		if (StringUtils.isEmpty(cc)) {
-			return null;
-		}
-		return JsonUtils.parseObject(cc, CodeContent.class);
-	}
+    @Override
+    public CodeContent get(String code) {
+        String cc = redisTemplate.opsForValue().get(CODE_KEY + code);
+        if (StringUtils.isEmpty(cc)) {
+            return null;
+        }
+        return JsonUtils.parseObject(cc, CodeContent.class);
+    }
 
-	@Override
-	public void remove(String code) {
-		redisTemplate.delete(CODE_KEY + code);
-	}
+    @Override
+    public void remove(String code) {
+        redisTemplate.delete(CODE_KEY + code);
+    }
 }

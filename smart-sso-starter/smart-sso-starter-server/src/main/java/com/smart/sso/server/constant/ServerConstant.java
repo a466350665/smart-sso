@@ -5,8 +5,8 @@ package com.smart.sso.server.constant;
  */
 public class ServerConstant {
 
-	/**
-	 * 存cookie中TGT名称，和CAS概念保存一致
-	 */
-	public static final String TGC = "TGC";
+    /**
+     * cookie中TGT名称，和CAS概念保持一致
+     */
+    public static final String COOKIE_TGC = "TGC";
 }

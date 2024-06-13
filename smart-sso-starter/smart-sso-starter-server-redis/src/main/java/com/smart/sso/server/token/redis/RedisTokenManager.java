@@ -12,79 +12,79 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 分布式调用凭证管理
- * 
+ *
  * @author Joe
  */
 public class RedisTokenManager extends TokenManager {
 
-	private static final String REFRESH_TOKEN_KEY = "server_rt_";
-	private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
+    private static final String REFRESH_TOKEN_KEY = "server_rt_";
+    private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
 
-	private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
-	public RedisTokenManager(int timeout, StringRedisTemplate redisTemplate) {
-		super(timeout);
-		this.redisTemplate = redisTemplate;
-	}
+    public RedisTokenManager(int timeout, StringRedisTemplate redisTemplate) {
+        super(timeout);
+        this.redisTemplate = redisTemplate;
+    }
 
-	@Override
-	public void create(String refreshToken, TokenContent tokenContent) {
-		redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toJSONString(tokenContent), getRefreshExpiresIn(),
-				TimeUnit.SECONDS);
+    @Override
+    public void create(String refreshToken, TokenContent tokenContent) {
+        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toJSONString(tokenContent), getRefreshExpiresIn(),
+                TimeUnit.SECONDS);
 
-		redisTemplate.opsForSet().add(TGT_REFRESH_TOKEN_KEY + tokenContent.getCodeContent().getTgt(), refreshToken);
-		// 创建任意的Token，都为TGT和Token映射更新失效时间
-		redisTemplate.expire(TGT_REFRESH_TOKEN_KEY + tokenContent.getCodeContent().getTgt(), getRefreshExpiresIn(),
-				TimeUnit.SECONDS);
-		logger.debug("Redis调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
-	}
-	
-	@Override
-	public TokenContent get(String refreshToken) {
-		String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-		if (StringUtils.isEmpty(atcStr)) {
-			return null;
-		}
-		return JsonUtils.parseObject(atcStr, TokenContent.class);
-	}
+        redisTemplate.opsForSet().add(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), refreshToken);
+        // 创建任意的Token，都为TGT和Token映射更新失效时间
+        redisTemplate.expire(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), getRefreshExpiresIn(),
+                TimeUnit.SECONDS);
+        logger.debug("Redis调用凭证生成成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
+    }
 
-	@Override
-	public void remove(String refreshToken) {
-		String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-		if (StringUtils.isEmpty(atcStr)) {
-			return;
-		}
-		redisTemplate.delete(refreshToken);
+    @Override
+    public TokenContent get(String refreshToken) {
+        String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+        if (StringUtils.isEmpty(atcStr)) {
+            return null;
+        }
+        return JsonUtils.parseObject(atcStr, TokenContent.class);
+    }
 
-		// TGT集合中删除当前refreshToken
-		TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
-		if (tokenContent == null) {
-			return;
-		}
-		redisTemplate.opsForSet().remove(TGT_REFRESH_TOKEN_KEY + tokenContent.getCodeContent().getTgt(), refreshToken);
-	}
+    @Override
+    public void remove(String refreshToken) {
+        String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+        if (StringUtils.isEmpty(atcStr)) {
+            return;
+        }
+        redisTemplate.delete(refreshToken);
 
-	@Override
-	public void removeByTgt(String tgt) {
-		Set<String> accessTokenSet = redisTemplate.opsForSet().members(TGT_REFRESH_TOKEN_KEY + tgt);
-		if (CollectionUtils.isEmpty(accessTokenSet)) {
-			return;
-		}
-		redisTemplate.delete(TGT_REFRESH_TOKEN_KEY + tgt);
+        // TGT集合中删除当前refreshToken
+        TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
+        if (tokenContent == null) {
+            return;
+        }
+        redisTemplate.opsForSet().remove(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), refreshToken);
+    }
 
-		accessTokenSet.forEach(refreshToken -> {
-			String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-			if (StringUtils.isEmpty(atcStr)) {
-				return;
-			}
-			redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
+    @Override
+    public void removeByTgt(String tgt) {
+        Set<String> accessTokenSet = redisTemplate.opsForSet().members(TGT_REFRESH_TOKEN_KEY + tgt);
+        if (CollectionUtils.isEmpty(accessTokenSet)) {
+            return;
+        }
+        redisTemplate.delete(TGT_REFRESH_TOKEN_KEY + tgt);
 
-			TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
-			if (tokenContent == null) {
-				return;
-			}
-			logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getCodeContent().getRedirectUri());
-			sendLogoutRequest(tokenContent.getCodeContent().getRedirectUri(), tokenContent.getAccessToken());
-		});
-	}
+        accessTokenSet.forEach(refreshToken -> {
+            String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+            if (StringUtils.isEmpty(atcStr)) {
+                return;
+            }
+            redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
+
+            TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
+            if (tokenContent == null) {
+                return;
+            }
+            logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getRedirectUri());
+            sendLogoutRequest(tokenContent.getRedirectUri(), tokenContent.getAccessToken());
+        });
+    }
 }

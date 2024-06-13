@@ -1,14 +1,14 @@
 package com.smart.sso.base.entity;
 
 /**
- * 有效期限管理器
- * 
+ * 时效清理接口
+ *
  * @author Joe
  */
 public interface ExpirationPolicy {
-	
+
     /**
-     * 定时清理
+     * 定时清理时效过期的凭证
      */
     void verifyExpired();
 }

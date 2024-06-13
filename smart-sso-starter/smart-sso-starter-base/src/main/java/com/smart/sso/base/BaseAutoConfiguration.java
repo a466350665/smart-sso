@@ -12,8 +12,8 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 public class BaseAutoConfiguration {
 
-	@Bean
-	public ExpirationScheduler expirationScheduler(List<ExpirationPolicy> expirationList) {
-		return new ExpirationScheduler(expirationList);
-	}
+    @Bean
+    public ExpirationScheduler expirationScheduler(List<ExpirationPolicy> expirationList) {
+        return new ExpirationScheduler(expirationList);
+    }
 }

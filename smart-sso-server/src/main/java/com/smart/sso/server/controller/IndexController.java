@@ -10,26 +10,27 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * 首页管理
- * 
+ *
  * @author Joe
  */
 @Controller
 @RequestMapping("/")
 public class IndexController {
-    
-	@Value("${server.port}")
-	private Integer serverPort;
 
-	/**
-	 * 初始页
-	 * @param model
-	 * @return
-	 * @throws UnsupportedEncodingException 
-	 */
+    @Value("${server.port}")
+    private Integer serverPort;
+
+    /**
+     * 初始页
+     *
+     * @param model
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @GetMapping
-	public String execute(Model model) throws UnsupportedEncodingException {
-		// 当前服务端口号
-		model.addAttribute("serverPort", serverPort);
-		return "index";
-	}
+    public String execute(Model model) throws UnsupportedEncodingException {
+        // 当前服务端口号
+        model.addAttribute("serverPort", serverPort);
+        return "index";
+    }
 }

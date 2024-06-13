@@ -14,25 +14,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore({ BaseAutoConfiguration.class })
+@AutoConfigureBefore({BaseAutoConfiguration.class})
 @EnableConfigurationProperties({ServerProperties.class})
 public class ServerAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(CodeManager.class)
-	public CodeManager codeManager() {
-		return new LocalCodeManager();
-	}
+    @Bean
+    @ConditionalOnMissingBean(CodeManager.class)
+    public CodeManager codeManager() {
+        return new LocalCodeManager();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(TokenManager.class)
-	public TokenManager tokenManager(ServerProperties properties) {
-		return new LocalTokenManager(properties.getTimeout());
-	}
+    @Bean
+    @ConditionalOnMissingBean(TokenManager.class)
+    public TokenManager tokenManager(ServerProperties properties) {
+        return new LocalTokenManager(properties.getTimeout());
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(TicketGrantingTicketManager.class)
-	public TicketGrantingTicketManager ticketGrantingTicketManager(TokenManager tokenManager, ServerProperties properties) {
-		return new LocalTicketGrantingTicketManager(tokenManager, properties.getTimeout());
-	}
+    @Bean
+    @ConditionalOnMissingBean(TicketGrantingTicketManager.class)
+    public TicketGrantingTicketManager ticketGrantingTicketManager(TokenManager tokenManager, ServerProperties properties) {
+        return new LocalTicketGrantingTicketManager(tokenManager, properties.getTimeout());
+    }
 }

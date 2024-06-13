@@ -7,58 +7,66 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 10125567610925057L;
+    private static final long serialVersionUID = 10125567610925057L;
 
-	/** ID */
-	private Integer id;
-	/** 姓名 */
-	private String name;
-	/** 登录名 */
-	private String username;
-	/** 密码 */
-	private String password;
-	
-	public User() {
-		super();
-	}
+    /**
+     * ID
+     */
+    private Integer id;
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 登录名
+     */
+    private String username;
+    /**
+     * 密码
+     */
+    private String password;
 
-	public User(Integer id, String name, String username, String password) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.username = username;
-		this.password = password;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
+    public User() {
+        super();
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public User(Integer id, String name, String username, String password) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

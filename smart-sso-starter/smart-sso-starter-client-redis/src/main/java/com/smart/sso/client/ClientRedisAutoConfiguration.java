@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
-@AutoConfigureBefore({ ClientAutoConfiguration.class })
+@AutoConfigureBefore({ClientAutoConfiguration.class})
 public class ClientRedisAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(TokenStorage.class)
-	public TokenStorage tokenStorage(StringRedisTemplate redisTemplate) {
-		TokenStorage ts =  new RedisTokenStorage(redisTemplate);
-		TokenUtils.setTokenStorage(ts);
-		return ts;
-	}
+    @Bean
+    @ConditionalOnMissingBean(TokenStorage.class)
+    public TokenStorage tokenStorage(StringRedisTemplate redisTemplate) {
+        TokenStorage ts = new RedisTokenStorage(redisTemplate);
+        TokenUtils.setTokenStorage(ts);
+        return ts;
+    }
 }

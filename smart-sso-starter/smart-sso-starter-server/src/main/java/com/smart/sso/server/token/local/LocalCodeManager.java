@@ -1,7 +1,7 @@
 package com.smart.sso.server.token.local;
 
 import com.smart.sso.base.entity.ExpirationPolicy;
-import com.smart.sso.base.entity.ObjectWrapper;
+import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.CodeManager;
 
@@ -15,18 +15,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
 
-    private Map<String, ObjectWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
+    private Map<String, ExpirationWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
 
     @Override
     public void create(String code, CodeContent codeContent) {
-        ObjectWrapper<CodeContent> wrapper = new ObjectWrapper<>(codeContent, getExpiresIn());
+        ExpirationWrapper<CodeContent> wrapper = new ExpirationWrapper<>(codeContent, getExpiresIn());
         codeMap.put(code, wrapper);
         logger.debug("授权码生成成功, code:{}", code);
     }
 
     @Override
     public CodeContent get(String code) {
-        ObjectWrapper<CodeContent> wrapper = codeMap.get(code);
+        ExpirationWrapper<CodeContent> wrapper = codeMap.get(code);
         if (wrapper == null || wrapper.checkExpired()) {
             return null;
         }
