@@ -3,6 +3,8 @@ package com.smart.sso.client.token.redis;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.token.TokenStorage;
 import com.smart.sso.client.token.TokenWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -13,10 +15,9 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Joe
  */
-public final class RedisTokenStorage extends TokenStorage {
-
-    private static final String ST_TOKEN_KEY = "st_token_key_";
-    private static final String TOKEN_ST_KEY = "token_st_key_";
+public final class RedisTokenStorage implements TokenStorage {
+    private final Logger logger = LoggerFactory.getLogger(RedisTokenStorage.class);
+    private static final String ACCESS_TOKEN_KEY = "client_at_";
 
     private StringRedisTemplate redisTemplate;
 
@@ -25,16 +26,15 @@ public final class RedisTokenStorage extends TokenStorage {
     }
 
     @Override
-    public void create(String st, TokenWrapper wrapper) {
-        redisTemplate.opsForValue().set(ST_TOKEN_KEY + st, JsonUtils.toJSONString(wrapper), wrapper.getObject().getRefreshExpiresIn(),
+    public void create(String accessToken, TokenWrapper wrapper) {
+        redisTemplate.opsForValue().set(ACCESS_TOKEN_KEY + accessToken, JsonUtils.toJSONString(wrapper), wrapper.getObject().getRefreshExpiresIn(),
                 TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(TOKEN_ST_KEY + wrapper.getObject().getAccessToken(), st, wrapper.getObject().getRefreshExpiresIn(),
-                TimeUnit.SECONDS);
+        logger.info("Redis服务凭证生成成功, accessToken:{}", accessToken);
     }
 
     @Override
-    public TokenWrapper get(String st) {
-        String str = redisTemplate.opsForValue().get(ST_TOKEN_KEY + st);
+    public TokenWrapper get(String accessToken) {
+        String str = redisTemplate.opsForValue().get(ACCESS_TOKEN_KEY + accessToken);
         if (StringUtils.isEmpty(str)) {
             return null;
         }
@@ -42,22 +42,7 @@ public final class RedisTokenStorage extends TokenStorage {
     }
 
     @Override
-    public void remove(String st) {
-        String str = redisTemplate.opsForValue().get(ST_TOKEN_KEY + st);
-        if (StringUtils.isEmpty(str)) {
-            return;
-        }
-        redisTemplate.delete(ST_TOKEN_KEY + st);
-        TokenWrapper wrapper = JsonUtils.parseObject(str, TokenWrapper.class);
-        if (wrapper != null) {
-            redisTemplate.delete(TOKEN_ST_KEY + wrapper.getObject().getAccessToken());
-        }
-    }
-
-    @Override
-    public void removeByAccessToken(String accessToken) {
-        String st = redisTemplate.opsForValue().get(TOKEN_ST_KEY + accessToken);
-        redisTemplate.delete(TOKEN_ST_KEY + accessToken);
-        redisTemplate.delete(ST_TOKEN_KEY + st);
+    public void remove(String accessToken) {
+        redisTemplate.delete(ACCESS_TOKEN_KEY + accessToken);
     }
 }

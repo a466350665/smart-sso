@@ -56,7 +56,7 @@ public class LocalTicketGrantingTicketManager extends TicketGrantingTicketManage
     public void verifyExpired() {
         tgtMap.forEach((tgt, wrapper) -> {
             if (wrapper.checkExpired()) {
-                removeTgtAndToken(tgt);
+                remove(tgt);
             }
         });
     }

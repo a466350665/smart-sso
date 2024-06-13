@@ -3,6 +3,8 @@ package com.smart.sso.client.token.local;
 import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.client.token.TokenStorage;
 import com.smart.sso.client.token.TokenWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,43 +14,32 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public final class LocalTokenStorage extends TokenStorage implements ExpirationPolicy {
-    private final Map<String, TokenWrapper> stMap = new ConcurrentHashMap<>();
-    private final Map<String, String> tokenMap = new ConcurrentHashMap<>();
+public final class LocalTokenStorage implements TokenStorage, ExpirationPolicy {
+    private final Logger logger = LoggerFactory.getLogger(LocalTokenStorage.class);
+    private final Map<String, TokenWrapper> tokenMap = new ConcurrentHashMap<>();
 
     @Override
-    public void create(String st, TokenWrapper wrapper) {
-        stMap.put(st, wrapper);
-        tokenMap.put(wrapper.getObject().getAccessToken(), st);
-        logger.info("服务凭证生成成功, accessToken:{}", wrapper.getObject().getAccessToken());
+    public void create(String accessToken, TokenWrapper wrapper) {
+        tokenMap.put(accessToken, wrapper);
+        logger.info("服务凭证生成成功, accessToken:{}", accessToken);
     }
 
     @Override
-    public TokenWrapper get(String st) {
-        return stMap.get(st);
+    public TokenWrapper get(String accessToken) {
+        return tokenMap.get(accessToken);
     }
 
     @Override
-    public void remove(String st) {
-        TokenWrapper wrapper = stMap.remove(st);
-        if (wrapper != null) {
-            tokenMap.remove(wrapper.getObject().getAccessToken());
-        }
-    }
-
-    @Override
-    public void removeByAccessToken(String accessToken) {
-        String st = tokenMap.remove(accessToken);
-        stMap.remove(st);
+    public void remove(String accessToken) {
+        tokenMap.remove(accessToken);
     }
 
     @Override
     public void verifyExpired() {
-        stMap.forEach((st, wrapper) -> {
+        tokenMap.forEach((accessToken, wrapper) -> {
             if (wrapper.checkRefreshExpired()) {
-                stMap.remove(st);
-                tokenMap.remove(wrapper.getObject().getAccessToken());
-                logger.info("服务凭证已失效, accessToken:{}", wrapper.getObject().getAccessToken());
+                remove(accessToken);
+                logger.info("服务凭证已失效, accessToken:{}", accessToken);
             }
         });
     }

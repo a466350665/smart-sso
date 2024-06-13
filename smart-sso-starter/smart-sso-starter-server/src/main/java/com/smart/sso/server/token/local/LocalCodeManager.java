@@ -4,8 +4,6 @@ import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ObjectWrapper;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.CodeManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +42,7 @@ public class LocalCodeManager extends CodeManager implements ExpirationPolicy {
     public void verifyExpired() {
         codeMap.forEach((code, wrapper) -> {
             if (wrapper.checkExpired()) {
-                codeMap.remove(code);
+                remove(code);
                 logger.info("授权码已失效, code:{}", code);
             }
         });

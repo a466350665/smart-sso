@@ -87,7 +87,7 @@ public abstract class TicketGrantingTicketManager implements LifecycleManager<Ti
 	}
 
 	private String getCookieTgt(HttpServletRequest request) {
-		return CookieUtils.getCookie(request, ServerConstant.TGC);
+		return CookieUtils.getCookieValue(ServerConstant.TGC, request);
 	}
 
 	@Override

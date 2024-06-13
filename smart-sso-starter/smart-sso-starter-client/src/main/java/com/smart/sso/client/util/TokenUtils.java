@@ -54,7 +54,10 @@ public class TokenUtils {
         if (!wrapper.checkRefreshExpired()) {
             AccessToken at = Oauth2Utils.getHttpRefreshToken(properties, wrapper.getObject().getRefreshToken());
             if (at != null) {
+                // 删除旧token
                 tokenStorage.remove(token);
+
+                // 创建存储新token
                 tokenStorage.create(at.getAccessToken(), new TokenWrapper(at, at.getExpiresIn(), at.getRefreshExpiresIn()));
 
                 // 更新Cookie中的token值
@@ -85,14 +88,10 @@ public class TokenUtils {
     }
 
     public static void set(AccessToken at, HttpServletRequest request, HttpServletResponse response) {
-        String token = getCookieToken(request);
-        // cookie中没有
-        if (StringUtils.isEmpty(token)) {
-            token = at.getAccessToken();
-            // 写入cookie
-            addCookieToken(token, request, response);
-        }
-        tokenStorage.create(token, new TokenWrapper(at, at.getExpiresIn(), at.getRefreshExpiresIn()));
+        // 创建存储token
+        tokenStorage.create(at.getAccessToken(), new TokenWrapper(at, at.getExpiresIn(), at.getRefreshExpiresIn()));
+        // 写入cookie
+        addCookieToken(at.getAccessToken(), request, response);
     }
 
     private static void addCookieToken(String token, HttpServletRequest request, HttpServletResponse response) {

@@ -79,8 +79,13 @@ public class Oauth2Controller {
 			return Result.createError("服务端TGT已过期");
 		}
 
+		// 生成token
 		TokenContent tc = tokenManager.generate(codeContent, tgtContent.getUserinfo(), appId);
+
+		// 刷新服务端凭证时效
 		ticketGrantingTicketManager.refresh(tc.getCodeContent().getTgt());
+
+		// 返回token
 		return Result.createSuccess(new AccessToken(tc.getAccessToken(), tokenManager.getExpiresIn(), tc.getRefreshToken(),
 				tokenManager.getRefreshExpiresIn(), tc.getUserinfo()));
 	}
@@ -104,8 +109,17 @@ public class Oauth2Controller {
 		if (atContent == null) {
 			return Result.createError("refreshToken有误或已过期");
 		}
+
+		// 删除原有token
+		tokenManager.remove(refreshToken);
+
+		// 生成新token
 		TokenContent tc = tokenManager.generate(atContent.getCodeContent(), atContent.getUserinfo(), atContent.getAppId());
+
+		// 刷新服务端凭证时效
 		ticketGrantingTicketManager.refresh(tc.getCodeContent().getTgt());
+
+		// 返回新token
 		return Result.createSuccess(new AccessToken(tc.getAccessToken(), tokenManager.getExpiresIn(), tc.getRefreshToken(),
 				tokenManager.getRefreshExpiresIn(), tc.getUserinfo()));
 	}

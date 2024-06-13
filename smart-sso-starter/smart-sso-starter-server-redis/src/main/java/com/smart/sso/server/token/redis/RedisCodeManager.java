@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisCodeManager extends CodeManager {
 
+	private static final String CODE_KEY = "server_code_";
+
 	private StringRedisTemplate redisTemplate;
 
 	public RedisCodeManager(StringRedisTemplate redisTemplate) {
@@ -23,12 +25,13 @@ public class RedisCodeManager extends CodeManager {
 
 	@Override
 	public void create(String code, CodeContent codeContent) {
-		redisTemplate.opsForValue().set(code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toJSONString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
+		logger.info("Redis授权码生成成功, code:{}", code);
 	}
 
 	@Override
 	public CodeContent get(String code) {
-		String cc = redisTemplate.opsForValue().get(code);
+		String cc = redisTemplate.opsForValue().get(CODE_KEY + code);
 		if (StringUtils.isEmpty(cc)) {
 			return null;
 		}
@@ -37,6 +40,6 @@ public class RedisCodeManager extends CodeManager {
 
 	@Override
 	public void remove(String code) {
-		redisTemplate.delete(code);
+		redisTemplate.delete(CODE_KEY + code);
 	}
 }

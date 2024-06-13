@@ -24,7 +24,7 @@ public class Oauth2Utils {
     private static final Logger logger = LoggerFactory.getLogger(Oauth2Utils.class);
 
     /**
-     * 获取accessToken和用户信息存储到Token管理器
+     * 发送http请求获取accessToken
      *
      * @param properties
      * @param code
@@ -40,7 +40,7 @@ public class Oauth2Utils {
     }
 
     /**
-     * 通过refreshToken参数调用http请求延长服务端Token时效，并返回新的accessToken
+     * 发送http请求刷新token
      *
      * @param properties
      * @param refreshToken

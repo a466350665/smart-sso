@@ -52,7 +52,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 		if(wrapper == null){
 			return;
 		}
-		Set<String> tokenSet = tgtMap.remove(wrapper.getObject().getCodeContent().getTgt());
+		Set<String> tokenSet = tgtMap.get(wrapper.getObject().getCodeContent().getTgt());
 		if (CollectionUtils.isEmpty(tokenSet)) {
 			return;
 		}
@@ -85,7 +85,7 @@ public class LocalTokenManager extends TokenManager implements ExpirationPolicy 
 	public void verifyExpired() {
 		tokenMap.forEach((refreshToken, wrapper) -> {
 			if (wrapper.checkExpired()) {
-				tokenMap.remove(refreshToken);
+				remove(refreshToken);
 				logger.info("调用凭证已失效, accessToken:{}, refreshToken:{}", wrapper.getObject().getAccessToken(), refreshToken);
 			}
 		});
