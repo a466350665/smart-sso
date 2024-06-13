@@ -22,7 +22,7 @@ public class ClientProperties {
     private String appSecret;
 
     /**
-     * 拦截URL，默认全路径
+     * 拦截URL，默认拦截全路径
      */
     private String[] urlPatterns = {"/*"};
 
@@ -37,9 +37,9 @@ public class ClientProperties {
     private int order = Ordered.HIGHEST_PRECEDENCE;
 
     /**
-     * 客户端拦截Filter容器名称
+     * 客户端Filter容器名称
      */
-    private String containerName = "clientContainer";
+    private String name = "clientContainer";
 
     public String getServerUrl() {
         return serverUrl;
@@ -89,11 +89,11 @@ public class ClientProperties {
         this.order = order;
     }
 
-    public String getContainerName() {
-        return containerName;
+    public String getName() {
+        return name;
     }
 
-    public void setContainerName(String containerName) {
-        this.containerName = containerName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
