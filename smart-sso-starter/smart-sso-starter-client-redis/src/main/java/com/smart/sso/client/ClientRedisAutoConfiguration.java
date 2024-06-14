@@ -15,9 +15,9 @@ public class ClientRedisAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(TokenStorage.class)
-    public TokenStorage tokenStorage(StringRedisTemplate redisTemplate) {
-        TokenStorage ts = new RedisTokenStorage(redisTemplate);
-        TokenUtils.setTokenStorage(ts);
-        return ts;
+    public TokenStorage tokenStorage(ClientProperties properties, StringRedisTemplate redisTemplate) {
+        TokenStorage tokenStorage = new RedisTokenStorage(redisTemplate);
+        TokenUtils.setTokenStorage(properties, tokenStorage);
+        return tokenStorage;
     }
 }

@@ -1,7 +1,6 @@
 package com.smart.sso.server.token;
 
 import com.smart.sso.base.constant.BaseConstant;
-import com.smart.sso.base.entity.Expiration;
 import com.smart.sso.base.entity.LifecycleManager;
 import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.base.util.HttpUtils;
@@ -19,14 +18,21 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractTokenManager implements LifecycleManager<TokenContent>, Expiration {
+public abstract class AbstractTokenManager implements LifecycleManager<TokenContent> {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * accessToken超时时效
+     */
+    private int accessTokenTimeout;
 
-    protected int timeout;
+    /**
+     * refreshToken时效和登录超时时效保持一致
+     */
+    private int refreshTokenTimeout;
 
-    public AbstractTokenManager(int timeout) {
-        this.timeout = timeout;
+    public AbstractTokenManager(int accessTokenTimeout, int refreshTokenTimeout) {
+        this.accessTokenTimeout = accessTokenTimeout;
+        this.refreshTokenTimeout = refreshTokenTimeout;
     }
 
     /**
@@ -74,18 +80,19 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
         HttpUtils.postHeader(redirectUri, headerMap);
     }
 
-    /**
-     * refreshToken时效和自定义的登录超时时效保持一致
-     */
-    public int getRefreshExpiresIn() {
-        return 2 * timeout;
+    public int getAccessTokenTimeout() {
+        return accessTokenTimeout;
     }
 
-    /**
-     * accessToken时效为登录超时时效的1/2
-     */
-    @Override
-    public int getExpiresIn() {
-        return timeout;
+    public void setAccessTokenTimeout(int accessTokenTimeout) {
+        this.accessTokenTimeout = accessTokenTimeout;
+    }
+
+    public int getRefreshTokenTimeout() {
+        return refreshTokenTimeout;
+    }
+
+    public void setRefreshTokenTimeout(int refreshTokenTimeout) {
+        this.refreshTokenTimeout = refreshTokenTimeout;
     }
 }

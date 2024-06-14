@@ -16,11 +16,6 @@ public class ClientConstant {
     public static final String URL_FUZZY_MATCH = "/*";
 
     /**
-     * 存cookie中token名称
-     */
-    public static final String COOKIE_TOKEN = "TOKEN";
-
-    /**
      * 未登录或已过期
      */
     public static final int NO_LOGIN = 2100;

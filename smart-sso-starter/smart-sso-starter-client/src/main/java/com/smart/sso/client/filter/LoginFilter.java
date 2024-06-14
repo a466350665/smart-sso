@@ -2,7 +2,7 @@ package com.smart.sso.client.filter;
 
 import com.smart.sso.base.constant.BaseConstant;
 import com.smart.sso.base.constant.Oauth2Constant;
-import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Token;
 import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.client.constant.ClientConstant;
@@ -23,14 +23,14 @@ public class LoginFilter extends AbstractClientFilter {
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AccessToken token = TokenUtils.getAndRefresh(getProperties(), request, response);
+        Token token = TokenUtils.getAndRefresh(request, response);
         // 本地已存在token，直接返回
         if (token != null) {
             return true;
         }
         String code = request.getParameter(Oauth2Constant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && (token = TokenUtils.getHttpAccessToken(getProperties(), code)) != null) {
+        if (code != null && (token = TokenUtils.getHttpAccessToken(code)) != null) {
             // 将token存储到本地
             TokenUtils.set(token, request, response);
             // 为去除URL中授权码参数，再跳转一次当前地址

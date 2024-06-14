@@ -4,6 +4,8 @@ import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import com.smart.sso.server.token.AbstractTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -16,17 +18,18 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTicketManager {
 
+    protected final Logger logger = LoggerFactory.getLogger(RedisTicketGrantingTicketManager.class);
     private static final String TGT_KEY = "server_tgt_";
     private StringRedisTemplate redisTemplate;
 
-    public RedisTicketGrantingTicketManager(AbstractTokenManager tokenManager, int timeout, StringRedisTemplate redisTemplate) {
-        super(tokenManager, timeout);
+    public RedisTicketGrantingTicketManager(int timeout, String cookieName, AbstractTokenManager tokenManager, StringRedisTemplate redisTemplate) {
+        super(timeout, cookieName, tokenManager);
         this.redisTemplate = redisTemplate;
     }
 
     @Override
     public void create(String tgt, Userinfo userinfo) {
-        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(userinfo), getExpiresIn(),
+        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(userinfo), getTimeout(),
                 TimeUnit.SECONDS);
         logger.debug("Redis登录凭证创建成功, tgt:{}", tgt);
     }
@@ -37,7 +40,7 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
         if (!StringUtils.hasLength(userinfo)) {
             return null;
         }
-        redisTemplate.expire(TGT_KEY + tgt, getExpiresIn(), TimeUnit.SECONDS);
+        redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
         return JsonUtils.parseObject(userinfo, Userinfo.class);
     }
 
@@ -49,6 +52,6 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
 
     @Override
     public void refresh(String tgt) {
-        redisTemplate.expire(TGT_KEY + tgt, getExpiresIn(), TimeUnit.SECONDS);
+        redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
     }
 }

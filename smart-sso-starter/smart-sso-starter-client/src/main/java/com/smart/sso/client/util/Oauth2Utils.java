@@ -2,7 +2,7 @@ package com.smart.sso.client.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.smart.sso.base.constant.Oauth2Constant;
-import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Token;
 import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.enums.GrantTypeEnum;
 import com.smart.sso.base.util.HttpUtils;
@@ -31,7 +31,7 @@ public class Oauth2Utils {
      * @param code
      * @return
      */
-    public static Result<AccessToken> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
+    public static Result<Token> getAccessToken(String serverUrl, String appId, String appSecret, String code) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
         paramMap.put(Oauth2Constant.APP_ID, appId);
@@ -48,20 +48,20 @@ public class Oauth2Utils {
      * @param refreshToken
      * @return
      */
-    public static Result<AccessToken> getRefreshToken(String serverUrl, String appId, String refreshToken) {
+    public static Result<Token> getRefreshToken(String serverUrl, String appId, String refreshToken) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Oauth2Constant.APP_ID, appId);
         paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
         return getHttpToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap);
     }
 
-    public static Result<AccessToken> getHttpToken(String url, Map<String, String> paramMap) {
+    public static Result<Token> getHttpToken(String url, Map<String, String> paramMap) {
         String jsonStr = HttpUtils.get(url, paramMap);
         if (jsonStr == null || jsonStr.isEmpty()) {
             logger.error("get http token return null. url:{}", url);
             return Result.createError("获取token失败");
         }
-        Result<AccessToken> result = JsonUtils.parseObject(jsonStr, new TypeReference<Result<AccessToken>>() {
+        Result<Token> result = JsonUtils.parseObject(jsonStr, new TypeReference<Result<Token>>() {
         });
         if (result == null) {
             logger.error("parse accessToken return null. jsonStr:{}", jsonStr);

@@ -1,6 +1,6 @@
 package com.smart.sso.client.token;
 
-import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Token;
 import com.smart.sso.base.entity.LifecycleManager;
 
 /**
@@ -13,10 +13,10 @@ public interface TokenStorage extends LifecycleManager<TokenWrapper> {
     /**
      * 创建授权码
      *
-     * @param at
+     * @param token
      * @return
      */
-    default void create(AccessToken at) {
-        create(at.getAccessToken(), new TokenWrapper(at, at.getExpiresIn(), at.getRefreshExpiresIn()));
+    default void create(Token token) {
+        create(token.getAccessToken(), new TokenWrapper(token, token.getExpiresIn(), token.getRefreshExpiresIn()));
     }
 }

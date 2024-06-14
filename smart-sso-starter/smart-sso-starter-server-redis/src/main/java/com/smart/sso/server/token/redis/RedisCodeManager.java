@@ -3,6 +3,8 @@ package com.smart.sso.server.token.redis;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.AbstractCodeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
@@ -15,17 +17,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisCodeManager extends AbstractCodeManager {
 
+    protected final Logger logger = LoggerFactory.getLogger(RedisCodeManager.class);
     private static final String CODE_KEY = "server_code_";
 
     private StringRedisTemplate redisTemplate;
 
-    public RedisCodeManager(StringRedisTemplate redisTemplate) {
+    public RedisCodeManager(int timeout, StringRedisTemplate redisTemplate) {
+        super(timeout);
         this.redisTemplate = redisTemplate;
     }
 
     @Override
     public void create(String code, CodeContent codeContent) {
-        redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toString(codeContent), getExpiresIn(), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(CODE_KEY + code, JsonUtils.toString(codeContent), getTimeout(), TimeUnit.SECONDS);
         logger.debug("Redis授权码创建成功, code:{}", code);
     }
 

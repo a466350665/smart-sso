@@ -4,6 +4,8 @@ import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.server.entity.CodeContent;
 import com.smart.sso.server.token.AbstractCodeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,11 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LocalCodeManager extends AbstractCodeManager implements ExpirationPolicy {
 
+    protected final Logger logger = LoggerFactory.getLogger(LocalCodeManager.class);
     private Map<String, ExpirationWrapper<CodeContent>> codeMap = new ConcurrentHashMap<>();
+
+    public LocalCodeManager(int timeout) {
+        super(timeout);
+    }
 
     @Override
     public void create(String code, CodeContent codeContent) {
-        ExpirationWrapper<CodeContent> wrapper = new ExpirationWrapper<>(codeContent, getExpiresIn());
+        ExpirationWrapper<CodeContent> wrapper = new ExpirationWrapper<>(codeContent, getTimeout());
         codeMap.put(code, wrapper);
         logger.debug("授权码创建成功, code:{}", code);
     }

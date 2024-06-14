@@ -20,19 +20,19 @@ public class ServerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(AbstractCodeManager.class)
-    public AbstractCodeManager codeManager() {
-        return new LocalCodeManager();
+    public AbstractCodeManager codeManager(ServerProperties properties) {
+        return new LocalCodeManager(properties.getCodeTimeout());
     }
 
     @Bean
     @ConditionalOnMissingBean(AbstractTokenManager.class)
     public AbstractTokenManager tokenManager(ServerProperties properties) {
-        return new LocalTokenManager(properties.getTimeout());
+        return new LocalTokenManager(properties.getAccessTokenTimeout(), properties.getTimeout());
     }
 
     @Bean
     @ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
-    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(AbstractTokenManager tokenManager, ServerProperties properties) {
-        return new LocalTicketGrantingTicketManager(tokenManager, properties.getTimeout());
+    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(ServerProperties properties, AbstractTokenManager tokenManager) {
+        return new LocalTicketGrantingTicketManager(properties.getTimeout(), properties.getCookieName(), tokenManager);
     }
 }

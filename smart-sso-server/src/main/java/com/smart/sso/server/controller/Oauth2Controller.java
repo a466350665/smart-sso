@@ -1,7 +1,7 @@
 package com.smart.sso.server.controller;
 
 import com.smart.sso.base.constant.Oauth2Constant;
-import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Token;
 import com.smart.sso.base.entity.Result;
 import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.base.enums.GrantTypeEnum;
@@ -86,8 +86,8 @@ public class Oauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回token
-        return Result.createSuccess(new AccessToken(tc.getAccessToken(), tokenManager.getExpiresIn(), tc.getRefreshToken(),
-                tokenManager.getRefreshExpiresIn(), tc.getUserinfo()));
+        return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
+                tokenManager.getRefreshTokenTimeout(), tc.getUserinfo()));
     }
 
     /**
@@ -120,7 +120,7 @@ public class Oauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回新token
-        return Result.createSuccess(new AccessToken(tc.getAccessToken(), tokenManager.getExpiresIn(), tc.getRefreshToken(),
-                tokenManager.getRefreshExpiresIn(), tc.getUserinfo()));
+        return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
+                tokenManager.getRefreshTokenTimeout(), tc.getUserinfo()));
     }
 }

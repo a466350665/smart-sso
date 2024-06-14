@@ -3,11 +3,11 @@ package com.smart.sso.base.entity;
 import java.io.Serializable;
 
 /**
- * 服务端回传Token对象
+ * 服务端回传凭证Token对象
  *
  * @author Joe
  */
-public class AccessToken implements Serializable {
+public class Token implements Serializable {
 
     private static final long serialVersionUID = 4507869346123296527L;
 
@@ -32,11 +32,11 @@ public class AccessToken implements Serializable {
      */
     private Userinfo userinfo;
 
-    public AccessToken() {
+    public Token() {
         super();
     }
 
-    public AccessToken(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, Userinfo userinfo) {
+    public Token(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, Userinfo userinfo) {
         super();
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;

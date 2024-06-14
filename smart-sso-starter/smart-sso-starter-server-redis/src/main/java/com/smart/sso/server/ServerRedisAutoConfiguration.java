@@ -14,25 +14,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore({ ServerAutoConfiguration.class })
+@AutoConfigureBefore({ServerAutoConfiguration.class})
 @EnableConfigurationProperties({ServerProperties.class})
 public class ServerRedisAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(AbstractCodeManager.class)
-	public AbstractCodeManager codeManager(StringRedisTemplate redisTemplate) {
-		return new RedisCodeManager(redisTemplate);
-	}
+    @Bean
+    @ConditionalOnMissingBean(AbstractCodeManager.class)
+    public AbstractCodeManager codeManager(ServerProperties properties, StringRedisTemplate redisTemplate) {
+        return new RedisCodeManager(properties.getCodeTimeout(), redisTemplate);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(AbstractTokenManager.class)
-	public AbstractTokenManager tokenManager(ServerProperties properties, StringRedisTemplate redisTemplate) {
-		return new RedisTokenManager(properties.getTimeout(), redisTemplate);
-	}
+    @Bean
+    @ConditionalOnMissingBean(AbstractTokenManager.class)
+    public AbstractTokenManager tokenManager(ServerProperties properties, StringRedisTemplate redisTemplate) {
+        return new RedisTokenManager(properties.getAccessTokenTimeout(), properties.getTimeout(), redisTemplate);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
-	public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(AbstractTokenManager tokenManager, ServerProperties properties, StringRedisTemplate redisTemplate) {
-		return new RedisTicketGrantingTicketManager(tokenManager, properties.getTimeout(), redisTemplate);
-	}
+    @Bean
+    @ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
+    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(ServerProperties properties, AbstractTokenManager tokenManager, StringRedisTemplate redisTemplate) {
+        return new RedisTicketGrantingTicketManager(properties.getTimeout(), properties.getCookieName(), tokenManager, redisTemplate);
+    }
 }

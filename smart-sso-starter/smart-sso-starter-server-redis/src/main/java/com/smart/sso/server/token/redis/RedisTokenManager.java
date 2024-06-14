@@ -3,6 +3,8 @@ package com.smart.sso.server.token.redis;
 import com.smart.sso.base.util.JsonUtils;
 import com.smart.sso.server.entity.TokenContent;
 import com.smart.sso.server.token.AbstractTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -17,24 +19,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisTokenManager extends AbstractTokenManager {
 
+    private final Logger logger = LoggerFactory.getLogger(RedisTokenManager.class);
     private static final String REFRESH_TOKEN_KEY = "server_rt_";
     private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
 
     private StringRedisTemplate redisTemplate;
 
-    public RedisTokenManager(int timeout, StringRedisTemplate redisTemplate) {
-        super(timeout);
+    public RedisTokenManager(int accessTokenTimeout, int refreshTokenTimeout, StringRedisTemplate redisTemplate) {
+        super(accessTokenTimeout, refreshTokenTimeout);
         this.redisTemplate = redisTemplate;
     }
 
     @Override
     public void create(String refreshToken, TokenContent tokenContent) {
-        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toString(tokenContent), getRefreshExpiresIn(),
+        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toString(tokenContent), getRefreshTokenTimeout(),
                 TimeUnit.SECONDS);
 
         redisTemplate.opsForSet().add(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), refreshToken);
         // 创建任意的Token，都为TGT和Token映射更新失效时间
-        redisTemplate.expire(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), getRefreshExpiresIn(),
+        redisTemplate.expire(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), getRefreshTokenTimeout(),
                 TimeUnit.SECONDS);
         logger.debug("Redis调用凭证创建成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
     }

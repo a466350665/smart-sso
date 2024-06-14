@@ -1,9 +1,9 @@
 package com.smart.sso.client.token;
 
-import com.smart.sso.base.entity.AccessToken;
+import com.smart.sso.base.entity.Token;
 import com.smart.sso.base.entity.ExpirationWrapper;
 
-public class TokenWrapper extends ExpirationWrapper<AccessToken> {
+public class TokenWrapper extends ExpirationWrapper<Token> {
 
     /**
      * refreshToken过期时间
@@ -14,8 +14,8 @@ public class TokenWrapper extends ExpirationWrapper<AccessToken> {
         super();
     }
 
-    public TokenWrapper(AccessToken at, int expiresIn, int refreshExpiresIn) {
-        super(at, expiresIn);
+    public TokenWrapper(Token token, int expiresIn, int refreshExpiresIn) {
+        super(token, expiresIn);
         this.refreshExpired = System.currentTimeMillis() + refreshExpiresIn * 1000;
     }
 

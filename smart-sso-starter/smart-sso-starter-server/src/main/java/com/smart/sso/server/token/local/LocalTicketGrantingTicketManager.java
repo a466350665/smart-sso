@@ -5,6 +5,8 @@ import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import com.smart.sso.server.token.AbstractTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,15 +18,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LocalTicketGrantingTicketManager extends AbstractTicketGrantingTicketManager implements ExpirationPolicy {
 
+    protected final Logger logger = LoggerFactory.getLogger(LocalTicketGrantingTicketManager.class);
     private Map<String, ExpirationWrapper<Userinfo>> tgtMap = new ConcurrentHashMap<>();
 
-    public LocalTicketGrantingTicketManager(AbstractTokenManager tokenManager, int timeout) {
-        super(tokenManager, timeout);
+    public LocalTicketGrantingTicketManager(int timeout, String cookieName, AbstractTokenManager tokenManager) {
+        super(timeout, cookieName, tokenManager);
     }
 
     @Override
     public void create(String tgt, Userinfo userinfo) {
-        ExpirationWrapper<Userinfo> wrapper = new ExpirationWrapper<>(userinfo, getExpiresIn());
+        ExpirationWrapper<Userinfo> wrapper = new ExpirationWrapper<>(userinfo, getTimeout());
         tgtMap.put(tgt, wrapper);
         logger.debug("登录凭证创建成功, tgt:{}", tgt);
     }
@@ -48,7 +51,7 @@ public class LocalTicketGrantingTicketManager extends AbstractTicketGrantingTick
     public void refresh(String tgt) {
         ExpirationWrapper<Userinfo> wrapper = tgtMap.get(tgt);
         if (wrapper != null) {
-            wrapper.setExpired(System.currentTimeMillis() + getExpiresIn() * 1000);
+            wrapper.setExpired(System.currentTimeMillis() + getTimeout() * 1000);
         }
     }
 

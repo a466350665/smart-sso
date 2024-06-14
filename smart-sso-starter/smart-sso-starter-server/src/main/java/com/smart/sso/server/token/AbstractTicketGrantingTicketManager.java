@@ -1,12 +1,8 @@
 package com.smart.sso.server.token;
 
-import com.smart.sso.base.entity.Expiration;
 import com.smart.sso.base.entity.LifecycleManager;
 import com.smart.sso.base.entity.Userinfo;
 import com.smart.sso.base.util.CookieUtils;
-import com.smart.sso.server.constant.ServerConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,16 +14,16 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Userinfo>, Expiration {
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Userinfo> {
 
     private AbstractTokenManager tokenManager;
     private int timeout;
+    private String cookieName;
 
-    public AbstractTicketGrantingTicketManager(AbstractTokenManager tokenManager, int timeout) {
-        this.tokenManager = tokenManager;
+    public AbstractTicketGrantingTicketManager(int timeout, String cookieName, AbstractTokenManager tokenManager) {
         this.timeout = timeout;
+        this.cookieName = cookieName;
+        this.tokenManager = tokenManager;
     }
 
     /**
@@ -48,8 +44,8 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
         if (!StringUtils.hasLength(tgt)) {
             tgt = create(userinfo);
 
-            // TGT存cookie，和Cas登录保存cookie中名称一致为：TGC
-            CookieUtils.addCookie(ServerConstant.COOKIE_TGT, tgt, "/", request, response);
+            // TGT存cookie
+            CookieUtils.addCookie(cookieName, tgt, "/", request, response);
         } else {
             create(tgt, userinfo);
         }
@@ -66,7 +62,7 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
         // 删除所有Token，通知所有客户端退出，注销其本地Token
         tokenManager.removeByTgt(tgt);
         // 删除凭证Cookie
-        CookieUtils.removeCookie(ServerConstant.COOKIE_TGT, "/", response);
+        CookieUtils.removeCookie(cookieName, "/", response);
     }
 
     public String get(HttpServletRequest request) {
@@ -79,12 +75,31 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
     }
 
     private String getCookieTgt(HttpServletRequest request) {
-        return CookieUtils.getCookieValue(ServerConstant.COOKIE_TGT, request);
+        return CookieUtils.getCookieValue(cookieName, request);
     }
 
-    @Override
-    public int getExpiresIn() {
-        return 2 * timeout;
+    public AbstractTokenManager getTokenManager() {
+        return tokenManager;
+    }
+
+    public void setTokenManager(AbstractTokenManager tokenManager) {
+        this.tokenManager = tokenManager;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCookieName() {
+        return cookieName;
+    }
+
+    public void setCookieName(String cookieName) {
+        this.cookieName = cookieName;
     }
 
     /**

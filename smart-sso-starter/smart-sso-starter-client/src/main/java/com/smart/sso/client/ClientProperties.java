@@ -41,6 +41,11 @@ public class ClientProperties {
      */
     private String name = "clientContainer";
 
+    /**
+     * 存cookie中token名称
+     */
+    private String cookieName = "TOKEN";
+
     public String getServerUrl() {
         return serverUrl;
     }
@@ -95,5 +100,13 @@ public class ClientProperties {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCookieName() {
+        return cookieName;
+    }
+
+    public void setCookieName(String cookieName) {
+        this.cookieName = cookieName;
     }
 }

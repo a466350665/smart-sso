@@ -4,6 +4,8 @@ import com.smart.sso.base.entity.ExpirationPolicy;
 import com.smart.sso.base.entity.ExpirationWrapper;
 import com.smart.sso.server.entity.TokenContent;
 import com.smart.sso.server.token.AbstractTokenManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -18,16 +20,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LocalTokenManager extends AbstractTokenManager implements ExpirationPolicy {
 
+    private final Logger logger = LoggerFactory.getLogger(LocalTokenManager.class);
     private Map<String, ExpirationWrapper<TokenContent>> tokenMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
-    public LocalTokenManager(int timeout) {
-        super(timeout);
+    public LocalTokenManager(int accessTokenTimeout, int refreshTokenTimeout) {
+        super(accessTokenTimeout, refreshTokenTimeout);
     }
 
     @Override
     public void create(String refreshToken, TokenContent tokenContent) {
-        ExpirationWrapper<TokenContent> dat = new ExpirationWrapper(tokenContent, getRefreshExpiresIn());
+        ExpirationWrapper<TokenContent> dat = new ExpirationWrapper(tokenContent, getRefreshTokenTimeout());
         tokenMap.put(refreshToken, dat);
 
         tgtMap.computeIfAbsent(tokenContent.getTgt(), a -> new HashSet<>()).add(refreshToken);

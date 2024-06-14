@@ -1,10 +1,7 @@
 package com.smart.sso.server.token;
 
-import com.smart.sso.base.entity.Expiration;
 import com.smart.sso.base.entity.LifecycleManager;
 import com.smart.sso.server.entity.CodeContent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -13,9 +10,13 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractCodeManager implements LifecycleManager<CodeContent>, Expiration {
+public abstract class AbstractCodeManager implements LifecycleManager<CodeContent> {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private int timeout;
+
+    public AbstractCodeManager(int timeout) {
+        this.timeout = timeout;
+    }
 
     /**
      * 创建授权码
@@ -30,11 +31,11 @@ public abstract class AbstractCodeManager implements LifecycleManager<CodeConten
         return code;
     }
 
-    /*
-     * code失效时间默认为10分钟
-     */
-    @Override
-    public int getExpiresIn() {
-        return 600;
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }
