@@ -10,9 +10,10 @@ QQ交流群：454343484🈵、769134727
     smart-sso使用当下最流行的SpringBoot技术，基于Cookie + OAuth2认证授权方式，为您构建一个轻量级、易理解、高可用、高扩展性的分布式单点登录应用基础。
 
 ## 相关文档
-- [smart-sso单点登录（一）：简介](https://blog.csdn.net/a466350665/article/details/54140411)
-- [smart-sso单点登录（二）：部署文档](http://blog.csdn.net/a466350665/article/details/79628553)
-- [smart-sso单点登录（三）：引入redis支持分布式](https://blog.csdn.net/a466350665/article/details/109388429)
+- [smart-sso单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
+- [smart-sso单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
+- [smart-sso单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
+- [smart-sso单点登录（四）：引入redis支持分布式](https://blog.csdn.net/a466350665/article/details/109388429)
 
 ## 组件结构
 
