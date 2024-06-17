@@ -13,7 +13,7 @@ QQ交流群：454343484🈵、769134727
 - [smart-sso单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
 - [smart-sso单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
 - [smart-sso单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
-- [smart-sso单点登录（四）：引入redis支持分布式](https://blog.csdn.net/a466350665/article/details/109388429)
+- [smart-sso单点登录（四）：支持分布式](https://blog.csdn.net/a466350665/article/details/109388429)
 
 ## 组件结构
 
