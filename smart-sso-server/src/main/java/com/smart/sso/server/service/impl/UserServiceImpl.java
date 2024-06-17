@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户服务
+ */
 @Service("userService")
 public class UserServiceImpl implements UserService {
 

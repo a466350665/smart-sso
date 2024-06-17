@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 应用服务
+ */
 @Service("appService")
 public class AppServiceImpl implements AppService {
 
