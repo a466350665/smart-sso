@@ -7,7 +7,7 @@
 QQ交流群：454343484🈵、769134727
 
 ## 简述
-    smart-sso使用当下最流行的SpringBoot技术，基于Cookie + OAuth2认证授权方式，为您构建一个轻量级、易理解、高可用、高扩展性的分布式单点登录应用基础。
+    smart-sso使用当下最流行的SpringBoot技术，基于Cookie + OAuth2认证授权方式，为您构建一个轻量级、易理解、高可用、高扩展性的单点登录应用。
 
 ## 相关文档
 - [smart-sso单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
