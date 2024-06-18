@@ -39,7 +39,6 @@ public class ClientContainer implements Filter {
         for (AbstractClientFilter filter : filters) {
             filter.setProperties(properties);
             filter.setTokenStorage(tokenStorage);
-            filter.init(filterConfig);
         }
     }
 
@@ -87,9 +86,6 @@ public class ClientContainer implements Filter {
     public void destroy() {
         if (filters == null || filters.length == 0) {
             return;
-        }
-        for (AbstractClientFilter filter : filters) {
-            filter.destroy();
         }
     }
 

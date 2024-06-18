@@ -13,27 +13,22 @@ import java.io.IOException;
  *
  * @author Joe
  */
-public abstract class AbstractClientFilter implements Filter {
+public abstract class AbstractClientFilter {
 
     private TokenStorage tokenStorage;
 
     private ClientProperties properties;
 
+    /**
+     * 请求是否允许通过
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
     public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
             throws IOException;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException {
-    }
-
-    @Override
-    public void destroy() {
-    }
 
     public TokenStorage getTokenStorage() {
         return tokenStorage;

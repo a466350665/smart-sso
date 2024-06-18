@@ -1,5 +1,6 @@
 package com.smart.sso.client;
 
+import com.smart.sso.client.constant.ClientConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 
@@ -22,12 +23,12 @@ public class ClientProperties {
     private String appSecret;
 
     /**
-     * 拦截URL，默认拦截全路径
+     * 拦截urls，默认拦截全路径
      */
-    private String[] urlPatterns = {"/*"};
+    private String[] urlPatterns = {ClientConstant.URL_FUZZY_MATCH};
 
     /**
-     * 忽略拦截URL
+     * 忽略拦截urls
      */
     private String[] excludeUrls;
 

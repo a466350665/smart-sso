@@ -53,12 +53,23 @@ public class LoginFilter extends AbstractClientFilter {
         if (isAjaxRequest(request)) {
             responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
         } else {
-            String loginUrl = new StringBuilder().append(getProperties().getServerUrl()).append(BaseConstant.LOGIN_PATH).append("?")
-                    .append(Oauth2Constant.APP_ID).append("=").append(getProperties().getAppId()).append("&")
-                    .append(BaseConstant.REDIRECT_URI).append("=")
-                    .append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
+            String loginUrl = buildLoginUrl(request);
             response.sendRedirect(loginUrl);
         }
+    }
+
+    private String buildLoginUrl(HttpServletRequest request)  throws IOException {
+        return new StringBuilder()
+                .append(getProperties().getServerUrl())
+                .append(BaseConstant.LOGIN_PATH)
+                .append("?")
+                .append(Oauth2Constant.APP_ID)
+                .append("=")
+                .append(getProperties().getAppId())
+                .append("&")
+                .append(BaseConstant.REDIRECT_URI)
+                .append("=")
+                .append(URLEncoder.encode(getCurrentUrl(request), "utf-8")).toString();
     }
 
     /**
@@ -81,21 +92,23 @@ public class LoginFilter extends AbstractClientFilter {
      * @return
      */
     private String getCurrentUrl(HttpServletRequest request) {
-        return new StringBuilder().append(request.getRequestURL())
-                .append(request.getQueryString() == null ? "" : "?" + request.getQueryString()).toString();
+        StringBuilder urlBuilder = new StringBuilder(request.getRequestURL());
+        String queryString = request.getQueryString();
+        if (queryString != null) {
+            urlBuilder.append("?").append(queryString);
+        }
+        return urlBuilder.toString();
     }
 
     protected boolean isAjaxRequest(HttpServletRequest request) {
-        String requestedWith = request.getHeader("X-Requested-With");
-        return requestedWith != null ? "XMLHttpRequest".equals(requestedWith) : false;
+        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
     protected void responseJson(HttpServletResponse response, int code, String message) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(200);
-        PrintWriter writer = response.getWriter();
-        writer.write(JsonUtils.toString(Result.create(code, message)));
-        writer.flush();
-        writer.close();
+        response.setStatus(HttpServletResponse.SC_OK);
+        try (PrintWriter writer = response.getWriter()) {
+            writer.write(JsonUtils.toString(Result.create(code, message)));
+        }
     }
 }
