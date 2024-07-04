@@ -1,10 +1,10 @@
 package openjoe.smart.sso.client.filter;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenStorage;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

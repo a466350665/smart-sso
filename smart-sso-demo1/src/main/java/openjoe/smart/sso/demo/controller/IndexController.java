@@ -1,5 +1,6 @@
 package openjoe.smart.sso.demo.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Userinfo;
 import openjoe.smart.sso.client.ClientProperties;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

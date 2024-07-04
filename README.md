@@ -38,9 +38,9 @@ smart-sso
 
 | 技术                   | 版本    | 说明             |
 | ---------------------- | ------- | ---------------- |
-| spring-boot             | 2.5.13   | 容器 + MVC框架     |
-| spring-boot-starter-data-redis    | 2.5.13   | 分布式场景Token管理  |
-| httpclient    | 4.5.13   | 授权码认证，客户端和服务端通信  |
+| spring-boot             | 3.0.7   | 容器 + MVC框架     |
+| spring-boot-starter-data-redis    | 3.0.7   | 分布式场景Token管理  |
+| httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
 
 ## 功能说明
 

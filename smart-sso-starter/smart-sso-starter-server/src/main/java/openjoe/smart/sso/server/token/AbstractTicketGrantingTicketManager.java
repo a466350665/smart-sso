@@ -1,12 +1,12 @@
 package openjoe.smart.sso.server.token;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.base.entity.LifecycleManager;
 import openjoe.smart.sso.base.entity.Userinfo;
 import openjoe.smart.sso.base.util.CookieUtils;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
