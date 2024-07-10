@@ -34,6 +34,10 @@ smart-sso
 
 ![](./images/smart-sso.png)
 
+## 分支说明
+- master: java8 + springboot 2.5
+- jdk17: java17 + springboot 3.0
+
 ## 技术选型
 
 | 技术                   | 版本    | 说明             |
