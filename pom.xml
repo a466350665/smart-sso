@@ -21,7 +21,7 @@
 	</modules>
 	
 	<properties>
-		<httpclient.version>4.5.13</httpclient.version>
+		<httpclient.version>4.5.14</httpclient.version>
 	</properties>
 
 	<dependencyManagement>
