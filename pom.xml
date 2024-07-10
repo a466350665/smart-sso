@@ -7,7 +7,7 @@
 		<version>2.5.13</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.smart</groupId>
+	<groupId>io.github.openjoe</groupId>
 	<artifactId>smart-sso</artifactId>
 	<version>1.6.0</version>
 	<packaging>pom</packaging>
@@ -35,31 +35,31 @@
 
 			<!-- sso单点登录客户端 -->
 			<dependency>
-				<groupId>com.smart</groupId>
+				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-base</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.smart</groupId>
+				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.smart</groupId>
+				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-client-redis</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.smart</groupId>
+				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.smart</groupId>
+				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-server-redis</artifactId>
 				<version>${project.version}</version>
 			</dependency>
