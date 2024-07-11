@@ -1,13 +1,13 @@
-package openjoe.smart.sso.server.service;
+package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.Result;
 
 /**
- * 应用服务接口
+ * 应用管理接口
  *
  * @author Joe
  */
-public interface AppService {
+public interface AppManager {
 
     /**
      * 应用是否存在

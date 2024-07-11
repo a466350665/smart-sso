@@ -6,11 +6,6 @@ package openjoe.smart.sso.client.constant;
 public class ClientConstant {
 
     /**
-     * 服务端退出地址
-     */
-    public static final String LOGOUT_URL = "/logout";
-
-    /**
      * 模糊匹配后缀
      */
     public static final String URL_FUZZY_MATCH = "/*";

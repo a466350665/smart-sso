@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Joe
  */
 @Controller
-@RequestMapping("/logout")
+@RequestMapping(BaseConstant.LOGOUT_PATH)
 public class LogoutController {
 
     @Autowired

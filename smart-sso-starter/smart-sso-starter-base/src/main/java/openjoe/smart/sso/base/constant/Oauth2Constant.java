@@ -33,10 +33,10 @@ public class Oauth2Constant {
     /**
      * 获取accessToken地址
      */
-    public static final String ACCESS_TOKEN_URL = "/oauth2/access_token";
+    public static final String ACCESS_TOKEN_URL = BaseConstant.AUTH_PATH + "/access_token";
 
     /**
      * 刷新accessToken地址
      */
-    public static final String REFRESH_TOKEN_URL = "/oauth2/refresh_token";
+    public static final String REFRESH_TOKEN_URL = BaseConstant.AUTH_PATH + "/refresh_token";
 }
