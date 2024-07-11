@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.server.token.AbstractTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

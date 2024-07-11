@@ -1,11 +1,11 @@
 package openjoe.smart.sso.server;
 
-import openjoe.smart.sso.server.token.AbstractCodeManager;
-import openjoe.smart.sso.server.token.AbstractTicketGrantingTicketManager;
-import openjoe.smart.sso.server.token.AbstractTokenManager;
-import openjoe.smart.sso.server.token.redis.RedisCodeManager;
-import openjoe.smart.sso.server.token.redis.RedisTicketGrantingTicketManager;
-import openjoe.smart.sso.server.token.redis.RedisTokenManager;
+import openjoe.smart.sso.server.manager.AbstractCodeManager;
+import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.AbstractTokenManager;
+import openjoe.smart.sso.server.manager.redis.RedisCodeManager;
+import openjoe.smart.sso.server.manager.redis.RedisTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.redis.RedisTokenManager;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
