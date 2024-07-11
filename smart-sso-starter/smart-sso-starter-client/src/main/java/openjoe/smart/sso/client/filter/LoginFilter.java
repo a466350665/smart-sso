@@ -2,11 +2,13 @@ package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.constant.Oauth2Constant;
-import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.util.JsonUtils;
+import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.TokenUtils;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +21,14 @@ import java.net.URLEncoder;
  *
  * @author Joe
  */
+@Order(20)
 public class LoginFilter extends AbstractClientFilter {
+
+    private ClientProperties properties;
+
+    public LoginFilter(ClientProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -110,5 +119,13 @@ public class LoginFilter extends AbstractClientFilter {
         try (PrintWriter writer = response.getWriter()) {
             writer.write(JsonUtils.toString(Result.create(code, message)));
         }
+    }
+
+    public void setProperties(ClientProperties properties) {
+        this.properties = properties;
+    }
+
+    public ClientProperties getProperties() {
+        return properties;
     }
 }

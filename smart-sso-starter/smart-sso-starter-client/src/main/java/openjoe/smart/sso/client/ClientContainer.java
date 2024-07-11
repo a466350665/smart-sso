@@ -2,7 +2,6 @@ package openjoe.smart.sso.client;
 
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.filter.AbstractClientFilter;
-import openjoe.smart.sso.client.token.TokenStorage;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,25 +19,22 @@ import java.util.stream.Collectors;
  */
 public class ClientContainer implements Filter {
 
-    private TokenStorage tokenStorage;
+    /**
+     * 忽略拦截urls
+     */
+    private String[] excludeUrls;
 
-    private ClientProperties properties;
+    private AbstractClientFilter[] clientFilters;
 
-    private AbstractClientFilter[] filters;
-
-    public ClientContainer(ClientProperties properties, TokenStorage tokenStorage) {
-        this.properties = properties;
-        this.tokenStorage = tokenStorage;
+    public ClientContainer(String[] excludeUrls, AbstractClientFilter[] clientFilters) {
+        this.excludeUrls = excludeUrls;
+        this.clientFilters = clientFilters;
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        if (filters == null || filters.length == 0) {
-            throw new IllegalArgumentException("filters不能为空");
-        }
-        for (AbstractClientFilter filter : filters) {
-            filter.setProperties(properties);
-            filter.setTokenStorage(tokenStorage);
+        if (clientFilters == null || clientFilters.length == 0) {
+            throw new IllegalArgumentException("clientFilters不能为空");
         }
     }
 
@@ -52,7 +48,7 @@ public class ClientContainer implements Filter {
         }
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        for (AbstractClientFilter filter : filters) {
+        for (AbstractClientFilter filter : clientFilters) {
             if (!filter.isAccessAllowed(httpRequest, httpResponse)) {
                 return;
             }
@@ -61,11 +57,11 @@ public class ClientContainer implements Filter {
     }
 
     private boolean isExcludeUrl(String url) {
-        if (properties.getExcludeUrls() == null || properties.getExcludeUrls().length == 0) {
+        if (excludeUrls == null || excludeUrls.length == 0) {
             return false;
         }
 
-        Map<Boolean, List<String>> map = Arrays.stream(properties.getExcludeUrls())
+        Map<Boolean, List<String>> map = Arrays.stream(excludeUrls)
                 .collect(Collectors.partitioningBy(u -> u.endsWith(ClientConstant.URL_FUZZY_MATCH)));
         List<String> urlList = map.get(false);
         // 优先精确匹配
@@ -82,14 +78,19 @@ public class ClientContainer implements Filter {
         return false;
     }
 
-    @Override
-    public void destroy() {
-        if (filters == null || filters.length == 0) {
-            return;
-        }
+    public String[] getExcludeUrls() {
+        return excludeUrls;
     }
 
-    public void setFilters(AbstractClientFilter... filters) {
-        this.filters = filters;
+    public void setExcludeUrls(String[] excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
+
+    public AbstractClientFilter[] getClientFilters() {
+        return clientFilters;
+    }
+
+    public void setClientFilters(AbstractClientFilter[] clientFilters) {
+        this.clientFilters = clientFilters;
     }
 }
