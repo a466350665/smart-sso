@@ -1,12 +1,12 @@
 package openjoe.smart.sso.server;
 
 import openjoe.smart.sso.base.BaseAutoConfiguration;
-import openjoe.smart.sso.server.token.AbstractCodeManager;
-import openjoe.smart.sso.server.token.AbstractTicketGrantingTicketManager;
-import openjoe.smart.sso.server.token.AbstractTokenManager;
-import openjoe.smart.sso.server.token.local.LocalCodeManager;
-import openjoe.smart.sso.server.token.local.LocalTicketGrantingTicketManager;
-import openjoe.smart.sso.server.token.local.LocalTokenManager;
+import openjoe.smart.sso.server.manager.AbstractCodeManager;
+import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.AbstractTokenManager;
+import openjoe.smart.sso.server.manager.local.LocalCodeManager;
+import openjoe.smart.sso.server.manager.local.LocalTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.local.LocalTokenManager;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

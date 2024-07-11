@@ -1,4 +1,4 @@
-package openjoe.smart.sso.server.token;
+package openjoe.smart.sso.server.manager;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

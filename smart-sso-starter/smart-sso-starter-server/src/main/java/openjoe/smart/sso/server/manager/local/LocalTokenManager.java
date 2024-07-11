@@ -1,9 +1,9 @@
-package openjoe.smart.sso.server.token.local;
+package openjoe.smart.sso.server.manager.local;
 
 import openjoe.smart.sso.base.entity.ExpirationPolicy;
 import openjoe.smart.sso.base.entity.ExpirationWrapper;
 import openjoe.smart.sso.server.entity.TokenContent;
-import openjoe.smart.sso.server.token.AbstractTokenManager;
+import openjoe.smart.sso.server.manager.AbstractTokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;

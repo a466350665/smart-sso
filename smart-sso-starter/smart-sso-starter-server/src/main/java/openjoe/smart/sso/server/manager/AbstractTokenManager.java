@@ -1,4 +1,4 @@
-package openjoe.smart.sso.server.token;
+package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.LifecycleManager;

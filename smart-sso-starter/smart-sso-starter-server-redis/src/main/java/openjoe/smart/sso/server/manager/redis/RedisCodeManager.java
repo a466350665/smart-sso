@@ -1,8 +1,8 @@
-package openjoe.smart.sso.server.token.redis;
+package openjoe.smart.sso.server.manager.redis;
 
 import openjoe.smart.sso.base.util.JsonUtils;
 import openjoe.smart.sso.server.entity.CodeContent;
-import openjoe.smart.sso.server.token.AbstractCodeManager;
+import openjoe.smart.sso.server.manager.AbstractCodeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
