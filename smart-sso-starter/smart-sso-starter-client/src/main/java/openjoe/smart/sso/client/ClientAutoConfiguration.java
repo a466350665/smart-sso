@@ -1,6 +1,7 @@
 package openjoe.smart.sso.client;
 
 import openjoe.smart.sso.base.BaseAutoConfiguration;
+import openjoe.smart.sso.client.filter.AbstractClientFilter;
 import openjoe.smart.sso.client.filter.LoginFilter;
 import openjoe.smart.sso.client.filter.LogoutFilter;
 import openjoe.smart.sso.client.token.TokenStorage;
@@ -32,9 +33,20 @@ public class ClientAutoConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean<ClientContainer> clientContainer(ClientProperties properties, TokenStorage tokenStorage) {
-        ClientContainer clientContainer = new ClientContainer(properties, tokenStorage);
-        clientContainer.setFilters(new LogoutFilter(), new LoginFilter());
+    @ConditionalOnMissingBean(name = "logoutFilter")
+    public AbstractClientFilter logoutFilter(TokenStorage tokenStorage) {
+        return new LogoutFilter(tokenStorage);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "loginFilter")
+    public AbstractClientFilter loginFilter(ClientProperties properties) {
+        return new LoginFilter(properties);
+    }
+
+    @Bean
+    public FilterRegistrationBean<ClientContainer> clientContainer(ClientProperties properties, AbstractClientFilter[] clientFilters) {
+        ClientContainer clientContainer = new ClientContainer(properties.getExcludeUrls(), clientFilters);
 
         FilterRegistrationBean<ClientContainer> registration = new FilterRegistrationBean<>();
         registration.setFilter(clientContainer);

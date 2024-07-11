@@ -2,8 +2,6 @@ package openjoe.smart.sso.client.filter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import openjoe.smart.sso.client.ClientProperties;
-import openjoe.smart.sso.client.token.TokenStorage;
 
 import java.io.IOException;
 
@@ -13,10 +11,6 @@ import java.io.IOException;
  * @author Joe
  */
 public abstract class AbstractClientFilter {
-
-    private TokenStorage tokenStorage;
-
-    private ClientProperties properties;
 
     /**
      * 请求是否允许通过
@@ -28,20 +22,4 @@ public abstract class AbstractClientFilter {
      */
     public abstract boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response)
             throws IOException;
-
-    public TokenStorage getTokenStorage() {
-        return tokenStorage;
-    }
-
-    public void setTokenStorage(TokenStorage tokenStorage) {
-        this.tokenStorage = tokenStorage;
-    }
-
-    public void setProperties(ClientProperties properties) {
-        this.properties = properties;
-    }
-
-    public ClientProperties getProperties() {
-        return properties;
-    }
 }
