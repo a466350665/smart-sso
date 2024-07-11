@@ -3,7 +3,6 @@ package openjoe.smart.sso.demo.controller;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Userinfo;
 import openjoe.smart.sso.client.ClientProperties;
-import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +40,7 @@ public class IndexController {
         // 当前服务端口号
         model.addAttribute("serverPort", serverPort);
         // 单点退出地址
-        model.addAttribute("logoutUrl", clientProperties.getServerUrl() + ClientConstant.LOGOUT_URL + "?" + BaseConstant.REDIRECT_URI + "="
+        model.addAttribute("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
                 + URLEncoder.encode(getLocalUrl(request), "utf-8"));
         return "index";
     }

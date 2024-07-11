@@ -8,9 +8,19 @@ package openjoe.smart.sso.base.constant;
 public class BaseConstant {
 
     /**
-     * 服务端登录地址
+     * 服务端登录路径
      */
-    public static final String LOGIN_PATH = "/login";
+    public static final String LOGIN_PATH = "/sso/login";
+
+    /**
+     * 服务端退出路径
+     */
+    public static final String LOGOUT_PATH = "/sso/logout";
+
+    /**
+     * 认证路径
+     */
+    public static final String AUTH_PATH = "/sso/oauth2";
 
     /**
      * 服务端回调客户端地址参数名称

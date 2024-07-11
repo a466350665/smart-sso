@@ -4,8 +4,8 @@ import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.constant.Oauth2Constant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Userinfo;
-import openjoe.smart.sso.server.service.AppService;
-import openjoe.smart.sso.server.service.UserService;
+import openjoe.smart.sso.server.manager.AppManager;
+import openjoe.smart.sso.server.manager.UserinfoManager;
 import openjoe.smart.sso.server.token.AbstractCodeManager;
 import openjoe.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.net.URLDecoder;
  * @author Joe
  */
 @Controller
-@RequestMapping("/login")
+@RequestMapping(BaseConstant.LOGIN_PATH)
 public class LoginController {
 
     @Autowired
@@ -34,9 +34,9 @@ public class LoginController {
     @Autowired
     private AbstractTicketGrantingTicketManager tgtManager;
     @Autowired
-    private UserService userService;
+    private UserinfoManager userinfoManager;
     @Autowired
-    private AppService appService;
+    private AppManager appManager;
 
     /**
      * 登录页
@@ -78,12 +78,12 @@ public class LoginController {
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-        if (!appService.exists(appId)) {
+        if (!appManager.exists(appId)) {
             request.setAttribute("errorMessage", "非法应用");
             return goLoginPath(redirectUri, appId, request);
         }
 
-        Result<Userinfo> result = userService.login(username, password);
+        Result<Userinfo> result = userinfoManager.login(username, password);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
             return goLoginPath(redirectUri, appId, request);

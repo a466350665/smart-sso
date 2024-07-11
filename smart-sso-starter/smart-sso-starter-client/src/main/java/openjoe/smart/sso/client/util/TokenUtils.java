@@ -1,7 +1,7 @@
 package openjoe.smart.sso.client.util;
 
-import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Userinfo;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
@@ -73,21 +73,28 @@ public class TokenUtils {
         return null;
     }
 
-    public static Token get(HttpServletRequest request) {
+    public static TokenWrapper get(HttpServletRequest request) {
         String accessToken = getCookieAccessToken(request);
         // cookie中没有
         if (!StringUtils.hasLength(accessToken)) {
             return null;
         }
-        TokenWrapper wrapper = tokenStorage.get(accessToken);
-        if (wrapper == null) {
-            return null;
-        }
-        return wrapper.getObject();
+        return tokenStorage.get(accessToken);
     }
 
     public static Userinfo getUserinfo(HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(u -> u.getUserinfo()).orElse(null);
+        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getUserinfo()).orElse(null);
+    }
+
+    public static Object getAttribute(String attribute, HttpServletRequest request) {
+        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getAttributes().get(attribute)).orElse(null);
+    }
+
+    public static void setAttribute(String attribute, Object value, HttpServletRequest request) {
+        TokenWrapper wrapper = get(request);
+        if (wrapper != null) {
+            wrapper.getAttributes().put(attribute, value);
+        }
     }
 
     public static void set(Token token, HttpServletRequest request, HttpServletResponse response) {

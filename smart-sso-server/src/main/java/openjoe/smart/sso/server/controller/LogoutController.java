@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe
  */
 @Controller
-@RequestMapping("/logout")
+@RequestMapping(BaseConstant.LOGOUT_PATH)
 public class LogoutController {
 
     @Autowired

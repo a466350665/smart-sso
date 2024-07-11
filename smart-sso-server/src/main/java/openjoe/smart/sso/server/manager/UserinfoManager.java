@@ -1,14 +1,14 @@
-package openjoe.smart.sso.server.service;
+package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Userinfo;
 
 /**
- * 用户服务接口
+ * 用户信息管理接口
  *
  * @author Joe
  */
-public interface UserService {
+public interface UserinfoManager {
 
     /**
      * 登录

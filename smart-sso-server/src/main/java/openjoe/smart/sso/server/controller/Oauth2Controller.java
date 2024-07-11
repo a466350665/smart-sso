@@ -1,5 +1,6 @@
 package openjoe.smart.sso.server.controller;
 
+import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.constant.Oauth2Constant;
 import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Result;
@@ -7,8 +8,8 @@ import openjoe.smart.sso.base.entity.Userinfo;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
-import openjoe.smart.sso.server.service.AppService;
-import openjoe.smart.sso.server.service.UserService;
+import openjoe.smart.sso.server.manager.AppManager;
+import openjoe.smart.sso.server.manager.UserinfoManager;
 import openjoe.smart.sso.server.token.AbstractCodeManager;
 import openjoe.smart.sso.server.token.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.token.AbstractTokenManager;
@@ -25,13 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SuppressWarnings("rawtypes")
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping(BaseConstant.AUTH_PATH)
 public class Oauth2Controller {
 
     @Autowired
-    private AppService appService;
+    private AppManager appManager;
     @Autowired
-    private UserService userService;
+    private UserinfoManager userinfoManager;
 
     @Autowired
     private AbstractCodeManager codeManager;
@@ -61,7 +62,7 @@ public class Oauth2Controller {
         }
 
         // 校验应用
-        Result<Void> appResult = appService.validate(appId, appSecret);
+        Result<Void> appResult = appManager.validate(appId, appSecret);
         if (!appResult.isSuccess()) {
             return appResult;
         }
@@ -101,7 +102,7 @@ public class Oauth2Controller {
     public Result getRefreshToken(
             @RequestParam(value = Oauth2Constant.APP_ID) String appId,
             @RequestParam(value = Oauth2Constant.REFRESH_TOKEN) String refreshToken) {
-        if (!appService.exists(appId)) {
+        if (!appManager.exists(appId)) {
             return Result.createError("非法应用");
         }
 
