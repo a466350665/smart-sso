@@ -15,5 +15,5 @@ smart:
     #服务端地址
     server-url: http://server.smart-sso.com:8080
     #客户端应用信息
-    app-id: demo2
+    app-key: demo2
     app-secret: 123456

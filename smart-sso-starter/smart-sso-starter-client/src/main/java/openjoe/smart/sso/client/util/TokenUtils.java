@@ -118,7 +118,7 @@ public class TokenUtils {
      * @param code
      */
     public static Token getHttpAccessToken(String code) {
-        Result<Token> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppId(),
+        Result<Token> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getAppKey(),
                 properties.getAppSecret(), code);
         if (!result.isSuccess()) {
             logger.error("getHttpAccessToken has error, message:{}", result.getMessage());
@@ -134,7 +134,7 @@ public class TokenUtils {
      * @return
      */
     public static Token getHttpRefreshToken(String refreshToken) {
-        Result<Token> result = Oauth2Utils.getRefreshToken(properties.getServerUrl(), properties.getAppId(), refreshToken);
+        Result<Token> result = Oauth2Utils.getRefreshToken(properties.getServerUrl(), properties.getAppKey(), refreshToken);
         if (!result.isSuccess()) {
             logger.error("getHttpRefreshToken has error, message:{}", result.getMessage());
             return null;
