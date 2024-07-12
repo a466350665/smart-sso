@@ -13,5 +13,13 @@ spring:
 
 smart:
   sso:
+    #服务端地址
+    server-url: http://server.smart-sso.com:8080
+    #客户端应用信息
+    app-key: server
+    app-secret: 123456
+    #忽略拦截urls
+    exclude-urls: /sso/*,/custom/*,/assets/*
+    #单点登录超时时间，默认2小时，单位秒（服务端独有配置）
     server:
-      timeout: 7200 #单点登录超时时间，默认2小时（单位秒）
+      timeout: 7200

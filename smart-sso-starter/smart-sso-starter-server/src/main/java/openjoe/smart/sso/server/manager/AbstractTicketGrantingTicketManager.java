@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.LifecycleManager;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.CookieUtils;
 import org.springframework.util.StringUtils;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Userinfo> {
+public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<TokenUser> {
 
     private AbstractTokenManager tokenManager;
     private int timeout;
@@ -32,22 +32,22 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
      * @param user
      * @return
      */
-    String create(Userinfo user) {
+    String create(TokenUser user) {
         String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
         create(tgt, user);
         return tgt;
     }
 
-    public String getOrCreate(Userinfo userinfo, HttpServletRequest request, HttpServletResponse response) {
+    public String getOrCreate(TokenUser tokenUser, HttpServletRequest request, HttpServletResponse response) {
         String tgt = getCookieTgt(request);
         // cookie中没有
         if (!StringUtils.hasLength(tgt)) {
-            tgt = create(userinfo);
+            tgt = create(tokenUser);
 
             // TGT存cookie
             CookieUtils.addCookie(cookieName, tgt, "/", request, response);
         } else {
-            create(tgt, userinfo);
+            create(tgt, tokenUser);
         }
         return tgt;
     }

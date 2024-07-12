@@ -7,7 +7,7 @@
 		<artifactId>smart-sso</artifactId>
 		<version>1.6.0</version>
 	</parent>
-	<artifactId>smart-sso-demo1</artifactId>
+	<artifactId>smart-sso-demo</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 

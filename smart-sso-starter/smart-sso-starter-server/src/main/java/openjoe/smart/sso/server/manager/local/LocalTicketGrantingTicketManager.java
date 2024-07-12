@@ -2,7 +2,7 @@ package openjoe.smart.sso.server.manager.local;
 
 import openjoe.smart.sso.base.entity.ExpirationPolicy;
 import openjoe.smart.sso.base.entity.ExpirationWrapper;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
 import org.slf4j.Logger;
@@ -19,22 +19,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalTicketGrantingTicketManager extends AbstractTicketGrantingTicketManager implements ExpirationPolicy {
 
     protected final Logger logger = LoggerFactory.getLogger(LocalTicketGrantingTicketManager.class);
-    private Map<String, ExpirationWrapper<Userinfo>> tgtMap = new ConcurrentHashMap<>();
+    private Map<String, ExpirationWrapper<TokenUser>> tgtMap = new ConcurrentHashMap<>();
 
     public LocalTicketGrantingTicketManager(int timeout, String cookieName, AbstractTokenManager tokenManager) {
         super(timeout, cookieName, tokenManager);
     }
 
     @Override
-    public void create(String tgt, Userinfo userinfo) {
-        ExpirationWrapper<Userinfo> wrapper = new ExpirationWrapper<>(userinfo, getTimeout());
+    public void create(String tgt, TokenUser tokenUser) {
+        ExpirationWrapper<TokenUser> wrapper = new ExpirationWrapper<>(tokenUser, getTimeout());
         tgtMap.put(tgt, wrapper);
         logger.debug("登录凭证创建成功, tgt:{}", tgt);
     }
 
     @Override
-    public Userinfo get(String tgt) {
-        ExpirationWrapper<Userinfo> wrapper = tgtMap.get(tgt);
+    public TokenUser get(String tgt) {
+        ExpirationWrapper<TokenUser> wrapper = tgtMap.get(tgt);
         if (wrapper == null || wrapper.checkExpired()) {
             return null;
         }
@@ -49,7 +49,7 @@ public class LocalTicketGrantingTicketManager extends AbstractTicketGrantingTick
 
     @Override
     public void refresh(String tgt) {
-        ExpirationWrapper<Userinfo> wrapper = tgtMap.get(tgt);
+        ExpirationWrapper<TokenUser> wrapper = tgtMap.get(tgt);
         if (wrapper != null) {
             wrapper.setExpired(System.currentTimeMillis() + getTimeout() * 1000);
         }

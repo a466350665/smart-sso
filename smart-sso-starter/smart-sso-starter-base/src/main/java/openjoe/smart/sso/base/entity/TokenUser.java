@@ -5,7 +5,7 @@ package openjoe.smart.sso.base.entity;
  *
  * @author Joe
  */
-public class Userinfo {
+public class TokenUser {
 
     /**
      * 用户ID
@@ -16,10 +16,10 @@ public class Userinfo {
      */
     private String username;
 
-    public Userinfo() {
+    public TokenUser() {
     }
 
-    public Userinfo(Integer id, String username) {
+    public TokenUser(Integer id, String username) {
         super();
         this.id = id;
         this.username = username;

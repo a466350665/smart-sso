@@ -1,14 +1,14 @@
 package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 
 /**
  * 用户信息管理接口
  *
  * @author Joe
  */
-public interface UserinfoManager {
+public interface UserManager {
 
     /**
      * 登录
@@ -17,5 +17,5 @@ public interface UserinfoManager {
      * @param password 密码
      * @return
      */
-    Result<Userinfo> login(String username, String password);
+    Result<TokenUser> login(String username, String password);
 }

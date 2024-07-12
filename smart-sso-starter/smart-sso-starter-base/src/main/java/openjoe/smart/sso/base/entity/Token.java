@@ -30,19 +30,19 @@ public class Token implements Serializable {
     /**
      * 用户信息
      */
-    private Userinfo userinfo;
+    private TokenUser tokenUser;
 
     public Token() {
         super();
     }
 
-    public Token(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, Userinfo userinfo) {
+    public Token(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, TokenUser tokenUser) {
         super();
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.refreshToken = refreshToken;
         this.refreshExpiresIn = refreshExpiresIn;
-        this.userinfo = userinfo;
+        this.tokenUser = tokenUser;
     }
 
     public String getAccessToken() {
@@ -77,11 +77,11 @@ public class Token implements Serializable {
         this.refreshExpiresIn = refreshExpiresIn;
     }
 
-    public Userinfo getUserinfo() {
-        return userinfo;
+    public TokenUser getTokenUser() {
+        return tokenUser;
     }
 
-    public void setUserinfo(Userinfo userinfo) {
-        this.userinfo = userinfo;
+    public void setTokenUser(TokenUser tokenUser) {
+        this.tokenUser = tokenUser;
     }
 }

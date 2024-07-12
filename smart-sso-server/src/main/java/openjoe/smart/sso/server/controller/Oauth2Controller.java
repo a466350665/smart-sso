@@ -4,12 +4,12 @@ import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.constant.Oauth2Constant;
 import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
 import openjoe.smart.sso.server.manager.AppManager;
-import openjoe.smart.sso.server.manager.UserinfoManager;
+import openjoe.smart.sso.server.manager.UserManager;
 import openjoe.smart.sso.server.manager.AbstractCodeManager;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
@@ -32,7 +32,7 @@ public class Oauth2Controller {
     @Autowired
     private AppManager appManager;
     @Autowired
-    private UserinfoManager userinfoManager;
+    private UserManager userManager;
 
     @Autowired
     private AbstractCodeManager codeManager;
@@ -75,20 +75,20 @@ public class Oauth2Controller {
         codeManager.remove(code);
 
         // 校验凭证
-        Userinfo userinfo = ticketGrantingTicketManager.get(codeContent.getTgt());
-        if (userinfo == null) {
+        TokenUser tokenUser = ticketGrantingTicketManager.get(codeContent.getTgt());
+        if (tokenUser == null) {
             return Result.createError("服务端TGT已过期");
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(userinfo, appKey, codeContent);
+        TokenContent tc = tokenManager.create(tokenUser, appKey, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回token
         return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getUserinfo()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 
     /**
@@ -122,6 +122,6 @@ public class Oauth2Controller {
 
         // 返回新token
         return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getUserinfo()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 }

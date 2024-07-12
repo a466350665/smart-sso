@@ -1,8 +1,8 @@
 package openjoe.smart.sso.server.manager.local;
 
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Userinfo;
-import openjoe.smart.sso.server.manager.UserinfoManager;
+import openjoe.smart.sso.base.entity.TokenUser;
+import openjoe.smart.sso.server.manager.UserManager;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
  * 用户服务
  */
 @Component
-public class LocalUserinfoManager implements UserinfoManager {
+public class LocalUserManager implements UserManager {
 
     private static List<User> userList;
 
@@ -22,11 +22,11 @@ public class LocalUserinfoManager implements UserinfoManager {
     }
 
     @Override
-    public Result<Userinfo> login(String username, String password) {
+    public Result<TokenUser> login(String username, String password) {
         for (User user : userList) {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password)) {
-                    return Result.createSuccess(new Userinfo(user.getId(), user.getUsername()));
+                    return Result.createSuccess(new TokenUser(user.getId(), user.getUsername()));
                 } else {
                     return Result.createError("密码有误");
                 }

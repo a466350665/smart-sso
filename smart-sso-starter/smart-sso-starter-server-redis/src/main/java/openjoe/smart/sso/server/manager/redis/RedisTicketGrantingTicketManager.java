@@ -1,6 +1,6 @@
 package openjoe.smart.sso.server.manager.redis;
 
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.JsonUtils;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
@@ -28,20 +28,20 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
     }
 
     @Override
-    public void create(String tgt, Userinfo userinfo) {
-        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(userinfo), getTimeout(),
+    public void create(String tgt, TokenUser tokenUser) {
+        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(tokenUser), getTimeout(),
                 TimeUnit.SECONDS);
         logger.debug("Redis登录凭证创建成功, tgt:{}", tgt);
     }
 
     @Override
-    public Userinfo get(String tgt) {
-        String userinfo = redisTemplate.opsForValue().get(TGT_KEY + tgt);
-        if (!StringUtils.hasLength(userinfo)) {
+    public TokenUser get(String tgt) {
+        String tokenUser = redisTemplate.opsForValue().get(TGT_KEY + tgt);
+        if (!StringUtils.hasLength(tokenUser)) {
             return null;
         }
         redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
-        return JsonUtils.parseObject(userinfo, Userinfo.class);
+        return JsonUtils.parseObject(tokenUser, TokenUser.class);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package openjoe.smart.sso.demo.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,9 @@ public class IndexController {
      */
     @GetMapping
     public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-        Userinfo userinfo = TokenUtils.getUserinfo(request);
+        TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
-        model.addAttribute("userName", userinfo.getUsername());
+        model.addAttribute("userName", user.getUsername());
         // 当前服务端口号
         model.addAttribute("serverPort", serverPort);
         // 单点退出地址

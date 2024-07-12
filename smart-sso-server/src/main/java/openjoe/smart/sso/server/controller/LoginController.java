@@ -3,9 +3,9 @@ package openjoe.smart.sso.server.controller;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.constant.Oauth2Constant;
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.server.manager.AppManager;
-import openjoe.smart.sso.server.manager.UserinfoManager;
+import openjoe.smart.sso.server.manager.UserManager;
 import openjoe.smart.sso.server.manager.AbstractCodeManager;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class LoginController {
     @Autowired
     private AbstractTicketGrantingTicketManager tgtManager;
     @Autowired
-    private UserinfoManager userinfoManager;
+    private UserManager userManager;
     @Autowired
     private AppManager appManager;
 
@@ -83,7 +83,7 @@ public class LoginController {
             return goLoginPath(redirectUri, appKey, request);
         }
 
-        Result<Userinfo> result = userinfoManager.login(username, password);
+        Result<TokenUser> result = userManager.login(username, password);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
             return goLoginPath(redirectUri, appKey, request);

@@ -2,7 +2,7 @@ package openjoe.smart.sso.client.util;
 
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.base.entity.Userinfo;
+import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenStorage;
@@ -82,8 +82,8 @@ public class TokenUtils {
         return tokenStorage.get(accessToken);
     }
 
-    public static Userinfo getUserinfo(HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getUserinfo()).orElse(null);
+    public static TokenUser getUser(HttpServletRequest request) {
+        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
     }
 
     public static Object getAttribute(String attribute, HttpServletRequest request) {
