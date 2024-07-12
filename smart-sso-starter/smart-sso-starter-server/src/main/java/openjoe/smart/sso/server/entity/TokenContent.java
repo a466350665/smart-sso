@@ -12,18 +12,18 @@ public class TokenContent extends CodeContent {
     private String accessToken;
     private String refreshToken;
     private Userinfo userinfo;
-    private String appId;
+    private String appKey;
 
     public TokenContent() {
         super();
     }
 
-    public TokenContent(String accessToken, String refreshToken, Userinfo userinfo, String appId, String tgt, String redirectUri) {
+    public TokenContent(String accessToken, String refreshToken, Userinfo userinfo, String appKey, String tgt, String redirectUri) {
         super(tgt, redirectUri);
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.userinfo = userinfo;
-        this.appId = appId;
+        this.appKey = appKey;
     }
 
     public String getAccessToken() {
@@ -50,11 +50,11 @@ public class TokenContent extends CodeContent {
         this.userinfo = userinfo;
     }
 
-    public String getAppId() {
-        return appId;
+    public String getAppKey() {
+        return appKey;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
     }
 }

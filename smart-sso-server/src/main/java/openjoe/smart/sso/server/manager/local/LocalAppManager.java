@@ -22,14 +22,14 @@ public class LocalAppManager implements AppManager {
     }
 
     @Override
-    public boolean exists(String appId) {
-        return appList.stream().anyMatch(app -> app.getAppId().equals(appId));
+    public boolean exists(String appKey) {
+        return appList.stream().anyMatch(app -> app.getAppKey().equals(appKey));
     }
 
     @Override
-    public Result<Void> validate(String appId, String appSecret) {
+    public Result<Void> validate(String appKey, String appSecret) {
         for (App app : appList) {
-            if (app.getAppId().equals(appId)) {
+            if (app.getAppKey().equals(appKey)) {
                 if (app.getAppSecret().equals(appSecret)) {
                     return Result.success();
                 } else {
@@ -37,7 +37,7 @@ public class LocalAppManager implements AppManager {
                 }
             }
         }
-        return Result.createError("appId不存在");
+        return Result.createError("appKey不存在");
     }
 
     /**
@@ -52,7 +52,7 @@ public class LocalAppManager implements AppManager {
         /**
          * 应用唯一标识
          */
-        private String appId;
+        private String appKey;
         /**
          * 应用密钥
          */
@@ -62,10 +62,10 @@ public class LocalAppManager implements AppManager {
             super();
         }
 
-        public App(String name, String appId, String appSecret) {
+        public App(String name, String appKey, String appSecret) {
             super();
             this.name = name;
-            this.appId = appId;
+            this.appKey = appKey;
             this.appSecret = appSecret;
         }
 
@@ -77,12 +77,12 @@ public class LocalAppManager implements AppManager {
             this.name = name;
         }
 
-        public String getAppId() {
-            return appId;
+        public String getAppKey() {
+            return appKey;
         }
 
-        public void setAppId(String appId) {
-            this.appId = appId;
+        public void setAppKey(String appKey) {
+            this.appKey = appKey;
         }
 
         public String getAppSecret() {

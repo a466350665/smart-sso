@@ -15,7 +15,7 @@ public class ClientProperties {
     /**
      * 应用Id
      */
-    private String appId;
+    private String appKey;
 
     /**
      * 应用密钥
@@ -55,12 +55,12 @@ public class ClientProperties {
         this.serverUrl = serverUrl;
     }
 
-    public String getAppId() {
-        return appId;
+    public String getAppKey() {
+        return appKey;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
     }
 
     public String getAppSecret() {

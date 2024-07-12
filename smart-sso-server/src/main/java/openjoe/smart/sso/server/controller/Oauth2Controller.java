@@ -44,7 +44,7 @@ public class Oauth2Controller {
     /**
      * 获取accessToken
      *
-     * @param appId
+     * @param appKey
      * @param appSecret
      * @param code
      * @return
@@ -52,7 +52,7 @@ public class Oauth2Controller {
     @RequestMapping(value = "/access_token", method = RequestMethod.GET)
     public Result getAccessToken(
             @RequestParam(value = Oauth2Constant.GRANT_TYPE) String grantType,
-            @RequestParam(value = Oauth2Constant.APP_ID) String appId,
+            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
             @RequestParam(value = Oauth2Constant.APP_SECRET) String appSecret,
             @RequestParam(value = Oauth2Constant.AUTH_CODE) String code) {
 
@@ -62,7 +62,7 @@ public class Oauth2Controller {
         }
 
         // 校验应用
-        Result<Void> appResult = appManager.validate(appId, appSecret);
+        Result<Void> appResult = appManager.validate(appKey, appSecret);
         if (!appResult.isSuccess()) {
             return appResult;
         }
@@ -81,7 +81,7 @@ public class Oauth2Controller {
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(userinfo, appId, codeContent);
+        TokenContent tc = tokenManager.create(userinfo, appKey, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
@@ -94,15 +94,15 @@ public class Oauth2Controller {
     /**
      * 刷新accessToken，并延长TGT超时时间
      *
-     * @param appId
+     * @param appKey
      * @param refreshToken
      * @return
      */
     @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
     public Result getRefreshToken(
-            @RequestParam(value = Oauth2Constant.APP_ID) String appId,
+            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
             @RequestParam(value = Oauth2Constant.REFRESH_TOKEN) String refreshToken) {
-        if (!appManager.exists(appId)) {
+        if (!appManager.exists(appKey)) {
             return Result.createError("非法应用");
         }
 

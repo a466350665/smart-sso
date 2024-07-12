@@ -13,7 +13,7 @@ public class Oauth2Constant {
     /**
      * 应用唯一标识
      */
-    public static final String APP_ID = "appId";
+    public static final String APP_KEY = "appKey";
 
     /**
      * 应用密钥
