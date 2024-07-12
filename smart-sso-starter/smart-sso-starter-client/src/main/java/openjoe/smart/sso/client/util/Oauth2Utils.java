@@ -37,7 +37,7 @@ public class Oauth2Utils {
         paramMap.put(Oauth2Constant.APP_ID, appId);
         paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
         paramMap.put(Oauth2Constant.AUTH_CODE, code);
-        return getHttpToken(serverUrl + Oauth2Constant.ACCESS_TOKEN_URL, paramMap);
+        return getHttpToken(serverUrl + Oauth2Constant.ACCESS_TOKEN_PATH, paramMap);
     }
 
     /**
@@ -52,7 +52,7 @@ public class Oauth2Utils {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(Oauth2Constant.APP_ID, appId);
         paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
-        return getHttpToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_URL, paramMap);
+        return getHttpToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_PATH, paramMap);
     }
 
     public static Result<Token> getHttpToken(String url, Map<String, String> paramMap) {
