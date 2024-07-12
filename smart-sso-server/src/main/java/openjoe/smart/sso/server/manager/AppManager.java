@@ -11,16 +11,16 @@ public interface AppManager {
 
     /**
      * 应用是否存在
-     * @param appId
+     * @param appKey
      * @return
      */
-    boolean exists(String appId);
+    boolean exists(String appKey);
 
     /**
      * 校验应用的登记信息
-     * @param appId
+     * @param appKey
      * @param appSecret
      * @return
      */
-    Result<Void> validate(String appId, String appSecret);
+    Result<Void> validate(String appKey, String appSecret);
 }

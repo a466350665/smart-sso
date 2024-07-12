@@ -42,18 +42,18 @@ public class LoginController {
      * 登录页
      *
      * @param redirectUri
-     * @param appId
+     * @param appKey
      * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = Oauth2Constant.APP_ID) String appId,
+            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
         if (!StringUtils.hasLength(tgt)) {
-            return goLoginPath(redirectUri, appId, request);
+            return goLoginPath(redirectUri, appKey, request);
         }
         return generateCodeAndRedirect(redirectUri, tgt);
     }
@@ -62,7 +62,7 @@ public class LoginController {
      * 登录提交
      *
      * @param redirectUri
-     * @param appId
+     * @param appKey
      * @param username
      * @param password
      * @param request
@@ -73,20 +73,20 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = Oauth2Constant.APP_ID) String appId,
+            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
             @RequestParam String username,
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-        if (!appManager.exists(appId)) {
+        if (!appManager.exists(appKey)) {
             request.setAttribute("errorMessage", "非法应用");
-            return goLoginPath(redirectUri, appId, request);
+            return goLoginPath(redirectUri, appKey, request);
         }
 
         Result<Userinfo> result = userinfoManager.login(username, password);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
-            return goLoginPath(redirectUri, appId, request);
+            return goLoginPath(redirectUri, appKey, request);
         }
 
         String tgt = tgtManager.getOrCreate(result.getData(), request, response);
@@ -94,15 +94,15 @@ public class LoginController {
     }
 
     /**
-     * 设置request的redirectUri和appId参数，跳转到登录页
+     * 设置request的redirectUri和appKey参数，跳转到登录页
      *
      * @param redirectUri
      * @param request
      * @return
      */
-    private String goLoginPath(String redirectUri, String appId, HttpServletRequest request) {
+    private String goLoginPath(String redirectUri, String appKey, HttpServletRequest request) {
         request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
-        request.setAttribute(Oauth2Constant.APP_ID, appId);
+        request.setAttribute(Oauth2Constant.APP_KEY, appKey);
         return BaseConstant.LOGIN_PATH;
     }
 
