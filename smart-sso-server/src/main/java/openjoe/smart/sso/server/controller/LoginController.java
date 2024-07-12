@@ -1,13 +1,12 @@
 package openjoe.smart.sso.server.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.constant.Oauth2Constant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenUser;
-import openjoe.smart.sso.server.manager.AppManager;
-import openjoe.smart.sso.server.manager.UserManager;
 import openjoe.smart.sso.server.manager.AbstractCodeManager;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.AppManager;
+import openjoe.smart.sso.server.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -49,7 +48,7 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.GET)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
         if (!StringUtils.hasLength(tgt)) {
@@ -73,7 +72,7 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
             @RequestParam String username,
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -102,7 +101,7 @@ public class LoginController {
      */
     private String goLoginPath(String redirectUri, String appKey, HttpServletRequest request) {
         request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
-        request.setAttribute(Oauth2Constant.APP_KEY, appKey);
+        request.setAttribute(BaseConstant.APP_KEY, appKey);
         return BaseConstant.LOGIN_PATH;
     }
 
@@ -135,7 +134,7 @@ public class LoginController {
         } else {
             sbf.append("?");
         }
-        sbf.append(Oauth2Constant.AUTH_CODE).append("=").append(code);
+        sbf.append(BaseConstant.AUTH_CODE).append("=").append(code);
         return URLDecoder.decode(sbf.toString(), "utf-8");
     }
 

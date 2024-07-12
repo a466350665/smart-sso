@@ -28,5 +28,11 @@
 			<groupId>io.github.openjoe</groupId>
 			<artifactId>smart-sso-starter-server</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>io.github.openjoe</groupId>
+			<artifactId>smart-stage-starter</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 </project>

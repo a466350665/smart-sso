@@ -1,18 +1,13 @@
 package openjoe.smart.sso.server.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.constant.Oauth2Constant;
-import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
-import openjoe.smart.sso.server.manager.AppManager;
-import openjoe.smart.sso.server.manager.UserManager;
-import openjoe.smart.sso.server.manager.AbstractCodeManager;
-import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
-import openjoe.smart.sso.server.manager.AbstractTokenManager;
+import openjoe.smart.sso.server.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,10 +46,10 @@ public class Oauth2Controller {
      */
     @RequestMapping(value = "/access_token", method = RequestMethod.GET)
     public Result getAccessToken(
-            @RequestParam(value = Oauth2Constant.GRANT_TYPE) String grantType,
-            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
-            @RequestParam(value = Oauth2Constant.APP_SECRET) String appSecret,
-            @RequestParam(value = Oauth2Constant.AUTH_CODE) String code) {
+            @RequestParam(value = BaseConstant.GRANT_TYPE) String grantType,
+            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.APP_SECRET) String appSecret,
+            @RequestParam(value = BaseConstant.AUTH_CODE) String code) {
 
         // 校验授权码方式
         if (!GrantTypeEnum.AUTHORIZATION_CODE.getValue().equals(grantType)) {
@@ -100,8 +95,8 @@ public class Oauth2Controller {
      */
     @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
     public Result getRefreshToken(
-            @RequestParam(value = Oauth2Constant.APP_KEY) String appKey,
-            @RequestParam(value = Oauth2Constant.REFRESH_TOKEN) String refreshToken) {
+            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
         if (!appManager.exists(appKey)) {
             return Result.createError("非法应用");
         }

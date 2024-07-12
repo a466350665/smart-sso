@@ -4,6 +4,7 @@ import openjoe.smart.sso.base.BaseAutoConfiguration;
 import openjoe.smart.sso.client.filter.AbstractClientFilter;
 import openjoe.smart.sso.client.filter.LoginFilter;
 import openjoe.smart.sso.client.filter.LogoutFilter;
+import openjoe.smart.sso.client.filter.PermissionFilter;
 import openjoe.smart.sso.client.token.TokenStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenStorage;
 import openjoe.smart.sso.client.util.TokenUtils;
@@ -42,6 +43,12 @@ public class ClientAutoConfiguration {
     @ConditionalOnMissingBean(name = "loginFilter")
     public AbstractClientFilter loginFilter(ClientProperties properties) {
         return new LoginFilter(properties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "permissionFilter")
+    public AbstractClientFilter permissionFilter(ClientProperties properties) {
+        return new PermissionFilter(properties);
     }
 
     @Bean

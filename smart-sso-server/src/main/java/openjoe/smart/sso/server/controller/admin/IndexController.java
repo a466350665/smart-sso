@@ -1,22 +1,28 @@
-package openjoe.smart.sso.server.controller;
+package openjoe.smart.sso.server.controller.admin;
 
+import io.swagger.annotations.ApiOperation;
 import openjoe.smart.sso.base.constant.BaseConstant;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
+import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/index")
 public class IndexController {
 
     @Value("${server.port}")
@@ -37,8 +43,10 @@ public class IndexController {
         TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
-        // 当前服务端口号
-        model.addAttribute("serverPort", serverPort);
+        TokenPermission tokenPermission = TokenUtils.getPermission(request);
+        // 设置当前登录用户没有的权限，以便控制前台按钮的显示或者隐藏
+        model.addAttribute("sessionUserNoPermissions",
+                tokenPermission == null ? null : tokenPermission.getNoPermissions());
         // 单点退出地址
         model.addAttribute("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
                 + URLEncoder.encode(getLocalUrl(request), "utf-8"));
@@ -60,5 +68,14 @@ public class IndexController {
         }
         url.append(request.getContextPath());
         return url.toString();
+    }
+
+    @ApiOperation("菜单")
+    @ResponseBody
+    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    public Result menu(HttpServletRequest request) {
+        TokenPermission tokenPermission = TokenUtils.getPermission(request);
+        // 获取登录用户权限下的菜单列表
+        return Result.success(tokenPermission == null ? Collections.emptyList() : tokenPermission.getMenuList());
     }
 }

@@ -2,6 +2,7 @@ package openjoe.smart.sso.client.util;
 
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
@@ -84,6 +85,21 @@ public class TokenUtils {
 
     public static TokenUser getUser(HttpServletRequest request) {
         return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
+    }
+
+    public static Integer getUserId(HttpServletRequest request) {
+        return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
+    }
+
+    public static TokenPermission getPermission(HttpServletRequest request) {
+        return (TokenPermission) Optional.ofNullable(get(request)).map(wrapper -> wrapper.getAttributes().get("userPermissions")).orElse(null);
+    }
+
+    public static void setPermission(TokenPermission tp, HttpServletRequest request) {
+        TokenWrapper wrapper = get(request);
+        if (wrapper != null) {
+            wrapper.getAttributes().put("userPermissions", tp);
+        }
     }
 
     public static Object getAttribute(String attribute, HttpServletRequest request) {

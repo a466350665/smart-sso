@@ -1,10 +1,7 @@
 package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.constant.Oauth2Constant;
-import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.base.util.JsonUtils;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.TokenUtils;
@@ -13,7 +10,6 @@ import org.springframework.core.annotation.Order;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 /**
@@ -37,7 +33,7 @@ public class LoginFilter extends AbstractClientFilter {
         if (token != null) {
             return true;
         }
-        String code = request.getParameter(Oauth2Constant.AUTH_CODE);
+        String code = request.getParameter(BaseConstant.AUTH_CODE);
         // 携带授权码请求
         if (code != null && (token = TokenUtils.getHttpAccessToken(code)) != null) {
             // 将token存储到本地
@@ -72,7 +68,7 @@ public class LoginFilter extends AbstractClientFilter {
                 .append(getProperties().getServerUrl())
                 .append(BaseConstant.LOGIN_PATH)
                 .append("?")
-                .append(Oauth2Constant.APP_KEY)
+                .append(BaseConstant.APP_KEY)
                 .append("=")
                 .append(getProperties().getAppKey())
                 .append("&")
@@ -90,7 +86,7 @@ public class LoginFilter extends AbstractClientFilter {
      */
     private void redirectLocalRemoveCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String currentUrl = getCurrentUrl(request);
-        currentUrl = currentUrl.substring(0, currentUrl.indexOf(Oauth2Constant.AUTH_CODE) - 1);
+        currentUrl = currentUrl.substring(0, currentUrl.indexOf(BaseConstant.AUTH_CODE) - 1);
         response.sendRedirect(currentUrl);
     }
 
@@ -111,14 +107,6 @@ public class LoginFilter extends AbstractClientFilter {
 
     protected boolean isAjaxRequest(HttpServletRequest request) {
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
-    }
-
-    protected void responseJson(HttpServletResponse response, int code, String message) throws IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        try (PrintWriter writer = response.getWriter()) {
-            writer.write(JsonUtils.toString(Result.create(code, message)));
-        }
     }
 
     public void setProperties(ClientProperties properties) {

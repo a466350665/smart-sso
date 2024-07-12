@@ -1,9 +1,9 @@
 package openjoe.smart.sso.client.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import openjoe.smart.sso.base.constant.Oauth2Constant;
-import openjoe.smart.sso.base.entity.Token;
+import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.base.util.HttpUtils;
 import openjoe.smart.sso.base.util.JsonUtils;
@@ -33,11 +33,11 @@ public class Oauth2Utils {
      */
     public static Result<Token> getAccessToken(String serverUrl, String appKey, String appSecret, String code) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(Oauth2Constant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
-        paramMap.put(Oauth2Constant.APP_KEY, appKey);
-        paramMap.put(Oauth2Constant.APP_SECRET, appSecret);
-        paramMap.put(Oauth2Constant.AUTH_CODE, code);
-        return getHttpToken(serverUrl + Oauth2Constant.ACCESS_TOKEN_PATH, paramMap);
+        paramMap.put(BaseConstant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
+        paramMap.put(BaseConstant.APP_KEY, appKey);
+        paramMap.put(BaseConstant.APP_SECRET, appSecret);
+        paramMap.put(BaseConstant.AUTH_CODE, code);
+        return getHttpToken(serverUrl + BaseConstant.ACCESS_TOKEN_PATH, paramMap);
     }
 
     /**
@@ -50,9 +50,9 @@ public class Oauth2Utils {
      */
     public static Result<Token> getRefreshToken(String serverUrl, String appKey, String refreshToken) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(Oauth2Constant.APP_KEY, appKey);
-        paramMap.put(Oauth2Constant.REFRESH_TOKEN, refreshToken);
-        return getHttpToken(serverUrl + Oauth2Constant.REFRESH_TOKEN_PATH, paramMap);
+        paramMap.put(BaseConstant.APP_KEY, appKey);
+        paramMap.put(BaseConstant.REFRESH_TOKEN, refreshToken);
+        return getHttpToken(serverUrl + BaseConstant.REFRESH_TOKEN_PATH, paramMap);
     }
 
     public static Result<Token> getHttpToken(String url, Map<String, String> paramMap) {
