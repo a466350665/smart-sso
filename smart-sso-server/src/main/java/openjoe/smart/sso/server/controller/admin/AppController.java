@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
 import openjoe.smart.sso.server.service.AppService;
+import openjoe.smart.sso.server.util.ClientCredentialsGenerator;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
 import openjoe.smart.stage.exception.ApplicationException;
@@ -42,12 +43,21 @@ public class AppController {
 		App app;
 		if (id == null) {
 			app = new App();
+			app.setIsEnable(true);
 		}
 		else {
 			app = appService.getById(id);
 		}
 		model.addAttribute("app", app);
 		return "/admin/app-edit";
+	}
+
+	@ApiOperation("应用密钥信息页")
+	@RequestMapping(value = "/credentials", method = RequestMethod.GET)
+	public String credential(@RequestParam(required = false) Long id, Model model) {
+		App app = appService.getById(id);
+		model.addAttribute("app", app);
+		return "/admin/app-credentials";
 	}
 
     @ApiOperation("列表")
@@ -96,6 +106,8 @@ public class AppController {
 		if (id == null) {
 			app = new App();
 			app.setCreateTime(new Date());
+			app.setClientId(appService.generateClientId());
+			app.setClientSecret(ClientCredentialsGenerator.generateClientSecret(app.getClientId()));
 		}
 		else {
 			app = appService.getById(id);
@@ -104,7 +116,7 @@ public class AppController {
 		app.setSort(sort);
 		app.setIsEnable(isEnable);
 		app.setCode(code);
-		appService.save(app);
+		appService.saveOrUpdate(app);
 		return Result.success();
 	}
 

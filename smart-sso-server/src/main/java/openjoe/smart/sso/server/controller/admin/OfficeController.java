@@ -47,6 +47,7 @@ public class OfficeController {
 		Office office;
 		if (id == null) {
 			office = new Office();
+			office.setIsEnable(true);
 		}
 		else {
 			office = officeService.getById(id);
@@ -77,7 +78,7 @@ public class OfficeController {
 		office.setName(name);
 		office.setSort(sort);
 		office.setIsEnable(isEnable);
-		officeService.save(office);
+		officeService.saveOrUpdate(office);
 		return Result.success();
 	}
 

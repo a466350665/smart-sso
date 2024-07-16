@@ -8,5 +8,5 @@ import openjoe.smart.sso.server.entity.App;
  * 
  * @author Joe
  */
-public interface AppDao extends BaseMapper<App> {
+public interface AppMapper extends BaseMapper<App> {
 }

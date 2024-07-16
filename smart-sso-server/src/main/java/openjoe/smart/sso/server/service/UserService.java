@@ -20,14 +20,14 @@ public interface UserService extends BaseService<User> {
 	 * @param idList 用户ID集合
 	 * @return
 	 */
-	public void enable(Boolean isEnable, List<Long> idList);
+	void enable(Boolean isEnable, List<Long> idList);
 	
 	/**
 	 * 重置密码
 	 * @param password 初始化密码(已加密)
 	 * @param idList 
 	 */
-	public void resetPassword(String password, List<Long> idList);
+	void resetPassword(String password, List<Long> idList);
 
 	/**
 	 * 查询分页列表
@@ -36,14 +36,14 @@ public interface UserService extends BaseService<User> {
 	 * @param officeId 机构ID
 	 * @return
 	 */
-	public Page<User> selectPage(String account, String name, Long officeId, Long current, Long size);
+	Page<User> selectPage(String account, String name, Long officeId, Long current, Long size);
 	
 	/**
 	 * 根据登录名和应用ID查询
 	 * @param account 登录名
 	 * @return
 	 */
-	public User selectByAccount(String account);
+	User selectByAccount(String account);
 	
 	/**
 	 * 更新密码
@@ -54,7 +54,7 @@ public interface UserService extends BaseService<User> {
 	 *            新密码
 	 * @return
 	 */
-	public void updatePassword(Long id, String newPassword);
+	void updatePassword(Long id, String newPassword);
 
-	public void deleteByIds(Collection<Long> idList);
+	void deleteByIds(Collection<Long> idList);
 }

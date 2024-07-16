@@ -1,4 +1,4 @@
-<title>应用-${_systemName}</title>
+<title>应用</title>
 <#include "../common/common.html"/>
 
 <div class="row">
@@ -43,23 +43,28 @@
 		jQuery(function($) {
 			// 列表
 			var $table = $("#_table").table({
-    			url : "${_path}/admin/app/list",
+    			url : "${request.contextPath}/admin/app/list",
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/app/edit', handler : function(){
-						$.aceRedirect("${_path}/admin/app/edit");
+						$.aceRedirect("${request.contextPath}/admin/app/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/app/enable', handler : function(){
-						$table.ajaxEnable({url : "${_path}/admin/app/enable"}, false);
+						$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, false);
 					}},
 					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/app/enable', handler : function(){
-						$table.ajaxEnable({url : "${_path}/admin/app/enable"}, true);
+						$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, true);
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/app/delete', handler : function(){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
-							url : "${_path}/admin/app/delete"
+							url : "${request.contextPath}/admin/app/delete"
 						});
+					}},
+					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(){
+						if($table.validateSelected(true)){
+							$.aceRedirect("${request.contextPath}/admin/app/credentials?id=" + $table.getSelectedItemKeys("id"));
+						}
 					}}
 				],
 				columns : [
@@ -78,11 +83,11 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/app/edit', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/app/edit?id=" + d.id);
+						$.aceRedirect("${request.contextPath}/admin/app/edit?id=" + d.id);
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/app/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${_path}/admin/app/enable"}, false);
+							$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, false);
 						},
 						show : function(d){
 							return d.isEnable;
@@ -90,7 +95,7 @@
 					},
 					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/app/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${_path}/admin/app/enable"}, true);
+							$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, true);
 						},
 						show : function(d){
 							return !d.isEnable;
@@ -99,8 +104,11 @@
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/app/delete', handler : function(d, i){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
-							url : "${_path}/admin/app/delete"
+							url : "${request.contextPath}/admin/app/delete"
 						});
+					}},
+					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(d, i){
+						$.aceRedirect("${request.contextPath}/admin/app/credentials?id=" + d.id);
 					}}
 				],
 				after : function(){

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import openjoe.smart.sso.server.entity.RolePermission;
-import openjoe.smart.sso.server.mapper.RolePermissionDao;
+import openjoe.smart.sso.server.mapper.RolePermissionMapper;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("rolePermissionService")
-public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao, RolePermission> implements RolePermissionService {
+public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
 	
 	@Transactional
 	@Override

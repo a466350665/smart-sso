@@ -24,7 +24,7 @@ public interface PermissionService extends BaseService<Permission> {
 	 * @param isEnable
 	 * @return
 	 */
-	public List<PermissionDTO> selectTree(Long appId, Long roleId, Boolean isEnable);
+	List<PermissionDTO> selectTree(Long appId, Long roleId, Boolean isEnable);
 	
 	/**
 	 * 删除权限
@@ -32,14 +32,14 @@ public interface PermissionService extends BaseService<Permission> {
 	 * @param appId 应用ID
 	 * @return
 	 */
-	public void delete(Long id, Long appId);
+	void delete(Long id, Long appId);
 	
 	/**
 	 * 删除应用下所有权限
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public void deleteByAppIds(Collection<Long> idList);
+	void deleteByAppIds(Collection<Long> idList);
 
 	/**
 	 * 获取用户权限信息
@@ -56,5 +56,5 @@ public interface PermissionService extends BaseService<Permission> {
 	 * @param userId 用户ID
 	 * @return
 	 */
-	public List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet);
+	List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet);
 }

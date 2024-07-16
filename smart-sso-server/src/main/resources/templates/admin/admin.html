@@ -69,7 +69,7 @@
             <a href="#" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    ${_systemAdminName}
+                    ${_systemName}
                 </small>
             </a>
 
@@ -319,7 +319,7 @@
             <!-- #section:basics/footer -->
             <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">${_systemAdminName}</span>
+							<span class="blue bolder">${_systemName}</span>
 							 &copy; 2017
 						</span>
 
@@ -399,7 +399,7 @@
 					window.location.href="${logoutUrl}";
 				});
 
-				$.getJSON("${_path}/admin/admin/menu?v=" + Math.random(), function(d) {
+				$.getJSON("${request.contextPath}/admin/admin/menu?v=" + Math.random(), function(d) {
    					$('.nav-list').append(tree(d.data));
 				});
 
@@ -418,7 +418,7 @@
 								if(window.location.href.indexOf("#") < 0){
 									// 登录成功后首次加载，跳转到第一个页面
 									defaultPage = data.url;
-									window.location.href = "${_path}/admin/admin#" + defaultPage;
+									window.location.href = "${request.contextPath}/admin/admin#" + defaultPage;
 
 								}
 								else if(data.url == window.location.href.split("#")[1]){
@@ -465,7 +465,7 @@
 								if(window.location.href.indexOf("#") < 0){
 									// 登录成功后首次加载，跳转到第一个页面
 									defaultPage = data.url;
-									window.location.href = "${_path}/admin/admin#" + defaultPage;
+									window.location.href = "${request.contextPath}/admin/admin#" + defaultPage;
 								}
 							}
 

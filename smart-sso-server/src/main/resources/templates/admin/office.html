@@ -1,4 +1,4 @@
-<title>机构-${_systemName}</title>
+<title>机构</title>
 <#include "../common/common.html"/>
 
 <div class="row">
@@ -22,20 +22,20 @@
 		jQuery(function($) {
 			// 列表
 			var $table = $("#_table").table({
-				url : "${_path}/admin/office/list",
+				url : "${request.contextPath}/admin/office/list",
 				formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/office/edit', handler : function(){
-						$.aceRedirect("${_path}/admin/office/edit");
+						$.aceRedirect("${request.contextPath}/admin/office/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/office/enable', handler : function(){
-						$table.ajaxEnable({url : "${_path}/admin/office/enable"}, false);
+						$table.ajaxEnable({url : "${request.contextPath}/admin/office/enable"}, false);
 					}},
 					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/office/enable', handler : function(){
-						$table.ajaxEnable({url : "${_path}/admin/office/enable"}, true);
+						$table.ajaxEnable({url : "${request.contextPath}/admin/office/enable"}, true);
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/office/delete', handler : function(){
-						$table.ajaxDelete({url : "${_path}/admin/office/delete"});
+						$table.ajaxDelete({url : "${request.contextPath}/admin/office/delete"});
 					}}
 				],
 				columns : [
@@ -52,11 +52,11 @@
 				],
 				operate : [
 					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/office/edit', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/office/edit?id=" + d.id);
+						$.aceRedirect("${request.contextPath}/admin/office/edit?id=" + d.id);
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/office/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${_path}/admin/office/enable"}, false);
+							$table.ajaxEnable({url : "${request.contextPath}/admin/office/enable"}, false);
 						},
 						show : function(d){
 						    return d.isEnable;
@@ -64,14 +64,14 @@
 					},
 					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/office/enable', 
 						handler : function(){
-							$table.ajaxEnable({url : "${_path}/admin/office/enable"}, true);
+							$table.ajaxEnable({url : "${request.contextPath}/admin/office/enable"}, true);
 						},
 						show : function(d){
 						    return !d.isEnable;
 						}
 					},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/office/delete', handler : function(d, i){
-						$table.ajaxDelete({url : "${_path}/admin/office/delete"});
+						$table.ajaxDelete({url : "${request.contextPath}/admin/office/delete"});
 					}}
 				],
 				after : function(){

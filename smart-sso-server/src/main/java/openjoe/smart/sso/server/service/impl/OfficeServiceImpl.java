@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import openjoe.smart.sso.server.entity.Office;
-import openjoe.smart.sso.server.mapper.OfficeDao;
+import openjoe.smart.sso.server.mapper.OfficeMapper;
 import openjoe.smart.sso.server.service.OfficeService;
 import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Component;
@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component("officeService")
-public class OfficeServiceImpl extends BaseServiceImpl<OfficeDao, Office> implements OfficeService {
+public class OfficeServiceImpl extends BaseServiceImpl<OfficeMapper, Office> implements OfficeService {
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public void enable(Boolean isEnable, List<Long> idList) {
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);

@@ -12,7 +12,7 @@
 		<script type="text/javascript">
 			var url = window.location.href;
 			if(url.indexOf('/sso/login') == -1){
-				window.location.href = '${_path}/sso/login';
+				window.location.href = '${request.contextPath}/sso/login';
 			}
 		</script>
 

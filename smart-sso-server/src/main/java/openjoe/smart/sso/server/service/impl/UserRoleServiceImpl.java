@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import openjoe.smart.sso.server.entity.UserRole;
-import openjoe.smart.sso.server.mapper.UserRoleDao;
+import openjoe.smart.sso.server.mapper.UserRoleMapper;
 import openjoe.smart.sso.server.service.UserRoleService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service("userRoleService")
-public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> implements UserRoleService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
     @Transactional
     @Override
@@ -37,15 +37,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
         return userRoleList;
     }
 	
-	@Override
-	public UserRole selectByUserRoleId(Long userId, Long roleId) {
-        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
-        wrapper.eq(UserRole::getUserId, userId);
-        wrapper.eq(UserRole::getRoleId, roleId);
-        return getOne(wrapper);
-	}
-	
-	@Override
+    @Override
 	public void deleteByRoleIds(Collection<Long> idList) {
         LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
         wrapper.in(UserRole::getRoleId, idList);

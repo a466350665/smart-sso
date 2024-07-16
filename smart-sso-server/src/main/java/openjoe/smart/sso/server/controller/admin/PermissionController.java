@@ -83,7 +83,7 @@ public class PermissionController {
 		permission.setSort(sort);
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);
-		permissionService.save(permission);
+		permissionService.saveOrUpdate(permission);
 		return Result.success();
 	}
 

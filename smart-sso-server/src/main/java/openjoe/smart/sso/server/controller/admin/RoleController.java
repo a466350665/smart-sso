@@ -38,6 +38,7 @@ public class RoleController {
 		Role role;
 		if (id == null) {
 			role = new Role();
+			role.setIsEnable(true);
 		}
 		else {
 			role = roleService.getById(id);
@@ -86,7 +87,7 @@ public class RoleController {
 		role.setSort(sort);
 		role.setDescription(description);
 		role.setIsEnable(isEnable);
-		roleService.save(role);
+		roleService.saveOrUpdate(role);
 		return Result.success();
 	}
 	

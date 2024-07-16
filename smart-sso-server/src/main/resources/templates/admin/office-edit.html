@@ -1,4 +1,4 @@
-<title>机构-${_systemName}</title>
+<title>机构</title>
 <#include "../common/common.html"/>
 
 <div class="page-header">
@@ -98,11 +98,11 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/office/save", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/office/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/office");
+								$.aceRedirect("${request.contextPath}/admin/office");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -114,7 +114,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${_path}/admin/office");
+				$.aceRedirect("${request.contextPath}/admin/office");
 			});
 			
 			// 回车绑定

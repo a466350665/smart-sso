@@ -1,4 +1,4 @@
-<title>用户-${_systemName}</title>
+<title>用户</title>
 <#include "../common/common.html"/>
 
 <div class="page-header">
@@ -46,7 +46,7 @@
 					<div class="input-medium help-validate">
 						<div class="input-group">
 							<input id="_account" name="account" type="text" value="${user.account!}" class="form-data"
-								ajax="{url : '${_path}/admin/user/validate-account', dataId : '_editForm'}"
+								ajax="{url : '${request.contextPath}/admin/user/validate-account', dataId : '_editForm'}"
 								required="true" minlength = '4' maxlength = '64'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-user"></i>
@@ -65,7 +65,7 @@
 						<div class="input-group">
 							<input id="_password" name="password" type="password" value="" class="form-data"
 								${user.id?? ? string('data-rel="tooltip" title="不修改请留空"','')}
-								${user.id?? ? string('','required="true')}
+								${user.id?? ? string('','required="true"')}
 								minlength = '6' maxlength = '16'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-lock"></i>
@@ -130,11 +130,11 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/user/save", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/user/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/user");
+								$.aceRedirect("${request.contextPath}/admin/user");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -146,7 +146,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${_path}/admin/user");
+				$.aceRedirect("${request.contextPath}/admin/user");
 			});
 			
 			// 回车绑定

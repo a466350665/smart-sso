@@ -8,5 +8,5 @@ import openjoe.smart.sso.server.entity.UserRole;
  * 
  * @author Joe
  */
-public interface UserRoleDao extends BaseMapper<UserRole> {
+public interface UserRoleMapper extends BaseMapper<UserRole> {
 }

@@ -19,6 +19,10 @@ public class App extends BaseEntity {
 	private Integer sort;
 	/** 是否启用 */
 	private Boolean isEnable;
+	/** 客户端ID */
+	private String clientId;
+	/** 客户端密钥 */
+	private String clientSecret;
 	
 	public String getName() {
 		return this.name;
@@ -50,5 +54,21 @@ public class App extends BaseEntity {
 
 	public void setIsEnable(Boolean isEnable) {
 		this.isEnable = isEnable;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
 	}
 }

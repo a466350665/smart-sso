@@ -8,5 +8,5 @@ import openjoe.smart.sso.server.entity.RolePermission;
  * 
  * @author Joe
  */
-public interface RolePermissionDao extends BaseMapper<RolePermission> {
+public interface RolePermissionMapper extends BaseMapper<RolePermission> {
 }

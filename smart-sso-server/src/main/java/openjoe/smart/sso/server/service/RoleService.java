@@ -21,7 +21,7 @@ public interface RoleService extends BaseService<Role> {
 	 * @param idList 角色ID集合
 	 * @return
 	 */
-	public void enable(Boolean isEnable, List<Long> idList);
+	void enable(Boolean isEnable, List<Long> idList);
 	
 	/**
 	 * 根据角色名称和应用ID查询分页列表
@@ -30,16 +30,16 @@ public interface RoleService extends BaseService<Role> {
 	 * @param size 分页记录数
 	 * @return
 	 */
-	public Page<Role> selectPage(String name, Long current, Long size);
+	Page<Role> selectPage(String name, Long current, Long size);
 	
 	/**
 	 * 查询应用可用角色
 	 * @param isEnable 是否启用
 	 * @return
 	 */
-	public List<Role> selectAll(Boolean isEnable);
+	List<Role> selectAll(Boolean isEnable);
 	
-	public List<PermissionDTO> getRoleList(Long userId);
+	List<PermissionDTO> getRoleList(Long userId);
 
-	public void deleteByIds(Collection<Long> idList);
+	void deleteByIds(Collection<Long> idList);
 }

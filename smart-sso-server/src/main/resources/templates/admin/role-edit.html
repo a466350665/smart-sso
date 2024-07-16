@@ -1,4 +1,4 @@
-<title>角色-${_systemName}</title>
+<title>角色</title>
 <#include "../common/common.html"/>
 
 
@@ -107,11 +107,11 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/role/save", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/role");
+								$.aceRedirect("${request.contextPath}/admin/role");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -123,7 +123,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${_path}/admin/role");
+				$.aceRedirect("${request.contextPath}/admin/role");
 			});
 			
 			// 回车绑定

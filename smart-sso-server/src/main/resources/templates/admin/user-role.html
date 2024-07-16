@@ -1,4 +1,4 @@
-<title>分配角色-${_systemName}</title>
+<title>分配角色</title>
 <#include "../common/common.html"/>
 
 <div class="page-header">
@@ -79,11 +79,11 @@
 					
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/user-role/save", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/user-role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/user");
+								$.aceRedirect("${request.contextPath}/admin/user");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -95,7 +95,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${_path}/admin/user");
+				$.aceRedirect("${request.contextPath}/admin/user");
 			});
 			
 			// 回车绑定

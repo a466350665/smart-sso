@@ -18,7 +18,7 @@ public interface RolePermissionService extends BaseService<RolePermission> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	public List<RolePermission> selectByRoleId(Long roleId);
+	List<RolePermission> selectByRoleId(Long roleId);
 	
 	/**
 	 * 根据角色ID给角色授权
@@ -27,33 +27,33 @@ public interface RolePermissionService extends BaseService<RolePermission> {
 	 * @param permissionIdList 权限ID集合
 	 * @return
 	 */
-	public void allocate(Long appId, Long roleId, List<Long> permissionIdList);
+	void allocate(Long appId, Long roleId, List<Long> permissionIdList);
 	
 	/**
 	 * 根据权限ID集合删除映射
 	 * @param idList 权限ID集合
 	 * @return
 	 */
-	public void deleteByPermissionIds(List<Long> idList);
+	void deleteByPermissionIds(List<Long> idList);
 	
 	/**
 	 * 根据角色ID集合删除映射
 	 * @param idList 角色ID集合
 	 * @return
 	 */
-	public void deleteByRoleIds(Collection<Long> idList);
+	void deleteByRoleIds(Collection<Long> idList);
 	
 	/**
 	 * 根据应用ID集合删除映射
 	 * @param idList 应用ID集合
 	 * @return
 	 */
-	public void deleteByAppIds(Collection<Long> idList);
+	void deleteByAppIds(Collection<Long> idList);
 	
 	/**
      * 根据用户ID查角色ID集合
      * @param roleId
      * @return
      */
-    public List<Long> findPermissionIdListByRoleId(Long roleId);
+    List<Long> findPermissionIdListByRoleId(Long roleId);
 }

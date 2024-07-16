@@ -31,9 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
             // servletContext设置值
             servletContext.setAttribute("_staticPath", servletContext.getContextPath());
-            servletContext.setAttribute("_path", servletContext.getContextPath());
-            servletContext.setAttribute("_systemName", "smart-sso单点登录");
-            servletContext.setAttribute("_systemAdminName", "smart-sso单点登录权限系统");
+            servletContext.setAttribute("_systemName", "smart-sso单点登录权限系统");
         };
     }
 }

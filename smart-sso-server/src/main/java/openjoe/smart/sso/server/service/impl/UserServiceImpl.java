@@ -6,7 +6,7 @@ import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.manager.UserManager;
-import openjoe.smart.sso.server.mapper.UserDao;
+import openjoe.smart.sso.server.mapper.UserMapper;
 import openjoe.smart.sso.server.service.OfficeService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.UserRoleService;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service("userService")
-public class UserServiceImpl extends BaseServiceImpl<UserDao, User> implements UserService, UserManager {
+public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService, UserManager {
 	
 	@Autowired
 	private UserRoleService userRoleService;

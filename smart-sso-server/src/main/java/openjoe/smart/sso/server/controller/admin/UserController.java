@@ -52,6 +52,7 @@ public class UserController {
 		User user;
 		if (id == null) {
 			user = new User();
+			user.setIsEnable(true);
 		}
 		else {
 			user = userService.getById(id);
@@ -125,7 +126,7 @@ public class UserController {
 		}
 		user.setIsEnable(isEnable);
 		user.setLoginCount(0);
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		return Result.success();
 	}
 

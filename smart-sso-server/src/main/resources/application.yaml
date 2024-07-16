@@ -10,7 +10,7 @@ spring:
     suffix: .html
     request-context-attribute: request
 
-  datasource: #数据库连接(可选，smart-stage-starter-mybatisplus时必选)
+  datasource:
     url: jdbc:mysql://127.0.0.1:3306/smart-sso?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: 123456
@@ -24,9 +24,9 @@ smart:
   sso:
     #服务端地址
     server-url: http://server.smart-sso.com:8080
-    #客户端应用信息
-    client-id: smart-sso-server
-    client-secret: 123456
+    #客户端密钥信息
+    client-id: 1000
+    client-secret: rokY9BdKh5bHiX/zL26qOg==
     #忽略拦截urls
     exclude-urls: /static/*,/sso/*
     #单点登录超时时间，默认2小时，单位秒（服务端独有配置）

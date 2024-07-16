@@ -1,4 +1,4 @@
-<title>权限-${_systemName}</title>
+<title>权限</title>
 <#include "../common/common.html"/>
 
 <link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
@@ -213,7 +213,7 @@
 					type: "get",
 					otherParam: $.formJson("_form"),
 					dataType: "text",
-					url: "${_path}/admin/permission/tree"
+					url: "${request.contextPath}/admin/permission/tree"
 				},
 	            check: {
 	                enable: false
@@ -250,7 +250,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/permission/save", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							var message = "保存成功";
 							if(d.code == 1){
@@ -321,7 +321,7 @@
 					deleteBtn.bind("click", function(){
 						bootbox.confirm( "会删除该权限所有子权限，确认要删除吗?",function(result) {
 							if(result) {
-								$.post("${_path}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
+								$.post("${request.contextPath}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
 										if(d.code == 1){
 											$.gritter.add({
@@ -366,7 +366,7 @@
 					$("input[type=radio][name=isEnable][value=true]").prop('checked', true);
 				}
 				else if(flag == 'update'){
-					$.getJSON("${_path}/admin/permission/get?id=" + treeNode.id, function(d) {
+					$.getJSON("${request.contextPath}/admin/permission/get?id=" + treeNode.id, function(d) {
 						var data = d.data;
 						$("#_id").val(data.id);
 						$("#_parentId").val(data.parentId);

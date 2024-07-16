@@ -11,7 +11,7 @@ import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.dto.TreeDTO;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.entity.Permission;
-import openjoe.smart.sso.server.mapper.PermissionDao;
+import openjoe.smart.sso.server.mapper.PermissionMapper;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
-public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permission> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
 	@Autowired
 	private RolePermissionService rolePermissionService;
@@ -104,7 +104,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
 
 	@Override
 	public TokenPermission getUserPermission(Long userId, String clientId) {
-		App app = appService.selectByCode(clientId);
+		App app = appService.selectByClientId(clientId);
 		if (app == null || !app.getIsEnable()) {
 			return new TokenPermission(Collections.emptySet(), Collections.emptySet());
 		}
@@ -129,7 +129,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
 
 	@Override
 	public List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet) {
-		App app = appService.selectByCode(clientId);
+		App app = appService.selectByClientId(clientId);
 		if (app == null || !app.getIsEnable()) {
 			return Collections.emptyList();
 		}

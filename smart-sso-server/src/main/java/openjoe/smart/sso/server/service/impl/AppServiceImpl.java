@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.manager.AppManager;
-import openjoe.smart.sso.server.mapper.AppDao;
+import openjoe.smart.sso.server.mapper.AppMapper;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service("appService")
-public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppService, AppManager {
+public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements AppService, AppManager {
 	
 	@Autowired
 	private PermissionService permissionService;
@@ -27,7 +27,7 @@ public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppS
 	private RolePermissionService rolePermissionService;
 
 	@Override
-    @Transactional(readOnly = false)
+    @Transactional
     public void enable(Boolean isEnable, List<Long> idList) {
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
@@ -63,7 +63,7 @@ public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppS
 	}
 	
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional
 	public void deleteByIds(Collection<Long> idList) {
 		rolePermissionService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
@@ -71,20 +71,38 @@ public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppS
 	}
 
 	@Override
+	public String generateClientId() {
+		LambdaQueryWrapper<App> wrapper = Wrappers.lambdaQuery();
+		wrapper.orderByDesc(App::getClientId);
+		App app = getOne(wrapper, false);
+		if (app == null) {
+			return "1000";
+		} else {
+			return String.valueOf(Integer.valueOf(app.getClientId()) + 1);
+		}
+	}
+
+	@Override
 	public boolean exists(String clientId) {
-		return selectByCode(clientId) != null;
+		return selectByClientId(clientId) != null;
+	}
+
+	@Override
+	public App selectByClientId(String clientId) {
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.eq(App::getClientId, clientId);
+		return getOne(wrapper);
 	}
 
 	@Override
 	public Result<Void> validate(String clientId, String clientSecret) {
-		App app = selectByCode(clientId);
+		App app = selectByClientId(clientId);
 		if(app == null){
-			return Result.error("appKey不存在");
+			return Result.error("clientId不存在");
 		}
-		// TODO 验证appSecret
-//		if (!app.getClientSecret().equals(clientSecret)) {
-//			return Result.error("appSecret有误");
-//		}
+		if (!app.getClientSecret().equals(clientSecret)) {
+			return Result.error("appSecret有误");
+		}
 		return Result.success();
 	}
 }

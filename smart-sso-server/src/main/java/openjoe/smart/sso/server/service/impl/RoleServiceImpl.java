@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Role;
-import openjoe.smart.sso.server.mapper.RoleDao;
+import openjoe.smart.sso.server.mapper.RoleMapper;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.service.UserRoleService;
@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service("roleService")
-public class RoleServiceImpl extends BaseServiceImpl<RoleDao, Role> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements RoleService {
 
 	@Autowired
 	private UserRoleService userRoleService;

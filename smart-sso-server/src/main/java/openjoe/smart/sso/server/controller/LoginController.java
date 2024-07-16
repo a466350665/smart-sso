@@ -93,7 +93,7 @@ public class LoginController {
     }
 
     /**
-     * 设置request的redirectUri和appKey参数，跳转到登录页
+     * 设置request的redirectUri和clientId参数，跳转到登录页
      *
      * @param redirectUri
      * @param request

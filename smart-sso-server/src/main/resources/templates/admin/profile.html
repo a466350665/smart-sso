@@ -1,4 +1,4 @@
-<title>个人中心-${_systemName}</title>
+<title>个人中心</title>
 <#include "../common/common.html"/>
 
 <div class="row">
@@ -145,7 +145,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/profile/save-password", $.formJson('_editForm'),function(d) {
+					$.post("${request.contextPath}/admin/profile/save-password", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();

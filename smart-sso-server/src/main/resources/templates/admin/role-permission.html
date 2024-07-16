@@ -1,4 +1,4 @@
-<title>角色授权-${_systemName}</title>
+<title>角色授权</title>
 
 
 <link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
@@ -120,7 +120,7 @@
 					otherParam: $.extend($.formJson('_editForm'), {"isEnable" : true}),
 					type: "get",
 					dataType: "text",
-					url: "${_path}/admin/permission/tree"
+					url: "${request.contextPath}/admin/permission/tree"
 				},
 	            check: {
 	                enable: true,
@@ -170,11 +170,11 @@
 						permissionIds = permissionIds.substring(0, permissionIds.length - 1);
 					}
 					
-					$.post("${_path}/admin/role-permission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
+					$.post("${request.contextPath}/admin/role-permission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){
-								$.aceRedirect("${_path}/admin/role");
+								$.aceRedirect("${request.contextPath}/admin/role");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -186,7 +186,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${_path}/admin/role");
+				$.aceRedirect("${request.contextPath}/admin/role");
 			});
 		});
 	});

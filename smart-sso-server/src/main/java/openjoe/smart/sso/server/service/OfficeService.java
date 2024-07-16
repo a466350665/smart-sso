@@ -13,9 +13,9 @@ public interface OfficeService extends BaseService<Office> {
 	 * @param idList 管理员ID集合
 	 * @return
 	 */
-	public void enable(Boolean isEnable, List<Long> idList);
+	void enable(Boolean isEnable, List<Long> idList);
 	
-	public List<Office> selectList(Boolean isEnable, Boolean isParent, Long currentId, String prefix);
+	List<Office> selectList(Boolean isEnable, Boolean isParent, Long currentId, String prefix);
 	
-	public List<Long> selectIdListByParentId(Long parentId);
+	List<Long> selectIdListByParentId(Long parentId);
 }

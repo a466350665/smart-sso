@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class PasswordHelper {
 
-	private static final String SUFFIX = "`1qazx";
+	private static final String SALT = "`1qazx";
 
 	/**
 	 * 加密
@@ -29,7 +29,7 @@ public class PasswordHelper {
 			throw new ApplicationException(ErrorCodeEnum.E1001);
 		}
 		try {
-			return md5(new StringBuilder(password).append(SUFFIX).toString());
+			return md5(new StringBuilder(password).append(SALT).toString());
 		}
 		catch (Exception e) {
 			throw new ApplicationException(ErrorCodeEnum.E1002);
