@@ -170,7 +170,7 @@
 						permissionIds = permissionIds.substring(0, permissionIds.length - 1);
 					}
 					
-					$.post("${_path}/admin/rolePermission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
+					$.post("${_path}/admin/role-permission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){

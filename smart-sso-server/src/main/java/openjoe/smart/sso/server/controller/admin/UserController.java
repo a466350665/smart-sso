@@ -58,7 +58,7 @@ public class UserController {
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("officeList", officeService.selectList(true, null, null, "----"));
-		return "/admin/userEdit";
+		return "/admin/user-edit";
 	}
 
 	@ApiOperation("列表")
@@ -75,7 +75,7 @@ public class UserController {
 
 	@ApiOperation("验证登录名")
 	@ResponseBody
-	@RequestMapping(value = "/validateAccount", method = RequestMethod.POST)
+	@RequestMapping(value = "/validate-account", method = RequestMethod.POST)
 	public Result validateAccount(
 	        @RequestParam(required = false) Long id,
 			@RequestParam String account) {
@@ -131,7 +131,7 @@ public class UserController {
 
 	@ApiOperation("重置密码")
 	@ResponseBody
-	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	@RequestMapping(value = "/reset-password", method = RequestMethod.POST)
 	public Result resetPassword(
 			@RequestParam String ids) {
 		userService.resetPassword(PasswordHelper.encrypt(resetPassword), ConvertUtils.convertToIdList(ids));

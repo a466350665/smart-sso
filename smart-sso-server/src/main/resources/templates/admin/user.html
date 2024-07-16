@@ -69,18 +69,18 @@
 							url : "${_path}/admin/user/delete"
 						});
 					}},
-					{text : '重置密码', clazz : 'btn-default', icon : 'fa fa-key grey', permission : '/admin/user/resetPassword', handler : function(){
+					{text : '重置密码', clazz : 'btn-default', icon : 'fa fa-key grey', permission : '/admin/user/reset-password', handler : function(){
 						$table.ajax({
-							url : "${_path}/admin/user/resetPassword",
+							url : "${_path}/admin/user/reset-password",
 							confirm : "确认重置密码?",
 							after : function(){
 								$table.reload();
 							}
 						});
 					}},
-					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/userRole', handler : function(){
+					{text : '分配角色', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/user-role', handler : function(){
 						if($table.validateSelected(true)){
-							$.aceRedirect("${_path}/admin/userRole?userId=" + $table.getSelectedItemKeys("id"));
+							$.aceRedirect("${_path}/admin/user-role?userId=" + $table.getSelectedItemKeys("id"));
 						}
 					}}
 				],
@@ -123,17 +123,17 @@
 							url : "${_path}/admin/user/delete"
 						});
 					}},
-					{text : '重置密码', clazz : 'grey', icon : 'fa fa-key', permission : '/admin/user/resetPassword', handler : function(d, i){
+					{text : '重置密码', clazz : 'grey', icon : 'fa fa-key', permission : '/admin/user/reset-password', handler : function(d, i){
 						$table.ajax({
-							url : "${_path}/admin/user/resetPassword",
+							url : "${_path}/admin/user/reset-password",
 							confirm : "确认重置密码?",
 							after : function(){
 								$table.reload();
 							}
 						});
 					}},
-					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/userRole', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/userRole?userId=" + d.id);
+					{text : '分配角色', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/user-role', handler : function(d, i){
+						$.aceRedirect("${_path}/admin/user-role?userId=" + d.id);
 					}}
 				],
 				after : function(){

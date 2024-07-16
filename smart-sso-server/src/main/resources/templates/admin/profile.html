@@ -145,7 +145,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/profile/savePassword", $.formJson('_editForm'),function(d) {
+					$.post("${_path}/admin/profile/save-password", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();

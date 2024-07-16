@@ -53,7 +53,7 @@ public class OfficeController {
 		}
 		model.addAttribute("officeList", officeService.selectList(null, null, id, "----"));
 		model.addAttribute("office", office);
-		return "/admin/officeEdit";
+		return "/admin/office-edit";
 	}
 
 	@ApiOperation("新增/修改提交")

@@ -43,7 +43,7 @@ public class RoleController {
 			role = roleService.getById(id);
 		}
 		model.addAttribute("role", role);
-		return "/admin/roleEdit";
+		return "/admin/role-edit";
 	}
 
 	@ApiOperation("列表")

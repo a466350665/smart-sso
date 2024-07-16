@@ -58,7 +58,7 @@
 					}},
 					{text : '角色授权', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/role/allocate', handler : function(){
 						if($table.validateSelected(true)){
-							$.aceRedirect("${_path}/admin/rolePermission?roleId=" + $table.getSelectedItemKeys("id"));
+							$.aceRedirect("${_path}/admin/role-permission?roleId=" + $table.getSelectedItemKeys("id"));
 						}
 					}}
 				],
@@ -102,7 +102,7 @@
 						});
 					}},
 					{text : '角色授权', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/role/allocate', handler : function(d, i){
-						$.aceRedirect("${_path}/admin/rolePermission?roleId=" + d.id);
+						$.aceRedirect("${_path}/admin/role-permission?roleId=" + d.id);
 					}}
 				],
 				after : function(){

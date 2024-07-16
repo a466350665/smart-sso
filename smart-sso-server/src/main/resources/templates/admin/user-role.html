@@ -79,7 +79,7 @@
 					
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${_path}/admin/userRole/save", $.formJson('_editForm'),function(d) {
+					$.post("${_path}/admin/user-role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == 1){

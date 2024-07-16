@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Api(tags = "用户角色管理")
 @Controller
-@RequestMapping("/admin/userRole")
+@RequestMapping("/admin/user-role")
 public class UserRoleController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class UserRoleController {
 	        Model model) {
 		model.addAttribute("user", userService.getById(userId));
 		model.addAttribute("roleList", roleService.getRoleList(userId));
-		return "/admin/userRole";
+		return "/admin/user-role";
 	}
 
 	@ApiOperation("新增/修改提交")

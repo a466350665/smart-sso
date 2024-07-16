@@ -35,7 +35,7 @@ public class ProfileController {
 
 	@ApiOperation("修改密码提交")
 	@ResponseBody
-	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
+	@RequestMapping(value = "/save-password", method = RequestMethod.POST)
 	public Result save(
 			@RequestParam String newPassword,
 			@RequestParam String confirmPassword,

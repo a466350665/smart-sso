@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Api(tags = "用户角色关系管理")
 @Controller
-@RequestMapping("/admin/rolePermission")
+@RequestMapping("/admin/role-permission")
 @SuppressWarnings("rawtypes")
 public class RolePermissionController {
 
@@ -37,7 +37,7 @@ public class RolePermissionController {
 			@RequestParam Long roleId, Model model) {
 		model.addAttribute("role", roleService.getById(roleId));
 		model.addAttribute("appList", appService.selectAll(true));
-		return "/admin/rolePermission";
+		return "/admin/role-permission";
 	}
 	
 	@ApiOperation("角色授权提交")

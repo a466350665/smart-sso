@@ -47,7 +47,7 @@ public class AppController {
 			app = appService.getById(id);
 		}
 		model.addAttribute("app", app);
-		return "/admin/appEdit";
+		return "/admin/app-edit";
 	}
 
     @ApiOperation("列表")
@@ -62,7 +62,7 @@ public class AppController {
 
 	@ApiOperation("验证应用编码")
 	@ResponseBody
-	@RequestMapping(value = "/validateCode", method = RequestMethod.POST)
+	@RequestMapping(value = "/validate-code", method = RequestMethod.POST)
 	public Result validateCode(
 			@RequestParam(required = false) Long id,
 			@RequestParam String code) {
