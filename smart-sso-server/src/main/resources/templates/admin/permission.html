@@ -1,8 +1,8 @@
 <title>权限-${_systemName}</title>
 <#include "../common/common.html"/>
 
-<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
-<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.custom.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.custom.css?v=1" />
 <style type="text/css">
 	.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
 	.ztree li ul.level0 {padding:0; background:none;}
@@ -197,8 +197,8 @@
 
 <script type="text/javascript">
 	scripts.push(
-			"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js",
-			"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+			"${_staticPath}/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+			"${_staticPath}/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
 		
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {

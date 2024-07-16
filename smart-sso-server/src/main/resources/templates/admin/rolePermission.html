@@ -1,8 +1,8 @@
 <title>角色授权-${_systemName}</title>
 
 
-<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
-<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.custom.css" />
+<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.custom.css" />
 
 <div class="page-header">
 	<h1>
@@ -70,43 +70,43 @@
 
 
 <!--[if lte IE 8]>
-  <script src="${_staticPath}/assets/js/excanvas.js"></script>
+  <script src="${_staticPath}/static/assets/js/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript">
 	var scripts = [
 		// Form提交Json转换
-		"${_staticPath}/custom/jquery.form.min.js",
+		"${_staticPath}/static/custom/jquery.form.min.js",
 		// 列表
-		"${_staticPath}/custom/jquery.table.min.js?v=" + Math.random(),
+		"${_staticPath}/static/custom/jquery.table.min.js?v=" + Math.random(),
 		// 时间
-		"${_staticPath}/assets/js/date-time/bootstrap-timepicker.js",
+		"${_staticPath}/static/assets/js/date-time/bootstrap-timepicker.js",
 		// 时间支持
-		"${_staticPath}/assets/js/date-time/moment.js",
+		"${_staticPath}/static/assets/js/date-time/moment.js",
 		// 时间支持
-		"${_staticPath}/assets/js/date-time/i18n/moment.zh-CN.js",
+		"${_staticPath}/static/assets/js/date-time/i18n/moment.zh-CN.js",
 		// 日期范围
-		"${_staticPath}/assets/js/date-time/daterangepicker.js",
+		"${_staticPath}/static/assets/js/date-time/daterangepicker.js",
 		// 确认框
-		"${_staticPath}/assets/js/bootbox.js",
-		"${_staticPath}/custom/assets/bootbox.custom.js",
+		"${_staticPath}/static/assets/js/bootbox.js",
+		"${_staticPath}/static/custom/assets/bootbox.custom.js",
 		// 自动隐藏的提醒框
-		"${_staticPath}/assets/js/jquery.gritter.js",
-		"${_staticPath}/custom/assets/jquery.gritter.custom.js",
+		"${_staticPath}/static/assets/js/jquery.gritter.js",
+		"${_staticPath}/static/custom/assets/jquery.gritter.custom.js",
 		// UI
-		"${_staticPath}/assets/js/jquery-ui.custom.js",
+		"${_staticPath}/static/assets/js/jquery-ui.custom.js",
 		// 文件上传
-		"${_staticPath}/assets/js/dropzone.js",
-		"${_staticPath}/assets/js/jquery.uploadifive.min.js",
-		"${_staticPath}/custom/ajaxfileupload.js",
+		"${_staticPath}/static/assets/js/dropzone.js",
+		"${_staticPath}/static/assets/js/jquery.uploadifive.min.js",
+		"${_staticPath}/static/custom/ajaxfileupload.js",
 		// 验证
-		"${_staticPath}/custom/jquery.validate-2.0.min.js",
-		"${_staticPath}/custom/jquery.validate-2.0.custom.min.js"
+		"${_staticPath}/static/custom/jquery.validate-2.0.min.js",
+		"${_staticPath}/static/custom/jquery.validate-2.0.custom.min.js"
 	];
 </script>
 <script type="text/javascript">
 	scripts.push(
-		"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js",
-		"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+		"${_staticPath}/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+		"${_staticPath}/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
 
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {

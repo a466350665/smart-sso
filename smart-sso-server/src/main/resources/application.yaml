@@ -28,7 +28,7 @@ smart:
     app-key: smart-sso-server
     app-secret: 123456
     #忽略拦截urls
-    exclude-urls: /sso/*,/custom/*,/assets/*
+    exclude-urls: /static/*,/sso/*
     #单点登录超时时间，默认2小时，单位秒（服务端独有配置）
     server:
       timeout: 7200
