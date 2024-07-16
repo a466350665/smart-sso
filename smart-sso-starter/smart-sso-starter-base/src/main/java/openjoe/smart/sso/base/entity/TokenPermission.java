@@ -1,6 +1,5 @@
 package openjoe.smart.sso.base.entity;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -9,20 +8,23 @@ import java.util.Set;
  * @author Joe
  */
 public class TokenPermission {
-	
-	// 用户菜单
-	private List<TokenPermissionDTO> menuList;
-	// 用户权限
-	private Set<String> permissionSet;
-	// 已添加权限控制，且用户没有分配的权限，以逗号分隔（用于前端显示控制）
-	private String noPermissions;
 
-	public List<TokenPermissionDTO> getMenuList() {
-		return menuList;
+	/**
+	 * 用户已分配的权限
+	 */
+	private Set<String> permissionSet;
+
+	/**
+	 * 用户未分配的权限（用于隐藏前端菜单和按钮）
+	 */
+	private Set<String> noPermissionSet;
+
+	public TokenPermission() {
 	}
 
-	public void setMenuList(List<TokenPermissionDTO> menuList) {
-		this.menuList = menuList;
+	public TokenPermission(Set<String> permissionSet, Set<String> noPermissionSet) {
+		this.permissionSet = permissionSet;
+		this.noPermissionSet = noPermissionSet;
 	}
 
 	public Set<String> getPermissionSet() {
@@ -33,11 +35,11 @@ public class TokenPermission {
 		this.permissionSet = permissionSet;
 	}
 
-	public String getNoPermissions() {
-		return noPermissions;
+	public Set<String> getNoPermissionSet() {
+		return noPermissionSet;
 	}
 
-	public void setNoPermissions(String noPermissions) {
-		this.noPermissions = noPermissions;
+	public void setNoPermissionSet(Set<String> noPermissionSet) {
+		this.noPermissionSet = noPermissionSet;
 	}
 }

@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/admin/index");
+        registry.addViewController("/").setViewName("redirect:/admin/admin");
     }
 
     @Bean

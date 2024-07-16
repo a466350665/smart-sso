@@ -52,7 +52,7 @@ public class LoginController {
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
         if (!StringUtils.hasLength(tgt)) {
-            return goLoginPath(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, appKey, request);
         }
         return generateCodeAndRedirect(redirectUri, tgt);
     }
@@ -79,13 +79,13 @@ public class LoginController {
 
         if (!appManager.exists(appKey)) {
             request.setAttribute("errorMessage", "非法应用");
-            return goLoginPath(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, appKey, request);
         }
 
-        Result<TokenUser> result = userManager.login(username, password);
+        Result<TokenUser> result = userManager.login(username, password, appKey);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
-            return goLoginPath(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, appKey, request);
         }
 
         String tgt = tgtManager.getOrCreate(result.getData(), request, response);
@@ -99,10 +99,10 @@ public class LoginController {
      * @param request
      * @return
      */
-    private String goLoginPath(String redirectUri, String appKey, HttpServletRequest request) {
+    private String goLoginPage(String redirectUri, String appKey, HttpServletRequest request) {
         request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
         request.setAttribute(BaseConstant.APP_KEY, appKey);
-        return BaseConstant.LOGIN_PATH;
+        return "/login";
     }
 
     /**

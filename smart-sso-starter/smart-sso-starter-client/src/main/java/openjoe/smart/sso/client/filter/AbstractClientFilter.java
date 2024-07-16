@@ -30,7 +30,7 @@ public abstract class AbstractClientFilter {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_OK);
         try (PrintWriter writer = response.getWriter()) {
-            writer.write(JsonUtils.toString(Result.create(code, message)));
+            writer.write(JsonUtils.toString(new Result<>(code, message)));
         }
     }
 }

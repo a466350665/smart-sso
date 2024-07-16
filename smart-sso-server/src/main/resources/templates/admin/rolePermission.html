@@ -1,0 +1,193 @@
+<title>角色授权-${_systemName}</title>
+
+
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${_staticPath}/custom/zTree/css/metroStyle/metroStyle.custom.css" />
+
+<div class="page-header">
+	<h1>
+		角色授权
+	</h1>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<form id="_editForm" class="form-horizontal" role="form" 
+			validate="true">
+			<input name="roleId" type="hidden" value="${role.id}" required="true">
+
+			<div class="form-group">
+				<label for="_name" class="col-sm-3 control-label no-padding-right">当前角色</label>
+
+				<div class="col-sm-6">
+					<div class="clearfix help-validate">
+						<input id="_name" name="name" type="text" value="${role.name}" class="form-data col-xs-10 col-sm-5"
+							   maxlength="50" disabled="disabled"/>
+					</div>
+				</div>
+
+			</div>
+			
+			<div class="form-group">
+				<label for="_appId" class="col-sm-3 control-label no-padding-right">应用</label>
+
+				<div class="col-sm-5">
+					<select id="_appId" name="appId" class="form-control help-validate"
+						required="true">
+						<#list appList as item>
+							<option value="${item.id}">${item.name}</option>
+						</#list>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">权限</label>
+				<div class="col-sm-3">
+					<ul id="_tree" class="ztree" style="width:560px; overflow:auto;"></ul>
+				</div>
+			</div>
+			
+			<div class="clearfix form-actions">
+				<div class="col-md-offset-3 col-md-9">
+					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交...">
+						<i class="ace-icon fa fa-check bigger-110"></i>
+						提交
+					</button>
+
+					&nbsp; &nbsp; &nbsp;
+					<button id="_cancle" class="btn" type="reset">
+						<i class="ace-icon fa  fa-times bigger-110"></i>
+						取消
+					</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+
+<!--[if lte IE 8]>
+  <script src="${_staticPath}/assets/js/excanvas.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	var scripts = [
+		// Form提交Json转换
+		"${_staticPath}/custom/jquery.form.min.js",
+		// 列表
+		"${_staticPath}/custom/jquery.table.min.js?v=" + Math.random(),
+		// 时间
+		"${_staticPath}/assets/js/date-time/bootstrap-timepicker.js",
+		// 时间支持
+		"${_staticPath}/assets/js/date-time/moment.js",
+		// 时间支持
+		"${_staticPath}/assets/js/date-time/i18n/moment.zh-CN.js",
+		// 日期范围
+		"${_staticPath}/assets/js/date-time/daterangepicker.js",
+		// 确认框
+		"${_staticPath}/assets/js/bootbox.js",
+		"${_staticPath}/custom/assets/bootbox.custom.js",
+		// 自动隐藏的提醒框
+		"${_staticPath}/assets/js/jquery.gritter.js",
+		"${_staticPath}/custom/assets/jquery.gritter.custom.js",
+		// UI
+		"${_staticPath}/assets/js/jquery-ui.custom.js",
+		// 文件上传
+		"${_staticPath}/assets/js/dropzone.js",
+		"${_staticPath}/assets/js/jquery.uploadifive.min.js",
+		"${_staticPath}/custom/ajaxfileupload.js",
+		// 验证
+		"${_staticPath}/custom/jquery.validate-2.0.min.js",
+		"${_staticPath}/custom/jquery.validate-2.0.custom.min.js"
+	];
+</script>
+<script type="text/javascript">
+	scripts.push(
+		"${_staticPath}/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+		"${_staticPath}/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+		jQuery(function($) {
+			var setting = {
+	            view: {
+	                selectedMulti: true
+	            },
+	            async: {
+					enable: true,
+					contentType: "application/x-www-form-urlencoded",
+					otherParam: $.extend($.formJson('_editForm'), {"isEnable" : true}),
+					type: "get",
+					dataType: "text",
+					url: "${_path}/admin/permission/tree"
+				},
+	            check: {
+	                enable: true,
+	                chkStyle: "checkbox",
+	                chkboxType: { "Y": "ps", "N": "ps" }
+	            },
+	            data: {
+	                simpleData: {
+	                    enable: true
+	                }
+	            },
+	            callback: {
+	            	onAsyncSuccess: zTreeOnAsyncSuccess,
+	            	onClick: zTreeOnClick
+	            }
+	        };
+			
+			//树加载成功后，全部展开
+			function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+			    treeObj.expandAll(true);
+			};
+			
+			function zTreeOnClick(event, treeId, treeNode){
+				treeObj.checkNode(treeNode, null, true);
+			}
+			
+			var treeObj = $.fn.zTree.init($("#_tree"), setting);
+			
+			$("#_appId").change(function () {
+	        	setting.async.otherParam = $.formJson('_editForm');
+           		treeObj = $.fn.zTree.init($("#_tree"), setting);
+           	});
+			
+			// 提交
+			$("#_submit").click(function(){
+				if($('#_editForm').validate()){
+					var btn = $(this);
+					btn.button('loading');
+					var permissionIds = '';
+					var nodes = treeObj.getCheckedNodes(true);
+					if(nodes){
+						for(var i=0; i<nodes.length; i++){
+							if(nodes[i].id){
+								permissionIds += nodes[i].id + ",";
+							}
+						}
+						permissionIds = permissionIds.substring(0, permissionIds.length - 1);
+					}
+					
+					$.post("${_path}/admin/rolePermission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
+						if(d){
+							btn.button('reset');
+							if(d.code == 1){
+								$.aceRedirect("${_path}/admin/role");
+							}
+							else {
+								$.gritter.add({text: d.message});
+							}
+						}
+			        },'json');
+				}
+			});
+			
+			// 取消
+			$("#_cancle").click(function(){
+				$.aceRedirect("${_path}/admin/role");
+			});
+		});
+	});
+</script>

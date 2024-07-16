@@ -59,13 +59,13 @@ public class Oauth2Utils {
         String jsonStr = HttpUtils.get(url, paramMap);
         if (jsonStr == null || jsonStr.isEmpty()) {
             logger.error("get http token return null. url:{}", url);
-            return Result.createError("获取token失败");
+            return Result.error("获取token失败");
         }
         Result<Token> result = JsonUtils.parseObject(jsonStr, new TypeReference<Result<Token>>() {
         });
         if (result == null) {
             logger.error("parse accessToken return null. jsonStr:{}", jsonStr);
-            return Result.createError("解析token失败");
+            return Result.error("解析token失败");
         }
         return result;
     }

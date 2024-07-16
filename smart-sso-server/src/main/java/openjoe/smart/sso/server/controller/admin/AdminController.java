@@ -6,11 +6,13 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
+import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,16 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Collections;
+import java.util.Set;
 
 @Controller
-@RequestMapping("/admin/index")
-public class IndexController {
+@RequestMapping("/admin/admin")
+public class AdminController {
 
     @Value("${server.port}")
     private Integer serverPort;
     @Autowired
     private ClientProperties clientProperties;
+    @Autowired
+    private PermissionService permissionService;
 
     /**
      * 初始页
@@ -43,14 +47,14 @@ public class IndexController {
         TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
-        TokenPermission tokenPermission = TokenUtils.getPermission(request);
-        // 设置当前登录用户没有的权限，以便控制前台按钮的显示或者隐藏
-        model.addAttribute("sessionUserNoPermissions",
-                tokenPermission == null ? null : tokenPermission.getNoPermissions());
+        TokenPermission permission = user.getTokenPermission();
+        // 设置当前登录用户没有的权限，以便控制前台菜单和按钮隐藏
+        model.addAttribute("userNoPermissions",
+                CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
         // 单点退出地址
         model.addAttribute("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
                 + URLEncoder.encode(getLocalUrl(request), "utf-8"));
-        return "index";
+        return "/admin/admin";
     }
 
 
@@ -74,8 +78,10 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public Result menu(HttpServletRequest request) {
-        TokenPermission tokenPermission = TokenUtils.getPermission(request);
+        TokenUser user = TokenUtils.getUser(request);
+        // 拿到用户未分配的权限
+        Set<String> noPermissionSet = user.getTokenPermission().getNoPermissionSet();
         // 获取登录用户权限下的菜单列表
-        return Result.success(tokenPermission == null ? Collections.emptyList() : tokenPermission.getMenuList());
+        return Result.success(permissionService.getUserMenuList(user.getId(), clientProperties.getAppKey(), noPermissionSet));
     }
 }

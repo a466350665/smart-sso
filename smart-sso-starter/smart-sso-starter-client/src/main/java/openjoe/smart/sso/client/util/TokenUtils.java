@@ -87,30 +87,8 @@ public class TokenUtils {
         return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
     }
 
-    public static Integer getUserId(HttpServletRequest request) {
+    public static Long getUserId(HttpServletRequest request) {
         return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
-    }
-
-    public static TokenPermission getPermission(HttpServletRequest request) {
-        return (TokenPermission) Optional.ofNullable(get(request)).map(wrapper -> wrapper.getAttributes().get("userPermissions")).orElse(null);
-    }
-
-    public static void setPermission(TokenPermission tp, HttpServletRequest request) {
-        TokenWrapper wrapper = get(request);
-        if (wrapper != null) {
-            wrapper.getAttributes().put("userPermissions", tp);
-        }
-    }
-
-    public static Object getAttribute(String attribute, HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getAttributes().get(attribute)).orElse(null);
-    }
-
-    public static void setAttribute(String attribute, Object value, HttpServletRequest request) {
-        TokenWrapper wrapper = get(request);
-        if (wrapper != null) {
-            wrapper.getAttributes().put(attribute, value);
-        }
     }
 
     public static void set(Token token, HttpServletRequest request, HttpServletResponse response) {

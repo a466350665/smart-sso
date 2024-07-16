@@ -18,74 +18,54 @@ public class Result<T> implements Serializable {
     public static final int SUCCESS_CODE = 1;
 
     /**
-     * 未知错误
+     * 系统错误
      */
     public static final int ERROR_CODE = 9999;
 
     /**
-     * 成功
-     */
-    @SuppressWarnings("rawtypes")
-    public static final Result SUCCESS = createSuccess();
-
-    /**
      * 结果体
      */
-    protected T data;
+    private T data;
 
     /**
      * 状态码
      */
-    protected int code;
+    private int code;
 
     /**
      * 信息
      */
-    protected String message;
+    private String message;
 
     public Result() {
-        super();
     }
 
-    public static <T> Result<T> create() {
-        return new Result<>();
+    public Result(Integer code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
-    public static <T> Result<T> create(int code) {
-        Result<T> r = create();
-        r.setCode(code);
-        return r;
+    public Result(Integer code, String message, T data) {
+        this(code, message);
+        this.data = data;
     }
 
-    public static <T> Result<T> create(int code, String message) {
-        Result<T> r = create(code);
-        r.setMessage(message);
-        return r;
+    public static <T> Result<T> success() {
+        return new Result<>(SUCCESS_CODE, "成功");
     }
 
-    @SuppressWarnings("unchecked")
-    public static final <T> Result<T> success() {
-        return SUCCESS;
-    }
-
-    public static <T> Result<T> createSuccess() {
-        return create(SUCCESS_CODE);
-    }
-
-    public static <T> Result<T> createSuccess(T data) {
-        Result<T> r = createSuccess();
+    public static <T> Result<T> success(T data) {
+        Result<T> r = success();
         r.setData(data);
         return r;
     }
 
-    public static <T> Result<T> createSuccess(T data, String message) {
-        Result<T> r = createSuccess(data);
-        r.setMessage(message);
-        return r;
+    public static <T> Result<T> error() {
+        return new Result<>(ERROR_CODE, "未知错误");
     }
 
-    public static <T> Result<T> createError(String message) {
-        return create(ERROR_CODE, message);
+    public static <T> Result<T> error(String message) {
+        return new Result<>(ERROR_CODE, message);
     }
 
     public T getData() {
@@ -118,5 +98,14 @@ public class Result<T> implements Serializable {
     @Transient
     public boolean isSuccess() {
         return SUCCESS_CODE == code;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

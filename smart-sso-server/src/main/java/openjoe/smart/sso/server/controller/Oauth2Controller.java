@@ -53,7 +53,7 @@ public class Oauth2Controller {
 
         // 校验授权码方式
         if (!GrantTypeEnum.AUTHORIZATION_CODE.getValue().equals(grantType)) {
-            return Result.createError("仅支持授权码方式");
+            return Result.error("仅支持授权码方式");
         }
 
         // 校验应用
@@ -65,14 +65,14 @@ public class Oauth2Controller {
         // 校验授权码
         CodeContent codeContent = codeManager.get(code);
         if (codeContent == null) {
-            return Result.createError("code有误或已过期");
+            return Result.error("code有误或已过期");
         }
         codeManager.remove(code);
 
         // 校验凭证
         TokenUser tokenUser = ticketGrantingTicketManager.get(codeContent.getTgt());
         if (tokenUser == null) {
-            return Result.createError("服务端TGT已过期");
+            return Result.error("服务端TGT已过期");
         }
 
         // 创建token
@@ -82,7 +82,7 @@ public class Oauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回token
-        return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
+        return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
                 tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 
@@ -98,12 +98,12 @@ public class Oauth2Controller {
             @RequestParam(value = BaseConstant.APP_KEY) String appKey,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
         if (!appManager.exists(appKey)) {
-            return Result.createError("非法应用");
+            return Result.error("非法应用");
         }
 
         TokenContent atContent = tokenManager.get(refreshToken);
         if (atContent == null) {
-            return Result.createError("refreshToken有误或已过期");
+            return Result.error("refreshToken有误或已过期");
         }
 
         // 删除原有token
@@ -116,7 +116,7 @@ public class Oauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回新token
-        return Result.createSuccess(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
+        return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
                 tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 }

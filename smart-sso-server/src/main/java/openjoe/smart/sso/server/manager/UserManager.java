@@ -15,7 +15,8 @@ public interface UserManager {
      *
      * @param username 登录名
      * @param password 密码
+     * @param appKey
      * @return
      */
-    Result<TokenUser> login(String username, String password);
+    Result<TokenUser> login(String username, String password, String appKey);
 }

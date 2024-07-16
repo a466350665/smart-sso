@@ -1,16 +1,16 @@
-package openjoe.smart.sso.base.entity;
+package openjoe.smart.sso.server.dto;
 
 /**
  * 权限对象(含菜单)
  * 
  * @author Joe
  */
-public class TokenPermissionDTO {
+public class MenuDTO {
 
 	/** ID */
-	private Integer id;
+	private Long id;
 	/** 父ID */
-	private Integer parentId;
+	private Long parentId;
 	/** 图标 */
 	private String icon;
 	/** 名称 */
@@ -20,19 +20,19 @@ public class TokenPermissionDTO {
 	/** True:菜单权限，False:按钮或数据权限  */
 	private Boolean isMenu;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Integer getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Integer parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
