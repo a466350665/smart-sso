@@ -71,18 +71,18 @@ public class AppServiceImpl extends BaseServiceImpl<AppDao, App> implements AppS
 	}
 
 	@Override
-	public boolean exists(String appKey) {
-		return selectByCode(appKey) != null;
+	public boolean exists(String clientId) {
+		return selectByCode(clientId) != null;
 	}
 
 	@Override
-	public Result<Void> validate(String appKey, String appSecret) {
-		App app = selectByCode(appKey);
+	public Result<Void> validate(String clientId, String clientSecret) {
+		App app = selectByCode(clientId);
 		if(app == null){
 			return Result.error("appKey不存在");
 		}
 		// TODO 验证appSecret
-//		if (!app.getAppSecret().equals(appSecret)) {
+//		if (!app.getClientSecret().equals(clientSecret)) {
 //			return Result.error("appSecret有误");
 //		}
 		return Result.success();

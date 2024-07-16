@@ -82,6 +82,6 @@ public class AdminController {
         // 拿到用户未分配的权限
         Set<String> noPermissionSet = user.getTokenPermission().getNoPermissionSet();
         // 获取登录用户权限下的菜单列表
-        return Result.success(permissionService.getUserMenuList(user.getId(), clientProperties.getAppKey(), noPermissionSet));
+        return Result.success(permissionService.getUserMenuList(user.getId(), clientProperties.getClientId(), noPermissionSet));
     }
 }

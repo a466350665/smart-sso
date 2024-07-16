@@ -39,16 +39,16 @@ public class Oauth2Controller {
     /**
      * 获取accessToken
      *
-     * @param appKey
-     * @param appSecret
+     * @param clientId
+     * @param clientSecret
      * @param code
      * @return
      */
     @RequestMapping(value = "/access_token", method = RequestMethod.GET)
     public Result getAccessToken(
             @RequestParam(value = BaseConstant.GRANT_TYPE) String grantType,
-            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
-            @RequestParam(value = BaseConstant.APP_SECRET) String appSecret,
+            @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
+            @RequestParam(value = BaseConstant.CLIENT_SECRET) String clientSecret,
             @RequestParam(value = BaseConstant.AUTH_CODE) String code) {
 
         // 校验授权码方式
@@ -57,7 +57,7 @@ public class Oauth2Controller {
         }
 
         // 校验应用
-        Result<Void> appResult = appManager.validate(appKey, appSecret);
+        Result<Void> appResult = appManager.validate(clientId, clientSecret);
         if (!appResult.isSuccess()) {
             return appResult;
         }
@@ -76,7 +76,7 @@ public class Oauth2Controller {
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(tokenUser, appKey, codeContent);
+        TokenContent tc = tokenManager.create(tokenUser, clientId, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
@@ -89,15 +89,15 @@ public class Oauth2Controller {
     /**
      * 刷新accessToken，并延长TGT超时时间
      *
-     * @param appKey
+     * @param clientId
      * @param refreshToken
      * @return
      */
     @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
     public Result getRefreshToken(
-            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
-        if (!appManager.exists(appKey)) {
+        if (!appManager.exists(clientId)) {
             return Result.error("非法应用");
         }
 

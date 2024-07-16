@@ -41,18 +41,18 @@ public class LoginController {
      * 登录页
      *
      * @param redirectUri
-     * @param appKey
+     * @param clientId
      * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
         if (!StringUtils.hasLength(tgt)) {
-            return goLoginPage(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, clientId, request);
         }
         return generateCodeAndRedirect(redirectUri, tgt);
     }
@@ -61,7 +61,7 @@ public class LoginController {
      * 登录提交
      *
      * @param redirectUri
-     * @param appKey
+     * @param clientId
      * @param username
      * @param password
      * @param request
@@ -72,20 +72,20 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
-            @RequestParam(value = BaseConstant.APP_KEY) String appKey,
+            @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam String username,
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-        if (!appManager.exists(appKey)) {
+        if (!appManager.exists(clientId)) {
             request.setAttribute("errorMessage", "非法应用");
-            return goLoginPage(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, clientId, request);
         }
 
-        Result<TokenUser> result = userManager.login(username, password, appKey);
+        Result<TokenUser> result = userManager.login(username, password, clientId);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
-            return goLoginPage(redirectUri, appKey, request);
+            return goLoginPage(redirectUri, clientId, request);
         }
 
         String tgt = tgtManager.getOrCreate(result.getData(), request, response);
@@ -99,9 +99,9 @@ public class LoginController {
      * @param request
      * @return
      */
-    private String goLoginPage(String redirectUri, String appKey, HttpServletRequest request) {
+    private String goLoginPage(String redirectUri, String clientId, HttpServletRequest request) {
         request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
-        request.setAttribute(BaseConstant.APP_KEY, appKey);
+        request.setAttribute(BaseConstant.CLIENT_ID, clientId);
         return "/login";
     }
 

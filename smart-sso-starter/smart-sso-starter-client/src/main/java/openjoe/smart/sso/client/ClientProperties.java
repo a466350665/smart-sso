@@ -15,12 +15,12 @@ public class ClientProperties {
     /**
      * 应用Id
      */
-    private String appKey;
+    private String clientId;
 
     /**
      * 应用密钥
      */
-    private String appSecret;
+    private String clientSecret;
 
     /**
      * 拦截urls，默认拦截全路径
@@ -55,20 +55,20 @@ public class ClientProperties {
         this.serverUrl = serverUrl;
     }
 
-    public String getAppKey() {
-        return appKey;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setAppKey(String appKey) {
-        this.appKey = appKey;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public String getAppSecret() {
-        return appSecret;
+    public String getClientSecret() {
+        return clientSecret;
     }
 
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
     public String[] getUrlPatterns() {

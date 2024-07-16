@@ -38,14 +38,14 @@ public class BaseConstant {
     public static final String GRANT_TYPE = "grantType";
 
     /**
-     * 应用唯一标识
+     * 客户端ID
      */
-    public static final String APP_KEY = "appKey";
+    public static final String CLIENT_ID = "clientId";
 
     /**
-     * 应用密钥
+     * 客户端密钥
      */
-    public static final String APP_SECRET = "appSecret";
+    public static final String CLIENT_SECRET = "clientSecret";
 
     /**
      * 刷新token

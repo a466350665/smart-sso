@@ -34,7 +34,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, User> implements U
 	private PermissionService permissionService;
 
 	@Override
-	public Result<TokenUser> login(String username, String password, String appKey) {
+	public Result<TokenUser> login(String username, String password, String clientId) {
 		User user = selectByAccount(username);
 		if (user == null) {
 			return Result.error("用户不存在");
@@ -51,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, User> implements U
 			updateById(user);
 		}
 		TokenUser tokenUser = new TokenUser(user.getId(), user.getAccount());
-		tokenUser.setTokenPermission(permissionService.getUserPermission(user.getId(), appKey));
+		tokenUser.setTokenPermission(permissionService.getUserPermission(user.getId(), clientId));
 		return Result.success(tokenUser);
 	}
 

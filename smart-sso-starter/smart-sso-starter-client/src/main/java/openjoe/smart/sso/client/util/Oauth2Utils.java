@@ -26,16 +26,16 @@ public class Oauth2Utils {
      * 获取accessToken（授权码模式）
      *
      * @param serverUrl
-     * @param appKey
-     * @param appSecret
+     * @param clientId
+     * @param clientSecret
      * @param code
      * @return
      */
-    public static Result<Token> getAccessToken(String serverUrl, String appKey, String appSecret, String code) {
+    public static Result<Token> getAccessToken(String serverUrl, String clientId, String clientSecret, String code) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(BaseConstant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
-        paramMap.put(BaseConstant.APP_KEY, appKey);
-        paramMap.put(BaseConstant.APP_SECRET, appSecret);
+        paramMap.put(BaseConstant.CLIENT_ID, clientId);
+        paramMap.put(BaseConstant.CLIENT_SECRET, clientSecret);
         paramMap.put(BaseConstant.AUTH_CODE, code);
         return getHttpToken(serverUrl + BaseConstant.ACCESS_TOKEN_PATH, paramMap);
     }
@@ -44,13 +44,13 @@ public class Oauth2Utils {
      * 刷新accessToken
      *
      * @param serverUrl
-     * @param appKey
+     * @param clientId
      * @param refreshToken
      * @return
      */
-    public static Result<Token> getRefreshToken(String serverUrl, String appKey, String refreshToken) {
+    public static Result<Token> getRefreshToken(String serverUrl, String clientId, String refreshToken) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(BaseConstant.APP_KEY, appKey);
+        paramMap.put(BaseConstant.CLIENT_ID, clientId);
         paramMap.put(BaseConstant.REFRESH_TOKEN, refreshToken);
         return getHttpToken(serverUrl + BaseConstant.REFRESH_TOKEN_PATH, paramMap);
     }

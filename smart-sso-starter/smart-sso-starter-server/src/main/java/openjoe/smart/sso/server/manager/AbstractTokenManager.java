@@ -47,21 +47,21 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
      * @return
      */
     public TokenContent create(TokenContent tc) {
-        return create(tc.getTokenUser(), tc.getAppKey(), tc);
+        return create(tc.getTokenUser(), tc.getClientId(), tc);
     }
 
     /**
      * 创建AccessToken
      *
      * @param tokenUser
-     * @param appKey
+     * @param clientId
      * @param codeContent
      * @return
      */
-    public TokenContent create(TokenUser tokenUser, String appKey, CodeContent codeContent) {
+    public TokenContent create(TokenUser tokenUser, String clientId, CodeContent codeContent) {
         String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
         String refreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        TokenContent tc = new TokenContent(accessToken, refreshToken, tokenUser, appKey, codeContent.getTgt(), codeContent.getRedirectUri());
+        TokenContent tc = new TokenContent(accessToken, refreshToken, tokenUser, clientId, codeContent.getTgt(), codeContent.getRedirectUri());
         create(refreshToken, tc);
         return tc;
     }

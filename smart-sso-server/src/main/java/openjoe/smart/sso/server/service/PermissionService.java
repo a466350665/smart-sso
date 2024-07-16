@@ -45,16 +45,16 @@ public interface PermissionService extends BaseService<Permission> {
 	 * 获取用户权限信息
 	 *
 	 * @param userId
-	 * @param appKey
+	 * @param clientId
 	 * @return
 	 */
-	TokenPermission getUserPermission(Long userId, String appKey);
+	TokenPermission getUserPermission(Long userId, String clientId);
 
 	/**
 	 * 根据应用编码和用户ID查权限
-	 * @param appKey 应用编码
+	 * @param clientId 应用编码
 	 * @param userId 用户ID
 	 * @return
 	 */
-	public List<MenuDTO> getUserMenuList(Long userId, String appKey, Set<String> noPermissionSet);
+	public List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet);
 }

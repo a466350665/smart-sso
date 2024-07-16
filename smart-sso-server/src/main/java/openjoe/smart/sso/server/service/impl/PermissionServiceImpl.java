@@ -103,8 +103,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
 	}
 
 	@Override
-	public TokenPermission getUserPermission(Long userId, String appKey) {
-		App app = appService.selectByCode(appKey);
+	public TokenPermission getUserPermission(Long userId, String clientId) {
+		App app = appService.selectByCode(clientId);
 		if (app == null || !app.getIsEnable()) {
 			return new TokenPermission(Collections.emptySet(), Collections.emptySet());
 		}
@@ -128,8 +128,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
 	}
 
 	@Override
-	public List<MenuDTO> getUserMenuList(Long userId, String appKey, Set<String> noPermissionSet) {
-		App app = appService.selectByCode(appKey);
+	public List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet) {
+		App app = appService.selectByCode(clientId);
 		if (app == null || !app.getIsEnable()) {
 			return Collections.emptyList();
 		}
