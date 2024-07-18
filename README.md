@@ -41,7 +41,7 @@ QQ交流群：454343484、769134727
 ## 数据库模型
 ![](./images/smart-sso-pdm.jpg)
 
-## 组件结构
+## 项目结构
 
 ```lua
 smart-sso
@@ -55,7 +55,7 @@ smart-sso
 │   ├── smart-sso-starter-server-redis -- 服务端依赖装配，分布式部署场景redis支持
 ```
 
-## 组件依赖关系
+## 模块依赖关系
 
 ![](./images/smart-sso.png)
 
