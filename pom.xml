@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>io.github.openjoe</groupId>
 	<artifactId>smart-sso</artifactId>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
@@ -20,19 +20,14 @@
 	</modules>
 	
 	<properties>
+		<smart.stage.version>1.0.3</smart.stage.version>
 		<httpclient.version>4.5.14</httpclient.version>
+		<guava.version>20.0</guava.version>
+		<mysql.version>8.0.28</mysql.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- httpclient -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient.version}</version>
-			</dependency>
-
-			<!-- sso单点登录客户端 -->
 			<dependency>
 				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-base</artifactId>
@@ -61,6 +56,33 @@
 				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-server-redis</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+			<!-- SpringBoot增强框架 -->
+			<dependency>
+				<groupId>io.github.openjoe</groupId>
+				<artifactId>smart-stage-starter-mybatisplus</artifactId>
+				<version>${smart.stage.version}</version>
+			</dependency>
+
+			<!-- httpclient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+
+			<!-- Guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

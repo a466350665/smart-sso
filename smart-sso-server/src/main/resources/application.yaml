@@ -27,7 +27,7 @@ smart:
     #客户端密钥信息
     client-id: 1000
     client-secret: rokY9BdKh5bHiX/zL26qOg==
-    #忽略拦截urls
+    #忽略拦截urls（排出静态资源和登录、退出、Oauth2认证等请求）
     exclude-urls: /static/*,/sso/*
     #单点登录超时时间，默认2小时，单位秒（服务端独有配置）
     server:

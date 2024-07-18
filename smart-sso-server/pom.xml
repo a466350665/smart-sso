@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.github.openjoe</groupId>
 		<artifactId>smart-sso</artifactId>
-		<version>1.6.0</version>
+		<version>1.7.0</version>
 	</parent>
 	<artifactId>smart-sso-server</artifactId>
 	<packaging>jar</packaging>
@@ -32,20 +32,16 @@
 		<dependency>
 			<groupId>io.github.openjoe</groupId>
 			<artifactId>smart-stage-starter-mybatisplus</artifactId>
-			<version>1.0.3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
 		</dependency>
 
-		<!-- Guava -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>20.0</version>
 		</dependency>
 	</dependencies>
 </project>

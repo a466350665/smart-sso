@@ -7,9 +7,11 @@
     <body>
         <h2>smart-sso-demo</h2>
 
-        <b>登录用户名</b>：${userName}<br/>
-        
-        <b>端口</b>：${serverPort}<br/>
+        <br/><b>用户名</b>：${userName}<br/>
+
+        <br/><b>端口</b>：${serverPort}<br/>
+
+        <br/><b>用户当前应用已分配的权限</b>：<#list userPermissions as item><li>${item}</li></#list>
 
         <br/><a href="${logoutUrl}">单点退出</a>
     </body>

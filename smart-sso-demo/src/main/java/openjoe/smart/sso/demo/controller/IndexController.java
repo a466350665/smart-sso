@@ -1,6 +1,7 @@
 package openjoe.smart.sso.demo.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
@@ -37,6 +38,11 @@ public class IndexController {
         TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
+        TokenPermission permission = user.getTokenPermission();
+        if (permission != null) {
+            // 登录用户当前应用已分配的权限
+            request.setAttribute("userPermissions", permission.getPermissionSet());
+        }
         // 当前服务端口号
         model.addAttribute("serverPort", serverPort);
         // 单点退出地址
