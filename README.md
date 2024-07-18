@@ -38,6 +38,9 @@ QQ交流群：454343484、769134727
 | springfox-boot-starter      | 3.0.0   | 文档     |
 | httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
 
+## 数据库模型
+![](./images/smart-sso-pdm.jpg)
+
 ## 组件结构
 
 ```lua
@@ -56,8 +59,9 @@ smart-sso
 
 ![](./images/smart-sso.png)
 
-## 数据库模型设计
-![](./images/smart-sso-pdm.jpg)
+<font color="red">注意：</font>  
+1.绿色实线可以理解服务端也需要单点登录，同样是其自身的一个客户端；  
+2.绿色虚线表示无论是服务端还是客户端，当需要集群部署时，可选用Redis版本的依赖包来完成Token的共享存储；
 
 ## 单点登录原理
 ![](./images/smart-sso-login.png)
