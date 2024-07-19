@@ -47,7 +47,7 @@ public class AdminController {
         TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
-        TokenPermission permission = user.getTokenPermission();
+        TokenPermission permission = TokenUtils.getPermission(request);
         // 设置当前登录用户没有的权限，以便控制前台菜单和按钮隐藏
         model.addAttribute("userNoPermissions",
                 CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
@@ -80,7 +80,7 @@ public class AdminController {
     public Result menu(HttpServletRequest request) {
         TokenUser user = TokenUtils.getUser(request);
         // 拿到用户未分配的权限
-        Set<String> noPermissionSet = user.getTokenPermission().getNoPermissionSet();
+        Set<String> noPermissionSet = TokenUtils.getPermission(request).getNoPermissionSet();
         // 获取登录用户权限下的菜单列表
         return Result.success(permissionService.getUserMenuList(user.getId(), clientProperties.getClientId(), noPermissionSet));
     }

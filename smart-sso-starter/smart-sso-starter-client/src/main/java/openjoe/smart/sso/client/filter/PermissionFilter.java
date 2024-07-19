@@ -1,7 +1,6 @@
 package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.entity.TokenPermission;
-import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.TokenUtils;
@@ -27,9 +26,9 @@ public class PermissionFilter extends AbstractClientFilter {
 
 	@Override
 	public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TokenUser user = TokenUtils.getUser(request);
+		TokenPermission permission = TokenUtils.getPermission(request);
 		String path = request.getServletPath();
-		if (isPermitted(user.getTokenPermission(), path)) {
+		if (isPermitted(permission, path)) {
 			return true;
 		}
 		else {

@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.LifecycleManager;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.HttpUtils;
 import openjoe.smart.sso.server.entity.CodeContent;
@@ -47,21 +48,22 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
      * @return
      */
     public TokenContent create(TokenContent tc) {
-        return create(tc.getTokenUser(), tc.getClientId(), tc);
+        return create(tc.getTokenUser(), tc.getTokenPermission(), tc.getClientId(), tc);
     }
 
     /**
      * 创建AccessToken
      *
      * @param tokenUser
+     * @param tokenPermission
      * @param clientId
      * @param codeContent
      * @return
      */
-    public TokenContent create(TokenUser tokenUser, String clientId, CodeContent codeContent) {
+    public TokenContent create(TokenUser tokenUser, TokenPermission tokenPermission, String clientId, CodeContent codeContent) {
         String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
         String refreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        TokenContent tc = new TokenContent(accessToken, refreshToken, tokenUser, clientId, codeContent.getTgt(), codeContent.getRedirectUri());
+        TokenContent tc = new TokenContent(accessToken, refreshToken, tokenUser, tokenPermission, clientId, codeContent.getTgt(), codeContent.getRedirectUri());
         create(refreshToken, tc);
         return tc;
     }

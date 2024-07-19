@@ -3,6 +3,7 @@ package openjoe.smart.sso.server.controller;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
@@ -76,14 +77,15 @@ public class Oauth2Controller {
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(tokenUser, clientId, codeContent);
+        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
+        TokenContent tc = tokenManager.create(tokenUser, tokenPermission, clientId, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tc.getTokenPermission()));
     }
 
     /**
@@ -117,6 +119,6 @@ public class Oauth2Controller {
 
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tc.getTokenPermission()));
     }
 }

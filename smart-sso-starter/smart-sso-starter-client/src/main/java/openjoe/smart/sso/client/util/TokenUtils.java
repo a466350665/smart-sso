@@ -91,6 +91,10 @@ public class TokenUtils {
         return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
     }
 
+    public static TokenPermission getPermission(HttpServletRequest request) {
+        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenPermission()).orElse(null);
+    }
+
     public static void set(Token token, HttpServletRequest request, HttpServletResponse response) {
         // 创建存储token
         tokenStorage.create(token);

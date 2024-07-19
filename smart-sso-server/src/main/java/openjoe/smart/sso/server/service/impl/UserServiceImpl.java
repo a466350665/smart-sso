@@ -3,6 +3,7 @@ package openjoe.smart.sso.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.manager.UserManager;
@@ -50,9 +51,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 			user.setLastLoginTime(new Date());
 			updateById(user);
 		}
-		TokenUser tokenUser = new TokenUser(user.getId(), user.getAccount());
-		tokenUser.setTokenPermission(permissionService.getUserPermission(user.getId(), clientId));
-		return Result.success(tokenUser);
+		return Result.success(new TokenUser(user.getId(), user.getAccount()));
+	}
+
+	@Override
+	public TokenPermission getUserPermission(Long userId, String clientId) {
+		return permissionService.getUserPermission(userId, clientId);
 	}
 
 	@Override

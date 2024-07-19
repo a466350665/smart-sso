@@ -38,11 +38,11 @@ public class IndexController {
         TokenUser user = TokenUtils.getUser(request);
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
-        TokenPermission permission = user.getTokenPermission();
-        if (permission != null) {
-            // 登录用户当前应用已分配的权限
-            request.setAttribute("userPermissions", permission.getPermissionSet());
-        }
+
+        TokenPermission permission = TokenUtils.getPermission(request);
+        // 用户当前应用已分配的权限
+        request.setAttribute("userPermissions", permission.getPermissionSet());
+
         // 当前服务端口号
         model.addAttribute("serverPort", serverPort);
         // 单点退出地址

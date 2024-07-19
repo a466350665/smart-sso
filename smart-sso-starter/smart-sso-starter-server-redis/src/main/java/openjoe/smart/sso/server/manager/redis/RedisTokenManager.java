@@ -44,23 +44,23 @@ public class RedisTokenManager extends AbstractTokenManager {
 
     @Override
     public TokenContent get(String refreshToken) {
-        String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-        if (!StringUtils.hasLength(atcStr)) {
+        String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+        if (!StringUtils.hasLength(tc)) {
             return null;
         }
-        return JsonUtils.parseObject(atcStr, TokenContent.class);
+        return JsonUtils.parseObject(tc, TokenContent.class);
     }
 
     @Override
     public void remove(String refreshToken) {
-        String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-        if (!StringUtils.hasLength(atcStr)) {
+        String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+        if (!StringUtils.hasLength(tc)) {
             return;
         }
         redisTemplate.delete(refreshToken);
 
         // TGT集合中删除当前refreshToken
-        TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
+        TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
         if (tokenContent == null) {
             return;
         }
@@ -69,20 +69,20 @@ public class RedisTokenManager extends AbstractTokenManager {
 
     @Override
     public void removeByTgt(String tgt) {
-        Set<String> accessTokenSet = redisTemplate.opsForSet().members(TGT_REFRESH_TOKEN_KEY + tgt);
-        if (CollectionUtils.isEmpty(accessTokenSet)) {
+        Set<String> refreshTokenSet = redisTemplate.opsForSet().members(TGT_REFRESH_TOKEN_KEY + tgt);
+        if (CollectionUtils.isEmpty(refreshTokenSet)) {
             return;
         }
         redisTemplate.delete(TGT_REFRESH_TOKEN_KEY + tgt);
 
-        accessTokenSet.forEach(refreshToken -> {
-            String atcStr = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-            if (!StringUtils.hasLength(atcStr)) {
+        refreshTokenSet.forEach(refreshToken -> {
+            String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+            if (!StringUtils.hasLength(tc)) {
                 return;
             }
             redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
 
-            TokenContent tokenContent = JsonUtils.parseObject(atcStr, TokenContent.class);
+            TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
             if (tokenContent == null) {
                 return;
             }

@@ -15,10 +15,6 @@ public class TokenUser {
      * 用户名
      */
     private String username;
-    /**
-     * 用户权限信息
-     */
-    private TokenPermission tokenPermission;
 
     public TokenUser() {
     }
@@ -43,13 +39,5 @@ public class TokenUser {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public TokenPermission getTokenPermission() {
-        return tokenPermission;
-    }
-
-    public void setTokenPermission(TokenPermission tokenPermission) {
-        this.tokenPermission = tokenPermission;
     }
 }
