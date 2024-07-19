@@ -25,8 +25,6 @@ import java.net.URLEncoder;
 @RequestMapping("/admin/admin")
 public class AdminController {
 
-    @Value("${server.port}")
-    private Integer serverPort;
     @Autowired
     private ClientProperties clientProperties;
 

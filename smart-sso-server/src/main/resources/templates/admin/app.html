@@ -36,6 +36,48 @@
 			</div>
 		</div>
 	</div>
+
+	<a id="my-modal-a" href="#my-modal" role="button" class="bigger-125 bg-primary white" style="display: none;" data-toggle="modal"></a>
+
+	<div id="my-modal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="smaller lighter blue no-margin">查看应用密钥信息</h3>
+				</div>
+
+				<div class="modal-body">
+					<form id="_editForm" class="form-horizontal" role="form"
+						  validate="true">
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>ClientId</label>
+
+							<div class="col-sm-9">
+								<label id="_clientId" class="control-label"></label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>ClientSecret</label>
+
+							<div class="col-sm-9">
+								<label id="_clientSecret" class="control-label"></label>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button id="_cancel" class="btn btn-sm btn-danger pull-right" data-dismiss="modal" type="reset" >
+						<i class="ace-icon fa fa-times"></i>
+						关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -63,7 +105,12 @@
 					}},
 					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(){
 						if($table.validateSelected(true)){
-							$.aceRedirect("${request.contextPath}/admin/app/credentials?id=" + $table.getSelectedItemKeys("id"));
+							$("#_editForm")[0].reset();
+							$.getJSON("${request.contextPath}/admin/app/credentials?id=" + $table.getSelectedItemKeys("id"), function(d) {
+								$("#_clientId").html(d.data.clientId);
+								$("#_clientSecret").html(d.data.clientSecret);
+								$("#my-modal-a").click();
+							});
 						}
 					}}
 				],
@@ -108,7 +155,12 @@
 						});
 					}},
 					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(d, i){
-						$.aceRedirect("${request.contextPath}/admin/app/credentials?id=" + d.id);
+						$("#_editForm")[0].reset();
+						$.getJSON("${request.contextPath}/admin/app/credentials?id=" + d.id, function(d) {
+							$("#_clientId").html(d.data.clientId);
+							$("#_clientSecret").html(d.data.clientSecret);
+							$("#my-modal-a").click();
+						});
 					}}
 				],
 				after : function(){

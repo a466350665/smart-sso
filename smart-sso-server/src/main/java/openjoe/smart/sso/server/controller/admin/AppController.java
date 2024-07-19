@@ -52,12 +52,11 @@ public class AppController {
 		return "/admin/app-edit";
 	}
 
-	@ApiOperation("应用密钥信息页")
+	@ApiOperation("查询应用密钥信息")
+	@ResponseBody
 	@RequestMapping(value = "/credentials", method = RequestMethod.GET)
-	public String credential(@RequestParam(required = false) Long id, Model model) {
-		App app = appService.getById(id);
-		model.addAttribute("app", app);
-		return "/admin/app-credentials";
+	public Result credential(@RequestParam Long id) {
+		return Result.success(appService.getById(id));
 	}
 
     @ApiOperation("列表")
