@@ -77,15 +77,16 @@ public class Oauth2Controller {
         }
 
         // 创建token
-        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
-        TokenContent tc = tokenManager.create(tokenUser, tokenPermission, clientId, codeContent);
+        TokenContent tc = tokenManager.create(tokenUser, clientId, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
+        // 查询权限
+        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tc.getTokenPermission()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
     }
 
     /**
@@ -117,8 +118,10 @@ public class Oauth2Controller {
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
+        // 查询权限
+        TokenPermission tokenPermission = userManager.getUserPermission(atContent.getTokenUser().getId(), clientId);
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tc.getTokenPermission()));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
     }
 }

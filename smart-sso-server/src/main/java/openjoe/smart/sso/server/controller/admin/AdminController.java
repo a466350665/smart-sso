@@ -6,7 +6,6 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
-import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/admin")
@@ -31,8 +29,6 @@ public class AdminController {
     private Integer serverPort;
     @Autowired
     private ClientProperties clientProperties;
-    @Autowired
-    private PermissionService permissionService;
 
     /**
      * 初始页
@@ -78,10 +74,8 @@ public class AdminController {
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public Result menu(HttpServletRequest request) {
-        TokenUser user = TokenUtils.getUser(request);
-        // 拿到用户未分配的权限
-        Set<String> noPermissionSet = TokenUtils.getPermission(request).getNoPermissionSet();
-        // 获取登录用户权限下的菜单列表
-        return Result.success(permissionService.getUserMenuList(user.getId(), clientProperties.getClientId(), noPermissionSet));
+        TokenPermission permission = TokenUtils.getPermission(request);
+        // 获取登录用户已分配权限的菜单列表
+        return Result.success(permission.getMenuList());
     }
 }

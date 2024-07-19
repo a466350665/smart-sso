@@ -5,6 +5,7 @@ import openjoe.smart.stage.mybatisplus.service.BaseService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色权限映射服务接口
@@ -15,10 +16,10 @@ public interface RolePermissionService extends BaseService<RolePermission> {
 	
 	/**
 	 * 根据角色ID查询映射
-	 * @param roleId 角色ID
+	 * @param roleIdList 角色ID
 	 * @return
 	 */
-	List<RolePermission> selectByRoleId(Long roleId);
+	List<RolePermission> selectByRoleIds(List<Long> roleIdList);
 	
 	/**
 	 * 根据角色ID给角色授权
@@ -52,8 +53,8 @@ public interface RolePermissionService extends BaseService<RolePermission> {
 	
 	/**
      * 根据用户ID查角色ID集合
-     * @param roleId
+     * @param roleIdList
      * @return
      */
-    List<Long> findPermissionIdListByRoleId(Long roleId);
+	Set<Long> findPermissionIdSetByRoleIds(List<Long> roleIdList);
 }

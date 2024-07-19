@@ -1,14 +1,12 @@
 package openjoe.smart.sso.server.service;
 
 import openjoe.smart.sso.base.entity.TokenPermission;
-import openjoe.smart.sso.server.dto.MenuDTO;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
 import openjoe.smart.stage.mybatisplus.service.BaseService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 权限服务接口
@@ -45,16 +43,8 @@ public interface PermissionService extends BaseService<Permission> {
 	 * 获取用户权限信息
 	 *
 	 * @param userId
-	 * @param clientId
+	 * @param appId
 	 * @return
 	 */
-	TokenPermission getUserPermission(Long userId, String clientId);
-
-	/**
-	 * 根据应用编码和用户ID查权限
-	 * @param clientId 应用编码
-	 * @param userId 用户ID
-	 * @return
-	 */
-	List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet);
+	TokenPermission getUserPermission(Long userId, Long appId);
 }

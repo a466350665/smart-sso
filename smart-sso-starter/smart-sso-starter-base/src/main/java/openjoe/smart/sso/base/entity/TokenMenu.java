@@ -1,11 +1,11 @@
-package openjoe.smart.sso.server.dto;
+package openjoe.smart.sso.base.entity;
 
 /**
- * 权限对象(含菜单)
+ * 菜单对象
  * 
  * @author Joe
  */
-public class MenuDTO {
+public class TokenMenu {
 
 	/** ID */
 	private Long id;
@@ -17,8 +17,6 @@ public class MenuDTO {
 	private String name;
 	/** 权限URL */
 	private String url;
-	/** True:菜单权限，False:按钮或数据权限  */
-	private Boolean isMenu;
 
 	public Long getId() {
 		return id;
@@ -58,13 +56,5 @@ public class MenuDTO {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public Boolean getIsMenu() {
-		return isMenu;
-	}
-
-	public void setIsMenu(Boolean isMenu) {
-		this.isMenu = isMenu;
 	}
 }

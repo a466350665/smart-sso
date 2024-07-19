@@ -3,16 +3,13 @@ package openjoe.smart.sso.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import openjoe.smart.sso.base.entity.TokenMenu;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.server.common.Tree;
-import openjoe.smart.sso.server.dto.MenuDTO;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.dto.TreeDTO;
-import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.entity.Permission;
 import openjoe.smart.sso.server.mapper.PermissionMapper;
-import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.sso.server.service.UserRoleService;
@@ -36,8 +33,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
 	private RolePermissionService rolePermissionService;
 	@Autowired
 	private UserRoleService userRoleService;
-	@Autowired
-	private AppService appService;
 
 	@Override
     public List<PermissionDTO> selectTree(Long appId, Long roleId, Boolean isEnable) {
@@ -45,8 +40,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
         if (roleId == null) {
             return addRoot(Tree.build(permissionList, r -> convertToDto(r, false)));
         }
-        List<Long> permissionIdList = rolePermissionService.findPermissionIdListByRoleId(roleId);
-        return addRoot(Tree.build(permissionList, r -> convertToDto(r, permissionIdList.contains(r.getId()))));
+        Set<Long> permissionIdSet = rolePermissionService.findPermissionIdSetByRoleIds(Lists.newArrayList(roleId));
+        return addRoot(Tree.build(permissionList, r -> convertToDto(r, permissionIdSet.contains(r.getId()))));
     }
 	
 	public List<PermissionDTO> addRoot(List<TreeDTO> list) {
@@ -103,45 +98,35 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
 	}
 
 	@Override
-	public TokenPermission getUserPermission(Long userId, String clientId) {
-		App app = appService.selectByClientId(clientId);
-		if (app == null || !app.getIsEnable()) {
-			return new TokenPermission(Collections.emptySet(), Collections.emptySet());
-		}
-		List<Permission> list = findByAppId(app.getId(), true);
+	public TokenPermission getUserPermission(Long userId, Long appId) {
+		List<Permission> list = findByAppId(appId, true);
 		if(CollectionUtils.isEmpty(list)){
-			return new TokenPermission(Collections.emptySet(), Collections.emptySet());
+			return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
 		}
-		Set<String> allPermissionSet = list.stream().map(t -> t.getUrl()).collect(Collectors.toSet());
-		List<Long> roleIdList = userRoleService.findRoleIdListByUserId(userId);
-		if (CollectionUtils.isEmpty(roleIdList)) {
-			return new TokenPermission(Collections.emptySet(), allPermissionSet);
-		}
-		Set<Long> permissionIdSet = Sets.newHashSet();
-		roleIdList.forEach(roleId -> permissionIdSet.addAll(rolePermissionService.findPermissionIdListByRoleId(roleId)));
+		Set<Long> permissionIdSet = getUserPermissionIdSet(userId);
+		Set<String> permissionSet;
+		Set<String> noPermissionSet;
 		if (CollectionUtils.isEmpty(permissionIdSet)) {
-			return new TokenPermission(Collections.emptySet(), allPermissionSet);
+			permissionSet = Collections.emptySet();
+			noPermissionSet = list.stream().map(t -> t.getUrl()).collect(Collectors.toSet());
 		}
-		Set<String> permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
-		Set<String> noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
-		return new TokenPermission(permissionSet, noPermissionSet);
-	}
-
-	@Override
-	public List<MenuDTO> getUserMenuList(Long userId, String clientId, Set<String> noPermissionSet) {
-		App app = appService.selectByClientId(clientId);
-		if (app == null || !app.getIsEnable()) {
-			return Collections.emptyList();
+		else{
+			permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
+			noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
 		}
-		List<Permission> list = findByAppId(app.getId(), true);
-		if(CollectionUtils.isEmpty(list)){
-			return Collections.emptyList();
-		}
-		// 过滤菜单且排出用户没有的权限列表，反向过滤是为了避免应用不需要做权限控制时，前端出现空菜单的情况
-		return list.stream().filter(t -> t.getIsMenu() && !noPermissionSet.contains(t.getUrl())).map(t->{
-			MenuDTO dto = new MenuDTO();
+		List<TokenMenu> menuList = list.stream().filter(t -> t.getIsMenu() && !noPermissionSet.contains(t.getUrl())).map(t->{
+			TokenMenu dto = new TokenMenu();
 			BeanUtils.copyProperties(t, dto);
 			return dto;
 		}).collect(Collectors.toList());
+		return new TokenPermission(permissionSet, noPermissionSet, menuList);
+	}
+
+	private Set<Long> getUserPermissionIdSet(Long userId){
+		List<Long> roleIdList = userRoleService.findRoleIdListByUserId(userId);
+		if (CollectionUtils.isEmpty(roleIdList)) {
+			return Collections.emptySet();
+		}
+		return rolePermissionService.findPermissionIdSetByRoleIds(roleIdList);
 	}
 }

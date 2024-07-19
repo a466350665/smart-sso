@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("rolePermissionService")
@@ -51,9 +52,9 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionMap
 	}
 
 	@Override
-	public List<RolePermission> selectByRoleId(Long roleId) {
+	public List<RolePermission> selectByRoleIds(List<Long> roleIdList) {
 		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
-		wrapper.eq(roleId != null, RolePermission::getRoleId, roleId);
+		wrapper.in(!CollectionUtils.isEmpty(roleIdList), RolePermission::getRoleId, roleIdList);
 		return list(wrapper);
 	}
 
@@ -79,7 +80,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionMap
 	}
 
     @Override
-    public List<Long> findPermissionIdListByRoleId(Long roleId) {
-        return selectByRoleId(roleId).stream().map(t -> t.getPermissionId()).collect(Collectors.toList());
+    public Set<Long> findPermissionIdSetByRoleIds(List<Long> roleIdList) {
+        return selectByRoleIds(roleIdList).stream().map(t -> t.getPermissionId()).collect(Collectors.toSet());
     }
 }
