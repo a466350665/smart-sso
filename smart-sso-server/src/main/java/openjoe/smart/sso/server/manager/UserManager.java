@@ -16,10 +16,9 @@ public interface UserManager {
      *
      * @param username 登录名
      * @param password 密码
-     * @param clientId
      * @return
      */
-    Result<TokenUser> login(String username, String password, String clientId);
+    Result<TokenUser> login(String username, String password);
 
     /**
      * 获取用户权限信息

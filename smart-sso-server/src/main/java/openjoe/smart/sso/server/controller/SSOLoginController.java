@@ -54,7 +54,7 @@ public class SSOLoginController {
         if (!StringUtils.hasLength(tgt)) {
             return goLoginPage(redirectUri, clientId, request);
         }
-        return generateCodeAndRedirect(redirectUri, tgt);
+        return generateCodeAndRedirect(tgt, clientId, redirectUri);
     }
 
     /**
@@ -82,14 +82,14 @@ public class SSOLoginController {
             return goLoginPage(redirectUri, clientId, request);
         }
 
-        Result<TokenUser> result = userManager.login(username, password, clientId);
+        Result<TokenUser> result = userManager.login(username, password);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
             return goLoginPage(redirectUri, clientId, request);
         }
 
         String tgt = tgtManager.getOrCreate(result.getData(), request, response);
-        return generateCodeAndRedirect(redirectUri, tgt);
+        return generateCodeAndRedirect(tgt, clientId, redirectUri);
     }
 
     /**
@@ -108,14 +108,15 @@ public class SSOLoginController {
     /**
      * 创建授权码，跳转到redirectUri
      *
-     * @param redirectUri
      * @param tgt
+     * @param clientId
+     * @param redirectUri
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String generateCodeAndRedirect(String redirectUri, String tgt) throws UnsupportedEncodingException {
+    private String generateCodeAndRedirect(String tgt, String clientId, String redirectUri) throws UnsupportedEncodingException {
         // 创建授权码
-        String code = codeManager.create(tgt, redirectUri);
+        String code = codeManager.create(tgt, clientId, redirectUri);
         return "redirect:" + authRedirectUri(redirectUri, code);
     }
 

@@ -1,16 +1,13 @@
 package openjoe.smart.sso.base.entity;
 
 import java.beans.Transient;
-import java.io.Serializable;
 
 /**
  * 返回结果
  *
  * @author Joe
  */
-public class Result<T> implements Serializable {
-
-    private static final long serialVersionUID = 1956544564021082972L;
+public class Result<T> {
 
     /**
      * 成功

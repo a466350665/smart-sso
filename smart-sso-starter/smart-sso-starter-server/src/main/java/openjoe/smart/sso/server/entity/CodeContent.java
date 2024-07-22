@@ -8,13 +8,15 @@ package openjoe.smart.sso.server.entity;
 public class CodeContent {
 
     private String tgt;
+    private String clientId;
     private String redirectUri;
 
     public CodeContent() {
     }
 
-    public CodeContent(String tgt, String redirectUri) {
+    public CodeContent(String tgt, String clientId, String redirectUri) {
         this.tgt = tgt;
+        this.clientId = clientId;
         this.redirectUri = redirectUri;
     }
 
@@ -24,6 +26,14 @@ public class CodeContent {
 
     public void setTgt(String tgt) {
         this.tgt = tgt;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public String getRedirectUri() {

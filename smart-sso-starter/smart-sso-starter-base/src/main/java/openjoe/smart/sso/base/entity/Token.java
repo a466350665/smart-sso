@@ -1,15 +1,11 @@
 package openjoe.smart.sso.base.entity;
 
-import java.io.Serializable;
-
 /**
  * 服务端回传凭证Token对象
  *
  * @author Joe
  */
-public class Token implements Serializable {
-
-    private static final long serialVersionUID = 4507869346123296527L;
+public class Token {
 
     /**
      * 调用凭证

@@ -36,7 +36,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 	private AppService appService;
 
 	@Override
-	public Result<TokenUser> login(String username, String password, String clientId) {
+	public Result<TokenUser> login(String username, String password) {
 		User user = selectByAccount(username);
 		if (user == null) {
 			return Result.error("用户不存在");

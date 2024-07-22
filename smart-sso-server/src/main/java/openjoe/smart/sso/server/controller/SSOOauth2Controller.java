@@ -63,7 +63,7 @@ public class SSOOauth2Controller {
 
         // 校验授权码
         CodeContent codeContent = codeManager.get(code);
-        if (codeContent == null) {
+        if (codeContent == null || !codeContent.getClientId().equals(clientId)) {
             return Result.error("code有误或已过期");
         }
         codeManager.remove(code);
@@ -75,7 +75,7 @@ public class SSOOauth2Controller {
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(tokenUser, clientId, codeContent);
+        TokenContent tc = tokenManager.create(tokenUser, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
