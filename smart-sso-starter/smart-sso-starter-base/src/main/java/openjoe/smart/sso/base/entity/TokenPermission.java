@@ -21,7 +21,7 @@ public class TokenPermission {
 	private Set<String> noPermissionSet;
 
 	/**
-	 * 用户已分配权限的菜单列表
+	 * 用户已分配权限的菜单
 	 */
 	private List<TokenMenu> menuList;
 

@@ -2,6 +2,7 @@ package openjoe.smart.sso.client.token;
 
 import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.LifecycleManager;
+import openjoe.smart.sso.base.entity.TokenPermission;
 
 /**
  * Token管理
@@ -16,7 +17,7 @@ public interface TokenStorage extends LifecycleManager<TokenWrapper> {
      * @param token
      * @return
      */
-    default void create(Token token) {
-        create(token.getAccessToken(), new TokenWrapper(token, token.getExpiresIn(), token.getRefreshExpiresIn()));
+    default void create(Token token, TokenPermission tokenPermission) {
+        create(token.getAccessToken(), new TokenWrapper(token, tokenPermission, token.getExpiresIn(), token.getRefreshExpiresIn()));
     }
 }

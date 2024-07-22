@@ -31,23 +31,18 @@ public class Token implements Serializable {
      * 用户信息
      */
     private TokenUser tokenUser;
-    /**
-     * 权限信息
-     */
-    private TokenPermission tokenPermission;
 
     public Token() {
         super();
     }
 
-    public Token(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, TokenUser tokenUser, TokenPermission tokenPermission) {
+    public Token(String accessToken, int expiresIn, String refreshToken, int refreshExpiresIn, TokenUser tokenUser) {
         super();
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.refreshToken = refreshToken;
         this.refreshExpiresIn = refreshExpiresIn;
         this.tokenUser = tokenUser;
-        this.tokenPermission = tokenPermission;
     }
 
     public String getAccessToken() {
@@ -88,13 +83,5 @@ public class Token implements Serializable {
 
     public void setTokenUser(TokenUser tokenUser) {
         this.tokenUser = tokenUser;
-    }
-
-    public TokenPermission getTokenPermission() {
-        return tokenPermission;
-    }
-
-    public void setTokenPermission(TokenPermission tokenPermission) {
-        this.tokenPermission = tokenPermission;
     }
 }

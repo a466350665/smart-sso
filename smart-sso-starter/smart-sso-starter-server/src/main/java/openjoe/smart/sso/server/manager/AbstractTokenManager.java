@@ -34,6 +34,14 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
     }
 
     /**
+     * 通过AccessToken获取
+     *
+     * @param accessToken
+     * @return
+     */
+    public abstract TokenContent getByAccessToken(String accessToken);
+
+    /**
      * 通过TGT移除
      *
      * @param tgt

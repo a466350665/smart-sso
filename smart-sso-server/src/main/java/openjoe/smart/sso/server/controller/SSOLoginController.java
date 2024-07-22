@@ -26,7 +26,7 @@ import java.net.URLDecoder;
  */
 @Controller
 @RequestMapping(BaseConstant.LOGIN_PATH)
-public class LoginController {
+public class SSOLoginController {
 
     @Autowired
     private AbstractCodeManager codeManager;

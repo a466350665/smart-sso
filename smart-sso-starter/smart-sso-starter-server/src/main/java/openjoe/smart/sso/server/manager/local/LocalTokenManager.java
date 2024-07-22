@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalTokenManager extends AbstractTokenManager implements ExpirationPolicy {
 
     private final Logger logger = LoggerFactory.getLogger(LocalTokenManager.class);
+    private Map<String, ExpirationWrapper<String>> accessTokenMap = new ConcurrentHashMap<>();
     private Map<String, ExpirationWrapper<TokenContent>> refreshTokenMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
@@ -30,8 +31,11 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
 
     @Override
     public void create(String refreshToken, TokenContent tokenContent) {
-        ExpirationWrapper<TokenContent> dat = new ExpirationWrapper(tokenContent, getRefreshTokenTimeout());
-        refreshTokenMap.put(refreshToken, dat);
+        ExpirationWrapper<String> atWrapper = new ExpirationWrapper(refreshToken, getAccessTokenTimeout());
+        accessTokenMap.put(tokenContent.getAccessToken(), atWrapper);
+
+        ExpirationWrapper<TokenContent> rtWrapper = new ExpirationWrapper(tokenContent, getRefreshTokenTimeout());
+        refreshTokenMap.put(refreshToken, rtWrapper);
 
         tgtMap.computeIfAbsent(tokenContent.getTgt(), a -> new HashSet<>()).add(refreshToken);
         logger.debug("调用凭证创建成功, accessToken:{}, refreshToken:{}", tokenContent.getAccessToken(), refreshToken);
@@ -48,27 +52,42 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
     }
 
     @Override
+    public TokenContent getByAccessToken(String accessToken) {
+        ExpirationWrapper<String> wrapper = accessTokenMap.get(accessToken);
+        if (wrapper == null || wrapper.checkExpired()) {
+            return null;
+        }
+        return get(wrapper.getObject());
+    }
+
+    @Override
     public void remove(String refreshToken) {
+        // 删除refreshToken
         ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.remove(refreshToken);
         if (wrapper == null) {
             return;
         }
-        Set<String> tokenSet = tgtMap.get(wrapper.getObject().getTgt());
-        if (CollectionUtils.isEmpty(tokenSet)) {
+
+        // 删除accessToken
+        accessTokenMap.remove(wrapper.getObject().getAccessToken());
+
+        // 删除tgt映射中的refreshToken
+        Set<String> refreshTokenSet = tgtMap.get(wrapper.getObject().getTgt());
+        if (CollectionUtils.isEmpty(refreshTokenSet)) {
             return;
         }
-        tokenSet.remove(refreshToken);
+        refreshTokenSet.remove(refreshToken);
     }
 
     @Override
     public void removeByTgt(String tgt) {
-        // 删除所有tgt对应的凭证
+        // 删除tgt映射中的refreshToken集合
         Set<String> refreshTokenSet = tgtMap.remove(tgt);
         if (CollectionUtils.isEmpty(refreshTokenSet)) {
             return;
         }
-        // 通知所有客户端退出，并注销本地Token
         refreshTokenSet.forEach(refreshToken -> {
+            // 删除refreshToken
             ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.remove(refreshToken);
             if (wrapper == null) {
                 return;
@@ -77,6 +96,11 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
             if (tokenContent == null) {
                 return;
             }
+
+            // 删除accessToken
+            accessTokenMap.remove(tokenContent.getAccessToken());
+
+            // 发起客户端退出请求
             logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getRedirectUri());
             sendLogoutRequest(tokenContent.getRedirectUri(), tokenContent.getAccessToken());
         });
@@ -84,10 +108,17 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
 
     @Override
     public void verifyExpired() {
+        accessTokenMap.forEach((accessToken, wrapper) -> {
+            if (wrapper.checkExpired()) {
+                accessTokenMap.remove(accessToken);
+                logger.debug("调用凭证已失效, accessToken:{}", accessToken);
+            }
+        });
+
         refreshTokenMap.forEach((refreshToken, wrapper) -> {
             if (wrapper.checkExpired()) {
                 remove(refreshToken);
-                logger.debug("调用凭证已失效, accessToken:{}, refreshToken:{}", wrapper.getObject().getAccessToken(), refreshToken);
+                logger.debug("刷新凭证已失效, accessToken:{}, refreshToken:{}", wrapper.getObject().getAccessToken(), refreshToken);
             }
         });
     }

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(BaseConstant.LOGOUT_PATH)
-public class LogoutController {
+public class SSOLogoutController {
 
     @Autowired
     private AbstractTicketGrantingTicketManager tgtManager;

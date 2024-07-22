@@ -18,7 +18,7 @@ public class ServerProperties {
     /**
      * 单点登录失效时间，默认2小时（单位秒）
      *
-     * 注：刷新凭证refreshToken和登录凭证TGT共用的失效时间
+     * 注：刷新凭证refreshToken和登录服务端凭证TGT共用的失效时间
      */
     private int timeout = 7200;
 

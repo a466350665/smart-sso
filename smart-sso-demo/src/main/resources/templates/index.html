@@ -11,6 +11,8 @@
 
         <br/><b>端口</b>：${serverPort}<br/>
 
+        <br/><b>用户已分配的菜单</b>：<#list userMenus as item><li>${item}</li></#list>
+
         <br/><b>用户已分配的权限</b>：<#list userPermissions as item><li>${item}</li></#list>
 
         <br/><a href="${logoutUrl}">单点退出</a>

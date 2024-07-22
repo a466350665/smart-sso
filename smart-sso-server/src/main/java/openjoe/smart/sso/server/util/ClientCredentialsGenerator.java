@@ -1,31 +1,38 @@
 package openjoe.smart.sso.server.util;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
-import java.util.Base64;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class ClientCredentialsGenerator {
 
-    private static final String AES = "AES";
-    private static final String SALT = "`1qazx";
-
     public static String generateClientSecret(String clientId) {
         try {
-            byte[] keyBytes = new byte[16];
-            System.arraycopy(SALT.getBytes(), 0, keyBytes, 0, SALT.length());
-            Key key = new SecretKeySpec(keyBytes, AES);
-            Cipher cipher = Cipher.getInstance(AES);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encrypted = cipher.doFinal(clientId.getBytes());
-            return Base64.getEncoder().encodeToString(encrypted);
+            return md5(new StringBuilder(clientId).append(System.currentTimeMillis()).toString());
         } catch (Exception e) {
             throw new RuntimeException("Error generating client secret", e);
         }
     }
 
+    private static String md5(String str) {
+        String password = null;
+        try {
+            // 生成一个MD5加密计算摘要
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 计算md5函数
+            md.update(str.getBytes());
+            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+            password = new BigInteger(1, md.digest()).toString(16);
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+
     public static void main(String[] args) {
-        String clientId = "1002";
+        String clientId = "1000";
         System.err.println(generateClientSecret(clientId));
     }
 }

@@ -3,7 +3,6 @@ package openjoe.smart.sso.server.controller;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
@@ -20,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Joe
  */
-@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping(BaseConstant.AUTH_PATH)
-public class Oauth2Controller {
+public class SSOOauth2Controller {
 
     @Autowired
     private AppManager appManager;
@@ -46,7 +44,7 @@ public class Oauth2Controller {
      * @return
      */
     @RequestMapping(value = "/access_token", method = RequestMethod.GET)
-    public Result getAccessToken(
+    public Result<Token> getAccessToken(
             @RequestParam(value = BaseConstant.GRANT_TYPE) String grantType,
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.CLIENT_SECRET) String clientSecret,
@@ -60,7 +58,7 @@ public class Oauth2Controller {
         // 校验应用
         Result<Void> appResult = appManager.validate(clientId, clientSecret);
         if (!appResult.isSuccess()) {
-            return appResult;
+            return Result.error(appResult.getMessage());
         }
 
         // 校验授权码
@@ -82,11 +80,9 @@ public class Oauth2Controller {
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
-        // 查询权限
-        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 
     /**
@@ -97,7 +93,7 @@ public class Oauth2Controller {
      * @return
      */
     @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
-    public Result getRefreshToken(
+    public Result<Token> getRefreshToken(
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
         if (!appManager.exists(clientId)) {
@@ -118,10 +114,8 @@ public class Oauth2Controller {
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
-        // 查询权限
-        TokenPermission tokenPermission = userManager.getUserPermission(atContent.getTokenUser().getId(), clientId);
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 }

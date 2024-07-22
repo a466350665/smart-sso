@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -40,6 +41,9 @@ public class IndexController {
         model.addAttribute("userName", user.getUsername());
 
         TokenPermission permission = TokenUtils.getPermission(request);
+        // 用户当前应用已分配的菜单
+        request.setAttribute("userMenus",
+                permission.getMenuList().stream().map(menu -> menu.getName() + ":" + menu.getUrl()).collect(Collectors.toList()));
         // 用户当前应用已分配的权限
         request.setAttribute("userPermissions", permission.getPermissionSet());
 

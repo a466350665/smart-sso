@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenManager extends AbstractTokenManager {
 
     private final Logger logger = LoggerFactory.getLogger(RedisTokenManager.class);
+    private static final String ACCESS_TOKEN_KEY = "server_at_";
     private static final String REFRESH_TOKEN_KEY = "server_rt_";
     private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
 
@@ -32,6 +33,9 @@ public class RedisTokenManager extends AbstractTokenManager {
 
     @Override
     public void create(String refreshToken, TokenContent tokenContent) {
+        redisTemplate.opsForValue().set(ACCESS_TOKEN_KEY + tokenContent.getAccessToken(), refreshToken, getAccessTokenTimeout(),
+                TimeUnit.SECONDS);
+
         redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY + refreshToken, JsonUtils.toString(tokenContent), getRefreshTokenTimeout(),
                 TimeUnit.SECONDS);
 
@@ -52,18 +56,31 @@ public class RedisTokenManager extends AbstractTokenManager {
     }
 
     @Override
+    public TokenContent getByAccessToken(String accessToken) {
+        String refreshToken = redisTemplate.opsForValue().get(ACCESS_TOKEN_KEY + accessToken);
+        if (!StringUtils.hasLength(refreshToken)) {
+            return null;
+        }
+        return get(refreshToken);
+    }
+
+    @Override
     public void remove(String refreshToken) {
         String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
         if (!StringUtils.hasLength(tc)) {
             return;
         }
-        redisTemplate.delete(refreshToken);
+        // 删除refreshToken
+        redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
 
-        // TGT集合中删除当前refreshToken
         TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
         if (tokenContent == null) {
             return;
         }
+        // 删除accessToken
+        redisTemplate.delete(ACCESS_TOKEN_KEY + tokenContent.getAccessToken());
+
+        // 删除tgt映射中的refreshToken
         redisTemplate.opsForSet().remove(TGT_REFRESH_TOKEN_KEY + tokenContent.getTgt(), refreshToken);
     }
 
@@ -73,6 +90,7 @@ public class RedisTokenManager extends AbstractTokenManager {
         if (CollectionUtils.isEmpty(refreshTokenSet)) {
             return;
         }
+        // 删除tgt映射中的refreshToken集合
         redisTemplate.delete(TGT_REFRESH_TOKEN_KEY + tgt);
 
         refreshTokenSet.forEach(refreshToken -> {
@@ -80,12 +98,17 @@ public class RedisTokenManager extends AbstractTokenManager {
             if (!StringUtils.hasLength(tc)) {
                 return;
             }
+            // 删除refreshToken
             redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
 
             TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
             if (tokenContent == null) {
                 return;
             }
+            // 删除accessToken
+            redisTemplate.delete(ACCESS_TOKEN_KEY + tokenContent.getAccessToken());
+
+            // 发起客户端退出请求
             logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, url:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getRedirectUri());
             sendLogoutRequest(tokenContent.getRedirectUri(), tokenContent.getAccessToken());
         });

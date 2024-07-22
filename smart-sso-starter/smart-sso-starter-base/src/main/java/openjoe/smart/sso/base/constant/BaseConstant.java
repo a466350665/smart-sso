@@ -23,6 +23,11 @@ public class BaseConstant {
     public static final String AUTH_PATH = "/sso/oauth2";
 
     /**
+     * 权限路径
+     */
+    public static final String PERMISSION_PATH = "/sso/permission";
+
+    /**
      * 服务端回调客户端地址参数名称
      */
     public static final String REDIRECT_URI = "redirectUri";
@@ -46,6 +51,11 @@ public class BaseConstant {
      * 客户端密钥
      */
     public static final String CLIENT_SECRET = "clientSecret";
+
+    /**
+     * 访问token
+     */
+    public static final String ACCESS_TOKEN = "accessToken";
 
     /**
      * 刷新token
