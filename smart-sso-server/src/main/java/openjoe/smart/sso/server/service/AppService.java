@@ -41,8 +41,6 @@ public interface AppService extends BaseService<App> {
 	 */
 	App selectByCode(String code);
 
-	App selectByClientId(String clientId);
-
 	void deleteByIds(Collection<Long> idList);
 
 	String generateClientId();

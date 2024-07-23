@@ -1,6 +1,7 @@
 package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.server.entity.App;
 
 /**
  * 应用管理接口
@@ -14,7 +15,7 @@ public interface AppManager {
      * @param clientId
      * @return
      */
-    boolean exists(String clientId);
+    App selectByClientId(String clientId);;
 
     /**
      * 校验应用的登记信息

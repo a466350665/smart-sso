@@ -1,6 +1,5 @@
 package openjoe.smart.sso.server.service;
 
-import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
 import openjoe.smart.stage.mybatisplus.service.BaseService;
@@ -38,13 +37,4 @@ public interface PermissionService extends BaseService<Permission> {
 	 * @return
 	 */
 	void deleteByAppIds(Collection<Long> idList);
-
-	/**
-	 * 获取用户权限信息
-	 *
-	 * @param userId
-	 * @param appId
-	 * @return
-	 */
-	TokenPermission getUserPermission(Long userId, Long appId);
 }

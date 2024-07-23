@@ -83,15 +83,15 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 	}
 
 	@Override
-	public boolean exists(String clientId) {
-		return selectByClientId(clientId) != null;
-	}
-
-	@Override
 	public App selectByClientId(String clientId) {
-		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		LambdaQueryWrapper<App> wrapper = Wrappers.lambdaQuery();
 		wrapper.eq(App::getClientId, clientId);
-		return getOne(wrapper);
+		App app = getOne(wrapper);
+		if (app != null && app.getIsEnable()) {
+			return app;
+		} else {
+			return null;
+		}
 	}
 
 	@Override

@@ -96,7 +96,7 @@ public class SSOOauth2Controller {
     public Result<Token> getRefreshToken(
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
-        if (!appManager.exists(clientId)) {
+        if (appManager.selectByClientId(clientId) == null) {
             return Result.error("非法应用");
         }
 

@@ -3,13 +3,13 @@ package openjoe.smart.sso.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
-import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.manager.UserManager;
 import openjoe.smart.sso.server.mapper.UserMapper;
-import openjoe.smart.sso.server.service.*;
+import openjoe.smart.sso.server.service.OfficeService;
+import openjoe.smart.sso.server.service.UserRoleService;
+import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.sso.server.util.PasswordHelper;
 import openjoe.smart.stage.core.entity.Page;
 import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,10 +29,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 	private UserRoleService userRoleService;
 	@Autowired
 	private OfficeService officeService;
-	@Autowired
-	private PermissionService permissionService;
-	@Autowired
-	private AppService appService;
 
 	@Override
 	public Result<TokenUser> login(String username, String password) {
@@ -53,15 +48,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 			updateById(user);
 		}
 		return Result.success(new TokenUser(user.getId(), user.getAccount()));
-	}
-
-	@Override
-	public TokenPermission getUserPermission(Long userId, String clientId) {
-		App app = appService.selectByClientId(clientId);
-		if (app == null || !app.getIsEnable()) {
-			return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
-		}
-		return permissionService.getUserPermission(userId, app.getId());
 	}
 
 	@Override

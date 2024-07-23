@@ -13,10 +13,10 @@ public class ClientConstant {
     /**
      * 未登录或已过期
      */
-    public static final int NO_LOGIN = 2100;
+    public static final int NO_LOGIN = 10;
 
     /**
      * 没有访问权限
      */
-    public static final int NO_PERMISSION = 2200;
+    public static final int NO_PERMISSION = 20;
 }
