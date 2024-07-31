@@ -61,16 +61,11 @@ public class TokenUtils {
             if (token != null) {
                 // 删除旧token
                 tokenStorage.remove(accessToken);
-
-                // 获取用户权限信息
-                TokenPermission tokenPermission = getUserPermission(token.getAccessToken());
-                // 创建存储新token
-                tokenStorage.create(token, tokenPermission);
-
                 // 更新Cookie中的token值
                 CookieUtils.updateCookie(properties.getCookieName(), token.getAccessToken(), request);
-                // 将新的token值重新写回客户端cookie
-                addCookieAccessToken(token.getAccessToken(), request, response);
+
+                // 存储token
+                set(token, request, response);
                 return token;
             }
         }
@@ -95,16 +90,18 @@ public class TokenUtils {
     }
 
     public static TokenPermission getPermission(HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getTokenPermission()).orElse(null);
+        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenPermission()).orElse(null);
     }
 
     public static void set(Token token, HttpServletRequest request, HttpServletResponse response) {
-        // 获取用户权限信息
-        TokenPermission tokenPermission = getUserPermission(token.getAccessToken());
-        // 创建存储token
-        tokenStorage.create(token, tokenPermission);
+        set(token);
         // 写入cookie
         addCookieAccessToken(token.getAccessToken(), request, response);
+    }
+
+    public static void set(Token token) {
+        // 创建存储token
+        tokenStorage.create(token);
     }
 
     private static void addCookieAccessToken(String accessToken, HttpServletRequest request, HttpServletResponse response) {
@@ -140,20 +137,6 @@ public class TokenUtils {
         Result<Token> result = Oauth2Utils.getRefreshToken(properties.getServerUrl(), properties.getClientId(), refreshToken);
         if (!result.isSuccess()) {
             logger.error("getHttpRefreshToken has error, message:{}", result.getMessage());
-            return null;
-        }
-        return result.getData();
-    }
-
-    /**
-     * 发送http请求用户权限信息
-     *
-     * @param accessToken
-     */
-    public static TokenPermission getUserPermission(String accessToken) {
-        Result<TokenPermission> result = PermissionUtils.getUserPermission(properties.getServerUrl(), accessToken);
-        if (!result.isSuccess()) {
-            logger.error("getUserPermission has error, message:{}", result.getMessage());
             return null;
         }
         return result.getData();

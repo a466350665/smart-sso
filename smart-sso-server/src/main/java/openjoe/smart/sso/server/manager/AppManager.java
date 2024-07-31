@@ -23,5 +23,5 @@ public interface AppManager {
      * @param clientSecret
      * @return
      */
-    Result<Void> validate(String clientId, String clientSecret);
+    Result<App> validate(String clientId, String clientSecret);
 }

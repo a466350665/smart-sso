@@ -95,7 +95,7 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 	}
 
 	@Override
-	public Result<Void> validate(String clientId, String clientSecret) {
+	public Result<App> validate(String clientId, String clientSecret) {
 		App app = selectByClientId(clientId);
 		if(app == null){
 			return Result.error("clientId不存在");
@@ -103,6 +103,6 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 		if (!app.getClientSecret().equals(clientSecret)) {
 			return Result.error("appSecret有误");
 		}
-		return Result.success();
+		return Result.success(app);
 	}
 }
