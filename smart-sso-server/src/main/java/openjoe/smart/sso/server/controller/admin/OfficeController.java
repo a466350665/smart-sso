@@ -2,10 +2,10 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import openjoe.smart.sso.server.stage.core.Result;
 import openjoe.smart.sso.server.entity.Office;
 import openjoe.smart.sso.server.service.OfficeService;
 import openjoe.smart.sso.server.util.ConvertUtils;
-import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

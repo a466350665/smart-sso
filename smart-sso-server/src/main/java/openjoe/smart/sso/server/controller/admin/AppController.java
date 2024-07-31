@@ -2,13 +2,13 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import openjoe.smart.sso.server.stage.core.Result;
+import openjoe.smart.sso.server.stage.exception.ApplicationException;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.util.ClientCredentialsGenerator;
 import openjoe.smart.sso.server.util.ConvertUtils;
-import openjoe.smart.stage.core.entity.Result;
-import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

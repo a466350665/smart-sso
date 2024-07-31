@@ -1,8 +1,8 @@
 package openjoe.smart.sso.server.service;
 
+import openjoe.smart.sso.server.stage.mybatisplus.service.BaseService;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
-import openjoe.smart.stage.mybatisplus.service.BaseService;
 
 import java.util.Collection;
 import java.util.List;

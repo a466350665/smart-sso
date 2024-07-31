@@ -3,11 +3,11 @@ package openjoe.smart.sso.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.entity.UserRole;
 import openjoe.smart.sso.server.mapper.UserRoleMapper;
 import openjoe.smart.sso.server.service.UserRoleService;
 import openjoe.smart.sso.server.util.ConvertUtils;
-import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

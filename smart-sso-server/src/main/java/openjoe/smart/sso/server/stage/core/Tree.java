@@ -1,4 +1,4 @@
-package openjoe.smart.sso.server.common;
+package openjoe.smart.sso.server.stage.core;
 
 import com.google.common.collect.Lists;
 import openjoe.smart.sso.server.dto.TreeDTO;

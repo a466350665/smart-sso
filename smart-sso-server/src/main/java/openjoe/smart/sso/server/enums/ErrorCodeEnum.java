@@ -1,6 +1,6 @@
 package openjoe.smart.sso.server.enums;
 
-import openjoe.smart.stage.core.entity.IErrorCode;
+import openjoe.smart.sso.server.stage.core.IErrorCode;
 
 /**
  * 错误码枚举

@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import openjoe.smart.stage.mybatisplus.entity.Entity;
+import openjoe.smart.sso.server.stage.mybatisplus.entity.Entity;
 
 /**
  * 用户角色映射

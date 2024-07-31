@@ -35,9 +35,11 @@ QQ交流群：454343484、769134727
 | spring-boot             | 2.5.13   | 容器 + MVC框架     |
 | spring-boot-starter-data-redis    | 2.5.13   | 分布式场景Token管理  |
 | spring-boot-starter-freemarker | 2.5.13   | 模板引擎  |
-| mybatis-plus-boot-starter           | 3.5.2   | ORM框架  |
 | springfox-boot-starter      | 3.0.0   | 文档     |
+| mybatis-plus-boot-starter           | 3.5.2   | ORM框架  |
+| mysql-connector-java    | 8.0.28   | 数据库驱动  |
 | httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
+| guava    | 20.0   | Guava工具包  |
 
 ## 数据库模型
 ![](./images/smart-sso-pdm.jpg)

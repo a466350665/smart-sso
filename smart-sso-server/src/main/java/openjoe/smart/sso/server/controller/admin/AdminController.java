@@ -6,7 +6,7 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.TokenUtils;
-import openjoe.smart.stage.core.entity.Result;
+import openjoe.smart.sso.server.stage.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

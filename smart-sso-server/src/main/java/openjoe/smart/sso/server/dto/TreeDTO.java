@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.dto;
 
 import com.google.common.collect.Lists;
-import openjoe.smart.sso.server.common.Tree;
+import openjoe.smart.sso.server.stage.core.Tree;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;

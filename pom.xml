@@ -20,7 +20,8 @@
 	</modules>
 	
 	<properties>
-		<smart.stage.version>1.0.3</smart.stage.version>
+		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<springfox.version>3.0.0</springfox.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<guava.version>20.0</guava.version>
 		<mysql.version>8.0.28</mysql.version>
@@ -60,9 +61,9 @@
 
 			<!-- SpringBoot增强框架 -->
 			<dependency>
-				<groupId>io.github.openjoe</groupId>
-				<artifactId>smart-stage-starter-mybatisplus</artifactId>
-				<version>${smart.stage.version}</version>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
 			</dependency>
 
 			<!-- httpclient -->
@@ -83,6 +84,12 @@
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-boot-starter</artifactId>
+				<version>${springfox.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

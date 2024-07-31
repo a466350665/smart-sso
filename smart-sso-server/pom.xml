@@ -30,8 +30,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.github.openjoe</groupId>
-			<artifactId>smart-stage-starter-mybatisplus</artifactId>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -42,6 +42,11 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
 		</dependency>
 	</dependencies>
 </project>
