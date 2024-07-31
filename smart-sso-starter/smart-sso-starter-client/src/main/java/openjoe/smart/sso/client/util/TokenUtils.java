@@ -117,14 +117,30 @@ public class TokenUtils {
      *
      * @param code
      */
-    public static Token getHttpAccessToken(String code) {
+    public static Token getHttpAccessToken(String code, HttpServletRequest request) {
         Result<Token> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
-                properties.getClientSecret(), code);
+                properties.getClientSecret(), code, getLocalUrl(request) + properties.getLogoutPath());
         if (!result.isSuccess()) {
             logger.error("getHttpAccessToken has error, message:{}", result.getMessage());
             return null;
         }
         return result.getData();
+    }
+
+    /**
+     * 获取当前应用访问路径
+     *
+     * @param request
+     * @return
+     */
+    private static String getLocalUrl(HttpServletRequest request) {
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme()).append("://").append(request.getServerName());
+        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+            url.append(":").append(request.getServerPort());
+        }
+        url.append(request.getContextPath());
+        return url.toString();
     }
 
     /**

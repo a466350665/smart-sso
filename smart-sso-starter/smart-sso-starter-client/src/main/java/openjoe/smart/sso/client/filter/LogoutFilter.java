@@ -1,6 +1,7 @@
 package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
+import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenStorage;
 import org.springframework.core.annotation.Order;
 
@@ -16,20 +17,26 @@ import java.io.IOException;
 @Order(10)
 public class LogoutFilter extends AbstractClientFilter {
 
+    private ClientProperties properties;
     private TokenStorage tokenStorage;
 
-    public LogoutFilter(TokenStorage tokenStorage) {
+    public LogoutFilter(ClientProperties properties, TokenStorage tokenStorage) {
+        this.properties = properties;
         this.tokenStorage = tokenStorage;
     }
 
     @Override
     public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String accessToken = getLogoutParam(request);
-        if (accessToken != null) {
-            getTokenStorage().remove(accessToken);
-            return false;
+        String path = request.getServletPath();
+        if (!properties.getLogoutPath().equals(path)){
+            return true;
         }
-        return true;
+        String accessToken = getLogoutParam(request);
+        if (accessToken == null) {
+            return true;
+        }
+        getTokenStorage().remove(accessToken);
+        return false;
     }
 
     private String getLogoutParam(HttpServletRequest request) {

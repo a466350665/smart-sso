@@ -38,6 +38,11 @@ public class ClientProperties {
     private int order = Ordered.HIGHEST_PRECEDENCE;
 
     /**
+     * 客户端注销地址
+     */
+    private String logoutPath = "/logout";
+
+    /**
      * 客户端Filter容器名称
      */
     private String name = "clientContainer";
@@ -109,5 +114,13 @@ public class ClientProperties {
 
     public void setCookieName(String cookieName) {
         this.cookieName = cookieName;
+    }
+
+    public String getLogoutPath() {
+        return logoutPath;
+    }
+
+    public void setLogoutPath(String logoutPath) {
+        this.logoutPath = logoutPath;
     }
 }

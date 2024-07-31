@@ -9,15 +9,13 @@ public class CodeContent {
 
     private String tgt;
     private String clientId;
-    private String redirectUri;
 
     public CodeContent() {
     }
 
-    public CodeContent(String tgt, String clientId, String redirectUri) {
+    public CodeContent(String tgt, String clientId) {
         this.tgt = tgt;
         this.clientId = clientId;
-        this.redirectUri = redirectUri;
     }
 
     public String getTgt() {
@@ -34,13 +32,5 @@ public class CodeContent {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
-    }
-
-    public String getRedirectUri() {
-        return redirectUri;
-    }
-
-    public void setRedirectUri(String redirectUri) {
-        this.redirectUri = redirectUri;
     }
 }

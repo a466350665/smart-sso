@@ -116,7 +116,7 @@ public class SSOLoginController {
      */
     private String generateCodeAndRedirect(String tgt, String clientId, String redirectUri) throws UnsupportedEncodingException {
         // 创建授权码
-        String code = codeManager.create(tgt, clientId, redirectUri);
+        String code = codeManager.create(tgt, clientId);
         return "redirect:" + authRedirectUri(redirectUri, code);
     }
 

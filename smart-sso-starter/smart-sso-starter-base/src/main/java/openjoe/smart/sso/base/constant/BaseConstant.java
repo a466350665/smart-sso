@@ -33,6 +33,11 @@ public class BaseConstant {
     public static final String REDIRECT_URI = "redirectUri";
 
     /**
+     * 服务端注销回调客户端注销地址
+     */
+    public static final String LOGOUT_URI = "logoutUri";
+
+    /**
      * 服务端单点退出回调客户端退出参数名称
      */
     public static final String LOGOUT_PARAMETER_NAME = "logoutRequest";

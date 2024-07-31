@@ -52,7 +52,8 @@ public class SSOOauth2Controller {
             @RequestParam(value = BaseConstant.GRANT_TYPE) String grantType,
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.CLIENT_SECRET) String clientSecret,
-            @RequestParam(value = BaseConstant.AUTH_CODE) String code) {
+            @RequestParam(value = BaseConstant.AUTH_CODE) String code,
+            @RequestParam(value = BaseConstant.LOGOUT_URI) String logoutUri) {
 
         // 校验授权码方式
         if (!GrantTypeEnum.AUTHORIZATION_CODE.getValue().equals(grantType)) {
@@ -79,7 +80,7 @@ public class SSOOauth2Controller {
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(tokenUser, codeContent);
+        TokenContent tc = tokenManager.create(tokenUser, logoutUri, codeContent);
 
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());

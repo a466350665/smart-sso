@@ -35,7 +35,7 @@ public class LoginFilter extends AbstractClientFilter {
         }
         String code = request.getParameter(BaseConstant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && (token = TokenUtils.getHttpAccessToken(code)) != null) {
+        if (code != null && (token = TokenUtils.getHttpAccessToken(code, request)) != null) {
             // 将token存储到本地
             TokenUtils.set(token, request, response);
             // 为去除URL中授权码参数，再跳转一次当前地址

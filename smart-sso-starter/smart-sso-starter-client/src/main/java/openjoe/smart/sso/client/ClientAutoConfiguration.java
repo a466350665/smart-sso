@@ -35,8 +35,8 @@ public class ClientAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "logoutFilter")
-    public AbstractClientFilter logoutFilter(TokenStorage tokenStorage) {
-        return new LogoutFilter(tokenStorage);
+    public AbstractClientFilter logoutFilter(ClientProperties properties, TokenStorage tokenStorage) {
+        return new LogoutFilter(properties, tokenStorage);
     }
 
     @Bean

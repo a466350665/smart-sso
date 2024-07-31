@@ -22,12 +22,12 @@ public abstract class AbstractCodeManager implements LifecycleManager<CodeConten
      * 创建授权码
      *
      * @param tgt
-     * @param redirectUri
+     * @param clientId
      * @return
      */
-    public String create(String tgt, String clientId, String redirectUri) {
+    public String create(String tgt, String clientId) {
         String code = "Code-" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
-        create(code, new CodeContent(tgt, clientId, redirectUri));
+        create(code, new CodeContent(tgt, clientId));
         return code;
     }
 

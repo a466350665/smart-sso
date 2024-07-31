@@ -31,12 +31,13 @@ public class Oauth2Utils {
      * @param code
      * @return
      */
-    public static Result<Token> getAccessToken(String serverUrl, String clientId, String clientSecret, String code) {
+    public static Result<Token> getAccessToken(String serverUrl, String clientId, String clientSecret, String code, String logoutUri) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(BaseConstant.GRANT_TYPE, GrantTypeEnum.AUTHORIZATION_CODE.getValue());
         paramMap.put(BaseConstant.CLIENT_ID, clientId);
         paramMap.put(BaseConstant.CLIENT_SECRET, clientSecret);
         paramMap.put(BaseConstant.AUTH_CODE, code);
+        paramMap.put(BaseConstant.LOGOUT_URI, logoutUri);
         return getHttpToken(serverUrl + BaseConstant.ACCESS_TOKEN_PATH, paramMap);
     }
 

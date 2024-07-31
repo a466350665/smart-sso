@@ -12,16 +12,18 @@ public class TokenContent extends CodeContent {
     private String accessToken;
     private String refreshToken;
     private TokenUser tokenUser;
+    private String logoutUri;
 
     public TokenContent() {
         super();
     }
 
-    public TokenContent(String accessToken, String refreshToken, TokenUser tokenUser, String tgt, String clientId, String redirectUri) {
-        super(tgt, clientId, redirectUri);
+    public TokenContent(String accessToken, String refreshToken, TokenUser tokenUser, String logoutUri, String tgt, String clientId) {
+        super(tgt, clientId);
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.tokenUser = tokenUser;
+        this.logoutUri = logoutUri;
     }
 
     public String getAccessToken() {
@@ -46,5 +48,13 @@ public class TokenContent extends CodeContent {
 
     public void setTokenUser(TokenUser tokenUser) {
         this.tokenUser = tokenUser;
+    }
+
+    public String getLogoutUri() {
+        return logoutUri;
+    }
+
+    public void setLogoutUri(String logoutUri) {
+        this.logoutUri = logoutUri;
     }
 }
