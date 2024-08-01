@@ -40,7 +40,7 @@ public class TokenUtils {
      * @return
      */
     public static Token getAndRefresh() {
-        String accessToken = getCookieAccessToken();
+        String accessToken = getAccessToken();
         // cookie中没有
         if (!StringUtils.hasLength(accessToken)) {
             return null;
@@ -60,7 +60,7 @@ public class TokenUtils {
                 // 删除旧token
                 tokenStorage.remove(accessToken);
                 // 更新Cookie中的token值
-                CookieUtils.updateCookie(properties.getCookieName(), token.getAccessToken(), ClientContextHolder.getRequest());
+                CookieUtils.updateCookie(properties.getTokenName(), token.getAccessToken(), ClientContextHolder.getRequest());
 
                 // 存储token并写入cookie
                 setInCookie(token);
@@ -71,7 +71,7 @@ public class TokenUtils {
     }
 
     public static TokenWrapper get() {
-        String accessToken = getCookieAccessToken();
+        String accessToken = getAccessToken();
         // cookie中没有
         if (!StringUtils.hasLength(accessToken)) {
             return null;
@@ -103,11 +103,23 @@ public class TokenUtils {
     }
 
     private static void addCookieAccessToken(String accessToken) {
-        CookieUtils.addCookie(properties.getCookieName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
+        CookieUtils.addCookie(properties.getTokenName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
+    }
+
+    private static String getAccessToken() {
+        String accessToken = getCookieAccessToken();
+        if(StringUtils.hasLength(accessToken)){
+            return accessToken;
+        }
+        return getHeaderAccessToken();
     }
 
     private static String getCookieAccessToken() {
-        return CookieUtils.getCookieValue(properties.getCookieName(), ClientContextHolder.getRequest());
+        return CookieUtils.getCookieValue(properties.getTokenName(), ClientContextHolder.getRequest());
+    }
+
+    private static String getHeaderAccessToken() {
+        return ClientContextHolder.getRequest().getHeader(properties.getTokenName());
     }
 
     /**

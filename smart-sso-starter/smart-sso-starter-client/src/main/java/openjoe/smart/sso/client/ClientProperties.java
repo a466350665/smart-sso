@@ -48,9 +48,9 @@ public class ClientProperties {
     private String name = "clientContainer";
 
     /**
-     * 存cookie中token名称
+     * 存放在cookie或者Header中的token名称
      */
-    private String cookieName = "TOKEN";
+    private String tokenName = "TOKEN";
 
     public String getServerUrl() {
         return serverUrl;
@@ -108,12 +108,12 @@ public class ClientProperties {
         this.name = name;
     }
 
-    public String getCookieName() {
-        return cookieName;
+    public String getTokenName() {
+        return tokenName;
     }
 
-    public void setCookieName(String cookieName) {
-        this.cookieName = cookieName;
+    public void setTokenName(String tokenName) {
+        this.tokenName = tokenName;
     }
 
     public String getLogoutPath() {
