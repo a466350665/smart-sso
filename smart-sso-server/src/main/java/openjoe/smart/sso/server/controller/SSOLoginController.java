@@ -77,8 +77,9 @@ public class SSOLoginController {
             @RequestParam String password,
             HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-        if (appManager.selectByClientId(clientId) == null) {
-            request.setAttribute("errorMessage", "非法应用");
+        Result<Void> appResult = appManager.validate(clientId);
+        if (!appResult.isSuccess()) {
+            request.setAttribute("errorMessage", appResult.getMessage());
             return goLoginPage(redirectUri, clientId, request);
         }
 

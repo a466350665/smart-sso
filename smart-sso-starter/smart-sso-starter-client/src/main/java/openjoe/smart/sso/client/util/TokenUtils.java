@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**
@@ -38,11 +37,10 @@ public class TokenUtils {
      * 1.如果获取accessToken没过期，直接返回
      * 2.如果获取accessToken已过期，refreshToken没过期，使用refresh接口刷新再返回
      *
-     * @param request
      * @return
      */
-    public static Token getAndRefresh(HttpServletRequest request, HttpServletResponse response) {
-        String accessToken = getCookieAccessToken(request);
+    public static Token getAndRefresh() {
+        String accessToken = getCookieAccessToken();
         // cookie中没有
         if (!StringUtils.hasLength(accessToken)) {
             return null;
@@ -62,18 +60,18 @@ public class TokenUtils {
                 // 删除旧token
                 tokenStorage.remove(accessToken);
                 // 更新Cookie中的token值
-                CookieUtils.updateCookie(properties.getCookieName(), token.getAccessToken(), request);
+                CookieUtils.updateCookie(properties.getCookieName(), token.getAccessToken(), ClientContextHolder.getRequest());
 
-                // 存储token
-                set(token, request, response);
+                // 存储token并写入cookie
+                setInCookie(token);
                 return token;
             }
         }
         return null;
     }
 
-    public static TokenWrapper get(HttpServletRequest request) {
-        String accessToken = getCookieAccessToken(request);
+    public static TokenWrapper get() {
+        String accessToken = getCookieAccessToken();
         // cookie中没有
         if (!StringUtils.hasLength(accessToken)) {
             return null;
@@ -81,22 +79,22 @@ public class TokenUtils {
         return tokenStorage.get(accessToken);
     }
 
-    public static TokenUser getUser(HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
+    public static TokenUser getUser() {
+        return Optional.ofNullable(get()).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
     }
 
-    public static Long getUserId(HttpServletRequest request) {
-        return Optional.ofNullable(getUser(request)).map(u -> u.getId()).orElse(null);
+    public static Long getUserId() {
+        return Optional.ofNullable(getUser()).map(u -> u.getId()).orElse(null);
     }
 
-    public static TokenPermission getPermission(HttpServletRequest request) {
-        return Optional.ofNullable(get(request)).map(wrapper -> wrapper.getObject().getTokenPermission()).orElse(null);
+    public static TokenPermission getPermission() {
+        return Optional.ofNullable(get()).map(wrapper -> wrapper.getObject().getTokenPermission()).orElse(null);
     }
 
-    public static void set(Token token, HttpServletRequest request, HttpServletResponse response) {
+    public static void setInCookie(Token token) {
         set(token);
         // 写入cookie
-        addCookieAccessToken(token.getAccessToken(), request, response);
+        addCookieAccessToken(token.getAccessToken());
     }
 
     public static void set(Token token) {
@@ -104,12 +102,12 @@ public class TokenUtils {
         tokenStorage.create(token);
     }
 
-    private static void addCookieAccessToken(String accessToken, HttpServletRequest request, HttpServletResponse response) {
-        CookieUtils.addCookie(properties.getCookieName(), accessToken, "/", request, response);
+    private static void addCookieAccessToken(String accessToken) {
+        CookieUtils.addCookie(properties.getCookieName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
     }
 
-    private static String getCookieAccessToken(HttpServletRequest request) {
-        return CookieUtils.getCookieValue(properties.getCookieName(), request);
+    private static String getCookieAccessToken() {
+        return CookieUtils.getCookieValue(properties.getCookieName(), ClientContextHolder.getRequest());
     }
 
     /**
@@ -117,9 +115,9 @@ public class TokenUtils {
      *
      * @param code
      */
-    public static Token getHttpAccessToken(String code, HttpServletRequest request) {
+    public static Token getHttpAccessToken(String code) {
         Result<Token> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
-                properties.getClientSecret(), code, getLocalUrl(request) + properties.getLogoutPath());
+                properties.getClientSecret(), code, getLocalUrl() + properties.getLogoutPath());
         if (!result.isSuccess()) {
             logger.error("getHttpAccessToken has error, message:{}", result.getMessage());
             return null;
@@ -130,10 +128,10 @@ public class TokenUtils {
     /**
      * 获取当前应用访问路径
      *
-     * @param request
      * @return
      */
-    private static String getLocalUrl(HttpServletRequest request) {
+    public static String getLocalUrl() {
+        HttpServletRequest request = ClientContextHolder.getRequest();
         StringBuilder url = new StringBuilder();
         url.append(request.getScheme()).append("://").append(request.getServerName());
         if (request.getServerPort() != 80 && request.getServerPort() != 443) {

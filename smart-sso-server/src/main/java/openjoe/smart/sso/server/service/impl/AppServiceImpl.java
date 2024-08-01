@@ -3,14 +3,14 @@ package openjoe.smart.sso.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.server.stage.core.Page;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.manager.AppManager;
 import openjoe.smart.sso.server.mapper.AppMapper;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
+import openjoe.smart.sso.server.stage.core.Page;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,7 +95,16 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 	}
 
 	@Override
-	public Result<App> validate(String clientId, String clientSecret) {
+	public Result<Void> validate(String clientId) {
+		App app = selectByClientId(clientId);
+		if(app == null){
+			return Result.error("非法应用");
+		}
+		return Result.success();
+	}
+
+	@Override
+	public Result<Void> validate(String clientId, String clientSecret) {
 		App app = selectByClientId(clientId);
 		if(app == null){
 			return Result.error("clientId不存在");
@@ -103,6 +112,6 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 		if (!app.getClientSecret().equals(clientSecret)) {
 			return Result.error("appSecret有误");
 		}
-		return Result.success(app);
+		return Result.success();
 	}
 }

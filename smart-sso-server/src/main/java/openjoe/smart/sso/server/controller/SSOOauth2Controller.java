@@ -6,7 +6,6 @@ import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
-import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
 import openjoe.smart.sso.server.manager.*;
@@ -29,8 +28,6 @@ public class SSOOauth2Controller {
     private AppManager appManager;
     @Autowired
     private UserManager userManager;
-    @Autowired
-    private PermissionManager permissionManager;
 
     @Autowired
     private AbstractCodeManager codeManager;
@@ -61,7 +58,7 @@ public class SSOOauth2Controller {
         }
 
         // 校验应用
-        Result<App> appResult = appManager.validate(clientId, clientSecret);
+        Result<Void> appResult = appManager.validate(clientId, clientSecret);
         if (!appResult.isSuccess()) {
             return Result.error(appResult.getMessage());
         }
@@ -86,7 +83,7 @@ public class SSOOauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 查询用户权限
-        TokenPermission tokenPermission = permissionManager.getUserPermission(tokenUser.getId(), appResult.getData().getId());
+        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
 
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
@@ -104,9 +101,9 @@ public class SSOOauth2Controller {
     public Result<Token> getRefreshToken(
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
-        App app = appManager.selectByClientId(clientId);
-        if (app == null) {
-            return Result.error("非法应用");
+        Result<Void> appResult = appManager.validate(clientId);
+        if (!appResult.isSuccess()) {
+            return Result.error(appResult.getMessage());
         }
 
         TokenContent atContent = tokenManager.get(refreshToken);
@@ -124,7 +121,7 @@ public class SSOOauth2Controller {
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
         // 查询用户权限
-        TokenPermission tokenPermission = permissionManager.getUserPermission(tc.getTokenUser().getId(), app.getId());
+        TokenPermission tokenPermission = userManager.getUserPermission(tc.getTokenUser().getId(), clientId);
 
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),

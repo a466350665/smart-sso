@@ -5,16 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import openjoe.smart.sso.base.entity.TokenMenu;
 import openjoe.smart.sso.base.entity.TokenPermission;
-import openjoe.smart.sso.server.stage.core.Tree;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.dto.TreeDTO;
 import openjoe.smart.sso.server.entity.Permission;
-import openjoe.smart.sso.server.manager.PermissionManager;
 import openjoe.smart.sso.server.mapper.PermissionMapper;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.sso.server.service.UserRoleService;
+import openjoe.smart.sso.server.stage.core.Tree;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
-public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService, PermissionManager {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
 	@Autowired
 	private RolePermissionService rolePermissionService;

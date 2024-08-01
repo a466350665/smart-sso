@@ -1,6 +1,7 @@
 package openjoe.smart.sso.server.manager;
 
 import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 
 /**
@@ -18,4 +19,13 @@ public interface UserManager {
      * @return
      */
     Result<TokenUser> login(String username, String password);
+
+    /**
+     * 获取用户权限信息
+     *
+     * @param userId
+     * @param clientId
+     * @return
+     */
+    TokenPermission getUserPermission(Long userId, String clientId);
 }

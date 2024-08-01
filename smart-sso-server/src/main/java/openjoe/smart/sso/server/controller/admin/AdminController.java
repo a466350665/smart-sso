@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -30,48 +29,30 @@ public class AdminController {
     /**
      * 初始页
      *
-     * @param request
      * @param model
      * @return
      * @throws UnsupportedEncodingException
      */
     @GetMapping
-    public String index(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
-        TokenUser user = TokenUtils.getUser(request);
+    public String index(Model model) throws UnsupportedEncodingException {
+        TokenUser user = TokenUtils.getUser();
         // 登录用户名
         model.addAttribute("userName", user.getUsername());
-        TokenPermission permission = TokenUtils.getPermission(request);
+        TokenPermission permission = TokenUtils.getPermission();
         // 设置当前登录用户没有的权限，以便控制前台菜单和按钮隐藏
         model.addAttribute("userNoPermissions",
                 CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
         // 单点退出地址
         model.addAttribute("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
-                + URLEncoder.encode(getLocalUrl(request), "utf-8"));
+                + URLEncoder.encode(TokenUtils.getLocalUrl(), "utf-8"));
         return "/admin/admin";
-    }
-
-
-    /**
-     * 获取当前应用访问路径
-     *
-     * @param request
-     * @return
-     */
-    private String getLocalUrl(HttpServletRequest request) {
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme()).append("://").append(request.getServerName());
-        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-            url.append(":").append(request.getServerPort());
-        }
-        url.append(request.getContextPath());
-        return url.toString();
     }
 
     @ApiOperation("菜单")
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public Result menu(HttpServletRequest request) {
-        TokenPermission permission = TokenUtils.getPermission(request);
+    public Result menu() {
+        TokenPermission permission = TokenUtils.getPermission();
         // 获取登录用户已分配权限的菜单列表
         return Result.success(permission.getMenuList());
     }

@@ -3,11 +3,10 @@ package openjoe.smart.sso.client.filter;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 单点退出Filter
@@ -26,7 +25,8 @@ public class LogoutFilter extends AbstractClientFilter {
     }
 
     @Override
-    public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public boolean isAccessAllowed() {
+        HttpServletRequest request = ClientContextHolder.getRequest();
         String path = request.getServletPath();
         if (!properties.getLogoutPath().equals(path)){
             return true;

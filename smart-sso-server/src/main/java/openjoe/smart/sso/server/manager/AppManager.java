@@ -11,11 +11,11 @@ import openjoe.smart.sso.server.entity.App;
 public interface AppManager {
 
     /**
-     * 应用是否存在
+     * 校验应用是否存在
      * @param clientId
      * @return
      */
-    App selectByClientId(String clientId);;
+    Result<Void> validate(String clientId);
 
     /**
      * 校验应用的登记信息
@@ -23,5 +23,5 @@ public interface AppManager {
      * @param clientSecret
      * @return
      */
-    Result<App> validate(String clientId, String clientSecret);
+    Result<Void> validate(String clientId, String clientSecret);
 }

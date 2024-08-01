@@ -4,6 +4,7 @@ import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.TokenUtils;
 import org.springframework.core.annotation.Order;
 
@@ -27,22 +28,23 @@ public class LoginFilter extends AbstractClientFilter {
     }
 
     @Override
-    public boolean isAccessAllowed(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Token token = TokenUtils.getAndRefresh(request, response);
+    public boolean isAccessAllowed() throws IOException {
+        Token token = TokenUtils.getAndRefresh();
         // 本地已存在token，直接返回
         if (token != null) {
             return true;
         }
+        HttpServletRequest request = ClientContextHolder.getRequest();
         String code = request.getParameter(BaseConstant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && (token = TokenUtils.getHttpAccessToken(code, request)) != null) {
+        if (code != null && (token = TokenUtils.getHttpAccessToken(code)) != null) {
             // 将token存储到本地
-            TokenUtils.set(token, request, response);
+            TokenUtils.setInCookie(token);
             // 为去除URL中授权码参数，再跳转一次当前地址
-            redirectLocalRemoveCode(request, response);
+            redirectLocalRemoveCode(request);
         } else {
             // 跳转至服务端登录
-            redirectLogin(request, response);
+            redirectLogin(request);
         }
         return false;
     }
@@ -51,15 +53,14 @@ public class LoginFilter extends AbstractClientFilter {
      * 跳转至服务端登录
      *
      * @param request
-     * @param response
      * @throws IOException
      */
-    private void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void redirectLogin(HttpServletRequest request) throws IOException {
         if (isAjaxRequest(request)) {
-            responseJson(response, ClientConstant.NO_LOGIN, "未登录或已超时");
+            responseJson(ClientConstant.NO_LOGIN, "未登录或已超时");
         } else {
             String loginUrl = buildLoginUrl(request);
-            response.sendRedirect(loginUrl);
+            ClientContextHolder.getResponse().sendRedirect(loginUrl);
         }
     }
 
@@ -80,14 +81,13 @@ public class LoginFilter extends AbstractClientFilter {
     /**
      * 去除返回地址中的票据参数
      *
-     * @param request
      * @return
      * @throws IOException
      */
-    private void redirectLocalRemoveCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void redirectLocalRemoveCode(HttpServletRequest request) throws IOException {
         String currentUrl = getCurrentUrl(request);
         currentUrl = currentUrl.substring(0, currentUrl.indexOf(BaseConstant.AUTH_CODE) - 1);
-        response.sendRedirect(currentUrl);
+        ClientContextHolder.getResponse().sendRedirect(currentUrl);
     }
 
     /**

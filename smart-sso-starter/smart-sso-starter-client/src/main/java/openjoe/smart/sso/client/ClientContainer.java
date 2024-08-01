@@ -2,6 +2,7 @@ package openjoe.smart.sso.client;
 
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.filter.AbstractClientFilter;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -48,12 +49,17 @@ public class ClientContainer implements Filter {
         }
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        for (AbstractClientFilter filter : clientFilters) {
-            if (!filter.isAccessAllowed(httpRequest, httpResponse)) {
-                return;
+        ClientContextHolder.set(httpRequest, httpResponse);
+        try {
+            for (AbstractClientFilter filter : clientFilters) {
+                if (!filter.isAccessAllowed()) {
+                    return;
+                }
             }
+            chain.doFilter(request, response);
+        } finally {
+            ClientContextHolder.reset();
         }
-        chain.doFilter(request, response);
     }
 
     private boolean isExcludeUrl(String url) {
