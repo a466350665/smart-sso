@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>smart-sso-demo-h5</title>
+</head>
+<body>
+<h2>smart-sso-demo-h5</h2>
+
+<br/><b>用户名</b>：<span id="_username"/><br/>
+
+<br/><a href="javascript:goSsoLogoutUrl()">单点退出</a>
+</body>
+<script src="https://unpkg.zhimg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>window.jQuery || alert('当前页面CDN服务商已宕机，请将所有js包更换为本地依赖')</script>
+<script type="text/javascript">
+        // 后端接口地址
+		var baseUrl = "http://demo.smart-sso.com:8082";
+		$(function() {
+		    if(validateLogin()){
+		        smart.ajax('GET', baseUrl + "/userinfo", {}, true, function(res) {
+                    var userinfo = res.data;
+                    $("#_username").html(userinfo.username);
+                });
+		    }
+        })
+
+        function validateLogin(){
+            var token = localStorage.getItem("token");
+            if(token) {
+                return true;
+            }
+            var code = getParam('code');
+            if(code && getToken(code)) {
+                return true;
+            }
+            goSsoLoginUrl();
+            return false;
+        }
+
+        // 重定向至认证中心
+        function goSsoLoginUrl() {
+            $.getJSON(baseUrl + '/auth/login_url?redirectUri=' + location.href, function(res) {
+                console.log(res);
+                window.location.href = res.data;
+            })
+        }
+
+        // 重定向至服务端退出地址
+        function goSsoLogoutUrl() {
+            $.getJSON(baseUrl + '/auth/logout_url?redirectUri=' + location.href, function(res) {
+                window.location.href = res.data;
+            })
+        }
+
+        // 从url中查询到指定名称的参数值
+        function getToken(code){
+            var bool = false;
+            smart.ajax('GET', baseUrl + "/auth/access_token?code=" + code, {}, false, function(res) {
+                 localStorage.setItem("token", res.data.accessToken);
+                 removeCodeParamAndRedirect();
+                 bool = true;
+            });
+            return bool;
+        }
+
+        // 从url中查询到指定名称的参数值
+        function getParam(name, defaultValue){
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == name){return pair[1];}
+            }
+            return (defaultValue == undefined ? null : defaultValue);
+        }
+
+        // 重定向方式去除地址栏中的code参数
+        function removeCodeParamAndRedirect() {
+          var url = new URL(window.location.href);
+          url.searchParams.delete('code');
+          window.location.href = url.toString();
+        }
+</script>
+<script type="text/javascript">
+    var smart = {};
+
+    smart.ajax = function(method, url, data, async, successFn) {
+        $.ajax({
+            url: url,
+            type: method,
+            data: data,
+            async: async,
+            dataType: 'json',
+            headers: {
+                'smart-sso-token': localStorage.getItem("token"),
+                // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(res){
+                if(res.code == 1){
+                    successFn(res);
+                }
+                else if (res.code == 10){
+                    // 后端登录失效，需要清理前端缓存，并跳转至认证中心
+                    localStorage.clear();
+                    goSsoLoginUrl();
+                }
+                else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr, type, errorThrown){
+                return console.log("异常：" + JSON.stringify(xhr));
+            }
+        });
+    }
+</script>
+</html>
