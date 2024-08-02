@@ -4,7 +4,7 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.ClientContextHolder;
-import openjoe.smart.sso.client.util.TokenUtils;
+import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.core.annotation.Order;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class PermissionFilter extends AbstractClientFilter {
 
 	@Override
 	public boolean isAccessAllowed() throws IOException {
-		TokenPermission permission = TokenUtils.getPermission();
+		TokenPermission permission = SSOUtils.getPermission();
 		String path = ClientContextHolder.getRequest().getServletPath();
 		if (isPermitted(permission, path)) {
 			return true;
@@ -43,7 +43,7 @@ public class PermissionFilter extends AbstractClientFilter {
 		if(tokenPermission.getNoPermissionSet().contains(path)){
 			return false;
 		}
-		// 如果当前请求地址没有添加权限管理，也就是不需要做权限控制，请求直接放行
+		// 如果当前请求地址没有在权限管理页添加权限数据，也就是不需要做权限控制，请求直接放行
 		return true;
 	}
 

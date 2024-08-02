@@ -33,9 +33,9 @@ public class ClientProperties {
     private String[] excludeUrls;
 
     /**
-     * 排序，默认最高优先级
+     * 过滤器排序，默认10
      */
-    private int order = Ordered.HIGHEST_PRECEDENCE;
+    private int order = 10;
 
     /**
      * 客户端注销地址
@@ -50,7 +50,12 @@ public class ClientProperties {
     /**
      * 存放在cookie或者Header中的token名称
      */
-    private String tokenName = "TOKEN";
+    private String tokenName = "smart-sso-token";
+
+    /**
+     * 是否前后端分离（默认false）
+     */
+    private Boolean h5Enabled = false;
 
     public String getServerUrl() {
         return serverUrl;
@@ -122,5 +127,13 @@ public class ClientProperties {
 
     public void setLogoutPath(String logoutPath) {
         this.logoutPath = logoutPath;
+    }
+
+    public Boolean getH5Enabled() {
+        return h5Enabled;
+    }
+
+    public void setH5Enabled(Boolean h5Enabled) {
+        this.h5Enabled = h5Enabled;
     }
 }

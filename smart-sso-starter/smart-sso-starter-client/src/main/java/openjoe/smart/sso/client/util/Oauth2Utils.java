@@ -24,11 +24,15 @@ public class Oauth2Utils {
 
     /**
      * 获取accessToken（授权码模式）
+     * <p>
+     * 注：logoutUri为客户端注销token的回调地址，在获取accessToken时顺带传递，
+     *     当服务端注销token时，会发起请求通知所有客户端的logoutUri注销token。
      *
      * @param serverUrl
      * @param clientId
      * @param clientSecret
      * @param code
+     * @param logoutUri
      * @return
      */
     public static Result<Token> getAccessToken(String serverUrl, String clientId, String clientSecret, String code, String logoutUri) {

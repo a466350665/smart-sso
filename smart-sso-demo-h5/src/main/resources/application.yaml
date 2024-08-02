@@ -1,0 +1,19 @@
+server:
+  port: 8082
+
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password: 123456
+
+smart:
+  sso:
+    #服务端地址
+    server-url: http://server.smart-sso.com:8080
+    #客户端密钥信息
+    client-id: 1001
+    client-secret: kpA1y7k1uyrcoGhrKvA1Ag==
+    #前后端分离必须忽略获取凭证相关的urls
+    exclude-urls: /auth/*
+    #前后端分离开关
+    h5-enabled: true

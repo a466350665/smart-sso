@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * smart-sso容器中心
+ * smart-sso容器过滤中心
  *
  * @author Joe
  */
@@ -40,23 +40,23 @@ public class ClientContainer implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        if (isExcludeUrl(httpRequest.getServletPath())) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        ClientContextHolder.set(httpRequest, httpResponse);
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        ClientContextHolder.set(request, response);
         try {
+            if (isExcludeUrl(request.getServletPath())) {
+                chain.doFilter(req, res);
+                return;
+            }
+
             for (AbstractClientFilter filter : clientFilters) {
                 if (!filter.isAccessAllowed()) {
                     return;
                 }
             }
-            chain.doFilter(request, response);
+            chain.doFilter(req, res);
         } finally {
             ClientContextHolder.reset();
         }

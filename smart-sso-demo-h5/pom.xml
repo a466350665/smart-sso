@@ -4,17 +4,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.openjoe</groupId>
-		<artifactId>smart-sso-starter</artifactId>
+		<artifactId>smart-sso</artifactId>
 		<version>1.7.3</version>
 	</parent>
-	<artifactId>smart-sso-starter-client</artifactId>
+	<artifactId>smart-sso-demo-h5</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
-	
+
 	<dependencies>
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<!-- 客户端装配 -->
 		<dependency>
 			<groupId>io.github.openjoe</groupId>
-			<artifactId>smart-sso-starter-base</artifactId>
+			<artifactId>smart-sso-starter-client</artifactId>
 		</dependency>
-    </dependencies>
+	</dependencies>
 </project>

@@ -28,7 +28,7 @@ public class LogoutFilter extends AbstractClientFilter {
     public boolean isAccessAllowed() {
         HttpServletRequest request = ClientContextHolder.getRequest();
         String path = request.getServletPath();
-        if (!properties.getLogoutPath().equals(path)){
+        if (!properties.getLogoutPath().equals(path)) {
             return true;
         }
         String accessToken = getLogoutParam(request);
@@ -41,6 +41,14 @@ public class LogoutFilter extends AbstractClientFilter {
 
     private String getLogoutParam(HttpServletRequest request) {
         return request.getHeader(BaseConstant.LOGOUT_PARAMETER_NAME);
+    }
+
+    public ClientProperties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(ClientProperties properties) {
+        this.properties = properties;
     }
 
     public TokenStorage getTokenStorage() {

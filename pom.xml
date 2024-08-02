@@ -9,12 +9,13 @@
 	</parent>
 	<groupId>io.github.openjoe</groupId>
 	<artifactId>smart-sso</artifactId>
-	<version>1.7.2</version>
+	<version>1.7.3</version>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	
 	<modules>
 		<module>smart-sso-demo</module>
+		<module>smart-sso-demo-h5</module>
 		<module>smart-sso-server</module>
 		<module>smart-sso-starter</module>
 	</modules>
