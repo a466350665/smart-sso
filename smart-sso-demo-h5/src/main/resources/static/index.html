@@ -7,7 +7,7 @@
 <body>
 <h2>smart-sso-demo-h5</h2>
 
-<br/><b>用户名</b>：<span id="_username"/><br/>
+<br/><b>用户名</b>：<span id="_username"></span><br/>
 
 <br/><a href="javascript:goSsoLogoutUrl()">单点退出</a>
 </body>
@@ -26,12 +26,12 @@
         })
 
         function validateLogin(){
-            var token = localStorage.getItem("token");
-            if(token) {
+            var accessToken = localStorage.getItem("accessToken");
+            if(accessToken) {
                 return true;
             }
             var code = getParam('code');
-            if(code && getToken(code)) {
+            if(code && getAccessToken(code)) {
                 return true;
             }
             goSsoLoginUrl();
@@ -41,7 +41,6 @@
         // 重定向至认证中心
         function goSsoLoginUrl() {
             $.getJSON(baseUrl + '/auth/login_url?redirectUri=' + location.href, function(res) {
-                console.log(res);
                 window.location.href = res.data;
             })
         }
@@ -53,12 +52,24 @@
             })
         }
 
-        // 从url中查询到指定名称的参数值
-        function getToken(code){
+        // 获取accessToken
+        function getAccessToken(code){
             var bool = false;
             smart.ajax('GET', baseUrl + "/auth/access_token?code=" + code, {}, false, function(res) {
-                 localStorage.setItem("token", res.data.accessToken);
+                 localStorage.setItem("accessToken", res.data.accessToken);
+                 localStorage.setItem("refreshToken", res.data.refreshToken);
                  removeCodeParamAndRedirect();
+                 bool = true;
+            });
+            return bool;
+        }
+
+        // 获取refreshToken
+        function getRefreshToken(){
+            var bool = false;
+            smart.ajax('GET', baseUrl + "/auth/refresh_token?refreshToken=" + localStorage.getItem("refreshToken"), {}, false, function(res) {
+                 localStorage.setItem("accessToken", res.data.accessToken);
+                 localStorage.setItem("refreshToken", res.data.refreshToken);
                  bool = true;
             });
             return bool;
@@ -93,19 +104,34 @@
             async: async,
             dataType: 'json',
             headers: {
-                'smart-sso-token': localStorage.getItem("token"),
+                'smart-sso-token': localStorage.getItem("accessToken"),
                 // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
                 'X-Requested-With': 'XMLHttpRequest'
             },
             success: function(res){
+                // 响应成功
                 if(res.code == 1){
                     successFn(res);
                 }
+                // 后端登录失效，需要清理前端缓存，并跳转至认证中心
                 else if (res.code == 10){
-                    // 后端登录失效，需要清理前端缓存，并跳转至认证中心
                     localStorage.clear();
                     goSsoLoginUrl();
                 }
+                /**
+                 * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
+                 * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
+                 * 2、否则，跳转至认证中心
+                 */
+                else if (res.code == 15){
+                    if(getRefreshToken()){
+                        smart.ajax(method, url, data, async, successFn);
+                    }
+                    else {
+                        goSsoLoginUrl();
+                    }
+                }
+                // 其它异常，弹出提示
                 else {
                     alert(res.message);
                 }
