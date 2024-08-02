@@ -9,10 +9,14 @@
 
 <br/><b>用户名</b>：<span id="_username"></span><br/>
 
+<br/><b>用户已分配的菜单</b>：<span id="_userMenus"></span>
+
+<br/><b>用户已分配的权限</b>：<span id="_userPermissions"></span>
+
 <br/><a href="javascript:goSsoLogoutUrl()">单点退出</a>
 </body>
-<script src="https://unpkg.zhimg.com/jquery@3.4.1/dist/jquery.min.js"></script>
-<script>window.jQuery || alert('当前页面CDN服务商已宕机，请将所有js包更换为本地依赖')</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>window.jQuery || alert('jQuery.js未加载成功，请检查网络或更换CDN')</script>
 <script type="text/javascript">
         // 后端接口地址
 		var baseUrl = "http://demo.smart-sso.com:8082";
@@ -20,11 +24,28 @@
 		    if(validateLogin()){
 		        smart.ajax('GET', baseUrl + "/userinfo", {}, true, function(res) {
                     var userinfo = res.data;
+
+                    // 用户名
                     $("#_username").html(userinfo.username);
+
+                    // 用户已分配的菜单
+                    var userMenus = '';
+                    userinfo.userMenus.forEach(function(menu) {
+                        userMenus += '<li>' + menu + '</li>';
+                    });
+                    $('#_userMenus').html(userMenus);
+
+                    // 用户已分配的权限
+                    var userPermissions = '';
+                    userinfo.userPermissions.forEach(function(permission) {
+                        userPermissions += '<li>' + permission + '</li>';
+                    });
+                    $('#_userPermissions').html(userPermissions);
                 });
 		    }
         })
 
+        // 校验是否需要跳转到认证中心
         function validateLogin(){
             var accessToken = localStorage.getItem("accessToken");
             if(accessToken) {
@@ -55,11 +76,22 @@
         // 获取accessToken
         function getAccessToken(code){
             var bool = false;
-            smart.ajax('GET', baseUrl + "/auth/access_token?code=" + code, {}, false, function(res) {
-                 localStorage.setItem("accessToken", res.data.accessToken);
-                 localStorage.setItem("refreshToken", res.data.refreshToken);
-                 removeCodeParamAndRedirect();
-                 bool = true;
+            $.ajax({
+                url: baseUrl + "/auth/access_token?code=" + code,
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function(res){
+                    if(res.code == 1){
+                        localStorage.setItem("accessToken", res.data.accessToken);
+                        localStorage.setItem("refreshToken", res.data.refreshToken);
+                        removeCodeParamAndRedirect();
+                        bool = true;
+                    }
+                    else {
+                        goSsoLoginUrl();
+                    }
+                }
             });
             return bool;
         }
@@ -67,10 +99,21 @@
         // 获取refreshToken
         function getRefreshToken(){
             var bool = false;
-            smart.ajax('GET', baseUrl + "/auth/refresh_token?refreshToken=" + localStorage.getItem("refreshToken"), {}, false, function(res) {
-                 localStorage.setItem("accessToken", res.data.accessToken);
-                 localStorage.setItem("refreshToken", res.data.refreshToken);
-                 bool = true;
+            $.ajax({
+                url: baseUrl + "/auth/refresh_token?refreshToken=" + localStorage.getItem("refreshToken"),
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function(res){
+                    if(res.code == 1){
+                        localStorage.setItem("accessToken", res.data.accessToken);
+                        localStorage.setItem("refreshToken", res.data.refreshToken);
+                        bool = true;
+                    }
+                    else {
+                        goSsoLoginUrl();
+                    }
+                }
             });
             return bool;
         }
@@ -95,7 +138,7 @@
 </script>
 <script type="text/javascript">
     var smart = {};
-
+    // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
     smart.ajax = function(method, url, data, async, successFn) {
         $.ajax({
             url: url,
@@ -137,7 +180,7 @@
                 }
             },
             error: function(xhr, type, errorThrown){
-                return console.log("异常：" + JSON.stringify(xhr));
+                alert(JSON.stringify(xhr));
             }
         });
     }
