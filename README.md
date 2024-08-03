@@ -4,8 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart-sso.svg?style=social&label=Stars)](https://github.com/a466350665/smart-sso)
 [![GitHub forks](https://img.shields.io/github/forks/a466350665/smart-sso.svg?style=social&label=Fork)](https://github.com/a466350665/smart-sso)
 
-QQ交流群：454343484、769134727   
-项目合作微信：joe466350665
+QQ交流群：454343484、769134727
 
 ## 简述
     smart-sso使用当下最流行的SpringBoot技术，基于OAuth2认证授权 + RBAC权限设计，为您构建一个轻量级、易理解、高可用、高扩展性的单点登录权限管理应用基层。
