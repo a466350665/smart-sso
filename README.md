@@ -10,6 +10,13 @@ QQ交流群：454343484、769134727
 ## 简述
     smart-sso使用当下最流行的SpringBoot技术，基于OAuth2认证授权 + RBAC权限设计，为您构建一个轻量级、易理解、高可用、高扩展性的单点登录权限管理应用基层。
 
+## 相关文档
+- [smart-sso单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
+- [smart-sso单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
+- [smart-sso单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
+- [smart-sso单点登录（四）：前后端分离](https://blog.csdn.net/a466350665/article/details/109742638)
+- [smart-sso单点登录（五）：分布式部署](https://blog.csdn.net/a466350665/article/details/109388429)
+
 ## 为何OAuth2？
 其一，从服务端申请到的accessToken，只能对单一客户端应用的资源进行访问，而非一个凭证走天下的方式，这符合OAuth2的初衷；   
 *对于SSO认证授权系统而言，登录之后的第一要务就是获取登录用户当前应用的权限信息。所以，服务端必须为用户的每个客户端应用都颁发accessToken，不能凭借仅从单一客户端应用获取的accessToken，就能获得SSO认证授权中心管理的所有应用资源权限。*
@@ -19,13 +26,6 @@ QQ交流群：454343484、769134727
 
 最后，基于OAuth2的accessToken时效和刷新机制，可大大减少客户端应用和服务端的交互，支持自动续期。     
 *客户端应用在获取到accessToken之后，将accessToken存储在客户端应用本地，并基于accessToken的时效做生命周期的管理，用户携带调用凭证的请求在客户端应用本地就完成校验，减少了客户端应用和服务端的不必要交互。只有当客户端应用本地校验accessToken失效后，由客户端后端向服务端发调起refreshToken请求，重新生成accessToken后返回，同时延长服务端凭证存根的时效，从而完成自动续期功能。*
-
-## 相关文档
-- [smart-sso单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
-- [smart-sso单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
-- [smart-sso单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
-- [smart-sso单点登录（四）：前后端分离](https://blog.csdn.net/a466350665/article/details/109742638)
-- [smart-sso单点登录（五）：分布式部署](https://blog.csdn.net/a466350665/article/details/109388429)
 
 ## 功能说明
 
