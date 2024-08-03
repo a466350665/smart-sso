@@ -55,6 +55,7 @@
         }
         var code = getParam('code');
         if (code && getAccessToken(code)) {
+            removeCodeParamAndRedirect();
             return true;
         }
         goSSOLoginUrl();
@@ -87,7 +88,6 @@
                 if (res.code == 1) {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     localStorage.setItem("refreshToken", res.data.refreshToken);
-                    removeCodeParamAndRedirect();
                     bool = true;
                 }
             }
