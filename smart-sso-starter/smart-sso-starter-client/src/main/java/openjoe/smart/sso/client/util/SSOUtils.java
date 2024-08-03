@@ -136,7 +136,7 @@ public class SSOUtils {
      * @param code
      */
     public static Result<Token> getHttpAccessToken(String code) {
-        Result<Token> result = Oauth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
+        Result<Token> result = OAuth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
                 properties.getClientSecret(), code, getLocalUrl() + properties.getLogoutPath());
         if (result.isSuccess()) {
             // 将token存储到本地
@@ -204,7 +204,7 @@ public class SSOUtils {
      * @return
      */
     public static Result<Token> getHttpRefreshToken(String refreshToken) {
-        Result<Token> result = Oauth2Utils.getRefreshToken(properties.getServerUrl(), properties.getClientId(), refreshToken);
+        Result<Token> result = OAuth2Utils.getRefreshToken(properties.getServerUrl(), properties.getClientId(), refreshToken);
         if (result.isSuccess()) {
             // 将token存储到本地
             tokenStorage.create(result.getData());

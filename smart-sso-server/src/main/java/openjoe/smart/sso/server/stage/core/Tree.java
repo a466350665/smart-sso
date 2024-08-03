@@ -1,9 +1,9 @@
 package openjoe.smart.sso.server.stage.core;
 
-import com.google.common.collect.Lists;
 import openjoe.smart.sso.server.dto.TreeDTO;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -24,7 +24,7 @@ public interface Tree {
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
 		}
-		List<E> treeList = Lists.newArrayList();
+		List<E> treeList = new ArrayList<>();
 		for (T p : list) {
 			if (p.getParentId() == null || Long.valueOf(0).equals(p.getParentId())) {
 				E treeDto = function.apply(p);

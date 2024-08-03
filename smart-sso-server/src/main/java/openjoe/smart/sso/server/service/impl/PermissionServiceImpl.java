@@ -2,7 +2,6 @@ package openjoe.smart.sso.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
 import openjoe.smart.sso.base.entity.TokenMenu;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.server.dto.PermissionDTO;
@@ -20,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
@@ -40,7 +36,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
         if (roleId == null) {
             return addRoot(Tree.build(permissionList, r -> convertToDto(r, false)));
         }
-        Set<Long> permissionIdSet = rolePermissionService.findPermissionIdSetByRoleIds(Lists.newArrayList(roleId));
+
+        Set<Long> permissionIdSet = rolePermissionService.findPermissionIdSetByRoleIds(Collections.singletonList(roleId));
         return addRoot(Tree.build(permissionList, r -> convertToDto(r, permissionIdSet.contains(r.getId()))));
     }
 	
@@ -48,7 +45,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
         PermissionDTO dto = new PermissionDTO();
         dto.setName("根节点");
         dto.setChildren(list);
-        return Lists.newArrayList(dto);
+		List<PermissionDTO> dtoList = new ArrayList<>();
+		dtoList.add(dto);
+        return dtoList;
     }
 	
 	private PermissionDTO convertToDto(Permission r, Boolean checked) {
@@ -69,7 +68,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
 	@Override
 	@Transactional
 	public void delete(Long id, Long appId) {
-		List<Long> idList = Lists.newArrayList();
+		List<Long> idList = new ArrayList<>();
 
 		List<Permission> list = findByAppId(appId, null);
 		loopSubList(id, idList, list);

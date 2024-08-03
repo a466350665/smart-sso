@@ -24,7 +24,6 @@
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<springfox.version>3.0.0</springfox.version>
 		<httpclient.version>4.5.14</httpclient.version>
-		<guava.version>20.0</guava.version>
 		<mysql.version>8.0.28</mysql.version>
 	</properties>
 
@@ -72,13 +71,6 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
-			</dependency>
-
-			<!-- Guava -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
 			</dependency>
 
 			<dependency>

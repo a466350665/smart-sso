@@ -2,15 +2,15 @@ package openjoe.smart.sso.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.entity.UserRole;
 import openjoe.smart.sso.server.mapper.UserRoleMapper;
 import openjoe.smart.sso.server.service.UserRoleService;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +26,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleMapper, UserRol
     }
     
     private List<UserRole> createUserRoleList(Long userId, List<Long> roleIdList) {
-        List<UserRole> userRoleList = Lists.newArrayList();
+        List<UserRole> userRoleList = new ArrayList<>();
         UserRole bean;
         for (Long roleId : roleIdList) {
             bean = new UserRole();

@@ -2,16 +2,16 @@ package openjoe.smart.sso.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.entity.Office;
 import openjoe.smart.sso.server.mapper.OfficeMapper;
 import openjoe.smart.sso.server.service.OfficeService;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<OfficeMapper, Office> imp
 	public List<Office> selectList(Boolean isEnable, Boolean isParent, Long currentId, String prefix) {
 		List<Office> list = selectList(isEnable, isParent, currentId);
 		if (!StringUtils.isEmpty(prefix)) {
-			List<Office> dataList = Lists.newArrayList();
+			List<Office> dataList = new ArrayList<>();
 			for (Office office : list) {
 				if (office.getParentId() == null) {
 					dataList.add(office);
@@ -60,7 +60,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<OfficeMapper, Office> imp
     }  
       
     private List<Office> getSubList(Long officeId, List<Office> list, String currentPrefix){  
-        List<Office> children = Lists.newArrayList();
+        List<Office> children = new ArrayList<>();
         for (Office child : list) {
             if (officeId.equals(child.getParentId())) {
             	child.setName(currentPrefix + child.getName());
@@ -75,7 +75,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<OfficeMapper, Office> imp
 		if (parentId == null){
             return Collections.emptyList();
         }
-		List<Long> idList = Lists.newArrayList();
+		List<Long> idList = new ArrayList<>();
 		idList.add(parentId);
 		List<Office> list = selectList(true, null, null);
 		if (!CollectionUtils.isEmpty(list)) {

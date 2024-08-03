@@ -2,19 +2,15 @@ package openjoe.smart.sso.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.collect.Lists;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.entity.RolePermission;
 import openjoe.smart.sso.server.mapper.RolePermissionMapper;
 import openjoe.smart.sso.server.service.RolePermissionService;
+import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("rolePermissionService")
@@ -25,7 +21,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionMap
 	public void allocate(Long appId, Long roleId, List<Long> permissionIdList) {
 		deleteByAppIdAndRoleId(appId, roleId);
 
-		List<RolePermission> list = Lists.newArrayList();
+		List<RolePermission> list = new ArrayList<>();
 		Long permissionId;
 		for (Iterator<Long> ite = permissionIdList.iterator(); ite.hasNext(); list
 				.add(createRolePermission(appId, roleId, permissionId))) {
