@@ -90,9 +90,6 @@
                     removeCodeParamAndRedirect();
                     bool = true;
                 }
-                else {
-                    goSSOLoginUrl();
-                }
             }
         });
         return bool;
@@ -111,9 +108,6 @@
                     localStorage.setItem("accessToken", res.data.accessToken);
                     localStorage.setItem("refreshToken", res.data.refreshToken);
                     bool = true;
-                }
-                else {
-                    goSSOLoginUrl();
                 }
             }
         });
@@ -148,6 +142,7 @@
             data: data,
             dataType: 'json',
             headers: {
+                // 传递调用凭证，名称可通过后台配置项自定义，默认为smart-sso-token
                 'smart-sso-token': localStorage.getItem("accessToken"),
                 // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
                 'X-Requested-With': 'XMLHttpRequest'
