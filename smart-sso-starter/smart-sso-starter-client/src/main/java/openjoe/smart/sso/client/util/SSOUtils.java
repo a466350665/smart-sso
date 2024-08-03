@@ -49,26 +49,6 @@ public class SSOUtils {
     }
 
     /**
-     * 刷新token
-     *
-     * @param wrapper
-     * @return
-     */
-    public static boolean refreshToken(TokenWrapper wrapper) {
-        Result<Token> result = getHttpRefreshTokenInCookie(wrapper.getObject().getRefreshToken());
-        if (result.isSuccess()) {
-            // 删除旧token
-            tokenStorage.remove(wrapper.getObject().getAccessToken());
-
-            Token token = result.getData();
-            // 更新当前Cookie中的token值
-            CookieUtils.updateCookie(properties.getTokenName(), token.getAccessToken(), ClientContextHolder.getRequest());
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 获取当前登录用户信息
      *
      * @return
@@ -181,6 +161,26 @@ public class SSOUtils {
         }
         url.append(request.getContextPath());
         return url.toString();
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param wrapper
+     * @return
+     */
+    public static boolean refreshToken(TokenWrapper wrapper) {
+        Result<Token> result = getHttpRefreshTokenInCookie(wrapper.getObject().getRefreshToken());
+        if (result.isSuccess()) {
+            // 删除旧token
+            tokenStorage.remove(wrapper.getObject().getAccessToken());
+
+            Token token = result.getData();
+            // 更新当前Cookie中的token值
+            CookieUtils.updateCookie(properties.getTokenName(), token.getAccessToken(), ClientContextHolder.getRequest());
+            return true;
+        }
+        return false;
     }
 
     /**
