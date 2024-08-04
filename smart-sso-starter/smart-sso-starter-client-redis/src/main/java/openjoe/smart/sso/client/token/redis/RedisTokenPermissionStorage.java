@@ -29,7 +29,7 @@ public final class RedisTokenPermissionStorage implements TokenPermissionStorage
 
     @Override
     public void create(String accessToken, ExpirationWrapper<TokenPermission> wrapper) {
-        redisTemplate.opsForValue().set(TOKEN_PERMISSION_KEY + accessToken, JsonUtils.toString(wrapper.getObject()), wrapper.getExpiresIn(),
+        redisTemplate.opsForValue().set(TOKEN_PERMISSION_KEY + accessToken, JsonUtils.toString(wrapper), wrapper.getExpiresIn(),
                 TimeUnit.SECONDS);
         logger.debug("Redis凭证权限信息创建成功, accessToken:{}", accessToken);
     }
