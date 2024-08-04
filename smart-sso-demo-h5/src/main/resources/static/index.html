@@ -24,7 +24,13 @@
     var baseUrl = "http://demo.smart-sso.com:8082";
     $(function () {
         if (validateLogin()) {
-            smart.ajax('GET', baseUrl + "/userinfo", {}, function (res) {
+            getUserinfo();
+        }
+    })
+
+    // 获取用户信息
+    function getUserinfo() {
+        smart.ajax('GET', baseUrl + "/userinfo", {}, function (res) {
                 var userinfo = res.data;
 
                 // 用户名
@@ -44,8 +50,7 @@
                 });
                 $('#_userPermissions').html(userPermissions);
             });
-        }
-    })
+    }
 
     // 校验是否需要跳转到认证中心
     function validateLogin() {
@@ -164,7 +169,7 @@
                  */
                 else if (res.code == 15) {
                     if (getRefreshToken()) {
-                        smart.ajax(method, url, data, async, successFn);
+                        smart.ajax(method, url, data, successFn);
                     }
                     else {
                         goSSOLoginUrl();

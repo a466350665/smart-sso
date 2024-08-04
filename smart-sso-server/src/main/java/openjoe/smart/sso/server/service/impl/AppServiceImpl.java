@@ -95,12 +95,12 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 	}
 
 	@Override
-	public Result<Void> validate(String clientId) {
+	public Result<Long> validate(String clientId) {
 		App app = selectByClientId(clientId);
 		if(app == null){
 			return Result.error("非法应用");
 		}
-		return Result.success();
+		return Result.success(app.getId());
 	}
 
 	@Override

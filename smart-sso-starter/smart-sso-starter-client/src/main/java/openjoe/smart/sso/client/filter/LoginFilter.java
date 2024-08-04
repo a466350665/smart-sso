@@ -1,8 +1,6 @@
 package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.token.TokenWrapper;
@@ -49,20 +47,16 @@ public class LoginFilter extends AbstractClientFilter {
                 }
             }
         }
+
         String code = ClientContextHolder.getRequest().getParameter(BaseConstant.AUTH_CODE);
-        // 非携带授权码请求
-        if(code == null){
+        // 携带授权码请求
+        if (code != null && SSOUtils.getHttpAccessTokenInCookie(code).isSuccess()){
+            // 为去除URL中授权码参数，再跳转一次当前地址
+            redirectLocalRemoveCode();
+        } else {
+            // 跳转至服务端登录
             redirectLogin();
-            return false;
         }
-        Result<Token> result = SSOUtils.getHttpAccessTokenInCookie(code);
-        // token获取失败
-        if (!result.isSuccess()) {
-            redirectLogin();
-            return false;
-        }
-        // 为去除URL中授权码参数，再跳转一次当前地址
-        redirectLocalRemoveCode();
         return false;
     }
 

@@ -7,6 +7,7 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.dto.TreeDTO;
 import openjoe.smart.sso.server.entity.Permission;
+import openjoe.smart.sso.server.manager.PermissionManager;
 import openjoe.smart.sso.server.mapper.PermissionMapper;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.sso.server.service.RolePermissionService;
@@ -23,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("permissionService")
-public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService, PermissionManager {
 
 	@Autowired
 	private RolePermissionService rolePermissionService;

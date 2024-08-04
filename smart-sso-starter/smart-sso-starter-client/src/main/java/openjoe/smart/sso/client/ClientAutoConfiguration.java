@@ -5,7 +5,9 @@ import openjoe.smart.sso.client.filter.AbstractClientFilter;
 import openjoe.smart.sso.client.filter.LoginFilter;
 import openjoe.smart.sso.client.filter.LogoutFilter;
 import openjoe.smart.sso.client.filter.PermissionFilter;
+import openjoe.smart.sso.client.token.TokenPermissionStorage;
 import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.local.LocalTokenPermissionStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenStorage;
 import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -29,7 +31,8 @@ public class ClientAutoConfiguration {
     @ConditionalOnMissingBean(TokenStorage.class)
     public TokenStorage tokenStorage(ClientProperties properties) {
         TokenStorage tokenStorage = new LocalTokenStorage();
-        SSOUtils.setTokenStorage(properties, tokenStorage);
+        TokenPermissionStorage tokenPermissionStorage = new LocalTokenPermissionStorage();
+        SSOUtils.setTokenStorage(properties, tokenStorage, tokenPermissionStorage);
         return tokenStorage;
     }
 

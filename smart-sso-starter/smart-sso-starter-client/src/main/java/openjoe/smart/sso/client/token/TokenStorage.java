@@ -19,4 +19,12 @@ public interface TokenStorage extends LifecycleManager<TokenWrapper> {
     default void create(Token token) {
         create(token.getAccessToken(), new TokenWrapper(token, token.getExpiresIn(), token.getRefreshExpiresIn()));
     }
+
+    /**
+     * 通过refreshToken获取accessToken
+     *
+     * @param refreshToken
+     * @return
+     */
+    String getAccessToken(String refreshToken);
 }

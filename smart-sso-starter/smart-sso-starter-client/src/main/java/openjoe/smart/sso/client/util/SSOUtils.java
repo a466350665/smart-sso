@@ -1,12 +1,10 @@
 package openjoe.smart.sso.client.util;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.base.entity.TokenPermission;
-import openjoe.smart.sso.base.entity.TokenUser;
+import openjoe.smart.sso.base.entity.*;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
+import openjoe.smart.sso.client.token.TokenPermissionStorage;
 import openjoe.smart.sso.client.token.TokenStorage;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import org.slf4j.Logger;
@@ -16,10 +14,11 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
- * Token工具
+ * SSO工具
  *
  * @author Joe
  */
@@ -29,10 +28,12 @@ public class SSOUtils {
 
     private static ClientProperties properties;
     private static TokenStorage tokenStorage;
+    private static TokenPermissionStorage tokenPermissionStorage;
 
-    public static void setTokenStorage(ClientProperties cp, TokenStorage ts) {
+    public static void setTokenStorage(ClientProperties cp, TokenStorage ts, TokenPermissionStorage tps) {
         properties = cp;
         tokenStorage = ts;
+        tokenPermissionStorage = tps;
     }
 
     /**
@@ -46,6 +47,19 @@ public class SSOUtils {
             return null;
         }
         return tokenStorage.get(accessToken);
+    }
+
+    /**
+     * 获取未过期的用户权限信息
+     *
+     * @return
+     */
+    private static TokenPermission getTokenPermission(String accessToken) {
+        ExpirationWrapper<TokenPermission> wrapper = tokenPermissionStorage.get(accessToken);
+        if (wrapper == null || wrapper.checkExpired()) {
+            return null;
+        }
+        return wrapper.getObject();
     }
 
     /**
@@ -72,7 +86,11 @@ public class SSOUtils {
      * @return
      */
     public static TokenPermission getPermission() {
-        return Optional.ofNullable(getTokenWrapper()).map(wrapper -> wrapper.getObject().getTokenPermission()).orElse(null);
+        String accessToken = getAccessToken();
+        if (!StringUtils.hasLength(accessToken)) {
+            return null;
+        }
+        return getTokenPermission(accessToken);
     }
 
     /**
@@ -139,8 +157,12 @@ public class SSOUtils {
         Result<Token> result = OAuth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
                 properties.getClientSecret(), code, getLocalUrl() + properties.getLogoutPath());
         if (result.isSuccess()) {
+            Token token = result.getData();
             // 将token存储到本地
-            tokenStorage.create(result.getData());
+            tokenStorage.create(token);
+            // 获取并存储用户权限信息到本地
+            TokenPermission tokenPermission = getHttpTokenPermission(token.getAccessToken());
+            tokenPermissionStorage.create(token, tokenPermission);
         } else {
             logger.error("getHttpAccessToken has error, message:{}", result.getMessage());
         }
@@ -172,12 +194,8 @@ public class SSOUtils {
     public static boolean refreshToken(TokenWrapper wrapper) {
         Result<Token> result = getHttpRefreshTokenInCookie(wrapper.getObject().getRefreshToken());
         if (result.isSuccess()) {
-            // 删除旧token
-            tokenStorage.remove(wrapper.getObject().getAccessToken());
-
-            Token token = result.getData();
-            // 更新当前Cookie中的token值
-            CookieUtils.updateCookie(properties.getTokenName(), token.getAccessToken(), ClientContextHolder.getRequest());
+            // 更新当前Request中Cookie的token值，让之后的请求能在Cookie中拿到新的token值。
+            CookieUtils.updateCookie(properties.getTokenName(), result.getData().getAccessToken(), ClientContextHolder.getRequest());
             return true;
         }
         return false;
@@ -192,6 +210,7 @@ public class SSOUtils {
     public static Result<Token> getHttpRefreshTokenInCookie(String refreshToken) {
         Result<Token> result = getHttpRefreshToken(refreshToken);
         if (result.isSuccess()) {
+            // Response写入cookie
             addCookieAccessToken(result.getData().getAccessToken());
         }
         return result;
@@ -204,14 +223,43 @@ public class SSOUtils {
      * @return
      */
     public static Result<Token> getHttpRefreshToken(String refreshToken) {
+        String accessToken = tokenStorage.getAccessToken(refreshToken);
+        if (!StringUtils.hasLength(accessToken)) {
+            return Result.error("accessToken is null or expired!");
+        }
+        TokenPermission tokenPermission = getTokenPermission(accessToken);
+        if (tokenPermission == null) {
+            return Result.error("tokenPermission is null or expired!");
+        }
         Result<Token> result = OAuth2Utils.getRefreshToken(properties.getServerUrl(), properties.getClientId(), refreshToken);
         if (result.isSuccess()) {
+            // 删除旧token
+            tokenStorage.remove(accessToken);
+            // 删除旧用户权限信息
+            tokenPermissionStorage.remove(accessToken);
+
             // 将token存储到本地
             tokenStorage.create(result.getData());
+            // 存储用户权限信息到本地
+            tokenPermissionStorage.create(result.getData(), tokenPermission);
         } else {
             logger.error("getHttpRefreshToken has error, message:{}", result.getMessage());
         }
         return result;
+    }
+
+    /**
+     * 发送http请求用户权限信息
+     *
+     * @param accessToken
+     */
+    private static TokenPermission getHttpTokenPermission(String accessToken) {
+        Result<TokenPermission> result = PermissionUtils.getUserPermission(properties.getServerUrl(), accessToken);
+        if (!result.isSuccess()) {
+            logger.error("getHttpTokenPermission has error, message:{}", result.getMessage());
+            return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
+        }
+        return result.getData();
     }
 
     /**
@@ -258,7 +306,7 @@ public class SSOUtils {
         try {
             redirectUri = URLEncoder.encode(redirectUri, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            logger.error("buildLoginUrl has error, message:{}", e.getMessage());
+            logger.error("buildLogoutUrl has error, message:{}", e.getMessage());
         }
         return new StringBuilder()
                 .append(properties.getServerUrl())

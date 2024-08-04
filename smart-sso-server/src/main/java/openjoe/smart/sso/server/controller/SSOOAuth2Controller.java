@@ -3,7 +3,6 @@ package openjoe.smart.sso.server.controller;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
@@ -82,12 +81,9 @@ public class SSOOAuth2Controller {
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
-        // 查询用户权限
-        TokenPermission tokenPermission = userManager.getUserPermission(tokenUser.getId(), clientId);
-
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 
     /**
@@ -101,7 +97,7 @@ public class SSOOAuth2Controller {
     public Result<Token> getRefreshToken(
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {
-        Result<Void> appResult = appManager.validate(clientId);
+        Result<Long> appResult = appManager.validate(clientId);
         if (!appResult.isSuccess()) {
             return Result.error(appResult.getMessage());
         }
@@ -120,11 +116,8 @@ public class SSOOAuth2Controller {
         // 刷新服务端凭证时效
         ticketGrantingTicketManager.refresh(tc.getTgt());
 
-        // 查询用户权限
-        TokenPermission tokenPermission = userManager.getUserPermission(tc.getTokenUser().getId(), clientId);
-
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser(), tokenPermission));
+                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
     }
 }

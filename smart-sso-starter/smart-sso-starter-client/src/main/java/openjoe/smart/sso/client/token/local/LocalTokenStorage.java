@@ -1,6 +1,7 @@
 package openjoe.smart.sso.client.token.local;
 
 import openjoe.smart.sso.base.entity.ExpirationPolicy;
+import openjoe.smart.sso.base.entity.ExpirationWrapper;
 import openjoe.smart.sso.client.token.TokenStorage;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import org.slf4j.Logger;
@@ -16,31 +17,46 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class LocalTokenStorage implements TokenStorage, ExpirationPolicy {
     private final Logger logger = LoggerFactory.getLogger(LocalTokenStorage.class);
-    private final Map<String, TokenWrapper> tokenMap = new ConcurrentHashMap<>();
+    private final Map<String, TokenWrapper> accessTokenMap = new ConcurrentHashMap<>();
+    private Map<String, ExpirationWrapper<String>> refreshTokenMap = new ConcurrentHashMap<>();
 
     @Override
     public void create(String accessToken, TokenWrapper wrapper) {
-        tokenMap.put(accessToken, wrapper);
+        accessTokenMap.put(accessToken, wrapper);
+        refreshTokenMap.put(wrapper.getObject().getRefreshToken(), new ExpirationWrapper<>(accessToken, wrapper.getObject().getRefreshExpiresIn()));
         logger.debug("服务凭证创建成功, accessToken:{}", accessToken);
     }
 
     @Override
     public TokenWrapper get(String accessToken) {
-        return tokenMap.get(accessToken);
+        return accessTokenMap.get(accessToken);
     }
 
     @Override
     public void remove(String accessToken) {
-        tokenMap.remove(accessToken);
+        TokenWrapper wrapper = accessTokenMap.remove(accessToken);
+        if (wrapper == null) {
+            return;
+        }
+        refreshTokenMap.remove(wrapper.getObject().getRefreshToken());
     }
 
     @Override
     public void verifyExpired() {
-        tokenMap.forEach((accessToken, wrapper) -> {
+        accessTokenMap.forEach((accessToken, wrapper) -> {
             if (wrapper.checkRefreshExpired()) {
                 remove(accessToken);
                 logger.debug("服务凭证已失效, accessToken:{}", accessToken);
             }
         });
+    }
+
+    @Override
+    public String getAccessToken(String refreshToken) {
+        ExpirationWrapper<String> wrapper = refreshTokenMap.get(refreshToken);
+        if (wrapper == null || wrapper.checkExpired()) {
+            return null;
+        }
+        return wrapper.getObject();
     }
 }

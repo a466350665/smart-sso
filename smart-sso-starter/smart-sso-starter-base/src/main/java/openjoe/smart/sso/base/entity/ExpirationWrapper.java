@@ -11,6 +11,11 @@ public class ExpirationWrapper<T> {
     private T object;
 
     /**
+     * 超时时间，单位（秒）
+     */
+    private int expiresIn;
+
+    /**
      * 过期时间
      */
     private Long expired;
@@ -22,6 +27,7 @@ public class ExpirationWrapper<T> {
     public ExpirationWrapper(T object, int expiresIn) {
         super();
         this.object = object;
+        this.expiresIn = expiresIn;
         this.expired = System.currentTimeMillis() + expiresIn * 1000;
     }
 
@@ -31,6 +37,14 @@ public class ExpirationWrapper<T> {
 
     public void setObject(T object) {
         this.object = object;
+    }
+
+    public int getExpiresIn() {
+        return expiresIn;
+    }
+
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
     }
 
     public Long getExpired() {
