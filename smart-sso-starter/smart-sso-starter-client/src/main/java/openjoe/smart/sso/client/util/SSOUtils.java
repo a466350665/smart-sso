@@ -37,6 +37,15 @@ public class SSOUtils {
     }
 
     /**
+     * 获取当前登录用户信息
+     *
+     * @return
+     */
+    public static TokenUser getUser() {
+        return Optional.ofNullable(getTokenWrapper()).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
+    }
+
+    /**
      * 获取当前token包装器
      *
      * @return
@@ -47,28 +56,6 @@ public class SSOUtils {
             return null;
         }
         return tokenStorage.get(accessToken);
-    }
-
-    /**
-     * 获取未过期的用户权限信息
-     *
-     * @return
-     */
-    private static TokenPermission getTokenPermission(String accessToken) {
-        ExpirationWrapper<TokenPermission> wrapper = tokenPermissionStorage.get(accessToken);
-        if (wrapper == null || wrapper.checkExpired()) {
-            return null;
-        }
-        return wrapper.getObject();
-    }
-
-    /**
-     * 获取当前登录用户信息
-     *
-     * @return
-     */
-    public static TokenUser getUser() {
-        return Optional.ofNullable(getTokenWrapper()).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
     }
 
     /**
@@ -91,6 +78,19 @@ public class SSOUtils {
             return null;
         }
         return getTokenPermission(accessToken);
+    }
+
+    /**
+     * 获取未过期的用户权限信息
+     *
+     * @return
+     */
+    private static TokenPermission getTokenPermission(String accessToken) {
+        ExpirationWrapper<TokenPermission> wrapper = tokenPermissionStorage.get(accessToken);
+        if (wrapper == null || wrapper.checkExpired()) {
+            return null;
+        }
+        return wrapper.getObject();
     }
 
     /**
@@ -160,7 +160,7 @@ public class SSOUtils {
             Token token = result.getData();
             // 将token存储到本地
             tokenStorage.create(token);
-            // 获取并存储用户权限信息到本地
+            // 用accessToken请求用户权限信息，存储到本地
             TokenPermission tokenPermission = getHttpTokenPermission(token.getAccessToken());
             tokenPermissionStorage.create(token, tokenPermission);
         } else {

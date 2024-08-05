@@ -71,8 +71,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     @Override
     public Page<User> selectPage(String account, String name, Long officeId, Long current, Long size) {
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(!StringUtils.isEmpty(account), User::getAccount, account)
-                .like(!StringUtils.isEmpty(name), User::getName, name).orderByDesc(User::getCreateTime);
+        wrapper.like(StringUtils.hasLength(account), User::getAccount, account)
+                .like(StringUtils.hasLength(name), User::getName, name).orderByDesc(User::getCreateTime);
         if (officeId != null) {
             wrapper.in(User::getOfficeId, officeService.selectIdListByParentId(officeId));
         }

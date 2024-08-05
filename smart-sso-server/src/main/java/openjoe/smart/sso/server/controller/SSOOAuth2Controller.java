@@ -7,7 +7,10 @@ import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
-import openjoe.smart.sso.server.manager.*;
+import openjoe.smart.sso.server.manager.AbstractCodeManager;
+import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
+import openjoe.smart.sso.server.manager.AbstractTokenManager;
+import openjoe.smart.sso.server.manager.AppManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,9 +28,6 @@ public class SSOOAuth2Controller {
 
     @Autowired
     private AppManager appManager;
-    @Autowired
-    private UserManager userManager;
-
     @Autowired
     private AbstractCodeManager codeManager;
     @Autowired

@@ -28,6 +28,21 @@
         }
     })
 
+    // 校验是否需要跳转到SSO认证中心
+    function validateLogin() {
+        var accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+            return true;
+        }
+        var code = getParam('code');
+        if (code && getAccessToken(code)) {
+            removeCodeParamAndRedirect();
+            return true;
+        }
+        goSSOLoginUrl();
+        return false;
+    }
+
     // 获取用户信息
     function getUserinfo() {
         smart.ajax('GET', baseUrl + "/userinfo", {}, function (res) {
@@ -50,21 +65,6 @@
                 });
                 $('#_userPermissions').html(userPermissions);
             });
-    }
-
-    // 校验是否需要跳转到认证中心
-    function validateLogin() {
-        var accessToken = localStorage.getItem("accessToken");
-        if (accessToken) {
-            return true;
-        }
-        var code = getParam('code');
-        if (code && getAccessToken(code)) {
-            removeCodeParamAndRedirect();
-            return true;
-        }
-        goSSOLoginUrl();
-        return false;
     }
 
     // 重定向至认证中心

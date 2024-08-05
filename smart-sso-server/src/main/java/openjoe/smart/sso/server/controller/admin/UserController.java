@@ -109,7 +109,7 @@ public class UserController {
 			@RequestParam Boolean isEnable) {
 		User user;
 		if (id == null) {
-			if (StringUtils.isEmpty(password)) {
+			if (!StringUtils.hasLength(password)) {
 				throw new ApplicationException(ErrorCodeEnum.E1001);
 			}
 			user = new User();
@@ -121,7 +121,7 @@ public class UserController {
 		user.setOfficeId(officeId);
 		user.setName(name);
 		user.setAccount(account);
-		if (!StringUtils.isEmpty(password)) {
+		if (StringUtils.hasLength(password)) {
 			user.setPassword(PasswordHelper.encrypt(password));
 		}
 		user.setIsEnable(isEnable);

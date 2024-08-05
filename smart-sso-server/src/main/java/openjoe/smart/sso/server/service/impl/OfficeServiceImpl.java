@@ -36,7 +36,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<OfficeMapper, Office> imp
 	@Override
 	public List<Office> selectList(Boolean isEnable, Boolean isParent, Long currentId, String prefix) {
 		List<Office> list = selectList(isEnable, isParent, currentId);
-		if (!StringUtils.isEmpty(prefix)) {
+		if (StringUtils.hasLength(prefix)) {
 			List<Office> dataList = new ArrayList<>();
 			for (Office office : list) {
 				if (office.getParentId() == null) {
