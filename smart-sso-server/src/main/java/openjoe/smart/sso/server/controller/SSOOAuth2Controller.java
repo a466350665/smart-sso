@@ -43,7 +43,7 @@ public class SSOOAuth2Controller {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/access_token", method = RequestMethod.GET)
+    @RequestMapping(value = "/access-token", method = RequestMethod.GET)
     public Result<Token> getAccessToken(
             @RequestParam(value = BaseConstant.GRANT_TYPE) String grantType,
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
@@ -93,7 +93,7 @@ public class SSOOAuth2Controller {
      * @param refreshToken
      * @return
      */
-    @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
     public Result<Token> getRefreshToken(
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam(value = BaseConstant.REFRESH_TOKEN) String refreshToken) {

@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>smart-sso-demo-h5</title>
+    <title>Smart-SSO-Demo-H5</title>
 </head>
 
 <body>
-    <h2>smart-sso-demo-h5</h2>
+    <h2>Smart-SSO-Demo-H5</h2>
 
     <br /><b>用户名</b>：<span id="_username"></span><br />
 
@@ -85,7 +85,7 @@
     function getAccessToken(code) {
         var bool = false;
         $.ajax({
-            url: baseUrl + "/auth/access_token?code=" + code,
+            url: baseUrl + "/auth/access-token?code=" + code,
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -104,7 +104,7 @@
     function getRefreshToken() {
         var bool = false;
         $.ajax({
-            url: baseUrl + "/auth/refresh_token?refreshToken=" + localStorage.getItem("refreshToken"),
+            url: baseUrl + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken"),
             type: 'GET',
             async: false,
             dataType: 'json',

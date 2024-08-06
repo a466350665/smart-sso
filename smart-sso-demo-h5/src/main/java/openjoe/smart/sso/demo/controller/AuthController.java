@@ -18,7 +18,7 @@ public class AuthController {
     /**
      * 返回SSO登录地址
      *
-     * @param redirectUri
+     * @param redirectUri 登录成功后的回跳地址
      * @return
      */
     @RequestMapping("/login_url")
@@ -29,7 +29,7 @@ public class AuthController {
     /**
      * 返回SSO退出地址
      *
-     * @param redirectUri
+     * @param redirectUri 退出成功后的回跳地址
      * @return
      */
     @RequestMapping("/logout_url")
@@ -38,12 +38,12 @@ public class AuthController {
     }
 
     /**
-     * 获取SSO登录凭证
+     * 通过授权码获取SSO调用凭证
      *
-     * @param code
+     * @param code 授权码
      * @return
      */
-    @RequestMapping(value = "/access_token", method = RequestMethod.GET)
+    @RequestMapping(value = "/access-token", method = RequestMethod.GET)
     public Result<Token> getAccessToken(@RequestParam String code) {
         Result<Token> result = SSOUtils.getHttpAccessToken(code);
         if (!result.isSuccess()) {
@@ -53,12 +53,12 @@ public class AuthController {
     }
 
     /**
-     * 获取SSO刷新凭证
+     * 通过刷新凭证获取新的调用凭证
      *
-     * @param refreshToken
+     * @param refreshToken 刷新凭证
      * @return
      */
-    @RequestMapping(value = "/refresh_token", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
     public Result<Token> getRefreshToken(String refreshToken) {
         Result<Token> result = SSOUtils.getHttpRefreshToken(refreshToken);
         if (!result.isSuccess()) {

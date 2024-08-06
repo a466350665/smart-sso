@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * smart-sso容器过滤中心
+ * Smart-SSO容器过滤中心
  *
  * @author Joe
  */

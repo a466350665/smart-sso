@@ -75,10 +75,10 @@ public class BaseConstant {
     /**
      * 获取accessToken地址
      */
-    public static final String ACCESS_TOKEN_PATH = BaseConstant.AUTH_PATH + "/access_token";
+    public static final String ACCESS_TOKEN_PATH = BaseConstant.AUTH_PATH + "/access-token";
 
     /**
      * 刷新accessToken地址
      */
-    public static final String REFRESH_TOKEN_PATH = BaseConstant.AUTH_PATH + "/refresh_token";
+    public static final String REFRESH_TOKEN_PATH = BaseConstant.AUTH_PATH + "/refresh-token";
 }
