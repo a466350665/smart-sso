@@ -5,6 +5,7 @@ import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.SSOUtils;
 import openjoe.smart.sso.server.stage.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class AdminController {
      */
     @GetMapping
     public String index(Model model) throws UnsupportedEncodingException {
-        TokenUser user = SSOUtils.getUser();
+        TokenUser user = ClientContextHolder.getUser();
         // 登录用户名
         model.addAttribute("username", user.getUsername());
-        TokenPermission permission = SSOUtils.getPermission();
+        TokenPermission permission = ClientContextHolder.getPermission();
         // 设置当前登录用户没有的权限，以便控制前台菜单和按钮隐藏
         model.addAttribute("userNoPermissions",
                 CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
@@ -52,7 +53,7 @@ public class AdminController {
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public Result menu() {
-        TokenPermission permission = SSOUtils.getPermission();
+        TokenPermission permission = ClientContextHolder.getPermission();
         // 获取登录用户已分配权限的菜单列表
         return Result.success(permission.getMenuList());
     }

@@ -1,7 +1,10 @@
 package openjoe.smart.sso.client.util;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
-import openjoe.smart.sso.base.entity.*;
+import openjoe.smart.sso.base.entity.ExpirationWrapper;
+import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenPermissionStorage;
@@ -15,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
-import java.util.Optional;
 
 /**
  * SSO工具
@@ -37,15 +39,6 @@ public class SSOUtils {
     }
 
     /**
-     * 获取当前登录用户信息
-     *
-     * @return
-     */
-    public static TokenUser getUser() {
-        return Optional.ofNullable(getTokenWrapper()).map(wrapper -> wrapper.getObject().getTokenUser()).orElse(null);
-    }
-
-    /**
      * 获取当前token包装器
      *
      * @return
@@ -59,78 +52,19 @@ public class SSOUtils {
     }
 
     /**
-     * 获取当前登录用户id
-     *
-     * @return
-     */
-    public static Long getUserId() {
-        return Optional.ofNullable(getUser()).map(u -> u.getId()).orElse(null);
-    }
-
-    /**
-     * 获取当前登录用户权限信息
-     *
-     * @return
-     */
-    public static TokenPermission getPermission() {
-        String accessToken = getAccessToken();
-        if (!StringUtils.hasLength(accessToken)) {
-            return null;
-        }
-        return getTokenPermission(accessToken);
-    }
-
-    /**
-     * 获取未过期的用户权限信息
-     *
-     * @return
-     */
-    private static TokenPermission getTokenPermission(String accessToken) {
-        ExpirationWrapper<TokenPermission> wrapper = tokenPermissionStorage.get(accessToken);
-        if (wrapper == null || wrapper.checkExpired()) {
-            return null;
-        }
-        return wrapper.getObject();
-    }
-
-    /**
-     * 写入accessToken到cookie
-     *
-     * @param accessToken
-     */
-    private static void addCookieAccessToken(String accessToken) {
-        CookieUtils.addCookie(properties.getTokenName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
-    }
-
-    /**
      * 获取当前accessToken
      *
      * @return
      */
     private static String getAccessToken() {
-        String accessToken = getCookieAccessToken();
+        HttpServletRequest request = ClientContextHolder.getRequest();
+        // 从cookie中获取当前accessToken
+        String accessToken = CookieUtils.getCookieValue(properties.getTokenName(), request);
         if (StringUtils.hasLength(accessToken)) {
             return accessToken;
         }
-        return getHeaderAccessToken();
-    }
-
-    /**
-     * 从Cookie中获取当前accessToken
-     *
-     * @return
-     */
-    private static String getCookieAccessToken() {
-        return CookieUtils.getCookieValue(properties.getTokenName(), ClientContextHolder.getRequest());
-    }
-
-    /**
-     * 从header中获取当前accessToken
-     *
-     * @return
-     */
-    private static String getHeaderAccessToken() {
-        return ClientContextHolder.getRequest().getHeader(properties.getTokenName());
+        // 从header中获取当前accessToken
+        return request.getHeader(properties.getTokenName());
     }
 
     /**
@@ -146,6 +80,15 @@ public class SSOUtils {
             addCookieAccessToken(result.getData().getAccessToken());
         }
         return result;
+    }
+
+    /**
+     * 写入accessToken到cookie
+     *
+     * @param accessToken
+     */
+    private static void addCookieAccessToken(String accessToken) {
+        CookieUtils.addCookie(properties.getTokenName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
     }
 
     /**
@@ -170,35 +113,16 @@ public class SSOUtils {
     }
 
     /**
-     * 获取当前应用访问路径
+     * 获取未过期的用户权限信息
      *
      * @return
      */
-    public static String getLocalUrl() {
-        HttpServletRequest request = ClientContextHolder.getRequest();
-        StringBuilder url = new StringBuilder();
-        url.append(request.getScheme()).append("://").append(request.getServerName());
-        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-            url.append(":").append(request.getServerPort());
+    public static TokenPermission getTokenPermission(String accessToken) {
+        ExpirationWrapper<TokenPermission> wrapper = tokenPermissionStorage.get(accessToken);
+        if (wrapper == null || wrapper.checkExpired()) {
+            return null;
         }
-        url.append(request.getContextPath());
-        return url.toString();
-    }
-
-    /**
-     * 刷新token
-     *
-     * @param wrapper
-     * @return
-     */
-    public static boolean refreshToken(TokenWrapper wrapper) {
-        Result<Token> result = getHttpRefreshTokenInCookie(wrapper.getObject().getRefreshToken());
-        if (result.isSuccess()) {
-            // 更新当前Request中Cookie的token值，让之后的请求能在Cookie中拿到新的token值。
-            CookieUtils.updateCookie(properties.getTokenName(), result.getData().getAccessToken(), ClientContextHolder.getRequest());
-            return true;
-        }
-        return false;
+        return wrapper.getObject();
     }
 
     /**
@@ -212,6 +136,8 @@ public class SSOUtils {
         if (result.isSuccess()) {
             // Response写入cookie
             addCookieAccessToken(result.getData().getAccessToken());
+            // 更新当前Request中Cookie的token值，让之后的请求能在Cookie中拿到新的token值。
+            CookieUtils.updateCookie(properties.getTokenName(), result.getData().getAccessToken(), ClientContextHolder.getRequest());
         }
         return result;
     }
@@ -315,5 +241,21 @@ public class SSOUtils {
                 .append(BaseConstant.REDIRECT_URI)
                 .append("=")
                 .append(redirectUri).toString();
+    }
+
+    /**
+     * 获取当前应用访问路径
+     *
+     * @return
+     */
+    public static String getLocalUrl() {
+        HttpServletRequest request = ClientContextHolder.getRequest();
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme()).append("://").append(request.getServerName());
+        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+            url.append(":").append(request.getServerPort());
+        }
+        url.append(request.getContextPath());
+        return url.toString();
     }
 }

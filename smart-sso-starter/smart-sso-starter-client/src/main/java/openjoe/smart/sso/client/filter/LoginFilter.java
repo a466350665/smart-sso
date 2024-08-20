@@ -1,6 +1,9 @@
 package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
+import openjoe.smart.sso.base.entity.Result;
+import openjoe.smart.sso.base.entity.Token;
+import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.token.TokenWrapper;
@@ -31,26 +34,29 @@ public class LoginFilter extends AbstractClientFilter {
         // 本地已存在token
         if (tokenWrapper != null) {
             // 如果accessToken没过期，直接返回
-            if (!tokenWrapper.checkExpired()) {
+            if (!tokenWrapper.checkExpired() && holderToken(tokenWrapper.getObject())) {
                 return true;
             }
             // 如果accessToken已过期，refreshToken没过期
             if (!tokenWrapper.checkRefreshExpired()) {
                 // 前后端分离场景，通知客户端使用refresh接口刷新token
-                if(properties.getH5Enabled()){
+                if (properties.getH5Enabled()) {
                     responseJson(ClientConstant.NO_TOKEN, "token已失效");
                     return false;
                 }
                 // 前后端一体化场景，自动刷新token
-                else if(SSOUtils.refreshToken(tokenWrapper)){
-                    return true;
+                else {
+                    Result<Token> result = SSOUtils.getHttpRefreshTokenInCookie(tokenWrapper.getObject().getRefreshToken());
+                    if (result.isSuccess() && holderToken(result.getData())) {
+                        return true;
+                    }
                 }
             }
         }
 
         String code = ClientContextHolder.getRequest().getParameter(BaseConstant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && SSOUtils.getHttpAccessTokenInCookie(code).isSuccess()){
+        if (code != null && SSOUtils.getHttpAccessTokenInCookie(code).isSuccess()) {
             // 为去除URL中授权码参数，再跳转一次当前地址
             redirectLocalRemoveCode();
         } else {
@@ -58,6 +64,22 @@ public class LoginFilter extends AbstractClientFilter {
             redirectLogin();
         }
         return false;
+    }
+
+    /**
+     * 保存token到上下文
+     *
+     * @param token
+     * @return
+     */
+    private boolean holderToken(Token token) {
+        TokenPermission permission = SSOUtils.getTokenPermission(token.getAccessToken());
+        if (permission == null) {
+            return false;
+        }
+        ClientContextHolder.setUser(token.getTokenUser());
+        ClientContextHolder.setPermission(permission);
+        return true;
     }
 
     /**

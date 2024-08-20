@@ -3,7 +3,7 @@ package openjoe.smart.sso.demo.controller;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +25,11 @@ public class UserinfoController {
     public Result getUserinfo() {
         Map<String, Object> map = new HashMap<>();
 
-        TokenUser user = SSOUtils.getUser();
+        TokenUser user = ClientContextHolder.getUser();
         // 登录用户名
         map.put("username", user.getUsername());
 
-        TokenPermission permission = SSOUtils.getPermission();
+        TokenPermission permission = ClientContextHolder.getPermission();
         // 用户当前应用已分配的菜单
         map.put("userMenus",
                 permission.getMenuList().stream().map(menu -> menu.getName() + ":" + menu.getUrl()).collect(Collectors.toList()));

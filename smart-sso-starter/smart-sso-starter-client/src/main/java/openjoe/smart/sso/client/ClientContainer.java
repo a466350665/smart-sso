@@ -44,7 +44,7 @@ public class ClientContainer implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        ClientContextHolder.set(request, response);
+        ClientContextHolder.create(request, response);
         try {
             if (isExcludeUrl(request.getServletPath())) {
                 chain.doFilter(req, res);

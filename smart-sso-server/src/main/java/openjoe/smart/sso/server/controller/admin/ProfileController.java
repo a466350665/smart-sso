@@ -2,7 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.sso.server.stage.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ProfileController {
 	@ApiOperation("初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
-		model.addAttribute("user", userService.getById(SSOUtils.getUserId()));
+		model.addAttribute("user", userService.getById(ClientContextHolder.getUserId()));
 		return "/admin/profile";
 	}
 
@@ -35,7 +35,7 @@ public class ProfileController {
 	@ResponseBody
 	@RequestMapping(value = "/save-password", method = RequestMethod.POST)
 	public Result save(@RequestParam String newPassword) {
-		userService.updatePassword(SSOUtils.getUserId(), newPassword);
+		userService.updatePassword(ClientContextHolder.getUserId(), newPassword);
 		return Result.success().setMessage("修改成功");
 	}
 }

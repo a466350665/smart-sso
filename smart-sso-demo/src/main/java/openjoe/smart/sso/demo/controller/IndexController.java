@@ -2,6 +2,7 @@ package openjoe.smart.sso.demo.controller;
 
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
+import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,11 @@ public class IndexController {
      */
     @GetMapping
     public String index(Model model) {
-        TokenUser user = SSOUtils.getUser();
+        TokenUser user = ClientContextHolder.getUser();
         // 登录用户名
         model.addAttribute("username", user.getUsername());
 
-        TokenPermission permission = SSOUtils.getPermission();
+        TokenPermission permission = ClientContextHolder.getPermission();
         // 用户当前应用已分配的菜单
         model.addAttribute("userMenus",
                 permission.getMenuList().stream().map(menu -> menu.getName() + ":" + menu.getUrl()).collect(Collectors.toList()));
