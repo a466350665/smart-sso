@@ -79,10 +79,10 @@ smart-sso
 ├── smart-sso-demo-h5 -- 前后端分离客户端示例
 ├── smart-sso-server -- 单点登录权限管理服务端
 ├── smart-sso-starter -- 依赖装配模块
-│   ├── smart-sso-starter-base -- 公用的基础依赖装配
-│   ├── smart-sso-starter-client -- 客户端依赖装配
+│   ├── smart-sso-starter-base -- 公用的基础常量、工具、凭证清理机制
+│   ├── smart-sso-starter-client -- 客户端依赖包，客户端Token生命周期管理
 │   ├── smart-sso-starter-client-redis -- 客户端依赖装配，分布式部署场景redis支持
-│   ├── smart-sso-starter-server -- 服务端依赖装配
+│   ├── smart-sso-starter-server -- 服务端依赖包，服务端凭证生命周期管理
 │   ├── smart-sso-starter-server-redis -- 服务端依赖装配，分布式部署场景redis支持
 ```
 
