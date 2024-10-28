@@ -1,6 +1,8 @@
 # Smart-SSO
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/a466350665/smart-sso/pulls)
+[![Gitee stars](https://gitee.com/a466350665/smart-sso/badge/star.svg)](https://gitee.com/a466350665/smart-sso)
+[![Gitee forks](https://gitee.com/a466350665/smart-sso/badge/fork.svg)](https://gitee.com/a466350665/smart-sso)
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart-sso.svg?style=social&label=Stars)](https://github.com/a466350665/smart-sso)
 [![GitHub forks](https://img.shields.io/github/forks/a466350665/smart-sso.svg?style=social&label=Fork)](https://github.com/a466350665/smart-sso)
 
@@ -8,6 +10,9 @@ QQ交流群：454343484、769134727
 
 ## 简述
 Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结合 RBAC 权限设计为基础，为您塑造一个轻量级、高可用的单点认证授权中心。
+
+- Gitee：https://gitee.com/a466350665/smart-sso
+- Github：https://github.com/a466350665/smart-sso
 
 ## 相关文档
 - [Smart-SSO单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
