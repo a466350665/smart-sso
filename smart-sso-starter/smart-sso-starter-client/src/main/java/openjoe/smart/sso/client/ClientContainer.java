@@ -1,12 +1,12 @@
 package openjoe.smart.sso.client;
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.filter.AbstractClientFilter;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

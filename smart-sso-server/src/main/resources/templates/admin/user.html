@@ -1,8 +1,8 @@
 <title>用户</title>
 <#include "../common/common.html"/>
 
-<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
-<link rel="stylesheet" href="${_staticPath}/static/custom/zTree/css/metroStyle/metroStyle.custom.css" />
+<link rel="stylesheet" href="${request.contextPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="${request.contextPath}/static/custom/zTree/css/metroStyle/metroStyle.custom.css" />
 
 <div class="row">
 	<div class="col-xs-12 col-sm-3">
@@ -44,8 +44,8 @@
 <script type="text/javascript">
 
 	scripts.push(
-		"${_staticPath}/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
-		"${_staticPath}/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+		"${request.contextPath}/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+		"${request.contextPath}/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
 
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {

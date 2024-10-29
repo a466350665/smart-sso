@@ -1,10 +1,10 @@
 package openjoe.smart.sso.client.filter;
 
+import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.util.JsonUtils;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 

@@ -11,7 +11,7 @@ import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.core.annotation.Order;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**

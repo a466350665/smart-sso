@@ -6,7 +6,7 @@ import openjoe.smart.sso.client.token.TokenStorage;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import org.springframework.core.annotation.Order;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 单点退出Filter

@@ -3,44 +3,44 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>${_systemName}</title>
+    <title>Smart-SSO单点登录权限系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <link type="images/x-icon" rel="shortcut icon" href="${_staticPath}/static/custom/assets/favicon.ico">
+    <link type="images/x-icon" rel="shortcut icon" href="${request.contextPath}/static/custom/assets/favicon.ico">
 
     <!--[if !IE]> -->
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/pace.css" />
-    <script data-pace-options='{ "ajax": true, "document": true, "eventLag": false, "elements": false }' src="${_staticPath}/static/assets/js/pace.js"></script>
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/pace.css" />
+    <script data-pace-options='{ "ajax": true, "document": true, "eventLag": false, "elements": false }' src="${request.contextPath}/static/assets/js/pace.js"></script>
     <!-- <![endif]-->
 
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/font-awesome.css" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/font-awesome.css" />
 
     <!-- text fonts -->
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/ace-fonts.css" />
 
     <!-- ace styles -->
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
     <!-- 自定义样式，表单多选框 -->
-    <link rel="stylesheet" href="${_staticPath}/static/custom/assets/ace.custom.css" />
+    <link rel="stylesheet" href="${request.contextPath}/static/custom/assets/ace.custom.css" />
 
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/ace-part2.css" class="ace-main-stylesheet" />
     <![endif]-->
 
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="${_staticPath}/static/assets/css/ace-ie.css" />
+    <link rel="stylesheet" href="${request.contextPath}/static/assets/css/ace-ie.css" />
     <![endif]-->
 
     <!-- ace settings handler -->
-    <script src="${_staticPath}/static/assets/js/ace-extra.js"></script>
+    <script src="${request.contextPath}/static/assets/js/ace-extra.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
     <!--[if lte IE 8]>
-    <script src="${_staticPath}/static/assets/js/html5shiv.js"></script>
-    <script src="${_staticPath}/static/assets/js/respond.js"></script>
+    <script src="${request.contextPath}/static/assets/js/html5shiv.js"></script>
+    <script src="${request.contextPath}/static/assets/js/respond.js"></script>
     <![endif]-->
 </head>
 
@@ -69,7 +69,7 @@
             <a href="#" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    ${_systemName}
+                    Smart-SSO单点登录权限系统
                 </small>
             </a>
 
@@ -106,7 +106,7 @@
                 <!-- #section:basics/navbar.user_menu -->
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="${_staticPath}/static/assets/avatars/user.jpg" alt="Jason's Photo" />
+                        <img class="nav-user-photo" src="${request.contextPath}/static/assets/avatars/user.jpg" alt="Jason's Photo" />
                         <span class="user-info">
 									<small>欢迎光临,</small>
 									${username}
@@ -319,7 +319,7 @@
             <!-- #section:basics/footer -->
             <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">${_systemName}</span>
+							<span class="blue bolder">Smart-SSO单点登录权限系统</span>
 							 &copy; 2024
 						</span>
 
@@ -352,47 +352,47 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
-			window.jQuery || document.write("<script src='${_staticPath}/static/assets/js/jquery.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='${request.contextPath}/static/assets/js/jquery.js'>"+"<"+"/script>");
 		</script>
 
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script type="text/javascript">
-		 window.jQuery || document.write("<script src='${_staticPath}/static/assets/js/jquery1x.js'>"+"<"+"/script>");
+		 window.jQuery || document.write("<script src='${request.contextPath}/static/assets/js/jquery1x.js'>"+"<"+"/script>");
 		</script>
 <![endif]-->
 <script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='${_staticPath}/static/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='${request.contextPath}/static/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
 		</script>
-<script src="${_staticPath}/static/assets/js/bootstrap.js"></script>
+<script src="${request.contextPath}/static/assets/js/bootstrap.js"></script>
 
 <!-- ace scripts -->
-<script src="${_staticPath}/static/assets/js/ace/elements.scroller.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.colorpicker.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.fileinput.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.typeahead.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.wysiwyg.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.spinner.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.treeview.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.wizard.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/elements.aside.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.scroller.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.colorpicker.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.fileinput.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.typeahead.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.wysiwyg.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.spinner.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.treeview.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.wizard.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/elements.aside.js"></script>
 <!-- 修改默认首页 -->
-<script id="_ace" src="${_staticPath}/static/custom/assets/ace.js?v" data-path="${defaultPage!}"></script>
+<script id="_ace" src="${request.contextPath}/static/custom/assets/ace.js?v" data-path="${defaultPage!}"></script>
 <!-- 切换菜单处理 -->
-<script id="_ajaxContent" src="${_staticPath}/static/custom/assets/ace.ajax-content.js?v" data-path="${request.contextPath}"></script>
+<script id="_ajaxContent" src="${request.contextPath}/static/custom/assets/ace.ajax-content.js?v" data-path="${request.contextPath}"></script>
 <!-- 权限处理 -->
-<script id="_permission" src="${_staticPath}/static/custom/jquery.permission.min.js?v" data="${userNoPermissions}"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.touch-drag.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.sidebar.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.submenu-hover.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.widget-box.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.settings.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.settings-rtl.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.settings-skin.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.widget-on-reload.js"></script>
-<script src="${_staticPath}/static/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+<script id="_permission" src="${request.contextPath}/static/custom/jquery.permission.min.js?v" data="${userNoPermissions}"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.touch-drag.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.sidebar.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.submenu-hover.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.widget-box.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.settings.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.settings-rtl.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.settings-skin.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.widget-on-reload.js"></script>
+<script src="${request.contextPath}/static/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 <script type="text/javascript">
 			jQuery(function ($) {
 				$("#_btnExit").click(function(){

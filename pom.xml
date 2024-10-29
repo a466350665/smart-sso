@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.13</version>
+		<version>3.3.4</version>
 		<relativePath/>
 	</parent>
 	<groupId>io.github.openjoe</groupId>
@@ -21,7 +21,10 @@
 	</modules>
 	
 	<properties>
-		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<mybatis-plus.version>3.5.7</mybatis-plus.version>
 		<springfox.version>3.0.0</springfox.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<mysql.version>8.0.28</mysql.version>
@@ -62,7 +65,7 @@
 			<!-- SpringBoot增强框架 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
 
