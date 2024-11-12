@@ -21,9 +21,6 @@
 	</modules>
 	
 	<properties>
-		<java.version>1.8</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<mybatis-plus.version>3.5.7</mybatis-plus.version>
 		<springfox.version>3.0.0</springfox.version>
 		<httpclient.version>4.5.14</httpclient.version>
