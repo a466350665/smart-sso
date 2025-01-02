@@ -25,8 +25,8 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
     private Map<String, ExpirationWrapper<TokenContent>> refreshTokenMap = new ConcurrentHashMap<>();
     private Map<String, Set<String>> tgtMap = new ConcurrentHashMap<>();
 
-    public LocalTokenManager(int accessTokenTimeout, int refreshTokenTimeout) {
-        super(accessTokenTimeout, refreshTokenTimeout);
+    public LocalTokenManager(int accessTokenTimeout, int refreshTokenTimeout, int threadPoolSize) {
+        super(accessTokenTimeout, refreshTokenTimeout, threadPoolSize);
     }
 
     @Override
@@ -86,25 +86,30 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
         if (CollectionUtils.isEmpty(refreshTokenSet)) {
             return;
         }
-        refreshTokenSet.forEach(refreshToken -> {
-            // 删除refreshToken
-            ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.remove(refreshToken);
-            if (wrapper == null) {
-                return;
-            }
-            TokenContent tokenContent = wrapper.getObject();
-            if (tokenContent == null) {
-                return;
-            }
-
-            // 删除accessToken
-            accessTokenMap.remove(tokenContent.getAccessToken());
-
-            // 发起客户端退出请求
-            logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, logoutUri:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getLogoutUri());
-            sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
-        });
+        submitRemoveToken(refreshTokenSet);
     }
+
+    @Override
+    public void processRemoveToken(String refreshToken) {
+        // 删除refreshToken
+        ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.remove(refreshToken);
+        if (wrapper == null) {
+            return;
+        }
+        TokenContent tokenContent = wrapper.getObject();
+        if (tokenContent == null) {
+            return;
+        }
+
+        // 删除accessToken
+        accessTokenMap.remove(tokenContent.getAccessToken());
+
+        // 发起客户端退出请求
+        logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, logoutUri:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getLogoutUri());
+        sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
+    }
+
+
 
     @Override
     public void verifyExpired() {

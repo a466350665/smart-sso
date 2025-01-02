@@ -26,8 +26,8 @@ public class RedisTokenManager extends AbstractTokenManager {
 
     private StringRedisTemplate redisTemplate;
 
-    public RedisTokenManager(int accessTokenTimeout, int refreshTokenTimeout, StringRedisTemplate redisTemplate) {
-        super(accessTokenTimeout, refreshTokenTimeout);
+    public RedisTokenManager(int accessTokenTimeout, int refreshTokenTimeout, int threadPoolSize, StringRedisTemplate redisTemplate) {
+        super(accessTokenTimeout, refreshTokenTimeout, threadPoolSize);
         this.redisTemplate = redisTemplate;
     }
 
@@ -93,24 +93,28 @@ public class RedisTokenManager extends AbstractTokenManager {
         // 删除tgt映射中的refreshToken集合
         redisTemplate.delete(TGT_REFRESH_TOKEN_KEY + tgt);
 
-        refreshTokenSet.forEach(refreshToken -> {
-            String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
-            if (!StringUtils.hasLength(tc)) {
-                return;
-            }
-            // 删除refreshToken
-            redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
-
-            TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
-            if (tokenContent == null) {
-                return;
-            }
-            // 删除accessToken
-            redisTemplate.delete(ACCESS_TOKEN_KEY + tokenContent.getAccessToken());
-
-            // 发起客户端退出请求
-            logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, logoutUri:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getLogoutUri());
-            sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
-        });
+        submitRemoveToken(refreshTokenSet);
     }
+
+    @Override
+    public void processRemoveToken(String refreshToken) {
+        String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+        if (!StringUtils.hasLength(tc)) {
+            return;
+        }
+        // 删除refreshToken
+        redisTemplate.delete(REFRESH_TOKEN_KEY + refreshToken);
+
+        TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
+        if (tokenContent == null) {
+            return;
+        }
+        // 删除accessToken
+        redisTemplate.delete(ACCESS_TOKEN_KEY + tokenContent.getAccessToken());
+
+        // 发起客户端退出请求
+        logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, logoutUri:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getLogoutUri());
+        sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
+    }
+
 }
