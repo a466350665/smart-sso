@@ -84,6 +84,11 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
         return tc;
     }
 
+    /**
+     * 提交删除Token任务
+     *
+     * @param refreshTokenSet
+     */
     protected void submitRemoveToken(Set<String> refreshTokenSet) {
         // 用于存储所有的Future对象，以便后续等待所有任务完成
         List<Future<?>> futures = new ArrayList<>();
@@ -110,6 +115,11 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
         }
     }
 
+    /**
+     * 真正执行删除Token
+     *
+     * @param refreshToken
+     */
     public abstract void processRemoveToken(String refreshToken);
 
     /**
