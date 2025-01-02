@@ -27,6 +27,11 @@ public class ServerProperties {
      */
     private String cookieName = "TGC";
 
+    /*
+     * 执行远程通知客户端退出请求线程池大小
+     */
+    private int threadPoolSize = 2;
+
     public int getTimeout() {
         return timeout;
     }
@@ -57,5 +62,13 @@ public class ServerProperties {
 
     public void setCookieName(String cookieName) {
         this.cookieName = cookieName;
+    }
+
+    public int getThreadPoolSize() {
+        return threadPoolSize;
+    }
+
+    public void setThreadPoolSize(int threadPoolSize) {
+        this.threadPoolSize = threadPoolSize;
     }
 }

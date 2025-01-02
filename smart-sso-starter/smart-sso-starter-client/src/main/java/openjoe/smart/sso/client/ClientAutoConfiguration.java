@@ -10,7 +10,7 @@ import openjoe.smart.sso.client.token.TokenStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenPermissionStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenStorage;
 import openjoe.smart.sso.client.util.SSOUtils;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Joe
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore({BaseAutoConfiguration.class})
+@AutoConfigureAfter({BaseAutoConfiguration.class})
 @EnableConfigurationProperties({ClientProperties.class})
 public class ClientAutoConfiguration {
 
