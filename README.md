@@ -1,25 +1,17 @@
 # Smart-SSO
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/a466350665/smart-sso/pulls)
-[![Gitee stars](https://gitee.com/a466350665/smart-sso/badge/star.svg)](https://gitee.com/a466350665/smart-sso)
-[![Gitee forks](https://gitee.com/a466350665/smart-sso/badge/fork.svg)](https://gitee.com/a466350665/smart-sso)
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart-sso.svg?style=social&label=Stars)](https://github.com/a466350665/smart-sso)
 [![GitHub forks](https://img.shields.io/github/forks/a466350665/smart-sso.svg?style=social&label=Fork)](https://github.com/a466350665/smart-sso)
+[![Gitee stars](https://gitee.com/a466350665/smart-sso/badge/star.svg)](https://gitee.com/a466350665/smart-sso)
+[![Gitee forks](https://gitee.com/a466350665/smart-sso/badge/fork.svg)](https://gitee.com/a466350665/smart-sso)
+[![Gitcode stars](https://gitcode.com/openjoe/smart-sso/star/badge.svg)](https://gitcode.com/openjoe/smart-sso/overview)
+
 
 QQ交流群：454343484、769134727
 
 ## 简述
 Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结合 RBAC 权限设计为基础，为您塑造一个轻量级、高可用的单点认证授权中心。
-
-- Gitee：https://gitee.com/a466350665/smart-sso
-- Github：https://github.com/a466350665/smart-sso
-
-## 相关文档
-- [Smart-SSO单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
-- [Smart-SSO单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
-- [Smart-SSO单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
-- [Smart-SSO单点登录（四）：前后端分离](https://blog.csdn.net/a466350665/article/details/109742638)
-- [Smart-SSO单点登录（五）：分布式部署](https://blog.csdn.net/a466350665/article/details/109388429)
 
 ## 功能说明
 
@@ -37,7 +29,46 @@ Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结�
 
 7. **分布式部署：** 服务端和客户端都支持基于Redis共享Token的多实例部署场景；
 
-## 为何是OAuth2？
+## 相关文档
+- [Smart-SSO单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
+- [Smart-SSO单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
+- [Smart-SSO单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
+- [Smart-SSO单点登录（四）：前后端分离](https://blog.csdn.net/a466350665/article/details/109742638)
+- [Smart-SSO单点登录（五）：分布式部署](https://blog.csdn.net/a466350665/article/details/109388429)
+
+## 代码托管
+**Github：** https://github.com/a466350665/smart-sso    
+**Gitee：** https://gitee.com/a466350665/smart-sso    
+**Gitcode：** https://gitcode.com/openjoe/smart-sso
+
+## 项目结构
+
+```lua
+smart-sso
+├── smart-sso-demo -- 客户端示例
+├── smart-sso-demo-h5 -- 前后端分离客户端示例
+├── smart-sso-server -- 单点登录权限管理服务端
+├── smart-sso-starter -- 依赖装配模块
+│   ├── smart-sso-starter-base -- 公用的基础常量、工具、凭证清理机制
+│   ├── smart-sso-starter-client -- 客户端依赖包，客户端Token生命周期管理
+│   ├── smart-sso-starter-client-redis -- 客户端依赖装配，分布式部署场景redis支持
+│   ├── smart-sso-starter-server -- 服务端依赖包，服务端凭证生命周期管理
+│   ├── smart-sso-starter-server-redis -- 服务端依赖装配，分布式部署场景redis支持
+```
+
+## 技术选型
+
+| 技术                   | 版本    | 说明             |
+| ---------------------- | ------- | ---------------- |
+| spring-boot             | 2.5.13   | 容器 + MVC框架     |
+| spring-boot-starter-data-redis    | 2.5.13   | 分布式场景Token管理  |
+| spring-boot-starter-freemarker | 2.5.13   | 模板引擎  |
+| springfox-boot-starter      | 3.0.0   | 文档     |
+| mybatis-plus-boot-starter           | 3.5.2   | ORM框架  |
+| mysql-connector-java    | 8.0.28   | 数据库驱动  |
+| httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
+
+## 为何选择用OAuth2？
 
 以下对常见的几种SSO认证方式对比：
 
@@ -60,44 +91,6 @@ OAuth2 常常用于第三方应用的授权登录，并且完全适应 SSO 场�
 
 **结论：**   
 Smart-SSO 决定采用 OAuth2 进行构建。为了弥补其存在的不足，部分功能进行了细致的升级。例如，客户端后端对 Token 进行了缓存，用户携带 Token 的请求能够在客户端应用本地完成校验，极大程度地减少了客户端应用与服务端的交互。续签机制同样有所改进，当客户端本地的 Token 失效后，由客户端后端向服务端发起 refreshToken 请求，重新生成 Token 并写回前端，同时延长服务端凭证存根的时效，从而实现过期自动续签的功能。
-
-## 技术选型
-
-| 技术                   | 版本    | 说明             |
-| ---------------------- | ------- | ---------------- |
-| spring-boot             | 2.5.13   | 容器 + MVC框架     |
-| spring-boot-starter-data-redis    | 2.5.13   | 分布式场景Token管理  |
-| spring-boot-starter-freemarker | 2.5.13   | 模板引擎  |
-| springfox-boot-starter      | 3.0.0   | 文档     |
-| mybatis-plus-boot-starter           | 3.5.2   | ORM框架  |
-| mysql-connector-java    | 8.0.28   | 数据库驱动  |
-| httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
-
-## 数据库模型
-![](./images/smart-sso-pdm.jpg)
-
-## 项目结构
-
-```lua
-smart-sso
-├── smart-sso-demo -- 客户端示例
-├── smart-sso-demo-h5 -- 前后端分离客户端示例
-├── smart-sso-server -- 单点登录权限管理服务端
-├── smart-sso-starter -- 依赖装配模块
-│   ├── smart-sso-starter-base -- 公用的基础常量、工具、凭证清理机制
-│   ├── smart-sso-starter-client -- 客户端依赖包，客户端Token生命周期管理
-│   ├── smart-sso-starter-client-redis -- 客户端依赖装配，分布式部署场景redis支持
-│   ├── smart-sso-starter-server -- 服务端依赖包，服务端凭证生命周期管理
-│   ├── smart-sso-starter-server-redis -- 服务端依赖装配，分布式部署场景redis支持
-```
-
-## 模块依赖关系
-
-![](./images/smart-sso.png)
-
-<font color="red">注：</font>  
-1.红色实线可以理解为服务端也需要单点登录，同样是其自身的一个客户端；  
-2.红色虚线表示无论是服务端还是客户端，当需要集群部署时，可选用Redis版本的依赖来实现Token共享；
 
 ## 单点登录原理
 ![](./images/smart-sso-login.png)
@@ -122,12 +115,3 @@ smart-sso
 ![](./images/img5.png)
 
 ![](./images/img6.png)
-
-### 服务端管控页手机端效果
-![](./images/img10.jpg)
-
-![](./images/img11.jpg)
-
-![](./images/img12.jpg)
-
-![](./images/img13.jpg)
