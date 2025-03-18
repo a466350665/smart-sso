@@ -23,4 +23,26 @@
 			<artifactId>smart-sso-starter-client</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>openjoe.smart.sso.demo.DemoApplication</mainClass>
+					<includeSystemScope>false</includeSystemScope>
+					<layout>ZIP</layout>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

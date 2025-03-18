@@ -14,14 +14,14 @@ import java.util.Optional;
  */
 public class ClientContextHolder {
 
-    private static final ThreadLocal<ClientContext> CLIENT_CONTENT = new ThreadLocal<>();
+    private static final ThreadLocal<ClientContext> CLIENT_CONTEXT = new ThreadLocal<>();
 
     public static void reset() {
-        CLIENT_CONTENT.remove();
+        CLIENT_CONTEXT.remove();
     }
 
     public static void create(HttpServletRequest request, HttpServletResponse response) {
-        CLIENT_CONTENT.set(new ClientContext(request, response));
+        CLIENT_CONTEXT.set(new ClientContext(request, response));
     }
 
     public static HttpServletRequest getRequest() {
@@ -74,7 +74,7 @@ public class ClientContextHolder {
     }
 
     private static ClientContext get() {
-        return CLIENT_CONTENT.get();
+        return CLIENT_CONTEXT.get();
     }
 
     private static class ClientContext {
