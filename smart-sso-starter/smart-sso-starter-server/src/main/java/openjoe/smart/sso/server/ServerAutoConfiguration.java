@@ -29,7 +29,7 @@ public class ServerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
-    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(ServerProperties properties, AbstractTokenManager tokenManager) {
+    public AbstractTicketGrantingTicketManager tgtManager(ServerProperties properties, AbstractTokenManager tokenManager) {
         return new LocalTicketGrantingTicketManager(properties.getTimeout(), properties.getCookieName(), tokenManager);
     }
 }

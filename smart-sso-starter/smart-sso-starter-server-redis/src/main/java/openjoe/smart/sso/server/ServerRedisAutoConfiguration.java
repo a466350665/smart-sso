@@ -32,7 +32,7 @@ public class ServerRedisAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(AbstractTicketGrantingTicketManager.class)
-    public AbstractTicketGrantingTicketManager ticketGrantingTicketManager(ServerProperties properties, AbstractTokenManager tokenManager, StringRedisTemplate redisTemplate) {
+    public AbstractTicketGrantingTicketManager tgtManager(ServerProperties properties, AbstractTokenManager tokenManager, StringRedisTemplate redisTemplate) {
         return new RedisTicketGrantingTicketManager(properties.getTimeout(), properties.getCookieName(), tokenManager, redisTemplate);
     }
 }

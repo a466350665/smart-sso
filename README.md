@@ -42,8 +42,8 @@ Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结�
 **Gitcode：** https://gitcode.com/openjoe/smart-sso
 
 ## 分支说明
-- master分支基于Spring Boot 3.x + JDK 17
-- 1.7分支基于Spring Boot 2.x + JDK 8
+- master分支基于SpringBoot 3.x + JDK 17
+- 1.7分支基于SpringBoot 2.x + JDK 8
 
 ## 项目结构
 
