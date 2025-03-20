@@ -58,13 +58,14 @@ public class SSOUtils {
      */
     private static String getAccessToken() {
         HttpServletRequest request = ClientContextHolder.getRequest();
+        String tokenName = getTokenName();
         // 从cookie中获取当前accessToken
-        String accessToken = CookieUtils.getCookieValue(properties.getTokenName(), request);
+        String accessToken = CookieUtils.getCookieValue(tokenName, request);
         if (StringUtils.hasLength(accessToken)) {
             return accessToken;
         }
         // 从header中获取当前accessToken
-        return request.getHeader(properties.getTokenName());
+        return request.getHeader(tokenName);
     }
 
     /**
@@ -88,7 +89,11 @@ public class SSOUtils {
      * @param accessToken
      */
     private static void addCookieAccessToken(String accessToken) {
-        CookieUtils.addCookie(properties.getTokenName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
+        CookieUtils.addCookie(getTokenName(), accessToken, "/", ClientContextHolder.getRequest(), ClientContextHolder.getResponse());
+    }
+
+    private static String getTokenName() {
+        return properties.getTokenPrefix() + "-" + properties.getClientId();
     }
 
     /**
@@ -137,7 +142,7 @@ public class SSOUtils {
             // Response写入cookie
             addCookieAccessToken(result.getData().getAccessToken());
             // 更新当前Request中Cookie的token值，让之后的请求能在Cookie中拿到新的token值。
-            CookieUtils.updateCookie(properties.getTokenName(), result.getData().getAccessToken(), ClientContextHolder.getRequest());
+            CookieUtils.updateCookie(getTokenName(), result.getData().getAccessToken(), ClientContextHolder.getRequest());
         }
         return result;
     }
