@@ -50,7 +50,7 @@ public class ClientProperties {
     /**
      * 存放在cookie或者Header中的token名称前缀
      */
-    private String tokenPrefix = "smart-sso-token";
+    private String tokenNamePrefix = "smart-sso-token-";
 
     /**
      * 是否前后端分离（默认false）
@@ -113,12 +113,12 @@ public class ClientProperties {
         this.name = name;
     }
 
-    public String getTokenPrefix() {
-        return tokenPrefix;
+    public String getTokenNamePrefix() {
+        return tokenNamePrefix;
     }
 
-    public void setTokenPrefix(String tokenPrefix) {
-        this.tokenPrefix = tokenPrefix;
+    public void setTokenNamePrefix(String tokenNamePrefix) {
+        this.tokenNamePrefix = tokenNamePrefix;
     }
 
     public String getLogoutPath() {

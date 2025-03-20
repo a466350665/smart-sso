@@ -20,8 +20,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>window.jQuery || alert('jQuery.js未加载成功，请检查网络或更换CDN')</script>
 <script type="text/javascript">
-    // 后端接口地址
-    var baseUrl = "http://demo.smart-sso.com:8082";
+    // 当前应用后端服务地址
+    var BASE_URL = "http://demo.smart-sso.com:8082";
+    // 客户端ID（保持与smart.sso.client-id配置一致，用于多个客户端应用在同域部署下的数据隔离）
+    var CLIENT_ID = "1001";
+    // token名称前缀（保持与smart.sso.token-name-prefix配置一致，如果没有自定义则默认"smart-sso-token-"）
+    var TOKEN_NAME_PREFIX = "smart-sso-token-";
     $(function () {
         if (validateLogin()) {
             getUserinfo();
@@ -30,7 +34,7 @@
 
     // 校验是否需要跳转到SSO认证中心
     function validateLogin() {
-        var accessToken = localStorage.getItem("accessToken");
+        var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
         if (accessToken) {
             return true;
         }
@@ -45,7 +49,7 @@
 
     // 获取用户信息
     function getUserinfo() {
-        smart.ajax('GET', baseUrl + "/userinfo", {}, function (res) {
+        smart.ajax('GET', BASE_URL + "/userinfo", {}, function (res) {
                 var userinfo = res.data;
 
                 // 用户名
@@ -69,14 +73,14 @@
 
     // 重定向至认证中心
     function goSSOLoginUrl() {
-        $.getJSON(baseUrl + '/auth/login_url?redirectUri=' + location.href, function (res) {
+        $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
             window.location.href = res.data;
         })
     }
 
     // 重定向至服务端退出地址
     function goSSOLogoutUrl() {
-        $.getJSON(baseUrl + '/auth/logout_url?redirectUri=' + location.href, function (res) {
+        $.getJSON(BASE_URL + '/auth/logout_url?redirectUri=' + location.href, function (res) {
             window.location.href = res.data;
         })
     }
@@ -85,14 +89,14 @@
     function getAccessToken(code) {
         var bool = false;
         $.ajax({
-            url: baseUrl + "/auth/access-token?code=" + code,
+            url: BASE_URL + "/auth/access-token?code=" + code,
             type: 'GET',
             async: false,
             dataType: 'json',
             success: function (res) {
                 if (res.code == 1) {
-                    localStorage.setItem("accessToken", res.data.accessToken);
-                    localStorage.setItem("refreshToken", res.data.refreshToken);
+                    localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
+                    localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
                     bool = true;
                 }
             }
@@ -104,14 +108,14 @@
     function getRefreshToken() {
         var bool = false;
         $.ajax({
-            url: baseUrl + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken"),
+            url: BASE_URL + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken" + CLIENT_ID),
             type: 'GET',
             async: false,
             dataType: 'json',
             success: function (res) {
                 if (res.code == 1) {
-                    localStorage.setItem("accessToken", res.data.accessToken);
-                    localStorage.setItem("refreshToken", res.data.refreshToken);
+                    localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
+                    localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
                     bool = true;
                 }
             }
@@ -139,6 +143,7 @@
 </script>
 <script type="text/javascript">
     var smart = {};
+    var tokenName = TOKEN_NAME_PREFIX + CLIENT_ID;
     // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
     smart.ajax = function (method, url, data, successFn) {
         $.ajax({
@@ -147,8 +152,8 @@
             data: data,
             dataType: 'json',
             headers: {
-                // 传递调用凭证，名称可通过后台配置项自定义，默认为smart-sso-token
-                'smart-sso-token': localStorage.getItem("accessToken"),
+                // 传递调用凭证，名称前缀可通过后台配置项自定义，默认为smart-sso-token-
+                [tokenName]: localStorage.getItem("accessToken" + CLIENT_ID),
                 // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
                 'X-Requested-With': 'XMLHttpRequest'
             },

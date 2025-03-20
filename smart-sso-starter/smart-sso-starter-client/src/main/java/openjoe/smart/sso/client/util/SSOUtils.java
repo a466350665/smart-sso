@@ -93,7 +93,7 @@ public class SSOUtils {
     }
 
     private static String getTokenName() {
-        return properties.getTokenPrefix() + "-" + properties.getClientId();
+        return properties.getTokenNamePrefix() + properties.getClientId();
     }
 
     /**
