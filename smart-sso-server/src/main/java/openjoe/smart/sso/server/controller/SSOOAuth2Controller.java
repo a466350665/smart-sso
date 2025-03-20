@@ -33,7 +33,7 @@ public class SSOOAuth2Controller {
     @Autowired
     private AbstractTokenManager tokenManager;
     @Autowired
-    private AbstractTicketGrantingTicketManager ticketGrantingTicketManager;
+    private AbstractTicketGrantingTicketManager tgtManager;
 
     /**
      * 获取accessToken
@@ -70,7 +70,7 @@ public class SSOOAuth2Controller {
         codeManager.remove(code);
 
         // 校验凭证
-        TokenUser tokenUser = ticketGrantingTicketManager.get(codeContent.getTgt());
+        TokenUser tokenUser = tgtManager.get(codeContent.getTgt());
         if (tokenUser == null) {
             return Result.error("服务端TGT已过期");
         }
@@ -79,7 +79,7 @@ public class SSOOAuth2Controller {
         TokenContent tc = tokenManager.create(tokenUser, logoutUri, codeContent);
 
         // 刷新服务端凭证时效
-        ticketGrantingTicketManager.refresh(tc.getTgt());
+        tgtManager.refresh(tc.getTgt());
 
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
@@ -114,7 +114,7 @@ public class SSOOAuth2Controller {
         TokenContent tc = tokenManager.create(atContent);
 
         // 刷新服务端凭证时效
-        ticketGrantingTicketManager.refresh(tc.getTgt());
+        tgtManager.refresh(tc.getTgt());
 
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
