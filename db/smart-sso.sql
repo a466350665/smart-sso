@@ -23,7 +23,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `sys_app`;
 CREATE TABLE `sys_app` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(16) NOT NULL COMMENT '编码',
+  `code` varchar(50) NOT NULL COMMENT '编码',
   `name` varchar(128) NOT NULL COMMENT '名称',
   `sort` int(11) NOT NULL COMMENT '排序',
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
@@ -41,8 +41,8 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_app` VALUES (81, 'smart-sso-demo', 'Demo管理系统', 15, 1, '1001', 'kpA1y7k1uyrcoGhrKvA1Ag==', '2015-11-08 17:16:39', '2024-07-16 11:29:10');
-INSERT INTO `sys_app` VALUES (82, 'smart-cms', '内容管理系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
+INSERT INTO `sys_app` VALUES (81, 'smart-sso-demo', 'Demo系统', 15, 1, '1001', 'kpA1y7k1uyrcoGhrKvA1Ag==', '2015-11-08 17:16:39', '2024-07-16 11:29:10');
+INSERT INTO `sys_app` VALUES (82, 'smart-sso-demo-h5', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
 COMMIT;
 
 -- ----------------------------
