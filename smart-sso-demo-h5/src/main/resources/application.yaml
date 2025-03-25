@@ -13,8 +13,8 @@ smart:
     #服务端地址
     server-url: http://server.smart-sso.com:8080
     #客户端密钥信息
-    client-id: 1001
-    client-secret: kpA1y7k1uyrcoGhrKvA1Ag==
+    client-id: 1002
+    client-secret: 3vjPTgn+9XwV+Q6PRUA5oQ==
     #前后端分离必须忽略获取凭证相关的urls
     exclude-urls: /auth/*
     #前后端分离开关
