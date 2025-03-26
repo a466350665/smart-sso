@@ -55,7 +55,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/user/edit', handler : function(){
-						$.aceRedirect("${request.contextPath}/admin/user/edit");
+						$.aceRedirect("${request.contextPath}/admin/user/edit?officeId=" + $("#_officeId").val());
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/user/enable', handler : function(){
 						$table.ajaxEnable({url : "${request.contextPath}/admin/user/enable"}, false);
