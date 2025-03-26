@@ -38,7 +38,7 @@ public class OfficeController {
 	public Result list(
 			@RequestParam Long current,
 			@RequestParam Long size) {
-		return Result.success(officeService.selectList(null, null, null, "----"));
+		return Result.success(officeService.selectList(null, null, null, "--"));
 	}
 
 	@ApiOperation("新增/修改页")
@@ -52,7 +52,7 @@ public class OfficeController {
 		else {
 			office = officeService.getById(id);
 		}
-		model.addAttribute("officeList", officeService.selectList(null, null, id, "----"));
+		model.addAttribute("officeList", officeService.selectList(null, null, id, "--"));
 		model.addAttribute("office", office);
 		return "/admin/office-edit";
 	}

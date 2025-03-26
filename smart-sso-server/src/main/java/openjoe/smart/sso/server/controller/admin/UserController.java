@@ -58,7 +58,7 @@ public class UserController {
 			user = userService.getById(id);
 		}
 		model.addAttribute("user", user);
-		model.addAttribute("officeList", officeService.selectList(true, null, null, "----"));
+		model.addAttribute("officeList", officeService.selectList(true, null, null, "--"));
 		return "/admin/user-edit";
 	}
 
@@ -152,12 +152,6 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/office/tree", method = RequestMethod.GET)
 	public List<Office> officeTree() {
-		List<Office> list = officeService.selectList(true, null, null, "");
-		Office office = new Office();
-		office.setId(null);
-		office.setParentId(-1L);
-		office.setName("机构");
-		list.add(0, office);
-		return list;
+		return officeService.selectList(true, null, null, "--");
 	}
 }
