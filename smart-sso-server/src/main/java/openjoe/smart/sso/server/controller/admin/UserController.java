@@ -48,11 +48,14 @@ public class UserController {
 
 	@ApiOperation("新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id, Model model) {
+	public String edit(@RequestParam(required = false) Long id,
+					   @RequestParam(required = false) Long officeId,
+					   Model model) {
 		User user;
 		if (id == null) {
 			user = new User();
 			user.setIsEnable(true);
+			user.setOfficeId(officeId);
 		}
 		else {
 			user = userService.getById(id);
