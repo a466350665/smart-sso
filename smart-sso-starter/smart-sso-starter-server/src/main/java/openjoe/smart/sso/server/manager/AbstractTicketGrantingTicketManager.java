@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.base.entity.LifecycleManager;
 import openjoe.smart.sso.base.util.CookieUtils;
+import openjoe.smart.sso.server.entity.TicketGrantingTicketContent;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Long> {
+public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<TicketGrantingTicketContent> {
 
     private AbstractTokenManager tokenManager;
     private int timeout;
@@ -33,9 +34,8 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
      * @param userId
      * @return
      */
-    String create(Long userId) {
-        String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        create(tgt, userId);
+    String create(String tgt, Long userId) {
+        create(tgt, new TicketGrantingTicketContent(userId, System.currentTimeMillis()));
         return tgt;
     }
 
@@ -43,7 +43,7 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
         String tgt = getCookieTgt(request);
         // cookie中没有
         if (!StringUtils.hasLength(tgt)) {
-            tgt = create(userId);
+            tgt = create("TGT-" + UUID.randomUUID().toString().replaceAll("-", ""), userId);
 
             // TGT存cookie
             CookieUtils.addCookie(cookieName, tgt, "/", request, response);
@@ -115,5 +115,5 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
      */
     public abstract void refresh(String tgt);
 
-    public abstract Map<String, Long> getTgtMap(Set<Long> userIds, Long current, Long size);
+    public abstract Map<String, TicketGrantingTicketContent> getTgtMap(Set<Long> userIds, Long current, Long size);
 }

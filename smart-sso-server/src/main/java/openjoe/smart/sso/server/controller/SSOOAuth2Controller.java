@@ -6,6 +6,7 @@ import openjoe.smart.sso.base.entity.Token;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
+import openjoe.smart.sso.server.entity.TicketGrantingTicketContent;
 import openjoe.smart.sso.server.entity.TokenContent;
 import openjoe.smart.sso.server.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,18 @@ public class SSOOAuth2Controller {
         codeManager.remove(code);
 
         // 校验凭证
-        Long userId = tgtManager.get(codeContent.getTgt());
-        if (userId == null) {
+        TicketGrantingTicketContent tgtContent = tgtManager.get(codeContent.getTgt());
+        if (tgtContent == null) {
             return Result.error("服务端TGT已过期");
         }
 
-        Result<TokenUser> userResult = userManager.getTokenUser(userId);
+        Result<TokenUser> userResult = userManager.getTokenUser(tgtContent.getUserId());
         if (!userResult.isSuccess()) {
             return Result.error(userResult.getMessage());
         }
 
         // 创建token
-        TokenContent tc = tokenManager.create(userId, logoutUri, codeContent);
+        TokenContent tc = tokenManager.create(tgtContent.getUserId(), logoutUri, codeContent);
 
         // 刷新服务端凭证时效
         tgtManager.refresh(tc.getTgt());
