@@ -39,6 +39,6 @@ public class SSOPermissionController {
         if (!appResult.isSuccess()) {
             return Result.success(new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList()));
         }
-        return Result.success(permissionManager.getUserPermission(tokenContent.getTokenUser().getId(), appResult.getData()));
+        return Result.success(permissionManager.getUserPermission(tokenContent.getUserId(), appResult.getData()));
     }
 }

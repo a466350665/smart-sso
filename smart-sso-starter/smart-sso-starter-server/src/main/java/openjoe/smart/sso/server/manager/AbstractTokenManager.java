@@ -66,20 +66,20 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
      * @return
      */
     public TokenContent create(TokenContent tc) {
-        return create(tc.getTokenUser(), tc.getLogoutUri(), tc);
+        return create(tc.getUserId(), tc.getLogoutUri(), tc);
     }
 
     /**
      * 创建AccessToken
      *
-     * @param tokenUser
+     * @param userId
      * @param codeContent
      * @return
      */
-    public TokenContent create(TokenUser tokenUser, String logoutUri, CodeContent codeContent) {
+    public TokenContent create(Long userId, String logoutUri, CodeContent codeContent) {
         String accessToken = "AT-" + UUID.randomUUID().toString().replaceAll("-", "");
         String refreshToken = "RT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        TokenContent tc = new TokenContent(accessToken, refreshToken, tokenUser, logoutUri, codeContent.getTgt(), codeContent.getClientId());
+        TokenContent tc = new TokenContent(accessToken, refreshToken, userId, logoutUri, codeContent.getTgt(), codeContent.getClientId());
         create(refreshToken, tc);
         return tc;
     }
@@ -121,6 +121,8 @@ public abstract class AbstractTokenManager implements LifecycleManager<TokenCont
      * @param refreshToken
      */
     public abstract void processRemoveToken(String refreshToken);
+
+    public abstract Map<String, Set<String>> getClientIdMapByTgt(Set<String> tgtSet);
 
     /**
      * 发起客户端退出请求

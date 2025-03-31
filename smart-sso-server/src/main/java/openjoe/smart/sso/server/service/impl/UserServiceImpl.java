@@ -16,11 +16,11 @@ import openjoe.smart.sso.server.util.PasswordHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService, UserManager {
@@ -31,7 +31,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     private OfficeService officeService;
 
     @Override
-    public Result<TokenUser> login(String username, String password) {
+    public Result<Long> validate(String username, String password) {
         User user = selectByAccount(username);
         if (user == null) {
             return Result.error("用户不存在");
@@ -43,6 +43,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             user.setLoginCount(user.getLoginCount() + 1);
             user.setLastLoginTime(new Date());
             updateById(user);
+        }
+        return Result.success(user.getId());
+    }
+
+    @Override
+    public Result<TokenUser> getTokenUser(Long userId) {
+        User user = getById(userId);
+        if (user == null) {
+            return Result.error("用户不存在");
         }
         return Result.success(new TokenUser(user.getId(), user.getAccount()));
     }
@@ -56,7 +65,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         });
     }
 
-    private List<User> selectByIds(List<Long> idList) {
+    private List<User> selectByIds(Collection<Long> idList) {
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
         wrapper.in(User::getId, idList);
         return list(wrapper);
@@ -91,6 +100,27 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     public void deleteByIds(Collection<Long> idList) {
         userRoleService.deleteByUserIds(idList);
         super.removeByIds(idList);
+    }
+
+    @Override
+    public Map<Long, User> selectMapByIds(Collection<Long> idList) {
+        List<User> list = selectByIds(idList);
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptyMap();
+        }
+        return list.stream().collect(Collectors.toMap(User::getId, t -> t));
+    }
+
+    @Override
+    public Set<Long> selectUserIds(String account, String name) {
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
+        wrapper.like(StringUtils.hasLength(account), User::getAccount, account)
+                .like(StringUtils.hasLength(name), User::getName, name).orderByDesc(User::getCreateTime);
+        List<User> list = list(wrapper);
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptySet();
+        }
+        return list.stream().map(User::getId).collect(Collectors.toSet());
     }
 
     @Override

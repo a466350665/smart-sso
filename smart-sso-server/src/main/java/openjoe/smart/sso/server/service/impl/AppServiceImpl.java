@@ -14,9 +14,13 @@ import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service("appService")
 public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements AppService, AppManager {
@@ -35,7 +39,7 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
         });
     }
 
-	private List<App> selectByIds(List<Long> idList){
+	private List<App> selectByIds(Collection<Long> idList){
 		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
 		wrapper.in(App::getId, idList);
 		return list(wrapper);
@@ -68,6 +72,17 @@ public class AppServiceImpl extends BaseServiceImpl<AppMapper, App> implements A
 		rolePermissionService.deleteByAppIds(idList);
 		permissionService.deleteByAppIds(idList);
 		super.removeByIds(idList);
+	}
+
+	@Override
+	public Map<String, App> selectMapByClientIds(Collection<String> clientIdList) {
+		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(App::getClientId, clientIdList);
+		List<App> list = list(wrapper);
+		if (CollectionUtils.isEmpty(list)) {
+			return Collections.emptyMap();
+		}
+		return list.stream().collect(Collectors.toMap(App::getClientId, t->t));
 	}
 
 	@Override

@@ -1,14 +1,14 @@
 package openjoe.smart.sso.server.manager.redis;
 
-import openjoe.smart.sso.base.entity.TokenUser;
-import openjoe.smart.sso.base.util.JsonUtils;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,20 +28,20 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
     }
 
     @Override
-    public void create(String tgt, TokenUser tokenUser) {
-        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(tokenUser), getTimeout(),
+    public void create(String tgt, Long userId) {
+        redisTemplate.opsForValue().set(TGT_KEY + tgt, userId.toString(), getTimeout(),
                 TimeUnit.SECONDS);
         logger.debug("Redis登录凭证创建成功, tgt:{}", tgt);
     }
 
     @Override
-    public TokenUser get(String tgt) {
-        String tokenUser = redisTemplate.opsForValue().get(TGT_KEY + tgt);
-        if (!StringUtils.hasLength(tokenUser)) {
+    public Long get(String tgt) {
+        String userId = redisTemplate.opsForValue().get(TGT_KEY + tgt);
+        if (!StringUtils.hasLength(userId)) {
             return null;
         }
         redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
-        return JsonUtils.parseObject(tokenUser, TokenUser.class);
+        return Long.parseLong(userId);
     }
 
     @Override
@@ -53,5 +53,40 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
     @Override
     public void refresh(String tgt) {
         redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Map<String, Long> getTgtMap(Set<Long> userIds, Long current, Long size) {
+        Map<String, Long> resultMap = new LinkedHashMap<>();
+        Set<String> keys = redisTemplate.keys(TGT_KEY + "*");
+        if (CollectionUtils.isEmpty(keys)) {
+            return resultMap;
+        }
+
+        List<String> sortedKeys = new ArrayList<>(keys);
+        Collections.sort(sortedKeys);
+        long start = (current - 1) * size;
+        long end = start + size;
+        long count = 0;
+
+        for (String key : sortedKeys) {
+            String tgt = key.replace(TGT_KEY, "");
+            String userIdStr = redisTemplate.opsForValue().get(key);
+            if (userIdStr == null) {
+                continue;
+            }
+
+            Long userId = Long.valueOf(userIdStr);
+            if (CollectionUtils.isEmpty(userIds) || userIds.contains(userId)) {
+                if (count >= start && count < end) {
+                    resultMap.put(tgt, userId);
+                }
+                count++;
+                if (count >= end) {
+                    break;
+                }
+            }
+        }
+        return resultMap;
     }
 }

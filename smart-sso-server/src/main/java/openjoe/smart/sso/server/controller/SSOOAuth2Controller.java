@@ -7,10 +7,7 @@ import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.enums.GrantTypeEnum;
 import openjoe.smart.sso.server.entity.CodeContent;
 import openjoe.smart.sso.server.entity.TokenContent;
-import openjoe.smart.sso.server.manager.AbstractCodeManager;
-import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
-import openjoe.smart.sso.server.manager.AbstractTokenManager;
-import openjoe.smart.sso.server.manager.AppManager;
+import openjoe.smart.sso.server.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +25,8 @@ public class SSOOAuth2Controller {
 
     @Autowired
     private AppManager appManager;
+    @Autowired
+    private UserManager userManager;
     @Autowired
     private AbstractCodeManager codeManager;
     @Autowired
@@ -70,20 +69,25 @@ public class SSOOAuth2Controller {
         codeManager.remove(code);
 
         // 校验凭证
-        TokenUser tokenUser = tgtManager.get(codeContent.getTgt());
-        if (tokenUser == null) {
+        Long userId = tgtManager.get(codeContent.getTgt());
+        if (userId == null) {
             return Result.error("服务端TGT已过期");
         }
 
+        Result<TokenUser> userResult = userManager.getTokenUser(userId);
+        if (!userResult.isSuccess()) {
+            return Result.error(userResult.getMessage());
+        }
+
         // 创建token
-        TokenContent tc = tokenManager.create(tokenUser, logoutUri, codeContent);
+        TokenContent tc = tokenManager.create(userId, logoutUri, codeContent);
 
         // 刷新服务端凭证时效
         tgtManager.refresh(tc.getTgt());
 
         // 返回token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
+                tokenManager.getRefreshTokenTimeout(), userResult.getData()));
     }
 
     /**
@@ -107,6 +111,11 @@ public class SSOOAuth2Controller {
             return Result.error("refreshToken有误或已过期");
         }
 
+        Result<TokenUser> userResult = userManager.getTokenUser(atContent.getUserId());
+        if (!userResult.isSuccess()) {
+            return Result.error(userResult.getMessage());
+        }
+
         // 删除原有token
         tokenManager.remove(refreshToken);
 
@@ -118,6 +127,6 @@ public class SSOOAuth2Controller {
 
         // 返回新token
         return Result.success(new Token(tc.getAccessToken(), tokenManager.getAccessTokenTimeout(), tc.getRefreshToken(),
-                tokenManager.getRefreshTokenTimeout(), tc.getTokenUser()));
+                tokenManager.getRefreshTokenTimeout(), userResult.getData()));
     }
 }

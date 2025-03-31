@@ -1,11 +1,12 @@
 package openjoe.smart.sso.server.service;
 
+import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.stage.core.Page;
 import openjoe.smart.sso.server.stage.mybatisplus.service.BaseService;
-import openjoe.smart.sso.server.entity.App;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 应用服务接口
@@ -44,6 +45,8 @@ public interface AppService extends BaseService<App> {
 	App selectByClientId(String clientId);
 
 	void deleteByIds(Collection<Long> idList);
+
+	Map<String, App> selectMapByClientIds(Collection<String> clientIdList);
 
 	String generateClientId();
 }

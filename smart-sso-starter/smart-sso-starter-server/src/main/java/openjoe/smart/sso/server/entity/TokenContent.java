@@ -1,7 +1,5 @@
 package openjoe.smart.sso.server.entity;
 
-import openjoe.smart.sso.base.entity.TokenUser;
-
 /**
  * Token存储信息
  *
@@ -11,18 +9,18 @@ public class TokenContent extends CodeContent {
 
     private String accessToken;
     private String refreshToken;
-    private TokenUser tokenUser;
+    private Long userId;
     private String logoutUri;
 
     public TokenContent() {
         super();
     }
 
-    public TokenContent(String accessToken, String refreshToken, TokenUser tokenUser, String logoutUri, String tgt, String clientId) {
+    public TokenContent(String accessToken, String refreshToken, Long userId, String logoutUri, String tgt, String clientId) {
         super(tgt, clientId);
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.tokenUser = tokenUser;
+        this.userId = userId;
         this.logoutUri = logoutUri;
     }
 
@@ -42,12 +40,12 @@ public class TokenContent extends CodeContent {
         this.refreshToken = refreshToken;
     }
 
-    public TokenUser getTokenUser() {
-        return tokenUser;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setTokenUser(TokenUser tokenUser) {
-        this.tokenUser = tokenUser;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getLogoutUri() {
