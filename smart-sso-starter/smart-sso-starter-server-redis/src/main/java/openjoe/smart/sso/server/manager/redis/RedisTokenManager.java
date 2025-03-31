@@ -9,6 +9,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -115,6 +118,32 @@ public class RedisTokenManager extends AbstractTokenManager {
         // 发起客户端退出请求
         logger.debug("发起客户端退出请求, accessToken:{}, refreshToken:{}, logoutUri:{}", tokenContent.getAccessToken(), refreshToken, tokenContent.getLogoutUri());
         sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
+    }
+
+    @Override
+    public Map<String, Set<String>> getClientIdMapByTgt(Set<String> tgtSet) {
+        Map<String, Set<String>> clientIdMap = new HashMap<>();
+        tgtSet.forEach(tgt -> {
+            Set<String> refreshTokenSet = redisTemplate.opsForSet().members(TGT_REFRESH_TOKEN_KEY + tgt);
+            if (CollectionUtils.isEmpty(refreshTokenSet)) {
+                return;
+            }
+            Set<String> clientIdSet = new HashSet<>();
+            refreshTokenSet.forEach(refreshToken -> {
+                String tc = redisTemplate.opsForValue().get(REFRESH_TOKEN_KEY + refreshToken);
+                if (!StringUtils.hasLength(tc)) {
+                    return;
+                }
+
+                TokenContent tokenContent = JsonUtils.parseObject(tc, TokenContent.class);
+                if (tokenContent == null) {
+                    return;
+                }
+                clientIdSet.add(tokenContent.getClientId());
+            });
+            clientIdMap.put(tgt, clientIdSet);
+        });
+        return clientIdMap;
     }
 
 }

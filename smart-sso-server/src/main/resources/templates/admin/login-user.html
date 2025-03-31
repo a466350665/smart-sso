@@ -1,0 +1,97 @@
+<title>登录用户</title>
+<#include "../common/common.html"/>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="widget-box">
+					<div class="widget-header widget-header-small">
+						<h5 class="widget-title lighter">搜索栏</h5>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main">
+							<form id="_form" class="form-inline">
+								<input id="_officeId" type="hidden" name="officeId" value="">
+								<label>
+									<label class="control-label"> 登录名： </label>
+									<input name="account" type="text" class="form-data input-medium search-data">
+								</label>
+								<label>
+									<label class="control-label"> 姓名： </label>
+									<input name="name" type="text" class="form-data input-medium search-data">
+								</label>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="dataTables_wrapper form-inline no-footer">
+						<table id="_table" class="table table-striped table-bordered table-hover dataTable no-footer">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+		jQuery(function($) {
+			// 列表
+    		var $table = $("#_table").table({
+    			url : "${request.contextPath}/admin/login-user/list",
+    			formId : "_form",
+				tools : [
+					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(){
+						if($table.validateSelected(true)){
+							$table.ajax({
+								url : "${request.contextPath}/admin/login-user/logout",
+								data : {tgts : $table.getSelectedItemKeys("tgt")},
+								confirm : "确认下线?",
+								after : function(){
+									$table.reload();
+								}
+							});
+						}
+					}}
+				],
+				columns : [
+			        {field:'id', hide : true},
+			        {field:'isEnable', hide : true},
+			        {field:'name', title:'姓名', align:'left'},
+			        {field:'account', title:'登录名', align:'left'},
+			        {field:'loginTime', title:'登录时间', mobileHide : true},
+			        {field:'tgt', title:'登录凭证', align:'left', mobileHide : true},
+			        {field:'apps', title:'已访问应用', mobileHide : true, replace : function (d){
+			        	return d.apps.split(',').join('<br/>');
+			        }}
+				],
+				operate : [
+					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(d, i){
+						$table.ajax({
+							url : "${request.contextPath}/admin/login-user/logout",
+							data : {tgts : $table.getSelectedItemKeys("tgt")},
+							confirm : "确认下线?",
+							after : function(){
+								$table.reload();
+							}
+						});
+					}}
+				],
+				after : function(){
+					// 权限处理
+					$.permission();
+				}
+			});
+
+			//搜索
+			$(".search-data").keyup(function () {
+				$table.search();
+			});
+		});
+	});
+</script>

@@ -50,6 +50,13 @@ public class Page<T> {
         this.total = total;
     }
 
+    public Page(long current, long size, List<T> records) {
+        this.current = current;
+        this.size = size;
+        this.total = records.size();
+        this.records = records;
+    }
+
     public List<T> getRecords() {
         return this.records;
     }
@@ -111,5 +118,9 @@ public class Page<T> {
 
     public static <T> Page<T> of(long current, long size, long total) {
         return new Page(current, size, total);
+    }
+
+    public static <T> Page<T> of(long current, long size, List<T> records) {
+        return new Page(current, size, records);
     }
 }

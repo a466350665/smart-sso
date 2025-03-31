@@ -8,9 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -109,7 +107,27 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
         sendLogoutRequest(tokenContent.getLogoutUri(), tokenContent.getAccessToken());
     }
 
-
+    @Override
+    public Map<String, Set<String>> getClientIdMapByTgt(Set<String> tgtSet) {
+        Map<String, Set<String>> clientIdMap = new HashMap<>();
+        tgtSet.forEach(tgt -> {
+            Set<String> refreshTokenSet = tgtMap.get(tgt);
+            Set<String> clientIdSet = new HashSet<>();
+            refreshTokenSet.forEach(refreshToken -> {
+                ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.get(refreshToken);
+                if (wrapper == null) {
+                    return;
+                }
+                TokenContent tokenContent = wrapper.getObject();
+                if (tokenContent == null) {
+                    return;
+                }
+                clientIdSet.add(tokenContent.getClientId());
+            });
+            clientIdMap.put(tgt, clientIdSet);
+        });
+        return clientIdMap;
+    }
 
     @Override
     public void verifyExpired() {

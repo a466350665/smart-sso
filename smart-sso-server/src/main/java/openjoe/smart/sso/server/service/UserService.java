@@ -1,11 +1,13 @@
 package openjoe.smart.sso.server.service;
 
+import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.stage.core.Page;
 import openjoe.smart.sso.server.stage.mybatisplus.service.BaseService;
-import openjoe.smart.sso.server.entity.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户服务接口
@@ -57,4 +59,8 @@ public interface UserService extends BaseService<User> {
 	void updatePassword(Long id, String newPassword);
 
 	void deleteByIds(Collection<Long> idList);
+
+	Map<Long, User> selectMapByIds(Collection<Long> idList);
+
+	Set<Long> selectUserIds(String account, String name);
 }

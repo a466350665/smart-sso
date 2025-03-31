@@ -1,12 +1,13 @@
 package openjoe.smart.sso.server.manager;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.base.entity.LifecycleManager;
-import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.base.util.CookieUtils;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -14,7 +15,7 @@ import java.util.UUID;
  *
  * @author Joe
  */
-public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<TokenUser> {
+public abstract class AbstractTicketGrantingTicketManager implements LifecycleManager<Long> {
 
     private AbstractTokenManager tokenManager;
     private int timeout;
@@ -29,25 +30,25 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
     /**
      * 登录成功后，根据用户信息创建令牌
      *
-     * @param user
+     * @param userId
      * @return
      */
-    String create(TokenUser user) {
+    String create(Long userId) {
         String tgt = "TGT-" + UUID.randomUUID().toString().replaceAll("-", "");
-        create(tgt, user);
+        create(tgt, userId);
         return tgt;
     }
 
-    public String getOrCreate(TokenUser tokenUser, HttpServletRequest request, HttpServletResponse response) {
+    public String getOrCreate(Long userId, HttpServletRequest request, HttpServletResponse response) {
         String tgt = getCookieTgt(request);
         // cookie中没有
         if (!StringUtils.hasLength(tgt)) {
-            tgt = create(tokenUser);
+            tgt = create(userId);
 
             // TGT存cookie
             CookieUtils.addCookie(cookieName, tgt, "/", request, response);
         } else {
-            create(tgt, tokenUser);
+            create(tgt, userId);
         }
         return tgt;
     }
@@ -57,12 +58,16 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
         if (!StringUtils.hasLength(tgt)) {
             return;
         }
+        invalidate(tgt);
+        // 删除凭证Cookie
+        CookieUtils.removeCookie(cookieName, "/", response);
+    }
+
+    public void invalidate(String tgt) {
         // 删除登录凭证
         remove(tgt);
         // 删除所有Token，通知所有客户端退出，注销其本地Token
         tokenManager.removeByTgt(tgt);
-        // 删除凭证Cookie
-        CookieUtils.removeCookie(cookieName, "/", response);
     }
 
     public String get(HttpServletRequest request) {
@@ -109,4 +114,6 @@ public abstract class AbstractTicketGrantingTicketManager implements LifecycleMa
      * @return
      */
     public abstract void refresh(String tgt);
+
+    public abstract Map<String, Long> getTgtMap(Set<Long> userIds, Long current, Long size);
 }

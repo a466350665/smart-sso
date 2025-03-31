@@ -2,7 +2,6 @@ package openjoe.smart.sso.server.controller;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
-import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.server.manager.AbstractCodeManager;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AppManager;
@@ -83,7 +82,7 @@ public class SSOLoginController {
             return goLoginPage(redirectUri, clientId, request);
         }
 
-        Result<TokenUser> result = userManager.login(username, password);
+        Result<Long> result = userManager.validate(username, password);
         if (!result.isSuccess()) {
             request.setAttribute("errorMessage", result.getMessage());
             return goLoginPage(redirectUri, clientId, request);
