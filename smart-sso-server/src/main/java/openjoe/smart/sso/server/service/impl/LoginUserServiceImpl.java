@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.service.impl;
 
 import openjoe.smart.sso.server.dto.LoginUserDTO;
 import openjoe.smart.sso.server.entity.App;
+import openjoe.smart.sso.server.entity.TicketGrantingTicketContent;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
@@ -35,36 +36,34 @@ public class LoginUserServiceImpl implements LoginUserService {
         if (StringUtils.hasLength(account) || StringUtils.hasLength(name)) {
             userIds = userService.selectUserIds(account, name);
         }
-        Map<String, Long> tgtMap = tgtManager.getTgtMap(userIds, current, size);
+        Map<String, TicketGrantingTicketContent> tgtMap = tgtManager.getTgtMap(userIds, current, size);
         List<LoginUserDTO> list = convertList(tgtMap);
         return Page.of(current, size, list);
     }
 
-    private List<LoginUserDTO> convertList(Map<String, Long> tgtMap) {
+    private List<LoginUserDTO> convertList(Map<String, TicketGrantingTicketContent> tgtMap) {
         if (CollectionUtils.isEmpty(tgtMap)) {
             return Collections.emptyList();
         }
-        Map<Long, User> userMap = userService.selectMapByIds(tgtMap.values());
+        Map<Long, User> userMap = userService.selectMapByIds(
+                tgtMap.values().stream().map(TicketGrantingTicketContent::getUserId).collect(Collectors.toSet()));
         Map<String, Set<String>> clientIdMap = tokenManager.getClientIdMapByTgt(tgtMap.keySet());
         Map<String, App> appMap = appService.selectMapByClientIds(clientIdMap.values().stream()
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet()));
 
         List<LoginUserDTO> dtoList = new ArrayList<>();
-        tgtMap.forEach((tgt, userId) -> {
+        tgtMap.forEach((tgt, tgtContent) -> {
             LoginUserDTO dto = new LoginUserDTO();
             dto.setTgt(tgt);
-            User user = userMap.get(userId);
+            User user = userMap.get(tgtContent.getUserId());
             dto.setId(user.getId());
             dto.setName(user.getName());
             dto.setAccount(user.getAccount());
-            dto.setLoginTime(user.getLastLoginTime());
+            dto.setCreateTime(new Date(tgtContent.getCreateTime()));
             Set<String> clientIds = clientIdMap.get(tgt);
-            dto.setApps(clientIds.stream().map(clientId -> {
-                App app = appMap.get(clientId);
-                return app.getCode() + "(" + app.getClientId() + ")";
-            }).collect(Collectors.joining(",")));
-
+            dto.setApps(clientIds.stream().map(
+                    clientId -> appMap.get(clientId).getCode()).collect(Collectors.joining(",")));
             dtoList.add(dto);
         });
         return dtoList;

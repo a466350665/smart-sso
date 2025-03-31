@@ -12,8 +12,8 @@ public class LoginUserDTO {
     private String account;
     /** 登录凭证 */
     private String tgt;
-    /** 登录时间 */
-    private Date loginTime;
+    /** 凭证创建时间 */
+    private Date createTime;
     /** 已访问应用 */
     private String apps;
 
@@ -49,12 +49,12 @@ public class LoginUserDTO {
         this.tgt = tgt;
     }
 
-    public Date getLoginTime() {
-        return loginTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setLoginTime(Date loginTime) {
-        this.loginTime = loginTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getApps() {

@@ -1,5 +1,7 @@
 package openjoe.smart.sso.server.manager.redis;
 
+import openjoe.smart.sso.base.util.JsonUtils;
+import openjoe.smart.sso.server.entity.TicketGrantingTicketContent;
 import openjoe.smart.sso.server.manager.AbstractTicketGrantingTicketManager;
 import openjoe.smart.sso.server.manager.AbstractTokenManager;
 import org.slf4j.Logger;
@@ -28,20 +30,20 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
     }
 
     @Override
-    public void create(String tgt, Long userId) {
-        redisTemplate.opsForValue().set(TGT_KEY + tgt, userId.toString(), getTimeout(),
+    public void create(String tgt, TicketGrantingTicketContent tgtContent) {
+        redisTemplate.opsForValue().set(TGT_KEY + tgt, JsonUtils.toString(tgtContent), getTimeout(),
                 TimeUnit.SECONDS);
         logger.debug("Redis登录凭证创建成功, tgt:{}", tgt);
     }
 
     @Override
-    public Long get(String tgt) {
-        String userId = redisTemplate.opsForValue().get(TGT_KEY + tgt);
-        if (!StringUtils.hasLength(userId)) {
+    public TicketGrantingTicketContent get(String tgt) {
+        String tgtContent = redisTemplate.opsForValue().get(TGT_KEY + tgt);
+        if (!StringUtils.hasLength(tgtContent)) {
             return null;
         }
         redisTemplate.expire(TGT_KEY + tgt, getTimeout(), TimeUnit.SECONDS);
-        return Long.parseLong(userId);
+        return JsonUtils.parseObject(tgtContent, TicketGrantingTicketContent.class);
     }
 
     @Override
@@ -56,8 +58,8 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
     }
 
     @Override
-    public Map<String, Long> getTgtMap(Set<Long> userIds, Long current, Long size) {
-        Map<String, Long> resultMap = new LinkedHashMap<>();
+    public Map<String, TicketGrantingTicketContent> getTgtMap(Set<Long> userIds, Long current, Long size) {
+        Map<String, TicketGrantingTicketContent> resultMap = new LinkedHashMap<>();
         Set<String> keys = redisTemplate.keys(TGT_KEY + "*");
         if (CollectionUtils.isEmpty(keys)) {
             return resultMap;
@@ -71,15 +73,15 @@ public class RedisTicketGrantingTicketManager extends AbstractTicketGrantingTick
 
         for (String key : sortedKeys) {
             String tgt = key.replace(TGT_KEY, "");
-            String userIdStr = redisTemplate.opsForValue().get(key);
-            if (userIdStr == null) {
+            String tgtContentStr = redisTemplate.opsForValue().get(key);
+            if (!StringUtils.hasLength(tgtContentStr)) {
                 continue;
             }
 
-            Long userId = Long.valueOf(userIdStr);
-            if (CollectionUtils.isEmpty(userIds) || userIds.contains(userId)) {
+            TicketGrantingTicketContent tgtContent = JsonUtils.parseObject(tgtContentStr, TicketGrantingTicketContent.class);
+            if (CollectionUtils.isEmpty(userIds) || userIds.contains(tgtContent.getUserId())) {
                 if (count >= start && count < end) {
-                    resultMap.put(tgt, userId);
+                    resultMap.put(tgt, tgtContent);
                 }
                 count++;
                 if (count >= end) {

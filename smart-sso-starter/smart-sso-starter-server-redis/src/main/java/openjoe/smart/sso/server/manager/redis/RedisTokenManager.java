@@ -23,9 +23,9 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenManager extends AbstractTokenManager {
 
     private final Logger logger = LoggerFactory.getLogger(RedisTokenManager.class);
-    private static final String ACCESS_TOKEN_KEY = "server_at_";
-    private static final String REFRESH_TOKEN_KEY = "server_rt_";
-    private static final String TGT_REFRESH_TOKEN_KEY = "server_tgt_rt_";
+    private static final String ACCESS_TOKEN_KEY = "server_token_at_";
+    private static final String REFRESH_TOKEN_KEY = "server_token_rt_";
+    private static final String TGT_REFRESH_TOKEN_KEY = "server_token_tgt_rt_";
 
     private StringRedisTemplate redisTemplate;
 

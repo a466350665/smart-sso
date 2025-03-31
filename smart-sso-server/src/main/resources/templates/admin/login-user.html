@@ -47,7 +47,7 @@
     			formId : "_form",
 				tools : [
 					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(){
-						if($table.validateSelected(true)){
+						if($table.validateSelected(false)){
 							$table.ajax({
 								url : "${request.contextPath}/admin/login-user/logout",
 								data : {tgts : $table.getSelectedItemKeys("tgt")},
@@ -64,8 +64,8 @@
 			        {field:'isEnable', hide : true},
 			        {field:'name', title:'姓名', align:'left'},
 			        {field:'account', title:'登录名', align:'left'},
-			        {field:'loginTime', title:'登录时间', mobileHide : true},
 			        {field:'tgt', title:'登录凭证', align:'left', mobileHide : true},
+			        {field:'createTime', title:'凭证创建时间', mobileHide : true},
 			        {field:'apps', title:'已访问应用', mobileHide : true, replace : function (d){
 			        	return d.apps.split(',').join('<br/>');
 			        }}
