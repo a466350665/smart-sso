@@ -71,10 +71,10 @@ smart-sso
 | spring-boot-starter-freemarker | 3.3.4   | 模板引擎  |
 | springfox-boot-starter      | 3.0.0   | 文档     |
 | mybatis-plus-spring-boot3-starter           | 3.5.7   | ORM框架  |
-| mysql-connector-java    | 8.0.28   | 数据库驱动  |
+| mysql-connector-j    | 8.0.33   | 数据库驱动  |
 | httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
 
-## 为何选择用OAuth2？
+## 为什么选用OAuth2？
 
 以下对常见的几种SSO认证方式对比：
 
