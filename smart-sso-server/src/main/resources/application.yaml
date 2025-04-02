@@ -1,6 +1,10 @@
 server:
   port: 8080
 
+logging:
+  level:
+    openjoe.smart.sso.server.mapper: debug #打印sql日志
+
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
