@@ -1,194 +1,194 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Smart-SSO-Demo-H5</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart-SSO-Demo-H5</title>
+    </head>
 
-<body>
-    <h2>Smart-SSO-Demo-H5</h2>
+    <body>
+        <h2>Smart-SSO-Demo-H5</h2>
 
-    <br /><b>用户名</b>：<span id="_username"></span><br />
+        <br /><b>用户名</b>：<span id="_username"></span><br />
 
-    <br /><b>用户已分配的菜单</b>：<span id="_userMenus"></span>
+        <br /><b>用户已分配的菜单</b>：<span id="_userMenus"></span>
 
-    <br /><b>用户已分配的权限</b>：<span id="_userPermissions"></span>
+        <br /><b>用户已分配的权限</b>：<span id="_userPermissions"></span>
 
-    <br /><a href="javascript:goSSOLogoutUrl()">单点退出</a>
-</body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>window.jQuery || alert('jQuery.js未加载成功，请检查网络或更换CDN')</script>
-<script type="text/javascript">
-    // 当前应用后端服务地址
-    var BASE_URL = "http://demo.smart-sso.com:8082";
-    // 客户端ID（保持与smart.sso.client-id配置一致，用于多个客户端应用在同域部署下的数据隔离）
-    var CLIENT_ID = "1002";
-    // token名称前缀（保持与smart.sso.token-name-prefix配置一致，如果没有自定义则默认"smart-sso-token-"）
-    var TOKEN_NAME_PREFIX = "smart-sso-token-";
-    $(function () {
-        if (validateLogin()) {
-            getUserinfo();
-        }
-    })
-
-    // 校验是否需要跳转到SSO认证中心
-    function validateLogin() {
-        var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
-        if (accessToken) {
-            return true;
-        }
-        var code = getParam('code');
-        if (code && getAccessToken(code)) {
-            removeCodeParamAndRedirect();
-            return true;
-        }
-        goSSOLoginUrl();
-        return false;
-    }
-
-    // 获取用户信息
-    function getUserinfo() {
-        smart.ajax('GET', BASE_URL + "/userinfo", {}, function (res) {
-                var userinfo = res.data;
-
-                // 用户名
-                $("#_username").html(userinfo.username);
-
-                // 用户已分配的菜单
-                var userMenus = '';
-                userinfo.userMenus.forEach(function (menu) {
-                    userMenus += '<li>' + menu + '</li>';
-                });
-                $('#_userMenus').html(userMenus);
-
-                // 用户已分配的权限
-                var userPermissions = '';
-                userinfo.userPermissions.forEach(function (permission) {
-                    userPermissions += '<li>' + permission + '</li>';
-                });
-                $('#_userPermissions').html(userPermissions);
-            });
-    }
-
-    // 重定向至认证中心
-    function goSSOLoginUrl() {
-        $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
-            window.location.href = res.data;
-        })
-    }
-
-    // 重定向至服务端退出地址
-    function goSSOLogoutUrl() {
-        $.getJSON(BASE_URL + '/auth/logout_url?redirectUri=' + location.href, function (res) {
-            window.location.href = res.data;
-        })
-    }
-
-    // 获取accessToken
-    function getAccessToken(code) {
-        var bool = false;
-        $.ajax({
-            url: BASE_URL + "/auth/access-token?code=" + code,
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (res) {
-                if (res.code == 1) {
-                    localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
-                    localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
-                    bool = true;
-                }
+        <br /><a href="javascript:goSSOLogoutUrl()">单点退出</a>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>window.jQuery || alert('jQuery.js未加载成功，请检查网络或更换CDN')</script>
+    <script type="text/javascript">
+        // 当前应用后端服务地址
+        var BASE_URL = "http://demo.smart-sso.com:8082";
+        // 客户端ID（保持与smart.sso.client-id配置一致，用于多个客户端应用在同域部署下的数据隔离）
+        var CLIENT_ID = "1002";
+        // token名称前缀（保持与smart.sso.token-name-prefix配置一致，如果没有自定义则默认"smart-sso-token-"）
+        var TOKEN_NAME_PREFIX = "smart-sso-token-";
+        $(function () {
+            if (validateLogin()) {
+                getUserinfo();
             }
-        });
-        return bool;
-    }
+        })
 
-    // 获取refreshToken
-    function getRefreshToken() {
-        var bool = false;
-        $.ajax({
-            url: BASE_URL + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken" + CLIENT_ID),
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (res) {
-                if (res.code == 1) {
-                    localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
-                    localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
-                    bool = true;
-                }
+        // 校验是否需要跳转到SSO认证中心
+        function validateLogin() {
+            var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
+            if (accessToken) {
+                return true;
             }
-        });
-        return bool;
-    }
-
-    // 从url中获取指定名称的参数值
-    function getParam(name) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == name) { return pair[1]; }
+            var code = getParam('code');
+            if (code && getAccessToken(code)) {
+                removeCodeParamAndRedirect();
+                return true;
+            }
+            goSSOLoginUrl();
+            return false;
         }
-        return null;
-    }
 
-    // 重定向方式去除地址栏中的code参数
-    function removeCodeParamAndRedirect() {
-        var url = new URL(window.location.href);
-        url.searchParams.delete('code');
-        window.location.href = url.toString();
-    }
-</script>
-<script type="text/javascript">
-    var smart = {};
-    // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
-    smart.ajax = function (method, url, data, successFn) {
-        $.ajax({
-            type: method,
-            url: url,
-            data: data,
-            dataType: 'json',
-            headers: {
-                // 传递调用凭证
-                [TOKEN_NAME_PREFIX + CLIENT_ID]: localStorage.getItem("accessToken" + CLIENT_ID),
-                // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function (res) {
-                // 响应成功
-                if (res.code == 1) {
-                    successFn(res);
-                }
-                // 后端登录失效，需要清理前端缓存，并跳转至认证中心
-                else if (res.code == 10) {
-                    localStorage.clear();
-                    goSSOLoginUrl();
-                }
-                /**
-                 * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
-                 * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
-                 * 2、否则，跳转至认证中心
-                 */
-                else if (res.code == 15) {
-                    if (getRefreshToken()) {
-                        smart.ajax(method, url, data, successFn);
+        // 获取用户信息
+        function getUserinfo() {
+            smart.ajax('GET', BASE_URL + "/userinfo", {}, function (res) {
+                    var userinfo = res.data;
+
+                    // 用户名
+                    $("#_username").html(userinfo.username);
+
+                    // 用户已分配的菜单
+                    var userMenus = '';
+                    userinfo.userMenus.forEach(function (menu) {
+                        userMenus += '<li>' + menu + '</li>';
+                    });
+                    $('#_userMenus').html(userMenus);
+
+                    // 用户已分配的权限
+                    var userPermissions = '';
+                    userinfo.userPermissions.forEach(function (permission) {
+                        userPermissions += '<li>' + permission + '</li>';
+                    });
+                    $('#_userPermissions').html(userPermissions);
+                });
+        }
+
+        // 重定向至认证中心
+        function goSSOLoginUrl() {
+            $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
+                window.location.href = res.data;
+            })
+        }
+
+        // 重定向至服务端退出地址
+        function goSSOLogoutUrl() {
+            $.getJSON(BASE_URL + '/auth/logout_url?redirectUri=' + location.href, function (res) {
+                window.location.href = res.data;
+            })
+        }
+
+        // 获取accessToken
+        function getAccessToken(code) {
+            var bool = false;
+            $.ajax({
+                url: BASE_URL + "/auth/access-token?code=" + code,
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
+                        localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
+                        bool = true;
                     }
-                    else {
+                }
+            });
+            return bool;
+        }
+
+        // 获取refreshToken
+        function getRefreshToken() {
+            var bool = false;
+            $.ajax({
+                url: BASE_URL + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken" + CLIENT_ID),
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
+                        localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
+                        bool = true;
+                    }
+                }
+            });
+            return bool;
+        }
+
+        // 从url中获取指定名称的参数值
+        function getParam(name) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == name) { return pair[1]; }
+            }
+            return null;
+        }
+
+        // 重定向方式去除地址栏中的code参数
+        function removeCodeParamAndRedirect() {
+            var url = new URL(window.location.href);
+            url.searchParams.delete('code');
+            window.location.href = url.toString();
+        }
+    </script>
+    <script type="text/javascript">
+        var smart = {};
+        // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
+        smart.ajax = function (method, url, data, successFn) {
+            $.ajax({
+                type: method,
+                url: url,
+                data: data,
+                dataType: 'json',
+                headers: {
+                    // 传递调用凭证
+                    [TOKEN_NAME_PREFIX + CLIENT_ID]: localStorage.getItem("accessToken" + CLIENT_ID),
+                    // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function (res) {
+                    // 响应成功
+                    if (res.code == 1) {
+                        successFn(res);
+                    }
+                    // 后端登录失效，需要清理前端缓存，并跳转至认证中心
+                    else if (res.code == 10) {
+                        localStorage.clear();
                         goSSOLoginUrl();
                     }
+                    /**
+                     * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
+                     * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
+                     * 2、否则，跳转至认证中心
+                     */
+                    else if (res.code == 15) {
+                        if (getRefreshToken()) {
+                            smart.ajax(method, url, data, successFn);
+                        }
+                        else {
+                            goSSOLoginUrl();
+                        }
+                    }
+                    // 其它异常，弹出提示
+                    else {
+                        alert(res.message);
+                    }
+                },
+                error: function (xhr, type, errorThrown) {
+                    alert(JSON.stringify(xhr));
                 }
-                // 其它异常，弹出提示
-                else {
-                    alert(res.message);
-                }
-            },
-            error: function (xhr, type, errorThrown) {
-                alert(JSON.stringify(xhr));
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 
 </html>

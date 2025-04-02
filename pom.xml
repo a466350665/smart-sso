@@ -24,7 +24,7 @@
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<springfox.version>3.0.0</springfox.version>
 		<httpclient.version>4.5.14</httpclient.version>
-		<mysql.version>8.0.28</mysql.version>
+		<mysql.version>8.0.33</mysql.version>
 	</properties>
 
 	<dependencyManagement>
@@ -74,8 +74,8 @@
 			</dependency>
 
 			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
+				<groupId>com.mysql</groupId>
+				<artifactId>mysql-connector-j</artifactId>
 				<version>${mysql.version}</version>
 			</dependency>
 
