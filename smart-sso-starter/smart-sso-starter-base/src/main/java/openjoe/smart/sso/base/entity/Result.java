@@ -94,14 +94,14 @@ public class Result<T> {
 
     @Transient
     public boolean isSuccess() {
-        return SUCCESS_CODE == code;
+        return SUCCESS_CODE.equals(code);
     }
 
     @Override
     public String toString() {
         return "Result{" +
-                "code=" + code +
-                ", message='" + message + '\'' +
+                "code='" + code +
+                "', message='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

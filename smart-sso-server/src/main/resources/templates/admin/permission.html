@@ -253,7 +253,7 @@
 					$.post("${request.contextPath}/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							var message = "保存成功";
-							if(d.code == 1){
+							if(d.code == '000000'){
 								$("#_editForm")[0].reset();
 								reloadTree();
 							}
@@ -323,7 +323,7 @@
 							if(result) {
 								$.post("${request.contextPath}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
-										if(d.code == 1){
+										if(d.code == '000000'){
 											$.gritter.add({
 												text: d.message,
 												sticky: false,

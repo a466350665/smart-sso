@@ -8,7 +8,7 @@
 	function convertJson(result){
 		var html = '';
 		if($.type(result) == 'object'){
-			if(result.code == '10'){// 未登录或已过期
+			if(result.code == '000010'){// 未登录或已过期
 				location.reload();
 				return;
 			}
