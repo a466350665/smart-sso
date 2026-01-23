@@ -93,10 +93,10 @@
                 type: 'GET',
                 async: false,
                 dataType: 'json',
-                success: function (res) {
-                    if (res.code == '000000') {
-                        localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
-                        localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
+                success: function (d) {
+                    if (d.code == '000000') {
+                        localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                        localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
                         bool = true;
                     }
                 }
@@ -112,10 +112,10 @@
                 type: 'GET',
                 async: false,
                 dataType: 'json',
-                success: function (res) {
-                    if (res.code == '000000') {
-                        localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
-                        localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
+                success: function (d) {
+                    if (d.code == '000000') {
+                        localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                        localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
                         bool = true;
                     }
                 }
@@ -156,13 +156,13 @@
                     // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                success: function (res) {
+                success: function (d) {
                     // 响应成功
-                    if (res.code == '000000') {
-                        successFn(res);
+                    if (d.code == '000000') {
+                        successFn(d);
                     }
                     // 后端登录失效，需要清理前端缓存，并跳转至认证中心
-                    else if (res.code == '000010') {
+                    else if (d.code == '000010') {
                         localStorage.clear();
                         goSSOLoginUrl();
                     }
@@ -171,7 +171,7 @@
                      * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
                      * 2、否则，跳转至认证中心
                      */
-                    else if (res.code == '000015') {
+                    else if (d.code == '000015') {
                         if (getRefreshToken()) {
                             smart.ajax(method, url, data, successFn);
                         }
@@ -181,7 +181,7 @@
                     }
                     // 其它异常，弹出提示
                     else {
-                        alert(res.message);
+                        alert(d.message);
                     }
                 },
                 error: function (xhr, type, errorThrown) {

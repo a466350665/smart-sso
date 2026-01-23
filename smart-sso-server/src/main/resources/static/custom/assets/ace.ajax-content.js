@@ -5,17 +5,17 @@
 (function($ , undefined) {
 	var ajax_loaded_scripts = {}
 
-	function convertJson(result){
+	function convertJson(d){
 		var html = '';
-		if($.type(result) == 'object'){
-			if(result.code == '000010'){// 未登录或已过期
+		if($.type(d) == 'object'){
+			if(d.code == '000010'){// 未登录或已过期
 				location.reload();
 				return;
 			}
 			else{// 异常显示
 				html += '<div class="row">';
 				html += '	<div class="col-xs-12">';
-				html += JSON.stringify(result);
+				html += JSON.stringify(d);
 				html += '	</div>';
 				html += '</div>';
 				html += '<script type="text/javascript">';
@@ -25,7 +25,7 @@
 			}
 		}
 		else{
-			html = result;
+			html = d;
 		}
 		return html;
 	}
