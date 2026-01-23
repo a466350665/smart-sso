@@ -22,7 +22,7 @@ public abstract class AbstractClientFilter {
      */
     public abstract boolean isAccessAllowed() throws IOException;
 
-    protected void responseJson(int code, String message) throws IOException {
+    protected void responseJson(String code, String message) throws IOException {
         HttpServletResponse response = ClientContextHolder.getResponse();
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_OK);

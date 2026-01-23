@@ -94,7 +94,7 @@
                 async: false,
                 dataType: 'json',
                 success: function (res) {
-                    if (res.code == 1) {
+                    if (res.code == '000000') {
                         localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
                         localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
                         bool = true;
@@ -113,7 +113,7 @@
                 async: false,
                 dataType: 'json',
                 success: function (res) {
-                    if (res.code == 1) {
+                    if (res.code == '000000') {
                         localStorage.setItem("accessToken" + CLIENT_ID, res.data.accessToken);
                         localStorage.setItem("refreshToken" + CLIENT_ID, res.data.refreshToken);
                         bool = true;
@@ -158,11 +158,11 @@
                 },
                 success: function (res) {
                     // 响应成功
-                    if (res.code == 1) {
+                    if (res.code == '000000') {
                         successFn(res);
                     }
                     // 后端登录失效，需要清理前端缓存，并跳转至认证中心
-                    else if (res.code == 10) {
+                    else if (res.code == '000010') {
                         localStorage.clear();
                         goSSOLoginUrl();
                     }
@@ -171,7 +171,7 @@
                      * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
                      * 2、否则，跳转至认证中心
                      */
-                    else if (res.code == 15) {
+                    else if (res.code == '000015') {
                         if (getRefreshToken()) {
                             smart.ajax(method, url, data, successFn);
                         }

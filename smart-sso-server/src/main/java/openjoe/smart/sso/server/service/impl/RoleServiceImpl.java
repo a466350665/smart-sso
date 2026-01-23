@@ -2,8 +2,8 @@ package openjoe.smart.sso.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import openjoe.smart.sso.server.stage.core.Page;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
+import openjoe.smart.stage.core.entity.Page;
+import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Role;
 import openjoe.smart.sso.server.mapper.RoleMapper;

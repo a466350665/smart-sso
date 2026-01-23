@@ -1,9 +1,7 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.server.stage.core.Result;
-import openjoe.smart.sso.server.stage.exception.ApplicationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.entity.Office;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
@@ -11,6 +9,8 @@ import openjoe.smart.sso.server.service.OfficeService;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.sso.server.util.PasswordHelper;
+import openjoe.smart.stage.core.entity.Result;
+import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author Joe
  */
-@Api(tags = "用户管理")
+@Tag(name = "用户管理")
 @Controller
 @RequestMapping("/admin/user")
 @SuppressWarnings("rawtypes")
@@ -40,13 +40,13 @@ public class UserController {
 	@Autowired
 	private OfficeService officeService;
 
-	@ApiOperation("初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
 		return "/admin/user";
 	}
 
-	@ApiOperation("新增/修改页")
+	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(@RequestParam(required = false) Long id,
 					   @RequestParam(required = false) Long officeId,
@@ -65,7 +65,7 @@ public class UserController {
 		return "/admin/user-edit";
 	}
 
-	@ApiOperation("列表")
+	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -77,7 +77,7 @@ public class UserController {
 		return Result.success(userService.selectPage(account, name, officeId, current, size));
 	}
 
-	@ApiOperation("验证登录名")
+	@Operation(summary = "验证登录名")
 	@ResponseBody
 	@RequestMapping(value = "/validate-account", method = RequestMethod.POST)
 	public Result validateAccount(
@@ -85,12 +85,12 @@ public class UserController {
 			@RequestParam String account) {
 		User user = userService.selectByAccount(account);
 		if (null != user && !user.getId().equals(id)) {
-		    throw new ApplicationException(ErrorCodeEnum.E1004);
+		    throw new ApplicationException(ErrorCodeEnum.E010004);
 		}
 		return Result.success();
 	}
 
-	@ApiOperation("启用/禁用")
+	@Operation(summary = "启用/禁用")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -100,7 +100,7 @@ public class UserController {
 		return Result.success();
 	}
 
-	@ApiOperation("新增/修改提交")
+	@Operation(summary = "新增/修改提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -113,7 +113,7 @@ public class UserController {
 		User user;
 		if (id == null) {
 			if (!StringUtils.hasLength(password)) {
-				throw new ApplicationException(ErrorCodeEnum.E1001);
+				throw new ApplicationException(ErrorCodeEnum.E010001);
 			}
 			user = new User();
 			user.setCreateTime(new Date());
@@ -133,7 +133,7 @@ public class UserController {
 		return Result.success();
 	}
 
-	@ApiOperation("重置密码")
+	@Operation(summary = "重置密码")
 	@ResponseBody
 	@RequestMapping(value = "/reset-password", method = RequestMethod.POST)
 	public Result resetPassword(
@@ -142,7 +142,7 @@ public class UserController {
 		return Result.success();
 	}
 
-	@ApiOperation("删除")
+	@Operation(summary = "删除")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
@@ -151,7 +151,7 @@ public class UserController {
 		return Result.success();
 	}
 	
-	@ApiOperation("机构树")
+	@Operation(summary = "机构树")
 	@ResponseBody
 	@RequestMapping(value = "/office/tree", method = RequestMethod.GET)
 	public List<Office> officeTree() {

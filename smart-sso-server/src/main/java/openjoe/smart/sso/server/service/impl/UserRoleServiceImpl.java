@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.entity.UserRole;
 import openjoe.smart.sso.server.mapper.UserRoleMapper;
 import openjoe.smart.sso.server.service.UserRoleService;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
+import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

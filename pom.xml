@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.5.9</version>
 		<relativePath/>
 	</parent>
 	<groupId>io.github.openjoe</groupId>
@@ -21,14 +21,21 @@
 	</modules>
 	
 	<properties>
-		<mybatis-plus.version>3.5.7</mybatis-plus.version>
-		<springfox.version>3.0.0</springfox.version>
-		<httpclient.version>4.5.14</httpclient.version>
-		<mysql.version>8.2.0</mysql.version>
+		<smart-stage.version>2.0.0</smart-stage.version>
+        <httpclient.version>4.5.14</httpclient.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+            <!-- SpringBoot增强框架 -->
+            <dependency>
+                <groupId>io.github.openjoe</groupId>
+                <artifactId>smart-stage</artifactId>
+                <version>${smart-stage.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
 			<dependency>
 				<groupId>io.github.openjoe</groupId>
 				<artifactId>smart-sso-starter-base</artifactId>
@@ -59,31 +66,12 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<!-- SpringBoot增强框架 -->
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-
-			<!-- httpclient -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.mysql</groupId>
-				<artifactId>mysql-connector-j</artifactId>
-				<version>${mysql.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-boot-starter</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
+            <!-- httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	

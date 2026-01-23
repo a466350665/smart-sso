@@ -1,6 +1,6 @@
 package openjoe.smart.sso.server.dto;
 
-import openjoe.smart.sso.server.stage.core.Tree;
+import openjoe.smart.sso.server.entity.Tree;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

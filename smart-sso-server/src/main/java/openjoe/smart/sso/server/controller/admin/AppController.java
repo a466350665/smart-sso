@@ -1,14 +1,14 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.server.stage.core.Result;
-import openjoe.smart.sso.server.stage.exception.ApplicationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.util.ClientCredentialsGenerator;
 import openjoe.smart.sso.server.util.ConvertUtils;
+import openjoe.smart.stage.core.entity.Result;
+import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +22,7 @@ import java.util.Date;
 /**
  * @author Joe
  */
-@Api(tags = "应用管理")
+@Tag(name = "应用管理")
 @Controller
 @RequestMapping("/admin/app")
 @SuppressWarnings("rawtypes")
@@ -31,13 +31,13 @@ public class AppController {
 	@Autowired
 	private AppService appService;
 
-	@ApiOperation("初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute() {
 		return "/admin/app";
 	}
 
-	@ApiOperation("新增/修改页")
+	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(@RequestParam(required = false) Long id, Model model) {
 		App app;
@@ -52,14 +52,14 @@ public class AppController {
 		return "/admin/app-edit";
 	}
 
-	@ApiOperation("查询应用密钥信息")
+	@Operation(summary = "查询应用密钥信息")
 	@ResponseBody
 	@RequestMapping(value = "/credentials", method = RequestMethod.GET)
 	public Result credential(@RequestParam Long id) {
 		return Result.success(appService.getById(id));
 	}
 
-    @ApiOperation("列表")
+    @Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -69,7 +69,7 @@ public class AppController {
 		return Result.success(appService.selectPage(name, current, size));
 	}
 
-	@ApiOperation("验证应用编码")
+	@Operation(summary = "验证应用编码")
 	@ResponseBody
 	@RequestMapping(value = "/validate-code", method = RequestMethod.POST)
 	public Result validateCode(
@@ -77,12 +77,12 @@ public class AppController {
 			@RequestParam String code) {
 		App db = appService.selectByCode(code);
 		if (null != db && !db.getId().equals(id)) {
-			throw new ApplicationException(ErrorCodeEnum.E1003);
+			throw new ApplicationException(ErrorCodeEnum.E010003);
 		}
 		return Result.success();
 	}
 
-	@ApiOperation("启用/禁用")
+	@Operation(summary = "启用/禁用")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -92,7 +92,7 @@ public class AppController {
 		return Result.success();
 	}
 
-	@ApiOperation("新增/修改提交")
+	@Operation(summary = "新增/修改提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -119,7 +119,7 @@ public class AppController {
 		return Result.success();
 	}
 
-	@ApiOperation("删除")
+	@Operation(summary = "删除")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(@RequestParam String ids) {

@@ -9,7 +9,7 @@ import openjoe.smart.sso.server.manager.AbstractTokenManager;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.LoginUserService;
 import openjoe.smart.sso.server.service.UserService;
-import openjoe.smart.sso.server.stage.core.Page;
+import openjoe.smart.stage.core.entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.util;
 
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
-import openjoe.smart.sso.server.stage.exception.ApplicationException;
+import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
@@ -26,13 +26,13 @@ public class PasswordHelper {
 	 */
 	public static String encrypt(String password) {
 		if (!StringUtils.hasLength(password)) {
-			throw new ApplicationException(ErrorCodeEnum.E1001);
+			throw new ApplicationException(ErrorCodeEnum.E010001);
 		}
 		try {
 			return md5(new StringBuilder(password).append(SALT).toString());
 		}
 		catch (Exception e) {
-			throw new ApplicationException(ErrorCodeEnum.E1002);
+			throw new ApplicationException(ErrorCodeEnum.E010002);
 		}
 	}
 

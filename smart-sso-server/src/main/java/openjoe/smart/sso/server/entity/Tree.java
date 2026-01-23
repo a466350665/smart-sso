@@ -1,4 +1,4 @@
-package openjoe.smart.sso.server.stage.core;
+package openjoe.smart.sso.server.entity;
 
 import openjoe.smart.sso.server.dto.TreeDTO;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +20,7 @@ public interface Tree {
 	Long getId();
 	
 	static <T extends Tree, E extends TreeDTO> List<E> build(List<T> list,
-															 Function<? super T, ? extends E> function) {
+                                                             Function<? super T, ? extends E> function) {
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
 		}

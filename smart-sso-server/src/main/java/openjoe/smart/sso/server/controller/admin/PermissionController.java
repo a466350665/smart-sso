@@ -1,12 +1,12 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.server.stage.core.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
+import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author Joe
  */
-@Api(tags = "权限(含菜单)管理")
+@Tag(name = "权限(含菜单)管理")
 @Controller
 @RequestMapping("/admin/permission")
 @SuppressWarnings("rawtypes")
@@ -31,21 +31,21 @@ public class PermissionController {
 	@Autowired
 	private AppService appService;
 
-	@ApiOperation("初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(Model model) {
 		model.addAttribute("appList", appService.selectAll(true));
 		return "/admin/permission";
 	}
 	
-	@ApiOperation("获取")
+	@Operation(summary = "获取")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public Result get(@RequestParam Long id) {
         return Result.success(permissionService.getById(id));
     }
 
-	@ApiOperation("权限树节点")
+	@Operation(summary = "权限树节点")
 	@ResponseBody
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
 	public List<PermissionDTO> tree(
@@ -55,7 +55,7 @@ public class PermissionController {
 		return permissionService.selectTree(appId, roleId, isEnable);
 	}
 
-	@ApiOperation("新增/修改提交")
+	@Operation(summary = "新增/修改提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -87,7 +87,7 @@ public class PermissionController {
 		return Result.success();
 	}
 
-	@ApiOperation("删除")
+	@Operation(summary = "删除")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(

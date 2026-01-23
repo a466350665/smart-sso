@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.service;
 
 import openjoe.smart.sso.server.dto.LoginUserDTO;
-import openjoe.smart.sso.server.stage.core.Page;
+import openjoe.smart.stage.core.entity.Page;
 
 import java.util.List;
 

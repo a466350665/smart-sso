@@ -2,8 +2,7 @@ package openjoe.smart.sso.server.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import openjoe.smart.sso.server.stage.core.Tree;
-import openjoe.smart.sso.server.stage.mybatisplus.entity.BaseEntity;
+import openjoe.smart.stage.mybatisplus.entity.BaseEntity;
 
 /**
  * 权限

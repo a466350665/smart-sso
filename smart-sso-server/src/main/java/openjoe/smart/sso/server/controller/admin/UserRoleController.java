@@ -1,12 +1,12 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.server.stage.core.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.service.UserRoleService;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.sso.server.util.ConvertUtils;
+import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author Joe
  */
-@Api(tags = "用户角色管理")
+@Tag(name = "用户角色管理")
 @Controller
 @RequestMapping("/admin/user-role")
 public class UserRoleController {
@@ -30,7 +30,7 @@ public class UserRoleController {
 	@Autowired
 	private UserRoleService userRoleService;
 
-	@ApiOperation("初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute(
 			@RequestParam Long userId,
@@ -40,7 +40,7 @@ public class UserRoleController {
 		return "/admin/user-role";
 	}
 
-	@ApiOperation("新增/修改提交")
+	@Operation(summary = "新增/修改提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(

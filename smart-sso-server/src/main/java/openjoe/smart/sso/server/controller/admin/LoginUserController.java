@@ -1,9 +1,9 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.service.LoginUserService;
-import openjoe.smart.sso.server.stage.core.Result;
+import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 /**
  * @author Joe
  */
-@Api(tags = "登录用户管理")
+@Tag(name = "登录用户管理")
 @Controller
 @RequestMapping("/admin/login-user")
 @SuppressWarnings("rawtypes")
@@ -27,13 +27,13 @@ public class LoginUserController {
 	@Autowired
 	private LoginUserService loginUserService;
 
-	@ApiOperation("初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute() {
 		return "/admin/login-user";
 	}
 
-	@ApiOperation("列表")
+	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -44,7 +44,7 @@ public class LoginUserController {
 		return Result.success(loginUserService.selectPage(account, name, current, size));
 	}
 
-	@ApiOperation("下线")
+	@Operation(summary = "下线")
 	@ResponseBody
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public Result logout(@RequestParam String tgts) {

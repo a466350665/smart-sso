@@ -12,12 +12,12 @@ public class Result<T> {
     /**
      * 成功
      */
-    public static final int SUCCESS_CODE = 1;
+    public static final String SUCCESS_CODE = "000000";
 
     /**
      * 系统错误
      */
-    public static final int ERROR_CODE = 9999;
+    public static final String ERROR_CODE = "000001";
 
     /**
      * 结果体
@@ -27,7 +27,7 @@ public class Result<T> {
     /**
      * 状态码
      */
-    private int code;
+    private String code;
 
     /**
      * 信息
@@ -37,12 +37,12 @@ public class Result<T> {
     public Result() {
     }
 
-    public Result(Integer code, String message) {
+    public Result(String code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public Result(Integer code, String message, T data) {
+    public Result(String code, String message, T data) {
         this(code, message);
         this.data = data;
     }
@@ -74,11 +74,11 @@ public class Result<T> {
         return this;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public Result<T> setCode(int code) {
+    public Result<T> setCode(String code) {
         this.code = code;
         return this;
     }

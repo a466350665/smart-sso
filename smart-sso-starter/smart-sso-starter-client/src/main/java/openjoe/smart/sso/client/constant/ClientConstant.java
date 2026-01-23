@@ -13,15 +13,15 @@ public class ClientConstant {
     /**
      * 未登录或已过期（无token，或者accessToken和refreshToken均已失效）
      */
-    public static final int NO_LOGIN = 10;
+    public static final String NO_LOGIN = "000010";
 
     /**
      * accessToken已失效，refreshToken未失效，用于通知客户端刷新token
      */
-    public static final int NO_TOKEN = 15;
+    public static final String NO_TOKEN = "000015";
 
     /**
      * 没有访问权限
      */
-    public static final int NO_PERMISSION = 20;
+    public static final String NO_PERMISSION = "000020";
 }

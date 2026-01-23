@@ -1,7 +1,7 @@
 package openjoe.smart.sso.server.service;
 
-import openjoe.smart.sso.server.stage.mybatisplus.service.BaseService;
 import openjoe.smart.sso.server.entity.Office;
+import openjoe.smart.stage.mybatisplus.service.BaseService;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.entity.Office;
 import openjoe.smart.sso.server.mapper.OfficeMapper;
 import openjoe.smart.sso.server.service.OfficeService;
-import openjoe.smart.sso.server.stage.mybatisplus.service.impl.BaseServiceImpl;
+import openjoe.smart.stage.mybatisplus.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

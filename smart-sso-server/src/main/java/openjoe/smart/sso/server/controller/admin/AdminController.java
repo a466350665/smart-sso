@@ -1,13 +1,13 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import openjoe.smart.sso.base.constant.BaseConstant;
+import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.SSOUtils;
-import openjoe.smart.sso.server.stage.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +49,7 @@ public class AdminController {
         return "/admin/admin";
     }
 
-    @ApiOperation("菜单")
+    @Operation(summary = "菜单")
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public Result menu() {

@@ -1,12 +1,12 @@
 package openjoe.smart.sso.server.controller.admin;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import openjoe.smart.sso.server.stage.core.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.util.ConvertUtils;
+import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author Joe
  */
-@Api(tags = "用户角色关系管理")
+@Tag(name = "用户角色关系管理")
 @Controller
 @RequestMapping("/admin/role-permission")
 @SuppressWarnings("rawtypes")
@@ -31,7 +31,7 @@ public class RolePermissionController {
 	@Autowired
 	private RolePermissionService rolePermissionService;
 
-	@ApiOperation("初始页")
+    @Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String edit(
 			@RequestParam Long roleId, Model model) {
@@ -39,8 +39,8 @@ public class RolePermissionController {
 		model.addAttribute("appList", appService.selectAll(true));
 		return "/admin/role-permission";
 	}
-	
-	@ApiOperation("角色授权提交")
+
+    @Operation(summary = "角色授权提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
