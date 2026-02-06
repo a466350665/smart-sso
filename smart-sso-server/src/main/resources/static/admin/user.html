@@ -51,27 +51,26 @@
 		jQuery(function($) {
 			// 列表
     		var $table = $("#_table").table({
-    			url : "/user/list",
+    			url : "/admin/user/list",
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/user/edit.html', handler : function(){
 						$.aceRedirect("/user/edit?officeId=" + $("#_officeId").val());
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/user/enable.html', handler : function(){
-						$table.ajaxEnable({url : "/user/enable"}, false);
+						$table.ajaxEnable({url : "/admin/user/enable"}, false);
 					}},
 					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/user/enable.html', handler : function(){
-						$table.ajaxEnable({url : "/user/enable"}, true);
+						$table.ajaxEnable({url : "/admin/user/enable"}, true);
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/user/delete.html', handler : function(){
 						$table.ajaxDelete({
 							confirm : "删除用户会关联对应的角色、权限，确认要删除?",
-							url : "/user/delete"
-						});
+							url : "/admin/user/delete"});
 					}},
 					{text : '重置密码', clazz : 'btn-default', icon : 'fa fa-key grey', permission : '/user/reset-password.html', handler : function(){
 						$table.ajax({
-							url : "/user/reset-password",
+							url : "/admin/user/reset-password",
 							confirm : "确认重置密码?",
 							after : function(){
 								$table.reload();
@@ -103,7 +102,7 @@
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/user/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "/user/enable"}, false);
+							$table.ajaxEnable({url : "/admin/user/enable"}, false);
 						},
 						show : function(d){
 							return d.isEnable;
@@ -111,7 +110,7 @@
 					},
 					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/user/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "/user/enable"}, true);
+							$table.ajaxEnable({url : "/admin/user/enable"}, true);
 						},
 						show : function(d){
 							return !d.isEnable;
@@ -120,12 +119,11 @@
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/user/delete.html', handler : function(d, i){
 						$table.ajaxDelete({
 							confirm : "删除用户会关联对应的角色、权限，确认要删除?",
-							url : "/user/delete"
-						});
+							url : "/admin/user/delete"});
 					}},
 					{text : '重置密码', clazz : 'grey', icon : 'fa fa-key', permission : '/user/reset-password.html', handler : function(d, i){
 						$table.ajax({
-							url : "/user/reset-password",
+							url : "/admin/user/reset-password",
 							confirm : "确认重置密码?",
 							after : function(){
 								$table.reload();
@@ -161,8 +159,7 @@
 					contentType: "application/x-www-form-urlencoded",
 					type: "get",
 					dataType: "text",
-					url: "/user/office/tree"
-				},
+					url: "/admin/user/office/tree"},
 	            data: {
 	                simpleData: {
 	                    enable: true

@@ -70,7 +70,7 @@
 			}
 
 			function loadUser(userId) {
-				$.getJSON("/meta/user?id=" + userId, function (d) {
+				$.getJSON("/admin/meta/user?id="+ userId, function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -81,7 +81,7 @@
 			}
 
 			function loadRoles(userId) {
-				$.getJSON("/meta/roles?userId=" + (userId || ''), function (d) {
+				$.getJSON("/admin/meta/roles?userId="+ (userId || ''), function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -117,7 +117,7 @@
 					
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/user-role/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/user-role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){

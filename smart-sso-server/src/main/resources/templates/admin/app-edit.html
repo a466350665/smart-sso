@@ -29,7 +29,7 @@
 				<div class="col-sm-9">
 					<div class="clearfix help-validate">
 						<input id="_code" name="code" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="应用编码"
-							required="true" ajax="{url : '/app/validate-code', type : 'post', dataId : '_editForm'}" maxlength="64"/>
+							required="true" ajax="{url : '/admin/app/validate-code', type : 'post', dataId : '_editForm'}" maxlength="64"/>
 					</div>
 				</div>
 				
@@ -102,7 +102,7 @@
 			}
 
 			function loadApp(appId) {
-				$.getJSON("/app/list?current=1&size=999", function (d) {
+				$.getJSON("/admin/app/list?current=1&size=999", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -136,7 +136,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/app/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/app/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){

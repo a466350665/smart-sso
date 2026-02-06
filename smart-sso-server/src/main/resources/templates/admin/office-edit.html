@@ -102,7 +102,7 @@
 			}
 
 			function loadOffice(officeId) {
-				$.getJSON("/office/list?current=1&size=999", function (d) {
+				$.getJSON("/admin/office/list?current=1&size=999", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -154,7 +154,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/office/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/office/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){

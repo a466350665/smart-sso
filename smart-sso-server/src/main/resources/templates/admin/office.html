@@ -22,20 +22,20 @@
 		jQuery(function($) {
 			// 列表
 			var $table = $("#_table").table({
-				url : "/office/list",
+				url : "/admin/office/list",
 				formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/office/edit.html', handler : function(){
 						$.aceRedirect("/office/edit");
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/office/enable.html', handler : function(){
-						$table.ajaxEnable({url : "/office/enable"}, false);
+						$table.ajaxEnable({url : "/admin/office/enable"}, false);
 					}},
 					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/office/enable.html', handler : function(){
-						$table.ajaxEnable({url : "/office/enable"}, true);
+						$table.ajaxEnable({url : "/admin/office/enable"}, true);
 					}},
 					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/office/delete.html', handler : function(){
-						$table.ajaxDelete({url : "/office/delete"});
+						$table.ajaxDelete({url : "/admin/office/delete"});
 					}}
 				],
 				columns : [
@@ -56,7 +56,7 @@
 					}},
 					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/office/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "/office/enable"}, false);
+							$table.ajaxEnable({url : "/admin/office/enable"}, false);
 						},
 						show : function(d){
 						    return d.isEnable;
@@ -64,14 +64,14 @@
 					},
 					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/office/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "/office/enable"}, true);
+							$table.ajaxEnable({url : "/admin/office/enable"}, true);
 						},
 						show : function(d){
 						    return !d.isEnable;
 						}
 					},
 					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/office/delete.html', handler : function(d, i){
-						$table.ajaxDelete({url : "/office/delete"});
+						$table.ajaxDelete({url : "/admin/office/delete"});
 					}}
 				],
 				after : function(){

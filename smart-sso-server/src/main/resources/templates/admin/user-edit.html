@@ -41,7 +41,7 @@
 					<div class="input-medium help-validate">
 						<div class="input-group">
 							<input id="_account" name="account" type="text" value="" class="form-data"
-								ajax="{url : '/user/validate-account', dataId : '_editForm'}"
+								ajax="{url : '/admin/user/validate-account', dataId : '_editForm'}"
 								required="true" minlength = '4' maxlength = '64'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-user"></i>
@@ -122,7 +122,7 @@
 			}
 
 			function loadOffices(selectedId) {
-				$.getJSON("/meta/offices", function (d) {
+				$.getJSON("/admin/meta/offices", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -136,7 +136,7 @@
 			}
 
 			function loadUser(userId) {
-				$.getJSON("/meta/user?id=" + userId, function (d) {
+				$.getJSON("/admin/meta/user?id="+ userId, function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -169,7 +169,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/user/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/user/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){

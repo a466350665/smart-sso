@@ -116,7 +116,7 @@
 			}
 
 			function loadRole(roleId) {
-				$.getJSON("/role/list?current=1&size=999", function (d) {
+				$.getJSON("/admin/role/list?current=1&size=999", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -131,7 +131,7 @@
 			}
 
 			function loadApps() {
-				$.getJSON("/meta/apps", function (d) {
+				$.getJSON("/admin/meta/apps", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -160,8 +160,7 @@
 					otherParam: $.extend($.formJson('_editForm'), {"isEnable" : true}),
 					type: "get",
 					dataType: "text",
-					url: "/permission/tree"
-				},
+					url: "/admin/permission/tree"},
 	            check: {
 	                enable: true,
 	                chkStyle: "checkbox",
@@ -210,7 +209,7 @@
 						permissionIds = permissionIds.substring(0, permissionIds.length - 1);
 					}
 					
-					$.post("/role-permission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
+					$.post("/admin/role-permission/save", $.extend($.formJson('_editForm'), {"isEnable" : true, 'permissionIds' : permissionIds}), function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){

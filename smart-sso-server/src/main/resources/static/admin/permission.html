@@ -203,7 +203,7 @@
             }
 
             function initApps() {
-                $.getJSON("/meta/apps", function (d) {
+                $.getJSON("/admin/meta/apps", function (d) {
                     if (!d || d.code !== '000000') {
                         return;
                     }
@@ -225,8 +225,7 @@
 					type: "get",
 					otherParam: $.formJson("_form"),
 					dataType: "text",
-					url: "/permission/tree"
-				},
+					url: "/admin/permission/tree"},
 	            check: {
 	                enable: false
 	            },
@@ -262,7 +261,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/permission/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							var message = "保存成功";
 							if(d.code == '000000'){
@@ -333,7 +332,7 @@
 					deleteBtn.bind("click", function(){
 						bootbox.confirm( "会删除该权限所有子权限，确认要删除吗?",function(result) {
 							if(result) {
-								$.post("/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
+								$.post("/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
 										if(d.code == '000000'){
 											$.gritter.add({
@@ -378,7 +377,7 @@
 					$("input[type=radio][name=isEnable][value=true]").prop('checked', true);
 				}
 				else if(flag == 'update'){
-					$.getJSON("/permission/get?id=" + treeNode.id, function(d) {
+					$.getJSON("/admin/permission/get?id="+ treeNode.id, function(d) {
 						var data = d.data;
 						$("#_id").val(data.id);
 						$("#_parentId").val(data.parentId);

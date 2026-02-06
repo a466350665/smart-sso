@@ -145,7 +145,7 @@
 			}
 
 			function loadUser() {
-				$.getJSON("/meta/user?id=" + (window.smart && smart.userId ? smart.userId : ''), function (d) {
+				$.getJSON("/admin/meta/user?id="+ (window.smart && smart.userId ? smart.userId : ''), function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -165,7 +165,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/profile/save-password", $.formJson('_editForm'),function(d) {
+					$.post("/admin/profile/save-password", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();

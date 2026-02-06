@@ -399,7 +399,7 @@
 					window.location.href="";
 				});
 
-				$.getJSON("/menu?v=" + Math.random(), function(d) {
+				$.getJSON("/menu?v="+ Math.random(), function(d) {
    					$('.nav-list').append(tree(d.data));
 				});
 

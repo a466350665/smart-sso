@@ -107,7 +107,7 @@
 			}
 
 			function loadRole(roleId) {
-				$.getJSON("/role/list?current=1&size=999", function (d) {
+				$.getJSON("/admin/role/list?current=1&size=999", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -141,7 +141,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/role/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
