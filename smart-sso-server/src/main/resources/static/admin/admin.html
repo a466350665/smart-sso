@@ -109,7 +109,7 @@
                         <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="Jason's Photo" />
                         <span class="user-info">
 									<small>欢迎光临,</small>
-									${username}
+									
 								</span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
@@ -378,11 +378,11 @@
 <script src="/static/assets/js/ace/elements.wizard.js"></script>
 <script src="/static/assets/js/ace/elements.aside.js"></script>
 <!-- 修改默认首页 -->
-<script id="_ace" src="/static/custom/assets/ace.js?v" data-path="${defaultPage!}"></script>
+<script id="_ace" src="/static/custom/assets/ace.js?v" data-path=""></script>
 <!-- 切换菜单处理 -->
 <script id="_ajaxContent" src="/static/custom/assets/ace.ajax-content.js?v" data-path=""></script>
 <!-- 权限处理 -->
-<script id="_permission" src="/static/custom/jquery.permission.min.js?v" data="${userNoPermissions}"></script>
+<script id="_permission" src="/static/custom/jquery.permission.min.js?v" data=""></script>
 <script src="/static/assets/js/ace/ace.touch-drag.js"></script>
 <script src="/static/assets/js/ace/ace.sidebar.js"></script>
 <script src="/static/assets/js/ace/ace.sidebar-scroll-1.js"></script>
@@ -396,7 +396,7 @@
 <script type="text/javascript">
 			jQuery(function ($) {
 				$("#_btnExit").click(function(){
-					window.location.href="${logoutUrl}";
+					window.location.href="";
 				});
 
 				$.getJSON("/menu?v=" + Math.random(), function(d) {

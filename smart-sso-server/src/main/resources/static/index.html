@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart-SSO-Server-H5</title>
+
+        <!-- bootstrap & fontawesome -->
+        <link rel="stylesheet" href="/static/assets/css/bootstrap.css" />
+        <link rel="stylesheet" href="/static/assets/css/font-awesome.css" />
+
+        <!-- text fonts -->
+        <link rel="stylesheet" href="/static/assets/css/ace-fonts.css" />
+
+        <!-- ace styles -->
+        <link rel="stylesheet" href="/static/assets/css/ace.css" class="ace-main-stylesheet" />
+
+        <!-- custom styles -->
+        <link rel="stylesheet" href="/static/custom/assets/ace.custom.css" />
+    </head>
+
+    <body class="no-skin">
+        <div id="navbar" class="navbar navbar-default">
+            <div class="navbar-container" id="navbar-container">
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <i class="fa fa-leaf"></i>
+                            Smart-SSO单点登录权限系统
+                        </small>
+                    </a>
+                </div>
+
+                <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+                        <li class="light-blue">
+                            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="User" />
+                                <span class="user-info">
+                                    <small>欢迎光临,</small>
+                                    <span id="_username"></span>
+                                </span>
+                                <i class="ace-icon fa fa-caret-down"></i>
+                            </a>
+
+                            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                <li>
+                                    <a href="#/profile">
+                                        <i class="ace-icon fa fa-user"></i>
+                                        个人资料
+                                    </a>
+                                </li>
+
+                                <li class="divider"></li>
+
+                                <li>
+                                    <a id="_btnExit" href="#">
+                                        <i class="ace-icon fa fa-power-off"></i>
+                                        退出
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container" id="main-container">
+            <div id="sidebar" class="sidebar responsive">
+                <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                        <button class="btn btn-success">
+                            <i class="ace-icon fa fa-signal"></i>
+                        </button>
+
+                        <button class="btn btn-info">
+                            <i class="ace-icon fa fa-pencil"></i>
+                        </button>
+
+                        <button class="btn btn-warning">
+                            <i class="ace-icon fa fa-users"></i>
+                        </button>
+
+                        <button class="btn btn-danger">
+                            <i class="ace-icon fa fa-cogs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="nav nav-list"></ul>
+
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left"
+                       data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="main-content-inner">
+                    <div class="breadcrumbs" id="breadcrumbs">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="ace-icon fa fa-home home-icon"></i>
+                                <a href="#">首页</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="page-content">
+                        <div class="page-content-area" data-ajax-content="true">
+                            <!-- ajax content goes here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="footer-inner">
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="blue bolder">Smart-SSO单点登录权限系统</span>
+                            &copy; 2024
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div>
+
+        <script src="/static/assets/js/jquery.js"></script>
+        <script src="/static/assets/js/bootstrap.js"></script>
+
+        <!-- ace scripts -->
+        <script src="/static/assets/js/ace-extra.js"></script>
+        <script src="/static/assets/js/ace/elements.scroller.js"></script>
+        <script src="/static/assets/js/ace/elements.colorpicker.js"></script>
+        <script src="/static/assets/js/ace/elements.fileinput.js"></script>
+        <script src="/static/assets/js/ace/elements.typeahead.js"></script>
+        <script src="/static/assets/js/ace/elements.wysiwyg.js"></script>
+        <script src="/static/assets/js/ace/elements.spinner.js"></script>
+        <script src="/static/assets/js/ace/elements.treeview.js"></script>
+        <script src="/static/assets/js/ace/elements.wizard.js"></script>
+        <script src="/static/assets/js/ace/elements.aside.js"></script>
+        <script src="/static/assets/js/ace/ace.touch-drag.js"></script>
+        <script src="/static/assets/js/ace/ace.sidebar.js"></script>
+        <script src="/static/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+        <script src="/static/assets/js/ace/ace.submenu-hover.js"></script>
+        <script src="/static/assets/js/ace/ace.widget-box.js"></script>
+        <script src="/static/assets/js/ace/ace.settings.js"></script>
+        <script src="/static/assets/js/ace/ace.settings-rtl.js"></script>
+        <script src="/static/assets/js/ace/ace.settings-skin.js"></script>
+        <script src="/static/assets/js/ace/ace.widget-on-reload.js"></script>
+        <script src="/static/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+
+        <script>
+            window._baseScripts = [
+                "/static/custom/jquery.form.min.js",
+                "/static/custom/jquery.table.min.js?v=" + Math.random(),
+                "/static/assets/js/date-time/bootstrap-timepicker.js",
+                "/static/assets/js/date-time/moment.js",
+                "/static/assets/js/date-time/i18n/moment.zh-CN.js",
+                "/static/assets/js/date-time/daterangepicker.js",
+                "/static/assets/js/bootbox.js",
+                "/static/custom/assets/bootbox.custom.js",
+                "/static/assets/js/jquery.gritter.js",
+                "/static/custom/assets/jquery.gritter.custom.js",
+                "/static/assets/js/jquery-ui.custom.js",
+                "/static/assets/js/dropzone.js",
+                "/static/assets/js/jquery.uploadifive.min.js",
+                "/static/custom/ajaxfileupload.js",
+                "/static/custom/jquery.validate-2.0.min.js",
+                "/static/custom/jquery.validate-2.0.custom.min.js"
+            ];
+        </script>
+
+        <script id="_ace" src="/static/custom/assets/ace.js?v"></script>
+        <script id="_ajaxContent" src="/static/custom/assets/ace.ajax-content.js?v" data-path="/admin"></script>
+        <script id="_permission" src="/static/custom/jquery.permission.min.js?v" data=""></script>
+
+        <script>
+            // 当前应用(smart-sso-server)后端服务地址
+            var BASE_URL = "";
+            // 客户端ID（保持与smart.sso.client-id配置一致，用于多个客户端应用在同域部署下的数据隔离）
+            var CLIENT_ID = "1000";
+            // token名称前缀（保持与smart.sso.token-name-prefix配置一致，如果没有自定义则默认"smart-sso-token-"）
+            var TOKEN_NAME_PREFIX = "smart-sso-token-";
+
+            var logoutUrl = null;
+            var userNoPermissions = "";
+
+            $(function () {
+                if (validateLogin()) {
+                    loadUserinfo();
+                }
+            });
+
+            // 校验是否需要跳转到SSO认证中心
+            function validateLogin() {
+                var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
+                if (accessToken) {
+                    return true;
+                }
+                var code = getParam('code');
+                if (code && getAccessToken(code)) {
+                    removeCodeParamAndRedirect();
+                    return true;
+                }
+                goSSOLoginUrl();
+                return false;
+            }
+
+            // 获取用户信息
+            function loadUserinfo() {
+                smart.ajax('GET', BASE_URL + "/admin/admin/userinfo", {}, function (res) {
+                    var userinfo = res.data;
+                    logoutUrl = userinfo.logoutUrl;
+                    userNoPermissions = userinfo.userNoPermissions || "";
+
+                    smart.userId = userinfo.userId || '';
+
+                    $("#_username").text(userinfo.username || "");
+                    $("#_permission").attr("data", userNoPermissions);
+
+                    bindLogout();
+                    loadMenu();
+                });
+            }
+
+            function bindLogout() {
+                $("#_btnExit").off("click").on("click", function () {
+                    if (logoutUrl) {
+                        window.location.href = logoutUrl;
+                    }
+                });
+            }
+
+            function loadMenu() {
+                $.getJSON(BASE_URL + "/admin/admin/menu?v=" + Math.random(), function (d) {
+                    $('.nav-list').append(tree(d.data || []));
+                    // 权限处理
+                    $.permission();
+                });
+            }
+
+            function tree(list) {
+                var html = "";
+                var data = null;
+                var defaultPage = null;
+
+                for (var i = 0; i < list.length; i++) {
+                    data = list[i];
+                    if (data.parentId == null || data.parentId === "") {
+                        html += '<li class="';
+
+                        if (defaultPage == null && data.url) {
+                            if (window.location.href.indexOf("#") < 0) {
+                                defaultPage = data.url;
+                                window.location.href = "#" + defaultPage;
+                            } else if (data.url == window.location.href.split("#")[1]) {
+                                defaultPage = data.url;
+                                html += 'active';
+                            }
+                        }
+
+                        html += '">';
+
+                        var childrens = _getChildrens(list, data.id);
+
+                        if (data.url) {
+                            html += '  <a data-url="' + data.url + '" href="#' + data.url + '" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                        } else {
+                            html += '  <a href="#" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                        }
+                        html += '      <i class="menu-icon fa ' + data.icon + '"></i>';
+                        html += '      <span class="menu-text">' + data.name + ' </span>';
+                        html += '      <b class="arrow' + (childrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
+                        html += '  </a>';
+
+                        html += '  <b class="arrow"></b>';
+
+                        if (childrens.length > 0) {
+                            html += buildTree(list, childrens, defaultPage);
+                        }
+                        html += '</li>';
+                    }
+                }
+                return html;
+            }
+
+            function buildTree(list, childrens, defaultPage) {
+                var html = "";
+                if (childrens.length > 0) {
+                    html += '  <ul class="submenu">';
+                    for (var i = 0; i < childrens.length; i++) {
+                        data = childrens[i];
+
+                        if (defaultPage == null && data.url) {
+                            if (window.location.href.indexOf("#") < 0) {
+                                defaultPage = data.url;
+                                window.location.href = "#" + defaultPage;
+                            }
+                        }
+
+                        html += '<li class="">';
+
+                        var tempChildrens = _getChildrens(list, data.id);
+                        if (data.url) {
+                            html += '  <a data-url="' + data.url + '" href="#' + data.url + '" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                        } else {
+                            html += '  <a href="#" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                        }
+                        html += '      <i class="menu-icon fa ' + data.icon + '"></i>';
+                        html += '      <span class="menu-text">' + data.name + ' </span>';
+                        html += '      <b class="arrow' + (tempChildrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
+                        html += '  </a>';
+
+                        html += '  <b class="arrow"></b>';
+
+                        if (tempChildrens.length > 0) {
+                            html += buildTree(list, tempChildrens, defaultPage);
+                        }
+                        html += '</li>';
+                    }
+                    html += '  </ul>';
+                }
+                return html;
+            }
+
+            function _getChildrens(list, id) {
+                var children = [];
+                var child = null;
+                for (var i = 0; i < list.length; i++) {
+                    child = {};
+                    if (list[i].parentId == id) {
+                        child.id = list[i].id;
+                        child.parentId = list[i].parentId;
+                        child.name = list[i].name;
+                        child.url = list[i].url;
+                        child.icon = list[i].icon;
+                        children.push(child);
+                    }
+                }
+                return children;
+            }
+
+            // 重定向至认证中心
+            function goSSOLoginUrl() {
+                $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
+                    window.location.href = res.data;
+                })
+            }
+
+            // 获取accessToken
+            function getAccessToken(code) {
+                var bool = false;
+                $.ajax({
+                    url: BASE_URL + "/auth/access-token?code=" + code,
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d.code == '000000') {
+                            localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                            localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
+                            bool = true;
+                        }
+                    }
+                });
+                return bool;
+            }
+
+            // 获取refreshToken
+            function getRefreshToken() {
+                var bool = false;
+                $.ajax({
+                    url: BASE_URL + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken" + CLIENT_ID),
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d.code == '000000') {
+                            localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                            localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
+                            bool = true;
+                        }
+                    }
+                });
+                return bool;
+            }
+
+            // 从url中获取指定名称的参数值
+            function getParam(name) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == name) { return pair[1]; }
+                }
+                return null;
+            }
+
+            // 重定向方式去除地址栏中的code参数
+            function removeCodeParamAndRedirect() {
+                var url = new URL(window.location.href);
+                url.searchParams.delete('code');
+                window.location.href = url.toString();
+            }
+
+            var smart = {};
+            // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
+            smart.ajax = function (method, url, data, successFn) {
+                $.ajax({
+                    type: method,
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    headers: {
+                        // 传递调用凭证
+                        [TOKEN_NAME_PREFIX + CLIENT_ID]: localStorage.getItem("accessToken" + CLIENT_ID),
+                        // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (d) {
+                        // 响应成功
+                        if (d.code == '000000') {
+                            successFn(d);
+                        }
+                        // 后端登录失效，需要清理前端缓存，并跳转至认证中心
+                        else if (d.code == '000010') {
+                            localStorage.clear();
+                            goSSOLoginUrl();
+                        }
+                        /**
+                         * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
+                         * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
+                         * 2、否则，跳转至认证中心
+                         */
+                        else if (d.code == '000015') {
+                            if (getRefreshToken()) {
+                                smart.ajax(method, url, data, successFn);
+                            }
+                            else {
+                                goSSOLoginUrl();
+                            }
+                        }
+                        // 其它异常，弹出提示
+                        else {
+                            alert(d.message);
+                        }
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        alert(JSON.stringify(xhr));
+                    }
+                });
+            }
+
+            smart.onLoginRequired = function () {
+                localStorage.clear();
+                goSSOLoginUrl();
+            }
+        </script>
+    </body>
+
+</html>

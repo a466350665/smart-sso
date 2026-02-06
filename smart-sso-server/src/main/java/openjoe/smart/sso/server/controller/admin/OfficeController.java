@@ -7,8 +7,7 @@ import openjoe.smart.sso.server.service.OfficeService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Joe
  */
 @Tag(name = "机构")
-@Controller
+@RestController
 @RequestMapping("/admin/office")
 @SuppressWarnings("rawtypes")
 public class OfficeController {
@@ -28,8 +27,8 @@ public class OfficeController {
 
 	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
-		return "/admin/office";
+	public String execute() {
+		return "/";
 	}
 	
 	@Operation(summary = "列表")
@@ -43,18 +42,8 @@ public class OfficeController {
 
 	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id, Model model) {
-		Office office;
-		if (id == null) {
-			office = new Office();
-			office.setIsEnable(true);
-		}
-		else {
-			office = officeService.getById(id);
-		}
-		model.addAttribute("officeList", officeService.selectList(null, null, id, "--"));
-		model.addAttribute("office", office);
-		return "/admin/office-edit";
+	public String edit(@RequestParam(required = false) Long id) {
+		return "/";
 	}
 
 	@Operation(summary = "新增/修改提交")

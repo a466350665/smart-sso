@@ -1,7 +1,5 @@
 package openjoe.smart.sso.server.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.server.manager.AbstractCodeManager;
@@ -14,7 +12,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -51,7 +52,9 @@ public class SSOLoginController {
             HttpServletRequest request) throws UnsupportedEncodingException {
         String tgt = tgtManager.get(request);
         if (!StringUtils.hasLength(tgt)) {
-            return goLoginPage(redirectUri, clientId, request);
+            String encodedRedirectUri = java.net.URLEncoder.encode(redirectUri, "utf-8");
+            return "redirect:/login.html?" + BaseConstant.REDIRECT_URI + "=" + encodedRedirectUri
+                    + "&" + BaseConstant.CLIENT_ID + "=" + clientId;
         }
         return generateCodeAndRedirect(tgt, clientId, redirectUri);
     }
@@ -69,7 +72,8 @@ public class SSOLoginController {
      * @throws UnsupportedEncodingException
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String login(
+    @ResponseBody
+    public Result<String> login(
             @RequestParam(value = BaseConstant.REDIRECT_URI) String redirectUri,
             @RequestParam(value = BaseConstant.CLIENT_ID) String clientId,
             @RequestParam String username,
@@ -78,31 +82,16 @@ public class SSOLoginController {
 
         Result<Long> appResult = appManager.validate(clientId);
         if (!appResult.isSuccess()) {
-            request.setAttribute("errorMessage", appResult.getMessage());
-            return goLoginPage(redirectUri, clientId, request);
+            return Result.error(appResult.getMessage());
         }
 
         Result<Long> result = userManager.validate(username, password);
         if (!result.isSuccess()) {
-            request.setAttribute("errorMessage", result.getMessage());
-            return goLoginPage(redirectUri, clientId, request);
+            return Result.error(result.getMessage());
         }
 
         String tgt = tgtManager.getOrCreate(result.getData(), request, response);
-        return generateCodeAndRedirect(tgt, clientId, redirectUri);
-    }
-
-    /**
-     * 设置request的redirectUri和clientId参数，跳转到登录页
-     *
-     * @param redirectUri
-     * @param request
-     * @return
-     */
-    private String goLoginPage(String redirectUri, String clientId, HttpServletRequest request) {
-        request.setAttribute(BaseConstant.REDIRECT_URI, redirectUri);
-        request.setAttribute(BaseConstant.CLIENT_ID, clientId);
-        return "/login";
+        return Result.success(authRedirectUri(redirectUri, codeManager.create(tgt, clientId)));
     }
 
     /**
@@ -129,14 +118,19 @@ public class SSOLoginController {
      * @throws UnsupportedEncodingException
      */
     private String authRedirectUri(String redirectUri, String code) throws UnsupportedEncodingException {
-        StringBuilder sbf = new StringBuilder(redirectUri);
-        if (redirectUri.indexOf("?") > -1) {
+        String decodedRedirectUri = URLDecoder.decode(redirectUri, "utf-8");
+        String[] parts = decodedRedirectUri.split("#", 2);
+        StringBuilder sbf = new StringBuilder(parts[0]);
+        if (parts[0].indexOf("?") > -1) {
             sbf.append("&");
         } else {
             sbf.append("?");
         }
         sbf.append(BaseConstant.AUTH_CODE).append("=").append(code);
-        return URLDecoder.decode(sbf.toString(), "utf-8");
+        if (parts.length > 1) {
+            sbf.append("#").append(parts[1]);
+        }
+        return sbf.toString();
     }
 
 }

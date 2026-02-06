@@ -7,8 +7,7 @@ import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Joe
  */
 @Tag(name = "角色管理")
-@Controller
+@RestController
 @RequestMapping("/admin/role")
 @SuppressWarnings("rawtypes")
 public class RoleController {
@@ -26,25 +25,16 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-    @Operation(summary = "初始页")
+	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
-		return "/admin/role";
+	public String execute() {
+		return "/";
 	}
 
-    @Operation(summary = "新增/修改页")
+	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id, Model model) {
-		Role role;
-		if (id == null) {
-			role = new Role();
-			role.setIsEnable(true);
-		}
-		else {
-			role = roleService.getById(id);
-		}
-		model.addAttribute("role", role);
-		return "/admin/role-edit";
+	public String edit(@RequestParam(required = false) Long id) {
+		return "/";
 	}
 
     @Operation(summary = "列表")

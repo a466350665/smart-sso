@@ -9,6 +9,10 @@
 		var html = '';
 		if($.type(d) == 'object'){
 			if(d.code == '000010'){// 未登录或已过期
+				if (window.smart && typeof window.smart.onLoginRequired === 'function') {
+					window.smart.onLoginRequired();
+					return;
+				}
 				location.reload();
 				return;
 			}
@@ -30,6 +34,24 @@
 		return html;
 	}
 	
+
+	function normalizePageUrl(url){
+		if(!url) return url;
+		var parts = url.split('?');
+		var base = parts[0];
+		var query = parts.length > 1 ? '?' + parts.slice(1).join('?') : '';
+		if(base.indexOf('/admin/') === 0){
+			var editSuffix = '/edit';
+			if(base.length >= editSuffix.length && base.lastIndexOf(editSuffix) === base.length - editSuffix.length){
+				base = base.substring(0, base.length - editSuffix.length) + '-edit.html';
+			}
+			else if(base.lastIndexOf('.html') !== base.length - 5){
+				base = base + '.html';
+			}
+		}
+		return base + query;
+	}
+
 	function AceAjax(contentArea, settings) {
 		var $contentArea = $(contentArea);
 		var self = this;
@@ -52,7 +74,7 @@
 			// 新 TODO 注释修改过
 			var path = $("#_ajaxContent").attr("data-path");
 			url = (path ? path : "") + hash;
-			if(typeof url === 'string') this.getUrl(url, hash, false);
+			if(typeof url === 'string') this.getUrl(normalizePageUrl(url), hash, false);
 			// TODO
 			
 			// 旧
@@ -139,6 +161,7 @@
 			
 				
 				$overlay.addClass('content-loaded').detach();
+				if(window._baseScripts){ window.scripts = window._baseScripts.slice(); } else { window.scripts = []; }
 				$contentArea.empty().html(result);
 				
 				$(self.settings.loading_overlay || $contentArea).append($overlay);
@@ -439,14 +462,11 @@
 //TODO 扩充Ace结构跳转支持
 (function($) {
 	$.aceRedirect = function(url) {
-		var path = $("#_ajaxContent").attr("data-path");
-		if(path){
-			url = path + "/admin/admin#" + url.replace(path, "");
+		var hash = url;
+		if (hash.indexOf("#") > -1) {
+			hash = hash.split("#")[1];
 		}
-		else{
-			url = "/admin/admin#" + url;
-		}
-		window.location.href = url;
+		window.location.href = "/#" + hash;
 	};
 })(jQuery);
 //TODO

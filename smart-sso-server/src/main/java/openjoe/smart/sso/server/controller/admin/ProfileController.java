@@ -6,8 +6,7 @@ import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Joe
  */
 @Tag(name = "个人中心")
-@Controller
+@RestController
 @RequestMapping("/admin/profile")
 public class ProfileController {
 
@@ -26,9 +25,8 @@ public class ProfileController {
 
 	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
-		model.addAttribute("user", userService.getById(ClientContextHolder.getUserId()));
-		return "/admin/profile";
+	public String execute() {
+		return "/";
 	}
 
 	@Operation(summary = "修改密码提交")

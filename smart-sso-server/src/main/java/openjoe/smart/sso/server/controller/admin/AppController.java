@@ -10,8 +10,7 @@ import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
 import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +22,7 @@ import java.util.Date;
  * @author Joe
  */
 @Tag(name = "应用管理")
-@Controller
+@RestController
 @RequestMapping("/admin/app")
 @SuppressWarnings("rawtypes")
 public class AppController {
@@ -34,22 +33,13 @@ public class AppController {
 	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
 	public String execute() {
-		return "/admin/app";
+		return "/";
 	}
 
 	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id, Model model) {
-		App app;
-		if (id == null) {
-			app = new App();
-			app.setIsEnable(true);
-		}
-		else {
-			app = appService.getById(id);
-		}
-		model.addAttribute("app", app);
-		return "/admin/app-edit";
+	public String edit(@RequestParam(required = false) Long id) {
+		return "/";
 	}
 
 	@Operation(summary = "查询应用密钥信息")

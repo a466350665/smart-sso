@@ -13,8 +13,7 @@ import openjoe.smart.stage.core.entity.Result;
 import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +27,7 @@ import java.util.List;
  * @author Joe
  */
 @Tag(name = "用户管理")
-@Controller
+@RestController
 @RequestMapping("/admin/user")
 @SuppressWarnings("rawtypes")
 public class UserController {
@@ -42,27 +41,15 @@ public class UserController {
 
 	@Operation(summary = "初始页")
 	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
-		return "/admin/user";
+	public String execute() {
+		return "/";
 	}
 
 	@Operation(summary = "新增/修改页")
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(@RequestParam(required = false) Long id,
-					   @RequestParam(required = false) Long officeId,
-					   Model model) {
-		User user;
-		if (id == null) {
-			user = new User();
-			user.setIsEnable(true);
-			user.setOfficeId(officeId);
-		}
-		else {
-			user = userService.getById(id);
-		}
-		model.addAttribute("user", user);
-		model.addAttribute("officeList", officeService.selectList(true, null, null, "--"));
-		return "/admin/user-edit";
+					   @RequestParam(required = false) Long officeId) {
+		return "/";
 	}
 
 	@Operation(summary = "列表")
