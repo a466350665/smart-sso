@@ -7,7 +7,7 @@
 		<artifactId>smart-sso</artifactId>
 		<version>2.0.0</version>
 	</parent>
-	<artifactId>smart-sso-demo-h5</artifactId>
+	<artifactId>smart-sso-demo</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 
@@ -38,7 +38,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>openjoe.smart.sso.demo.DemoH5Application</mainClass>
+					<mainClass>openjoe.smart.sso.demo.DemoApplication</mainClass>
 					<includeSystemScope>false</includeSystemScope>
 					<layout>ZIP</layout>
 				</configuration>

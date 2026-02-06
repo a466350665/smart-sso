@@ -41,7 +41,7 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_app` VALUES (82, 'smart-sso-demo-h5', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
+INSERT INTO `sys_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
 COMMIT;
 
 -- ----------------------------

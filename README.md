@@ -51,7 +51,7 @@ Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结�
 
 ```lua
 smart-sso
-├── smart-sso-demo-h5 -- 前后端分离客户端示例
+├── smart-sso-demo -- 前后端分离客户端示例
 ├── smart-sso-server -- 单点登录权限管理服务端
 ├── smart-sso-starter -- 依赖装配模块
 │   ├── smart-sso-starter-base -- 公用的基础常量、工具、凭证清理机制
