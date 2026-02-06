@@ -41,7 +41,6 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_app` VALUES (81, 'smart-sso-demo', 'Demo系统', 15, 1, '1001', 'kpA1y7k1uyrcoGhrKvA1Ag==', '2015-11-08 17:16:39', '2024-07-16 11:29:10');
 INSERT INTO `sys_app` VALUES (82, 'smart-sso-demo-h5', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
 COMMIT;
 
@@ -116,9 +115,6 @@ INSERT INTO `sys_permission` VALUES (27, 1, 3, '用户保存', '/admin/user/save
 INSERT INTO `sys_permission` VALUES (28, 1, 4, '角色保存', '/admin/role/save', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (29, 1, 5, '权限保存', '/admin/permission/save', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (30, 1, 5, '权限删除', '/admin/permission/delete', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (33, 81, NULL, '菜单1', '/admin/menu1', 100, 'fa-user', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (35, 81, 33, '菜单1新增', '/admin/menu1/edit', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (36, 81, 33, '菜单1删除', '/admin/menu1/delete', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (39, 1, NULL, '导航栏', '/admin/admin/menu', 99, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (41, 1, NULL, '个人中心', '/admin/profile', 89, 'fa fa-desktop', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (42, 1, 41, '修改密码', '/admin/profile/savePassword', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
@@ -129,7 +125,6 @@ INSERT INTO `sys_permission` VALUES (49, 82, NULL, '产品管理', '/admin/produ
 INSERT INTO `sys_permission` VALUES (50, 82, NULL, '产品规格', '/admin/spec', 75, 'fa fa-cubes', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/admin/slide', 120, 'fa fa-sliders', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (56, 82, NULL, '底部菜单配置', '/admin/channelMenu/edit', 105, 'fa fa-cog', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (59, 81, NULL, '菜单2', '/admin/menu2', 90, '', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (60, 1, NULL, '机构管理', '/admin/office', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (61, 1, 60, '机构列表', '/admin/office/list', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sys_permission` VALUES (62, 1, 60, '机构新增', '/admin/app/edit', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
@@ -178,10 +173,6 @@ CREATE TABLE `sys_role_permission` (
 -- Records of sys_role_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_permission` VALUES (345, 1, 33, 81);
-INSERT INTO `sys_role_permission` VALUES (346, 1, 35, 81);
-INSERT INTO `sys_role_permission` VALUES (347, 1, 36, 81);
-INSERT INTO `sys_role_permission` VALUES (348, 1, 59, 81);
 INSERT INTO `sys_role_permission` VALUES (349, 1, 55, 82);
 INSERT INTO `sys_role_permission` VALUES (350, 1, 47, 82);
 INSERT INTO `sys_role_permission` VALUES (351, 1, 56, 82);
