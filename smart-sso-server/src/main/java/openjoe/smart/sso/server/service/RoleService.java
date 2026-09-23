@@ -1,45 +1,85 @@
 package openjoe.smart.sso.server.service;
 
-import openjoe.smart.stage.core.entity.Page;
-import openjoe.smart.stage.mybatisplus.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Role;
+import openjoe.smart.sso.server.mapper.RoleMapper;
+import openjoe.smart.sso.server.util.ConvertUtils;
+import openjoe.smart.stage.core.entity.Page;
+import openjoe.smart.stage.mybatisplus.service.BaseService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * 角色服务接口
- * 
- * @author Joe
- */
-public interface RoleService extends BaseService<Role> {
-	
-	/**
-	 * 启用禁用操作
-	 * @param isEnable 是否启用
-	 * @param idList 角色ID集合
-	 * @return
-	 */
-	void enable(Boolean isEnable, List<Long> idList);
-	
-	/**
-	 * 根据角色名称和应用ID查询分页列表
-	 * @param name 角色名称
-	 * @param current 分页起始
-	 * @param size 分页记录数
-	 * @return
-	 */
-	Page<Role> selectPage(String name, Long current, Long size);
-	
-	/**
-	 * 查询应用可用角色
-	 * @param isEnable 是否启用
-	 * @return
-	 */
-	List<Role> selectAll(Boolean isEnable);
-	
-	List<PermissionDTO> getRoleList(Long userId);
+@Service
+public class RoleService extends BaseService<RoleMapper, Role> {
 
-	void deleteByIds(Collection<Long> idList);
+	@Autowired
+	private UserRoleService userRoleService;
+	@Autowired
+	private RolePermissionService rolePermissionService;
+
+	@Transactional
+    public void enable(Boolean isEnable, List<Long> idList) {
+        selectByIds(idList).forEach(t -> {
+            t.setIsEnable(isEnable);
+            updateById(t);
+        });
+    }
+
+    private List<Role> selectByIds(List<Long> idList){
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(Role::getId, idList);
+        return list(wrapper);
+    }
+
+	public Page<Role> selectPage(String name, Long current, Long size) {
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.like(Role::getName, name);
+        return findPage(current, size, wrapper);
+	}
+
+	public List<Role> selectAll(Boolean isEnable) {
+        LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(Role::getIsEnable, isEnable);
+        return list(wrapper);
+	}
+
+	@Transactional
+	public void deleteByIds(Collection<Long> idList) {
+		userRoleService.deleteByRoleIds(idList);
+		rolePermissionService.deleteByRoleIds(idList);
+		super.removeByIds(idList);
+	}
+
+    public List<PermissionDTO> getRoleList(Long userId) {
+        List<Role> list = selectAll(true);
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptyList();
+        }
+        if (userId == null) {
+            return ConvertUtils.convert(list, r -> convertToDto(r, Collections.emptyList()));
+        }
+        List<Long> roleIdList = userRoleService.findRoleIdListByUserId(userId);
+        return ConvertUtils.convert(list, r -> convertToDto(r, roleIdList));
+    }
+
+    private PermissionDTO convertToDto(Role r, List<Long> roleIdList) {
+        PermissionDTO dto = new PermissionDTO();
+        BeanUtils.copyProperties(r, dto);
+        if (!CollectionUtils.isEmpty(roleIdList)) {
+            dto.setChecked(roleIdList.contains(r.getId()));
+        }
+        else {
+            dto.setChecked(false);
+        }
+        return dto;
+    }
 }

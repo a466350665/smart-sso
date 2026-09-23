@@ -1,44 +1,59 @@
 package openjoe.smart.sso.server.service;
 
-import openjoe.smart.stage.mybatisplus.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.entity.UserRole;
+import openjoe.smart.sso.server.mapper.UserRoleMapper;
+import openjoe.smart.sso.server.util.ConvertUtils;
+import openjoe.smart.stage.mybatisplus.service.BaseService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * 用户角色映射服务接口
- * 
- * @author Joe
- */
-public interface UserRoleService extends BaseService<UserRole> {
+@Service
+public class UserRoleService extends BaseService<UserRoleMapper, UserRole> {
+
+    @Transactional
+    public void allocate(Long userId, List<Long> roleIdList) {
+        deleteByUserIds(Arrays.asList(userId));
+        saveBatch(createUserRoleList(userId, roleIdList));
+    }
+    
+    private List<UserRole> createUserRoleList(Long userId, List<Long> roleIdList) {
+        List<UserRole> userRoleList = new ArrayList<>();
+        UserRole bean;
+        for (Long roleId : roleIdList) {
+            bean = new UserRole();
+            bean.setUserId(userId);
+            bean.setRoleId(roleId);
+            userRoleList.add(bean);
+        }
+        return userRoleList;
+    }
+
+	public void deleteByRoleIds(Collection<Long> idList) {
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(UserRole::getRoleId, idList);
+        remove(wrapper);
+	}
+
+	public void deleteByUserIds(Collection<Long> idList) {
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.in(UserRole::getUserId, idList);
+        remove(wrapper);
+	}
+
+    public List<Long> findRoleIdListByUserId(Long userId) {
+        return ConvertUtils.convert(findByUserId(userId), pu -> pu.getRoleId());
+    }
 	
-	/**
-     * 根据用户ID给用户分配角色
-     * @param userId 用户ID
-     * @param roleIdList 角色ID集合
-     * @return
-     */
-    void allocate(Long userId, List<Long> roleIdList);
-	
-	/**
-	 * 根据角色ID集合删除映射
-	 * @param idList 角色ID集合
-	 * @return
-	 */
-	void deleteByRoleIds(Collection<Long> idList);
-	
-	/**
-	 * 根据用户ID集合删除映射
-	 * @param idList 用户ID集合
-	 * @return
-	 */
-	void deleteByUserIds(Collection<Long> idList);
-	
-	/**
-     * 根据用户ID查角色ID集合
-     * @param userId
-     * @return
-     */
-    List<Long> findRoleIdListByUserId(Long userId);
+	private List<UserRole> findByUserId(Long userId) {
+        LambdaQueryWrapper<UserRole> wrapper =  Wrappers.lambdaQuery();
+        wrapper.eq(UserRole::getUserId, userId);
+        return list(wrapper);
+    }
 }

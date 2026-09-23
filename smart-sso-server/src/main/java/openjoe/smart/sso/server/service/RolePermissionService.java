@@ -1,60 +1,75 @@
 package openjoe.smart.sso.server.service;
 
-import openjoe.smart.stage.mybatisplus.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import openjoe.smart.sso.server.entity.RolePermission;
+import openjoe.smart.sso.server.mapper.RolePermissionMapper;
+import openjoe.smart.stage.mybatisplus.service.BaseService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-/**
- * 角色权限映射服务接口
- * 
- * @author Joe
- */
-public interface RolePermissionService extends BaseService<RolePermission> {
+@Service
+public class RolePermissionService extends BaseService<RolePermissionMapper, RolePermission> {
 	
-	/**
-	 * 根据角色ID查询映射
-	 * @param roleIdList 角色ID
-	 * @return
-	 */
-	List<RolePermission> selectByRoleIds(List<Long> roleIdList);
+	@Transactional
+	public void allocate(Long appId, Long roleId, List<Long> permissionIdList) {
+		deleteByAppIdAndRoleId(appId, roleId);
+
+		List<RolePermission> list = new ArrayList<>();
+		Long permissionId;
+		for (Iterator<Long> ite = permissionIdList.iterator(); ite.hasNext(); list
+				.add(createRolePermission(appId, roleId, permissionId))) {
+			permissionId = ite.next();
+		}
+		if (!CollectionUtils.isEmpty(list)) {
+			saveBatch(list);
+		}
+	}
+
+	private void deleteByAppIdAndRoleId(Long appId, Long roleId){
+		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.eq(appId != null, RolePermission::getAppId, appId);
+		wrapper.eq(roleId != null, RolePermission::getRoleId, roleId);
+		remove(wrapper);
+	}
 	
-	/**
-	 * 根据角色ID给角色授权
-	 * @param appId 应用ID
-	 * @param roleId 角色ID
-	 * @param permissionIdList 权限ID集合
-	 * @return
-	 */
-	void allocate(Long appId, Long roleId, List<Long> permissionIdList);
-	
-	/**
-	 * 根据权限ID集合删除映射
-	 * @param idList 权限ID集合
-	 * @return
-	 */
-	void deleteByPermissionIds(List<Long> idList);
-	
-	/**
-	 * 根据角色ID集合删除映射
-	 * @param idList 角色ID集合
-	 * @return
-	 */
-	void deleteByRoleIds(Collection<Long> idList);
-	
-	/**
-	 * 根据应用ID集合删除映射
-	 * @param idList 应用ID集合
-	 * @return
-	 */
-	void deleteByAppIds(Collection<Long> idList);
-	
-	/**
-     * 根据用户ID查角色ID集合
-     * @param roleIdList
-     * @return
-     */
-	Set<Long> findPermissionIdSetByRoleIds(List<Long> roleIdList);
+	private RolePermission createRolePermission(Long appId, Long roleId, Long permissionId) {
+	    RolePermission r = new RolePermission();
+	    r.setAppId(appId);
+	    r.setRoleId(roleId);
+	    r.setPermissionId(permissionId);
+	    return r;
+	}
+
+	public List<RolePermission> selectByRoleIds(List<Long> roleIdList) {
+		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(!CollectionUtils.isEmpty(roleIdList), RolePermission::getRoleId, roleIdList);
+		return list(wrapper);
+	}
+
+	public void deleteByPermissionIds(List<Long> idList) {
+		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(RolePermission::getPermissionId, idList);
+		remove(wrapper);
+	}
+
+	public void deleteByRoleIds(Collection<Long> idList) {
+		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(RolePermission::getRoleId, idList);
+		remove(wrapper);
+	}
+
+	public void deleteByAppIds(Collection<Long> idList) {
+		LambdaQueryWrapper<RolePermission> wrapper =  Wrappers.lambdaQuery();
+		wrapper.in(RolePermission::getAppId, idList);
+		remove(wrapper);
+	}
+
+    public Set<Long> findPermissionIdSetByRoleIds(List<Long> roleIdList) {
+        return selectByRoleIds(roleIdList).stream().map(t -> t.getPermissionId()).collect(Collectors.toSet());
+    }
 }
