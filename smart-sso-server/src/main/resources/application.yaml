@@ -28,7 +28,7 @@ smart:
     client-id: 1000
     client-secret: rokY9BdKh5bHiX/zL26qOg==
     #忽略拦截urls（排出静态资源和登录、退出、OAuth2认证等请求）
-    exclude-urls: /static/*,/sso/*,/auth/*,/login.html
+    exclude-urls: /static/*,/sso/*,/auth/*,/login.html,/favicon.ico
     #单点登录超时时间，默认2小时，单位秒（服务端独有配置）
     server:
       timeout: 7200
