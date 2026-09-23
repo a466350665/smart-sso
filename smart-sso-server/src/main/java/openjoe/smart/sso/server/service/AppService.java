@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class AppService extends BaseService<AppMapper, App> implements AppManage
 
 	public Page<App> selectPage(String name, Long current, Long size) {
 		LambdaQueryWrapper<App> wrapper =  Wrappers.lambdaQuery();
-		wrapper.like(App::getName, name);
+		wrapper.like(StringUtils.hasLength(name), App::getName, name);
 		return findPage(current, size, wrapper);
 	}
 

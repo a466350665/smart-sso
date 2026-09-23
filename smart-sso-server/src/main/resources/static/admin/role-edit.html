@@ -111,7 +111,6 @@
 					if (!d || d.code !== '000000') {
 						return;
 					}
-					alert(d.data);
 					var list = (d.data && d.data.records) ? d.data.records : [];
 					list.forEach(function (item) {
 						if (String(item.id) === String(roleId)) {
@@ -130,7 +129,6 @@
 			}
 
 			var roleId = getParam('id');
-			alert(roleId);
 			if (roleId) {
 				loadRole(roleId);
 			}
