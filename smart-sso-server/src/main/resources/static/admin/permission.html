@@ -203,7 +203,7 @@
             }
 
             function initApps() {
-                $.getJSON("/admin/meta/apps", function (d) {
+                $.getJSON("/admin/app/all", function (d) {
                     if (!d || d.code !== '000000') {
                         return;
                     }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author Joe
  */
@@ -38,6 +40,21 @@ public class OfficeController {
 			@RequestParam Long current,
 			@RequestParam Long size) {
 		return Result.success(officeService.selectList(null, null, null, "--"));
+	}
+
+	@Operation(summary = "全部启用机构")
+	@ResponseBody
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public Result<List<Office>> all(
+			@RequestParam(required = false) Long excludeId) {
+		return Result.success(officeService.selectList(true, null, excludeId, "--"));
+	}
+
+	@Operation(summary = "机构信息")
+	@ResponseBody
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public Result<Office> get(@RequestParam Long id) {
+		return Result.success(officeService.getById(id));
 	}
 
 	@Operation(summary = "新增/修改页")

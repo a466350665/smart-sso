@@ -136,7 +136,7 @@
 			// 加载应用下拉
 			// 注意：必须回调，权限树要等 appId 有值后才能初始化，否则会加载全部应用的权限
 			function loadApps(callback) {
-				$.getJSON("/admin/meta/apps").done(function (d) {
+				$.getJSON("/admin/app/all").done(function (d) {
 					if (d && d.code === '000000') {
 						var html = '';
 						(d.data || []).forEach(function (item) {

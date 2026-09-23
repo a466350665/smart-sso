@@ -145,7 +145,7 @@
 			}
 
 			function loadUser() {
-				$.getJSON("/admin/meta/user?id="+ (window.smart && smart.userId ? smart.userId : ''), function (d) {
+				$.getJSON("/admin/user/get?id="+ (window.smart && smart.userId ? smart.userId : ''), function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}

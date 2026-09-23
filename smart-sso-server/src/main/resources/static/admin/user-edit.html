@@ -127,7 +127,7 @@
 			}
 
 			function loadOffices(selectedId) {
-				$.getJSON("/admin/meta/offices", function (d) {
+				$.getJSON("/admin/office/all", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -141,7 +141,7 @@
 			}
 
 			function loadUser(userId) {
-				$.getJSON("/admin/meta/user?id="+ userId, function (d) {
+				$.getJSON("/admin/user/get?id="+ userId, function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}

@@ -64,6 +64,13 @@ public class UserController {
 		return Result.success(userService.selectPage(account, name, officeId, current, size));
 	}
 
+	@Operation(summary = "用户信息")
+	@ResponseBody
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public Result<User> get(@RequestParam Long id) {
+		return Result.success(userService.getById(id));
+	}
+
 	@Operation(summary = "验证登录名")
 	@ResponseBody
 	@RequestMapping(value = "/validate-account", method = RequestMethod.POST)

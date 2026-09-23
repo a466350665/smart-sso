@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Joe
@@ -57,6 +58,13 @@ public class AppController {
 			@RequestParam Long current,
 			@RequestParam Long size) {
 		return Result.success(appService.selectPage(name, current, size));
+	}
+
+	@Operation(summary = "全部启用应用")
+	@ResponseBody
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public Result<List<App>> all() {
+		return Result.success(appService.selectAll(true));
 	}
 
 	@Operation(summary = "验证应用编码")
