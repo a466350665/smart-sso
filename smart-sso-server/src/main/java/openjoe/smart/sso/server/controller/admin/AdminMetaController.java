@@ -49,6 +49,13 @@ public class AdminMetaController {
         return Result.success(officeService.selectList(true, null, excludeId, "--"));
     }
 
+    @Operation(summary = "机构信息")
+    @ResponseBody
+    @RequestMapping(value = "/office", method = RequestMethod.GET)
+    public Result<Office> office(@RequestParam Long id) {
+        return Result.success(officeService.getById(id));
+    }
+
     @Operation(summary = "用户角色列表")
     @ResponseBody
     @RequestMapping(value = "/roles", method = RequestMethod.GET)

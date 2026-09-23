@@ -102,24 +102,20 @@
 			}
 
 			function loadOffice(officeId) {
-				$.getJSON("/admin/office/list?current=1&size=999", function (d) {
-					if (!d || d.code !== '000000') {
+				$.getJSON("/admin/meta/office?id=" + officeId, function (d) {
+					if (!d || d.code !== '000000' || !d.data) {
 						return;
 					}
-					var list = (d.data && d.data.records) ? d.data.records : d.data;
-					list = list || [];
-					list.forEach(function (item) {
-						if (String(item.id) === String(officeId)) {
-							$("input[name='id']").val(item.id);
-							$("#_name").val(item.name || '');
-							$("#_sort").val(item.sort || '');
-							if (item.isEnable === false) {
-								$("input[name='isEnable'][value='false']").prop('checked', true);
-							} else {
-								$("input[name='isEnable'][value='true']").prop('checked', true);
-							}
-						}
-					});
+					var office = d.data;
+					$("input[name='id']").val(office.id || '');
+					$("#_name").val(office.name || '');
+					$("#_sort").val(office.sort == null ? '' : office.sort);
+					if (office.isEnable === false) {
+						$("input[name='isEnable'][value='false']").prop('checked', true);
+					} else {
+						$("input[name='isEnable'][value='true']").prop('checked', true);
+					}
+					loadParents(officeId, office.parentId);
 				});
 			}
 
@@ -144,7 +140,6 @@
 			var officeId = getParam('id');
 			if (officeId) {
 				loadOffice(officeId);
-				loadParents(officeId);
 			} else {
 				loadParents(null, getParam('parentId'));
 			}
