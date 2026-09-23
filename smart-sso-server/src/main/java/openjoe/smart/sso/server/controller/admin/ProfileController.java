@@ -23,12 +23,6 @@ public class ProfileController {
 	@Autowired
 	private UserService userService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-
 	@Operation(summary = "修改密码提交")
 	@ResponseBody
 	@RequestMapping(value = "/save-password", method = RequestMethod.POST)

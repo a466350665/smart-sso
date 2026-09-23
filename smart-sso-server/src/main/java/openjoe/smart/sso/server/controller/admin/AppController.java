@@ -31,18 +31,6 @@ public class AppController {
 	@Autowired
 	private AppService appService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-
-	@Operation(summary = "新增/修改页")
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id) {
-		return "/";
-	}
-
 	@Operation(summary = "查询应用密钥信息")
 	@ResponseBody
 	@RequestMapping(value = "/credentials", method = RequestMethod.GET)

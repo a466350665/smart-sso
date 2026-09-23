@@ -27,12 +27,6 @@ public class LoginUserController {
 	@Autowired
 	private LoginUserService loginUserService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-
 	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

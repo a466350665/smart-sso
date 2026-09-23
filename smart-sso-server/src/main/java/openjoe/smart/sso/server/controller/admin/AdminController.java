@@ -11,7 +11,6 @@ import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,18 +26,6 @@ public class AdminController {
 
     @Autowired
     private ClientProperties clientProperties;
-
-    /**
-     * 初始页
-     *
-     * @param model
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    @GetMapping
-    public String index() {
-        return "/";
-    }
 
     @Operation(summary = "当前用户信息")
     @ResponseBody

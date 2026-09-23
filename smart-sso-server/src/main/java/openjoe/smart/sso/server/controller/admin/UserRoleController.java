@@ -29,12 +29,6 @@ public class UserRoleController {
 	@Autowired
 	private RoleService roleService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute(@RequestParam Long userId) {
-		return "/";
-	}
-
 	@Operation(summary = "用户角色列表")
 	@ResponseBody
 	@RequestMapping(value = "/roles", method = RequestMethod.GET)

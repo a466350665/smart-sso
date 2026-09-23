@@ -39,19 +39,6 @@ public class UserController {
 	@Autowired
 	private OfficeService officeService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-
-	@Operation(summary = "新增/修改页")
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id,
-					   @RequestParam(required = false) Long officeId) {
-		return "/";
-	}
-
 	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

@@ -24,12 +24,6 @@ public class RolePermissionController {
 	@Autowired
 	private RolePermissionService rolePermissionService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String edit(@RequestParam Long roleId) {
-		return "/";
-	}
-
     @Operation(summary = "角色授权提交")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)

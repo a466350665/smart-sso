@@ -25,19 +25,7 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-
-	@Operation(summary = "新增/修改页")
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id) {
-		return "/";
-	}
-
-    @Operation(summary = "列表")
+	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(

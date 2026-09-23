@@ -26,12 +26,7 @@ public class PermissionController {
 
 	@Autowired
 	private PermissionService permissionService;
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-	
+
 	@Operation(summary = "获取")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)

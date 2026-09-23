@@ -27,12 +27,6 @@ public class OfficeController {
 	@Autowired
 	private OfficeService officeService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/";
-	}
-	
 	@Operation(summary = "列表")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -55,12 +49,6 @@ public class OfficeController {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public Result<Office> get(@RequestParam Long id) {
 		return Result.success(officeService.getById(id));
-	}
-
-	@Operation(summary = "新增/修改页")
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id) {
-		return "/";
 	}
 
 	@Operation(summary = "新增/修改提交")
