@@ -112,7 +112,12 @@
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			function getParam(name) {
-				var query = window.location.search.substring(1);
+				var hash = window.location.hash;
+				var qIndex = hash.indexOf('?');
+				var query = qIndex !== -1
+						? hash.substring(qIndex + 1)
+						: window.location.search.substring(1);
+
 				var vars = query.split("&");
 				for (var i = 0; i < vars.length; i++) {
 					var pair = vars[i].split("=");

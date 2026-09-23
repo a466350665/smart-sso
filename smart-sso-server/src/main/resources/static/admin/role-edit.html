@@ -97,8 +97,8 @@
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
 			function getParam(name) {
-				var query = window.location.search.substring(1);
-				var vars = query.split("&");
+				var query = window.location.hash.substring(1);
+				var vars = query.split("?");
 				for (var i = 0; i < vars.length; i++) {
 					var pair = vars[i].split("=");
 					if (pair[0] == name) { return pair[1]; }
@@ -111,6 +111,7 @@
 					if (!d || d.code !== '000000') {
 						return;
 					}
+					alert(d.data);
 					var list = (d.data && d.data.records) ? d.data.records : [];
 					list.forEach(function (item) {
 						if (String(item.id) === String(roleId)) {
@@ -129,6 +130,7 @@
 			}
 
 			var roleId = getParam('id');
+			alert(roleId);
 			if (roleId) {
 				loadRole(roleId);
 			}
