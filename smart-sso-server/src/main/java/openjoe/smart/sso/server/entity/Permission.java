@@ -1,6 +1,8 @@
 package openjoe.smart.sso.server.entity;
 
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import openjoe.smart.stage.mybatisplus.entity.BaseEntity;
 
@@ -14,7 +16,8 @@ public class Permission extends BaseEntity implements Tree {
 
 	/** 应用ID */
 	private Long appId;
-	/** 父ID */
+	/** 父ID（允许为null，表示顶级权限；更新时必须强制写入，否则会被MyBatis-Plus的NOT_NULL策略忽略） */
+	@TableField(updateStrategy = FieldStrategy.ALWAYS)
 	private Long parentId;
 	/** 图标 */
 	private String icon;
