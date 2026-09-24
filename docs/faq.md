@@ -6,7 +6,7 @@
 
 `dev` profile 使用内存 H2，目的是让项目**零外部依赖即可跑起来**（演示、联调、自动化测试）。
 
-生产请显式指定 `--spring.profiles.active=prod`，此时使用 MySQL 且**不会自动执行建表脚本**（`spring.sql.init.mode=never`）。另外，如果 `smart.sso.server-url` 留空而本应用不是服务端，应用会**启动失败**——都是为了避免“配错却静默运行”。
+生产请显式指定 `--spring.profiles.active=prod`，此时使用 MySQL，且**不会自动执行建表脚本**（Spring Boot 默认只对嵌入式数据库执行初始化）。另外，如果 `smart.sso.server-url` 留空而本应用不是服务端，应用会**启动失败**——都是为了避免“配错却静默运行”。
 
 ### 数据重启就没了？
 
@@ -80,10 +80,6 @@ java -jar smart-sso-server-2.0.1.jar --server.port=18080 --server.servlet.contex
 ### 直接访问 `/admin/organization` 为什么 404？
 
 管理台是静态 SPA，页面片段带 `.html` 后缀，且通过 hash 路由加载：应访问 `http://localhost:8080/#/organization.html`（或从菜单点击）。
-
-### 启用了 H2 控制台却打不开？
-
-H2 控制台仅在 dev 开启，且需要放行路径。默认配置已包含 `/h2-console` 与 `/h2-console/*`；如果你自定义了 `smart.sso.exclude-urls`，请把这两项加回去。
 
 ### 登录后菜单少了几项？
 

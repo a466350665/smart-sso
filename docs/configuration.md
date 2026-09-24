@@ -5,7 +5,7 @@
 | Profile | 数据库 | 建表/演示数据 | 典型用途 |
 | --- | --- | --- | --- |
 | `dev`（默认） | H2 内存库 | 启动时自动执行 `db/smart-sso.sql` | 演示、联调、自动化测试 |
-| `prod` | MySQL | **不执行**（`spring.sql.init.mode=never`） | 生产 |
+| `prod` | MySQL | **不执行**（Spring Boot 默认只初始化嵌入式库） | 生产 |
 
 切换方式（三选一）：
 
@@ -53,11 +53,6 @@ mybatis-plus:
   global-config:
     db-config:
       table-prefix: sso_     # 表名 = sso_ + 实体名下划线形式
-
-smart:
-  stage:
-    mybatis-plus:
-      page-db-type: h2       # 可选：h2 / mysql；不配置则按连接自动识别
 ```
 
 数据库共 7 张表：
@@ -99,14 +94,9 @@ spring:
     init:
       mode: always
       schema-locations: classpath:db/smart-sso.sql
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 ```
 
-- 内存库，**重启即初始化**；如需保留数据可改为文件库 `jdbc:h2:file:./data/smart_sso;MODE=MySQL`（此时请把 `sql.init.mode` 改为 `never`，否则每次启动都会重建）；
-- H2 控制台默认放行（已加入 dev 的 `exclude-urls`），仅在本地开启。
+- 内存库，**重启即初始化**；如需保留数据可改为文件库 `jdbc:h2:file:./data/smart_sso;MODE=MySQL` 并关闭自动初始化（`spring.sql.init.mode=never`），否则每次启动都会重建；
 
 ## 七、配置覆盖优先级
 
@@ -128,6 +118,5 @@ java -jar smart-sso-server-2.0.1.jar \
 | `/sso/oauth2/access-token` | 授权码换取令牌 |
 | `/sso/oauth2/refresh-token` | 刷新令牌 |
 | `/sso/permission` | 拉取当前用户在本应用的权限 |
-| `/auth/login_url`、`/auth/logout_url`、`/auth/access-token`、`/auth/refresh-token` | 前后端分离模式入口 |
+| `/auth/login_url`、`/auth/logout_url`、`/auth/access-token`、`/auth/refresh-token` | 供前端直接调用的认证入口 |
 | `/` | 管理台（静态 SPA） |
-| `/h2-console` | H2 控制台（仅 dev） |

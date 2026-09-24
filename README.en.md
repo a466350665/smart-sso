@@ -23,9 +23,8 @@ Smart-SSO is a lightweight **single sign-on and authorization center** built on 
 3. **Single logout** — each client implicitly registers its own logout URI when fetching a token; logging out anywhere makes the server notify every related client to drop its local token.
 4. **Silent renewal** — when the access token expires, the client backend refreshes it with the refresh token and extends the server-side stub, transparently to the user.
 5. **Forced logout** — an administrator can terminate a user's session; the server revokes the credentials and notifies all related clients to clear their local sessions.
-6. **Front/back-end separation** — cookie-less mode (token passed via header) with front-end driven refresh and redirect.
-7. **Button-level permissions** — permissions are classified as menus or buttons and matched against the request URI, with per-application authorization isolation.
-8. **Distributed deployment** — Redis-backed implementations for both server and client, sharing credentials and permissions across instances.
+6. **Button-level permissions** — permissions are classified as menus or buttons and matched against the request URI, with per-application authorization isolation.
+7. **Distributed deployment** — Redis-backed implementations for both server and client, sharing credentials and permissions across instances.
 
 ## Quick Start
 
@@ -52,7 +51,6 @@ Open **http://localhost:8080** and sign in with the built-in account **`admin` /
 - The `dev` profile is active by default: it uses an **in-memory H2** database and executes
   `smart-sso-server/src/main/resources/db/smart-sso.sql` on startup to create tables and seed demo data.
 - Data lives only for the lifetime of the process — **restarting resets everything**, which is ideal for demos, integration work and automated tests.
-- H2 console (dev only): <http://localhost:8080/h2-console> — JDBC URL `jdbc:h2:mem:smart_sso;MODE=MySQL;DB_CLOSE_DELAY=-1`, user `sa`, empty password.
 
 ### Option 2 — MySQL (production)
 
@@ -65,12 +63,12 @@ mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
 ```
 
-> The `prod` profile never runs the SQL script (`spring.sql.init.mode=never`), so startup cannot wipe your data.
+> The `prod` profile uses MySQL and never runs the SQL script (Spring Boot only initializes embedded databases by default), so startup cannot wipe your data.
 
 ### Client demo
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # port 8082, front/back-end separated sample
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # port 8082, client integration sample
 ```
 
 ## Client Integration
@@ -146,7 +144,7 @@ Full protocol sequence, credential model and distributed setup: **[docs/architec
 ```
 smart-sso
 ├── smart-sso-server    -- SSO server + permission console (also a client of itself)
-├── smart-sso-demo      -- front/back-end separated client integration sample
+├── smart-sso-demo      -- client integration sample (token via request header)
 ├── smart-sso-starter   -- auto-configuration modules (individually consumable)
 │   ├── smart-sso-starter-base              -- shared constants, utilities, credential cleanup
 │   ├── smart-sso-starter-client            -- client-side token lifecycle management

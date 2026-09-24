@@ -54,7 +54,7 @@ TokenPermission permission = ClientContextHolder.getPermission();   // 权限集
 
 ## 五、前端约定的返回码
 
-前后端分离场景下，前端需要识别三个业务码：
+接口以 JSON 返回业务码，前端需要识别以下三个：
 
 | code | 含义 | 前端应做的处理 |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ headers: {
 > `X-Requested-With` 很关键：客户端据此区分“前端请求（回 JSON）”与“浏览器整页请求（自动续签）”。
 > jQuery 同源请求会自动携带；跨域或用 `fetch` 时需自行设置。
 
-服务端为前后端分离提供了 `/auth/login_url`、`/auth/logout_url`、`/auth/access-token`、`/auth/refresh-token` 四个接口。
+服务端另外提供 `/auth/login_url`、`/auth/logout_url`、`/auth/access-token`、`/auth/refresh-token` 四个接口，供前端直接调用（同源模式下返回的登录/退出地址是相对路径）。
 
 ## 六、跨域场景
 
@@ -94,5 +94,5 @@ headers: {
 
 ## 八、参考实现
 
-- `smart-sso-demo`：前后端分离客户端示例（端口 8082）；
+- `smart-sso-demo`：客户端接入示例（端口 8082，令牌走请求头）；
 - `smart-sso-server` 自身：同源模式下“服务端即客户端”的用法，`server-url` 留空即可。

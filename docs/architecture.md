@@ -169,11 +169,3 @@ sequenceDiagram
 ```
 
 不引入时使用本地内存实现（`Local*Manager` / `Local*Storage`），适合单实例与本地开发。
-
-## 八、前后端分离
-
-- 前端不再依赖 Cookie 承载令牌，而是把令牌放在请求头 `smart-sso-token-{clientId}`（前缀可配）中；
-- 未登录返回 `000010`、令牌可刷新返回 `000015`、无权限返回 `000020`，由前端统一处理跳转与刷新后重放；
-- 服务端提供 `/auth/login_url`、`/auth/logout_url`、`/auth/access-token`、`/auth/refresh-token` 供前端调用，返回的登录/退出地址在同源模式下是相对路径。
-
-示例实现见 `smart-sso-demo` 与其静态页面。

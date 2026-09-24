@@ -25,9 +25,8 @@ Smart-SSO 是一个基于 Spring Boot 3 + OAuth2 授权码模式的**轻量级�
 3. **单点退出** —— 客户端获取 Token 时隐性上报自身注销地址，任一客户端退出即由服务端远程通知全部客户端注销本地 Token。
 4. **自动续签** —— accessToken 过期由客户端后端自动调用 refreshToken 刷新，并同步延长服务端凭证存根时效，用户无感。
 5. **踢人下线** —— 管理员可终止指定用户会话，服务端立即吊销凭证并回调通知所有关联客户端清除本地会话。
-6. **前后端分离** —— 支持无 Cookie 模式（Token 走 Header），前端自行处理刷新与跳转。
-7. **按钮级权限** —— 权限分菜单/按钮两类，按请求 URI 精确匹配做按钮级控制，并支持按应用隔离授权。
-8. **分布式部署** —— 服务端与客户端均提供 Redis 实现，支持多实例共享凭证与权限。
+6. **按钮级权限** —— 权限分菜单/按钮两类，按请求 URI 精确匹配做按钮级控制，并支持按应用隔离授权。
+7. **分布式部署** —— 服务端与客户端均提供 Redis 实现，支持多实例共享凭证与权限。
 
 ## 快速开始
 
@@ -53,7 +52,6 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 
 - 默认激活 `dev` profile：使用**内存 H2**，启动时自动执行 `smart-sso-server/src/main/resources/db/smart-sso.sql` 建表并写入演示数据（应用、机构、角色、权限、用户）。
 - 数据仅存在于进程生命周期内，**重启即回到初始状态**，适合演示、联调与自动化测试。
-- H2 控制台（仅 dev）：<http://localhost:8080/h2-console>，JDBC URL `jdbc:h2:mem:smart_sso;MODE=MySQL;DB_CLOSE_DELAY=-1`，用户名 `sa`，密码留空。
 
 ### 方式二：MySQL（生产）
 
@@ -66,12 +64,12 @@ mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
 ```
 
-> `prod` profile **不会**自动执行数据库脚本（`spring.sql.init.mode=never`），避免误删数据。
+> `prod` profile 使用 MySQL，且不会自动执行数据库脚本（Spring Boot 默认只对嵌入式数据库执行初始化），避免误删数据。
 
 ### 客户端示例
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # 端口 8082，前后端分离示例
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # 端口 8082，客户端接入示例
 ```
 
 ## 接入指南（客户端）
@@ -87,7 +85,7 @@ smart:
     exclude-urls: /static/*,/auth/*     # 无需登录即可访问的路径
 ```
 
-完整步骤（依赖坐标、过滤器行为、前后端分离模式、跨域场景、常见坑）见 **[docs/client-integration.md](docs/client-integration.md)**。
+完整步骤（依赖坐标、过滤器行为、无 Cookie 模式、跨域场景、常见坑）见 **[docs/client-integration.md](docs/client-integration.md)**。
 
 ## 架构与原理
 
@@ -131,14 +129,14 @@ sequenceDiagram
 - **同源即免配**：`smart.sso.server-url` 留空时，本应用若同时是服务端则自动按“同源”工作——页面跳转走相对路径，服务端之间的调用走本机推导地址；独立客户端漏配则**启动失败**，不会静默跳错。
 - **权限模型**：在「权限管理」登记 URL 后，请求路径与 `sso_permission.url` 精确匹配即受控；未登记的路径放行。
 
-协议时序、凭证模型、分布式（Redis）与前后端分离的完整说明见 **[docs/architecture.md](docs/architecture.md)**。
+协议时序、凭证模型与分布式（Redis）的完整说明见 **[docs/architecture.md](docs/architecture.md)**。
 
 ## 模块与版本
 
 ```
 smart-sso
 ├── smart-sso-server    -- 单点登录权限管理服务端（同时是自身的客户端）
-├── smart-sso-demo      -- 前后端分离客户端接入示例
+├── smart-sso-demo      -- 客户端接入示例（令牌走请求头）
 ├── smart-sso-starter   -- 依赖装配模块（可单独引入到你的应用）
 │   ├── smart-sso-starter-base              -- 公共常量、工具、凭证清理机制
 │   ├── smart-sso-starter-client            -- 客户端依赖包，客户端 Token 生命周期管理
@@ -178,7 +176,7 @@ smart-sso
 | `mybatis-plus.global-config.db-config.table-prefix` | `sso_` | 表名前缀 |
 | `spring.profiles.active` | `dev` | `dev`=H2 内存库；`prod`=MySQL |
 
-完整配置项（含 `url-patterns`、`logout-path`、`cookie-name`、`code-timeout`、分页方言等）见 **[docs/configuration.md](docs/configuration.md)**。
+完整配置项（含 `url-patterns`、`logout-path`、`cookie-name`、`code-timeout` 等）见 **[docs/configuration.md](docs/configuration.md)**。
 
 ## 效果展示
 
@@ -222,7 +220,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 | 文档 | 内容 |
 | --- | --- |
 | [docs/why-oauth2.md](docs/why-oauth2.md) | 为什么选择 OAuth2：与传统 Token、JWT 的对比与取舍 |
-| [docs/architecture.md](docs/architecture.md) | 架构与原理：协议时序、凭证模型、分布式、前后端分离 |
+| [docs/architecture.md](docs/architecture.md) | 架构与原理：协议时序、凭证模型、分布式 |
 | [docs/client-integration.md](docs/client-integration.md) | 客户端接入指南：依赖、配置、过滤器行为、常见问题 |
 | [docs/configuration.md](docs/configuration.md) | 配置参考与数据库脚本说明 |
 | [docs/development.md](docs/development.md) | 本地开发、构建、目录约定与验证套件 |
