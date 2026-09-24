@@ -39,17 +39,15 @@ public class LoginFilter extends AbstractClientFilter {
             }
             // 如果accessToken已过期，refreshToken没过期
             if (!tokenWrapper.checkRefreshExpired()) {
-                // 前后端分离场景，通知客户端使用refresh接口刷新token
-                if (properties.getH5Enabled()) {
+                // 前端发起的请求（X-Requested-With: XMLHttpRequest）：返回NO_TOKEN，由前端自行调用刷新接口
+                if (isAjaxRequest()) {
                     responseJson(ClientConstant.NO_TOKEN, "token已失效");
                     return false;
                 }
-                // 前后端一体化场景，自动刷新token
-                else {
-                    Result<Token> result = SSOUtils.getHttpRefreshTokenInCookie(tokenWrapper.getObject().getRefreshToken());
-                    if (result.isSuccess() && holderToken(result.getData())) {
-                        return true;
-                    }
+                // 浏览器整页请求：自动刷新token，用户无感
+                Result<Token> result = SSOUtils.getHttpRefreshTokenInCookie(tokenWrapper.getObject().getRefreshToken());
+                if (result.isSuccess() && holderToken(result.getData())) {
+                    return true;
                 }
             }
         }

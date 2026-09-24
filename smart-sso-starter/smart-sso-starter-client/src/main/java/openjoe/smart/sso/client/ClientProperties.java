@@ -53,11 +53,6 @@ public class ClientProperties {
     private String tokenNamePrefix = "smart-sso-token-";
 
     /**
-     * 是否前后端分离（默认false）
-     */
-    private Boolean h5Enabled = false;
-
-    /**
      * 内嵌服务端模式：server-url 留空且本应用同时是 SSO 服务端时由程序自动判定，不通过配置指定
      */
     private boolean embeddedServer;
@@ -138,14 +133,6 @@ public class ClientProperties {
 
     public void setLogoutPath(String logoutPath) {
         this.logoutPath = logoutPath;
-    }
-
-    public Boolean getH5Enabled() {
-        return h5Enabled;
-    }
-
-    public void setH5Enabled(Boolean h5Enabled) {
-        this.h5Enabled = h5Enabled;
     }
 
     public boolean isEmbeddedServer() {
