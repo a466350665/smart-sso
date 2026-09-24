@@ -263,19 +263,17 @@
 					btn.button('loading');
 					$.post("/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
-							var message = "保存成功";
 							if(d.code == '000000'){
 								$("#_editForm")[0].reset();
 								reloadTree();
 							}
 							else{
-								message = d.message;
+								$.gritter.add({
+									text: d.message,
+									sticky: false,
+									time: '1000'
+								});
 							}
-							$.gritter.add({
-								text: message,
-								sticky: false,
-								time: '1000'
-							});
 							btn.button('reset');
 						}
 			        },'json');
@@ -334,7 +332,7 @@
 							if(result) {
 								$.post("/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
-										if(d.code == '000000'){
+										if(d.code != '000000'){
 											$.gritter.add({
 												text: d.message,
 												sticky: false,

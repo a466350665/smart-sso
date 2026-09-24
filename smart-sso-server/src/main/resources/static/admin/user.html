@@ -72,6 +72,7 @@
 						$table.ajax({
 							url : "/admin/user/reset-password",
 							confirm : "确认重置密码?",
+							success : $table.silentSuccess,
 							after : function(){
 								$table.reload();
 							}
@@ -125,6 +126,8 @@
 						$table.ajax({
 							url : "/admin/user/reset-password",
 							confirm : "确认重置密码?",
+							// 重置成功后列表会刷新，不再弹成功提示；失败仍提示
+							success : $table.silentSuccess,
 							after : function(){
 								$table.reload();
 							}
