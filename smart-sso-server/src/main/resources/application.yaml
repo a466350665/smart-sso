@@ -27,8 +27,6 @@ logging:
 
 smart:
   sso:
-    #服务端地址
-    server-url: http://server.smart-sso.com:8080
     #客户端密钥信息
     client-id: 1000
     client-secret: rokY9BdKh5bHiX/zL26qOg==

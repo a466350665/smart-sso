@@ -102,7 +102,7 @@ public class SSOUtils {
      * @param code
      */
     public static Result<Token> getHttpAccessToken(String code) {
-        Result<Token> result = OAuth2Utils.getAccessToken(properties.getServerUrl(), properties.getClientId(),
+        Result<Token> result = OAuth2Utils.getAccessToken(getServerUrlForHttp(), properties.getClientId(),
                 properties.getClientSecret(), code, getLocalUrl() + properties.getLogoutPath());
         if (result.isSuccess()) {
             Token token = result.getData();
@@ -162,7 +162,7 @@ public class SSOUtils {
         if (tokenPermission == null) {
             return Result.error("tokenPermission is null or expired!");
         }
-        Result<Token> result = OAuth2Utils.getRefreshToken(properties.getServerUrl(), properties.getClientId(), refreshToken);
+        Result<Token> result = OAuth2Utils.getRefreshToken(getServerUrlForHttp(), properties.getClientId(), refreshToken);
         if (result.isSuccess()) {
             // 删除旧token
             tokenStorage.remove(accessToken);
@@ -185,7 +185,7 @@ public class SSOUtils {
      * @param accessToken
      */
     private static TokenPermission getHttpTokenPermission(String accessToken) {
-        Result<TokenPermission> result = PermissionUtils.getUserPermission(properties.getServerUrl(), accessToken);
+        Result<TokenPermission> result = PermissionUtils.getUserPermission(getServerUrlForHttp(), accessToken);
         if (!result.isSuccess()) {
             logger.error("getHttpTokenPermission has error, message:{}", result.getMessage());
             return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
@@ -206,7 +206,7 @@ public class SSOUtils {
             logger.error("buildLoginUrl has error, message:{}", e.getMessage());
         }
         return new StringBuilder()
-                .append(properties.getServerUrl())
+                .append(getServerUrlPrefix())
                 .append(BaseConstant.LOGIN_PATH)
                 .append("?")
                 .append(BaseConstant.CLIENT_ID)
@@ -240,12 +240,37 @@ public class SSOUtils {
             logger.error("buildLogoutUrl has error, message:{}", e.getMessage());
         }
         return new StringBuilder()
-                .append(properties.getServerUrl())
+                .append(getServerUrlPrefix())
                 .append(BaseConstant.LOGOUT_PATH)
                 .append("?")
                 .append(BaseConstant.REDIRECT_URI)
                 .append("=")
                 .append(redirectUri).toString();
+    }
+
+    /**
+     * 浏览器跳转用的服务端地址前缀。
+     * 内嵌服务端（同源）模式下返回当前应用的 contextPath，由浏览器按相对路径跳转，
+     * 从而不依赖域名、端口与反向代理配置；独立客户端仍返回配置的 server-url。
+     *
+     * @return
+     */
+    private static String getServerUrlPrefix() {
+        if (!properties.isEmbeddedServer()) {
+            return properties.getServerUrl();
+        }
+        HttpServletRequest request = ClientContextHolder.getRequest();
+        return request == null ? "" : request.getContextPath();
+    }
+
+    /**
+     * 服务端之间 HTTP 调用使用的绝对地址。
+     * 内嵌服务端（同源）模式下用本机推导地址，避免依赖对外域名解析。
+     *
+     * @return
+     */
+    private static String getServerUrlForHttp() {
+        return properties.isEmbeddedServer() ? properties.getInternalServerUrl() : properties.getServerUrl();
     }
 
     /**

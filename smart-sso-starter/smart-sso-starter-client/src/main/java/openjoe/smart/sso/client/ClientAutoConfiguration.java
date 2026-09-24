@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * 客户端装配
@@ -61,5 +62,14 @@ public class ClientAutoConfiguration {
         registration.setOrder(properties.getOrder());
         registration.setName(properties.getName());
         return registration;
+    }
+
+    /**
+     * server-url 留空时判定"同源"，并做启动校验
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ClientServerAddressResolver clientServerAddressResolver(ClientProperties properties, Environment environment) {
+        return new ClientServerAddressResolver(properties, environment);
     }
 }

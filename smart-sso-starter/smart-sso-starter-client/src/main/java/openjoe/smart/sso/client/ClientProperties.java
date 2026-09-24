@@ -57,6 +57,17 @@ public class ClientProperties {
      */
     private Boolean h5Enabled = false;
 
+    /**
+     * 内嵌服务端模式：server-url 留空且本应用同时是 SSO 服务端时由程序自动判定，不通过配置指定
+     */
+    private boolean embeddedServer;
+
+    /**
+     * 内嵌服务端模式下，服务端之间 HTTP 调用使用的本机地址
+     * （默认自动推导为 http(s)://127.0.0.1:{实际端口}{context-path}，可显式覆盖）
+     */
+    private String internalServerUrl;
+
     public String getServerUrl() {
         return serverUrl;
     }
@@ -135,5 +146,24 @@ public class ClientProperties {
 
     public void setH5Enabled(Boolean h5Enabled) {
         this.h5Enabled = h5Enabled;
+    }
+
+    public boolean isEmbeddedServer() {
+        return embeddedServer;
+    }
+
+    /**
+     * 由 ClientServerAddressResolver 在启动时判定，不作为配置项对外暴露
+     */
+    void setEmbeddedServer(boolean embeddedServer) {
+        this.embeddedServer = embeddedServer;
+    }
+
+    public String getInternalServerUrl() {
+        return internalServerUrl;
+    }
+
+    public void setInternalServerUrl(String internalServerUrl) {
+        this.internalServerUrl = internalServerUrl;
     }
 }
