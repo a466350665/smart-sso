@@ -1,0 +1,15 @@
+# 开发/演示/联调环境（默认 profile）
+# 使用 H2 内存库，jar 开箱即用：不依赖任何外部数据库，数据仅在进程存活期间有效
+# 每次启动都会按 classpath:db/smart-sso.sql 重建表结构和初始化数据
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:smart_sso;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+  sql:
+    init:
+      # 内存库每次启动重建；schema-locations 指向同一个跨库脚本（建表 + 初始化数据都在里面）
+      mode: always
+      schema-locations: classpath:db/smart-sso.sql

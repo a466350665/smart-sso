@@ -14,8 +14,6 @@
  Date: 30/03/2025 15:55:28
 */
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for sso_app
@@ -31,18 +29,16 @@ CREATE TABLE `sso_app` (
   `client_secret` varchar(128) NOT NULL COMMENT '客户端密钥',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `unique_code` (`code`),
-  UNIQUE KEY `unique_client_id` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='应用表';
+  PRIMARY KEY (`id`),
+  CONSTRAINT `unique_code` UNIQUE (`code`),
+  CONSTRAINT `unique_client_id` UNIQUE (`client_id`)
+) COMMENT='应用表';
 
 -- ----------------------------
 -- Records of sso_app
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_organization
@@ -56,17 +52,15 @@ CREATE TABLE `sso_organization` (
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='机构';
+  PRIMARY KEY (`id`)
+) COMMENT='机构';
 
 -- ----------------------------
 -- Records of sso_organization
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_organization` VALUES (1, NULL, 'TT公司', 30, 1, '2015-06-02 11:31:44', '2024-07-16 11:28:48');
 INSERT INTO `sso_organization` VALUES (2, 1, 'XX部门', 30, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_organization` VALUES (3, 1, 'YY部门', 20, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_permission
@@ -84,13 +78,12 @@ CREATE TABLE `sso_permission` (
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COMMENT='权限表';
+  PRIMARY KEY (`id`)
+) COMMENT='权限表';
 
 -- ----------------------------
 -- Records of sso_permission
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_permission` VALUES (2, 1, NULL, '应用管理', '/app.html', 59, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (3, 1, NULL, '用户管理', '/user.html', 79, 'fa-user', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (4, 1, NULL, '角色管理', '/role.html', 69, 'fa-briefcase', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
@@ -133,7 +126,6 @@ INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/organization/d
 INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 1, 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
 INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 0, 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
 INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 0, 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_role
@@ -147,15 +139,13 @@ CREATE TABLE `sso_role` (
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色表';
+  PRIMARY KEY (`id`)
+) COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sso_role
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_role` VALUES (1, '系统管理员', 999, '系统管理员', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_role_permission
@@ -167,12 +157,11 @@ CREATE TABLE `sso_role_permission` (
   `permission_id` bigint(20) NOT NULL COMMENT '权限ID',
   `app_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=454 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+) COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sso_role_permission
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_role_permission` VALUES (349, 1, 55, 82);
 INSERT INTO `sso_role_permission` VALUES (350, 1, 47, 82);
 INSERT INTO `sso_role_permission` VALUES (351, 1, 56, 82);
@@ -215,7 +204,6 @@ INSERT INTO `sso_role_permission` VALUES (450, 1, 30, 1);
 INSERT INTO `sso_role_permission` VALUES (451, 1, 66, 1);
 INSERT INTO `sso_role_permission` VALUES (452, 1, 67, 1);
 INSERT INTO `sso_role_permission` VALUES (453, 1, 68, 1);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_user
@@ -232,15 +220,13 @@ CREATE TABLE `sso_user` (
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+  PRIMARY KEY (`id`)
+) COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sso_user
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_user` VALUES (2, 3, 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '2025-03-31 15:54:46', 54, 1, '2015-06-02 11:31:56', '2025-03-31 15:54:46');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sso_user_role
@@ -251,13 +237,10 @@ CREATE TABLE `sso_user_role` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID ',
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of sso_user_role
 -- ----------------------------
-BEGIN;
 INSERT INTO `sso_user_role` VALUES (33, 2, 1);
-COMMIT;
 
-SET FOREIGN_KEY_CHECKS = 1;

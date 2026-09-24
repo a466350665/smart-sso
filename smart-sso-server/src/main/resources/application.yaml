@@ -1,18 +1,14 @@
 server:
   port: 8080
 
-logging:
-  level:
-    openjoe.smart.sso.server.mapper: debug #打印sql日志
-
 spring:
+  profiles:
+    # 默认 dev：H2 内存库，jar 开箱即用，无需任何外部依赖
+    # 生产请显式指定：--spring.profiles.active=prod 或 SPRING_PROFILES_ACTIVE=prod
+    active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/smart-sso?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
 
 #  data:
 #    redis:
@@ -24,6 +20,10 @@ mybatis-plus:
   global-config:
     db-config:
       table-prefix: sso_
+
+logging:
+  level:
+    openjoe.smart.sso.server.mapper: debug #打印sql日志
 
 smart:
   sso:

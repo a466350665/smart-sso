@@ -1,0 +1,12 @@
+# 生产环境
+# 启动方式：--spring.profiles.active=prod 或环境变量 SPRING_PROFILES_ACTIVE=prod
+# 表结构与初始化数据需手工导入（脚本：smart-sso-server/src/main/resources/db/smart-sso.sql，
+# 该脚本同时兼容 MySQL 与 H2，MySQL 侧直接用客户端执行即可）：
+#   mysql -uroot -p smart-sso < db/smart-sso.sql
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/smart-sso?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
