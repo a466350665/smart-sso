@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  * @author Joe
  */
-@TableName("sys_user")
+@TableName
 public class User extends BaseEntity {
 	
 	/** 机构 */

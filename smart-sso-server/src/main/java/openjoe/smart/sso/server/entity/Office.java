@@ -11,7 +11,7 @@ import java.beans.Transient;
 /**
  * 机构
  */
-@TableName("sys_office")
+@TableName
 public class Office extends BaseEntity {
 	
 	/** 父ID（允许为null，表示顶级机构；更新时必须强制写入，否则会被MyBatis-Plus的NOT_NULL策略忽略） */

@@ -8,7 +8,7 @@ import openjoe.smart.stage.mybatisplus.entity.Entity;
  * 
  * @author Joe
  */
-@TableName("sys_role_permission")
+@TableName
 public class RolePermission extends Entity {
 
 	/** 应用ID */

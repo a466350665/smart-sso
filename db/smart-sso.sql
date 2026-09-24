@@ -18,10 +18,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for sys_app
+-- Table structure for sso_app
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_app`;
-CREATE TABLE `sys_app` (
+DROP TABLE IF EXISTS `sso_app`;
+CREATE TABLE `sso_app` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `code` varchar(50) NOT NULL COMMENT '编码',
   `name` varchar(128) NOT NULL COMMENT '名称',
@@ -37,18 +37,18 @@ CREATE TABLE `sys_app` (
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='应用表';
 
 -- ----------------------------
--- Records of sys_app
+-- Records of sso_app
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
+INSERT INTO `sso_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_office
+-- Table structure for sso_office
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_office`;
-CREATE TABLE `sys_office` (
+DROP TABLE IF EXISTS `sso_office`;
+CREATE TABLE `sso_office` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
   `name` varchar(100) NOT NULL COMMENT '名称',
@@ -60,19 +60,19 @@ CREATE TABLE `sys_office` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='机构';
 
 -- ----------------------------
--- Records of sys_office
+-- Records of sso_office
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_office` VALUES (1, NULL, 'TT公司', 30, 1, '2015-06-02 11:31:44', '2024-07-16 11:28:48');
-INSERT INTO `sys_office` VALUES (2, 1, 'XX部门', 30, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_office` VALUES (3, 1, 'YY部门', 20, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_office` VALUES (1, NULL, 'TT公司', 30, 1, '2015-06-02 11:31:44', '2024-07-16 11:28:48');
+INSERT INTO `sso_office` VALUES (2, 1, 'XX部门', 30, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_office` VALUES (3, 1, 'YY部门', 20, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_permission
+-- Table structure for sso_permission
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission` (
+DROP TABLE IF EXISTS `sso_permission`;
+CREATE TABLE `sso_permission` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `app_id` bigint(20) NOT NULL COMMENT '应用ID',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
@@ -88,58 +88,58 @@ CREATE TABLE `sys_permission` (
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
--- Records of sys_permission
+-- Records of sso_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_permission` VALUES (2, 1, NULL, '应用管理', '/app.html', 59, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (3, 1, NULL, '用户管理', '/user.html', 79, 'fa-user', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (4, 1, NULL, '角色管理', '/role.html', 69, 'fa-briefcase', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (5, 1, NULL, '权限管理', '/permission.html', 29, 'fa-key', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (6, 1, 2, '应用新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (7, 1, 2, '应用启/禁用', '/app/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (9, 1, 2, '应用删除', '/app/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (10, 1, 3, '用户新增', '/user/edit.html', 6, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (11, 1, 3, '用户启/禁用', '/user/enable.html', 5, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (13, 1, 3, '用户删除', '/user/delete.html', 3, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (14, 1, 3, '重置密码', '/user/resetPassword.html', 2, 'fa-key grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (16, 1, 4, '角色新增', '/role/edit.html', 5, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (17, 1, 4, '角色启/禁用', '/role/enable.html', 4, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (19, 1, 4, '角色删除', '/role/delete.html', 2, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (20, 1, 4, '角色授权', '/role/allocate.html', 1, 'fa-cog grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (22, 1, 2, '应用列表', '/app/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (23, 1, 3, '用户列表', '/user/list.html', 7, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (24, 1, 4, '角色列表', '/role/list.html', 6, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (25, 1, 5, '权限树列表', '/permission/nodes.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (26, 1, 2, '应用保存', '/app/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (27, 1, 3, '用户保存', '/user/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (28, 1, 4, '角色保存', '/role/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (29, 1, 5, '权限保存', '/permission/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (30, 1, 5, '权限删除', '/permission/delete.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (39, 1, NULL, '导航栏', '/admin/menu.html', 99, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (41, 1, NULL, '个人中心', '/profile.html', 89, 'fa fa-desktop', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (42, 1, 41, '修改密码', '/profile/savePassword.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (44, 82, NULL, '栏目管理', '/channel.html', 100, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (47, 82, NULL, '底部菜单管理', '/menu.html', 110, 'fa fa-list-alt', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (48, 82, NULL, '文章管理', '/article.html', 90, 'fa fa-file-text', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (49, 82, NULL, '产品管理', '/product.html', 70, 'fa fa-file-powerpoint-o', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (50, 82, NULL, '产品规格', '/spec.html', 75, 'fa fa-cubes', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/slide.html', 120, 'fa fa-sliders', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (56, 82, NULL, '底部菜单配置', '/channelMenu/edit.html', 105, 'fa fa-cog', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (60, 1, NULL, '机构管理', '/office.html', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (61, 1, 60, '机构列表', '/office/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (63, 1, 60, '机构启/禁用', '/office/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (65, 1, 60, '机构删除', '/office/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sys_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 1, 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
-INSERT INTO `sys_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 0, 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
-INSERT INTO `sys_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 0, 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
+INSERT INTO `sso_permission` VALUES (2, 1, NULL, '应用管理', '/app.html', 59, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (3, 1, NULL, '用户管理', '/user.html', 79, 'fa-user', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (4, 1, NULL, '角色管理', '/role.html', 69, 'fa-briefcase', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (5, 1, NULL, '权限管理', '/permission.html', 29, 'fa-key', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (6, 1, 2, '应用新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (7, 1, 2, '应用启/禁用', '/app/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (9, 1, 2, '应用删除', '/app/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (10, 1, 3, '用户新增', '/user/edit.html', 6, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (11, 1, 3, '用户启/禁用', '/user/enable.html', 5, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (13, 1, 3, '用户删除', '/user/delete.html', 3, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (14, 1, 3, '重置密码', '/user/resetPassword.html', 2, 'fa-key grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (16, 1, 4, '角色新增', '/role/edit.html', 5, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (17, 1, 4, '角色启/禁用', '/role/enable.html', 4, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (19, 1, 4, '角色删除', '/role/delete.html', 2, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (20, 1, 4, '角色授权', '/role/allocate.html', 1, 'fa-cog grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (22, 1, 2, '应用列表', '/app/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (23, 1, 3, '用户列表', '/user/list.html', 7, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (24, 1, 4, '角色列表', '/role/list.html', 6, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (25, 1, 5, '权限树列表', '/permission/nodes.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (26, 1, 2, '应用保存', '/app/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (27, 1, 3, '用户保存', '/user/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (28, 1, 4, '角色保存', '/role/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (29, 1, 5, '权限保存', '/permission/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (30, 1, 5, '权限删除', '/permission/delete.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (39, 1, NULL, '导航栏', '/admin/menu.html', 99, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (41, 1, NULL, '个人中心', '/profile.html', 89, 'fa fa-desktop', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (42, 1, 41, '修改密码', '/profile/savePassword.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (44, 82, NULL, '栏目管理', '/channel.html', 100, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (47, 82, NULL, '底部菜单管理', '/menu.html', 110, 'fa fa-list-alt', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (48, 82, NULL, '文章管理', '/article.html', 90, 'fa fa-file-text', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (49, 82, NULL, '产品管理', '/product.html', 70, 'fa fa-file-powerpoint-o', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (50, 82, NULL, '产品规格', '/spec.html', 75, 'fa fa-cubes', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/slide.html', 120, 'fa fa-sliders', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (56, 82, NULL, '底部菜单配置', '/channelMenu/edit.html', 105, 'fa fa-cog', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (60, 1, NULL, '机构管理', '/office.html', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/office/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/office/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/office/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 1, 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
+INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 0, 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
+INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 0, 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_role
+-- Table structure for sso_role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
+DROP TABLE IF EXISTS `sso_role`;
+CREATE TABLE `sso_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '名称',
   `sort` int(11) NOT NULL COMMENT '排序',
@@ -151,17 +151,17 @@ CREATE TABLE `sys_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
--- Records of sys_role
+-- Records of sso_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, '系统管理员', 999, '系统管理员', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_role` VALUES (1, '系统管理员', 999, '系统管理员', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_role_permission
+-- Table structure for sso_role_permission
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role_permission`;
-CREATE TABLE `sys_role_permission` (
+DROP TABLE IF EXISTS `sso_role_permission`;
+CREATE TABLE `sso_role_permission` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
   `permission_id` bigint(20) NOT NULL COMMENT '权限ID',
@@ -170,58 +170,58 @@ CREATE TABLE `sys_role_permission` (
 ) ENGINE=InnoDB AUTO_INCREMENT=454 DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 -- ----------------------------
--- Records of sys_role_permission
+-- Records of sso_role_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_permission` VALUES (349, 1, 55, 82);
-INSERT INTO `sys_role_permission` VALUES (350, 1, 47, 82);
-INSERT INTO `sys_role_permission` VALUES (351, 1, 56, 82);
-INSERT INTO `sys_role_permission` VALUES (352, 1, 44, 82);
-INSERT INTO `sys_role_permission` VALUES (353, 1, 48, 82);
-INSERT INTO `sys_role_permission` VALUES (354, 1, 50, 82);
-INSERT INTO `sys_role_permission` VALUES (355, 1, 49, 82);
-INSERT INTO `sys_role_permission` VALUES (419, 1, 39, 1);
-INSERT INTO `sys_role_permission` VALUES (420, 1, 41, 1);
-INSERT INTO `sys_role_permission` VALUES (421, 1, 42, 1);
-INSERT INTO `sys_role_permission` VALUES (422, 1, 60, 1);
-INSERT INTO `sys_role_permission` VALUES (423, 1, 61, 1);
-INSERT INTO `sys_role_permission` VALUES (424, 1, 62, 1);
-INSERT INTO `sys_role_permission` VALUES (425, 1, 63, 1);
-INSERT INTO `sys_role_permission` VALUES (426, 1, 65, 1);
-INSERT INTO `sys_role_permission` VALUES (427, 1, 3, 1);
-INSERT INTO `sys_role_permission` VALUES (428, 1, 23, 1);
-INSERT INTO `sys_role_permission` VALUES (429, 1, 10, 1);
-INSERT INTO `sys_role_permission` VALUES (430, 1, 11, 1);
-INSERT INTO `sys_role_permission` VALUES (431, 1, 13, 1);
-INSERT INTO `sys_role_permission` VALUES (432, 1, 14, 1);
-INSERT INTO `sys_role_permission` VALUES (433, 1, 27, 1);
-INSERT INTO `sys_role_permission` VALUES (434, 1, 4, 1);
-INSERT INTO `sys_role_permission` VALUES (435, 1, 24, 1);
-INSERT INTO `sys_role_permission` VALUES (436, 1, 16, 1);
-INSERT INTO `sys_role_permission` VALUES (437, 1, 17, 1);
-INSERT INTO `sys_role_permission` VALUES (438, 1, 19, 1);
-INSERT INTO `sys_role_permission` VALUES (439, 1, 20, 1);
-INSERT INTO `sys_role_permission` VALUES (440, 1, 28, 1);
-INSERT INTO `sys_role_permission` VALUES (441, 1, 2, 1);
-INSERT INTO `sys_role_permission` VALUES (442, 1, 22, 1);
-INSERT INTO `sys_role_permission` VALUES (443, 1, 6, 1);
-INSERT INTO `sys_role_permission` VALUES (444, 1, 7, 1);
-INSERT INTO `sys_role_permission` VALUES (445, 1, 9, 1);
-INSERT INTO `sys_role_permission` VALUES (446, 1, 26, 1);
-INSERT INTO `sys_role_permission` VALUES (447, 1, 5, 1);
-INSERT INTO `sys_role_permission` VALUES (448, 1, 25, 1);
-INSERT INTO `sys_role_permission` VALUES (449, 1, 29, 1);
-INSERT INTO `sys_role_permission` VALUES (450, 1, 30, 1);
-INSERT INTO `sys_role_permission` VALUES (451, 1, 66, 1);
-INSERT INTO `sys_role_permission` VALUES (452, 1, 67, 1);
-INSERT INTO `sys_role_permission` VALUES (453, 1, 68, 1);
+INSERT INTO `sso_role_permission` VALUES (349, 1, 55, 82);
+INSERT INTO `sso_role_permission` VALUES (350, 1, 47, 82);
+INSERT INTO `sso_role_permission` VALUES (351, 1, 56, 82);
+INSERT INTO `sso_role_permission` VALUES (352, 1, 44, 82);
+INSERT INTO `sso_role_permission` VALUES (353, 1, 48, 82);
+INSERT INTO `sso_role_permission` VALUES (354, 1, 50, 82);
+INSERT INTO `sso_role_permission` VALUES (355, 1, 49, 82);
+INSERT INTO `sso_role_permission` VALUES (419, 1, 39, 1);
+INSERT INTO `sso_role_permission` VALUES (420, 1, 41, 1);
+INSERT INTO `sso_role_permission` VALUES (421, 1, 42, 1);
+INSERT INTO `sso_role_permission` VALUES (422, 1, 60, 1);
+INSERT INTO `sso_role_permission` VALUES (423, 1, 61, 1);
+INSERT INTO `sso_role_permission` VALUES (424, 1, 62, 1);
+INSERT INTO `sso_role_permission` VALUES (425, 1, 63, 1);
+INSERT INTO `sso_role_permission` VALUES (426, 1, 65, 1);
+INSERT INTO `sso_role_permission` VALUES (427, 1, 3, 1);
+INSERT INTO `sso_role_permission` VALUES (428, 1, 23, 1);
+INSERT INTO `sso_role_permission` VALUES (429, 1, 10, 1);
+INSERT INTO `sso_role_permission` VALUES (430, 1, 11, 1);
+INSERT INTO `sso_role_permission` VALUES (431, 1, 13, 1);
+INSERT INTO `sso_role_permission` VALUES (432, 1, 14, 1);
+INSERT INTO `sso_role_permission` VALUES (433, 1, 27, 1);
+INSERT INTO `sso_role_permission` VALUES (434, 1, 4, 1);
+INSERT INTO `sso_role_permission` VALUES (435, 1, 24, 1);
+INSERT INTO `sso_role_permission` VALUES (436, 1, 16, 1);
+INSERT INTO `sso_role_permission` VALUES (437, 1, 17, 1);
+INSERT INTO `sso_role_permission` VALUES (438, 1, 19, 1);
+INSERT INTO `sso_role_permission` VALUES (439, 1, 20, 1);
+INSERT INTO `sso_role_permission` VALUES (440, 1, 28, 1);
+INSERT INTO `sso_role_permission` VALUES (441, 1, 2, 1);
+INSERT INTO `sso_role_permission` VALUES (442, 1, 22, 1);
+INSERT INTO `sso_role_permission` VALUES (443, 1, 6, 1);
+INSERT INTO `sso_role_permission` VALUES (444, 1, 7, 1);
+INSERT INTO `sso_role_permission` VALUES (445, 1, 9, 1);
+INSERT INTO `sso_role_permission` VALUES (446, 1, 26, 1);
+INSERT INTO `sso_role_permission` VALUES (447, 1, 5, 1);
+INSERT INTO `sso_role_permission` VALUES (448, 1, 25, 1);
+INSERT INTO `sso_role_permission` VALUES (449, 1, 29, 1);
+INSERT INTO `sso_role_permission` VALUES (450, 1, 30, 1);
+INSERT INTO `sso_role_permission` VALUES (451, 1, 66, 1);
+INSERT INTO `sso_role_permission` VALUES (452, 1, 67, 1);
+INSERT INTO `sso_role_permission` VALUES (453, 1, 68, 1);
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_user
+-- Table structure for sso_user
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
+DROP TABLE IF EXISTS `sso_user`;
+CREATE TABLE `sso_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `office_id` bigint(20) NOT NULL COMMENT '机构ID',
   `name` varchar(50) DEFAULT NULL COMMENT '姓名',
@@ -236,17 +236,17 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
--- Records of sys_user
+-- Records of sso_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (2, 3, 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '2025-03-31 15:54:46', 54, 1, '2015-06-02 11:31:56', '2025-03-31 15:54:46');
+INSERT INTO `sso_user` VALUES (2, 3, 'Joe', 'admin', '26524bdf4ea266f131566a89e8f4972c', '2025-03-31 15:54:46', 54, 1, '2015-06-02 11:31:56', '2025-03-31 15:54:46');
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_user_role
+-- Table structure for sso_user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role` (
+DROP TABLE IF EXISTS `sso_user_role`;
+CREATE TABLE `sso_user_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL COMMENT '用户ID ',
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
@@ -254,10 +254,10 @@ CREATE TABLE `sys_user_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
--- Records of sys_user_role
+-- Records of sso_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES (33, 2, 1);
+INSERT INTO `sso_user_role` VALUES (33, 2, 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

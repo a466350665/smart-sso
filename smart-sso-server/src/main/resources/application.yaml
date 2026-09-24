@@ -20,6 +20,11 @@ spring:
 #      port: 6379
 #      password: 123456
 
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: sso_
+
 smart:
   sso:
     #服务端地址

@@ -11,7 +11,7 @@ import openjoe.smart.stage.mybatisplus.entity.BaseEntity;
  * 
  * @author Joe
  */
-@TableName("sys_permission")
+@TableName
 public class Permission extends BaseEntity implements Tree {
 
 	/** 应用ID */
