@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.service.LoginUserService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,19 +19,13 @@ import java.util.stream.Stream;
  * @author Joe
  */
 @Tag(name = "登录用户管理")
-@Controller
+@RestController
 @RequestMapping("/admin/login-user")
 @SuppressWarnings("rawtypes")
 public class LoginUserController {
 
 	@Autowired
 	private LoginUserService loginUserService;
-
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/admin/login-user";
-	}
 
 	@Operation(summary = "列表")
 	@ResponseBody

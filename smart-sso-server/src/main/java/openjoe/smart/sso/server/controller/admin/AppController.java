@@ -10,47 +10,26 @@ import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
 import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Joe
  */
 @Tag(name = "应用管理")
-@Controller
+@RestController
 @RequestMapping("/admin/app")
 @SuppressWarnings("rawtypes")
 public class AppController {
 
 	@Autowired
 	private AppService appService;
-
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute() {
-		return "/admin/app";
-	}
-
-	@Operation(summary = "新增/修改页")
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(@RequestParam(required = false) Long id, Model model) {
-		App app;
-		if (id == null) {
-			app = new App();
-			app.setIsEnable(true);
-		}
-		else {
-			app = appService.getById(id);
-		}
-		model.addAttribute("app", app);
-		return "/admin/app-edit";
-	}
 
 	@Operation(summary = "查询应用密钥信息")
 	@ResponseBody
@@ -67,6 +46,13 @@ public class AppController {
 			@RequestParam Long current,
 			@RequestParam Long size) {
 		return Result.success(appService.selectPage(name, current, size));
+	}
+
+	@Operation(summary = "全部启用应用")
+	@ResponseBody
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public Result<List<App>> all() {
+		return Result.success(appService.selectAll(true));
 	}
 
 	@Operation(summary = "验证应用编码")

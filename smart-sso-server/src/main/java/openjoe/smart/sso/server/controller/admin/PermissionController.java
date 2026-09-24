@@ -4,12 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
-import openjoe.smart.sso.server.service.AppService;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,23 +19,14 @@ import java.util.List;
  * @author Joe
  */
 @Tag(name = "权限(含菜单)管理")
-@Controller
+@RestController
 @RequestMapping("/admin/permission")
 @SuppressWarnings("rawtypes")
 public class PermissionController {
 
 	@Autowired
 	private PermissionService permissionService;
-	@Autowired
-	private AppService appService;
 
-	@Operation(summary = "初始页")
-	@RequestMapping(method = RequestMethod.GET)
-	public String execute(Model model) {
-		model.addAttribute("appList", appService.selectAll(true));
-		return "/admin/permission";
-	}
-	
 	@Operation(summary = "获取")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.GET)

@@ -1,0 +1,85 @@
+<title>机构管理</title>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="col-xs-12">
+				<form id="_form" />
+				<div>
+					<div class="dataTables_wrapper form-inline no-footer">
+						<table id="_table" class="table table-striped table-bordered table-hover dataTable no-footer">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+		jQuery(function($) {
+			// 列表
+			var $table = $("#_table").table({
+				url : "/admin/organization/list",
+				formId : "_form",
+				tools : [
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/organization/edit.html', handler : function(){
+						$.aceRedirect("/organization/edit");
+					}},
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/organization/enable.html', handler : function(){
+						$table.ajaxEnable({url : "/admin/organization/enable"}, false);
+					}},
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/organization/enable.html', handler : function(){
+						$table.ajaxEnable({url : "/admin/organization/enable"}, true);
+					}},
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/organization/delete.html', handler : function(){
+						$table.ajaxDelete({url : "/admin/organization/delete"});
+					}}
+				],
+				columns : [
+					{field:'id', hide : true},
+					{field:'isEnable', hide : true},
+					{field:'name', title:'名称', align:'left'},
+					{field:'sort', title:'排序', mobileHide : true},
+					{field:'isEnableStr', title:'是否启用', replace : function (d){
+				        if(d.isEnable)
+				        	return "<span class='label label-sm label-success'>是</span>";
+			        	else
+			        		return "<span class='label label-sm label-warning'>否</span>";
+			        }}
+				],
+				operate : [
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/organization/edit.html', handler : function(d, i){
+						$.aceRedirect("/organization/edit?id=" + d.id);
+					}},
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/organization/enable.html', 
+						handler : function(){
+							$table.ajaxEnable({url : "/admin/organization/enable"}, false);
+						},
+						show : function(d){
+						    return d.isEnable;
+						}
+					},
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/organization/enable.html', 
+						handler : function(){
+							$table.ajaxEnable({url : "/admin/organization/enable"}, true);
+						},
+						show : function(d){
+						    return !d.isEnable;
+						}
+					},
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/organization/delete.html', handler : function(d, i){
+						$table.ajaxDelete({url : "/admin/organization/delete"});
+					}}
+				],
+				after : function(){
+					// 权限处理
+					$.permission();
+				},
+				pagination : {hide : true}
+			});
+		});
+	});
+</script>

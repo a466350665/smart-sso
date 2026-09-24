@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class RoleService extends BaseService<RoleMapper, Role> {
 
 	public Page<Role> selectPage(String name, Long current, Long size) {
         LambdaQueryWrapper<Role> wrapper =  Wrappers.lambdaQuery();
-        wrapper.like(Role::getName, name);
+        wrapper.like(StringUtils.hasLength(name), Role::getName, name);
         return findPage(current, size, wrapper);
 	}
 

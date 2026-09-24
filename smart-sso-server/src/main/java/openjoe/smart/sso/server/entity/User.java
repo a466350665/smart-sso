@@ -11,11 +11,11 @@ import java.util.Date;
  * 
  * @author Joe
  */
-@TableName("sys_user")
+@TableName
 public class User extends BaseEntity {
 	
 	/** 机构 */
-	private Long officeId;
+	private Long organizationId;
 	/** 姓名 */
 	private String name;
 	/** 登录名 */
@@ -29,12 +29,12 @@ public class User extends BaseEntity {
 	/** 是否启用 */
 	private Boolean isEnable;
 	
-	public Long getOfficeId() {
-		return officeId;
+	public Long getOrganizationId() {
+		return organizationId;
 	}
 
-	public void setOfficeId(Long officeId) {
-		this.officeId = officeId;
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
 	}
 	
 	public String getName() {

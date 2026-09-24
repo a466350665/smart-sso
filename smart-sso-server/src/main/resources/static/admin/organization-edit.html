@@ -1,9 +1,9 @@
 <title>机构管理</title>
-<#include "../common/common.html"/>
+
 
 <div class="page-header">
 	<h1>
-		${office.id?exists ? string('修改','添加')}机构
+		机构
 	</h1>
 </div>
 
@@ -11,7 +11,7 @@
 	<div class="col-xs-12">
 		<form id="_editForm" class="form-horizontal" role="form"
 			validate="true">
-			<input type="hidden" name="id" value="${office.id!}"> 
+			<input type="hidden" name="id" value=""> 
 			
 			<div class="form-group">
 				<label for="_parentId" class="col-sm-3 control-label no-padding-right">父机构</label>
@@ -19,9 +19,7 @@
 				<div class="col-sm-3">
 					<select id="_parentId" name="parentId" class="form-control help-validate">
 						<option value="">请选择</option>
-						<#list officeList as item>
-							<option value="${item.id}" <#if office.parentId?? && office.parentId == item.id>selected="selected"</#if>>${item.name}</option>
-						</#list>
+						
 					</select>
 				</div>
 			</div>
@@ -32,7 +30,7 @@
 
 				<div class="col-sm-9">
 					<div class="clearfix help-validate">
-						<input id="_name" name="name" type="text" value="${office.name!}" class="form-data col-xs-10 col-sm-5" placeholder="名称"
+						<input id="_name" name="name" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="名称"
 							required="true"  maxlength="100"/>
 					</div>
 				</div>
@@ -43,7 +41,7 @@
 
 				<div class="col-sm-9">
 					<div class="clearfix help-validate">
-						<input id="_sort" name="sort" type="text" value="${office.sort!}" class="form-data col-xs-10 col-sm-5" placeholder="排序"
+						<input id="_sort" name="sort" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="排序"
 							required="true" vtype="integer" maxlength="11"/>
 					</div>
 				</div>
@@ -56,14 +54,14 @@
 					<div class="clearfix help-validate">
 						<div>
 							<label class="line-height-1 blue">
-								<input name="isEnable" value="true" type="radio" class="ace" ${(office.isEnable?? && office.isEnable) ? string('checked="checked"','')}/>
+								<input name="isEnable" value="true" type="radio" class="ace" checked="checked"/>
 								<span class="lbl"> 是</span>
 							</label>
 						</div>
 	
 						<div>
 							<label class="line-height-1 blue">
-								<input name="isEnable" value="false" type="radio" class="ace" ${(office.isEnable?? && office.isEnable) ? string('','checked="checked"')}/>
+								<input name="isEnable" value="false" type="radio" class="ace" />
 								<span class="lbl"> 否</span>
 							</label>
 						</div>
@@ -73,7 +71,7 @@
 			
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
-					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/admin/office/save">
+					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/organization/save.html">
 						<i class="ace-icon fa fa-check bigger-110"></i>
 						提交
 					</button>
@@ -93,16 +91,69 @@
 <script type="text/javascript">
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
+			function getParam(name) {
+				var query = window.location.hash.substring(1);
+				var vars = query.split("?");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == name) { return pair[1]; }
+				}
+				return null;
+			}
+
+			function loadOrganization(organizationId) {
+				$.getJSON("/admin/organization/get?id=" + organizationId, function (d) {
+					if (!d || d.code !== '000000' || !d.data) {
+						return;
+					}
+					var organization = d.data;
+					$("input[name='id']").val(organization.id || '');
+					$("#_name").val(organization.name || '');
+					$("#_sort").val(organization.sort == null ? '' : organization.sort);
+					if (organization.isEnable === false) {
+						$("input[name='isEnable'][value='false']").prop('checked', true);
+					} else {
+						$("input[name='isEnable'][value='true']").prop('checked', true);
+					}
+					loadParents(organizationId, organization.parentId);
+				});
+			}
+
+			function loadParents(excludeId, selectedId) {
+				var url = "/admin/organization/all";
+				if (excludeId) {
+					url += "?excludeId=" + excludeId;
+				}
+				$.getJSON(url, function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var html = '<option value="">请选择</option>';
+					(d.data || []).forEach(function (item) {
+						var selected = selectedId && String(item.id) === String(selectedId) ? ' selected="selected"' : '';
+						html += '<option value="' + item.id + '"' + selected + '>' + item.name + '</option>';
+					});
+					$('#_parentId').html(html);
+				});
+			}
+
+			var organizationId = getParam('id');
+			if (organizationId) {
+				loadOrganization(organizationId);
+			} else {
+				loadParents(null, getParam('parentId'));
+			}
+
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${request.contextPath}/admin/office/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/organization/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
-								$.aceRedirect("${request.contextPath}/admin/office");
+								$.aceRedirect("/organization");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -114,7 +165,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${request.contextPath}/admin/office");
+				$.aceRedirect("/organization");
 			});
 			
 			// 回车绑定

@@ -9,10 +9,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  freemarker:
-    suffix: .html
-    request-context-attribute: request
-
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/smart-sso?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: root
@@ -24,6 +20,11 @@ spring:
 #      port: 6379
 #      password: 123456
 
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: sso_
+
 smart:
   sso:
     #服务端地址
@@ -32,7 +33,9 @@ smart:
     client-id: 1000
     client-secret: rokY9BdKh5bHiX/zL26qOg==
     #忽略拦截urls（排出静态资源和登录、退出、OAuth2认证等请求）
-    exclude-urls: /static/*,/sso/*
+    exclude-urls: /static/*,/sso/*,/auth/*,/login.html,/favicon.ico
     #单点登录超时时间，默认2小时，单位秒（服务端独有配置）
     server:
       timeout: 7200
+    #前后端分离开关
+    h5-enabled: true

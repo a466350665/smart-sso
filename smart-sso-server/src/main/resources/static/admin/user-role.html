@@ -1,5 +1,5 @@
 <title>分配角色</title>
-<#include "../common/common.html"/>
+
 
 <div class="page-header">
 	<h1>
@@ -12,14 +12,14 @@
 		<!-- PAGE CONTENT BEGINS -->
 		<form id="_editForm" class="form-horizontal" role="form" 
 			validate="true">
-			<input type="hidden" name="userId" value="${user.id}">
+			<input type="hidden" name="userId" value="">
 			
 			<div class="form-group">
 				<label for="_name" class="col-sm-3 control-label no-padding-right">姓名</label>
 
 				<div class="col-sm-6">
 					<div class="clearfix help-validate">
-						<input id="_name" name="name" type="text" value="${user.name}" class="form-data col-xs-10 col-sm-5" placeholder="名称"
+						<input id="_name" name="name" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="名称"
 							maxlength="50" disabled="disabled"/>
 					</div>
 				</div>
@@ -31,12 +31,7 @@
 				
 				<div class="col-xs-12 col-sm-9">
 					<div class="clearfix help-validate">
-						<#list roleList as item>
-							<label>
-								<input name="roleId" value="${item.id}" type="checkbox" class="ace" ${item.checked ? string('checked="checked"','')}/>
-								<span class="lbl">&nbsp;&nbsp;${item.name}</span>
-							</label>
-						</#list>
+						<div id="_roleList"></div>
 						<input id="_roleIds" type="hidden" name="roleIds" value="">
 					</div>
 				</div>
@@ -64,7 +59,50 @@
 <script type="text/javascript">
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
-			
+			function getParam(name) {
+				var query = window.location.hash.substring(1);
+				var vars = query.split("?");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == name) { return pair[1]; }
+				}
+				return null;
+			}
+
+			function loadUser(userId) {
+				$.getJSON("/admin/user/get?id="+ userId, function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var user = d.data || {};
+					$("input[name='userId']").val(user.id || '');
+					$("#_name").val(user.name || '');
+				});
+			}
+
+			function loadRoles(userId) {
+				$.getJSON("/admin/user-role/roles?userId="+ (userId || ''), function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var html = '';
+					(d.data || []).forEach(function (item) {
+						var checked = item.checked ? ' checked="checked"' : '';
+						html += '<label>';
+						html += '<input name="roleId" value="' + item.id + '" type="checkbox" class="ace"' + checked + '/>';
+						html += '<span class="lbl">&nbsp;&nbsp;' + item.name + '</span>';
+						html += '</label>';
+					});
+					$('#_roleList').html(html);
+				});
+			}
+
+			var userId = getParam('userId');
+			if (userId) {
+				loadUser(userId);
+				loadRoles(userId);
+			}
+
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
@@ -79,11 +117,11 @@
 					
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${request.contextPath}/admin/user-role/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/user-role/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
-								$.aceRedirect("${request.contextPath}/admin/user");
+								$.aceRedirect("/user");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -95,7 +133,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${request.contextPath}/admin/user");
+				$.aceRedirect("/user");
 			});
 			
 			// 回车绑定

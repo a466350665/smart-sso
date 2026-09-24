@@ -1,5 +1,5 @@
 <title>登录用户管理</title>
-<#include "../common/common.html"/>
+
 
 <div class="row">
 	<div class="col-xs-12">
@@ -13,7 +13,7 @@
 					<div class="widget-body">
 						<div class="widget-main">
 							<form id="_form" class="form-inline">
-								<input id="_officeId" type="hidden" name="officeId" value="">
+								<input id="_organizationId" type="hidden" name="organizationId" value="">
 								<label>
 									<label class="control-label"> 登录名： </label>
 									<input name="account" type="text" class="form-data input-medium search-data">
@@ -43,13 +43,13 @@
 		jQuery(function($) {
 			// 列表
     		var $table = $("#_table").table({
-    			url : "${request.contextPath}/admin/login-user/list",
+    			url : "/admin/login-user/list",
     			formId : "_form",
 				tools : [
-					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(){
+					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(){
 						if($table.validateSelected(false)){
 							$table.ajax({
-								url : "${request.contextPath}/admin/login-user/logout",
+								url : "/admin/login-user/logout",
 								data : {tgts : $table.getSelectedItemKeys("tgt")},
 								confirm : "确认下线?",
 								after : function(){
@@ -71,9 +71,9 @@
 			        }}
 				],
 				operate : [
-					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(d, i){
+					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(d, i){
 						$table.ajax({
-							url : "${request.contextPath}/admin/login-user/logout",
+							url : "/admin/login-user/logout",
 							data : {tgts : $table.getSelectedItemKeys("tgt")},
 							confirm : "确认下线?",
 							after : function(){

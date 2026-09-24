@@ -9,46 +9,40 @@ import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.client.util.SSOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/admin/admin")
 public class AdminController {
 
     @Autowired
     private ClientProperties clientProperties;
 
-    /**
-     * 初始页
-     *
-     * @param model
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    @GetMapping
-    public String index(Model model) throws UnsupportedEncodingException {
+    @Operation(summary = "当前用户信息")
+    @ResponseBody
+    @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+    public Result userinfo() throws UnsupportedEncodingException {
+        Map<String, Object> data = new HashMap<>();
         TokenUser user = ClientContextHolder.getUser();
-        // 登录用户名
-        model.addAttribute("username", user.getUsername());
         TokenPermission permission = ClientContextHolder.getPermission();
-        // 设置当前登录用户没有的权限，以便控制前台菜单和按钮隐藏
-        model.addAttribute("userNoPermissions",
-                CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
-        // 单点退出地址
-        model.addAttribute("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
-                + URLEncoder.encode(SSOUtils.getLocalUrl(), "utf-8"));
-        return "/admin/admin";
-    }
 
+        data.put("username", user.getUsername());
+        data.put("userId", user.getId());
+        data.put("userNoPermissions",
+                CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
+        data.put("logoutUrl", clientProperties.getServerUrl() + BaseConstant.LOGOUT_PATH + "?" + BaseConstant.REDIRECT_URI + "="
+                + URLEncoder.encode(SSOUtils.getLocalUrl(), "utf-8"));
+        return Result.success(data);
+    }
     @Operation(summary = "菜单")
     @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.GET)

@@ -1,5 +1,5 @@
 <title>个人中心</title>
-<#include "../common/common.html"/>
+
 
 <div class="row">
 	<div class="col-xs-12">
@@ -34,20 +34,20 @@
 									<h4 class="header blue bolder smaller">注册信息</h4>
 	
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-email">登录名</label>
+										<label class="col-sm-3 control-label no-padding-right">登录名</label>
 	
 										<div class="col-sm-9">
-											<label class="control-label"><b>${user.account}</b></label>
+											<label class="control-label"><b></b></label>
 										</div>
 									</div>
 	
 									<div class="space-4"></div>
 	
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-website">注册时间</label>
+										<label class="col-sm-3 control-label no-padding-right">注册时间</label>
 	
 										<div class="col-sm-9">
-											<label class="control-label"><b>${user.createTime ? string("yyyy-MM-dd HH:mm:ss")}</b></label>
+											<label class="control-label"><b></b></label>
 										</div>
 									</div>
 	
@@ -55,28 +55,28 @@
 									<h4 class="header blue bolder smaller">登录信息</h4>
 									
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-email">姓名</label>
+										<label class="col-sm-3 control-label no-padding-right">姓名</label>
 	
 										<div class="col-sm-9">
-											<label class="control-label"><b>${user.name}</b></label>
+											<label class="control-label"><b></b></label>
 										</div>
 									</div>
 	
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-twitter">登录总次数</label>
+										<label class="col-sm-3 control-label no-padding-right">登录总次数</label>
 	
 										<div class="col-sm-9">
-											<label class="control-label"><b>${user.loginCount}</b></label>
+											<label class="control-label"><b></b></label>
 										</div>
 									</div>
 	
 									<div class="space-4"></div>
 	
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-gplus">最后登录时间</label>
+										<label class="col-sm-3 control-label no-padding-right">最后登录时间</label>
 	
 										<div class="col-sm-9">
-											<label class="control-label"><b>${user.lastLoginTime ? string("yyyy-MM-dd HH:mm:ss")}</b></label>
+											<label class="control-label"><b></b></label>
 										</div>
 									</div>
 								</div>
@@ -85,7 +85,7 @@
 									<div class="space-10"></div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">新密码</label>
+										<label class="col-sm-3 control-label no-padding-right">新密码</label>
 
 										<div class="col-sm-9">
 											<div class="help-validate">
@@ -98,7 +98,7 @@
 									<div class="space-4"></div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">确认密码</label>
+										<label class="col-sm-3 control-label no-padding-right">确认密码</label>
 
 										<div class="col-sm-9">
 											<div class="help-validate">
@@ -135,17 +135,37 @@
 </div><!-- /.row -->
 
 <!--[if lte IE 8]>
-  <script src="${request.contextPath}/static/assets/js/excanvas.js"></script>
+  <script src="/static/assets/js/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript">
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
+			function setText(index, value) {
+				$('label.control-label b').eq(index).text(value || '');
+			}
+
+			function loadUser() {
+				$.getJSON("/admin/user/get?id="+ (window.smart && smart.userId ? smart.userId : ''), function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var user = d.data || {};
+					setText(0, user.account);
+					setText(1, user.createTime);
+					setText(2, user.name);
+					setText(3, user.loginCount);
+					setText(4, user.lastLoginTime);
+				});
+			}
+
+			loadUser();
+
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${request.contextPath}/admin/profile/save-password", $.formJson('_editForm'),function(d) {
+					$.post("/admin/profile/save-password", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							$("#_reset").click();

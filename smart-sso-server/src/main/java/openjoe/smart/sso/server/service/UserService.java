@@ -25,7 +25,7 @@ public class UserService extends BaseService<UserMapper, User> implements UserMa
     @Autowired
     private UserRoleService userRoleService;
     @Autowired
-    private OfficeService officeService;
+    private OrganizationService organizationService;
 
     @Override
     public Result<Long> validate(String username, String password) {
@@ -72,12 +72,12 @@ public class UserService extends BaseService<UserMapper, User> implements UserMa
         idList.forEach(id -> updatePassword(id, password));
     }
 
-    public Page<User> selectPage(String account, String name, Long officeId, Long current, Long size) {
+    public Page<User> selectPage(String account, String name, Long organizationId, Long current, Long size) {
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StringUtils.hasLength(account), User::getAccount, account)
                 .like(StringUtils.hasLength(name), User::getName, name).orderByDesc(User::getCreateTime);
-        if (officeId != null) {
-            wrapper.in(User::getOfficeId, officeService.selectIdListByParentId(officeId));
+        if (organizationId != null) {
+            wrapper.in(User::getOrganizationId, organizationService.selectIdListByParentId(organizationId));
         }
         return findPage(current, size, wrapper);
     }

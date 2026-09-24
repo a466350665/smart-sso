@@ -8,7 +8,7 @@ import openjoe.smart.stage.mybatisplus.entity.BaseEntity;
  * 
  * @author Joe
  */
-@TableName("sys_role")
+@TableName
 public class Role extends BaseEntity {
 
 	/** 名称 */

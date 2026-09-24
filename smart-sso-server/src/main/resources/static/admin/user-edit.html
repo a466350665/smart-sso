@@ -1,9 +1,9 @@
 <title>用户管理</title>
-<#include "../common/common.html"/>
+
 
 <div class="page-header">
 	<h1>
-		${user.id?? ? string('修改','添加')}用户
+		用户
 	</h1>
 </div>
 
@@ -12,18 +12,13 @@
 		<!-- PAGE CONTENT BEGINS -->
 		<form id="_editForm" class="form-horizontal" role="form" 
 			validate="true">
-			<input type="hidden" name="id" value="${user.id!}">
+			<input type="hidden" name="id" value="">
 			
 			<div class="form-group">
-				<label for="_officeId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>机构</label>
+				<label for="_organizationId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>机构</label>
 
 				<div class="col-sm-3">
-					<select id="_officeId" name="officeId" class="form-control help-validate" required="true">
-						<option value="">请选择</option>
-						<#list officeList as item>
-							<option value="${item.id}" <#if user.officeId?? && user.officeId == item.id>selected="selected"</#if>>${item.name}</option>
-						</#list>
-					</select>
+					<select id="_organizationId" name="organizationId" class="form-control help-validate" required="true"></select>
 				</div>
 			</div>
 			
@@ -32,7 +27,7 @@
 
 				<div class="col-sm-6">
 					<div class="clearfix help-validate">
-						<input id="_name" name="name" type="text" value="${user.name!}" class="form-data col-xs-10 col-sm-5" placeholder="名称"
+						<input id="_name" name="name" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="名称"
 							maxlength="50"/>
 					</div>
 				</div>
@@ -45,8 +40,8 @@
 				<div class="col-sm-9">
 					<div class="input-medium help-validate">
 						<div class="input-group">
-							<input id="_account" name="account" type="text" value="${user.account!}" class="form-data"
-								ajax="{url : '${request.contextPath}/admin/user/validate-account', dataId : '_editForm'}"
+							<input id="_account" name="account" type="text" value="" class="form-data"
+								ajax="{url : '/admin/user/validate-account', dataId : '_editForm'}"
 								required="true" minlength = '4' maxlength = '64'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-user"></i>
@@ -58,15 +53,12 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="_password" class="col-sm-3 control-label no-padding-right">${user.id?? ? string('','<span class="form-star">*</span>')}密码</label>
+				<label for="_password" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>密码</label>
 				
 				<div class="col-sm-9">
 					<div class="input-medium help-validate">
 						<div class="input-group">
-							<input id="_password" name="password" type="password" value="" class="form-data"
-								${user.id?? ? string('data-rel="tooltip" title="不修改请留空"','')}
-								${user.id?? ? string('','required="true"')}
-								minlength = '6' maxlength = '16'/>
+							<input id="_password" name="password" type="password" value="" class="form-data" required="true" minlength = '6' maxlength = '16'/>
 							<span class="input-group-addon">
 								<i class="ace-icon fa fa-lock"></i>
 							</span>
@@ -82,14 +74,14 @@
 					<div class="clearfix help-validate">
 						<div>
 							<label class="line-height-1 blue">
-								<input name="isEnable" value="true" type="radio" class="ace" ${(user.isEnable?? && user.isEnable) ? string('checked="checked"','')}/>
+								<input name="isEnable" value="true" type="radio" class="ace" checked="checked"/>
 								<span class="lbl"> 是</span>
 							</label>
 						</div>
 	
 						<div>
 							<label class="line-height-1 blue">
-								<input name="isEnable" value="false" type="radio" class="ace" ${(user.isEnable?? && user.isEnable) ? string('','checked="checked"')}/>
+								<input name="isEnable" value="false" type="radio" class="ace" />
 								<span class="lbl"> 否</span>
 							</label>
 						</div>
@@ -119,22 +111,74 @@
 <script type="text/javascript">
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		jQuery(function($) {
-			//焦点
+			function getParam(name) {
+				var hash = window.location.hash;
+				var qIndex = hash.indexOf('?');
+				var query = qIndex !== -1
+						? hash.substring(qIndex + 1)
+						: window.location.search.substring(1);
+
+				var vars = query.split("&");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == name) { return pair[1]; }
+				}
+				return null;
+			}
+
+			function loadOrganizations(selectedId) {
+				$.getJSON("/admin/organization/all", function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var html = '<option value="">请选择</option>';
+					(d.data || []).forEach(function (item) {
+						var selected = selectedId && String(item.id) === String(selectedId) ? ' selected="selected"' : '';
+						html += '<option value="' + item.id + '"' + selected + '>' + item.name + '</option>';
+					});
+					$('#_organizationId').html(html);
+				});
+			}
+
+			function loadUser(userId) {
+				$.getJSON("/admin/user/get?id="+ userId, function (d) {
+					if (!d || d.code !== '000000') {
+						return;
+					}
+					var user = d.data || {};
+					$("input[name='id']").val(user.id || '');
+					$("#_name").val(user.name || '');
+					$("#_account").val(user.account || '');
+					if (user.isEnable === false) {
+						$("input[name='isEnable'][value='false']").prop('checked', true);
+					} else {
+						$("input[name='isEnable'][value='true']").prop('checked', true);
+					}
+					loadOrganizations(user.organizationId);
+				});
+			}
+
+			var userId = getParam('id');
+			if (userId) {
+				loadUser(userId);
+				$("#_password").prop('required', false);
+				$("label[for='_password'] .form-star").remove();
+			} else {
+				loadOrganizations(getParam('organizationId'));
+			}
+
 			$("#_account").focus();
-			
-			//帮助查看
-			$('[data-rel=tooltip]').tooltip({container:'body'});
-			
+
 			// 提交
 			$("#_submit").click(function(){
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${request.contextPath}/admin/user/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/user/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
-								$.aceRedirect("${request.contextPath}/admin/user");
+								$.aceRedirect("/user");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -146,7 +190,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("${request.contextPath}/admin/user");
+				$.aceRedirect("/user");
 			});
 			
 			// 回车绑定

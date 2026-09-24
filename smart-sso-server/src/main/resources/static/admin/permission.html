@@ -1,8 +1,8 @@
 <title>权限管理</title>
-<#include "../common/common.html"/>
 
-<link rel="stylesheet" href="${request.contextPath}/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
-<link rel="stylesheet" href="${request.contextPath}/static/custom/zTree/css/metroStyle/metroStyle.custom.css?v=1" />
+
+<link rel="stylesheet" href="/static/custom/zTree/css/metroStyle/metroStyle.css?v=1" />
+<link rel="stylesheet" href="/static/custom/zTree/css/metroStyle/metroStyle.custom.css?v=1" />
 <style type="text/css">
 	.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
 	.ztree li ul.level0 {padding:0; background:none;}
@@ -19,16 +19,12 @@
 
 					<div class="widget-body">
 						<div class="widget-main">
-							<form id="_form" class="form-inline">
-								<label>
-									<label class="control-label" for="form-field-1"> 应用： </label>
-									<select id="_searchAppId" name="appId">
-										<#list appList as item>
-											<option value="${item.id}">${item.name}</option>
-										</#list>
-									</select>
-								</label>
-							</form>
+                            <form id="_form" class="form-inline">
+                                <label>
+                                    <label class="control-label"> 应用： </label>
+                                    <select id="_searchAppId" name="appId"></select>
+                                </label>
+                            </form>
 						</div>
 					</div>
 				</div>
@@ -68,15 +64,10 @@
 						<div class="form-group">
 							<label for="_appId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>应用</label>
 			
-							<div class="col-sm-3">
-								<select id="_appId" class="form-control help-validate"
-									required="true">
-									<#list appList as item>
-										<option value="${item.id}">${item.name}</option>
-									</#list>
-								</select>
-								<input id="_hidden_appId" type="hidden" name="appId"/>
-							</div>
+                        <div class="col-sm-3">
+                            <select id="_appId" class="form-control help-validate" required="true"></select>
+                            <input id="_hidden_appId" type="hidden" name="appId"/>
+                        </div>
 						</div>
 						
 						<div class="form-group">
@@ -142,7 +133,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="_isMenu" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否菜单</label>
+							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否菜单</label>
 			
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix help-validate">
@@ -160,7 +151,7 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="_isEnable" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否启用</label>
+							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否启用</label>
 			
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix help-validate">
@@ -197,11 +188,32 @@
 
 <script type="text/javascript">
 	scripts.push(
-			"${request.contextPath}/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
-			"${request.contextPath}/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
+			"/static/custom/zTree/js/jquery.ztree.core-3.5.min.js",
+			"/static/custom/zTree/js/jquery.ztree.excheck-3.5.min.js");
 		
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-		jQuery(function($) {
+        jQuery(function($) {
+            function renderAppOptions(list, selectedId) {
+                var html = '';
+                list.forEach(function (item) {
+                    var selected = selectedId && String(item.id) === String(selectedId) ? ' selected="selected"' : '';
+                    html += '<option value="' + item.id + '"' + selected + '>' + item.name + '</option>';
+                });
+                return html;
+            }
+
+            function initApps() {
+                $.getJSON("/admin/app/all", function (d) {
+                    if (!d || d.code !== '000000') {
+                        return;
+                    }
+                    var options = renderAppOptions(d.data || []);
+                    $('#_searchAppId').html(options);
+                    $('#_appId').html(options);
+                });
+            }
+
+            initApps();
     		var setting = {
 	            view: {
 	            	addDiyDom: addDiyDom,
@@ -213,8 +225,7 @@
 					type: "get",
 					otherParam: $.formJson("_form"),
 					dataType: "text",
-					url: "${request.contextPath}/admin/permission/tree"
-				},
+					url: "/admin/permission/tree"},
 	            check: {
 	                enable: false
 	            },
@@ -250,7 +261,7 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("${request.contextPath}/admin/permission/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							var message = "保存成功";
 							if(d.code == '000000'){
@@ -296,8 +307,8 @@
 	       		}
 				var editStr = "&nbsp;<a id='add_" + treeNode.id + "' class='blue' href='javascript:void(0)' title='添加'>		<i class='ace-icon fa fa-plus bigger-110'></i>	</a>";
 	       		if(treeNode.id) {
-					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/admin/permission/save' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
-					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='/admin/permission/delete' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/permission/save.html' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='/permission/delete.html' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
 				}
 				aObj.after(editStr);
 				var addBtn = $("#add_" + treeNode.id);
@@ -321,7 +332,7 @@
 					deleteBtn.bind("click", function(){
 						bootbox.confirm( "会删除该权限所有子权限，确认要删除吗?",function(result) {
 							if(result) {
-								$.post("${request.contextPath}/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
+								$.post("/admin/permission/delete", {"id":treeNode.id, "appId":$("#_searchAppId option:selected").val()},function(d) {
 									if(d){
 										if(d.code == '000000'){
 											$.gritter.add({
@@ -366,7 +377,7 @@
 					$("input[type=radio][name=isEnable][value=true]").prop('checked', true);
 				}
 				else if(flag == 'update'){
-					$.getJSON("${request.contextPath}/admin/permission/get?id=" + treeNode.id, function(d) {
+					$.getJSON("/admin/permission/get?id="+ treeNode.id, function(d) {
 						var data = d.data;
 						$("#_id").val(data.id);
 						$("#_parentId").val(data.parentId);

@@ -1,5 +1,5 @@
 <title>应用管理</title>
-<#include "../common/common.html"/>
+
 
 <div class="row">
 	<div class="col-xs-12">
@@ -14,7 +14,7 @@
 						<div class="widget-main">
 							<form id="_form" class="form-inline">
 								<label>
-									<label class="control-label" for="form-field-1"> 名称： </label>
+									<label class="control-label"> 名称： </label>
 									<input name="name" type="text" class="form-data input-medium search-data">
 								</label>
 								<!-- 
@@ -85,28 +85,27 @@
 		jQuery(function($) {
 			// 列表
 			var $table = $("#_table").table({
-    			url : "${request.contextPath}/admin/app/list",
+    			url : "/admin/app/list",
     			formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/app/edit', handler : function(){
-						$.aceRedirect("${request.contextPath}/admin/app/edit");
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/app/edit.html', handler : function(){
+						$.aceRedirect("/app/edit");
 					}},
-					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/app/enable', handler : function(){
-						$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, false);
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/app/enable.html', handler : function(){
+						$table.ajaxEnable({url : "/admin/app/enable"}, false);
 					}},
-					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/app/enable', handler : function(){
-						$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, true);
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/app/enable.html', handler : function(){
+						$table.ajaxEnable({url : "/admin/app/enable"}, true);
 					}},
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/app/delete', handler : function(){
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/app/delete.html', handler : function(){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
-							url : "${request.contextPath}/admin/app/delete"
-						});
+							url : "/admin/app/delete"});
 					}},
-					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(){
+					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/app/credentials.html', handler : function(){
 						if($table.validateSelected(true)){
 							$("#_editForm")[0].reset();
-							$.getJSON("${request.contextPath}/admin/app/credentials?id=" + $table.getSelectedItemKeys("id"), function(d) {
+							$.getJSON("/admin/app/credentials?id="+ $table.getSelectedItemKeys("id"), function(d) {
 								$("#_clientId").html(d.data.clientId);
 								$("#_clientSecret").html(d.data.clientSecret);
 								$("#my-modal-a").click();
@@ -129,34 +128,33 @@
 			        {field:'createTime', title:'创建时间', mobileHide : true}
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/app/edit', handler : function(d, i){
-						$.aceRedirect("${request.contextPath}/admin/app/edit?id=" + d.id);
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/app/edit.html', handler : function(d, i){
+						$.aceRedirect("/app/edit?id=" + d.id);
 					}},
-					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/app/enable', 
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/app/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, false);
+							$table.ajaxEnable({url : "/admin/app/enable"}, false);
 						},
 						show : function(d){
 							return d.isEnable;
 						}
 					},
-					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/app/enable', 
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/app/enable.html', 
 						handler : function(){
-							$table.ajaxEnable({url : "${request.contextPath}/admin/app/enable"}, true);
+							$table.ajaxEnable({url : "/admin/app/enable"}, true);
 						},
 						show : function(d){
 							return !d.isEnable;
 						}
 					},
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/app/delete', handler : function(d, i){
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/app/delete.html', handler : function(d, i){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
-							url : "${request.contextPath}/admin/app/delete"
-						});
+							url : "/admin/app/delete"});
 					}},
-					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(d, i){
+					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/app/credentials.html', handler : function(d, i){
 						$("#_editForm")[0].reset();
-						$.getJSON("${request.contextPath}/admin/app/credentials?id=" + d.id, function(d) {
+						$.getJSON("/admin/app/credentials?id="+ d.id, function(d) {
 							$("#_clientId").html(d.data.clientId);
 							$("#_clientSecret").html(d.data.clientSecret);
 							$("#my-modal-a").click();
