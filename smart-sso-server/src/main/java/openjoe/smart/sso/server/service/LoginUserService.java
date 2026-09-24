@@ -50,16 +50,21 @@ public class LoginUserService {
 
         List<LoginUserDTO> dtoList = new ArrayList<>();
         tgtMap.forEach((tgt, tgtContent) -> {
+            // 用户可能已被删除，跳过该条在线记录，避免整页查询失败
+            User user = userMap.get(tgtContent.getUserId());
+            if (user == null) {
+                return;
+            }
             LoginUserDTO dto = new LoginUserDTO();
             dto.setTgt(tgt);
-            User user = userMap.get(tgtContent.getUserId());
             dto.setId(user.getId());
             dto.setName(user.getName());
             dto.setAccount(user.getAccount());
             dto.setCreateTime(new Date(tgtContent.getCreateTime()));
-            Set<String> clientIds = clientIdMap.get(tgt);
-            dto.setApps(clientIds.stream().map(
-                    clientId -> appMap.get(clientId).getCode()).collect(Collectors.joining(",")));
+            // TGT可能尚未换取token（无对应客户端），或客户端应用已被删除，均按空处理
+            Set<String> clientIds = clientIdMap.getOrDefault(tgt, Collections.emptySet());
+            dto.setApps(clientIds.stream().map(appMap::get).filter(Objects::nonNull)
+                    .map(App::getCode).collect(Collectors.joining(",")));
             dtoList.add(dto);
         });
         return dtoList;

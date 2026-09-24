@@ -55,6 +55,10 @@ public class UserService extends BaseService<UserMapper, User> implements UserMa
 
     @Transactional
     public void enable(Boolean isEnable, List<Long> idList) {
+        // 空集合会生成非法的 IN () 语句，直接返回
+        if (CollectionUtils.isEmpty(idList)) {
+            return;
+        }
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
             updateById(t);
@@ -90,6 +94,9 @@ public class UserService extends BaseService<UserMapper, User> implements UserMa
 
     @Transactional
     public void deleteByIds(Collection<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            return;
+        }
         userRoleService.deleteByUserIds(idList);
         super.removeByIds(idList);
     }

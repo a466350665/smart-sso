@@ -91,7 +91,7 @@ public class OrganizationController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
 			@RequestParam String ids) {
-		organizationService.removeByIds(ConvertUtils.convertToIdList(ids));
+		organizationService.deleteByIds(ConvertUtils.convertToIdList(ids));
 		return Result.success();
 	}
 }

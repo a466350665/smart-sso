@@ -111,8 +111,13 @@ public class LocalTokenManager extends AbstractTokenManager implements Expiratio
     public Map<String, Set<String>> getClientIdMapByTgt(Set<String> tgtSet) {
         Map<String, Set<String>> clientIdMap = new HashMap<>();
         tgtSet.forEach(tgt -> {
-            Set<String> refreshTokenSet = tgtMap.get(tgt);
             Set<String> clientIdSet = new HashSet<>();
+            // 该TGT可能尚未换取过token（登录后未走完回跳/回跳失败），此时不存在映射，直接返回空集合
+            Set<String> refreshTokenSet = tgtMap.get(tgt);
+            if (CollectionUtils.isEmpty(refreshTokenSet)) {
+                clientIdMap.put(tgt, clientIdSet);
+                return;
+            }
             refreshTokenSet.forEach(refreshToken -> {
                 ExpirationWrapper<TokenContent> wrapper = refreshTokenMap.get(refreshToken);
                 if (wrapper == null) {

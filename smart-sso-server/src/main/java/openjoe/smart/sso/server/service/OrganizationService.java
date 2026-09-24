@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,10 +20,22 @@ public class OrganizationService extends BaseService<OrganizationMapper, Organiz
 
     @Transactional
     public void enable(Boolean isEnable, List<Long> idList) {
+        // 空集合会生成非法的 IN () 语句，直接返回
+        if (CollectionUtils.isEmpty(idList)) {
+            return;
+        }
         selectByIds(idList).forEach(t -> {
             t.setIsEnable(isEnable);
             updateById(t);
         });
+    }
+
+    @Transactional
+    public void deleteByIds(Collection<Long> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            return;
+        }
+        removeByIds(idList);
     }
 
     private List<Organization> selectByIds(List<Long> idList){
