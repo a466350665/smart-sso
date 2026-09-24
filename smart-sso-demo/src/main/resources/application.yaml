@@ -11,9 +11,9 @@ server:
 smart:
   sso:
     #服务端地址
-    server-url: http://127.0.0.1:8080
+    server-url: http://localhost:8080
     #客户端密钥信息
     client-id: 1002
     client-secret: 3vjPTgn+9XwV+Q6PRUA5oQ==
     #前后端分离必须忽略获取凭证相关的urls
-    exclude-urls: /auth/*
+    exclude-urls: /auth/*,/favicon.ico
