@@ -1,124 +1,241 @@
 # Smart-SSO
+
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![JDK](https://img.shields.io/badge/JDK-17%2B-orange.svg)](#环境要求)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.9-brightgreen.svg)](#技术选型)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/a466350665/smart-sso/pulls)
 [![GitHub stars](https://img.shields.io/github/stars/a466350665/smart-sso.svg?style=social&label=Stars)](https://github.com/a466350665/smart-sso)
 [![GitHub forks](https://img.shields.io/github/forks/a466350665/smart-sso.svg?style=social&label=Fork)](https://github.com/a466350665/smart-sso)
 [![Gitee stars](https://gitee.com/a466350665/smart-sso/badge/star.svg)](https://gitee.com/a466350665/smart-sso)
-[![Gitee forks](https://gitee.com/a466350665/smart-sso/badge/fork.svg)](https://gitee.com/a466350665/smart-sso)
 [![Gitcode stars](https://gitcode.com/openjoe/smart-sso/star/badge.svg)](https://gitcode.com/openjoe/smart-sso/overview)
 
+**简体中文** | [English](README.en.md)
 
-QQ交流群：454343484、769134727
+Smart-SSO 是一个基于 Spring Boot 3 + OAuth2 授权码模式的**轻量级单点登录与权限认证中心**：提供单点登录/退出、自动续签、强制下线、按钮级权限与分布式部署能力，并内置开箱即用的演示环境——不装数据库也能一条命令跑起来。
 
-## 简述
-Smart-SSO 依托当下备受青睐的 SpringBoot 技术，以 OAuth2 认证结合 RBAC 权限设计为基础，为您塑造一个轻量级、高可用的单点认证授权中心。
+- 📖 文档：[快速开始](#快速开始) · [接入指南](docs/client-integration.md) · [架构与原理](docs/architecture.md) · [配置参考](docs/configuration.md) · [常见问题](docs/faq.md)
+- 💬 交流群：454343484、769134727
 
-## 功能说明
+---
 
-1. **轻量级：** 基于SpringBoot和OAuth2协议的授权码模式极简实现；
+## 特性
 
-2. **单点退出：** 客户端应用在获取Token时，隐性把自身的注销地址传递给服务端，在任意客户端应用操作退出，服务端通过远程通知所有客户端应用注销本地Token，完成单点退出；
+1. **轻量级** —— 基于 Spring Boot 3 与 OAuth2 授权码模式的极简实现，无多余依赖。
+2. **单点登录** —— 任意客户端登录一次，其余客户端免登录。
+3. **单点退出** —— 客户端获取 Token 时隐性上报自身注销地址，任一客户端退出即由服务端远程通知全部客户端注销本地 Token。
+4. **自动续签** —— accessToken 过期由客户端后端自动调用 refreshToken 刷新，并同步延长服务端凭证存根时效，用户无感。
+5. **踢人下线** —— 管理员可终止指定用户会话，服务端立即吊销凭证并回调通知所有关联客户端清除本地会话。
+6. **前后端分离** —— 支持无 Cookie 模式（Token 走 Header），前端自行处理刷新与跳转。
+7. **按钮级权限** —— 权限分菜单/按钮两类，按请求 URI 精确匹配做按钮级控制，并支持按应用隔离授权。
+8. **分布式部署** —— 服务端与客户端均提供 Redis 实现，支持多实例共享凭证与权限。
 
-3. **自动续签：** 使用OAuth2协议的accessToken策略，过期由客户端后端自动调用refreshToken刷新接口，并更新服务端凭证存根时效，完成过期自动续签；
+## 快速开始
 
-4. **踢人下线：** 管理员可主动终止指定用户的会话，服务端会立即吊销该用户的登录凭证，并通过回调机制通知所有关联客户端清除本地会话，实现强制下线功能；
+### 环境要求
 
-5. **跨域支持：** 服务端和客户端允许在不同域名下，完成跨域的单点登录和退出机制；
+| 组件 | 要求 |
+| --- | --- |
+| JDK | 17+ |
+| Maven | 3.8+ |
+| 数据库 | **无需**（默认内置 H2 内存库）；生产建议 MySQL 5.7+/8.0 |
+| Redis | 可选（仅分布式部署需要） |
 
-6. **前后端分离：** 用户在前后端分离的架构下(无Cookie模式)，也能轻易实现单点登录的相关功能；
+### 方式一：零依赖体验（推荐先跑这个）
 
-7. **按钮级权限：** 服务端对权限进行菜单和按钮分类，通过请求uri和请求方法匹配的方式实现权限按钮级控制；
-
-8. **分布式部署：** 服务端和客户端都支持基于Redis共享Token的多实例部署场景；
-
-## 相关文档
-- [Smart-SSO单点登录（一）：介绍](https://blog.csdn.net/a466350665/article/details/54140411)
-- [Smart-SSO单点登录（二）：快速开始](https://blog.csdn.net/a466350665/article/details/79628553)
-- [Smart-SSO单点登录（三）：接入指南](https://blog.csdn.net/a466350665/article/details/139736085)
-- [Smart-SSO单点登录（四）：前后端分离](https://blog.csdn.net/a466350665/article/details/109742638)
-- [Smart-SSO单点登录（五）：分布式部署](https://blog.csdn.net/a466350665/article/details/109388429)
-
-## 代码托管
-**Github：** https://github.com/a466350665/smart-sso    
-**Gitee：** https://gitee.com/a466350665/smart-sso    
-**Gitcode：** https://gitcode.com/openjoe/smart-sso
-
-## 分支说明
-- master分支基于SpringBoot 3.x + JDK 17
-- 1.7分支基于SpringBoot 2.x + JDK 8
-
-## 项目结构
-
-```lua
-smart-sso
-├── smart-sso-demo -- 前后端分离客户端示例
-├── smart-sso-server -- 单点登录权限管理服务端
-├── smart-sso-starter -- 依赖装配模块
-│   ├── smart-sso-starter-base -- 公用的基础常量、工具、凭证清理机制
-│   ├── smart-sso-starter-client -- 客户端依赖包，客户端Token生命周期管理
-│   ├── smart-sso-starter-client-redis -- 客户端依赖装配，分布式部署场景redis支持
-│   ├── smart-sso-starter-server -- 服务端依赖包，服务端凭证生命周期管理
-│   ├── smart-sso-starter-server-redis -- 服务端依赖装配，分布式部署场景redis支持
+```bash
+git clone https://github.com/a466350665/smart-sso.git
+cd smart-sso
+mvn -DskipTests package
+java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 ```
+
+浏览器打开 **http://localhost:8080** ，使用内置账号 **`admin` / `123456`** 登录。
+
+- 默认激活 `dev` profile：使用**内存 H2**，启动时自动执行 `smart-sso-server/src/main/resources/db/smart-sso.sql` 建表并写入演示数据（应用、机构、角色、权限、用户）。
+- 数据仅存在于进程生命周期内，**重启即回到初始状态**，适合演示、联调与自动化测试。
+- H2 控制台（仅 dev）：<http://localhost:8080/h2-console>，JDBC URL `jdbc:h2:mem:smart_sso;MODE=MySQL;DB_CLOSE_DELAY=-1`，用户名 `sa`，密码留空。
+
+### 方式二：MySQL（生产）
+
+```bash
+# 1. 建库并导入（脚本为跨库脚本，MySQL / H2 通用）
+mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS \`smart-sso\` DEFAULT CHARSET utf8mb4"
+mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/db/smart-sso.sql
+
+# 2. 按需修改 smart-sso-server/src/main/resources/application-prod.yaml 的连接信息后启动
+java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
+```
+
+> `prod` profile **不会**自动执行数据库脚本（`spring.sql.init.mode=never`），避免误删数据。
+
+### 客户端示例
+
+```bash
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # 端口 8082，前后端分离示例
+```
+
+## 接入指南（客户端）
+
+客户端只需三步：引入 `smart-sso-starter-client`、配置 `smart.sso.*`、由客户端依赖自动装配过滤器完成拦截与登录跳转。最小配置：
+
+```yaml
+smart:
+  sso:
+    server-url: http://localhost:8080   # 独立客户端必填
+    client-id: 1000                     # 在服务端「应用管理」登记后获得
+    client-secret: xxxxxxxx
+    exclude-urls: /static/*,/auth/*     # 无需登录即可访问的路径
+```
+
+完整步骤（依赖坐标、过滤器行为、前后端分离模式、跨域场景、常见坑）见 **[docs/client-integration.md](docs/client-integration.md)**。
+
+## 架构与原理
+
+下面以两个应用为例：应用A 首次登录后，应用B 由同一个浏览器访问即可免登录（单点登录）。
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant B as 浏览器
+    participant A as 应用A
+    participant S as 认证中心
+    participant X as 应用B
+
+    Note over B,X: ① 首次登录：在应用A 输入一次账号口令
+    B->>A: 访问应用A 的受保护资源
+    A-->>B: 302 跳转 /sso/login?clientId=A
+    B->>S: GET /sso/login
+    S-->>B: 无 TGT，302 跳转登录页
+    B->>S: POST /sso/login 提交账号口令
+    S->>S: 创建 TGT，写入 TGC Cookie
+    S-->>B: 回跳 redirectUri?code=..
+    B->>A: 携带 code 访问应用A
+    A->>S: 用 code 换取令牌并拉取权限
+    S-->>A: accessToken + refreshToken + 权限集合
+    A-->>B: 302 回到原地址，应用A 登录完成
+
+    Note over B,X: ② 单点登录：访问应用B 无需再次认证
+    B->>X: 访问应用B 的受保护资源
+    X-->>B: 302 跳转 /sso/login?clientId=B
+    B->>S: GET /sso/login
+    S-->>B: 已存在 TGT，直接回跳 redirectUri?code=..
+    B->>X: 携带 code 访问应用B
+    X->>S: 用 code 换取令牌并拉取权限
+    S-->>X: accessToken + refreshToken + 权限集合
+    X-->>B: 302 回到原地址，应用B 免登录完成
+```
+
+
+- **协议**：OAuth2 授权码模式。服务端维护全局会话 `TGT`（Cookie，默认名 `TGC`），客户端凭 `accessToken` 本地校验，`refreshToken` 用于续签。
+- **两级校验**：授权码阶段校验用户身份，换取 accessToken 阶段校验客户端身份（ClientId/ClientSecret），可避免越权获取其他应用的资源权限。
+- **同源即免配**：`smart.sso.server-url` 留空时，本应用若同时是服务端则自动按“同源”工作——页面跳转走相对路径，服务端之间的调用走本机推导地址；独立客户端漏配则**启动失败**，不会静默跳错。
+- **权限模型**：在「权限管理」登记 URL 后，请求路径与 `sso_permission.url` 精确匹配即受控；未登记的路径放行。
+
+协议时序、凭证模型、分布式（Redis）与前后端分离的完整说明见 **[docs/architecture.md](docs/architecture.md)**。
+
+## 模块与版本
+
+```
+smart-sso
+├── smart-sso-server    -- 单点登录权限管理服务端（同时是自身的客户端）
+├── smart-sso-demo      -- 前后端分离客户端接入示例
+├── smart-sso-starter   -- 依赖装配模块（可单独引入到你的应用）
+│   ├── smart-sso-starter-base              -- 公共常量、工具、凭证清理机制
+│   ├── smart-sso-starter-client            -- 客户端依赖包，客户端 Token 生命周期管理
+│   ├── smart-sso-starter-client-redis      -- 客户端 Redis 装配，分布式部署支持
+│   ├── smart-sso-starter-server            -- 服务端依赖包，服务端凭证生命周期管理
+│   └── smart-sso-starter-server-redis      -- 服务端 Redis 装配，分布式部署支持
+└── verify/             -- 功能验证套件（接口 + 浏览器端到端）
+```
+
+| 分支 | 技术栈 | 说明 |
+| --- | --- | --- |
+| `master` | Spring Boot 3.5.x + JDK 17 | 当前主版本，版本号 2.0.x |
+| `1.7` | Spring Boot 2.x + JDK 8 | 旧版本维护分支 |
 
 ## 技术选型
 
-| 技术                   | 版本    | 说明             |
-| ---------------------- | ------- | ---------------- |
-| spring-boot             | 3.3.4   | 容器 + MVC框架     |
-| spring-boot-starter-data-redis    | 3.3.4   | 分布式场景Token管理  |
-| spring-boot-starter-freemarker | 3.3.4   | 模板引擎  |
-| springfox-boot-starter      | 3.0.0   | 文档     |
-| mybatis-plus-spring-boot3-starter           | 3.5.7   | ORM框架  |
-| mysql-connector-j    | 8.2.0   | 数据库驱动  |
-| httpclient    | 4.5.14   | 授权码认证，客户端和服务端通信  |
+| 技术 | 版本 | 说明 |
+| --- | --- | --- |
+| spring-boot | 3.5.9 | 容器 + MVC 框架 |
+| smart-stage | 2.0.2 | 底座（Result/Page、MyBatis-Plus 装配等） |
+| mybatis-plus | 3.5.12 | ORM 框架（由 smart-stage 管理） |
+| H2 | 2.3.232 | 内置内存库，零依赖体验 |
+| mysql-connector-j | 9.5.0 | 生产数据库驱动（由 Spring Boot 管理） |
+| spring-boot-starter-data-redis | 3.5.9 | 分布式场景凭证共享 |
+| httpclient | 4.5.14 | 授权码认证，客户端与服务端通信 |
+| 前端 | 静态 SPA | Ace Admin + jQuery + zTree（非模板引擎） |
 
-## 为什么选用OAuth2？
+## 配置速查
 
-以下对常见的几种SSO认证方式对比：
+| 配置项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `smart.sso.server-url` | 空 | 认证中心地址；**留空=同源**（仅当本应用同时是服务端） |
+| `smart.sso.client-id` / `client-secret` | — | 客户端身份，在服务端「应用管理」登记 |
+| `smart.sso.exclude-urls` | — | 免登录路径；以 `/*` 结尾表示前缀匹配 |
+| `smart.sso.server.timeout` | 7200 | 全局会话 TGT 超时（秒） |
+| `smart.sso.server.access-token-timeout` | 1800 | accessToken 超时（秒） |
+| `mybatis-plus.global-config.db-config.table-prefix` | `sso_` | 表名前缀 |
+| `spring.profiles.active` | `dev` | `dev`=H2 内存库；`prod`=MySQL |
 
-| 特性               | 传统Token       | JWT                | OAuth2             |
-|------------------|-----------------|--------------------|--------------------|
-| 单点登录         | 支持            | 支持               | 支持               |
-| 单点退出         | 支持            | 较难实现               | 支持               |
-| 踢人下线         | 支持            | 较难实现               | 支持               |
-| 过期续签         | 较难实现           | 支持                |支持|
-| 性能             | 一般               | 高            | 较好      |
-| 安全性           | 一般              | 较好          | 高        |
-| 复杂度           | 一般               | 较高          | 高          |
-
-**解释：**   
-对于传统的 Token 方式，其机制相对较为简单。通常，服务端会生成一个随机字符串作为令牌，然后在客户端与服务器之间进行传递，以用于验证用户身份。然而，这种方式的缺点亦较为显著。由于缺乏时效和刷新机制，自动续签功能较难实现，用户从客户端发往服务端的请求需要频繁调用服务端进行 Token 校验。不过，对于一些小型项目，尤其是性能或安全性要求不是特别高的场景，此方式或许已足够适用。
-
-JWT 因其无状态的特性，服务端仅需存储密钥，无需存储 Token 信息，从而减轻了服务端的存储压力。但在 SSO 场景中，实现单点退出和踢人下线的功能存在一定困难，这些功能往往需要依靠后端存储 Token，并结合注销远程通知或共享存储来达成，这与 JWT 的理念存在冲突。对于部分安全性要求极高的项目而言，这些功能是不可或缺的。
-
-OAuth2 常常用于第三方应用的授权登录，并且完全适应 SSO 场景，只是实现的难度相对较高。它天然具备 Token 的时效和刷新机制，能够实现 Token 的续签，而 JWT 则需要改进为双 Token 方式方可完成。对于每个需要接入到 OAuth2 认证授权中心的应用，必须在其服务端进行登记，并颁发密钥信息（ClientId、ClientSecret），只有如此，Token 才能依照流程被获取。通过这样的操作，能够实现对用户身份（授权码获取阶段）和客户端应用身份（获取 accessToken 阶段）的双重校验保障。对于认证授权系统来说，登录成功后的首要任务便是获取登录用户在当前应用的权限信息，所以服务端必须针对用户的每个客户端应用分别颁发 Token，不能仅仅凭借从单一客户端应用获取的 Token，就获得认证授权中心管理的所有应用资源权限，这也与 OAuth2 的初衷相符。
-
-**结论：**   
-Smart-SSO 决定采用 OAuth2 进行构建。为了弥补其存在的不足，部分功能进行了细致的升级。例如，客户端后端对 Token 进行了缓存，用户携带 Token 的请求能够在客户端应用本地完成校验，极大程度地减少了客户端应用与服务端的交互。续签机制同样有所改进，当客户端本地的 Token 失效后，由客户端后端向服务端发起 refreshToken 请求，重新生成 Token 并写回前端，同时延长服务端凭证存根的时效，从而实现过期自动续签的功能。
-
-## 单点登录原理
-![](./images/smart-sso-login.png)
-
-
-## 单点退出原理
-![](./images/smart-sso-logout.png)
-
+完整配置项（含 `url-patterns`、`logout-path`、`cookie-name`、`code-timeout`、分页方言等）见 **[docs/configuration.md](docs/configuration.md)**。
 
 ## 效果展示
-### 单点登录页
-![](./images/img1.png)
 
-### 客户端示例登录成功页
-![](./images/img2.png)
+| 登录页 | 管理台首页 |
+| --- | --- |
+| ![登录页](./images/admin-login.png) | ![管理台首页](./images/admin-home.png) |
 
-### 服务端管控页
-![](./images/img3.png)
+| 机构管理 | 机构编辑（父机构默认回显） |
+| --- | --- |
+| ![机构管理](./images/admin-organization.png) | ![机构编辑](./images/admin-organization-edit.png) |
 
-![](./images/img4.png)
+| 用户管理（含机构树） | 角色授权（权限树回显已授权） |
+| --- | --- |
+| ![用户管理](./images/admin-user.png) | ![角色授权](./images/admin-role-permission.png) |
 
-![](./images/img5.png)
+| 权限管理 | 应用管理 |
+| --- | --- |
+| ![权限管理](./images/admin-permission.png) | ![应用管理](./images/admin-app.png) |
 
-![](./images/img6.png)
+| 角色管理 | 在线用户 |
+| --- | --- |
+| ![角色管理](./images/admin-role.png) | ![在线用户](./images/admin-login-user.png) |
 
-![](./images/img7.png)
+## 开发与验证
+
+```bash
+# 构建（离线亦可，本地仓库需已具备依赖）
+mvn -o -DskipTests clean package
+
+# 服务端验证：构建 + 启动 dev/H2 + 协议/安全/接口/业务 CRUD 断言（退出码即结论）
+verify/verify.sh
+
+# 前端验证：真实浏览器（本机 Chrome）端到端
+cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
+```
+
+验证套件覆盖：构建与启动、SSO 协议主链路、未登录/无权限分支、只读接口全量、五大模块 CRUD 与级联删除、前端页面渲染与交互（含浏览器端断言）。当前 **服务端 64 项断言 + 前端 31 项断言**全部通过。详见 **[docs/development.md](docs/development.md)**。
+
+## 文档
+
+| 文档 | 内容 |
+| --- | --- |
+| [docs/why-oauth2.md](docs/why-oauth2.md) | 为什么选择 OAuth2：与传统 Token、JWT 的对比与取舍 |
+| [docs/architecture.md](docs/architecture.md) | 架构与原理：协议时序、凭证模型、分布式、前后端分离 |
+| [docs/client-integration.md](docs/client-integration.md) | 客户端接入指南：依赖、配置、过滤器行为、常见问题 |
+| [docs/configuration.md](docs/configuration.md) | 配置参考与数据库脚本说明 |
+| [docs/development.md](docs/development.md) | 本地开发、构建、目录约定与验证套件 |
+| [docs/faq.md](docs/faq.md) | 常见问题 |
+
+## 参与贡献
+
+欢迎提交 Issue 与 Pull Request。参与前请先阅读 [docs/development.md](docs/development.md) 了解构建与验证方式；提交前建议本地跑一遍 `verify/verify.sh`，确保协议与业务用例全部通过。
+
+## 交流
+
+QQ 交流群：454343484、769134727
+
+## License
+
+[MIT](LICENSE) © 2020 Joe

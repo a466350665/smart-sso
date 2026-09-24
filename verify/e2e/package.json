@@ -1,0 +1,11 @@
+{
+  "name": "smart-sso-verify-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node front.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

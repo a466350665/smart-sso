@@ -10,3 +10,8 @@ target
 
 catalina.home_IS_UNDEFINED
 *.war
+
+# verify 套件运行产物
+.npm-cache/
+verify/e2e/node_modules/
+verify/e2e/screenshots/
