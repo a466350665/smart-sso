@@ -45,10 +45,10 @@ INSERT INTO `sso_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统',
 COMMIT;
 
 -- ----------------------------
--- Table structure for sso_office
+-- Table structure for sso_organization
 -- ----------------------------
-DROP TABLE IF EXISTS `sso_office`;
-CREATE TABLE `sso_office` (
+DROP TABLE IF EXISTS `sso_organization`;
+CREATE TABLE `sso_organization` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
   `name` varchar(100) NOT NULL COMMENT '名称',
@@ -60,12 +60,12 @@ CREATE TABLE `sso_office` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='机构';
 
 -- ----------------------------
--- Records of sso_office
+-- Records of sso_organization
 -- ----------------------------
 BEGIN;
-INSERT INTO `sso_office` VALUES (1, NULL, 'TT公司', 30, 1, '2015-06-02 11:31:44', '2024-07-16 11:28:48');
-INSERT INTO `sso_office` VALUES (2, 1, 'XX部门', 30, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_office` VALUES (3, 1, 'YY部门', 20, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_organization` VALUES (1, NULL, 'TT公司', 30, 1, '2015-06-02 11:31:44', '2024-07-16 11:28:48');
+INSERT INTO `sso_organization` VALUES (2, 1, 'XX部门', 30, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_organization` VALUES (3, 1, 'YY部门', 20, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 COMMIT;
 
 -- ----------------------------
@@ -125,11 +125,11 @@ INSERT INTO `sso_permission` VALUES (49, 82, NULL, '产品管理', '/product.htm
 INSERT INTO `sso_permission` VALUES (50, 82, NULL, '产品规格', '/spec.html', 75, 'fa fa-cubes', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/slide.html', 120, 'fa fa-sliders', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (56, 82, NULL, '底部菜单配置', '/channelMenu/edit.html', 105, 'fa fa-cog', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (60, 1, NULL, '机构管理', '/office.html', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/office/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (60, 1, NULL, '机构管理', '/organization.html', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/organization/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/office/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/office/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/organization/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/organization/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 1, 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
 INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 0, 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
 INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 0, 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
@@ -223,7 +223,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sso_user`;
 CREATE TABLE `sso_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `office_id` bigint(20) NOT NULL COMMENT '机构ID',
+  `organization_id` bigint(20) NOT NULL COMMENT '机构ID',
   `name` varchar(50) DEFAULT NULL COMMENT '姓名',
   `account` varchar(50) NOT NULL COMMENT '登录名',
   `password` varchar(100) NOT NULL COMMENT '密码(加密)',

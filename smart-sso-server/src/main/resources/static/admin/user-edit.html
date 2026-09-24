@@ -15,10 +15,10 @@
 			<input type="hidden" name="id" value="">
 			
 			<div class="form-group">
-				<label for="_officeId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>机构</label>
+				<label for="_organizationId" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>机构</label>
 
 				<div class="col-sm-3">
-					<select id="_officeId" name="officeId" class="form-control help-validate" required="true"></select>
+					<select id="_organizationId" name="organizationId" class="form-control help-validate" required="true"></select>
 				</div>
 			</div>
 			
@@ -126,8 +126,8 @@
 				return null;
 			}
 
-			function loadOffices(selectedId) {
-				$.getJSON("/admin/office/all", function (d) {
+			function loadOrganizations(selectedId) {
+				$.getJSON("/admin/organization/all", function (d) {
 					if (!d || d.code !== '000000') {
 						return;
 					}
@@ -136,7 +136,7 @@
 						var selected = selectedId && String(item.id) === String(selectedId) ? ' selected="selected"' : '';
 						html += '<option value="' + item.id + '"' + selected + '>' + item.name + '</option>';
 					});
-					$('#_officeId').html(html);
+					$('#_organizationId').html(html);
 				});
 			}
 
@@ -154,7 +154,7 @@
 					} else {
 						$("input[name='isEnable'][value='true']").prop('checked', true);
 					}
-					loadOffices(user.officeId);
+					loadOrganizations(user.organizationId);
 				});
 			}
 
@@ -164,7 +164,7 @@
 				$("#_password").prop('required', false);
 				$("label[for='_password'] .form-star").remove();
 			} else {
-				loadOffices(getParam('officeId'));
+				loadOrganizations(getParam('organizationId'));
 			}
 
 			$("#_account").focus();

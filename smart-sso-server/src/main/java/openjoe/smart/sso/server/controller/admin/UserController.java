@@ -2,10 +2,10 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import openjoe.smart.sso.server.entity.Office;
+import openjoe.smart.sso.server.entity.Organization;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
-import openjoe.smart.sso.server.service.OfficeService;
+import openjoe.smart.sso.server.service.OrganizationService;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.sso.server.util.PasswordHelper;
@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private OfficeService officeService;
+	private OrganizationService organizationService;
 
 	@Operation(summary = "列表")
 	@ResponseBody
@@ -45,10 +45,10 @@ public class UserController {
 	public Result list(
 			@RequestParam(required = false) String account,
 			@RequestParam(required = false) String name,
-			@RequestParam(required = false) Long officeId,
+			@RequestParam(required = false) Long organizationId,
 			@RequestParam Long current,
 			@RequestParam Long size) {
-		return Result.success(userService.selectPage(account, name, officeId, current, size));
+		return Result.success(userService.selectPage(account, name, organizationId, current, size));
 	}
 
 	@Operation(summary = "用户信息")
@@ -86,7 +86,7 @@ public class UserController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
 	        @RequestParam(required = false) Long id,
-			@RequestParam Long officeId,
+			@RequestParam Long organizationId,
 			@RequestParam(required = false) String name,
 			@RequestParam String account,
 			@RequestParam(required = false) String password,
@@ -102,7 +102,7 @@ public class UserController {
 		else {
 			user = userService.getById(id);
 		}
-		user.setOfficeId(officeId);
+		user.setOrganizationId(organizationId);
 		user.setName(name);
 		user.setAccount(account);
 		if (StringUtils.hasLength(password)) {
@@ -134,8 +134,8 @@ public class UserController {
 	
 	@Operation(summary = "机构树")
 	@ResponseBody
-	@RequestMapping(value = "/office/tree", method = RequestMethod.GET)
-	public List<Office> officeTree() {
-		return officeService.selectList(true, null, null, "--");
+	@RequestMapping(value = "/organization/tree", method = RequestMethod.GET)
+	public List<Organization> organizationTree() {
+		return organizationService.selectList(true, null, null, "--");
 	}
 }

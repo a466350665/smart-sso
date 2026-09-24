@@ -17,7 +17,7 @@
 			<div class="widget-body">
 				<div class="widget-main">
 					<form id="_form" class="form-inline">
-						<input id="_officeId" type="hidden" name="officeId" value="">
+						<input id="_organizationId" type="hidden" name="organizationId" value="">
 						<label>
 							<label class="control-label"> 登录名： </label>
 							<input name="account" type="text" class="form-data input-medium search-data">
@@ -55,7 +55,7 @@
     			formId : "_form",
 				tools : [
 					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/user/edit.html', handler : function(){
-						$.aceRedirect("/user/edit?officeId=" + $("#_officeId").val());
+						$.aceRedirect("/user/edit?organizationId=" + $("#_organizationId").val());
 					}},
 					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/user/enable.html', handler : function(){
 						$table.ajaxEnable({url : "/admin/user/enable"}, false);
@@ -159,7 +159,7 @@
 					contentType: "application/x-www-form-urlencoded",
 					type: "get",
 					dataType: "text",
-					url: "/admin/user/office/tree"},
+					url: "/admin/user/organization/tree"},
 	            data: {
 	                simpleData: {
 	                    enable: true
@@ -178,10 +178,10 @@
 			
 			function zTreeOnClick(event, treeId, treeNode){
 				if(treeNode.id == undefined || treeNode.id == null){
-					$("#_officeId").val('');
+					$("#_organizationId").val('');
 				}
 				else{
-					$("#_officeId").val(treeNode.id);
+					$("#_organizationId").val(treeNode.id);
 				}
 				$table.search();
 			}

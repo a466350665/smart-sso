@@ -71,7 +71,7 @@
 			
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
-					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/office/save.html">
+					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/organization/save.html">
 						<i class="ace-icon fa fa-check bigger-110"></i>
 						提交
 					</button>
@@ -101,26 +101,26 @@
 				return null;
 			}
 
-			function loadOffice(officeId) {
-				$.getJSON("/admin/office/get?id=" + officeId, function (d) {
+			function loadOrganization(organizationId) {
+				$.getJSON("/admin/organization/get?id=" + organizationId, function (d) {
 					if (!d || d.code !== '000000' || !d.data) {
 						return;
 					}
-					var office = d.data;
-					$("input[name='id']").val(office.id || '');
-					$("#_name").val(office.name || '');
-					$("#_sort").val(office.sort == null ? '' : office.sort);
-					if (office.isEnable === false) {
+					var organization = d.data;
+					$("input[name='id']").val(organization.id || '');
+					$("#_name").val(organization.name || '');
+					$("#_sort").val(organization.sort == null ? '' : organization.sort);
+					if (organization.isEnable === false) {
 						$("input[name='isEnable'][value='false']").prop('checked', true);
 					} else {
 						$("input[name='isEnable'][value='true']").prop('checked', true);
 					}
-					loadParents(officeId, office.parentId);
+					loadParents(organizationId, organization.parentId);
 				});
 			}
 
 			function loadParents(excludeId, selectedId) {
-				var url = "/admin/office/all";
+				var url = "/admin/organization/all";
 				if (excludeId) {
 					url += "?excludeId=" + excludeId;
 				}
@@ -137,9 +137,9 @@
 				});
 			}
 
-			var officeId = getParam('id');
-			if (officeId) {
-				loadOffice(officeId);
+			var organizationId = getParam('id');
+			if (organizationId) {
+				loadOrganization(organizationId);
 			} else {
 				loadParents(null, getParam('parentId'));
 			}
@@ -149,11 +149,11 @@
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
-					$.post("/admin/office/save", $.formJson('_editForm'),function(d) {
+					$.post("/admin/organization/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
-								$.aceRedirect("/office");
+								$.aceRedirect("/organization");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -165,7 +165,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("/office");
+				$.aceRedirect("/organization");
 			});
 			
 			// 回车绑定
