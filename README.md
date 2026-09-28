@@ -48,7 +48,7 @@ mvn -DskipTests package
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 ```
 
-浏览器打开 **http://localhost:8080** ，使用内置账号 **`admin` / `123456`** 登录。
+浏览器打开 **http://localhost:8080** ，使用内置账号 **`admin` / `123456`** 登录。（服务端同时是自身的客户端）
 
 - 默认激活 `dev` profile：使用**内存 H2**，启动时自动执行 `smart-sso-server/src/main/resources/db/smart-sso.sql` 建表并写入演示数据（应用、机构、角色、权限、用户）。
 - 数据仅存在于进程生命周期内，**重启即回到初始状态**，适合演示、联调与自动化测试。
@@ -69,8 +69,9 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 ### 客户端示例
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # 端口 8082，客户端接入示例
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
 ```
+客户端接入示例，浏览器打开 **http://localhost:8082**，无需重新登录，自动跳转至首页。
 
 ## 接入指南（客户端）
 

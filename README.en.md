@@ -46,7 +46,7 @@ mvn -DskipTests package
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 ```
 
-Open **http://localhost:8080** and sign in with the built-in account **`admin` / `123456`**.
+Open **http://localhost:8080** and sign in with the built-in account **`admin` / `123456`**. (Server also a client of itself)
 
 - The `dev` profile is active by default: it uses an **in-memory H2** database and executes
   `smart-sso-server/src/main/resources/db/smart-sso.sql` on startup to create tables and seed demo data.
@@ -68,8 +68,9 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 ### Client demo
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar   # port 8082, client integration sample
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
 ```
+Client integration sample, Open **http://localhost:8082**, no need to log in again. It will automatically redirect you to the homepage.
 
 ## Client Integration
 
