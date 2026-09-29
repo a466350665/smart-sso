@@ -154,15 +154,15 @@ smart-sso
 
 ## 技术选型
 
-| 技术 | 版本 | 说明 |
-| --- | --- | --- |
-| spring-boot | 3.5.9 | 容器 + MVC 框架 |
-| smart-stage | 2.0.2 | 底座（Result/Page、MyBatis-Plus 装配等） |
-| mybatis-plus | 3.5.12 | ORM 框架（由 smart-stage 管理） |
-| H2 | 2.3.232 | 内置内存库，零依赖体验 |
-| mysql-connector-j | 9.5.0 | 生产数据库驱动（由 Spring Boot 管理） |
-| spring-boot-starter-data-redis | 3.5.9 | 分布式场景凭证共享 |
-| httpclient | 4.5.14 | 授权码认证，客户端与服务端通信 |
+| 技术 | 版本     | 说明 |
+| --- |----------| --- |
+| spring-boot | 3.5.9    | 容器 + MVC 框架 |
+| smart-stage | 2.0.3    | 底座（Result/Page、MyBatis-Plus 装配等） |
+| mybatis-plus | 3.5.12   | ORM 框架（由 smart-stage 管理） |
+| H2 | 2.3.232  | 内置内存库，零依赖体验 |
+| mysql-connector-j | 9.5.0    | 生产数据库驱动（由 Spring Boot 管理） |
+| spring-boot-starter-data-redis | 3.5.9    | 分布式场景凭证共享 |
+| httpclient | 4.5.14   | 授权码认证，客户端与服务端通信 |
 | 前端 | 静态 SPA | Ace Admin + jQuery + zTree（非模板引擎） |
 
 ## 配置速查

@@ -20,7 +20,7 @@
 	</modules>
 	
 	<properties>
-		<smart-stage.version>2.0.2</smart-stage.version>
+		<smart-stage.version>2.0.3</smart-stage.version>
         <httpclient.version>4.5.14</httpclient.version>
 	</properties>
 
