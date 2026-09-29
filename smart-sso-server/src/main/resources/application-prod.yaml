@@ -1,8 +1,8 @@
 # 生产环境
 # 启动方式：--spring.profiles.active=prod 或环境变量 SPRING_PROFILES_ACTIVE=prod
-# 表结构与初始化数据需手工导入（脚本：smart-sso-server/src/main/resources/db/smart-sso.sql，
+# 表结构与初始化数据需手工导入（脚本：smart-sso-server/src/main/resources/init.sql，
 # 该脚本同时兼容 MySQL 与 H2，MySQL 侧直接用客户端执行即可）：
-#   mysql -uroot -p smart-sso < db/smart-sso.sql
+#   mysql -uroot -p smart-sso < smart-sso-server/src/main/resources/init.sql
 
 spring:
   datasource:

@@ -4,7 +4,7 @@
 
 | Profile | 数据库 | 建表/演示数据 | 典型用途 |
 | --- | --- | --- | --- |
-| `dev`（默认） | H2 内存库 | 启动时自动执行 `db/smart-sso.sql` | 演示、联调、自动化测试 |
+| `dev`（默认） | H2 内存库 | 启动时自动执行 `init.sql` | 演示、联调、自动化测试 |
 | `prod` | MySQL | **不执行**（Spring Boot 默认只初始化嵌入式库） | 生产 |
 
 切换方式（三选一）：
@@ -69,7 +69,7 @@ mybatis-plus:
 
 ## 五、数据库脚本
 
-脚本位置：`smart-sso-server/src/main/resources/db/smart-sso.sql`。
+脚本位置：`smart-sso-server/src/main/resources/init.sql`。
 
 - **跨库**：可直接用于 MySQL 与 H2（MySQL 兼容模式）；不含 `ENGINE` / `USING BTREE` 等专有语法；
 - 自带演示数据：1 个认证中心自身应用（clientId `1000`）、1 个演示客户端（`1002`）、3 个机构、42 条权限、1 个「系统管理员」角色及其授权、1 个 `admin` 用户；
@@ -78,7 +78,7 @@ mybatis-plus:
 ```bash
 # MySQL 导入（注意指定字符集，避免中文乱码）
 mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS \`smart-sso\` DEFAULT CHARSET utf8mb4"
-mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/db/smart-sso.sql
+mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/init.sql
 ```
 
 ## 六、dev profile（H2）细节
@@ -93,7 +93,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db/smart-sso.sql
+      schema-locations: classpath:init.sql
 ```
 
 - 内存库，**重启即初始化**；如需保留数据可改为文件库 `jdbc:h2:file:./data/smart_sso;MODE=MySQL` 并关闭自动初始化（`spring.sql.init.mode=never`），否则每次启动都会重建；

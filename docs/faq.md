@@ -23,7 +23,7 @@ spring:
 
 ### 怎么切换到 MySQL？
 
-见 [README 快速开始](../README.md#方式二mysql生产) 或 [configuration.md](configuration.md#五数据库脚本)。要点：先导入 `smart-sso-server/src/main/resources/db/smart-sso.sql`，再用 `--spring.profiles.active=prod` 启动。
+见 [README 快速开始](../README.md#方式二mysql生产) 或 [configuration.md](configuration.md#五数据库脚本)。要点：先导入 `smart-sso-server/src/main/resources/init.sql`，再用 `--spring.profiles.active=prod` 启动。
 
 ### 表名前缀为什么是 `sso_`？
 

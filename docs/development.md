@@ -47,7 +47,7 @@ smart-sso
 │       │   └── dto/                  传输对象
 │       └── resources/
 │           ├── application*.yaml     公共配置 + dev/prod profile
-│           ├── db/smart-sso.sql      跨库建表与演示数据脚本
+│           ├── init.sql              跨库建表与演示数据脚本
 │           └── static/               管理台静态 SPA（admin/ 为页面片段）
 ├── smart-sso-demo/            客户端接入示例
 ├── smart-sso-starter/         可独立引入的自动装配模块
@@ -116,4 +116,4 @@ PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google
 1. `mvn -o -DskipTests clean package` 通过；
 2. `verify/verify.sh` 全部通过（退出码 0）；
 3. 涉及界面改动时跑一遍 `verify/e2e` 前端套件；
-4. 涉及数据库结构时同步更新 `db/smart-sso.sql`，并确认脚本对 MySQL 与 H2 均可用。
+4. 涉及数据库结构时同步更新 `init.sql`，并确认脚本对 MySQL 与 H2 均可用。

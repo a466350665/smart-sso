@@ -49,7 +49,7 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 Open **http://localhost:8080** and sign in with the built-in account **`admin` / `123456`**. (Server also a client of itself)
 
 - The `dev` profile is active by default: it uses an **in-memory H2** database and executes
-  `smart-sso-server/src/main/resources/db/smart-sso.sql` on startup to create tables and seed demo data.
+  `smart-sso-server/src/main/resources/init.sql` on startup to create tables and seed demo data.
 - Data lives only for the lifetime of the process — **restarting resets everything**, which is ideal for demos, integration work and automated tests.
 
 ### Option 2 — MySQL (production)
@@ -57,7 +57,7 @@ Open **http://localhost:8080** and sign in with the built-in account **`admin` /
 ```bash
 # 1. Create the schema and import (the script works for both MySQL and H2)
 mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS \`smart-sso\` DEFAULT CHARSET utf8mb4"
-mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/db/smart-sso.sql
+mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/init.sql
 
 # 2. Adjust smart-sso-server/src/main/resources/application-prod.yaml, then start
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
