@@ -133,17 +133,17 @@
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>是否菜单</label>
+							<label class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>权限类型</label>
 			
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix help-validate">
 									<label class="line-height-1 blue">
-										<input name="isMenu" value="true" type="radio" class="ace"/>
-										<span class="lbl"> 是</span>
+										<input name="type" value="menu" type="radio" class="ace"/>
+										<span class="lbl"> 菜单</span>
 									</label>
 									<label class="line-height-1 blue">
-										<input name="isMenu" value="false" type="radio" class="ace"/>
-										<span class="lbl"> 否</span>
+										<input name="type" value="function" type="radio" class="ace"/>
+										<span class="lbl"> 功能</span>
 									</label>
 								</div>
 							</div>
@@ -300,7 +300,7 @@
 	        var IDMark_A = "_a";
 	        function addDiyDom(treeId, treeNode) {
 	       		var aObj = $("#" + treeNode.tId + IDMark_A);
-	       		if(treeNode.isMenu){
+	       		if(treeNode.type === 'menu'){
 	       			aObj.css("color","#438eb9");
 	       		}
 				var editStr = "&nbsp;<a id='add_" + treeNode.id + "' class='blue' href='javascript:void(0)' title='添加'>		<i class='ace-icon fa fa-plus bigger-110'></i>	</a>";
@@ -369,8 +369,8 @@
 					$("#_parentId").val(treeNode.id);
 					$("#_parentName").val(treeNode.name);
 					$("#_sort").val(1);
-					$("input[type=radio][name=isMenu][value=false]").prop('checked', false);
-					$("input[type=radio][name=isMenu][value=true]").prop('checked', true);
+					$("input[type=radio][name=type][value=function]").prop('checked', false);
+					$("input[type=radio][name=type][value=menu]").prop('checked', true);
 					$("input[type=radio][name=isEnable][value=false]").prop('checked', false);
 					$("input[type=radio][name=isEnable][value=true]").prop('checked', true);
 				}
@@ -385,8 +385,8 @@
 						$("#_icon_fa").attr("class", "menu-icon fa " + data.icon);
 						$("#_code").val(data.code);
 						$("#_sort").val(data.sort);
-						$("input[type=radio][name=isMenu][value!=" + data.isMenu + "]").prop('checked', false);
-						$("input[type=radio][name=isMenu][value=" + data.isMenu + "]").prop('checked', true); 
+						$("input[type=radio][name=type][value!=" + data.type + "]").prop('checked', false);
+						$("input[type=radio][name=type][value=" + data.type + "]").prop('checked', true); 
 						$("input[type=radio][name=isEnable][value!=" + data.isEnable + "]").prop('checked', false);
 						$("input[type=radio][name=isEnable][value=" + data.isEnable + "]").prop('checked', true);
 					});

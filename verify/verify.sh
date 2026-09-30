@@ -116,7 +116,7 @@ curl -s -b "$COOKIE" -c "$COOKIE" "$(jqr '.data' "$L2" | tr -d '\r\n')" -o /dev/
 assert_code "重新登录成功" 000000 "$(get /admin/admin/userinfo)"
 
 assert_code "登记一条未被授权的接口权限（code=/admin/organization/list）" 000000 \
-  "$(post /admin/permission/save -d 'appId=1&name=验证用-接口权限&code=/admin/organization/list&sort=1&isMenu=false&isEnable=true')"
+  "$(post /admin/permission/save -d 'appId=1&name=验证用-接口权限&code=/admin/organization/list&sort=1&type=function&isEnable=true')"
 login   # 权限快照在登录/换 token 时生成，必须重新登录才生效
 assert_code "重新登录后：访问未授权接口 -> 000020 无权限" 000020 "$(get '/admin/organization/list?current=1&size=10')"
 for TMPID in $(get '/admin/permission/tree?appId=1&isEnable=true' | jq -r '.. | objects | select((.name // "")=="验证用-接口权限") | .id'); do
@@ -199,11 +199,13 @@ assert_code "用户：重置密码" 000000 "$(post /admin/user/reset-password -d
 post /admin/user/delete -d "ids=$VUID" -o /dev/null
 assert_absent "用户：删除生效" "$(get '/admin/user/list?current=1&size=50')" "verifyuser"
 
-post /admin/permission/save -d 'appId=1&name=验证权限&code=/verify.html&sort=1&isMenu=false&isEnable=true' -o /dev/null
+post /admin/permission/save -d 'appId=1&name=验证权限&code=/verify.html&sort=1&type=function&isEnable=true' -o /dev/null
 PID2="$(get '/admin/permission/tree?appId=1&isEnable=true' | jq -r '.. | objects | select((.name // "")=="验证权限") | .id' | head -1)"
 [ -n "$PID2" ] && pass "权限：新增成功（id=${PID2}）" || fail "权限：新增后查不到"
 post /admin/permission/delete -d "id=$PID2&appId=1" -o /dev/null
 assert_absent "权限：删除生效" "$(get '/admin/permission/tree?appId=1&isEnable=true')" "验证权限"
+assert_code "权限：非法权限类型被拒绝（010005）" 010005 \
+  "$(post /admin/permission/save -d 'appId=1&name=验证非法类型&code=/verify-invalid.html&sort=1&type=button&isEnable=true')"
 
 section "缺陷回归（原 3 个缺陷对应用例）"
 # 缺陷2：一次未走完回跳（没换到 token）的登录，会让“登录用户管理”页面持续报错

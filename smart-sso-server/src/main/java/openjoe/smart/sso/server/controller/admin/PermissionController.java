@@ -4,8 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.entity.Permission;
+import openjoe.smart.sso.server.enums.ErrorCodeEnum;
+import openjoe.smart.sso.server.enums.PermissionTypeEnum;
 import openjoe.smart.sso.server.service.PermissionService;
 import openjoe.smart.stage.core.entity.Result;
+import openjoe.smart.stage.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +58,11 @@ public class PermissionController {
 			@RequestParam String name,
 			@RequestParam String code,
 			@RequestParam Integer sort,
-			@RequestParam Boolean isMenu,
+			@RequestParam String type,
 			@RequestParam Boolean isEnable) {
+		if (!PermissionTypeEnum.isValid(type)) {
+			throw new ApplicationException(ErrorCodeEnum.E010005);
+		}
 		Permission permission;
 		if (id == null) {
 			permission = new Permission();
@@ -70,7 +76,7 @@ public class PermissionController {
 		permission.setName(name);
 		permission.setCode(code);
 		permission.setSort(sort);
-		permission.setIsMenu(isMenu);
+		permission.setType(type);
 		permission.setIsEnable(isEnable);
 		permissionService.saveOrUpdate(permission);
 		return Result.success();

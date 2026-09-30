@@ -11,7 +11,8 @@ public enum ErrorCodeEnum implements ErrorCode {
     E010001("010001", "密码不能为空"),
     E010002("010002", "密码加密错误"),
     E010003("010003", "应用编码已存在"),
-    E010004("010004", "登录名已存在");
+    E010004("010004", "登录名已存在"),
+    E010005("010005", "权限类型有误");
 
     private String code;
     private String desc;

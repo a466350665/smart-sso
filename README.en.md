@@ -224,7 +224,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 
 Coverage: startup and profile wiring, the SSO protocol main path, unauthenticated/unauthorized branches, all read-only
 APIs, CRUD plus cascade deletion across the five admin modules, and browser-level rendering/interaction assertions.
-Currently **68 server-side assertions + 32 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
+Currently **69 server-side assertions + 33 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
 
 ## Contributing
 

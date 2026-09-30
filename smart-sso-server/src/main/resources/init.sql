@@ -74,7 +74,7 @@ CREATE TABLE `sso_permission` (
   `code` varchar(255) NOT NULL COMMENT '权限编码',
   `sort` int(11) NOT NULL COMMENT '排序',
   `icon` varchar(100) DEFAULT NULL COMMENT '图标',
-  `is_menu` int(1) NOT NULL COMMENT '是否菜单',
+  `type` varchar(20) NOT NULL COMMENT '权限类型(menu=菜单, function=功能)',
   `is_enable` int(1) NOT NULL COMMENT '是否启用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
@@ -84,48 +84,48 @@ CREATE TABLE `sso_permission` (
 -- ----------------------------
 -- Records of sso_permission
 -- ----------------------------
-INSERT INTO `sso_permission` VALUES (2, 1, NULL, '应用管理', '/app.html', 59, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (3, 1, NULL, '用户管理', '/user.html', 79, 'fa-user', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (4, 1, NULL, '角色管理', '/role.html', 69, 'fa-briefcase', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (5, 1, NULL, '权限管理', '/permission.html', 29, 'fa-key', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (6, 1, 2, '应用新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (7, 1, 2, '应用启/禁用', '/app/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (9, 1, 2, '应用删除', '/app/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (10, 1, 3, '用户新增', '/user/edit.html', 6, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (11, 1, 3, '用户启/禁用', '/user/enable.html', 5, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (13, 1, 3, '用户删除', '/user/delete.html', 3, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (14, 1, 3, '重置密码', '/user/resetPassword.html', 2, 'fa-key grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (16, 1, 4, '角色新增', '/role/edit.html', 5, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (17, 1, 4, '角色启/禁用', '/role/enable.html', 4, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (19, 1, 4, '角色删除', '/role/delete.html', 2, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (20, 1, 4, '角色授权', '/role/allocate.html', 1, 'fa-cog grey', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (22, 1, 2, '应用列表', '/app/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (23, 1, 3, '用户列表', '/user/list.html', 7, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (24, 1, 4, '角色列表', '/role/list.html', 6, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (25, 1, 5, '权限树列表', '/permission/nodes.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (26, 1, 2, '应用保存', '/app/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (27, 1, 3, '用户保存', '/user/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (28, 1, 4, '角色保存', '/role/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (29, 1, 5, '权限保存', '/permission/save.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (30, 1, 5, '权限删除', '/permission/delete.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (39, 1, NULL, '导航栏', '/admin/menu.html', 99, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (41, 1, NULL, '个人中心', '/profile.html', 89, 'fa fa-desktop', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (42, 1, 41, '修改密码', '/profile/savePassword.html', 1, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (44, 82, NULL, '栏目管理', '/channel.html', 100, 'fa fa-th-large', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (47, 82, NULL, '底部菜单管理', '/menu.html', 110, 'fa fa-list-alt', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (48, 82, NULL, '文章管理', '/article.html', 90, 'fa fa-file-text', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (49, 82, NULL, '产品管理', '/product.html', 70, 'fa fa-file-powerpoint-o', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (50, 82, NULL, '产品规格', '/spec.html', 75, 'fa fa-cubes', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/slide.html', 120, 'fa fa-sliders', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (56, 82, NULL, '底部菜单配置', '/channelMenu/edit.html', 105, 'fa fa-cog', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (60, 1, NULL, '机构管理', '/organization.html', 80, 'fa-cogs', 1, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/organization/list.html', 5, '', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/organization/enable.html', 3, 'fa-lock orange', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/organization/delete.html', 1, 'fa-trash-o red', 0, 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 1, 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
-INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 0, 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
-INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 0, 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
+INSERT INTO `sso_permission` VALUES (2, 1, NULL, '应用管理', '/app.html', 59, 'fa fa-th-large', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (3, 1, NULL, '用户管理', '/user.html', 79, 'fa-user', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (4, 1, NULL, '角色管理', '/role.html', 69, 'fa-briefcase', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (5, 1, NULL, '权限管理', '/permission.html', 29, 'fa-key', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (6, 1, 2, '应用新增', '/app/edit.html', 4, 'fa-plus-circle blue', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (7, 1, 2, '应用启/禁用', '/app/enable.html', 3, 'fa-lock orange', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (9, 1, 2, '应用删除', '/app/delete.html', 1, 'fa-trash-o red', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (10, 1, 3, '用户新增', '/user/edit.html', 6, 'fa-plus-circle blue', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (11, 1, 3, '用户启/禁用', '/user/enable.html', 5, 'fa-lock orange', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (13, 1, 3, '用户删除', '/user/delete.html', 3, 'fa-trash-o red', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (14, 1, 3, '重置密码', '/user/resetPassword.html', 2, 'fa-key grey', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (16, 1, 4, '角色新增', '/role/edit.html', 5, 'fa-plus-circle blue', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (17, 1, 4, '角色启/禁用', '/role/enable.html', 4, 'fa-lock orange', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (19, 1, 4, '角色删除', '/role/delete.html', 2, 'fa-trash-o red', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (20, 1, 4, '角色授权', '/role/allocate.html', 1, 'fa-cog grey', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (22, 1, 2, '应用列表', '/app/list.html', 5, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (23, 1, 3, '用户列表', '/user/list.html', 7, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (24, 1, 4, '角色列表', '/role/list.html', 6, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (25, 1, 5, '权限树列表', '/permission/nodes.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (26, 1, 2, '应用保存', '/app/save.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (27, 1, 3, '用户保存', '/user/save.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (28, 1, 4, '角色保存', '/role/save.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (29, 1, 5, '权限保存', '/permission/save.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (30, 1, 5, '权限删除', '/permission/delete.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (39, 1, NULL, '导航栏', '/admin/menu.html', 99, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (41, 1, NULL, '个人中心', '/profile.html', 89, 'fa fa-desktop', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (42, 1, 41, '修改密码', '/profile/savePassword.html', 1, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (44, 82, NULL, '栏目管理', '/channel.html', 100, 'fa fa-th-large', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (47, 82, NULL, '底部菜单管理', '/menu.html', 110, 'fa fa-list-alt', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (48, 82, NULL, '文章管理', '/article.html', 90, 'fa fa-file-text', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (49, 82, NULL, '产品管理', '/product.html', 70, 'fa fa-file-powerpoint-o', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (50, 82, NULL, '产品规格', '/spec.html', 75, 'fa fa-cubes', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (55, 82, NULL, '首页幻灯片管理', '/slide.html', 120, 'fa fa-sliders', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (56, 82, NULL, '底部菜单配置', '/channelMenu/edit.html', 105, 'fa fa-cog', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (60, 1, NULL, '机构管理', '/organization.html', 80, 'fa-cogs', 'menu', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/organization/list.html', 5, '', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/organization/enable.html', 3, 'fa-lock orange', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/organization/delete.html', 1, 'fa-trash-o red', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 'menu', 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
+INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 'function', 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
+INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 'function', 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
 
 -- ----------------------------
 -- Table structure for sso_role

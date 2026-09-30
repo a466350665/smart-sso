@@ -27,8 +27,8 @@ public class Permission extends BaseEntity implements Tree {
 	private String code;
 	/** 排序 */
 	private Integer sort;
-	/** 是否菜单 */
-	private Boolean isMenu;
+	/** 权限类型：menu=菜单，function=功能（见 PermissionTypeEnum） */
+	private String type;
 	/** 是否启用 */
 	private Boolean isEnable;
 	
@@ -81,12 +81,12 @@ public class Permission extends BaseEntity implements Tree {
 		this.sort = sort;
 	}
 
-	public Boolean getIsMenu() {
-		return this.isMenu;
+	public String getType() {
+		return this.type;
 	}
 
-	public void setIsMenu(Boolean isMenu) {
-		this.isMenu = isMenu;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Boolean getIsEnable() {

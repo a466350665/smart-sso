@@ -8,6 +8,7 @@ import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.dto.TreeDTO;
 import openjoe.smart.sso.server.entity.Permission;
 import openjoe.smart.sso.server.entity.Tree;
+import openjoe.smart.sso.server.enums.PermissionTypeEnum;
 import openjoe.smart.sso.server.manager.PermissionManager;
 import openjoe.smart.sso.server.mapper.PermissionMapper;
 import openjoe.smart.stage.mybatisplus.service.BaseService;
@@ -108,7 +109,7 @@ public class PermissionService extends BaseService<PermissionMapper, Permission>
 			permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
 			noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
 		}
-		List<TokenMenu> menuList = list.stream().filter(t -> t.getIsMenu() && !noPermissionSet.contains(t.getCode())).map(t->{
+		List<TokenMenu> menuList = list.stream().filter(t -> PermissionTypeEnum.isMenu(t.getType()) && !noPermissionSet.contains(t.getCode())).map(t->{
 			TokenMenu dto = new TokenMenu();
 			BeanUtils.copyProperties(t, dto);
 			// 权限编码（Permission.code）在客户端菜单里叫 url，字段名不同，需显式赋值

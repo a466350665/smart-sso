@@ -131,7 +131,7 @@ sequenceDiagram
 
 ## 五、权限模型
 
-- 权限数据按应用隔离（`sso_permission.app_id`），并以 `is_menu` 区分**菜单**与**按钮**。
+- 权限数据按应用隔离（`sso_permission.app_id`），并以 `type`（权限类型）区分**菜单**（`menu`）与**功能**（`function`）。
 - 客户端 `PermissionFilter` 用请求路径（`request.getServletPath()`）与令牌权限快照比对：
   - 命中 `permissionSet` → 放行；
   - 命中 `noPermissionSet` → 返回 `{"code":"000020"}`（无权限）；
