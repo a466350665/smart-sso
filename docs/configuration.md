@@ -21,7 +21,7 @@ SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.0.1.jar
 
 | 配置项 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `server-url` | String | 空 | 认证中心地址。**留空 = 同源**，仅当本应用同时包含服务端时合法；独立客户端必须配置 |
+| `server-url` | String | 空 | 认证授权中心地址。**留空 = 同源**，仅当本应用同时包含服务端时合法；独立客户端必须配置 |
 | `internal-server-url` | String | 自动推导 | 同源模式下服务端之间调用使用的本机地址，默认 `http(s)://127.0.0.1:{实际端口}{context-path}` |
 | `client-id` | String | — | 应用 ID，在服务端「应用管理」登记后获得 |
 | `client-secret` | String | — | 应用密钥 |
@@ -72,7 +72,7 @@ mybatis-plus:
 脚本位置：`smart-sso-server/src/main/resources/init.sql`。
 
 - **跨库**：可直接用于 MySQL 与 H2（MySQL 兼容模式）；不含 `ENGINE` / `USING BTREE` 等专有语法；
-- 自带演示数据：1 个认证中心自身应用（clientId `1000`）、1 个演示客户端（`1002`）、3 个机构、42 条权限、1 个「系统管理员」角色及其授权、1 个 `admin` 用户；
+- 自带演示数据：1 个认证授权中心自身应用（clientId `1000`）、1 个客户端示例（`1002`）、3 个机构、42 条权限、1 个「系统管理员」角色及其授权、1 个 `admin` 用户；
 - 初始账号：**`admin` / `123456`**（口令算法见 [FAQ](faq.md#用户密码是怎么存的)）。
 
 ```bash

@@ -21,14 +21,14 @@
 
 ## 二、登记应用
 
-在认证中心「应用管理」中新增应用，获得 `clientId` 与 `clientSecret`；同时在「权限管理」中为该应用登记菜单与按钮权限（`code`即权限标识）。
+在认证授权中心「应用管理」中新增应用，获得 `clientId` 与 `clientSecret`；同时在「权限管理」中为该应用登记菜单与按钮权限（`code`即权限标识）。
 
 ## 三、最小配置
 
 ```yaml
 smart:
   sso:
-    # 认证中心地址。独立客户端必填；若本应用同时是服务端可留空（同源模式）
+    # 认证授权中心地址。独立客户端必填；若本应用同时是服务端可留空（同源模式）
     server-url: http://localhost:8080
     client-id: 1000
     client-secret: rokY9BdKh5bHiX/zL26qOg==
@@ -41,7 +41,7 @@ smart:
 | 过滤器 | 职责 |
 | --- | --- |
 | `LogoutFilter` | 处理服务端单点退出的回调（`smart.sso.logout-path`，默认 `/logout`） |
-| `LoginFilter` | 无令牌则跳转认证中心；处理回跳的 `code` 换取令牌；令牌过期时按请求类型续签或返回 `000015` |
+| `LoginFilter` | 无令牌则跳转认证授权中心；处理回跳的 `code` 换取令牌；令牌过期时按请求类型续签或返回 `000015` |
 | `PermissionFilter` | 按权限快照判断请求路径，无权限返回 `000020` |
 
 ## 四、获取当前登录信息
@@ -58,8 +58,8 @@ TokenPermission permission = ClientContextHolder.getPermission();   // 权限集
 
 | code | 含义 | 前端应做的处理 |
 | --- | --- | --- |
-| `000010` | 未登录或会话超时 | 清理本地缓存并跳转认证中心 |
-| `000015` | accessToken 过期、refreshToken 仍有效 | 调用刷新接口获取新令牌后**重放原请求**，刷新失败则跳转认证中心 |
+| `000010` | 未登录或会话超时 | 清理本地缓存并跳转认证授权中心 |
+| `000015` | accessToken 过期、refreshToken 仍有效 | 调用刷新接口获取新令牌后**重放原请求**，刷新失败则跳转认证授权中心 |
 | `000020` | 已登录但无访问权限 | 提示无权限 |
 
 ```js
@@ -94,5 +94,5 @@ headers: {
 
 ## 八、参考实现
 
-- `smart-sso-demo`：客户端接入示例（端口 8082，令牌走请求头）；
+- `smart-sso-demo`：客户端示例（端口 8082，令牌走请求头）；
 - `smart-sso-server` 自身：同源模式下“服务端即客户端”的用法，`server-url` 留空即可。

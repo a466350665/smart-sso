@@ -11,7 +11,7 @@
 
 **简体中文** | [English](README.en.md)
 
-Smart-SSO 是一个基于 Spring Boot 3 + OAuth2 授权码模式的**轻量级单点登录与权限认证中心**：提供单点登录/退出、自动续签、强制下线、按钮级权限与分布式部署能力，并内置开箱即用的演示环境——不装数据库也能一条命令跑起来。
+Smart-SSO 是一个基于 Spring Boot 3 + OAuth2 授权码模式的**轻量级单点登录与认证授权中心**：提供单点登录/退出、自动续签、强制下线、按钮级权限与分布式部署能力，并内置开箱即用的演示环境——不装数据库也能一条命令跑起来。
 
 - 📖 文档：[快速开始](#快速开始) · [接入指南](docs/client-integration.md) · [架构与原理](docs/architecture.md) · [配置参考](docs/configuration.md) · [常见问题](docs/faq.md)
 - 💬 交流群：454343484、769134727
@@ -71,7 +71,7 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 ```bash
 java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
 ```
-客户端接入示例，浏览器打开 **http://localhost:8082**，无需重新登录，自动跳转至首页。
+客户端示例，浏览器打开 **http://localhost:8082**，无需重新登录，自动跳转至首页。
 
 ## 接入指南（客户端）
 
@@ -97,7 +97,7 @@ sequenceDiagram
     autonumber
     participant B as 浏览器
     participant A as 应用A
-    participant S as 认证中心
+    participant S as 认证授权中心
     participant X as 应用B
 
     Note over B,X: ① 首次登录：在应用A 输入一次账号口令
@@ -136,8 +136,8 @@ sequenceDiagram
 
 ```
 smart-sso
-├── smart-sso-server    -- 单点登录权限管理服务端（同时是自身的客户端）
-├── smart-sso-demo      -- 客户端接入示例（令牌走请求头）
+├── smart-sso-server    -- 认证授权中心服务端（同时是自身的客户端）
+├── smart-sso-demo      -- 客户端示例（令牌走请求头）
 ├── smart-sso-starter   -- 依赖装配模块（可单独引入到你的应用）
 │   ├── smart-sso-starter-base              -- 公共常量、工具、凭证清理机制
 │   ├── smart-sso-starter-client            -- 客户端依赖包，客户端 Token 生命周期管理
@@ -169,7 +169,7 @@ smart-sso
 
 | 配置项 | 默认值 | 说明 |
 | --- | --- | --- |
-| `smart.sso.server-url` | 空 | 认证中心地址；**留空=同源**（仅当本应用同时是服务端） |
+| `smart.sso.server-url` | 空 | 认证授权中心地址；**留空=同源**（仅当本应用同时是服务端） |
 | `smart.sso.client-id` / `client-secret` | — | 客户端身份，在服务端「应用管理」登记 |
 | `smart.sso.exclude-urls` | — | 免登录路径；以 `/*` 结尾表示前缀匹配 |
 | `smart.sso.server.timeout` | 7200 | 全局会话 TGT 超时（秒） |
@@ -197,9 +197,9 @@ smart-sso
 | --- | --- |
 | ![权限管理](./docs/images/admin-permission.png) | ![应用管理](./docs/images/admin-app.png) |
 
-| 角色管理 | 在线用户 |
+| 角色管理 | 会话管理 |
 | --- | --- |
-| ![角色管理](./docs/images/admin-role.png) | ![在线用户](./docs/images/admin-login-user.png) |
+| ![角色管理](./docs/images/admin-role.png) | ![会话管理](./docs/images/admin-login-user.png) |
 
 ## 开发与验证
 
@@ -214,7 +214,7 @@ verify/verify.sh
 cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 ```
 
-验证套件覆盖：构建与启动、SSO 协议主链路、未登录/无权限分支、只读接口全量、五大模块 CRUD 与级联删除、前端页面渲染与交互（含浏览器端断言）。当前 **服务端 69 项断言 + 前端 33 项断言**全部通过。详见 **[docs/development.md](docs/development.md)**。
+验证套件覆盖：构建与启动、SSO 协议主链路、未登录/无权限分支、只读接口全量、五大模块 CRUD 与级联删除、前端页面渲染与交互（含浏览器端断言）。当前 **服务端 69 项断言 + 前端 36 项断言**全部通过。详见 **[docs/development.md](docs/development.md)**。
 
 ## 文档
 

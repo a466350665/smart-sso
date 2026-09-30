@@ -26,7 +26,7 @@
                     <a href="#" class="navbar-brand">
                         <small>
                             <i class="fa fa-leaf"></i>
-                            Smart-SSO单点登录权限系统
+                            Smart-SSO认证授权中心
                         </small>
                     </a>
                 </div>
@@ -119,7 +119,7 @@
                 <div class="footer-inner">
                     <div class="footer-content">
                         <span class="bigger-120">
-                            <span class="blue bolder">Smart-SSO单点登录权限系统</span>
+                            <span class="blue bolder">Smart-SSO认证授权中心</span>
                             &copy; 2024
                         </span>
                     </div>
@@ -198,7 +198,7 @@
                 }
             });
 
-            // 校验是否需要跳转到SSO认证中心
+            // 校验是否需要跳转到SSO认证授权中心
             function validateLogin() {
                 var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
                 if (accessToken) {
@@ -347,7 +347,7 @@
                 return children;
             }
 
-            // 重定向至认证中心
+            // 重定向至认证授权中心
             function goSSOLoginUrl() {
                 $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
                     window.location.href = res.data;
@@ -429,7 +429,7 @@
                         if (d.code == '000000') {
                             successFn(d);
                         }
-                        // 后端登录失效，需要清理前端缓存，并跳转至认证中心
+                        // 后端登录失效，需要清理前端缓存，并跳转至认证授权中心
                         else if (d.code == '000010') {
                             localStorage.clear();
                             goSSOLoginUrl();
@@ -437,7 +437,7 @@
                         /**
                          * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
                          * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
-                         * 2、否则，跳转至认证中心
+                         * 2、否则，跳转至认证授权中心
                          */
                         else if (d.code == '000015') {
                             if (getRefreshToken()) {

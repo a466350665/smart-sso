@@ -3,11 +3,11 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Smart-SSO-Demo</title>
+        <title>Smart-SSO客户端示例</title>
     </head>
 
     <body>
-        <h2>Smart-SSO-Demo</h2>
+        <h2>Smart-SSO客户端示例</h2>
 
         <br /><b>用户名</b>：<span id="_username"></span><br />
 
@@ -32,7 +32,7 @@
             }
         })
 
-        // 校验是否需要跳转到SSO认证中心
+        // 校验是否需要跳转到SSO认证授权中心
         function validateLogin() {
             var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
             if (accessToken) {
@@ -71,7 +71,7 @@
                 });
         }
 
-        // 重定向至认证中心
+        // 重定向至认证授权中心
         function goSSOLoginUrl() {
             $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
                 window.location.href = res.data;
@@ -161,7 +161,7 @@
                     if (d.code == '000000') {
                         successFn(d);
                     }
-                    // 后端登录失效，需要清理前端缓存，并跳转至认证中心
+                    // 后端登录失效，需要清理前端缓存，并跳转至认证授权中心
                     else if (d.code == '000010') {
                         localStorage.clear();
                         goSSOLoginUrl();
@@ -169,7 +169,7 @@
                     /**
                      * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
                      * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
-                     * 2、否则，跳转至认证中心
+                     * 2、否则，跳转至认证授权中心
                      */
                     else if (d.code == '000015') {
                         if (getRefreshToken()) {

@@ -33,6 +33,22 @@
         <script src="/static/assets/js/html5shiv.js"></script>
         <script src="/static/assets/js/respond.js"></script>
         <![endif]-->
+
+        <style>
+            /* 登录页标题单行显示：.login-container 宽 375px，容纳不下完整名称（约 396px），
+               改为按内容宽度居中（inline-block + nowrap），避免自动换行；
+               窄屏（<= 540px）空间不足时仍允许换行，防止溢出屏幕 */
+            .login-layout .login-container h1 {
+                display: inline-block;
+                white-space: nowrap;
+            }
+
+            @media only screen and (max-width: 540px) {
+                .login-layout .login-container h1 {
+                    white-space: normal;
+                }
+            }
+        </style>
     </head>
 
     <body class="login-layout">
@@ -44,7 +60,7 @@
                             <div class="center">
                                 <h1>
                                     <i class="ace-icon fa fa-leaf green"></i>
-                                    <span class="white" id="id-text2">Smart-SSO认证中心</span>
+                                    <span class="white" id="id-text2">Smart-SSO认证授权中心</span>
                                 </h1>
                             </div>
 

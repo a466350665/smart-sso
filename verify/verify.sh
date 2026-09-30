@@ -208,7 +208,7 @@ assert_code "权限：非法权限类型被拒绝（010005）" 010005 \
   "$(post /admin/permission/save -d 'appId=1&name=验证非法类型&code=/verify-invalid.html&sort=1&type=button&isEnable=true')"
 
 section "缺陷回归（原 3 个缺陷对应用例）"
-# 缺陷2：一次未走完回跳（没换到 token）的登录，会让“登录用户管理”页面持续报错
+# 缺陷2：一次未走完回跳（没换到 token）的登录，会让“会话管理”页面持续报错
 ENC="$(jq -rn --arg u "$BASE/admin/admin.html" '$u|@uri')"
 rm -f "$COOKIE"
 curl -s -c "$COOKIE" "$BASE/sso/login?clientId=1000&redirectUri=$ENC" -o /dev/null

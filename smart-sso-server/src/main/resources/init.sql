@@ -37,8 +37,8 @@ CREATE TABLE `sso_app` (
 -- ----------------------------
 -- Records of sso_app
 -- ----------------------------
-INSERT INTO `sso_app` VALUES (1, 'smart-sso-server', '单点登录权限管理系统', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_app` VALUES (82, 'smart-sso-demo', '前后端分离Demo系统', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
+INSERT INTO `sso_app` VALUES (1, 'smart-sso-server', 'Smart-SSO认证授权中心', 20, 1, '1000', 'rokY9BdKh5bHiX/zL26qOg==', '2015-06-02 11:31:44', '2015-06-02 11:31:44');
+INSERT INTO `sso_app` VALUES (82, 'smart-sso-demo', 'Smart-SSO客户端示例', 10, 1, '1002', '3vjPTgn+9XwV+Q6PRUA5oQ==', '2015-11-08 17:16:39', '2015-11-08 17:16:39');
 
 -- ----------------------------
 -- Table structure for sso_organization
@@ -123,9 +123,9 @@ INSERT INTO `sso_permission` VALUES (61, 1, 60, '机构列表', '/organization/l
 INSERT INTO `sso_permission` VALUES (62, 1, 60, '机构新增', '/app/edit.html', 4, 'fa-plus-circle blue', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (63, 1, 60, '机构启/禁用', '/organization/enable.html', 3, 'fa-lock orange', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
 INSERT INTO `sso_permission` VALUES (65, 1, 60, '机构删除', '/organization/delete.html', 1, 'fa-trash-o red', 'function', 1, '2015-06-02 11:31:44', '2015-06-02 11:31:44');
-INSERT INTO `sso_permission` VALUES (66, 1, NULL, '登录用户管理', '/login-user.html', 1, 'fa-users', 'menu', 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
-INSERT INTO `sso_permission` VALUES (67, 1, 66, '登录用户列表', '/login-user/list.html', 5, '', 'function', 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
-INSERT INTO `sso_permission` VALUES (68, 1, 66, '登录用户下线', '/login-user/logout.html', 2, '', 'function', 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
+INSERT INTO `sso_permission` VALUES (66, 1, NULL, '会话管理', '/login-user.html', 1, 'fa-users', 'menu', 1, '2025-03-28 15:05:31', '2025-03-28 15:05:31');
+INSERT INTO `sso_permission` VALUES (67, 1, 66, '会话列表', '/login-user/list.html', 5, '', 'function', 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
+INSERT INTO `sso_permission` VALUES (68, 1, 66, '强制下线', '/login-user/logout.html', 2, '', 'function', 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
 
 -- ----------------------------
 -- Table structure for sso_role

@@ -10,7 +10,7 @@
 
 [简体中文](README.md) | **English**
 
-Smart-SSO is a lightweight **single sign-on and authorization center** built on Spring Boot 3 and the OAuth2 authorization-code flow. It ships SSO login/logout, silent token renewal, forced logout, button-level permissions and distributed deployment support — plus a zero-dependency demo mode that starts with a single command, no database required.
+Smart-SSO is a lightweight **authentication and authorization center (SSO)** built on Spring Boot 3 and the OAuth2 authorization-code flow. It ships SSO login/logout, silent token renewal, forced logout, button-level permissions and distributed deployment support — plus a zero-dependency demo mode that starts with a single command, no database required.
 
 > The in-depth documentation under `docs/` is currently written in Chinese. This README is self-contained for evaluation: quick start, modules, configuration and verification are all covered below.
 
@@ -65,12 +65,12 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 
 > The `prod` profile uses MySQL and never runs the SQL script (Spring Boot only initializes embedded databases by default), so startup cannot wipe your data.
 
-### Client demo
+### Client example
 
 ```bash
 java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
 ```
-Client integration sample, Open **http://localhost:8082**, no need to log in again. It will automatically redirect you to the homepage.
+Client example. Open **http://localhost:8082**, no need to log in again. It will automatically redirect you to the homepage.
 
 ## Client Integration
 
@@ -144,8 +144,8 @@ Full protocol sequence, credential model and distributed setup: **[docs/architec
 
 ```
 smart-sso
-├── smart-sso-server    -- SSO server + permission console (also a client of itself)
-├── smart-sso-demo      -- client integration sample (token via request header)
+├── smart-sso-server    -- authentication &amp; authorization center + permission console (also a client of itself)
+├── smart-sso-demo      -- client example (token via request header)
 ├── smart-sso-starter   -- auto-configuration modules (individually consumable)
 │   ├── smart-sso-starter-base              -- shared constants, utilities, credential cleanup
 │   ├── smart-sso-starter-client            -- client-side token lifecycle management
@@ -205,9 +205,9 @@ Full reference: **[docs/configuration.md](docs/configuration.md)** (Chinese).
 | --- | --- |
 | ![Permissions](./docs/images/admin-permission.png) | ![Applications](./docs/images/admin-app.png) |
 
-| Role management | Online users |
+| Role management | Session management |
 | --- | --- |
-| ![Roles](./docs/images/admin-role.png) | ![Online users](./docs/images/admin-login-user.png) |
+| ![Roles](./docs/images/admin-role.png) | ![Session management](./docs/images/admin-login-user.png) |
 
 ## Build & Verification
 
@@ -224,7 +224,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 
 Coverage: startup and profile wiring, the SSO protocol main path, unauthenticated/unauthorized branches, all read-only
 APIs, CRUD plus cascade deletion across the five admin modules, and browser-level rendering/interaction assertions.
-Currently **69 server-side assertions + 33 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
+Currently **69 server-side assertions + 36 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
 
 ## Contributing
 

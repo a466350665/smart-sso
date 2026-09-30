@@ -4,7 +4,7 @@
 
 | 凭证 | 存放位置 | 默认时效 | 说明 |
 | --- | --- | --- | --- |
-| `TGT`（全局会话） | 服务端 Cookie，名 `TGC` | 7200s（`smart.sso.server.timeout`） | 用户在认证中心的登录态，是单点登录与单点退出的锚点 |
+| `TGT`（全局会话） | 服务端 Cookie，名 `TGC` | 7200s（`smart.sso.server.timeout`） | 用户在认证授权中心的登录态，是单点登录与单点退出的锚点 |
 | `code`（授权码） | 服务端 | 600s（`code-timeout`），**一次性** | 换取令牌的临时凭据 |
 | `accessToken` | 客户端本地缓存 + 浏览器 Cookie/Header | 1800s（`access-token-timeout`） | 客户端本地校验用户身份，不回源 |
 | `refreshToken` | 客户端本地缓存 | 7200s（`timeout`） | 用于续签 |
@@ -21,7 +21,7 @@ sequenceDiagram
     autonumber
     participant B as 浏览器
     participant A as 应用A
-    participant S as 认证中心
+    participant S as 认证授权中心
     participant X as 应用B
 
     Note over B,X: 阶段一 首次登录：在应用A 输入一次账号口令
@@ -72,7 +72,7 @@ sequenceDiagram
     autonumber
     participant B as 浏览器/前端
     participant C as 客户端应用
-    participant S as 认证中心
+    participant S as 认证授权中心
 
     B->>C: 携带 accessToken 的请求
     C->>C: 本地校验：accessToken 已过期，refreshToken 仍有效
@@ -104,7 +104,7 @@ sequenceDiagram
     autonumber
     participant B as 浏览器
     participant C as 客户端应用
-    participant S as 认证中心
+    participant S as 认证授权中心
 
     Note over B,S: 场景一：用户主动退出
     B->>S: GET /sso/logout?redirectUri=应用地址
@@ -127,7 +127,7 @@ sequenceDiagram
 3. 服务端依据令牌中登记的 `logoutUri`，**逐个回调通知各客户端**注销本地令牌（客户端 `LogoutFilter` 处理，路径由 `smart.sso.logout-path` 配置，默认 `/logout`）。
 4. 浏览器回到 `redirectUri`。
 
-**踢人下线**复用同一套机制：「在线用户」页面按 `TGT` 调用吊销逻辑，服务端同样会回调通知所有关联客户端清除会话。
+**踢人下线**复用同一套机制：「会话管理」页面按 `TGT` 调用吊销逻辑，服务端同样会回调通知所有关联客户端清除会话。
 
 ## 五、权限模型
 
@@ -141,7 +141,7 @@ sequenceDiagram
 
 ## 六、同源与“服务端即客户端”
 
-`smart-sso-server` 自身也是认证中心的一个客户端（有自己的 `client-id`），因此存在“自己调用自己”的场景。`smart.sso.server-url` 的处理规则：
+`smart-sso-server` 自身也是认证授权中心的一个客户端（有自己的 `client-id`），因此存在“自己调用自己”的场景。`smart.sso.server-url` 的处理规则：
 
 | 配置 | 行为 |
 | --- | --- |

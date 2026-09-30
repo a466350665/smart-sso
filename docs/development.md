@@ -20,7 +20,7 @@ mvn -o -DskipTests clean package
 # 启动服务端（默认 dev / H2，端口 8080）
 java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
 
-# 启动演示客户端（端口 8082）
+# 启动客户端示例（端口 8082）
 java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
 ```
 
@@ -49,7 +49,7 @@ smart-sso
 │           ├── application*.yaml     公共配置 + dev/prod profile
 │           ├── init.sql              跨库建表与演示数据脚本
 │           └── static/               管理台静态 SPA（admin/ 为页面片段）
-├── smart-sso-demo/            客户端接入示例
+├── smart-sso-demo/            客户端示例
 ├── smart-sso-starter/         可独立引入的自动装配模块
 └── verify/                    功能验证套件
 ```
@@ -82,7 +82,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:18080 node front.mjs
 | L3 | 业务 CRUD：应用/机构/角色（含授权与分配）/用户/权限，含级联删除；数据自建自清 |
 | L5 | 前端：登录流程、菜单渲染、机构/用户/角色/权限页、权限树回显、弹窗行为 |
 
-当前基线：**服务端 69 项断言 + 前端 33 项断言全部通过**。新增功能时建议在 `verify/verify.sh`（接口层）或 `verify/e2e/front.mjs`（界面层）补一条断言。
+当前基线：**服务端 69 项断言 + 前端 36 项断言全部通过**。新增功能时建议在 `verify/verify.sh`（接口层）或 `verify/e2e/front.mjs`（界面层）补一条断言。
 
 ## 五、边界场景的手工验证
 

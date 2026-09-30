@@ -45,6 +45,15 @@ await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
 check('未登录访问 / 被重定向到登录页', page.url().includes('/login.html'), page.url().replace(BASE, ''));
 const loginUrl = new URL(page.url());
 check('登录页带上 redirectUri/clientId', loginUrl.searchParams.has('redirectUri') && loginUrl.searchParams.get('clientId') === '1000');
+const loginBrand = await page.evaluate(() => document.body.innerText.includes('认证授权中心'));
+check('登录页品牌名为「认证授权中心」', loginBrand, 'login.html');
+// 回归：标题较长，必须保持单行（否则 h1 会折成两行）
+const titleLineRects = await page.evaluate(() => {
+  const range = document.createRange();
+  range.selectNodeContents(document.getElementById('id-text2'));
+  return [...range.getClientRects()].filter(r => r.width > 0 && r.height > 0).length;
+});
+check('登录页标题单行显示（不换行）', titleLineRects === 1, 'lineRects=' + titleLineRects);
 await shot('01-login');
 await page.click('#_loginButton');
 await page.waitForURL(u => !u.pathname.includes('login.html'), { timeout: 20000 });
@@ -57,7 +66,7 @@ await shot('02-home');
 console.log('\n【L5-2】管理台菜单');
 const menus = await page.$$eval('a[data-url]', els => els.map(e => e.textContent.trim() + '|' + e.getAttribute('data-url')));
 const expectMenus = ['个人中心|/profile.html', '机构管理|/organization.html', '用户管理|/user.html',
-  '角色管理|/role.html', '应用管理|/app.html', '权限管理|/permission.html', '登录用户管理|/login-user.html'];
+  '角色管理|/role.html', '应用管理|/app.html', '权限管理|/permission.html', '会话管理|/login-user.html'];
 check('菜单项数量为 7', menus.length === 7, '实际 ' + menus.length);
 check('菜单项与权限数据一致', expectMenus.every(m => menus.includes(m)), JSON.stringify(menus));
 
@@ -147,7 +156,7 @@ await page.waitForTimeout(1200);
 const permNodes = await page.$$eval('.ztree li', l => l.length);
 const apps = await page.$$eval('#_searchAppId option', o => o.map(x => x.textContent.trim()));
 check('权限树渲染', permNodes > 1, '节点=' + permNodes);
-check('应用下拉加载（服务器 + demo）', apps.length === 2, JSON.stringify(apps));
+check('应用下拉加载（认证授权中心 + 客户端示例）', apps.length === 2, JSON.stringify(apps));
 
 // 回归：权限树必须返回 type（菜单/功能）等业务字段，页面据此区分节点样式
 const treeInfo = await page.evaluate(() => {
@@ -191,6 +200,19 @@ if (editTarget) {
   check('权限编辑页「权限类型」单选回显', false, '未找到菜单节点');
 }
 await shot('09-permission');
+
+// ── L5-9b 会话管理页（菜单/按钮/确认框改名回归）─────────────────
+console.log('\n【L5-9b】会话管理');
+await goto('/login-user.html');
+const sess = await page.evaluate(() => ({
+  title: document.title,
+  text: document.body.innerText,
+  html: document.documentElement.innerHTML,
+}));
+check('会话管理页：标题「会话管理」+ 按钮/确认框为「强制下线」',
+  sess.title === '会话管理' && sess.text.includes('强制下线') && sess.html.includes('确认强制下线'),
+  `title=${sess.title} 按钮=${sess.text.includes('强制下线')} 确认框=${sess.html.includes('确认强制下线')}`);
+await shot('10-session');
 
 // ── L5-10 全程无 JS 错误 / 无 4xx ──────────────────────────────
 console.log('\n【L5-10】健康性');

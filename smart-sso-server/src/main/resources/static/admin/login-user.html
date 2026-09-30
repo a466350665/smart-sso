@@ -1,4 +1,4 @@
-<title>登录用户管理</title>
+<title>会话管理</title>
 
 
 <div class="row">
@@ -46,12 +46,12 @@
     			url : "/admin/login-user/list",
     			formId : "_form",
 				tools : [
-					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(){
+					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(){
 						if($table.validateSelected(false)){
 							$table.ajax({
 								url : "/admin/login-user/logout",
 								data : {tgts : $table.getSelectedItemKeys("tgt")},
-								confirm : "确认下线?",
+								confirm : "确认强制下线？该会话关联的所有应用将立即退出",
 								after : function(){
 									$table.reload();
 								}
@@ -71,11 +71,11 @@
 			        }}
 				],
 				operate : [
-					{text : '下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(d, i){
+					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/login-user/logout.html', handler : function(d, i){
 						$table.ajax({
 							url : "/admin/login-user/logout",
 							data : {tgts : $table.getSelectedItemKeys("tgt")},
-							confirm : "确认下线?",
+							confirm : "确认强制下线？该会话关联的所有应用将立即退出",
 							after : function(){
 								$table.reload();
 							}

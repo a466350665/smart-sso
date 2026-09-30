@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 前后端分离模式下集成SSO所需的接口（服务端管理系统）
+ * 前端直接集成SSO所需的接口（认证授权中心管理台自用）
  */
 @RestController
 @RequestMapping("/auth")

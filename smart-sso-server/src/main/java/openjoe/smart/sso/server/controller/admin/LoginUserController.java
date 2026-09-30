@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 /**
  * @author Joe
  */
-@Tag(name = "登录用户管理")
+@Tag(name = "会话管理")
 @RestController
 @RequestMapping("/admin/login-user")
 @SuppressWarnings("rawtypes")

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 前后端分离模式下集成SSO所需的接口
+ * 前端直接集成SSO所需的接口（由前端调用换取/刷新令牌）
  */
 @RestController
 @RequestMapping("/auth")
