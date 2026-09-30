@@ -135,8 +135,8 @@ sequenceDiagram
 - **Same-origin by default**: when `smart.sso.server-url` is left empty and the application *is* the SSO server, everything
   is same-origin — browser redirects use relative paths and server-to-server calls use a derived loopback address. A
   standalone client that forgets to configure it **fails fast at startup** instead of silently redirecting to itself.
-- **Permission model**: after a URL is registered under *Permission Management*, requests whose path matches
-  `sso_permission.url` exactly are protected; unregistered paths are allowed through.
+- **Permission model**: after a permission code is registered under *Permission Management*, requests whose path matches
+  `sso_permission.code` exactly are protected; unregistered paths are allowed through.
 
 Full protocol sequence, credential model and distributed setup: **[docs/architecture.md](docs/architecture.md)** (Chinese).
 
@@ -224,7 +224,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 
 Coverage: startup and profile wiring, the SSO protocol main path, unauthenticated/unauthorized branches, all read-only
 APIs, CRUD plus cascade deletion across the five admin modules, and browser-level rendering/interaction assertions.
-Currently **64 server-side assertions + 31 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
+Currently **68 server-side assertions + 32 browser assertions** pass. See **[docs/development.md](docs/development.md)** (Chinese).
 
 ## Contributing
 

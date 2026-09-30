@@ -23,8 +23,8 @@ public class Permission extends BaseEntity implements Tree {
 	private String icon;
 	/** 名称 */
 	private String name;
-	/** 权限URL */
-	private String url;
+	/** 权限编码 */
+	private String code;
 	/** 排序 */
 	private Integer sort;
 	/** 是否菜单 */
@@ -65,12 +65,12 @@ public class Permission extends BaseEntity implements Tree {
 		this.name = name;
 	}
 	
-	public String getUrl() {
-		return url;
+	public String getCode() {
+		return code;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Integer getSort() {
@@ -95,10 +95,6 @@ public class Permission extends BaseEntity implements Tree {
 
 	public void setIsEnable(Boolean isEnable) {
 		this.isEnable = isEnable;
-	}
-	
-	public String getUrlStr() {
-		return url;
 	}
 	
 	public String getPermissionIcon() {

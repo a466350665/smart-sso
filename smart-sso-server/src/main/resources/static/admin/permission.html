@@ -121,11 +121,11 @@
 						</div>
 					
 						<div class="form-group">
-							<label for="_url" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>URL</label>
+							<label for="_code" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>权限编码</label>
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
-									<input id="_url" name="url" type="text" class="form-data col-xs-10 col-sm-9" placeholder="URL"
+									<input id="_code" name="code" type="text" class="form-data col-xs-10 col-sm-9" placeholder="权限编码"
 										required="true" maxlength="64"/>
 								</div>
 							</div>
@@ -383,7 +383,7 @@
 						$("#_name").val(data.name);
 						$("#_icon").val(data.icon);
 						$("#_icon_fa").attr("class", "menu-icon fa " + data.icon);
-						$("#_url").val(data.url);
+						$("#_code").val(data.code);
 						$("#_sort").val(data.sort);
 						$("input[type=radio][name=isMenu][value!=" + data.isMenu + "]").prop('checked', false);
 						$("input[type=radio][name=isMenu][value=" + data.isMenu + "]").prop('checked', true); 

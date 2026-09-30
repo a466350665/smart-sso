@@ -15,7 +15,7 @@ public class TokenMenu {
 	private String icon;
 	/** 名称 */
 	private String name;
-	/** 权限URL */
+	/** 菜单链接（取自服务端的权限编码 Permission.code） */
 	private String url;
 
 	public Long getId() {

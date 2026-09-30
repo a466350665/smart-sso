@@ -71,7 +71,7 @@ CREATE TABLE `sso_permission` (
   `app_id` bigint(20) NOT NULL COMMENT '应用ID',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父ID',
   `name` varchar(50) NOT NULL COMMENT '名称',
-  `url` varchar(255) NOT NULL COMMENT '权限URL',
+  `code` varchar(255) NOT NULL COMMENT '权限编码',
   `sort` int(11) NOT NULL COMMENT '排序',
   `icon` varchar(100) DEFAULT NULL COMMENT '图标',
   `is_menu` int(1) NOT NULL COMMENT '是否菜单',

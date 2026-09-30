@@ -128,7 +128,7 @@ sequenceDiagram
 - **协议**：OAuth2 授权码模式。服务端维护全局会话 `TGT`（Cookie，默认名 `TGC`），客户端凭 `accessToken` 本地校验，`refreshToken` 用于续签。
 - **两级校验**：授权码阶段校验用户身份，换取 accessToken 阶段校验客户端身份（ClientId/ClientSecret），可避免越权获取其他应用的资源权限。
 - **同源即免配**：`smart.sso.server-url` 留空时，本应用若同时是服务端则自动按“同源”工作——页面跳转走相对路径，服务端之间的调用走本机推导地址；独立客户端漏配则**启动失败**，不会静默跳错。
-- **权限模型**：在「权限管理」登记 URL 后，请求路径与 `sso_permission.url` 精确匹配即受控；未登记的路径放行。
+- **权限模型**：在「权限管理」登记权限编码（`code`）后，请求路径与 `sso_permission.code` 精确匹配即受控；未登记的路径放行。
 
 协议时序、凭证模型与分布式（Redis）的完整说明见 **[docs/architecture.md](docs/architecture.md)**。
 
@@ -214,7 +214,7 @@ verify/verify.sh
 cd verify/e2e && npm install && BASE=http://127.0.0.1:8080 node front.mjs
 ```
 
-验证套件覆盖：构建与启动、SSO 协议主链路、未登录/无权限分支、只读接口全量、五大模块 CRUD 与级联删除、前端页面渲染与交互（含浏览器端断言）。当前 **服务端 64 项断言 + 前端 31 项断言**全部通过。详见 **[docs/development.md](docs/development.md)**。
+验证套件覆盖：构建与启动、SSO 协议主链路、未登录/无权限分支、只读接口全量、五大模块 CRUD 与级联删除、前端页面渲染与交互（含浏览器端断言）。当前 **服务端 68 项断言 + 前端 32 项断言**全部通过。详见 **[docs/development.md](docs/development.md)**。
 
 ## 文档
 

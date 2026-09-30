@@ -53,7 +53,7 @@ public class PermissionController {
 			@RequestParam(required = false) Long parentId,
 			@RequestParam(required = false) String icon,
 			@RequestParam String name,
-			@RequestParam String url,
+			@RequestParam String code,
 			@RequestParam Integer sort,
 			@RequestParam Boolean isMenu,
 			@RequestParam Boolean isEnable) {
@@ -68,7 +68,7 @@ public class PermissionController {
 		permission.setParentId(parentId);
 		permission.setIcon(icon);
 		permission.setName(name);
-		permission.setUrl(url);
+		permission.setCode(code);
 		permission.setSort(sort);
 		permission.setIsMenu(isMenu);
 		permission.setIsEnable(isEnable);

@@ -57,15 +57,15 @@ mybatis-plus:
 
 数据库共 7 张表：
 
-| 表 | 说明 |
-| --- | --- |
-| `sso_app` | 应用（客户端）注册信息，含 clientId / clientSecret |
-| `sso_organization` | 机构（树形，`parent_id` 自关联） |
-| `sso_permission` | 权限（菜单/按钮），按 `app_id` 隔离，`url` 为权限标识 |
-| `sso_role` | 角色 |
-| `sso_role_permission` | 角色-权限关联 |
-| `sso_user` | 用户（`organization_id` 关联机构） |
-| `sso_user_role` | 用户-角色关联 |
+| 表 | 说明                                                   |
+| --- |--------------------------------------------------------|
+| `sso_app` | 应用（客户端）注册信息，含 clientId / clientSecret     |
+| `sso_organization` | 机构（树形，`parent_id` 自关联）                       |
+| `sso_permission` | 权限（菜单/按钮），按 `app_id` 隔离，`code` 为权限标识 |
+| `sso_role` | 角色                                                   |
+| `sso_role_permission` | 角色-权限关联                                          |
+| `sso_user` | 用户（`organization_id` 关联机构）                     |
+| `sso_user_role` | 用户-角色关联                                          |
 
 ## 五、数据库脚本
 

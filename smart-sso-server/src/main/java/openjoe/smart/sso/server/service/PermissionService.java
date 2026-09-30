@@ -102,15 +102,17 @@ public class PermissionService extends BaseService<PermissionMapper, Permission>
 		Set<String> noPermissionSet;
 		if (CollectionUtils.isEmpty(permissionIdSet)) {
 			permissionSet = Collections.emptySet();
-			noPermissionSet = list.stream().map(t -> t.getUrl()).collect(Collectors.toSet());
+			noPermissionSet = list.stream().map(t -> t.getCode()).collect(Collectors.toSet());
 		}
 		else{
-			permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
-			noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getUrl()).collect(Collectors.toSet());
+			permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
+			noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
 		}
-		List<TokenMenu> menuList = list.stream().filter(t -> t.getIsMenu() && !noPermissionSet.contains(t.getUrl())).map(t->{
+		List<TokenMenu> menuList = list.stream().filter(t -> t.getIsMenu() && !noPermissionSet.contains(t.getCode())).map(t->{
 			TokenMenu dto = new TokenMenu();
 			BeanUtils.copyProperties(t, dto);
+			// 权限编码（Permission.code）在客户端菜单里叫 url，字段名不同，需显式赋值
+			dto.setUrl(t.getCode());
 			return dto;
 		}).collect(Collectors.toList());
 		return new TokenPermission(permissionSet, noPermissionSet, menuList);

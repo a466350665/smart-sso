@@ -149,18 +149,18 @@ const apps = await page.$$eval('#_searchAppId option', o => o.map(x => x.textCon
 check('权限树渲染', permNodes > 1, '节点=' + permNodes);
 check('应用下拉加载（服务器 + demo）', apps.length === 2, JSON.stringify(apps));
 
-// 回归：权限树必须返回 isMenu/url 等业务字段，否则页面“添加子权限”按钮不会出现
+// 回归：权限树必须返回 isMenu 等业务字段，否则页面“添加子权限”按钮不会出现
 const treeInfo = await page.evaluate(() => {
   const zt = window.jQuery.fn.zTree.getZTreeObj('_tree');
   const flat = []; const walk = ns => ns.forEach(n => { flat.push(n); walk(n.children || []); });
   walk(zt ? zt.getNodes() : []);
   const menu = flat.find(n => n.isMenu === true);
   return { total: flat.length, hasIsMenu: flat.some(n => n.isMenu !== undefined),
-           noIconNoUrl: flat.every(n => n.icon === undefined && n.url === undefined),
+           noIconNoCode: flat.every(n => n.icon === undefined && n.code === undefined && n.url === undefined),
            menu: menu ? { id: menu.id, name: menu.name, tId: menu.tId } : null };
 });
 check('权限树节点带 isMenu 字段（缺陷3 回归）', treeInfo.hasIsMenu, 'hasIsMenu=' + treeInfo.hasIsMenu);
-check('权限树不暴露 icon/url（避免 zTree 当图片路径与超链接）', treeInfo.noIconNoUrl, 'noIconNoUrl=' + treeInfo.noIconNoUrl);
+check('权限树不暴露 icon/code/url（避免 zTree 当图片路径与超链接）', treeInfo.noIconNoCode, 'noIconNoCode=' + treeInfo.noIconNoCode);
 if (treeInfo.menu) {
   await page.hover('#' + treeInfo.menu.tId + '_a');
   await page.waitForTimeout(700);
@@ -169,6 +169,18 @@ if (treeInfo.menu) {
     '菜单节点=' + treeInfo.menu.name + ' add按钮=' + addBtns);
 } else {
   check('菜单节点悬停出现「添加子权限」按钮（缺陷3 回归）', false, '未找到 isMenu=true 的节点');
+}
+// 回归：权限编辑表单的「权限编码」(code) 能正常回显
+const editTarget = treeInfo.menu;
+if (editTarget) {
+  await page.click('#edit_' + editTarget.id);
+  await page.waitForTimeout(1200);
+  const codeVal = await page.$eval('#_code', el => el.value);
+  const label = await page.$eval('label[for=_code]', el => el.textContent.trim());
+  check('权限编辑页带出「权限编码」值', codeVal.length > 0 && codeVal.startsWith('/'),
+    'code=' + codeVal + ' label=' + label);
+} else {
+  check('权限编辑页带出「权限编码」值', false, '未找到菜单节点');
 }
 await shot('09-permission');
 
