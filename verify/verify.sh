@@ -74,7 +74,7 @@ if [ "$EXTERNAL" = 0 ]; then
   if grep -q "Started ServerApplication" "$LOG"; then pass "应用启动成功（端口 ${PORT}）"
   else fail "启动超时"; tail -20 "$LOG"; exit 1; fi
   grep -q 'profile is active: "dev"' "$LOG" && pass "默认 profile = dev" || fail "profile 不是 dev"
-  grep -q "jdbc:h2:mem:smart_sso" "$LOG" && pass "数据源 = H2 内存库（开箱即用）" || fail "未使用 H2"
+  grep -q "jdbc:h2:mem:smart-sso" "$LOG" && pass "数据源 = H2 内存库（开箱即用）" || fail "未使用 H2"
 else
   if [ "$(curl -s -o /dev/null -w '%{http_code}' "$BASE/")" != "000" ]; then pass "外部实例可达 $BASE"; else fail "外部实例不可达 $BASE"; exit 1; fi
 fi

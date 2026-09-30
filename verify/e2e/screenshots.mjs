@@ -1,13 +1,13 @@
 /**
  * 用真实浏览器截取 README 用的界面图（只浏览、不改数据）
  * 运行：BASE=http://127.0.0.1:18094 node screenshots.mjs
- * 输出：../../images/*.png
+ * 输出：../../docs/images/*.png
  */
 import { chromium } from 'playwright-core';
 import { mkdirSync } from 'node:fs';
 
 const BASE = process.env.BASE || 'http://127.0.0.1:18094';
-const OUT = new URL('../../images/', import.meta.url).pathname;
+const OUT = new URL('../../docs/images/', import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -46,4 +46,4 @@ for (const [hash, file, ms] of shots) {
 }
 
 await browser.close();
-console.log('截图完成 → images/');
+console.log('截图完成 → docs/images/');

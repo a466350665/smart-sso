@@ -191,23 +191,23 @@ Full reference: **[docs/configuration.md](docs/configuration.md)** (Chinese).
 
 | Sign-in page | Console home |
 | --- | --- |
-| ![Sign-in](./images/admin-login.png) | ![Home](./images/admin-home.png) |
+| ![Sign-in](./docs/images/admin-login.png) | ![Home](./docs/images/admin-home.png) |
 
 | Organization management | Organization editor (parent pre-selected) |
 | --- | --- |
-| ![Organizations](./images/admin-organization.png) | ![Organization editor](./images/admin-organization-edit.png) |
+| ![Organizations](./docs/images/admin-organization.png) | ![Organization editor](./docs/images/admin-organization-edit.png) |
 
 | User management (organization tree) | Role authorization (granted permissions pre-checked) |
 | --- | --- |
-| ![Users](./images/admin-user.png) | ![Role authorization](./images/admin-role-permission.png) |
+| ![Users](./docs/images/admin-user.png) | ![Role authorization](./docs/images/admin-role-permission.png) |
 
 | Permission management | Application management |
 | --- | --- |
-| ![Permissions](./images/admin-permission.png) | ![Applications](./images/admin-app.png) |
+| ![Permissions](./docs/images/admin-permission.png) | ![Applications](./docs/images/admin-app.png) |
 
 | Role management | Online users |
 | --- | --- |
-| ![Roles](./images/admin-role.png) | ![Online users](./images/admin-login-user.png) |
+| ![Roles](./docs/images/admin-role.png) | ![Online users](./docs/images/admin-login-user.png) |
 
 ## Build & Verification
 

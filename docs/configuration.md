@@ -86,8 +86,7 @@ mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src
 ```yaml
 spring:
   datasource:
-    url: jdbc:h2:mem:smart_sso;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:smart-sso;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: ''
   sql:
@@ -96,7 +95,7 @@ spring:
       schema-locations: classpath:init.sql
 ```
 
-- 内存库，**重启即初始化**；如需保留数据可改为文件库 `jdbc:h2:file:./data/smart_sso;MODE=MySQL` 并关闭自动初始化（`spring.sql.init.mode=never`），否则每次启动都会重建；
+- 内存库，**重启即初始化**；如需保留数据可改为文件库 `jdbc:h2:file:./data/smart-sso;MODE=MySQL` 并关闭自动初始化（`spring.sql.init.mode=never`），否则每次启动都会重建；
 
 ## 七、配置覆盖优先级
 

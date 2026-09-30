@@ -183,23 +183,23 @@ smart-sso
 
 | 登录页 | 管理台首页 |
 | --- | --- |
-| ![登录页](./images/admin-login.png) | ![管理台首页](./images/admin-home.png) |
+| ![登录页](./docs/images/admin-login.png) | ![管理台首页](./docs/images/admin-home.png) |
 
 | 机构管理 | 机构编辑（父机构默认回显） |
 | --- | --- |
-| ![机构管理](./images/admin-organization.png) | ![机构编辑](./images/admin-organization-edit.png) |
+| ![机构管理](./docs/images/admin-organization.png) | ![机构编辑](./docs/images/admin-organization-edit.png) |
 
 | 用户管理（含机构树） | 角色授权（权限树回显已授权） |
 | --- | --- |
-| ![用户管理](./images/admin-user.png) | ![角色授权](./images/admin-role-permission.png) |
+| ![用户管理](./docs/images/admin-user.png) | ![角色授权](./docs/images/admin-role-permission.png) |
 
 | 权限管理 | 应用管理 |
 | --- | --- |
-| ![权限管理](./images/admin-permission.png) | ![应用管理](./images/admin-app.png) |
+| ![权限管理](./docs/images/admin-permission.png) | ![应用管理](./docs/images/admin-app.png) |
 
 | 角色管理 | 在线用户 |
 | --- | --- |
-| ![角色管理](./images/admin-role.png) | ![在线用户](./images/admin-login-user.png) |
+| ![角色管理](./docs/images/admin-role.png) | ![在线用户](./docs/images/admin-login-user.png) |
 
 ## 开发与验证
 

@@ -37,7 +37,7 @@ cd verify/e2e && BASE=http://127.0.0.1:18090 node front.mjs
 
 | 改造点 | 验证方式 | 结果 |
 |---|---|---|
-| 默认 H2、jar 开箱即用 | `java -jar` 直启，日志确认 `profile=dev` + `jdbc:h2:mem:smart_sso` | ✅ |
+| 默认 H2、jar 开箱即用 | `java -jar` 直启，日志确认 `profile=dev` + `jdbc:h2:mem:smart-sso` | ✅ |
 | 表前缀 `sso_` | 运行期 SQL 日志：`FROM sso_app/sso_user/sso_role_permission…` | ✅ |
 | `office → organization` | 接口 `/admin/organization/*`、用户字段 `organizationId`、前端机构下拉/树 | ✅ |
 | 同源（不配 server-url） | `/auth/login_url` 返回 `/sso/login?...`、`logoutUrl` 为 `/sso/logout?...`；callback 全程无需配置域名 | ✅ |

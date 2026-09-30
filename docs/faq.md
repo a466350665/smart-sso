@@ -15,7 +15,7 @@ dev/内存库的正常行为。若要保留数据，把数据源改为文件库�
 ```yaml
 spring:
   datasource:
-    url: jdbc:h2:file:./data/smart_sso;MODE=MySQL
+    url: jdbc:h2:file:./data/smart-sso;MODE=MySQL
   sql:
     init:
       mode: never
