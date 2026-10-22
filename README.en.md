@@ -165,7 +165,7 @@ smart-sso
 | Technology | Version | Purpose |
 | --- | --- | --- |
 | spring-boot | 3.5.9 | Container + MVC |
-| smart-stage | 2.0.2 | Base layer (Result/Page, MyBatis-Plus wiring) |
+| smart-stage | 2.0.3 | Base layer (Result/Page, MyBatis-Plus wiring) |
 | mybatis-plus | 3.5.12 | ORM (managed by smart-stage) |
 | H2 | 2.3.232 | Embedded in-memory database for the zero-dependency mode |
 | mysql-connector-j | 9.5.0 | Production JDBC driver (managed by Spring Boot) |
