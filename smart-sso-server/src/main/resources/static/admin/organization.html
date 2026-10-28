@@ -25,16 +25,16 @@
 				url : "/admin/organization/list",
 				formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/organization/edit.html', handler : function(){
-						$.aceRedirect("/organization/edit");
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/organization/save', handler : function(){
+						$.aceRedirect("/admin/organization-edit.html");
 					}},
-					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/organization/enable.html', handler : function(){
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/organization/enable', handler : function(){
 						$table.ajaxEnable({url : "/admin/organization/enable"}, false);
 					}},
-					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/organization/enable.html', handler : function(){
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/organization/enable', handler : function(){
 						$table.ajaxEnable({url : "/admin/organization/enable"}, true);
 					}},
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/organization/delete.html', handler : function(){
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/organization/delete', handler : function(){
 						$table.ajaxDelete({url : "/admin/organization/delete"});
 					}}
 				],
@@ -51,10 +51,10 @@
 			        }}
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/organization/edit.html', handler : function(d, i){
-						$.aceRedirect("/organization/edit?id=" + d.id);
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/organization/save', handler : function(d, i){
+						$.aceRedirect("/admin/organization-edit.html?id=" + d.id);
 					}},
-					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/organization/enable.html', 
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/organization/enable',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/organization/enable"}, false);
 						},
@@ -62,7 +62,7 @@
 						    return d.isEnable;
 						}
 					},
-					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/organization/enable.html', 
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/organization/enable',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/organization/enable"}, true);
 						},
@@ -70,7 +70,7 @@
 						    return !d.isEnable;
 						}
 					},
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/organization/delete.html', handler : function(d, i){
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/organization/delete', handler : function(d, i){
 						$table.ajaxDelete({url : "/admin/organization/delete"});
 					}}
 				],

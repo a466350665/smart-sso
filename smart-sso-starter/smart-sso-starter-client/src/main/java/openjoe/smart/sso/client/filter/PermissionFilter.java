@@ -6,6 +6,7 @@ import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import org.springframework.core.annotation.Order;
 
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -30,7 +31,7 @@ public class PermissionFilter extends AbstractClientFilter {
 			return true;
 		}
 		else {
-			responseJson(ClientConstant.NO_PERMISSION, "没有访问权限");
+			responseJson(HttpServletResponse.SC_FORBIDDEN, ClientConstant.NO_PERMISSION, "没有访问权限");
 			return false;
 		}
 	}
@@ -42,7 +43,7 @@ public class PermissionFilter extends AbstractClientFilter {
 		if(tokenPermission.getNoPermissionSet().contains(path)){
 			return false;
 		}
-		// 如果当前请求地址没有在权限管理页添加权限数据，也就是不需要做权限控制，请求直接放行
+		// 未配置到权限管理的路径无需鉴权，默认允许访问。
 		return true;
 	}
 

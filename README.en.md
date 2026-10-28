@@ -135,8 +135,8 @@ sequenceDiagram
 - **Same-origin by default**: when `smart.sso.server-url` is left empty and the application *is* the SSO server, everything
   is same-origin — browser redirects use relative paths and server-to-server calls use a derived loopback address. A
   standalone client that forgets to configure it **fails fast at startup** instead of silently redirecting to itself.
-- **Permission model**: after a permission code is registered under *Permission Management*, requests whose path matches
-  `sso_permission.code` exactly are protected; unregistered paths are allowed through.
+- **Permission model**: registered request paths are matched exactly against `sso_permission.code`; unauthorized paths
+  return HTTP 403, while unregistered paths are allowed by default.
 
 Full protocol sequence, credential model and distributed setup: **[docs/architecture.md](docs/architecture.md)** (Chinese).
 

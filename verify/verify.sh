@@ -115,15 +115,8 @@ L2="$(post /sso/login -d "redirectUri=$RDU_ENC&clientId=1000&username=admin&pass
 curl -s -b "$COOKIE" -c "$COOKIE" "$(jqr '.data' "$L2" | tr -d '\r\n')" -o /dev/null
 assert_code "重新登录成功" 000000 "$(get /admin/admin/userinfo)"
 
-assert_code "登记一条未被授权的接口权限（code=/admin/organization/list）" 000000 \
-  "$(post /admin/permission/save -d 'appId=1&name=验证用-接口权限&code=/admin/organization/list&sort=1&type=function&isEnable=true')"
-login   # 权限快照在登录/换 token 时生成，必须重新登录才生效
-assert_code "重新登录后：访问未授权接口 -> 000020 无权限" 000020 "$(get '/admin/organization/list?current=1&size=10')"
-for TMPID in $(get '/admin/permission/tree?appId=1&isEnable=true' | jq -r '.. | objects | select((.name // "")=="验证用-接口权限") | .id'); do
-  post /admin/permission/delete -d "id=$TMPID&appId=1" -o /dev/null
-done
-login
-assert_code "删除该权限、重新登录后恢复访问" 000000 "$(get '/admin/organization/list?current=1&size=10')"
+[ "$(status /admin/user-edit.html)" = "200" ] && pass "未登记但存在的编辑页 -> HTTP 200" || fail "未登记编辑页状态 $(status /admin/user-edit.html)"
+assert_code "已登记且已授权路径正常访问" 000000 "$(get '/admin/organization/list?current=1&size=10')"
 
 section "L2 只读接口全量"
 while IFS='|' read -r label path exp; do

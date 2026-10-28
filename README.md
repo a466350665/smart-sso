@@ -128,7 +128,7 @@ sequenceDiagram
 - **协议**：OAuth2 授权码模式。服务端维护全局会话 `TGT`（Cookie，默认名 `TGC`），客户端凭 `accessToken` 本地校验，`refreshToken` 用于续签。
 - **两级校验**：授权码阶段校验用户身份，换取 accessToken 阶段校验客户端身份（ClientId/ClientSecret），可避免越权获取其他应用的资源权限。
 - **同源即免配**：`smart.sso.server-url` 留空时，本应用若同时是服务端则自动按“同源”工作——页面跳转走相对路径，服务端之间的调用走本机推导地址；独立客户端漏配则**启动失败**，不会静默跳错。
-- **权限模型**：权限分**菜单**（`type=menu`）与**功能**（`type=function`）两类；在「权限管理」登记权限编码（`code`）后，请求路径与 `sso_permission.code` 精确匹配即受控，未登记的路径放行。
+- **权限模型**：权限分**菜单**（`type=menu`）与**功能**（`type=function`）两类；已登记路径按 `sso_permission.code` 精确匹配，未授权返回 HTTP 403，未登记路径默认允许。
 
 协议时序、凭证模型与分布式（Redis）的完整说明见 **[docs/architecture.md](docs/architecture.md)**。
 

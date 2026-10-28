@@ -65,14 +65,14 @@ await shot('02-home');
 // ── L5-2 菜单 ──────────────────────────────────────────────────
 console.log('\n【L5-2】管理台菜单');
 const menus = await page.$$eval('a[data-url]', els => els.map(e => e.textContent.trim() + '|' + e.getAttribute('data-url')));
-const expectMenus = ['个人中心|/profile.html', '机构管理|/organization.html', '用户管理|/user.html',
-  '角色管理|/role.html', '应用管理|/app.html', '权限管理|/permission.html', '会话管理|/login-user.html'];
+const expectMenus = ['个人中心|/admin/profile.html', '机构管理|/admin/organization.html', '用户管理|/admin/user.html',
+  '角色管理|/admin/role.html', '应用管理|/admin/app.html', '权限管理|/admin/permission.html', '会话管理|/admin/login-user.html'];
 check('菜单项数量为 7', menus.length === 7, '实际 ' + menus.length);
 check('菜单项与权限数据一致', expectMenus.every(m => menus.includes(m)), JSON.stringify(menus));
 
 // ── L5-3 机构列表 ──────────────────────────────────────────────
 console.log('\n【L5-3】机构管理列表');
-await goto('/organization.html');
+await goto('/admin/organization.html');
 const orgRows = await page.$$eval('#_table tbody tr', r => r.length);
 check('机构列表 3 行（种子数据）', orgRows === 3, '实际 ' + orgRows);
 const orgNames = await page.$$eval('#_table tbody tr', rs => rs.map(r => r.innerText.replace(/\s+/g, ' ')));
@@ -82,7 +82,7 @@ await shot('03-organization-list');
 
 // ── L5-4 机构编辑：父机构默认选中（回归） ──────────────────────
 console.log('\n【L5-4】机构编辑（回归：父机构默认选中）');
-await goto('/organization/edit?id=2');
+await goto('/admin/organization-edit.html?id=2');
 await page.waitForFunction(() => document.querySelector('#_name')?.value === 'XX部门', null, { timeout: 8000 }).catch(() => {});
 check('编辑页带出名称', (await page.inputValue('#_name')) === 'XX部门', await page.inputValue('#_name'));
 check('编辑页带出排序', (await page.inputValue('#_sort')) === '30', await page.inputValue('#_sort'));
@@ -92,7 +92,7 @@ await shot('04-organization-edit');
 
 // ── L5-5 启用/禁用不再弹成功提示（回归 + 检测器对照） ──────────
 console.log('\n【L5-5】启用/禁用提示收敛');
-await goto('/organization.html');
+await goto('/admin/organization.html');
 await clearToasts();
 await page.click('#_tr1');                       // 工具栏「禁用」，未选行 → 应提示
 await page.waitForTimeout(900);
@@ -125,7 +125,7 @@ check('取消后数据未变（仍 3 行）', (await page.$$eval('#_table tbody 
 
 // ── L5-7 用户编辑：机构下拉带出（回归） ────────────────────────
 console.log('\n【L5-7】用户编辑（回归：机构下拉带出）');
-await goto('/user/edit?id=2');
+await goto('/admin/user-edit.html?id=2');
 await page.waitForFunction(() => (document.querySelector('#_organizationId')?.options.length ?? 0) > 1, null, { timeout: 8000 }).catch(() => {});
 const orgSel = await page.$eval('#_organizationId', el => ({ value: el.value, text: el.selectedOptions[0]?.textContent ?? '', n: el.options.length }));
 check('机构下拉已加载（1 个占位 + 3 个机构）', orgSel.n === 4, 'options=' + orgSel.n);
@@ -135,7 +135,7 @@ await shot('07-user-edit');
 
 // ── L5-8 角色授权：权限树默认勾选（回归） ──────────────────────
 console.log('\n【L5-8】角色授权（回归：已授权权限默认勾选）');
-await goto('/role-permission?roleId=1');
+await goto('/admin/role-permission.html?roleId=1');
 await page.waitForFunction(() => (document.querySelectorAll('.ztree li').length ?? 0) > 1, null, { timeout: 10000 }).catch(() => {});
 const roleName = await page.inputValue('#_name');
 const nodes = await page.$$eval('.ztree li', l => l.length);
@@ -151,7 +151,7 @@ await shot('08-role-permission');
 
 // ── L5-9 权限管理树 + 应用下拉 ─────────────────────────────────
 console.log('\n【L5-9】权限管理');
-await goto('/permission.html');
+await goto('/admin/permission.html');
 await page.waitForTimeout(1200);
 const permNodes = await page.$$eval('.ztree li', l => l.length);
 const apps = await page.$$eval('#_searchAppId option', o => o.map(x => x.textContent.trim()));
@@ -203,7 +203,7 @@ await shot('09-permission');
 
 // ── L5-9b 会话管理页（菜单/按钮/确认框改名回归）─────────────────
 console.log('\n【L5-9b】会话管理');
-await goto('/login-user.html');
+await goto('/admin/login-user.html');
 const sess = await page.evaluate(() => ({
   title: document.title,
   text: document.body.innerText,

@@ -35,14 +35,14 @@ await page.waitForTimeout(1800);
 await shoot('admin-home.png');
 
 const shots = [
-  ['/organization.html', 'admin-organization.png', 1800],
-  ['/organization/edit?id=2', 'admin-organization-edit.png', 2200],
-  ['/user.html', 'admin-user.png', 2200],
-  ['/role.html', 'admin-role.png', 1600],
-  ['/role-permission?roleId=1', 'admin-role-permission.png', 3000],
-  ['/permission.html', 'admin-permission.png', 2600],
-  ['/app.html', 'admin-app.png', 1600],
-  ['/login-user.html', 'admin-login-user.png', 1600],
+  ['/admin/organization.html', 'admin-organization.png', 1800],
+  ['/admin/organization-edit.html?id=2', 'admin-organization-edit.png', 2200],
+  ['/admin/user.html', 'admin-user.png', 2200],
+  ['/admin/role.html', 'admin-role.png', 1600],
+  ['/admin/role-permission.html?roleId=1', 'admin-role-permission.png', 3000],
+  ['/admin/permission.html', 'admin-permission.png', 2600],
+  ['/admin/app.html', 'admin-app.png', 1600],
+  ['/admin/login-user.html', 'admin-login-user.png', 1600],
 ];
 for (const [hash, file, ms] of shots) {
   await page.goto(BASE + '/#' + hash, { waitUntil: 'domcontentloaded' });

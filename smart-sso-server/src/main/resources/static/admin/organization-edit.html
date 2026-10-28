@@ -71,7 +71,7 @@
 			
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
-					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/organization/save.html">
+					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/admin/organization/save">
 						<i class="ace-icon fa fa-check bigger-110"></i>
 						提交
 					</button>
@@ -153,7 +153,7 @@
 						if(d){
 							btn.button('reset');
 							if(d.code == '000000'){
-								$.aceRedirect("/organization");
+								$.aceRedirect("/admin/organization.html");
 							}
 							else {
 								$.gritter.add({text: d.message});
@@ -165,7 +165,7 @@
 			
 			// 取消
 			$("#_cancle").click(function(){
-				$.aceRedirect("/organization");
+				$.aceRedirect("/admin/organization.html");
 			});
 			
 			// 回车绑定
@@ -181,6 +181,5 @@
 		});
 	});
 </script>
-
 
 

@@ -23,9 +23,13 @@ public abstract class AbstractClientFilter {
     public abstract boolean isAccessAllowed() throws IOException;
 
     protected void responseJson(String code, String message) throws IOException {
+        responseJson(HttpServletResponse.SC_OK, code, message);
+    }
+
+    protected void responseJson(int status, String code, String message) throws IOException {
         HttpServletResponse response = ClientContextHolder.getResponse();
         response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(status);
         try (PrintWriter writer = response.getWriter()) {
             writer.write(JsonUtils.toString(new Result<>(code, message)));
         }

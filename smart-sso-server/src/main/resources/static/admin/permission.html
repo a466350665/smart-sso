@@ -193,6 +193,8 @@
 		
 	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         jQuery(function($) {
+            var treeObj;
+
             function renderAppOptions(list, selectedId) {
                 var html = '';
                 list.forEach(function (item) {
@@ -200,6 +202,46 @@
                     html += '<option value="' + item.id + '"' + selected + '>' + item.name + '</option>';
                 });
                 return html;
+            }
+
+            function initTree() {
+                var appId = $('#_searchAppId').val();
+                if (!appId) {
+                    if (treeObj) {
+                        $.fn.zTree.destroy('_tree');
+                        treeObj = null;
+                    }
+                    $('#_tree').empty();
+                    return;
+                }
+
+                var setting = {
+                    view: {
+                        addDiyDom: addDiyDom,
+                        selectedMulti: false
+                    },
+                    async: {
+                        enable: true,
+                        contentType: "application/x-www-form-urlencoded",
+                        type: "get",
+                        otherParam: { appId: appId },
+                        dataType: "text",
+                        url: "/admin/permission/tree"
+                    },
+                    check: {
+                        enable: false
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    },
+                    callback: {
+                        onAsyncSuccess: zTreeOnAsyncSuccess
+                    }
+                };
+
+                treeObj = $.fn.zTree.init($("#_tree"), setting);
             }
 
             function initApps() {
@@ -210,38 +252,15 @@
                     var options = renderAppOptions(d.data || []);
                     $('#_searchAppId').html(options);
                     $('#_appId').html(options);
+                    if ($('#_searchAppId option').length > 0) {
+                        $('#_searchAppId').val($('#_searchAppId option:first').val());
+                    }
+                    initTree();
                 });
             }
 
             initApps();
-    		var setting = {
-	            view: {
-	            	addDiyDom: addDiyDom,
-	                selectedMulti: false
-	            },
-	            async: {
-					enable: true,
-					contentType: "application/x-www-form-urlencoded",
-					type: "get",
-					otherParam: $.formJson("_form"),
-					dataType: "text",
-					url: "/admin/permission/tree"},
-	            check: {
-	                enable: false
-	            },
-	            data: {
-	                simpleData: {
-	                    enable: true
-	                }
-	            },
-	            callback: {
-	            	onAsyncSuccess: zTreeOnAsyncSuccess
-	            }
-	        };
-	        
-	        //树菜单初始化
-	        var treeObj = $.fn.zTree.init($("#_tree"), setting);
-	        
+
 	        //弹出层初始化
 	        $('.modal.aside').ace_aside();
 		
@@ -305,8 +324,8 @@
 	       		}
 				var editStr = "&nbsp;<a id='add_" + treeNode.id + "' class='blue' href='javascript:void(0)' title='添加'>		<i class='ace-icon fa fa-plus bigger-110'></i>	</a>";
 	       		if(treeNode.id) {
-					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/permission/save.html' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
-					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='/permission/delete.html' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/admin/permission/save' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='/admin/permission/delete' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
 				}
 				aObj.after(editStr);
 				var addBtn = $("#add_" + treeNode.id);
@@ -398,10 +417,9 @@
 				reloadTree();
            	});
            	
-           	function reloadTree(){
-           		setting.async.otherParam = $.formJson("_form");
-           		treeObj = $.fn.zTree.init($("#_tree"), setting);
-           	}
+            function reloadTree(){
+                initTree();
+            }
 		});
 	});
 </script>

@@ -49,13 +49,13 @@ java -jar smart-sso-server-2.0.1.jar --server.port=18080 --server.servlet.contex
 
 三个常见原因：
 
-1. **路径不相等**：权限判断是 `request.getServletPath()` 与 `sso_permission.code`（权限编码）的**精确匹配**。登记 `/organization.html` 不会拦住 `/admin/organization.html` 或 `/admin/organization/list`；
-2. **未登记则放行**：没有登记进权限表的路径默认放行，这是设计行为；
+1. **路径不相等**：权限判断是 `request.getServletPath()` 与 `sso_permission.code`（权限编码）的**精确匹配**。登记 `/organization.html` 不能授权 `/admin/organization.html` 或 `/admin/organization/list`；
+2. **未登记则放行**：只有登记进权限表的路径才参与权限判断，漏登记会默认允许；
 3. **快照未刷新**：权限集合在登录/换取令牌时生成并缓存，改完权限需**重新登录**（或等令牌刷新）才生效。
 
 ### 怎么让后端接口也受权限控制？
 
-把接口路径登记为权限编码（例如 `code=/admin/organization/list`），并在「角色授权」中按需勾选/取消，然后重新登录。这样做后，未被授权的用户访问该接口会得到 `{"code":"000020"}`。
+把接口路径登记为权限编码（例如 `code=/admin/organization/list`），并在「角色授权」中按需勾选/取消，然后重新登录。已登记但未被授权的用户访问该接口会得到 HTTP 403 和 `{"code":"000020"}`；未登记接口默认允许访问。
 
 ### 前端拿到的 `000010` / `000015` / `000020` 是什么？
 
@@ -79,7 +79,7 @@ java -jar smart-sso-server-2.0.1.jar --server.port=18080 --server.servlet.contex
 
 ### 直接访问 `/admin/organization` 为什么 404？
 
-管理台是静态 SPA，页面片段带 `.html` 后缀，且通过 hash 路由加载：应访问 `http://localhost:8080/#/organization.html`（或从菜单点击）。
+管理台是静态 SPA，页面片段带 `.html` 后缀，且通过 hash 路由加载：应访问 `http://localhost:8080/#/admin/organization.html`（或从菜单点击）。
 
 ### 登录后菜单少了几项？
 
