@@ -45,8 +45,6 @@ DELETE FROM `sso_permission` WHERE `id` IN (6,10,16,62) AND `app_id`=1;
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
 SELECT 1,NULL,'管理台入口','/',100,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/');
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
-SELECT 1,NULL,'管理台首页','/index.html',99,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/index.html');
-INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
 SELECT 1,41,'当前用户信息','/admin/admin/userinfo',98,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/admin/admin/userinfo');
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
 SELECT 1,2,'查看应用密钥','/admin/app/credentials',2,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/admin/app/credentials');
@@ -79,6 +77,32 @@ INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`
 SELECT 1,3,'分配用户角色','/admin/user-role/save',1,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/admin/user-role/save');
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
 SELECT 1,NULL,'管理台内容页','/admin/admin.html',99,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=1 AND `code`='/admin/admin.html');
+
+-- /admin/admin.html replaces the removed server /index.html. Preserve any
+-- existing custom-role grants before deleting the obsolete permission.
+INSERT INTO `sso_role_permission` (`role_id`,`permission_id`,`app_id`)
+SELECT DISTINCT rp.`role_id`,new_permission.`id`,1
+FROM `sso_role_permission` rp
+JOIN `sso_permission` old_permission
+  ON old_permission.`id`=rp.`permission_id`
+ AND old_permission.`app_id`=1
+JOIN `sso_permission` new_permission
+  ON new_permission.`app_id`=1
+ AND new_permission.`code`='/admin/admin.html'
+WHERE old_permission.`code`='/index.html'
+  AND NOT EXISTS (
+    SELECT 1 FROM `sso_role_permission` existing
+    WHERE existing.`role_id`=rp.`role_id`
+      AND existing.`permission_id`=new_permission.`id`
+      AND existing.`app_id`=1
+  );
+DELETE FROM `sso_role_permission`
+WHERE `app_id`=1
+  AND `permission_id` IN (
+    SELECT `id` FROM `sso_permission` WHERE `app_id`=1 AND `code`='/index.html'
+  );
+DELETE FROM `sso_permission` WHERE `app_id`=1 AND `code`='/index.html';
+
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)
 SELECT 82,NULL,'示例入口','/',3,'','function',1,NOW(),NOW() WHERE NOT EXISTS (SELECT 1 FROM `sso_permission` WHERE `app_id`=82 AND `code`='/');
 INSERT INTO `sso_permission` (`app_id`,`parent_id`,`name`,`code`,`sort`,`icon`,`type`,`is_enable`,`create_time`,`update_time`)

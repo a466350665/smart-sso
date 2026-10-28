@@ -31,7 +31,7 @@ page.on('response', r => {
 });
 
 const goto = async hash => {
-  await page.goto(BASE + '/' + (hash ? '#' + hash : ''), { waitUntil: 'domcontentloaded' });
+  await page.goto(BASE + '/admin/admin.html' + (hash ? '#' + hash : ''), { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1400);
 };
 const clearToasts = () => page.evaluate(() => document.querySelector('#gritter-notice-wrapper')?.remove());

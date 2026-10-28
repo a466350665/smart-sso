@@ -123,7 +123,6 @@ INSERT INTO `sso_permission` VALUES (66, 1, NULL, '会话管理', '/admin/login-
 INSERT INTO `sso_permission` VALUES (67, 1, 66, '会话列表', '/admin/login-user/list', 5, '', 'function', 1, '2025-03-31 15:52:25', '2025-03-31 15:52:25');
 INSERT INTO `sso_permission` VALUES (68, 1, 66, '强制下线', '/admin/login-user/logout', 2, '', 'function', 1, '2025-03-31 15:52:55', '2025-03-31 15:53:33');
 INSERT INTO `sso_permission` VALUES (69, 1, NULL, '管理台入口', '/', 100, '', 'function', 1, '2026-10-28 00:00:00', '2026-10-28 00:00:00');
-INSERT INTO `sso_permission` VALUES (70, 1, NULL, '管理台首页', '/index.html', 99, '', 'function', 1, '2026-10-28 00:00:00', '2026-10-28 00:00:00');
 INSERT INTO `sso_permission` VALUES (71, 1, 41, '当前用户信息', '/admin/admin/userinfo', 98, '', 'function', 1, '2026-10-28 00:00:00', '2026-10-28 00:00:00');
 INSERT INTO `sso_permission` VALUES (72, 1, 2, '查看应用密钥', '/admin/app/credentials', 2, '', 'function', 1, '2026-10-28 00:00:00', '2026-10-28 00:00:00');
 INSERT INTO `sso_permission` VALUES (73, 1, 2, '全部启用应用', '/admin/app/all', 4, '', 'function', 1, '2026-10-28 00:00:00', '2026-10-28 00:00:00');
@@ -218,7 +217,6 @@ INSERT INTO `sso_role_permission` VALUES (451, 1, 66, 1);
 INSERT INTO `sso_role_permission` VALUES (452, 1, 67, 1);
 INSERT INTO `sso_role_permission` VALUES (453, 1, 68, 1);
 INSERT INTO `sso_role_permission` VALUES (454, 1, 69, 1);
-INSERT INTO `sso_role_permission` VALUES (455, 1, 70, 1);
 INSERT INTO `sso_role_permission` VALUES (456, 1, 71, 1);
 INSERT INTO `sso_role_permission` VALUES (457, 1, 72, 1);
 INSERT INTO `sso_role_permission` VALUES (458, 1, 73, 1);

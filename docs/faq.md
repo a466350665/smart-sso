@@ -79,7 +79,7 @@ java -jar smart-sso-server-2.0.1.jar --server.port=18080 --server.servlet.contex
 
 ### 直接访问 `/admin/organization` 为什么 404？
 
-管理台是静态 SPA，页面片段带 `.html` 后缀，且通过 hash 路由加载：应访问 `http://localhost:8080/#/admin/organization.html`（或从菜单点击）。
+管理台是静态 SPA，页面片段带 `.html` 后缀，且通过 hash 路由加载：应访问 `http://localhost:8080/admin/admin.html#/admin/organization.html`（或从菜单点击）。访问 `/` 也会由服务端转发到管理台入口。
 
 ### 登录后菜单少了几项？
 

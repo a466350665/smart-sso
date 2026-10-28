@@ -466,7 +466,7 @@
 		if (hash.indexOf("#") > -1) {
 			hash = hash.split("#")[1];
 		}
-		window.location.href = "/#" + hash;
+		window.location.href = "/admin/admin.html#" + hash;
 	};
 })(jQuery);
 //TODO

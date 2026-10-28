@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -39,6 +40,9 @@ class PermissionRouteCoverageTest {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Test
     void everyAdminControllerRouteIsRegisteredAsPermission() {
         Set<String> permissionCodes = permissionCodes(SERVER_APP_ID);
@@ -56,7 +60,7 @@ class PermissionRouteCoverageTest {
     @Test
     void everyProtectedPageIsRegisteredAsPermission() {
         assertThat(permissionCodes(SERVER_APP_ID)).contains(
-                "/", "/index.html", "/admin/admin.html",
+                "/", "/admin/admin.html",
                 "/admin/app.html",
                 "/admin/login-user.html",
                 "/admin/organization.html",
@@ -64,6 +68,7 @@ class PermissionRouteCoverageTest {
                 "/admin/role.html", "/admin/role-permission.html",
                 "/admin/user.html", "/admin/user-role.html");
         assertThat(permissionCodes(SERVER_APP_ID)).doesNotContain(
+                "/index.html",
                 "/admin/app-edit.html", "/admin/user-edit.html",
                 "/admin/role-edit.html", "/admin/organization-edit.html");
         assertThat(permissionCodes(DEMO_APP_ID)).contains("/", "/index.html", "/userinfo");
@@ -91,14 +96,29 @@ class PermissionRouteCoverageTest {
 
     @Test
     void productionUpgradeScriptIsIdempotent() {
+        jdbcTemplate.update("INSERT INTO sso_permission "
+                        + "(id, app_id, parent_id, name, code, sort, icon, type, is_enable, create_time, update_time) "
+                        + "VALUES (?, ?, NULL, ?, ?, ?, '', 'function', TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
+                999L, SERVER_APP_ID, "Legacy admin page", "/index.html", 99);
+        jdbcTemplate.update("INSERT INTO sso_role_permission (role_id, permission_id, app_id) VALUES (?, ?, ?)",
+                999L, 999L, SERVER_APP_ID);
+
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator(
                 new ClassPathResource("upgrade-permission-fail-closed.sql"));
 
         populator.execute(dataSource);
         populator.execute(dataSource);
 
-        assertThat(permissionCodes(SERVER_APP_ID)).hasSize(49);
+        assertThat(permissionCodes(SERVER_APP_ID)).hasSize(48);
         assertThat(permissionCodes(DEMO_APP_ID)).hasSize(10);
+        assertThat(jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM sso_permission WHERE app_id=1 AND code='/index.html'", Integer.class))
+                .isZero();
+        assertThat(jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM sso_role_permission rp "
+                        + "JOIN sso_permission p ON p.id=rp.permission_id "
+                        + "WHERE rp.role_id=999 AND rp.app_id=1 AND p.code='/admin/admin.html'", Integer.class))
+                .isEqualTo(1);
         assertHasEveryPermission(ADMIN_USER_ID, SERVER_APP_ID);
         assertHasEveryPermission(ADMIN_USER_ID, DEMO_APP_ID);
     }

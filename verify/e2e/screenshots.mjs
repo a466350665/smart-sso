@@ -45,7 +45,7 @@ const shots = [
   ['/admin/login-user.html', 'admin-login-user.png', 1600],
 ];
 for (const [hash, file, ms] of shots) {
-  await page.goto(BASE + '/#' + hash, { waitUntil: 'domcontentloaded' });
+  await page.goto(BASE + '/admin/admin.html#' + hash, { waitUntil: 'domcontentloaded' });
   await wait(ms);
   await shoot(file);
 }

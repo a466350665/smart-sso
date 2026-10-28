@@ -54,7 +54,7 @@ smart-sso
 └── verify/                    功能验证套件
 ```
 
-管理台是静态 SPA：页面片段位于 `static/admin/*.html`，由 `static/index.html` 通过 hash 路由（`#/admin/organization.html` → `/admin/organization.html`）加载。
+管理台是静态 SPA：入口为 `static/admin/admin.html`，页面片段位于 `static/admin/*.html`，通过 hash 路由（`#/admin/organization.html` → `/admin/organization.html`）加载。访问 `/` 时，服务端会转发到该入口页。
 
 ## 四、验证套件
 

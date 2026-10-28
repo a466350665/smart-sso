@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta charset="utf-8" />
-    <title>Smart-SSO认证授权中心</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <link type="images/x-icon" rel="shortcut icon" href="/static/custom/assets/favicon.ico">
 
-    <!--[if !IE]> -->
-    <link rel="stylesheet" href="/static/assets/css/pace.css" />
-    <script data-pace-options='{ "ajax": true, "document": true, "eventLag": false, "elements": false }' src="/static/assets/js/pace.js"></script>
-    <!-- <![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <title>Smart-SSO-Server</title>
 
     <!-- bootstrap & fontawesome -->
     <link rel="stylesheet" href="/static/assets/css/bootstrap.css" />
@@ -20,111 +13,39 @@
     <link rel="stylesheet" href="/static/assets/css/ace-fonts.css" />
 
     <!-- ace styles -->
-    <link rel="stylesheet" href="/static/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="/static/assets/css/ace.css" class="ace-main-stylesheet" />
 
-    <!-- 自定义样式，表单多选框 -->
+    <!-- custom styles -->
     <link rel="stylesheet" href="/static/custom/assets/ace.custom.css" />
-
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/static/assets/css/ace-part2.css" class="ace-main-stylesheet" />
-    <![endif]-->
-
-    <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/static/assets/css/ace-ie.css" />
-    <![endif]-->
-
-    <!-- ace settings handler -->
-    <script src="/static/assets/js/ace-extra.js"></script>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
-    <!--[if lte IE 8]>
-    <script src="/static/assets/js/html5shiv.js"></script>
-    <script src="/static/assets/js/respond.js"></script>
-    <![endif]-->
 </head>
 
 <body class="no-skin">
-<!-- #section:basics/navbar.layout -->
 <div id="navbar" class="navbar navbar-default">
-    <script type="text/javascript">
-				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-			</script>
-
     <div class="navbar-container" id="navbar-container">
-        <!-- #section:basics/sidebar.mobile.toggle -->
-        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-            <span class="sr-only">Toggle sidebar</span>
-
-            <span class="icon-bar"></span>
-
-            <span class="icon-bar"></span>
-
-            <span class="icon-bar"></span>
-        </button>
-
-        <!-- /section:basics/sidebar.mobile.toggle -->
         <div class="navbar-header pull-left">
-            <!-- #section:basics/navbar.layout.brand -->
             <a href="#" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
                     Smart-SSO认证授权中心
                 </small>
             </a>
-
-            <!-- /section:basics/navbar.layout.brand -->
-
-            <!-- #section:basics/navbar.toggle -->
-
-            <!-- /section:basics/navbar.toggle -->
         </div>
 
-        <!-- #section:basics/navbar.dropdown -->
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
-                <!--  -->
-                <li class="grey">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="ace-icon fa fa-tasks"></i>
-                    </a>
-                </li>
-
-                <li class="purple">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="ace-icon fa fa-bell icon-animated-bell"></i>
-                    </a>
-                </li>
-
-                <li class="green">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-                    </a>
-                </li>
-
-
-                <!-- #section:basics/navbar.user_menu -->
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="Jason's Photo" />
+                        <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="User" />
                         <span class="user-info">
-									<small>欢迎光临,</small>
-									
-								</span>
-
+                                    <small>欢迎光临,</small>
+                                    <span id="_username"></span>
+                                </span>
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-cog"></i>
-                                设置
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
+                            <a href="#/admin/profile.html">
                                 <i class="ace-icon fa fa-user"></i>
                                 个人资料
                             </a>
@@ -140,27 +61,13 @@
                         </li>
                     </ul>
                 </li>
-
-                <!-- /section:basics/navbar.user_menu -->
             </ul>
         </div>
-
-        <!-- /section:basics/navbar.dropdown -->
-    </div><!-- /.navbar-container -->
+    </div>
 </div>
 
-<!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
-    <script type="text/javascript">
-				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-			</script>
-
-    <!-- #section:basics/sidebar -->
-    <div id="sidebar" class="sidebar                  responsive">
-        <script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-				</script>
-
+    <div id="sidebar" class="sidebar responsive">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
                 <button class="btn btn-success">
@@ -171,7 +78,6 @@
                     <i class="ace-icon fa fa-pencil"></i>
                 </button>
 
-                <!-- #section:basics/sidebar.layout.shortcuts -->
                 <button class="btn btn-warning">
                     <i class="ace-icon fa fa-users"></i>
                 </button>
@@ -179,195 +85,57 @@
                 <button class="btn btn-danger">
                     <i class="ace-icon fa fa-cogs"></i>
                 </button>
-
-                <!-- /section:basics/sidebar.layout.shortcuts -->
             </div>
-
-            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-                <span class="btn btn-success"></span>
-
-                <span class="btn btn-info"></span>
-
-                <span class="btn btn-warning"></span>
-
-                <span class="btn btn-danger"></span>
-            </div>
-        </div><!-- /.sidebar-shortcuts -->
-
-        <ul class="nav nav-list">
-        </ul><!-- /.nav-list -->
-
-        <!-- #section:basics/sidebar.layout.minimize -->
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
         </div>
 
-        <!-- /section:basics/sidebar.layout.minimize -->
-        <script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-				</script>
+        <ul class="nav nav-list"></ul>
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
     </div>
 
-    <!-- /section:basics/sidebar -->
     <div class="main-content">
         <div class="main-content-inner">
-            <!-- #section:basics/content.breadcrumbs -->
             <div class="breadcrumbs" id="breadcrumbs">
-                <script type="text/javascript">
-							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-						</script>
-
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">首页</a>
                     </li>
-                </ul><!-- /.breadcrumb -->
-
-                <!-- #section:basics/content.searchbox -->
-                <div class="nav-search" id="nav-search">
-                    <form class="form-search">
-								<span class="input-icon">
-									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-									<i class="ace-icon fa fa-search nav-search-icon"></i>
-								</span>
-                    </form>
-                </div><!-- /.nav-search -->
-
-                <!-- /section:basics/content.searchbox -->
+                </ul>
             </div>
 
-            <!-- /section:basics/content.breadcrumbs -->
             <div class="page-content">
-                <!-- #section:settings.box -->
-                <div class="ace-settings-container" id="ace-settings-container">
-                    <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-                        <i class="ace-icon fa fa-cog bigger-130"></i>
-                    </div>
-
-                    <div class="ace-settings-box clearfix" id="ace-settings-box">
-                        <div class="pull-left width-50">
-                            <!-- #section:settings.skins -->
-                            <div class="ace-settings-item">
-                                <div class="pull-left">
-                                    <select id="skin-colorpicker" class="hide">
-                                        <option data-skin="no-skin" value="#438EB9">#438EB9</option>
-                                        <option data-skin="skin-1" value="#222A2D">#222A2D</option>
-                                        <option data-skin="skin-2" value="#C6487E">#C6487E</option>
-                                        <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-                                    </select>
-                                </div>
-                                <span>&nbsp; 选择主题</span>
-                            </div>
-
-                            <!-- /section:settings.skins -->
-
-                            <!-- #section:settings.navbar -->
-                            <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
-                                <label class="lbl" for="ace-settings-navbar"> 固定导航栏</label>
-                            </div>
-
-                            <!-- /section:settings.navbar -->
-
-                            <!-- #section:settings.sidebar -->
-                            <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
-                                <label class="lbl" for="ace-settings-sidebar"> 固定菜单栏</label>
-                            </div>
-
-                            <!-- /section:settings.sidebar -->
-                        </div><!-- /.pull-left -->
-
-                        <div class="pull-left width-50">
-                            <!-- #section:settings.breadcrumbs -->
-                            <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
-                                <label class="lbl" for="ace-settings-breadcrumbs"> 固定非内容</label>
-                            </div>
-
-                            <!-- /section:settings.breadcrumbs -->
-
-                            <!-- #section:settings.container -->
-                            <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
-                                <label class="lbl" for="ace-settings-add-container">
-                                    容器显示内容
-                                </label>
-                            </div>
-
-
-                            <div class="ace-settings-item">
-                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
-                                <label class="lbl" for="ace-settings-highlight"> 菜单样式</label>
-                            </div>
-
-                        </div><!-- /.pull-left -->
-                    </div><!-- /.ace-settings-box -->
-                </div><!-- /.ace-settings-container -->
-
-                <!-- /section:settings.box -->
                 <div class="page-content-area" data-ajax-content="true">
                     <!-- ajax content goes here -->
-                </div><!-- /.page-content-area -->
-            </div><!-- /.page-content -->
+                </div>
+            </div>
         </div>
-    </div><!-- /.main-content -->
+    </div>
 
     <div class="footer">
         <div class="footer-inner">
-            <!-- #section:basics/footer -->
             <div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Smart-SSO认证授权中心</span>
-							 &copy; 2024
-						</span>
-
-                &nbsp; &nbsp;
-                <span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
+                        <span class="bigger-120">
+                            <span class="blue bolder">Smart-SSO认证授权中心</span>
+                            &copy; 2024
+                        </span>
             </div>
-
-            <!-- /section:basics/footer -->
         </div>
     </div>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
-</div><!-- /.main-container -->
+</div>
 
-<!-- basic scripts -->
-
-<!--[if !IE]> -->
-<script type="text/javascript">
-			window.jQuery || document.write("<script src='/static/assets/js/jquery.js'>"+"<"+"/script>");
-		</script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script type="text/javascript">
-		 window.jQuery || document.write("<script src='/static/assets/js/jquery1x.js'>"+"<"+"/script>");
-		</script>
-<![endif]-->
-<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/static/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
-		</script>
+<script src="/static/assets/js/jquery.js"></script>
 <script src="/static/assets/js/bootstrap.js"></script>
 
 <!-- ace scripts -->
+<script src="/static/assets/js/ace-extra.js"></script>
 <script src="/static/assets/js/ace/elements.scroller.js"></script>
 <script src="/static/assets/js/ace/elements.colorpicker.js"></script>
 <script src="/static/assets/js/ace/elements.fileinput.js"></script>
@@ -377,12 +145,6 @@
 <script src="/static/assets/js/ace/elements.treeview.js"></script>
 <script src="/static/assets/js/ace/elements.wizard.js"></script>
 <script src="/static/assets/js/ace/elements.aside.js"></script>
-<!-- 修改默认首页 -->
-<script id="_ace" src="/static/custom/assets/ace.js?v" data-path=""></script>
-<!-- 切换菜单处理 -->
-<script id="_ajaxContent" src="/static/custom/assets/ace.ajax-content.js?v" data-path=""></script>
-<!-- 权限处理 -->
-<script id="_permission" src="/static/custom/jquery.permission.min.js?v" data=""></script>
 <script src="/static/assets/js/ace/ace.touch-drag.js"></script>
 <script src="/static/assets/js/ace/ace.sidebar.js"></script>
 <script src="/static/assets/js/ace/ace.sidebar-scroll-1.js"></script>
@@ -393,126 +155,314 @@
 <script src="/static/assets/js/ace/ace.settings-skin.js"></script>
 <script src="/static/assets/js/ace/ace.widget-on-reload.js"></script>
 <script src="/static/assets/js/ace/ace.searchbox-autocomplete.js"></script>
-<script type="text/javascript">
-			jQuery(function ($) {
-				$("#_btnExit").click(function(){
-					window.location.href="";
-				});
 
-				$.getJSON("/menu?v="+ Math.random(), function(d) {
-   					$('.nav-list').append(tree(d.data));
-				});
+<script>
+    window._baseScripts = [
+        "/static/custom/jquery.form.min.js",
+        "/static/custom/jquery.table.min.js?v=" + Math.random(),
+        "/static/assets/js/date-time/bootstrap-timepicker.js",
+        "/static/assets/js/date-time/moment.js",
+        "/static/assets/js/date-time/i18n/moment.zh-CN.js",
+        "/static/assets/js/date-time/daterangepicker.js",
+        "/static/assets/js/bootbox.js",
+        "/static/custom/assets/bootbox.custom.js",
+        "/static/assets/js/jquery.gritter.js",
+        "/static/custom/assets/jquery.gritter.custom.js",
+        "/static/assets/js/jquery-ui.custom.js",
+        "/static/assets/js/dropzone.js",
+        "/static/assets/js/jquery.uploadifive.min.js",
+        "/static/custom/ajaxfileupload.js",
+        "/static/custom/jquery.validate-2.0.min.js",
+        "/static/custom/jquery.validate-2.0.custom.min.js"
+    ];
+</script>
 
-				var defaultPage = null;
+<script id="_ace" src="/static/custom/assets/ace.js?v"></script>
+<script id="_ajaxContent" src="/static/custom/assets/ace.ajax-content.js?v" data-path=""></script>
+<script id="_permission" src="/static/custom/jquery.permission.min.js?v" data=""></script>
 
-				function tree(list) {
-					var html = "";
-					var data = null;
-					for ( var i = 0; i < list.length; i++) {
-						data = list[i];
-						if (data.parentId == null || data.parentId == "") {
+<script>
+    // 当前应用(smart-sso-server)后端服务地址
+    var BASE_URL = "";
+    // 客户端ID（保持与smart.sso.client-id配置一致，用于多个客户端应用在同域部署下的数据隔离）
+    var CLIENT_ID = "1000";
+    // token名称前缀（保持与smart.sso.token-name-prefix配置一致，如果没有自定义则默认"smart-sso-token-"）
+    var TOKEN_NAME_PREFIX = "smart-sso-token-";
 
-							html += '<li class="';
+    var logoutUrl = null;
+    var userNoPermissions = "";
 
-							if(defaultPage == null && data.url){
-								if(window.location.href.indexOf("#") < 0){
-									// 登录成功后首次加载，跳转到第一个页面
-									defaultPage = data.url;
-									window.location.href = "/admin#" + defaultPage;
+    $(function () {
+        if (validateLogin()) {
+            loadUserinfo();
+        }
+    });
 
-								}
-								else if(data.url == window.location.href.split("#")[1]){
-									// 如果跳转页，和当前菜单对应
-									defaultPage = data.url;
-									html += 'active';
-								}
-							}
+    // 校验是否需要跳转到SSO认证授权中心
+    function validateLogin() {
+        var accessToken = localStorage.getItem("accessToken" + CLIENT_ID);
+        if (accessToken) {
+            return true;
+        }
+        var code = getParam('code');
+        if (code && getAccessToken(code)) {
+            removeCodeParamAndRedirect();
+            return true;
+        }
+        goSSOLoginUrl();
+        return false;
+    }
 
-							html += '">';
+    // 获取用户信息
+    function loadUserinfo() {
+        smart.ajax('GET', BASE_URL + "/admin/admin/userinfo", {}, function (res) {
+            var userinfo = res.data;
+            logoutUrl = userinfo.logoutUrl;
+            userNoPermissions = userinfo.userNoPermissions || "";
 
-							var childrens = _getChildrens(list, data.id);
+            smart.userId = userinfo.userId || '';
 
-							if(data.url){
-								html += '	<a data-url="' + data.url + '" href="#' + data.url + '" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
-							}
-							else{
-								html += '	<a href="#" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
-							}
-							html += '		<i class="menu-icon fa ' + data.icon + '"></i>';
-							html += '		<span class="menu-text">' + data.name + ' </span>';
-							html += '		<b class="arrow' + (childrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
-							html += '	</a>';
+            $("#_username").text(userinfo.username || "");
+            $("#_permission").attr("data", userNoPermissions);
 
-							html += '	<b class="arrow"></b>';
+            bindLogout();
+            loadMenu();
+        });
+    }
 
-							if (childrens.length > 0) {
-								html += buildTree(list, childrens);
-							}
-							html += '</li>';
-						}
-					}
-					return html;
-				}
+    function bindLogout() {
+        $("#_btnExit").off("click").on("click", function () {
+            if (logoutUrl) {
+                window.location.href = logoutUrl;
+            }
+        });
+    }
 
-				function buildTree(list, childrens) {
-					var html = "";
-					if (childrens.length > 0) {
-						html += '	<ul class="submenu">';
-						for ( var i = 0; i < childrens.length; i++) {
-							data = childrens[i];
+    function loadMenu() {
+        $.getJSON(BASE_URL + "/admin/admin/menu?v=" + Math.random(), function (d) {
+            $('.nav-list').append(tree(d.data || []));
+            // 权限处理
+            $.permission();
+        });
+    }
 
-							if(defaultPage == null && data.url){
-								if(window.location.href.indexOf("#") < 0){
-									// 登录成功后首次加载，跳转到第一个页面
-									defaultPage = data.url;
-									window.location.href = "/admin#" + defaultPage;
-								}
-							}
+    function tree(list) {
+        var html = "";
+        var data = null;
+        var defaultPage = null;
 
-							html += '<li class="">';
+        for (var i = 0; i < list.length; i++) {
+            data = list[i];
+            if (data.parentId == null || data.parentId === "") {
+                html += '<li class="';
 
-							var tempChildrens = _getChildrens(list, data.id);
-							if(data.url){
-								html += '	<a data-url="' + data.url + '" href="#' + data.url + '" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
-							}
-							else{
-								html += '	<a href="#" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
-							}
-							html += '		<i class="menu-icon fa ' + data.icon + '"></i>';
-							html += '		<span class="menu-text">' + data.name + ' </span>';
-							html += '		<b class="arrow' + (tempChildrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
-							html += '	</a>';
+                if (defaultPage == null && data.url) {
+                    if (window.location.href.indexOf("#") < 0) {
+                        defaultPage = data.url;
+                        window.location.href = "#" + defaultPage;
+                    } else if (data.url == window.location.href.split("#")[1]) {
+                        defaultPage = data.url;
+                        html += 'active';
+                    }
+                }
 
-							html += '	<b class="arrow"></b>';
+                html += '">';
 
+                var childrens = _getChildrens(list, data.id);
 
-							if (tempChildrens.length > 0) {
-								html += buildTree(list, tempChildrens, data.id);
-							}
-							html += '</li>';
-						}
-						html += '	</ul>';
-					}
-					return html;
-				}
+                if (data.url) {
+                    html += '  <a data-url="' + data.url + '" href="#' + data.url + '" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                } else {
+                    html += '  <a href="#" class="' + (childrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                }
+                html += '      <i class="menu-icon fa ' + data.icon + '"></i>';
+                html += '      <span class="menu-text">' + data.name + ' </span>';
+                html += '      <b class="arrow' + (childrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
+                html += '  </a>';
 
-				function _getChildrens(list, id) {
-					var children = new Array();
-					var child = null;
-					for ( var i = 0; i < list.length; i++) {
-						child = new Object();
-						if (list[i].parentId == id) {
-							child.id = list[i].id;
-							child.parentId = list[i].parentId;
-							child.name = list[i].name;
-							child.url = list[i].url;
-							child.icon = list[i].icon;
-							children.push(child);
-						}
-					}
-					return children;
-				}
-			});
-		</script>
+                html += '  <b class="arrow"></b>';
+
+                if (childrens.length > 0) {
+                    html += buildTree(list, childrens, defaultPage);
+                }
+                html += '</li>';
+            }
+        }
+        return html;
+    }
+
+    function buildTree(list, childrens, defaultPage) {
+        var html = "";
+        if (childrens.length > 0) {
+            html += '  <ul class="submenu">';
+            for (var i = 0; i < childrens.length; i++) {
+                data = childrens[i];
+
+                if (defaultPage == null && data.url) {
+                    if (window.location.href.indexOf("#") < 0) {
+                        defaultPage = data.url;
+                        window.location.href = "#" + defaultPage;
+                    }
+                }
+
+                html += '<li class="">';
+
+                var tempChildrens = _getChildrens(list, data.id);
+                if (data.url) {
+                    html += '  <a data-url="' + data.url + '" href="#' + data.url + '" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                } else {
+                    html += '  <a href="#" class="' + (tempChildrens.length > 0 ? 'dropdown-toggle' : '') + '">';
+                }
+                html += '      <i class="menu-icon fa ' + data.icon + '"></i>';
+                html += '      <span class="menu-text">' + data.name + ' </span>';
+                html += '      <b class="arrow' + (tempChildrens.length > 0 ? ' fa fa-angle-down' : '') + '"></b>';
+                html += '  </a>';
+
+                html += '  <b class="arrow"></b>';
+
+                if (tempChildrens.length > 0) {
+                    html += buildTree(list, tempChildrens, defaultPage);
+                }
+                html += '</li>';
+            }
+            html += '  </ul>';
+        }
+        return html;
+    }
+
+    function _getChildrens(list, id) {
+        var children = [];
+        var child = null;
+        for (var i = 0; i < list.length; i++) {
+            child = {};
+            if (list[i].parentId == id) {
+                child.id = list[i].id;
+                child.parentId = list[i].parentId;
+                child.name = list[i].name;
+                child.url = list[i].url;
+                child.icon = list[i].icon;
+                children.push(child);
+            }
+        }
+        return children;
+    }
+
+    // 重定向至认证授权中心
+    function goSSOLoginUrl() {
+        $.getJSON(BASE_URL + '/auth/login_url?redirectUri=' + location.href, function (res) {
+            window.location.href = res.data;
+        })
+    }
+
+    // 获取accessToken
+    function getAccessToken(code) {
+        var bool = false;
+        $.ajax({
+            url: BASE_URL + "/auth/access-token?code=" + code,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (d) {
+                if (d.code == '000000') {
+                    localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                    localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
+                    bool = true;
+                }
+            }
+        });
+        return bool;
+    }
+
+    // 获取refreshToken
+    function getRefreshToken() {
+        var bool = false;
+        $.ajax({
+            url: BASE_URL + "/auth/refresh-token?refreshToken=" + localStorage.getItem("refreshToken" + CLIENT_ID),
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (d) {
+                if (d.code == '000000') {
+                    localStorage.setItem("accessToken" + CLIENT_ID, d.data.accessToken);
+                    localStorage.setItem("refreshToken" + CLIENT_ID, d.data.refreshToken);
+                    bool = true;
+                }
+            }
+        });
+        return bool;
+    }
+
+    // 从url中获取指定名称的参数值
+    function getParam(name) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == name) { return pair[1]; }
+        }
+        return null;
+    }
+
+    // 重定向方式去除地址栏中的code参数
+    function removeCodeParamAndRedirect() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('code');
+        window.location.href = url.toString();
+    }
+
+    var smart = {};
+    // 为业务请求封装Ajax方法，请求头自动附带token，请求返回处理token刷新和失效跳转等逻辑
+    smart.ajax = function (method, url, data, successFn) {
+        $.ajax({
+            type: method,
+            url: url,
+            data: data,
+            dataType: 'json',
+            headers: {
+                // 传递调用凭证
+                [TOKEN_NAME_PREFIX + CLIENT_ID]: localStorage.getItem("accessToken" + CLIENT_ID),
+                // 跨域请求需自行设置X-Requested-With参数，Ajax仅在非跨域请求默认携带
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (d) {
+                // 响应成功
+                if (d.code == '000000') {
+                    successFn(d);
+                }
+                // 后端登录失效，需要清理前端缓存，并跳转至认证授权中心
+                else if (d.code == '000010') {
+                    localStorage.clear();
+                    goSSOLoginUrl();
+                }
+                /**
+                 * accessToken已过期，refreshToken已过期，客户端需要调用refreshToken刷新accessToken
+                 * 1、如果refreshToken成功，之前因为accessToken过期请求失败的接口再发起一遍
+                 * 2、否则，跳转至认证授权中心
+                 */
+                else if (d.code == '000015') {
+                    if (getRefreshToken()) {
+                        smart.ajax(method, url, data, successFn);
+                    }
+                    else {
+                        goSSOLoginUrl();
+                    }
+                }
+                // 其它异常，弹出提示
+                else {
+                    alert(d.message);
+                }
+            },
+            error: function (xhr, type, errorThrown) {
+                alert(JSON.stringify(xhr));
+            }
+        });
+    }
+
+    smart.onLoginRequired = function () {
+        localStorage.clear();
+        goSSOLoginUrl();
+    }
+</script>
 </body>
+
 </html>
