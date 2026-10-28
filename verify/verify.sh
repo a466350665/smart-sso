@@ -25,7 +25,7 @@ done
 [ -n "$BASE" ] || BASE="http://127.0.0.1:$PORT"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-JAR="$ROOT/smart-sso-server/target/smart-sso-server-2.0.1.jar"
+JAR="$ROOT/smart-sso-server/target/smart-sso-server-2.0.2.jar"
 COOKIE="/tmp/sso-cookie.$$"; LOG="/tmp/sso-app.$$.log"; APP_PID=""
 PASS=0; FAIL=0; XFAIL=0
 

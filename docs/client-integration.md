@@ -6,14 +6,14 @@
 <dependency>
     <groupId>io.github.openjoe</groupId>
     <artifactId>smart-sso-starter-client</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 
 <!-- 多实例（分布式）场景：共享令牌与权限 -->
 <dependency>
     <groupId>io.github.openjoe</groupId>
     <artifactId>smart-sso-starter-client-redis</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 

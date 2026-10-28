@@ -21,7 +21,7 @@ verify/
 verify/verify.sh
 
 # 2) 常用：复用已启动实例（自己用 IDE / java -jar 起的都行）
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --server.port=18090 &
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar --server.port=18090 &
 verify/verify.sh --external --base http://127.0.0.1:18090
 ```
 

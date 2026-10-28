@@ -10,8 +10,8 @@
 切换方式（三选一）：
 
 ```bash
-java -jar smart-sso-server-2.0.1.jar --spring.profiles.active=prod
-SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.0.1.jar
+java -jar smart-sso-server-2.0.2.jar --spring.profiles.active=prod
+SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.0.2.jar
 # 或修改 application.yaml 中的 spring.profiles.active
 ```
 
@@ -102,7 +102,7 @@ spring:
 Spring Boot 标准顺序，后者覆盖前者：`application.yaml` → `application-{profile}.yaml` → 环境变量 → 命令行参数。
 
 ```bash
-java -jar smart-sso-server-2.0.1.jar \
+java -jar smart-sso-server-2.0.2.jar \
   --server.port=8081 \
   --smart.sso.server.access-token-timeout=60 \
   --smart.sso.exclude-urls=/static/*,/sso/*,/auth/*,/login.html,/favicon.ico

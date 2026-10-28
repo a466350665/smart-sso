@@ -18,18 +18,18 @@
 mvn -o -DskipTests clean package
 
 # 启动服务端（默认 dev / H2，端口 8080）
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar
 
 # 启动客户端示例（端口 8082）
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.2.jar
 ```
 
 常用参数：
 
 ```bash
-java -jar smart-sso-server-2.0.1.jar --server.port=18080                 # 换端口
-java -jar smart-sso-server-2.0.1.jar --spring.profiles.active=prod       # 使用 MySQL
-java -jar smart-sso-server-2.0.1.jar --logging.level.openjoe.smart.sso=debug
+java -jar smart-sso-server-2.0.2.jar --server.port=18080                 # 换端口
+java -jar smart-sso-server-2.0.2.jar --spring.profiles.active=prod       # 使用 MySQL
+java -jar smart-sso-server-2.0.2.jar --logging.level.openjoe.smart.sso=debug
 ```
 
 > 若 `mvn -o` 提示缺少插件/依赖，去掉 `-o` 联网构建一次即可；沙箱或受限环境下需确保 Maven 可写本地仓库（`~/.m2/repository`）。
@@ -89,7 +89,7 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:18080 node front.mjs
 令牌过期与续签的两条分支需要短时效才能触发，可用 1 秒时长启动一个实例：
 
 ```bash
-java -jar smart-sso-server-2.0.1.jar --server.port=18091 --smart.sso.server.access-token-timeout=1
+java -jar smart-sso-server-2.0.2.jar --server.port=18091 --smart.sso.server.access-token-timeout=1
 # 登录后等 2 秒：
 #   AJAX 请求（带 X-Requested-With）→ {"code":"000015"}
 #   整页请求（不带该头）          → 200，客户端自动续签

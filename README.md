@@ -45,7 +45,7 @@ Smart-SSO 是一个基于 Spring Boot 3 + OAuth2 授权码模式的**轻量级�
 git clone https://github.com/a466350665/smart-sso.git
 cd smart-sso
 mvn -DskipTests package
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar
 ```
 
 浏览器打开 **http://localhost:8080** ，使用内置账号 **`admin` / `123456`** 登录。（服务端同时是自身的客户端）
@@ -61,7 +61,7 @@ mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS \`smart-sso\` DEFAULT CHARSET 
 mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/init.sql
 
 # 2. 按需修改 smart-sso-server/src/main/resources/application-prod.yaml 的连接信息后启动
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar --spring.profiles.active=prod
 ```
 
 > `prod` profile 使用 MySQL，且不会自动执行数据库脚本（Spring Boot 默认只对嵌入式数据库执行初始化），避免误删数据。
@@ -69,7 +69,7 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 ### 客户端示例
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.2.jar
 ```
 客户端示例，浏览器打开 **http://localhost:8082**，无需重新登录，自动跳转至首页。
 

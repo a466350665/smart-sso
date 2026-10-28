@@ -32,7 +32,7 @@ spring:
 ### 端口被占用 / 想加 context-path？
 
 ```bash
-java -jar smart-sso-server-2.0.1.jar --server.port=18080 --server.servlet.context-path=/sso
+java -jar smart-sso-server-2.0.2.jar --server.port=18080 --server.servlet.context-path=/sso
 ```
 
 同源模式下页面跳转是相对路径、会自动带上 context-path；服务端之间的调用地址也会带上它。

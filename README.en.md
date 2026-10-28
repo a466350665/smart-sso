@@ -43,7 +43,7 @@ Smart-SSO is a lightweight **authentication and authorization center (SSO)** bui
 git clone https://github.com/a466350665/smart-sso.git
 cd smart-sso
 mvn -DskipTests package
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar
 ```
 
 Open **http://localhost:8080** and sign in with the built-in account **`admin` / `123456`**. (Server also a client of itself)
@@ -60,7 +60,7 @@ mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS \`smart-sso\` DEFAULT CHARSET 
 mysql -uroot -p --default-character-set=utf8mb4 smart-sso < smart-sso-server/src/main/resources/init.sql
 
 # 2. Adjust smart-sso-server/src/main/resources/application-prod.yaml, then start
-java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.active=prod
+java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar --spring.profiles.active=prod
 ```
 
 > The `prod` profile uses MySQL and never runs the SQL script (Spring Boot only initializes embedded databases by default), so startup cannot wipe your data.
@@ -68,7 +68,7 @@ java -jar smart-sso-server/target/smart-sso-server-2.0.1.jar --spring.profiles.a
 ### Client example
 
 ```bash
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.1.jar
+java -jar smart-sso-demo/target/smart-sso-demo-2.0.2.jar
 ```
 Client example. Open **http://localhost:8082**, no need to log in again. It will automatically redirect you to the homepage.
 
