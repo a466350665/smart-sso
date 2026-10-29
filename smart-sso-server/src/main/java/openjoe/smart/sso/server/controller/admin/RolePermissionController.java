@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.service.RolePermissionService;
 import openjoe.smart.sso.server.util.ConvertUtils;
 import openjoe.smart.stage.core.entity.Result;
@@ -24,7 +25,8 @@ public class RolePermissionController {
 	@Autowired
 	private RolePermissionService rolePermissionService;
 
-    @Operation(summary = "角色授权提交")
+    @Operation(summary = "角色授权")
+	@RequiresPermission("role:permission-write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(

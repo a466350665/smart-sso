@@ -8,7 +8,7 @@ import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.constant.ClientConstant;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import openjoe.smart.sso.client.util.ClientContextHolder;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.SsoUtils;
 import org.springframework.core.annotation.Order;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,17 +20,17 @@ import java.io.IOException;
  * @author Joe
  */
 @Order(20)
-public class LoginFilter extends AbstractClientFilter {
+public class SsoLoginFilter extends AbstractClientFilter {
 
     private ClientProperties properties;
 
-    public LoginFilter(ClientProperties properties) {
+    public SsoLoginFilter(ClientProperties properties) {
         this.properties = properties;
     }
 
     @Override
     public boolean isAccessAllowed() throws IOException {
-        TokenWrapper tokenWrapper = SSOUtils.getTokenWrapper();
+        TokenWrapper tokenWrapper = SsoUtils.getTokenWrapper();
         // 本地已存在token
         if (tokenWrapper != null) {
             // 如果accessToken没过期，直接返回
@@ -45,7 +45,7 @@ public class LoginFilter extends AbstractClientFilter {
                     return false;
                 }
                 // 浏览器整页请求：自动刷新token，用户无感
-                Result<Token> result = SSOUtils.getHttpRefreshTokenInCookie(tokenWrapper.getObject().getRefreshToken());
+                Result<Token> result = SsoUtils.getHttpRefreshTokenInCookie(tokenWrapper.getObject().getRefreshToken());
                 if (result.isSuccess() && holderToken(result.getData())) {
                     return true;
                 }
@@ -54,7 +54,7 @@ public class LoginFilter extends AbstractClientFilter {
 
         String code = ClientContextHolder.getRequest().getParameter(BaseConstant.AUTH_CODE);
         // 携带授权码请求
-        if (code != null && SSOUtils.getHttpAccessTokenInCookie(code).isSuccess()) {
+        if (code != null && SsoUtils.getHttpAccessTokenInCookie(code).isSuccess()) {
             // 为去除URL中授权码参数，再跳转一次当前地址
             redirectLocalRemoveCode();
         } else {
@@ -71,7 +71,7 @@ public class LoginFilter extends AbstractClientFilter {
      * @return
      */
     private boolean holderToken(Token token) {
-        TokenPermission permission = SSOUtils.getTokenPermission(token.getAccessToken());
+        TokenPermission permission = SsoUtils.getTokenPermission(token.getAccessToken());
         if (permission == null) {
             return false;
         }
@@ -89,7 +89,7 @@ public class LoginFilter extends AbstractClientFilter {
         if (isAjaxRequest()) {
             responseJson(ClientConstant.NO_LOGIN, "未登录或已超时");
         } else {
-            String loginUrl = SSOUtils.buildLoginUrl(getCurrentUrl());
+            String loginUrl = SsoUtils.buildLoginUrl(getCurrentUrl());
             ClientContextHolder.getResponse().sendRedirect(loginUrl);
         }
     }

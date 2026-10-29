@@ -96,27 +96,23 @@ public class PermissionService extends BaseService<PermissionMapper, Permission>
 	public TokenPermission getUserPermission(Long userId, Long appId) {
 		List<Permission> list = findByAppId(appId, true);
 		if(CollectionUtils.isEmpty(list)){
-			return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
+			return new TokenPermission(Collections.emptySet(), Collections.emptyList());
 		}
 		Set<Long> permissionIdSet = getUserPermissionIdSet(userId);
-		Set<String> permissionSet;
-		Set<String> noPermissionSet;
-		if (CollectionUtils.isEmpty(permissionIdSet)) {
-			permissionSet = Collections.emptySet();
-			noPermissionSet = list.stream().map(t -> t.getCode()).collect(Collectors.toSet());
-		}
-		else{
-			permissionSet = list.stream().filter(t -> permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
-			noPermissionSet= list.stream().filter(t -> !permissionIdSet.contains(t.getId())).map(t -> t.getCode()).collect(Collectors.toSet());
-		}
-		List<TokenMenu> menuList = list.stream().filter(t -> PermissionTypeEnum.isMenu(t.getType()) && !noPermissionSet.contains(t.getCode())).map(t->{
+		Set<String> permissionSet = list.stream()
+				.filter(t -> permissionIdSet.contains(t.getId()))
+				.map(Permission::getCode)
+				.collect(Collectors.toSet());
+		List<TokenMenu> menuList = list.stream()
+				.filter(t -> PermissionTypeEnum.isMenu(t.getType()) && permissionIdSet.contains(t.getId()))
+				.map(t -> {
 			TokenMenu dto = new TokenMenu();
 			BeanUtils.copyProperties(t, dto);
-			// 权限编码（Permission.code）在客户端菜单里叫 url，字段名不同，需显式赋值
-			dto.setUrl(t.getCode());
+			dto.setCode(t.getCode());
+			dto.setUrl(t.getUrl());
 			return dto;
 		}).collect(Collectors.toList());
-		return new TokenPermission(permissionSet, noPermissionSet, menuList);
+		return new TokenPermission(permissionSet, menuList);
 	}
 
 	private Set<Long> getUserPermissionIdSet(Long userId){

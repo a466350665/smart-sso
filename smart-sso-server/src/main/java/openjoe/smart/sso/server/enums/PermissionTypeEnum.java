@@ -46,4 +46,11 @@ public enum PermissionTypeEnum {
     public static boolean isMenu(String value) {
         return MENU.value.equals(value);
     }
+
+    /**
+     * 是否为功能权限
+     */
+    public static boolean isFunction(String value) {
+        return FUNCTION.value.equals(value);
+    }
 }

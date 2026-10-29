@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.dto.PermissionDTO;
 import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.service.UserRoleService;
@@ -30,6 +31,7 @@ public class UserRoleController {
 	private RoleService roleService;
 
 	@Operation(summary = "用户角色列表")
+	@RequiresPermission("user:read")
 	@ResponseBody
 	@RequestMapping(value = "/roles", method = RequestMethod.GET)
 	public Result<List<PermissionDTO>> roles(@RequestParam(required = false) Long userId) {
@@ -37,6 +39,7 @@ public class UserRoleController {
 	}
 
 	@Operation(summary = "新增/修改提交")
+	@RequiresPermission("user:role-write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(

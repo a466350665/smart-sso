@@ -44,7 +44,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="smaller lighter blue no-margin">查看应用密钥信息</h3>
+					<h3 class="smaller lighter blue no-margin">查看密钥信息</h3>
 				</div>
 
 				<div class="modal-body">
@@ -88,21 +88,21 @@
     			url : "/admin/app/list",
     			formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/app/save', handler : function(){
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : 'app:write', handler : function(){
 						$.aceRedirect("/admin/app-edit.html");
 					}},
-					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/app/enable', handler : function(){
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : 'app:status-write', handler : function(){
 						$table.ajaxEnable({url : "/admin/app/enable"}, false);
 					}},
-					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/app/enable', handler : function(){
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : 'app:status-write', handler : function(){
 						$table.ajaxEnable({url : "/admin/app/enable"}, true);
 					}},
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/app/delete', handler : function(){
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : 'app:delete', handler : function(){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
 							url : "/admin/app/delete"});
 					}},
-					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(){
+					{text : '查看密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : 'app:read', handler : function(){
 						if($table.validateSelected(true)){
 							$("#_editForm")[0].reset();
 							$.getJSON("/admin/app/credentials?id="+ $table.getSelectedItemKeys("id"), function(d) {
@@ -128,10 +128,10 @@
 			        {field:'createTime', title:'创建时间', mobileHide : true}
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/app/save', handler : function(d, i){
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : 'app:write', handler : function(d, i){
 						$.aceRedirect("/admin/app-edit.html?id=" + d.id);
 					}},
-					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/app/enable',
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : 'app:status-write',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/app/enable"}, false);
 						},
@@ -139,7 +139,7 @@
 							return d.isEnable;
 						}
 					},
-					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/app/enable',
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : 'app:status-write',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/app/enable"}, true);
 						},
@@ -147,12 +147,12 @@
 							return !d.isEnable;
 						}
 					},
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/app/delete', handler : function(d, i){
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : 'app:delete', handler : function(d, i){
 						$table.ajaxDelete({
 							confirm : "删除应用会关联删除对应的权限，确认要删除?", 
 							url : "/admin/app/delete"});
 					}},
-					{text : '查看应用密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : '/admin/app/credentials', handler : function(d, i){
+					{text : '查看密钥信息', clazz : 'blue', icon : 'fa fa-eye', permission : 'app:read', handler : function(d, i){
 						$("#_editForm")[0].reset();
 						$.getJSON("/admin/app/credentials?id="+ d.id, function(d) {
 							$("#_clientId").html(d.data.clientId);

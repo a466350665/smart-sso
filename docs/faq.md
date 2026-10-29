@@ -1,5 +1,7 @@
 # 常见问题
 
+[English](faq.en.md) | **中文**
+
 ## 部署与运行
 
 ### 为什么默认用 H2？会不会误上生产？
@@ -23,7 +25,7 @@ spring:
 
 ### 怎么切换到 MySQL？
 
-见 [README 快速开始](../README.md#方式二mysql生产) 或 [configuration.md](configuration.md#五数据库脚本)。要点：先导入 `smart-sso-server/src/main/resources/init.sql`，再用 `--spring.profiles.active=prod` 启动。
+见 [中文 README 快速开始](../README.zh-CN.md#方式二mysql生产) 或 [configuration.md](configuration.md#五数据库脚本)。要点：先导入 `smart-sso-server/src/main/resources/init.sql`，再用 `--spring.profiles.active=prod` 启动。
 
 ### 表名前缀为什么是 `sso_`？
 
@@ -32,7 +34,7 @@ spring:
 ### 端口被占用 / 想加 context-path？
 
 ```bash
-java -jar smart-sso-server-2.0.2.jar --server.port=18080 --server.servlet.context-path=/sso
+java -jar smart-sso-server-2.1.0.jar --server.port=18080 --server.servlet.context-path=/sso
 ```
 
 同源模式下页面跳转是相对路径、会自动带上 context-path；服务端之间的调用地址也会带上它。
@@ -47,15 +49,11 @@ java -jar smart-sso-server-2.0.2.jar --server.port=18080 --server.servlet.contex
 
 ### 权限配了为什么没用？
 
-三个常见原因：
-
-1. **路径不相等**：权限判断是 `request.getServletPath()` 与 `sso_permission.code`（权限编码）的**精确匹配**。登记 `/organization.html` 不能授权 `/admin/organization.html` 或 `/admin/organization/list`；
-2. **未登记则放行**：只有登记进权限表的路径才参与权限判断，漏登记会默认允许；
-3. **快照未刷新**：权限集合在登录/换取令牌时生成并缓存，改完权限需**重新登录**（或等令牌刷新）才生效。
+现在权限由 Controller 方法上的 `@RequiresPermission("稳定权限码")` 声明。请求必须先匹配 `smart.sso.url-patterns` 并完成登录；已登录但权限集合不包含该权限码时返回 HTTP 403 和 `000020`。没有 `@RequiresPermission` 的受控方法默认登录后放行。权限集合在登录/换取令牌时生成并缓存，改完权限需重新登录（或刷新令牌）才生效。
 
 ### 怎么让后端接口也受权限控制？
 
-把接口路径登记为权限编码（例如 `code=/admin/organization/list`），并在「角色授权」中按需勾选/取消，然后重新登录。已登记但未被授权的用户访问该接口会得到 HTTP 403 和 `{"code":"000020"}`；未登记接口默认允许访问。
+在 Controller 方法上声明稳定权限码（例如 `@RequiresPermission("organization:read")`），再在「角色授权」中勾选对应功能权限，然后重新登录。没有该权限的用户访问接口会得到 HTTP 403 和 `{"code":"000020"}`。
 
 ### 前端拿到的 `000010` / `000015` / `000020` 是什么？
 

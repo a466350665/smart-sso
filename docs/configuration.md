@@ -1,5 +1,7 @@
 # 配置参考
 
+[English](configuration.en.md) | **中文**
+
 ## 一、Profile 总览
 
 | Profile | 数据库 | 建表/演示数据 | 典型用途 |
@@ -10,8 +12,8 @@
 切换方式（三选一）：
 
 ```bash
-java -jar smart-sso-server-2.0.2.jar --spring.profiles.active=prod
-SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.0.2.jar
+java -jar smart-sso-server-2.1.0.jar --spring.profiles.active=prod
+SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.1.0.jar
 # 或修改 application.yaml 中的 spring.profiles.active
 ```
 
@@ -25,8 +27,8 @@ SPRING_PROFILES_ACTIVE=prod java -jar smart-sso-server-2.0.2.jar
 | `internal-server-url` | String | 自动推导 | 同源模式下服务端之间调用使用的本机地址，默认 `http(s)://127.0.0.1:{实际端口}{context-path}` |
 | `client-id` | String | — | 应用 ID，在服务端「应用管理」登记后获得 |
 | `client-secret` | String | — | 应用密钥 |
-| `url-patterns` | String[] | `/*` | 需要拦截的路径 |
-| `exclude-urls` | String[] | 空 | 免登录路径。**以 `/*` 结尾表示前缀匹配**，否则精确匹配 |
+| `url-patterns` | String[] | `/*` | SSO 登录保护范围；支持精确路径和以 `/*` 结尾的前缀路径 |
+| `exclude-urls` | String[] | 空 | 完全绕过 SSO 的路径；**以 `/*` 结尾表示前缀匹配**，否则精确匹配 |
 | `order` | int | `10` | 过滤器顺序 |
 | `name` | String | `clientContainer` | 过滤器注册名 |
 | `logout-path` | String | `/logout` | 本应用的注销地址；服务端单点退出时会回调该路径 |
@@ -61,7 +63,7 @@ mybatis-plus:
 | --- |--------------------------------------------------------|
 | `sso_app` | 应用（客户端）注册信息，含 clientId / clientSecret     |
 | `sso_organization` | 机构（树形，`parent_id` 自关联）                       |
-| `sso_permission` | 权限（菜单/功能），按 `app_id` 隔离，`code` 为权限编码，`type` 取 `menu`/`function` |
+| `sso_permission` | 权限（菜单/功能），按 `app_id` 隔离；`code` 为稳定权限码，菜单地址由 `url` 保存，`type` 取 `menu`/`function` |
 | `sso_role` | 角色                                                   |
 | `sso_role_permission` | 角色-权限关联                                          |
 | `sso_user` | 用户（`organization_id` 关联机构）                     |
@@ -102,7 +104,7 @@ spring:
 Spring Boot 标准顺序，后者覆盖前者：`application.yaml` → `application-{profile}.yaml` → 环境变量 → 命令行参数。
 
 ```bash
-java -jar smart-sso-server-2.0.2.jar \
+java -jar smart-sso-server-2.1.0.jar \
   --server.port=8081 \
   --smart.sso.server.access-token-timeout=60 \
   --smart.sso.exclude-urls=/static/*,/sso/*,/auth/*,/login.html,/favicon.ico

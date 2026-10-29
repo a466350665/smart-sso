@@ -1,5 +1,7 @@
 # 架构与原理
 
+[English](architecture.en.md) | **中文**
+
 ## 一、角色与凭证模型
 
 | 凭证 | 存放位置 | 默认时效 | 说明 |
@@ -112,7 +114,7 @@ sequenceDiagram
     S->>S: 取出该 TGT 名下全部 refreshToken
     loop 每个登记过注销地址的客户端
         S->>C: POST 客户端 logoutUri，请求头 logoutRequest=accessToken
-        C->>C: LogoutFilter 命中 /logout，移除本地令牌
+        C->>C: SsoLogoutFilter 命中 /logout，移除本地令牌
     end
     S-->>B: 302 回跳 redirectUri
 
@@ -124,21 +126,19 @@ sequenceDiagram
 
 1. 任一客户端发起退出 → 浏览器访问服务端 `/sso/logout?redirectUri=..`。
 2. 服务端吊销该用户 `TGT` 下的全部令牌。
-3. 服务端依据令牌中登记的 `logoutUri`，**逐个回调通知各客户端**注销本地令牌（客户端 `LogoutFilter` 处理，路径由 `smart.sso.logout-path` 配置，默认 `/logout`）。
+3. 服务端依据令牌中登记的 `logoutUri`，**逐个回调通知各客户端**注销本地令牌（客户端 `SsoLogoutFilter` 处理，路径由 `smart.sso.logout-path` 配置，默认 `/logout`）。
 4. 浏览器回到 `redirectUri`。
 
 **踢人下线**复用同一套机制：「会话管理」页面按 `TGT` 调用吊销逻辑，服务端同样会回调通知所有关联客户端清除会话。
 
 ## 五、权限模型
 
-- 权限数据按应用隔离（`sso_permission.app_id`），并以 `type`（权限类型）区分**菜单**（`menu`）与**功能**（`function`）。
-- 客户端 `PermissionFilter` 用请求路径（`request.getServletPath()`）与令牌权限快照比对：
-  - 命中 `permissionSet` → 放行；
-  - 命中 `noPermissionSet` → 返回 `{"code":"000020"}`（无权限）；
-  - 两者都不命中 → 放行（未登记路径默认允许）。
-- 需要权限控制的路径必须登记到对应应用的 `sso_permission.code`；遗漏登记会导致该路径默认放行。权限变更后需要重新登录以刷新权限快照。
-- 新增/修改页不单独登记权限；页面入口、提交按钮和后端保存接口统一使用对应的 `/save` 权限编码，真正的写入权限由接口控制。
-- 管理台的按钮级控制由前端 `permission="..."` 属性 + 用户的权限集合在浏览器侧控制（仅影响展示，不作为安全边界）。
+- 权限数据按应用隔离（`sso_permission.app_id`），并以 `type` 区分菜单（`menu`）与功能（`function`）。`code` 是稳定权限码，菜单跳转地址独立保存于 `url`。
+- `smart.sso.url-patterns` 决定登录保护范围，`exclude-urls` 优先匹配并完全绕过 SSO。
+- 客户端 `SsoLoginFilter` 负责受控请求的登录校验；MVC `SsoAuthorizationInterceptor` 读取 Controller 方法上的 `@RequiresPermission`，检查令牌中的授权权限码集合（菜单和功能权限码均可返回，接口注解只使用功能权限码）。
+- 受控范围内没有 `@RequiresPermission` 的方法默认登录后放行；没有对应稳定权限码的用户访问受保护方法返回 `{"code":"000020"}`。
+- 一个稳定权限码可以绑定多个 Controller 方法，权限变更后需要重新登录或刷新令牌以获得新的权限快照。
+- 管理台按钮使用 `permission="稳定权限码"`，前端控制只影响展示，后端注解鉴权才是安全边界。
 
 ## 六、同源与“服务端即客户端”
 

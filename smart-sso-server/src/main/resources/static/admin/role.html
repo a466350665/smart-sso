@@ -41,21 +41,21 @@
     			url : "/admin/role/list",
     			formId : "_form",
 				tools : [
-					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : '/admin/role/save', handler : function(){
+					{text : '新增', clazz : 'btn-info', icon : 'fa fa-plus-circle blue', permission : 'role:write', handler : function(){
 						$.aceRedirect("/admin/role-edit.html");
 					}},
-					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : '/admin/role/enable', handler : function(){
+					{text : '禁用', clazz : 'btn-warning', icon : 'fa fa-lock orange', permission : 'role:status-write', handler : function(){
 						$table.ajaxEnable({url : "/admin/role/enable"}, false);
 					}},
-					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : '/admin/role/enable', handler : function(){
+					{text : '启用', clazz : 'btn-success', icon : 'fa fa-unlock green', permission : 'role:status-write', handler : function(){
 						$table.ajaxEnable({url : "/admin/role/enable"}, true);
 					}},
-					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : '/admin/role/delete', handler : function(){
+					{text : '删除', clazz : 'btn-danger', icon : 'fa fa-trash-o red', permission : 'role:delete', handler : function(){
 						$table.ajaxDelete({
 							confirm : "删除角色会影响关联的用户及权限，确认要删除?",
 							url : "/admin/role/delete"});
 					}},
-					{text : '角色授权', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : '/admin/role-permission.html', handler : function(){
+					{text : '角色授权', clazz : 'btn-default', icon : 'fa fa-cog grey', permission : 'permission:read', handler : function(){
 						if($table.validateSelected(true)){
 							$.aceRedirect("/admin/role-permission.html?roleId=" + $table.getSelectedItemKeys("id"));
 						}
@@ -75,10 +75,10 @@
 			        }}
 				],
 				operate : [
-					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : '/admin/role/save', handler : function(d, i){
+					{text : '修改', clazz : 'blue', icon : 'fa fa-pencil', permission : 'role:write', handler : function(d, i){
 						$.aceRedirect("/admin/role-edit.html?id=" + d.id);
 					}},
-					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : '/admin/role/enable',
+					{text : '禁用', clazz : 'orange', icon : 'fa fa-lock', permission : 'role:status-write',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/role/enable"}, false);
 						},
@@ -86,7 +86,7 @@
 							return d.isEnable;
 						}
 					},
-					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : '/admin/role/enable',
+					{text : '启用', clazz : 'green', icon : 'fa fa-unlock', permission : 'role:status-write',
 						handler : function(){
 							$table.ajaxEnable({url : "/admin/role/enable"}, true);
 						},
@@ -94,12 +94,12 @@
 							return !d.isEnable;
 						}
 					},
-					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : '/admin/role/delete', handler : function(d, i){
+					{text : '删除', clazz : 'red', icon : 'fa fa-trash-o', permission : 'role:delete', handler : function(d, i){
 						$table.ajaxDelete({
 							confirm : "删除角色会影响关联的权限，确认要删除?",
 							url : "/admin/role/delete"});
 					}},
-					{text : '角色授权', clazz : 'grey', icon : 'fa fa-cog', permission : '/admin/role-permission.html', handler : function(d, i){
+					{text : '角色授权', clazz : 'grey', icon : 'fa fa-cog', permission : 'permission:read', handler : function(d, i){
 						$.aceRedirect("/admin/role-permission.html?roleId=" + d.id);
 					}}
 				],

@@ -1,14 +1,13 @@
 package openjoe.smart.sso.client;
 
 import openjoe.smart.sso.client.filter.AbstractClientFilter;
-import openjoe.smart.sso.client.filter.LoginFilter;
-import openjoe.smart.sso.client.filter.LogoutFilter;
-import openjoe.smart.sso.client.filter.PermissionFilter;
+import openjoe.smart.sso.client.filter.SsoLoginFilter;
+import openjoe.smart.sso.client.filter.SsoLogoutFilter;
 import openjoe.smart.sso.client.token.TokenPermissionStorage;
-import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.SsoTokenStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenPermissionStorage;
 import openjoe.smart.sso.client.token.local.LocalTokenStorage;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.SsoUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -26,38 +25,58 @@ import org.springframework.core.env.Environment;
 public class ClientAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(TokenStorage.class)
-    public TokenStorage tokenStorage(ClientProperties properties) {
-        TokenStorage tokenStorage = new LocalTokenStorage();
+    @ConditionalOnMissingBean(SsoTokenStorage.class)
+    public SsoTokenStorage ssoTokenStorage(ClientProperties properties) {
+        SsoTokenStorage tokenStorage = new LocalTokenStorage();
         TokenPermissionStorage tokenPermissionStorage = new LocalTokenPermissionStorage();
-        SSOUtils.setTokenStorage(properties, tokenStorage, tokenPermissionStorage);
+        SsoUtils.setTokenStorage(properties, tokenStorage, tokenPermissionStorage);
         return tokenStorage;
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "logoutFilter")
-    public AbstractClientFilter logoutFilter(ClientProperties properties, TokenStorage tokenStorage) {
-        return new LogoutFilter(properties, tokenStorage);
+    @ConditionalOnMissingBean(SsoLogoutFilter.class)
+    public SsoLogoutFilter ssoLogoutFilter(ClientProperties properties, SsoTokenStorage tokenStorage) {
+        return new SsoLogoutFilter(properties, tokenStorage);
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "loginFilter")
-    public AbstractClientFilter loginFilter(ClientProperties properties) {
-        return new LoginFilter(properties);
+    @ConditionalOnMissingBean(SsoLoginFilter.class)
+    public SsoLoginFilter ssoLoginFilter(ClientProperties properties) {
+        return new SsoLoginFilter(properties);
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "permissionFilter")
-    public AbstractClientFilter permissionFilter(ClientProperties properties) {
-        return new PermissionFilter(properties);
+    @ConditionalOnMissingBean
+    public SsoUrlScopeMatcher ssoUrlScopeMatcher(ClientProperties properties) {
+        return new SsoUrlScopeMatcher(properties);
     }
 
     @Bean
-    public FilterRegistrationBean<ClientContainer> clientContainer(ClientProperties properties, AbstractClientFilter[] clientFilters) {
-        ClientContainer clientContainer = new ClientContainer(properties.getExcludeUrls(), clientFilters);
+    @ConditionalOnMissingBean
+    public SsoAuthorizationInterceptor ssoAuthorizationInterceptor(SsoUrlScopeMatcher scopeMatcher) {
+        return new SsoAuthorizationInterceptor(scopeMatcher);
+    }
 
-        FilterRegistrationBean<ClientContainer> registration = new FilterRegistrationBean<>();
-        registration.setFilter(clientContainer);
+    @Bean
+    @ConditionalOnMissingBean(name = "ssoAuthorizationWebMvcConfigurer")
+    public org.springframework.web.servlet.config.annotation.WebMvcConfigurer ssoAuthorizationWebMvcConfigurer(
+            SsoAuthorizationInterceptor interceptor) {
+        return new org.springframework.web.servlet.config.annotation.WebMvcConfigurer() {
+            @Override
+            public void addInterceptors(
+                    org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
+                registry.addInterceptor(interceptor);
+            }
+        };
+    }
+
+    @Bean
+    public FilterRegistrationBean<SsoClientContainer> ssoClientContainer(
+            ClientProperties properties, SsoUrlScopeMatcher scopeMatcher, AbstractClientFilter[] clientFilters) {
+        SsoClientContainer ssoClientContainer = new SsoClientContainer(scopeMatcher, clientFilters);
+
+        FilterRegistrationBean<SsoClientContainer> registration = new FilterRegistrationBean<>();
+        registration.setFilter(ssoClientContainer);
         registration.addUrlPatterns(properties.getUrlPatterns());
         registration.setOrder(properties.getOrder());
         registration.setName(properties.getName());
@@ -69,7 +88,8 @@ public class ClientAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public ClientServerAddressResolver clientServerAddressResolver(ClientProperties properties, Environment environment) {
-        return new ClientServerAddressResolver(properties, environment);
+    public SsoClientServerAddressResolver ssoClientServerAddressResolver(
+            ClientProperties properties, Environment environment) {
+        return new SsoClientServerAddressResolver(properties, environment);
     }
 }

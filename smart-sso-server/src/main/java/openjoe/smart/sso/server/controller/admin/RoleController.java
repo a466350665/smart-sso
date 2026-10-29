@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.entity.Role;
 import openjoe.smart.sso.server.service.RoleService;
 import openjoe.smart.sso.server.util.ConvertUtils;
@@ -25,7 +26,8 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-	@Operation(summary = "列表")
+    @Operation(summary = "列表")
+	@RequiresPermission("role:read")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -36,6 +38,7 @@ public class RoleController {
 	}
 
     @Operation(summary = "启用/禁用")
+	@RequiresPermission("role:status-write")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -46,6 +49,7 @@ public class RoleController {
 	}
 
     @Operation(summary = "新增/修改提交")
+	@RequiresPermission("role:write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -70,6 +74,7 @@ public class RoleController {
 	}
 
     @Operation(summary = "删除")
+	@RequiresPermission("role:delete")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(

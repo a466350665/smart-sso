@@ -1,5 +1,7 @@
 # 开发与验证
 
+[English](development.en.md) | **中文**
+
 ## 一、环境准备
 
 | 组件 | 版本 | 说明 |
@@ -18,18 +20,18 @@
 mvn -o -DskipTests clean package
 
 # 启动服务端（默认 dev / H2，端口 8080）
-java -jar smart-sso-server/target/smart-sso-server-2.0.2.jar
+java -jar smart-sso-server/target/smart-sso-server-2.1.0.jar
 
 # 启动客户端示例（端口 8082）
-java -jar smart-sso-demo/target/smart-sso-demo-2.0.2.jar
+java -jar smart-sso-demo/target/smart-sso-demo-2.1.0.jar
 ```
 
 常用参数：
 
 ```bash
-java -jar smart-sso-server-2.0.2.jar --server.port=18080                 # 换端口
-java -jar smart-sso-server-2.0.2.jar --spring.profiles.active=prod       # 使用 MySQL
-java -jar smart-sso-server-2.0.2.jar --logging.level.openjoe.smart.sso=debug
+java -jar smart-sso-server-2.1.0.jar --server.port=18080                 # 换端口
+java -jar smart-sso-server-2.1.0.jar --spring.profiles.active=prod       # 使用 MySQL
+java -jar smart-sso-server-2.1.0.jar --logging.level.openjoe.smart.sso=debug
 ```
 
 > 若 `mvn -o` 提示缺少插件/依赖，去掉 `-o` 联网构建一次即可；沙箱或受限环境下需确保 Maven 可写本地仓库（`~/.m2/repository`）。
@@ -69,6 +71,9 @@ verify/verify.sh --external --base http://127.0.0.1:18080
 
 # 前端：真实浏览器端到端（需要本机 Chrome）
 cd verify/e2e && npm install && BASE=http://127.0.0.1:18080 node front.mjs
+
+# 更新 README 使用的管理台截图（需要本机 Chrome）
+BASE=http://127.0.0.1:18080 node screenshots.mjs
 ```
 
 覆盖范围：
@@ -82,14 +87,14 @@ cd verify/e2e && npm install && BASE=http://127.0.0.1:18080 node front.mjs
 | L3 | 业务 CRUD：应用/机构/角色（含授权与分配）/用户/权限，含级联删除；数据自建自清 |
 | L5 | 前端：登录流程、菜单渲染、机构/用户/角色/权限页、权限树回显、弹窗行为 |
 
-当前基线：**服务端 69 项断言 + 前端 36 项断言全部通过**。新增功能时建议在 `verify/verify.sh`（接口层）或 `verify/e2e/front.mjs`（界面层）补一条断言。
+当前基线：**服务端 68 项断言 + 前端 37 项断言全部通过**。新增功能时建议在 `verify/verify.sh`（接口层）或 `verify/e2e/front.mjs`（界面层）补一条断言；涉及页面改动时同步运行 `screenshots.mjs` 更新 `docs/images/`。
 
 ## 五、边界场景的手工验证
 
 令牌过期与续签的两条分支需要短时效才能触发，可用 1 秒时长启动一个实例：
 
 ```bash
-java -jar smart-sso-server-2.0.2.jar --server.port=18091 --smart.sso.server.access-token-timeout=1
+java -jar smart-sso-server-2.1.0.jar --server.port=18091 --smart.sso.server.access-token-timeout=1
 # 登录后等 2 秒：
 #   AJAX 请求（带 X-Requested-With）→ {"code":"000015"}
 #   整页请求（不带该头）          → 200，客户端自动续签
@@ -97,7 +102,7 @@ java -jar smart-sso-server-2.0.2.jar --server.port=18091 --smart.sso.server.acce
 
 ## 六、文档中的图表
 
-`README.md`、`README.en.md` 与 `docs/` 中的时序图使用 **Mermaid** 编写（GitHub / Gitee 原生渲染），
+`README.md`、`README.zh-CN.md` 与 `docs/` 中的时序图使用 **Mermaid** 编写（GitHub / Gitee 原生渲染），
 好处是图与代码一起维护，不会出现“图还是旧流程”的情况。修改流程时请同步修改对应的 Mermaid 代码块。
 
 若需要在不支持 Mermaid 的平台（如某些博客/图床）使用图片，可本地导出 SVG/PNG：

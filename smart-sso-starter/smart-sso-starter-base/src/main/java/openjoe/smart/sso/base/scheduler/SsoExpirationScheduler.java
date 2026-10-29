@@ -11,11 +11,11 @@ import java.util.List;
  *
  * @author Joe
  */
-public class ExpirationScheduler {
+public class SsoExpirationScheduler {
 
     private List<ExpirationPolicy> expirationList;
 
-    public ExpirationScheduler(List<ExpirationPolicy> expirationList) {
+    public SsoExpirationScheduler(List<ExpirationPolicy> expirationList) {
         this.expirationList = expirationList;
     }
 

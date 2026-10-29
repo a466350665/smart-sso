@@ -2,7 +2,7 @@ package openjoe.smart.sso.client.filter;
 
 import openjoe.smart.sso.base.constant.BaseConstant;
 import openjoe.smart.sso.client.ClientProperties;
-import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.SsoTokenStorage;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import org.springframework.core.annotation.Order;
 
@@ -14,12 +14,12 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author Joe
  */
 @Order(10)
-public class LogoutFilter extends AbstractClientFilter {
+public class SsoLogoutFilter extends AbstractClientFilter {
 
     private ClientProperties properties;
-    private TokenStorage tokenStorage;
+    private SsoTokenStorage tokenStorage;
 
-    public LogoutFilter(ClientProperties properties, TokenStorage tokenStorage) {
+    public SsoLogoutFilter(ClientProperties properties, SsoTokenStorage tokenStorage) {
         this.properties = properties;
         this.tokenStorage = tokenStorage;
     }
@@ -51,11 +51,11 @@ public class LogoutFilter extends AbstractClientFilter {
         this.properties = properties;
     }
 
-    public TokenStorage getTokenStorage() {
+    public SsoTokenStorage getTokenStorage() {
         return tokenStorage;
     }
 
-    public void setTokenStorage(TokenStorage tokenStorage) {
+    public void setTokenStorage(SsoTokenStorage tokenStorage) {
         this.tokenStorage = tokenStorage;
     }
 }

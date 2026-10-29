@@ -20,7 +20,7 @@ import java.util.Collections;
  */
 @RestController
 @RequestMapping(BaseConstant.PERMISSION_PATH)
-public class SSOPermissionController {
+public class SsoPermissionController {
 
     @Autowired
     private AbstractTokenManager tokenManager;
@@ -37,7 +37,7 @@ public class SSOPermissionController {
         }
         Result<Long> appResult = appManager.validate(tokenContent.getClientId());
         if (!appResult.isSuccess()) {
-            return Result.success(new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList()));
+            return Result.success(new TokenPermission(Collections.emptySet(), Collections.emptyList()));
         }
         return Result.success(permissionManager.getUserPermission(tokenContent.getUserId(), appResult.getData()));
     }

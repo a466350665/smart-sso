@@ -66,7 +66,8 @@ await shot('02-home');
 console.log('\n【L5-2】管理台菜单');
 const menus = await page.$$eval('a[data-url]', els => els.map(e => e.textContent.trim() + '|' + e.getAttribute('data-url')));
 const expectMenus = ['个人中心|/admin/profile.html', '机构管理|/admin/organization.html', '用户管理|/admin/user.html',
-  '角色管理|/admin/role.html', '应用管理|/admin/app.html', '权限管理|/admin/permission.html', '会话管理|/admin/login-user.html'];
+  '角色管理|/admin/role.html', '应用管理|/admin/app.html', '权限管理|/admin/permission.html',
+  '会话管理|/admin/login-user.html'];
 check('菜单项数量为 7', menus.length === 7, '实际 ' + menus.length);
 check('菜单项与权限数据一致', expectMenus.every(m => menus.includes(m)), JSON.stringify(menus));
 
@@ -192,11 +193,14 @@ if (editTarget) {
   const codeVal = await page.$eval('#_code', el => el.value);
   const codeLabel = await page.$eval('label[for=_code]', el => el.textContent.trim());
   const typeChecked = await page.$eval('input[name=type]:checked', el => el.value);
-  check('权限编辑页带出「权限编码」值', codeVal.length > 0 && codeVal.startsWith('/'),
+  check('权限编辑页带出稳定「权限编码」值', /^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$/.test(codeVal),
     'code=' + codeVal + ' label=' + codeLabel);
+  const urlVal = await page.$eval('#_url', el => el.value);
+  check('权限编辑页单独回显菜单地址', urlVal.startsWith('/'), 'url=' + urlVal);
   check('权限编辑页「权限类型」单选回显', typeChecked === 'menu', 'type=' + typeChecked);
 } else {
-  check('权限编辑页带出「权限编码」值', false, '未找到菜单节点');
+  check('权限编辑页带出稳定「权限编码」值', false, '未找到菜单节点');
+  check('权限编辑页单独回显菜单地址', false, '未找到菜单节点');
   check('权限编辑页「权限类型」单选回显', false, '未找到菜单节点');
 }
 await shot('09-permission');

@@ -8,7 +8,7 @@ import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.util.CookieUtils;
 import openjoe.smart.sso.client.ClientProperties;
 import openjoe.smart.sso.client.token.TokenPermissionStorage;
-import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.SsoTokenStorage;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +24,15 @@ import java.util.Collections;
  *
  * @author Joe
  */
-public class SSOUtils {
+public class SsoUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(SSOUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(SsoUtils.class);
 
     private static ClientProperties properties;
-    private static TokenStorage tokenStorage;
+    private static SsoTokenStorage tokenStorage;
     private static TokenPermissionStorage tokenPermissionStorage;
 
-    public static void setTokenStorage(ClientProperties cp, TokenStorage ts, TokenPermissionStorage tps) {
+    public static void setTokenStorage(ClientProperties cp, SsoTokenStorage ts, TokenPermissionStorage tps) {
         properties = cp;
         tokenStorage = ts;
         tokenPermissionStorage = tps;
@@ -102,7 +102,7 @@ public class SSOUtils {
      * @param code
      */
     public static Result<Token> getHttpAccessToken(String code) {
-        Result<Token> result = OAuth2Utils.getAccessToken(getServerUrlForHttp(), properties.getClientId(),
+        Result<Token> result = Oauth2Utils.getAccessToken(getServerUrlForHttp(), properties.getClientId(),
                 properties.getClientSecret(), code, getLocalUrl() + properties.getLogoutPath());
         if (result.isSuccess()) {
             Token token = result.getData();
@@ -162,7 +162,7 @@ public class SSOUtils {
         if (tokenPermission == null) {
             return Result.error("tokenPermission is null or expired!");
         }
-        Result<Token> result = OAuth2Utils.getRefreshToken(getServerUrlForHttp(), properties.getClientId(), refreshToken);
+        Result<Token> result = Oauth2Utils.getRefreshToken(getServerUrlForHttp(), properties.getClientId(), refreshToken);
         if (result.isSuccess()) {
             // 删除旧token
             tokenStorage.remove(accessToken);
@@ -188,7 +188,7 @@ public class SSOUtils {
         Result<TokenPermission> result = PermissionUtils.getUserPermission(getServerUrlForHttp(), accessToken);
         if (!result.isSuccess()) {
             logger.error("getHttpTokenPermission has error, message:{}", result.getMessage());
-            return new TokenPermission(Collections.emptySet(), Collections.emptySet(), Collections.emptyList());
+            return new TokenPermission(Collections.emptySet(), Collections.emptyList());
         }
         return result.getData();
     }

@@ -18,9 +18,9 @@ import org.springframework.util.StringUtils;
  *
  * @author Joe
  */
-public class ClientServerAddressResolver implements ApplicationListener<WebServerInitializedEvent> {
+public class SsoClientServerAddressResolver implements ApplicationListener<WebServerInitializedEvent> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClientServerAddressResolver.class);
+    private static final Logger logger = LoggerFactory.getLogger(SsoClientServerAddressResolver.class);
 
     /**
      * SSO 服务端标志性 Bean（由 starter-server 提供）。
@@ -31,7 +31,7 @@ public class ClientServerAddressResolver implements ApplicationListener<WebServe
     private final ClientProperties properties;
     private final Environment environment;
 
-    public ClientServerAddressResolver(ClientProperties properties, Environment environment) {
+    public SsoClientServerAddressResolver(ClientProperties properties, Environment environment) {
         this.properties = properties;
         this.environment = environment;
     }

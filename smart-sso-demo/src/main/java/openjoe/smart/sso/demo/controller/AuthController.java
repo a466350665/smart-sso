@@ -2,7 +2,7 @@ package openjoe.smart.sso.demo.controller;
 
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.Token;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.SsoUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +23,7 @@ public class AuthController {
      */
     @RequestMapping("/login_url")
     public Result<String> getLoginUrl(@RequestParam String redirectUri) {
-        return Result.success(SSOUtils.buildLoginUrl(redirectUri));
+        return Result.success(SsoUtils.buildLoginUrl(redirectUri));
     }
 
     /**
@@ -34,7 +34,7 @@ public class AuthController {
      */
     @RequestMapping("/logout_url")
     public Result<String> getLogoutUrl(@RequestParam String redirectUri) {
-        return Result.success(SSOUtils.buildLogoutUrl(redirectUri));
+        return Result.success(SsoUtils.buildLogoutUrl(redirectUri));
     }
 
     /**
@@ -45,11 +45,7 @@ public class AuthController {
      */
     @RequestMapping(value = "/access-token", method = RequestMethod.GET)
     public Result<Token> getAccessToken(@RequestParam String code) {
-        Result<Token> result = SSOUtils.getHttpAccessToken(code);
-        if (!result.isSuccess()) {
-            return result;
-        }
-        return Result.success(result.getData());
+        return SsoUtils.getHttpAccessToken(code);
     }
 
     /**
@@ -60,10 +56,6 @@ public class AuthController {
      */
     @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
     public Result<Token> getRefreshToken(String refreshToken) {
-        Result<Token> result = SSOUtils.getHttpRefreshToken(refreshToken);
-        if (!result.isSuccess()) {
-            return result;
-        }
-        return Result.success(result.getData());
+        return SsoUtils.getHttpRefreshToken(refreshToken);
     }
 }

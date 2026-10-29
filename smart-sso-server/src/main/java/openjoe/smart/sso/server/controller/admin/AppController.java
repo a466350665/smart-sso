@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.entity.App;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
 import openjoe.smart.sso.server.service.AppService;
@@ -32,6 +33,7 @@ public class AppController {
 	private AppService appService;
 
 	@Operation(summary = "查询应用密钥信息")
+	@RequiresPermission("app:read")
 	@ResponseBody
 	@RequestMapping(value = "/credentials", method = RequestMethod.GET)
 	public Result credential(@RequestParam Long id) {
@@ -39,6 +41,7 @@ public class AppController {
 	}
 
     @Operation(summary = "列表")
+	@RequiresPermission("app:read")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -49,6 +52,7 @@ public class AppController {
 	}
 
 	@Operation(summary = "全部启用应用")
+	@RequiresPermission("app:read")
 	@ResponseBody
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Result<List<App>> all() {
@@ -56,6 +60,7 @@ public class AppController {
 	}
 
 	@Operation(summary = "验证应用编码")
+	@RequiresPermission("app:read")
 	@ResponseBody
 	@RequestMapping(value = "/validate-code", method = RequestMethod.POST)
 	public Result validateCode(
@@ -68,7 +73,8 @@ public class AppController {
 		return Result.success();
 	}
 
-	@Operation(summary = "启用/禁用")
+    @Operation(summary = "启用/禁用")
+	@RequiresPermission("app:status-write")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -79,6 +85,7 @@ public class AppController {
 	}
 
 	@Operation(summary = "新增/修改提交")
+	@RequiresPermission("app:write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -106,6 +113,7 @@ public class AppController {
 	}
 
 	@Operation(summary = "删除")
+	@RequiresPermission("app:delete")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(@RequestParam String ids) {

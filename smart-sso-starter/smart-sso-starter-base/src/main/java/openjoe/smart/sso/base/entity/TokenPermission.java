@@ -16,11 +16,6 @@ public class TokenPermission {
 	private Set<String> permissionSet;
 
 	/**
-	 * 用户未分配的权限（用于隐藏前端菜单和按钮）
-	 */
-	private Set<String> noPermissionSet;
-
-	/**
 	 * 用户已分配权限的菜单
 	 */
 	private List<TokenMenu> menuList;
@@ -28,14 +23,8 @@ public class TokenPermission {
 	public TokenPermission() {
 	}
 
-	public TokenPermission(Set<String> permissionSet, Set<String> noPermissionSet) {
+	public TokenPermission(Set<String> permissionSet, List<TokenMenu> menuList) {
 		this.permissionSet = permissionSet;
-		this.noPermissionSet = noPermissionSet;
-	}
-
-	public TokenPermission(Set<String> permissionSet, Set<String> noPermissionSet, List<TokenMenu> menuList) {
-		this.permissionSet = permissionSet;
-		this.noPermissionSet = noPermissionSet;
 		this.menuList = menuList;
 	}
 
@@ -45,14 +34,6 @@ public class TokenPermission {
 
 	public void setPermissionSet(Set<String> permissionSet) {
 		this.permissionSet = permissionSet;
-	}
-
-	public Set<String> getNoPermissionSet() {
-		return noPermissionSet;
-	}
-
-	public void setNoPermissionSet(Set<String> noPermissionSet) {
-		this.noPermissionSet = noPermissionSet;
 	}
 
 	public List<TokenMenu> getMenuList() {

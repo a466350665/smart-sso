@@ -1,7 +1,7 @@
 package openjoe.smart.sso.base.enums;
 
 /**
- * OAuth2授权方式
+ * OAuth 2.0授权方式
  *
  * @author Joe
  */

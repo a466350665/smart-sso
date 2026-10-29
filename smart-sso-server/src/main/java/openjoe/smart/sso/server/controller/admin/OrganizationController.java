@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.entity.Organization;
 import openjoe.smart.sso.server.service.OrganizationService;
 import openjoe.smart.sso.server.util.ConvertUtils;
@@ -28,6 +29,7 @@ public class OrganizationController {
 	private OrganizationService organizationService;
 
 	@Operation(summary = "列表")
+	@RequiresPermission("organization:read")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -37,6 +39,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "全部启用机构")
+	@RequiresPermission("organization:read")
 	@ResponseBody
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Result<List<Organization>> all(
@@ -45,6 +48,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "机构信息")
+	@RequiresPermission("organization:read")
 	@ResponseBody
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public Result<Organization> get(@RequestParam Long id) {
@@ -52,6 +56,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "新增/修改提交")
+	@RequiresPermission("organization:write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -77,6 +82,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "启用/禁用")
+	@RequiresPermission("organization:status-write")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -87,6 +93,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "删除")
+	@RequiresPermission("organization:delete")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(

@@ -46,7 +46,7 @@
     			url : "/admin/login-user/list",
     			formId : "_form",
 				tools : [
-					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(){
+					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : 'session:terminate', handler : function(){
 						if($table.validateSelected(false)){
 							$table.ajax({
 								url : "/admin/login-user/logout",
@@ -71,7 +71,7 @@
 			        }}
 				],
 				operate : [
-					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : '/admin/login-user/logout', handler : function(d, i){
+					{text : '强制下线', clazz : 'btn-default', icon : 'glyphicon glyphicon-off', permission : 'session:terminate', handler : function(d, i){
 						$table.ajax({
 							url : "/admin/login-user/logout",
 							data : {tgts : $table.getSelectedItemKeys("tgt")},

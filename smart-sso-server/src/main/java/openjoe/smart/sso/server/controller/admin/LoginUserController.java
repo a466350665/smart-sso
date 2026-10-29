@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.service.LoginUserService;
 import openjoe.smart.stage.core.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class LoginUserController {
 	private LoginUserService loginUserService;
 
 	@Operation(summary = "列表")
+	@RequiresPermission("session:read")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -39,6 +41,7 @@ public class LoginUserController {
 	}
 
 	@Operation(summary = "下线")
+	@RequiresPermission("session:terminate")
 	@ResponseBody
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public Result logout(@RequestParam String tgts) {

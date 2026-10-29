@@ -190,7 +190,7 @@
     var TOKEN_NAME_PREFIX = "smart-sso-token-";
 
     var logoutUrl = null;
-    var userNoPermissions = "";
+    var userPermissions = "";
 
     $(function () {
         if (validateLogin()) {
@@ -218,12 +218,12 @@
         smart.ajax('GET', BASE_URL + "/admin/admin/userinfo", {}, function (res) {
             var userinfo = res.data;
             logoutUrl = userinfo.logoutUrl;
-            userNoPermissions = userinfo.userNoPermissions || "";
+            userPermissions = (userinfo.permissions || []).join(",");
 
             smart.userId = userinfo.userId || '';
 
             $("#_username").text(userinfo.username || "");
-            $("#_permission").attr("data", userNoPermissions);
+            $("#_permission").attr("data", userPermissions);
 
             bindLogout();
             loadMenu();

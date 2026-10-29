@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.server.entity.Organization;
 import openjoe.smart.sso.server.entity.User;
 import openjoe.smart.sso.server.enums.ErrorCodeEnum;
@@ -40,6 +41,7 @@ public class UserController {
 	private OrganizationService organizationService;
 
 	@Operation(summary = "列表")
+	@RequiresPermission("user:read")
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Result list(
@@ -52,6 +54,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "用户信息")
+	@RequiresPermission("user:read")
 	@ResponseBody
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public Result<User> get(@RequestParam Long id) {
@@ -59,6 +62,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "验证登录名")
+	@RequiresPermission("user:read")
 	@ResponseBody
 	@RequestMapping(value = "/validate-account", method = RequestMethod.POST)
 	public Result validateAccount(
@@ -72,6 +76,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "启用/禁用")
+	@RequiresPermission("user:status-write")
 	@ResponseBody
 	@RequestMapping(value = "/enable", method = RequestMethod.POST)
 	public Result enable(
@@ -82,6 +87,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "新增/修改提交")
+	@RequiresPermission("user:write")
 	@ResponseBody
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Result save(
@@ -115,6 +121,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "重置密码")
+	@RequiresPermission("user:password-reset")
 	@ResponseBody
 	@RequestMapping(value = "/reset-password", method = RequestMethod.POST)
 	public Result resetPassword(
@@ -124,6 +131,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "删除")
+	@RequiresPermission("user:delete")
 	@ResponseBody
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Result delete(
@@ -133,6 +141,7 @@ public class UserController {
 	}
 	
 	@Operation(summary = "机构树")
+	@RequiresPermission("user:read")
 	@ResponseBody
 	@RequestMapping(value = "/organization/tree", method = RequestMethod.GET)
 	public List<Organization> organizationTree() {

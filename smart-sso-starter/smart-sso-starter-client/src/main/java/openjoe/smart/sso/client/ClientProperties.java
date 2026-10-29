@@ -140,7 +140,7 @@ public class ClientProperties {
     }
 
     /**
-     * 由 ClientServerAddressResolver 在启动时判定，不作为配置项对外暴露
+     * 由 SsoClientServerAddressResolver 在启动时判定，不作为配置项对外暴露
      */
     void setEmbeddedServer(boolean embeddedServer) {
         this.embeddedServer = embeddedServer;

@@ -25,6 +25,8 @@ public class Permission extends BaseEntity implements Tree {
 	private String name;
 	/** 权限编码 */
 	private String code;
+	/** 菜单地址，仅菜单类型使用 */
+	private String url;
 	/** 排序 */
 	private Integer sort;
 	/** 权限类型：menu=菜单，function=功能（见 PermissionTypeEnum） */
@@ -71,6 +73,14 @@ public class Permission extends BaseEntity implements Tree {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Integer getSort() {

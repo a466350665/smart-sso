@@ -1,19 +1,21 @@
 # 客户端接入指南
 
+[English](client-integration.en.md) | **中文**
+
 ## 一、引入依赖
 
 ```xml
 <dependency>
     <groupId>io.github.openjoe</groupId>
     <artifactId>smart-sso-starter-client</artifactId>
-    <version>2.0.2</version>
+    <version>2.1.0</version>
 </dependency>
 
 <!-- 多实例（分布式）场景：共享令牌与权限 -->
 <dependency>
     <groupId>io.github.openjoe</groupId>
     <artifactId>smart-sso-starter-client-redis</artifactId>
-    <version>2.0.2</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -40,9 +42,9 @@ smart:
 
 | 过滤器 | 职责 |
 | --- | --- |
-| `LogoutFilter` | 处理服务端单点退出的回调（`smart.sso.logout-path`，默认 `/logout`） |
-| `LoginFilter` | 无令牌则跳转认证授权中心；处理回跳的 `code` 换取令牌；令牌过期时按请求类型续签或返回 `000015` |
-| `PermissionFilter` | 按权限快照判断已登记路径；未授权返回 HTTP 403 和 `000020`，未登记路径默认允许 |
+| `SsoLogoutFilter` | 处理服务端单点退出的回调（`smart.sso.logout-path`，默认 `/logout`） |
+| `SsoLoginFilter` | 无令牌则跳转认证授权中心；处理回跳的 `code` 换取令牌；令牌过期时按请求类型续签或返回 `000015` |
+| `SsoAuthorizationInterceptor` | 按 Controller 方法上的 `@RequiresPermission` 检查稳定权限码；未授权返回 HTTP 403 和 `000020` |
 
 ## 四、获取当前登录信息
 
@@ -86,9 +88,9 @@ headers: {
 | 现象 | 原因与处理 |
 | --- | --- |
 | 启动报错「未配置 smart.sso.server-url，且当前应用不是 SSO 服务端」 | 独立客户端必须配置 `server-url`；该 fail-fast 是为了避免把用户跳转到客户端自己的 `/sso/login` |
-| 登录后接口仍返回 `000020` | 该请求路径已登记到权限表但未授权给当前用户；到「角色授权」中勾选并重新登录 |
-| 登记了权限却不生效 | 请求路径与 `sso_permission.code`（权限编码）需**完全相等**（区分 `/a/b` 与 `/a/b.html`）；另外权限快照在登录时生成，改权限后需重新登录或刷新令牌 |
-| 未登记权限的接口仍可访问 | 默认行为；需要控制的接口必须将真实 servlet 路径登记到对应应用并为角色授权 |
+| 登录后接口仍返回 `000020` | Controller 方法声明的稳定权限码未授权给当前用户；到「角色授权」中勾选并重新登录 |
+| 权限注解不生效 | 确认请求匹配 `smart.sso.url-patterns`，且没有匹配 `exclude-urls`；另外权限快照在登录时生成，改权限后需重新登录或刷新令牌 |
+| 没有权限注解的接口仍可访问 | 这是设计行为：受控范围内无注解的方法默认登录后放行；需要细粒度保护时增加 `@RequiresPermission("...")` |
 | 中文或表单提交异常 | 确认服务端与数据库连接字符集为 `utf8mb4` |
 | 前端页面 404 | 管理台是 SPA，页面需带 `.html` 后缀或通过菜单的 hash 路由访问（见 [FAQ](faq.md)） |
 

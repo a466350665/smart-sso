@@ -14,13 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * OAuth2辅助类
+ * OAuth 2.0辅助类
  *
  * @author Joe
  */
-public class OAuth2Utils {
+public class Oauth2Utils {
 
-    private static final Logger logger = LoggerFactory.getLogger(OAuth2Utils.class);
+    private static final Logger logger = LoggerFactory.getLogger(Oauth2Utils.class);
 
     /**
      * 获取accessToken（授权码模式）

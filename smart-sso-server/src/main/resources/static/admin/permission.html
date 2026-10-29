@@ -56,6 +56,7 @@
 				</div>
 
 				<div class="modal-body">
+					<div id="_permissionError" class="alert alert-danger" role="alert" style="display: none;"></div>
 					<form id="_editForm" class="form-horizontal" role="form"
 						validate="true">
 						<input type="hidden" id="_id" name="id">
@@ -69,7 +70,7 @@
                             <input id="_hidden_appId" type="hidden" name="appId"/>
                         </div>
 						</div>
-						
+
 						<div class="form-group">
 							<label for="_parentName" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>父级</label>
 			
@@ -113,7 +114,7 @@
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
-									<input id="_sort" name="sort" type="text" class="form-data col-xs-10 col-sm-5" placeholder="排序"
+									<input id="_sort" name="sort" type="text" value="1" class="form-data col-xs-10 col-sm-5" placeholder="排序"
 										required="true" vtype="integer" min="1" max="9999"/>
 								</div>
 							</div>
@@ -125,7 +126,7 @@
 			
 							<div class="col-sm-9">
 								<div class="clearfix help-validate">
-									<input id="_code" name="code" type="text" class="form-data col-xs-10 col-sm-9" placeholder="权限编码"
+									<input id="_code" name="code" type="text" class="form-data col-xs-10 col-sm-9" placeholder="例如 user:write"
 										required="true" maxlength="64"/>
 								</div>
 							</div>
@@ -148,6 +149,16 @@
 								</div>
 							</div>
 							
+						</div>
+
+						<div id="_urlFormGroup" class="form-group">
+							<label for="_url" class="col-sm-3 control-label no-padding-right"><span class="form-star">*</span>菜单地址</label>
+							<div class="col-sm-9">
+								<div class="clearfix help-validate">
+									<input id="_url" name="url" type="text" class="form-data col-xs-10 col-sm-9" placeholder="菜单地址，仅菜单类型填写"
+										required="true" maxlength="255"/>
+								</div>
+							</div>
 						</div>
 						
 						<div class="form-group">
@@ -176,7 +187,7 @@
 						<i class="ace-icon fa fa-times"></i>
 						关闭
 					</button>
-					<button id="_submit" class="btn btn-sm btn-success pull-right" data-dismiss="modal"  data-loading-text="正在提交...">
+					<button id="_submit" class="btn btn-sm btn-success pull-right" data-loading-text="正在提交...">
 						<i class="ace-icon fa fa-check"></i>
 						保存
 					</button>
@@ -274,19 +285,37 @@
 			$("#_icon").bind("blur", function(){
 				$("#_icon_fa").attr("class", "menu-icon fa "+$(this).val());
 			});
+
+			function syncPermissionTypeFields() {
+				var isMenu = $("input[name=type]:checked").val() === "menu";
+				$("#_urlFormGroup").toggle(isMenu);
+				$("#_url").prop("disabled", !isMenu);
+				if (isMenu) {
+					$("#_url").attr("required", "true");
+				} else {
+					$("#_url").removeAttr("required");
+					$("#_url").val("");
+				}
+			}
+
+			$("input[name=type]").change(syncPermissionTypeFields);
 			
 			//点击保存按钮
 			$("#_submit").click(function(){
+				$("#_permissionError").hide().empty();
 				if($('#_editForm').validate()){
 					var btn = $(this);
 					btn.button('loading');
 					$.post("/admin/permission/save", $.formJson('_editForm'),function(d) {
 						if(d){
 							if(d.code == '000000'){
+								$("#my-modal").modal("hide");
+								$("#_permissionError").hide().empty();
 								$("#_editForm")[0].reset();
 								reloadTree();
 							}
 							else{
+								$("#_permissionError").text(d.message || "保存失败").show();
 								$.gritter.add({
 									text: d.message,
 									sticky: false,
@@ -303,6 +332,7 @@
 			
 			// 取消
 			$("#_cancel").click(function(){
+				$("#_permissionError").hide().empty();
 				$("#_editForm")[0].reset();
 				reloadTree();
 			});
@@ -324,8 +354,8 @@
 	       		}
 				var editStr = "&nbsp;<a id='add_" + treeNode.id + "' class='blue' href='javascript:void(0)' title='添加'>		<i class='ace-icon fa fa-plus bigger-110'></i>	</a>";
 	       		if(treeNode.id) {
-					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='/admin/permission/save' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
-					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='/admin/permission/delete' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='edit_" + treeNode.id + "' class='green' permission='permission:write' href='javascript:void(0)' title='修改'>		<i class='ace-icon fa fa-pencil bigger-110'></i>	</a>";
+					editStr += "&nbsp;<a id='delete_" + treeNode.id + "' class='red' permission='permission:delete' href='javascript:void(0)' title='删除'>		<i class='ace-icon fa fa-trash-o bigger-110'></i>	</a>";
 				}
 				aObj.after(editStr);
 				var addBtn = $("#add_" + treeNode.id);
@@ -376,7 +406,9 @@
 			
 			//增加、修改时填充表单
 			function setForm(treeNode, flag){
+				$("#_permissionError").hide().empty();
 				$("#_editForm")[0].reset();
+				syncPermissionTypeFields();
 				$("#_icon_fa").removeAttr("class");
 				
 				var appId = $("#_searchAppId").val();
@@ -392,6 +424,7 @@
 					$("input[type=radio][name=type][value=menu]").prop('checked', true);
 					$("input[type=radio][name=isEnable][value=false]").prop('checked', false);
 					$("input[type=radio][name=isEnable][value=true]").prop('checked', true);
+					syncPermissionTypeFields();
 				}
 				else if(flag == 'update'){
 					$.getJSON("/admin/permission/get?id="+ treeNode.id, function(d) {
@@ -403,9 +436,11 @@
 						$("#_icon").val(data.icon);
 						$("#_icon_fa").attr("class", "menu-icon fa " + data.icon);
 						$("#_code").val(data.code);
+						$("#_url").val(data.url);
 						$("#_sort").val(data.sort);
 						$("input[type=radio][name=type][value!=" + data.type + "]").prop('checked', false);
-						$("input[type=radio][name=type][value=" + data.type + "]").prop('checked', true); 
+					$("input[type=radio][name=type][value=" + data.type + "]").prop('checked', true);
+					syncPermissionTypeFields();
 						$("input[type=radio][name=isEnable][value!=" + data.isEnable + "]").prop('checked', false);
 						$("input[type=radio][name=isEnable][value=" + data.isEnable + "]").prop('checked', true);
 					});

@@ -5,9 +5,8 @@ import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
 import openjoe.smart.sso.client.util.ClientContextHolder;
-import openjoe.smart.sso.client.util.SSOUtils;
+import openjoe.smart.sso.client.util.SsoUtils;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,9 +28,8 @@ public class AdminController {
 
         data.put("username", user.getUsername());
         data.put("userId", user.getId());
-        data.put("userNoPermissions",
-                CollectionUtils.isEmpty(permission.getNoPermissionSet()) ? "" : String.join(",", permission.getNoPermissionSet()));
-        data.put("logoutUrl", SSOUtils.buildLogoutUrl());
+        data.put("permissions", permission.getPermissionSet());
+        data.put("logoutUrl", SsoUtils.buildLogoutUrl());
         return Result.success(data);
     }
     @Operation(summary = "菜单")

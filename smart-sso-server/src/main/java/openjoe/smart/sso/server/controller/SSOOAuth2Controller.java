@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * OAuth2服务管理
+ * OAuth 2.0服务管理
  *
  * @author Joe
  */
 @RestController
 @RequestMapping(BaseConstant.AUTH_PATH)
-public class SSOOAuth2Controller {
+public class SsoOauth2Controller {
 
     @Autowired
     private AppManager appManager;

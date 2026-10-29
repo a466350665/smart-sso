@@ -32,7 +32,7 @@
 
 				<div class="col-sm-6">
 					<div class="clearfix help-validate">
-						<input id="_sort" name="sort" type="text" value="" class="form-data col-xs-10 col-sm-5" placeholder="排序"
+						<input id="_sort" name="sort" type="text" value="1" class="form-data col-xs-10 col-sm-5" placeholder="排序"
 							required="true" vtype="integer" min="1" max="9999"/>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 			
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
-					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="/admin/role/save">
+					<button id="_submit" type="button" class="btn btn-info" data-loading-text="正在提交..." permission="role:write">
 						<i class="ace-icon fa fa-check bigger-110"></i>
 						提交
 					</button>

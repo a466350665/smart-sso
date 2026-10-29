@@ -2,6 +2,7 @@ package openjoe.smart.sso.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.client.util.ClientContextHolder;
 import openjoe.smart.sso.server.service.UserService;
 import openjoe.smart.stage.core.entity.Result;
@@ -24,6 +25,7 @@ public class ProfileController {
 	private UserService userService;
 
 	@Operation(summary = "修改密码提交")
+	@RequiresPermission("profile:password-write")
 	@ResponseBody
 	@RequestMapping(value = "/save-password", method = RequestMethod.POST)
 	public Result save(@RequestParam String newPassword) {

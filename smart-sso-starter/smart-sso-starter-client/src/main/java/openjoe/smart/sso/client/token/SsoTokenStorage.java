@@ -8,7 +8,7 @@ import openjoe.smart.sso.base.entity.Token;
  *
  * @author Joe
  */
-public interface TokenStorage extends LifecycleManager<TokenWrapper> {
+public interface SsoTokenStorage extends LifecycleManager<TokenWrapper> {
 
     /**
      * 创建授权码

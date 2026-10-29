@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping(BaseConstant.LOGOUT_PATH)
-public class SSOLogoutController {
+public class SsoLogoutController {
 
     @Autowired
     private AbstractTicketGrantingTicketManager tgtManager;

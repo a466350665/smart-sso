@@ -25,7 +25,7 @@ done
 [ -n "$BASE" ] || BASE="http://127.0.0.1:$PORT"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-JAR="$ROOT/smart-sso-server/target/smart-sso-server-2.0.2.jar"
+JAR="$ROOT/smart-sso-server/target/smart-sso-server-2.1.0.jar"
 COOKIE="/tmp/sso-cookie.$$"; LOG="/tmp/sso-app.$$.log"; APP_PID=""
 PASS=0; FAIL=0; XFAIL=0
 
@@ -115,7 +115,7 @@ L2="$(post /sso/login -d "redirectUri=$RDU_ENC&clientId=1000&username=admin&pass
 curl -s -b "$COOKIE" -c "$COOKIE" "$(jqr '.data' "$L2" | tr -d '\r\n')" -o /dev/null
 assert_code "重新登录成功" 000000 "$(get /admin/admin/userinfo)"
 
-[ "$(status /admin/user-edit.html)" = "200" ] && pass "未登记但存在的编辑页 -> HTTP 200" || fail "未登记编辑页状态 $(status /admin/user-edit.html)"
+[ "$(status /admin/user-edit.html)" = "200" ] && pass "受控范围内无方法权限注解的页面（登录后）-> HTTP 200" || fail "无注解页面状态 $(status /admin/user-edit.html)"
 assert_code "已登记且已授权路径正常访问" 000000 "$(get '/admin/organization/list?current=1&size=10')"
 
 section "L2 只读接口全量"
@@ -192,13 +192,13 @@ assert_code "用户：重置密码" 000000 "$(post /admin/user/reset-password -d
 post /admin/user/delete -d "ids=$VUID" -o /dev/null
 assert_absent "用户：删除生效" "$(get '/admin/user/list?current=1&size=50')" "verifyuser"
 
-post /admin/permission/save -d 'appId=1&name=验证权限&code=/verify.html&sort=1&type=function&isEnable=true' -o /dev/null
+post /admin/permission/save -d 'appId=1&name=验证权限&code=verify:read&sort=1&type=function&isEnable=true' -o /dev/null
 PID2="$(get '/admin/permission/tree?appId=1&isEnable=true' | jq -r '.. | objects | select((.name // "")=="验证权限") | .id' | head -1)"
 [ -n "$PID2" ] && pass "权限：新增成功（id=${PID2}）" || fail "权限：新增后查不到"
 post /admin/permission/delete -d "id=$PID2&appId=1" -o /dev/null
 assert_absent "权限：删除生效" "$(get '/admin/permission/tree?appId=1&isEnable=true')" "验证权限"
 assert_code "权限：非法权限类型被拒绝（010005）" 010005 \
-  "$(post /admin/permission/save -d 'appId=1&name=验证非法类型&code=/verify-invalid.html&sort=1&type=button&isEnable=true')"
+  "$(post /admin/permission/save -d 'appId=1&name=验证非法类型&code=verify-invalid:read&sort=1&type=button&isEnable=true')"
 
 section "缺陷回归（原 3 个缺陷对应用例）"
 # 缺陷2：一次未走完回跳（没换到 token）的登录，会让“会话管理”页面持续报错

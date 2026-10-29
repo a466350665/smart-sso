@@ -1,7 +1,7 @@
 package openjoe.smart.sso.client.token.redis;
 
 import openjoe.smart.sso.base.util.JsonUtils;
-import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.SsoTokenStorage;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Joe
  */
-public final class RedisTokenStorage implements TokenStorage {
+public final class RedisTokenStorage implements SsoTokenStorage {
     private final Logger logger = LoggerFactory.getLogger(RedisTokenStorage.class);
     private static final String ACCESS_TOKEN_KEY = "client_at_";
     private static final String REFRESH_TOKEN_KEY = "client_rt_";

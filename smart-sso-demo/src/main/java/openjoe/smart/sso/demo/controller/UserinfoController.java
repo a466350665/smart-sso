@@ -1,5 +1,6 @@
 package openjoe.smart.sso.demo.controller;
 
+import openjoe.smart.sso.base.annotation.RequiresPermission;
 import openjoe.smart.sso.base.entity.Result;
 import openjoe.smart.sso.base.entity.TokenPermission;
 import openjoe.smart.sso.base.entity.TokenUser;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/userinfo")
+@RequestMapping("/demo")
 public class UserinfoController {
 
     /**
@@ -21,7 +22,8 @@ public class UserinfoController {
      *
      * @return
      */
-    @GetMapping
+    @RequiresPermission("demo:userinfo")
+    @GetMapping("/userinfo")
     public Result getUserinfo() {
         Map<String, Object> map = new HashMap<>();
 

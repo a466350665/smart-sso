@@ -2,7 +2,7 @@ package openjoe.smart.sso.client.token.local;
 
 import openjoe.smart.sso.base.entity.ExpirationPolicy;
 import openjoe.smart.sso.base.entity.ExpirationWrapper;
-import openjoe.smart.sso.client.token.TokenStorage;
+import openjoe.smart.sso.client.token.SsoTokenStorage;
 import openjoe.smart.sso.client.token.TokenWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Joe
  */
-public final class LocalTokenStorage implements TokenStorage, ExpirationPolicy {
+public final class LocalTokenStorage implements SsoTokenStorage, ExpirationPolicy {
     private final Logger logger = LoggerFactory.getLogger(LocalTokenStorage.class);
     private final Map<String, TokenWrapper> accessTokenMap = new ConcurrentHashMap<>();
     private final Map<String, ExpirationWrapper<String>> refreshTokenMap = new ConcurrentHashMap<>();
